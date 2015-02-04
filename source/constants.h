@@ -64,7 +64,7 @@ enum StrandPolarity {
 #define NSPREFIX_RDF  "rdf"
 #define NSPREFIX_RDFS "rdfs"
 #define NSPREFIX_SO   "so"
-#define NSPREFIX_SBOL "s"
+#define NSPREFIX_SBOL "sbol"
 
 // nodes defined in SBOL
 #define NODENAME_DNASEQUENCE        "DnaSequence" ///< Gotcha: uppercase D
