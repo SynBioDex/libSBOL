@@ -49,7 +49,11 @@ SBOLAPIEXPORTS void removeTopLevelObject(SBOLDocument* doc, TopLevelObject* obj)
 
 SBOLAPIEXPORTS void deleteSBOLDocument(SBOLDocument* doc);
 
-SBOLAPIEXPORTS const char* getSBOLClass(void* obj);
+SBOLAPIEXPORTS const char* getSBOLType(void* obj);
+
+SBOLAPIEXPORTS int isSBOLType(SBOL_class_defn, obj);
+
+SBOLAPIEXPORTS void* addToDocument(SBOLDocument* doc, void* object);
 
 SBOLAPIEXPORTS int isTopLevelObject(void* obj);
 

@@ -5,8 +5,12 @@
 /// @return A pointer to the new SBOLObject.
 IdentifiedObject* createIdentifiedObject(const char* uri) {
 	// @todo Check for URI collision
+	
+	// Base definition, same pattern for all SBOL classes
 	IdentifiedObject* obj = malloc(sizeof(IdentifiedObject));
-	obj->__class = "IdentifiedObject";
+	obj->__class = SBOL_IDENTIFIED;
+	
+	// SBOLDocument starts extending base here
 	obj->identity = createTextProperty();
 	setTextProperty(obj->identity, uri);
 	obj->persistentIdentity = createTextProperty();

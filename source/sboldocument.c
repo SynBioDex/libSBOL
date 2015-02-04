@@ -11,9 +11,9 @@
  ****************************/
 
 SBOLDocument* createSBOLDocument() {
-	// Base definition, shared by all SBOL classes
+	// Base definition, same pattern for all SBOL classes
 	SBOLDocument* doc = malloc(sizeof(SBOLDocument));
-	doc->__class = "SBOLDocument";
+	doc->__class = SBOL_DOCUMENT;
 
 	// SBOLDocument starts extending base here
 	doc->top_level_objects = createPointerArray();
@@ -22,7 +22,7 @@ SBOLDocument* createSBOLDocument() {
 	return doc;
 }
 
-const char* getSBOLClass(void* obj) {
+const char* getSBOLType(void* obj) {
 	// Implements class introspection.
 	// Typecast an arbitrary SBOL object to the base,
 	// then dereference its class.  This requires that all 
@@ -31,19 +31,20 @@ const char* getSBOLClass(void* obj) {
 	return ((TopLevelObject*)obj)->__class;
 }
 
-// Verify an SBOL object is of type SBOL_class_uri
-isSBOL(SBOL_class_uri, obj) {
-	if (strcmp(SBOL_class_uri, getSBOLClass(obj)) == 0)
+// Verify an SBOL object is of type SBOL_class_defn
+// Preprocessor definitions for the SBOL classes are in 
+// constants.h.in
+int isSBOLType(SBOL_class_defn, obj) {
+	if (strcmp(SBOL_class_defn, getSBOLType(obj)) == 0)
 		return 1;
 	else
 		return 0;
 }
-}
 
-void* addToDocument(SBOLDocument* doc, void* object) {
+void* addToDocument(SBOLDocument* doc, void* obj) {
 	// @todo Check for URI collision
-	char* SBOL_class = getSBOLClass(obj);
-	TopLevelObject* obj = createTopLevelObject(doc);
+	char* SBOL_class = getSBOLType(obj);
+	//TopLevelObject* obj = createTopLevelObject(doc);
 }
 
 void registerTopLevelObject(SBOLDocument* doc, TopLevelObject* obj) {
@@ -87,7 +88,7 @@ void deleteSBOLDocument(SBOLDocument* doc) {
 
 
 int isTopLevelObject(void* obj) {
-	if (strcmp(getSBOLClass(obj), "TopLevelObject") == 0)
+	if (strcmp(getSBOLType(obj), "TopLevelObject") == 0)
 		return 1;
 	else
 		return 0;

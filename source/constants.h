@@ -54,6 +54,12 @@ enum StrandPolarity {
 	STRAND_REVERSE
 };
 
+// For mapping SBOL class definition URIs to their libSBOL struct implementations
+#define SBOL_DOCUMENT "SBOLDocument"
+#define SBOL_TOP_LEVEL "TopLevel"
+#define SBOL_IDENTIFIED "Identified"
+#define SBOL_DOCUMENTED "Documented"
+
 // xml namespace urls
 #define NSURL_RDF  "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 #define NSURL_RDFS "http://www.w3.org/2000/01/rdf-schema#"
