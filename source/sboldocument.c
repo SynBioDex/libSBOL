@@ -62,13 +62,22 @@ void* addToDocument(SBOLDocument* doc, void* obj) {
 
 void* super(void* sub, void* super) {
 	// Create a surrogate just for the purposes of typecasting to an SBOL object
-	// Once it is typecast, then you can dereference the struct fields
+	// Once it is typecast, then you can access the base struct fields
 	// @todo Use a more generic base type than TopLevelObject for typecasting
 	TopLevelObject *surrogate = (TopLevelObject *)sub;
 	surrogate->__super = super;
 	surrogate = (TopLevelObject *)super;
 	surrogate->__sub = sub;
 	return super;
+}
+
+void* getSuper(void *obj) {
+	if (((TopLevelObject*)obj)->__super) {
+		return (void *)(((TopLevelObject*)obj)->__super);
+	}
+	else {
+		return NULL;
+	}
 }
 
 // Private, used by addToDocument

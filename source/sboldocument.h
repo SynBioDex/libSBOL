@@ -59,6 +59,8 @@ SBOLAPIEXPORTS int isTopLevelObject(void* obj);
 
 SBOLAPIEXPORTS void* super(void* sub, void* super);
 
+SBOLAPIEXPORTS void* getSuper(void *obj);
+
 //// Delete a Sequence from a Document's array of sequences
 //void removeDNASequence(Document* doc, DNASequence* seq);
 //
