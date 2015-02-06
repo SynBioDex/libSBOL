@@ -13,11 +13,13 @@
 
 struct _TopLevelObject{
 	const char* __class;
+	void* __super;
+	void* __sub;
 	SBOLDocument* root_document;
 	DocumentedObject* documented_object;
 	void* subclass;
 };
 
-TopLevelObject* createTopLevelObject(SBOLDocument* doc);
+TopLevelObject* createTopLevelObject();
 
 void deleteTopLevelObject(TopLevelObject* obj);

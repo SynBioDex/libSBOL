@@ -14,11 +14,14 @@
 
 struct _DocumentedObject {
 	const char* __class;
+	void* __super;
+	void* __sub;
 	TextProperty* displayID;   ///< Like the uri but for display purposes. Not necessarily unique.
 	TextProperty* name;        ///< Like the uri but human-readable. Not necessarily unique.
 	TextProperty* description; ///< Some text describing the object.
-	void *subclass;
 };
+
+SBOLAPIEXPORTS DocumentedObject* createDocumentedObject(const char* uri);
 
 /// @name Methods
 /// @{

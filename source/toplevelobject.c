@@ -5,11 +5,13 @@
 /// need not interface with TopLevelObjects.
 /// @private 
 /// @return A pointer to the new SBOLObject.
-TopLevelObject* createTopLevelObject(SBOLDocument* doc) {
+TopLevelObject* createTopLevelObject() {
 	// @todo Check for URI collision
 	TopLevelObject* obj = malloc(sizeof(TopLevelObject));
 	obj->__class = "TopLevel";
-	obj->root_document = doc;
+	obj->__super = NULL;
+	obj->__sub = NULL;
+	obj->root_document = NULL;
 	obj->documented_object = NULL;
 	return obj;
 }

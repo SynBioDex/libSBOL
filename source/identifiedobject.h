@@ -25,6 +25,8 @@
 ///
 struct _IdentifiedObject{
 	const char* __class;
+	void* __super;
+	void* __sub;
 	TextProperty *identity; ///< different versions of the object indicated by the persistentIdentity
 	TextProperty *persistentIdentity; ///< the same persistent URI is shared by SBOL objects which are versions of each other
 	TextProperty *version;

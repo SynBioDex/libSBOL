@@ -1,5 +1,4 @@
 #include "sbol.h"
-#include <libxml/tree.h>
 
 /// Create an empty SBOLObject.
 /// @return A pointer to the new SBOLObject.
@@ -9,7 +8,9 @@ IdentifiedObject* createIdentifiedObject(const char* uri) {
 	// Base definition, same pattern for all SBOL classes
 	IdentifiedObject* obj = malloc(sizeof(IdentifiedObject));
 	obj->__class = SBOL_IDENTIFIED;
-	
+	obj->__super = super(obj, createTopLevelObject());
+	obj->__sub = NULL;
+
 	// SBOLDocument starts extending base here
 	obj->identity = createTextProperty();
 	setTextProperty(obj->identity, uri);

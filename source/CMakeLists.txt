@@ -36,7 +36,8 @@ FILE(GLOB SBOL_SOURCE_FILES
 	array.c
 	sboldocument.c
 	toplevelobject.c
-	identifiedobject.c)
+	identifiedobject.c
+	documentedobject.c)
 	
 # copy header files to release/library/include for out-of-source build
 # TODO: remove a couple of Makefiles contaminating the HEADER_OUTPUT_PATH

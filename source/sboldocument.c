@@ -43,10 +43,35 @@ int isSBOLType(SBOL_class_defn, obj) {
 
 void* addToDocument(SBOLDocument* doc, void* obj) {
 	// @todo Check for URI collision
-	char* SBOL_class = getSBOLType(obj);
-	//TopLevelObject* obj = createTopLevelObject(doc);
+	TopLevelObject* new_top_level_obj;
+	char* SBOL_type = getSBOLType(obj);
+	if (isSBOLType(SBOL_TOP_LEVEL, obj)) {
+		new_top_level_obj = obj;
+	}
+	else {
+		new_top_level_obj = createTopLevelObject(doc);
+	}
+	
+	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
+		new_top_level_obj->documented_object = obj;
+	}
+	else if (isSBOLType(SBOL_DOCUMENTED, obj)) {
+		TopLevelObject* obj = createTopLevelObject(doc);
+	}
 }
 
+void* super(void* sub, void* super) {
+	// Create a surrogate just for the purposes of typecasting to an SBOL object
+	// Once it is typecast, then you can dereference the struct fields
+	// @todo Use a more generic base type than TopLevelObject for typecasting
+	TopLevelObject *surrogate = (TopLevelObject *)sub;
+	surrogate->__super = super;
+	surrogate = (TopLevelObject *)super;
+	surrogate->__sub = sub;
+	return super;
+}
+
+// Private, used by addToDocument
 void registerTopLevelObject(SBOLDocument* doc, TopLevelObject* obj) {
 	if (doc && obj) {
 		insertPointerIntoArray(doc->top_level_objects, obj);
