@@ -53,7 +53,7 @@ SBOLAPIEXPORTS const char* getSBOLType(void* obj);
 
 SBOLAPIEXPORTS int isSBOLType(SBOL_class_defn, obj);
 
-SBOLAPIEXPORTS void* addToDocument(SBOLDocument* doc, void* object);
+SBOLAPIEXPORTS void addToSBOLDocument(SBOLDocument* doc, void* object);
 
 SBOLAPIEXPORTS int isTopLevelObject(void* obj);
 

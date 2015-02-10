@@ -41,24 +41,22 @@ int isSBOLType(SBOL_class_defn, obj) {
 		return 0;
 }
 
-void* addToDocument(SBOLDocument* doc, void* obj) {
-	// @todo Check for URI collision
-	TopLevelObject* new_top_level_obj;
-	char* SBOL_type = getSBOLType(obj);
+void addToSBOLDocument(SBOLDocument* doc, void* obj) {
+	if (getSuper(obj)) {
+		addToSBOLDocument(doc, getSuper(obj));
+		return;
+	}
 	if (isSBOLType(SBOL_TOP_LEVEL, obj)) {
-		new_top_level_obj = obj;
+		// @todo Check for URI collision
+		registerTopLevelObject(doc, obj);
+		return;
 	}
 	else {
-		new_top_level_obj = createTopLevelObject(doc);
-	}
-	
-	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
-		new_top_level_obj->documented_object = obj;
-	}
-	else if (isSBOLType(SBOL_DOCUMENTED, obj)) {
-		TopLevelObject* obj = createTopLevelObject(doc);
+		// Return an error 'This SBOL object is not TopLevel or any of its derived classes'
+		return;
 	}
 }
+
 
 void* super(void* sub, void* super) {
 	// Create a surrogate just for the purposes of typecasting to an SBOL object
