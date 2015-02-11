@@ -55,11 +55,18 @@ SBOLAPIEXPORTS int isSBOLType(SBOL_class_defn, obj);
 
 SBOLAPIEXPORTS void addToSBOLDocument(SBOLDocument* doc, void* object);
 
+SBOLAPIEXPORTS void setSBOLProperty(void* property, void* value);
+
 SBOLAPIEXPORTS int isTopLevelObject(void* obj);
 
 SBOLAPIEXPORTS void* super(void* sub, void* super);
 
 SBOLAPIEXPORTS void* getSuper(void *obj);
+
+SBOLAPIEXPORTS char* getSBOLIdentityProperty(void* obj);
+
+SBOLAPIEXPORTS void setSBOLIdentityProperty(void* obj, char* uri);
+
 
 //// Delete a Sequence from a Document's array of sequences
 //void removeDNASequence(Document* doc, DNASequence* seq);

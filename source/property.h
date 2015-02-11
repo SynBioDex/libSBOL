@@ -14,8 +14,7 @@
 #ifndef SBOL_PROPERTY_HEADER
 #define SBOL_PROPERTY_HEADER
 
-#include "constants.h"
-#include "prototypes.h"
+#include "sbol.h"
 
 /************
  * Property
@@ -92,16 +91,17 @@ void printTextProperty(const TextProperty* pro);
 /// global flag used to determine if new URIs should be minted according to an automatic naming convention
 extern int ENFORCE_URI_RULES;
 
+/*
 /// A TextProperty that only allows creation
 /// of values that aren't already in use as the
 /// uri of an SBOLObject.
 struct _URIProperty {
-	SBOLDocument* doc;     ///< For verifying uniqueness
+	//Document* doc;     ///< For verifying uniqueness
 	TextProperty* uri;
 };
 
 /// Create an empty URIProperty.
-URIProperty* createURIProperty(SBOLDocument* doc);
+URIProperty* createURIProperty(Document* doc);
 
 /// Delete a URIProperty.
 /// The stored URI needs to be freed separately.
@@ -134,7 +134,7 @@ void disableURIRules();
 /// Print a URIProperty to stdout.
 void printURIProperty(const URIProperty* pro);
 
-
+*/
 
 /***********************
  * NucleotidesProperty
@@ -239,15 +239,15 @@ void printPolarityProperty(const PolarityProperty* pro);
 /********************
  * TypeProperty
  ********************/
-
+/*
 /// Type property that stores document and uri for part type
 struct _TypeProperty {
-    SBOLDocument* doc;
+    //Document* doc;
     URIProperty* uri;
 };
 
 /// Create an empty TypeProperty
-TypeProperty* createTypeProperty(SBOLDocument* doc);
+TypeProperty* createTypeProperty(Document* doc);
 
 /// Delete a TypeProperty
 void deleteTypeProperty(TypeProperty* pro);
@@ -265,5 +265,5 @@ int compareTypeProperty(const TypeProperty* pro1, const TypeProperty* pro2);
 
 /// Print a TypeProperty to stdout
 void printTypeProperty(const TypeProperty* pro);
-
+*/
 #endif

@@ -118,6 +118,61 @@ void deleteSBOLDocument(SBOLDocument* doc) {
 }
 
 
+void setSBOLProperty(void* property, void* value) {
+	if(isSBOLType(SBOL_TEXT_PROPERTY, property)) {
+		setTextProperty((TextProperty*)property, (const char*)value);
+	}
+	else if (isSBOLType(SBOL_NUCLEOTIDES_PROPERTY, property)) {
+		setNucleotidesProperty((NucleotidesProperty*)property, (const char*)value);
+	}
+	else if (isSBOLType(SBOL_POSITION_PROPERTY, property)) {
+		setPositionProperty((PositionProperty*)property, (const int)value);
+	}
+	else if (isSBOLType(SBOL_POLARITY_PROPERTY, property)) {
+		setPositionProperty((PositionProperty*)property, (const int)value);
+	}
+	//else if (isSBOLType(SBOL_TYPE_PROPERTY, property)) {
+	//	setTypeProperty((TypeProperty*)property, (const char *)value);
+	//}
+	return;
+}
+
+void getSBOLProperty(void* property, void* value) {
+
+}
+
+char* getSBOLIdentityProperty(void* obj) {
+	printf("%s\n", getSBOLType(obj));
+	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
+		return getTextProperty(((IdentifiedObject*)obj)->identity);
+	}
+	else if (getSuper(obj)) {
+		getSBOLIdentityProperty(getSuper(obj));
+		return;
+	} 	else {
+		// Return an error 'This SBOL object is not Identified or any of its derived classes'
+		return;
+	}
+}
+
+void setSBOLIdentityProperty(void* obj, char* uri) {
+	printf("%s\n", getSBOLType(obj));
+	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
+		IdentifiedObject* id_obj = (IdentifiedObject*)obj;
+		printf("Before %s\n", uri);
+		setTextProperty(id_obj->identity, uri);
+		printf("After %s\n", getTextProperty(id_obj->identity));
+		return;
+	}
+	else if (getSuper(obj)) {
+		setSBOLIdentityProperty(getSuper(obj), uri);
+		return;
+	}
+	else {
+		// Return an error 'This SBOL object is not Identified or any of its derived classes'
+		return;
+	}
+}
 
 int isTopLevelObject(void* obj) {
 	if (strcmp(getSBOLType(obj), "TopLevelObject") == 0)

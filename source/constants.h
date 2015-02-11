@@ -54,11 +54,20 @@ enum StrandPolarity {
 	STRAND_REVERSE
 };
 
+// Define classes in the SBOL data model
 // For mapping SBOL class definition URIs to their libSBOL struct implementations
 #define SBOL_DOCUMENT "SBOLDocument"
 #define SBOL_TOP_LEVEL "TopLevel"
 #define SBOL_IDENTIFIED "Identified"
 #define SBOL_DOCUMENTED "Documented"
+
+// Define property types in the SBOL data model
+#define SBOL_TEXT_PROPERTY "Text"
+#define SBOL_NUCLEOTIDES_PROPERTY "Nucleotides"
+#define SBOL_POSITION_PROPERTY "Position"
+#define SBOL_POLARITY_PROPERTY "Polarity"
+#define SBOL_TYPE_PROPERTY "Type"
+
 
 // xml namespace urls
 #define NSURL_RDF  "http://www.w3.org/1999/02/22-rdf-syntax-ns#"

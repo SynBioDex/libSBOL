@@ -124,8 +124,8 @@ void printTextProperty(const TextProperty* pro) {
 
 int ENFORCE_URI_RULES = 0;
 
-
-URIProperty* createURIProperty(SBOLDocument* doc) {
+/*
+URIProperty* createURIProperty(Document* doc) {
 	if (!doc)
 		return NULL;
 	URIProperty* pro = malloc(sizeof(URIProperty));
@@ -146,7 +146,7 @@ void deleteURIProperty(URIProperty* pro) {
 }
 
 void setURIProperty(URIProperty* pro, const char* uri) {
-	if (pro && pro->doc && uri)
+	if (pro && pro->doc && uri && !isSBOLObjectURI(pro->doc, uri))
 		setTextProperty(pro->uri, uri);
 }
 
@@ -200,7 +200,7 @@ void printURIProperty(const URIProperty* pro) {
 	if (pro)
 		printTextProperty(pro->uri);
 }
-
+*/
 /***********************
  * NucleotidesProperty
  ***********************/
@@ -351,8 +351,8 @@ void printPolarityProperty(const PolarityProperty* pro) {
 /********************
  * TypeProperty
  ********************/
-
-TypeProperty* createTypeProperty(SBOLDocument* doc) {
+/*
+TypeProperty* createTypeProperty(Document* doc) {
     if (!doc)
         return NULL;
     TypeProperty* pro = malloc(sizeof(TypeProperty));
@@ -395,3 +395,4 @@ void printTypeProperty(const TypeProperty* pro) {
         printURIProperty(pro->uri);
 }
 
+*/
