@@ -11,7 +11,7 @@ IdentifiedObject* createIdentifiedObject(const char* uri) {
 	obj->__super = super(obj, createTopLevelObject());
 	obj->__sub = NULL;
 
-	// SBOLDocument starts extending base here
+	// SBOLIdentifiedObject starts extending base here
 	obj->identity = createTextProperty();
 	setTextProperty(obj->identity, uri);
 	obj->persistentIdentity = createTextProperty();
@@ -19,12 +19,36 @@ IdentifiedObject* createIdentifiedObject(const char* uri) {
 	obj->version = createTextProperty();
 	setTextProperty(obj->persistentIdentity, "0");
 	obj->timeStamp = NULL;
-	obj->annotations = createPointerArray();;
-	obj->xml_annotations = createPointerArray();;
+	obj->annotations = annotations;
+	obj->xml_annotations = xml_annotations;
+	//obj->__annotations = createPointerArray();;
+	//obj->__xmlAnnotations = createPointerArray();;
 	obj->subclass = NULL;
 	return obj;
 }
 
+void* annotations(int index) {
+	return;
+}
+
+void* xml_annotations(int index){
+	return;
+}
+
+char* identity(void* obj) {
+	printf("%s\n", getSBOLType(obj));
+	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
+		return getTextProperty(((IdentifiedObject*)obj)->identity);
+	}
+	else if (getSuper(obj)) {
+		identity(getSuper(obj));
+		return;
+	}
+	else {
+		// Return an error 'This SBOL object is not Identified or any of its derived classes'
+		return;
+	}
+}
 
 /// Delete an SBOLObject.
 /// This shouldn't be called directly;

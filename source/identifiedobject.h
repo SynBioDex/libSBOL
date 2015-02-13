@@ -23,18 +23,40 @@
 /// @var _SBOLObject::uri
 /// @var _SBOLObject::xml_annotations
 ///
+
+
 struct _IdentifiedObject{
+	// Base definition, same pattern for all SBOL classes
 	const char* __class;
 	void* __super;
 	void* __sub;
+	
+	// SBOLIdentifiedObject starts extending base here
 	TextProperty *identity; ///< different versions of the object indicated by the persistentIdentity
 	TextProperty *persistentIdentity; ///< the same persistent URI is shared by SBOL objects which are versions of each other
 	TextProperty *version;
 	TextProperty *timeStamp;
-	PointerArray *annotations;
-	PointerArray *xml_annotations; ///< Array of optional non-SBOL annotations
+	void* (*annotations)(int);
+	PointerArray* __annotations;
+	void* (*xml_annotations)(int); ///< Array of optional non-SBOL annotations
+	PointerArray* __xmlAnnotations;
 	void *subclass;
 };
+
+SBOLAPIEXPORTS char* identity(void* obj);
+
+SBOLAPIEXPORTS char* persistent_identity(void* obj);
+
+SBOLAPIEXPORTS char* version(void* obj);
+
+SBOLAPIEXPORTS char* time_stamp(void* obj);
+
+SBOLAPIEXPORTS void* annotations(int index);
+
+SBOLAPIEXPORTS void* xml_annotations(int index);
+
+
+
 
 /// @name Methods
 /// @{

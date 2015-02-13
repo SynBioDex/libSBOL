@@ -137,42 +137,28 @@ void setSBOLProperty(void* property, void* value) {
 	return;
 }
 
-void getSBOLProperty(void* property, void* value) {
+//void getSBOLProperty(void* property, void* value) {
+//
+//}
 
-}
 
-char* getSBOLIdentityProperty(void* obj) {
-	printf("%s\n", getSBOLType(obj));
-	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
-		return getTextProperty(((IdentifiedObject*)obj)->identity);
-	}
-	else if (getSuper(obj)) {
-		getSBOLIdentityProperty(getSuper(obj));
-		return;
-	} 	else {
-		// Return an error 'This SBOL object is not Identified or any of its derived classes'
-		return;
-	}
-}
 
-void setSBOLIdentityProperty(void* obj, char* uri) {
-	printf("%s\n", getSBOLType(obj));
-	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
-		IdentifiedObject* id_obj = (IdentifiedObject*)obj;
-		printf("Before %s\n", uri);
-		setTextProperty(id_obj->identity, uri);
-		printf("After %s\n", getTextProperty(id_obj->identity));
-		return;
-	}
-	else if (getSuper(obj)) {
-		setSBOLIdentityProperty(getSuper(obj), uri);
-		return;
-	}
-	else {
-		// Return an error 'This SBOL object is not Identified or any of its derived classes'
-		return;
-	}
-}
+// Deprecated
+//void setSBOLIdentityProperty(void* obj, char* uri) {
+//	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
+//		IdentifiedObject* id_obj = (IdentifiedObject*)obj;
+//		setTextProperty(id_obj->identity, uri);
+//		return;
+//	}
+//	else if (getSuper(obj)) {
+//		setSBOLIdentityProperty(getSuper(obj), uri);
+//		return;
+//	}
+//	else {
+//		// Return an error 'This SBOL object is not Identified or any of its derived classes'
+//		return;
+//	}
+//}
 
 int isTopLevelObject(void* obj) {
 	if (strcmp(getSBOLType(obj), "TopLevelObject") == 0)

@@ -63,9 +63,7 @@ SBOLAPIEXPORTS void* super(void* sub, void* super);
 
 SBOLAPIEXPORTS void* getSuper(void *obj);
 
-SBOLAPIEXPORTS char* getSBOLIdentityProperty(void* obj);
 
-SBOLAPIEXPORTS void setSBOLIdentityProperty(void* obj, char* uri);
 
 
 //// Delete a Sequence from a Document's array of sequences
