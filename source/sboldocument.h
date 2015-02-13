@@ -37,34 +37,47 @@ struct _SBOLDocument{
 /// @name Methods
 /// @{
 /// Create an empty Document.
-SBOLAPIEXPORTS SBOLDocument* createSBOLDocument();
+SBOLAPIEXPORTS SBOLDocument* sbol_create_document();
 
 /// Delete a Document. This also deletes all the
 /// SBOL objects contained in the Document.
-SBOLAPIEXPORTS void deleteSBOLDocument(SBOLDocument* doc);
+SBOLAPIEXPORTS void sbol_delete_document(SBOLDocument* doc);
 
-SBOLAPIEXPORTS void registerTopLevelObject(SBOLDocument* doc, TopLevelObject* obj);
-
-SBOLAPIEXPORTS void removeTopLevelObject(SBOLDocument* doc, TopLevelObject* obj);
-
-SBOLAPIEXPORTS void deleteSBOLDocument(SBOLDocument* doc);
-
-SBOLAPIEXPORTS const char* getSBOLType(void* obj);
-
-SBOLAPIEXPORTS int isSBOLType(SBOL_class_defn, obj);
-
-SBOLAPIEXPORTS void addToSBOLDocument(SBOLDocument* doc, void* object);
-
-SBOLAPIEXPORTS void setSBOLProperty(void* property, void* value);
-
-SBOLAPIEXPORTS int isTopLevelObject(void* obj);
-
-SBOLAPIEXPORTS void* super(void* sub, void* super);
-
-SBOLAPIEXPORTS void* getSuper(void *obj);
+//Registers top level object in document
+SBOLAPIEXPORTS void sbol_register_in_document(SBOLDocument* doc, TopLevelObject* obj);
 
 
+SBOLAPIEXPORTS void sbol_unregister_from_document(SBOLDocument* doc, TopLevelObject* obj);
 
+SBOLAPIEXPORTS void sbol_delete_document(SBOLDocument* doc);
+
+SBOLAPIEXPORTS const char* _sbol_type(void* obj);
+
+SBOLAPIEXPORTS int _sbol_is_type(SBOL_class_defn, obj);
+
+SBOLAPIEXPORTS void sbol_add_to_document(SBOLDocument* doc, void* object);
+
+SBOLAPIEXPORTS void sbol_set_property(void* property, void* value);
+
+//SBOLAPIEXPORTS int isTopLevelObject(void* obj);
+
+SBOLAPIEXPORTS void* _sbol_extend(void* sub, void* super);
+
+SBOLAPIEXPORTS void* _sbol_base(void *obj);
+
+/*
+?sbol_create_object(SBOL_DOCUMENTED, ...)
+sbol_create_documented(uri_prefix, display_id)
+sbol_create_sequence_annotation
+sbol_create_component_definition
+sbol_delete_object(any_sbol_object)
+sbol_set_property(dc->property)
+sbol_get_sequence_annotation
+sbol_get_identity(any_identified_obj)
+sbol_get_persistent_identity
+sbol_add_object(dc->property, obj)
+sbol_get_access
+*/
 
 //// Delete a Sequence from a Document's array of sequences
 //void removeDNASequence(Document* doc, DNASequence* seq);

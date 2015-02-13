@@ -23,6 +23,13 @@ struct _DocumentedObject {
 
 SBOLAPIEXPORTS DocumentedObject* createDocumentedObject(const char* uri);
 
+SBOLAPIEXPORTS char* display_id(void* obj);
+
+SBOLAPIEXPORTS char* name(void* obj);
+
+SBOLAPIEXPORTS char* description(void* obj);
+
+
 /// @name Methods
 /// @{
 

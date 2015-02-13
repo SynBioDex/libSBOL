@@ -8,7 +8,7 @@ IdentifiedObject* createIdentifiedObject(const char* uri) {
 	// Base definition, same pattern for all SBOL classes
 	IdentifiedObject* obj = malloc(sizeof(IdentifiedObject));
 	obj->__class = SBOL_IDENTIFIED;
-	obj->__super = super(obj, createTopLevelObject());
+	obj->__super = _sbol_base(obj, createTopLevelObject());
 	obj->__sub = NULL;
 
 	// SBOLIdentifiedObject starts extending base here
@@ -36,12 +36,11 @@ void* xml_annotations(int index){
 }
 
 char* identity(void* obj) {
-	printf("%s\n", getSBOLType(obj));
-	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
+	if ( _sbol_is_type(SBOL_IDENTIFIED, obj) ) {
 		return getTextProperty(((IdentifiedObject*)obj)->identity);
 	}
-	else if (getSuper(obj)) {
-		identity(getSuper(obj));
+	else if ( _sbol_base(obj) ) {
+		identity( _sbol_base(obj) );
 		return;
 	}
 	else {

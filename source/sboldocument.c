@@ -10,7 +10,7 @@
  * whole-Document functions
  ****************************/
 
-SBOLDocument* createSBOLDocument() {
+SBOLDocument* sbol_create_document() {
 	// Base definition, same pattern for all SBOL classes
 	SBOLDocument* doc = malloc(sizeof(SBOLDocument));
 	doc->__class = SBOL_DOCUMENT;
@@ -22,7 +22,7 @@ SBOLDocument* createSBOLDocument() {
 	return doc;
 }
 
-const char* getSBOLType(void* obj) {
+const char* _sbol_type(void* obj) {
 	// Implements class introspection.
 	// Typecast an arbitrary SBOL object to the base,
 	// then dereference its class.  This requires that all 
@@ -34,21 +34,21 @@ const char* getSBOLType(void* obj) {
 // Verify an SBOL object is of type SBOL_class_defn
 // Preprocessor definitions for the SBOL classes are in 
 // constants.h.in
-int isSBOLType(SBOL_class_defn, obj) {
-	if (strcmp(SBOL_class_defn, getSBOLType(obj)) == 0)
+int _sbol_is_type(SBOL_class_defn, obj) {
+	if (strcmp(SBOL_class_defn, _sbol_type(obj)) == 0)
 		return 1;
 	else
 		return 0;
 }
 
-void addToSBOLDocument(SBOLDocument* doc, void* obj) {
-	if (getSuper(obj)) {
-		addToSBOLDocument(doc, getSuper(obj));
+void sbol_add_to_document(SBOLDocument* doc, void* obj) {
+	if ( _sbol_base(obj) ) {
+		sbol_add_to_document(doc, _sbol_base(obj));
 		return;
 	}
-	if (isSBOLType(SBOL_TOP_LEVEL, obj)) {
+	if ( _sbol_is_type(SBOL_TOP_LEVEL, obj) ) {
 		// @todo Check for URI collision
-		registerTopLevelObject(doc, obj);
+		sbol_register_in_document(doc, obj);
 		return;
 	}
 	else {
@@ -58,7 +58,7 @@ void addToSBOLDocument(SBOLDocument* doc, void* obj) {
 }
 
 
-void* super(void* sub, void* super) {
+void* _sbol_extend(void* sub, void* super) {
 	// Create a surrogate just for the purposes of typecasting to an SBOL object
 	// Once it is typecast, then you can access the base struct fields
 	// @todo Use a more generic base type than TopLevelObject for typecasting
@@ -69,7 +69,7 @@ void* super(void* sub, void* super) {
 	return super;
 }
 
-void* getSuper(void *obj) {
+void* _sbol_base(void *obj) {
 	if (((TopLevelObject*)obj)->__super) {
 		return (void *)(((TopLevelObject*)obj)->__super);
 	}
@@ -79,13 +79,13 @@ void* getSuper(void *obj) {
 }
 
 // Private, used by addToDocument
-void registerTopLevelObject(SBOLDocument* doc, TopLevelObject* obj) {
+void sbol_register_in_document(SBOLDocument* doc, TopLevelObject* obj) {
 	if (doc && obj) {
 		insertPointerIntoArray(doc->top_level_objects, obj);
 	}
 }
 
-void removeTopLevelObject(SBOLDocument* doc, TopLevelObject* obj) {
+void sbol_unregister_from_document(SBOLDocument* doc, TopLevelObject* obj) {
 	if (doc && doc->top_level_objects && obj) {
 		int index = indexOfPointerInArray(doc->top_level_objects, obj);
 		if (index >= 0)
@@ -93,7 +93,7 @@ void removeTopLevelObject(SBOLDocument* doc, TopLevelObject* obj) {
 	}
 }
 
-void deleteSBOLDocument(SBOLDocument* doc) {
+void sbol_delete_document(SBOLDocument* doc) {
 	if (!doc)
 		return;
 	int n;
@@ -118,20 +118,20 @@ void deleteSBOLDocument(SBOLDocument* doc) {
 }
 
 
-void setSBOLProperty(void* property, void* value) {
-	if(isSBOLType(SBOL_TEXT_PROPERTY, property)) {
+void sbol_set_property(void* property, void* value) {
+	if( _sbol_is_type(SBOL_TEXT_PROPERTY, property) ) {
 		setTextProperty((TextProperty*)property, (const char*)value);
 	}
-	else if (isSBOLType(SBOL_NUCLEOTIDES_PROPERTY, property)) {
+	else if ( _sbol_is_type(SBOL_NUCLEOTIDES_PROPERTY, property) ) {
 		setNucleotidesProperty((NucleotidesProperty*)property, (const char*)value);
 	}
-	else if (isSBOLType(SBOL_POSITION_PROPERTY, property)) {
+	else if ( _sbol_is_type(SBOL_POSITION_PROPERTY, property) ) {
 		setPositionProperty((PositionProperty*)property, (const int)value);
 	}
-	else if (isSBOLType(SBOL_POLARITY_PROPERTY, property)) {
+	else if ( _sbol_is_type(SBOL_POLARITY_PROPERTY, property) ) {
 		setPositionProperty((PositionProperty*)property, (const int)value);
 	}
-	//else if (isSBOLType(SBOL_TYPE_PROPERTY, property)) {
+	//else if (_sbol_is_type(SBOL_TYPE_PROPERTY, property)) {
 	//	setTypeProperty((TypeProperty*)property, (const char *)value);
 	//}
 	return;
@@ -145,13 +145,13 @@ void setSBOLProperty(void* property, void* value) {
 
 // Deprecated
 //void setSBOLIdentityProperty(void* obj, char* uri) {
-//	if (isSBOLType(SBOL_IDENTIFIED, obj)) {
+//	if (_sbol_is_type(SBOL_IDENTIFIED, obj)) {
 //		IdentifiedObject* id_obj = (IdentifiedObject*)obj;
 //		setTextProperty(id_obj->identity, uri);
 //		return;
 //	}
-//	else if (getSuper(obj)) {
-//		setSBOLIdentityProperty(getSuper(obj), uri);
+//	else if (_sbol_base(obj)) {
+//		setSBOLIdentityProperty(_sbol_base(obj), uri);
 //		return;
 //	}
 //	else {
@@ -160,12 +160,13 @@ void setSBOLProperty(void* property, void* value) {
 //	}
 //}
 
-int isTopLevelObject(void* obj) {
-	if (strcmp(getSBOLType(obj), "TopLevelObject") == 0)
-		return 1;
-	else
-		return 0;
-}
+//int isTopLevelObject(void* obj) {
+//	if (strcmp(getSBOLType(obj), "TopLevelObject") == 0)
+//		return 1;
+//	else
+//		return 0;
+//}
+
 //void deleteSBOLDocument(SBOLDocument* doc) {
 //	if (!doc)
 //		return;
