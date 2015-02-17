@@ -5,7 +5,7 @@
 /// need not interface with TopLevelObjects.
 /// @private 
 /// @return A pointer to the new SBOLObject.
-TopLevelObject* createTopLevelObject() {
+TopLevelObject* sbol_create_top_level() {
 	// @todo Check for URI collision
 	TopLevelObject* obj = malloc(sizeof(TopLevelObject));
 	obj->__class = "TopLevel";
@@ -19,7 +19,7 @@ TopLevelObject* createTopLevelObject() {
 /// Delete an SBOLObject.
 /// This shouldn't be called directly;
 /// instead, use deleteDNASequence, deleteCollection, etc.
-void deleteTopLevelObject(TopLevelObject* obj) {
-
-};
+//void deleteTopLevelObject(TopLevelObject* obj) {
+//
+//};
 

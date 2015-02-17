@@ -2,13 +2,13 @@
 
 /// Create an empty SBOLObject.
 /// @return A pointer to the new SBOLObject.
-IdentifiedObject* createIdentifiedObject(const char* uri) {
+IdentifiedObject* sbol_create_identified(const char* uri) {
 	// @todo Check for URI collision
 	
 	// Base definition, same pattern for all SBOL classes
 	IdentifiedObject* obj = malloc(sizeof(IdentifiedObject));
 	obj->__class = SBOL_IDENTIFIED;
-	obj->__super = _sbol_base(obj, createTopLevelObject());
+	obj->__super = _sbol_base(obj, sbol_create_top_level());
 	obj->__sub = NULL;
 
 	// SBOLIdentifiedObject starts extending base here
@@ -19,28 +19,28 @@ IdentifiedObject* createIdentifiedObject(const char* uri) {
 	obj->version = createTextProperty();
 	setTextProperty(obj->persistentIdentity, "0");
 	obj->timeStamp = NULL;
-	obj->annotations = annotations;
-	obj->xml_annotations = xml_annotations;
+	obj->annotations = sbol_get_annotations;
+	obj->xml_annotations = sbol_get_xml_annotations;
 	//obj->__annotations = createPointerArray();;
 	//obj->__xmlAnnotations = createPointerArray();;
 	obj->subclass = NULL;
 	return obj;
 }
 
-void* annotations(int index) {
+void* sbol_get_annotations(int index) {
 	return;
 }
 
-void* xml_annotations(int index){
+void* sbol_get_xml_annotations(int index){
 	return;
 }
 
-char* identity(void* obj) {
+char* sbol_get_identity(void* obj) {
 	if ( _sbol_is_type(SBOL_IDENTIFIED, obj) ) {
 		return getTextProperty(((IdentifiedObject*)obj)->identity);
 	}
 	else if ( _sbol_base(obj) ) {
-		identity( _sbol_base(obj) );
+		sbol_get_identity( _sbol_base(obj) );
 		return;
 	}
 	else {

@@ -20,6 +20,6 @@ struct _TopLevelObject{
 	void* subclass;
 };
 
-TopLevelObject* createTopLevelObject();
+TopLevelObject* sbol_create_top_level();
 
-void deleteTopLevelObject(TopLevelObject* obj);
+//void deleteTopLevelObject(TopLevelObject* obj);

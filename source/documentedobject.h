@@ -21,13 +21,13 @@ struct _DocumentedObject {
 	TextProperty* description; ///< Some text describing the object.
 };
 
-SBOLAPIEXPORTS DocumentedObject* createDocumentedObject(const char* uri);
+SBOLAPIEXPORTS DocumentedObject* create_documented_object(const char* uri);
 
-SBOLAPIEXPORTS char* display_id(void* obj);
+SBOLAPIEXPORTS char* sbol_get_display_id(void* obj);
 
-SBOLAPIEXPORTS char* name(void* obj);
+SBOLAPIEXPORTS char* sbol_get_name(void* obj);
 
-SBOLAPIEXPORTS char* description(void* obj);
+SBOLAPIEXPORTS char* sbol_get_description(void* obj);
 
 
 /// @name Methods

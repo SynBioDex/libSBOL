@@ -43,17 +43,17 @@ struct _IdentifiedObject{
 	void *subclass;
 };
 
-SBOLAPIEXPORTS char* identity(void* obj);
+SBOLAPIEXPORTS char* sbol_get_identity(void* obj);
 
-SBOLAPIEXPORTS char* persistent_identity(void* obj);
+SBOLAPIEXPORTS char* sbol_get_persistent_identity(void* obj);
 
-SBOLAPIEXPORTS char* version(void* obj);
+SBOLAPIEXPORTS char* sbol_get_version(void* obj);
 
-SBOLAPIEXPORTS char* time_stamp(void* obj);
+SBOLAPIEXPORTS char* sbol_get_time_stamp(void* obj);
 
-SBOLAPIEXPORTS void* annotations(int index);
+SBOLAPIEXPORTS void* sbol_get_annotations(int index);
 
-SBOLAPIEXPORTS void* xml_annotations(int index);
+SBOLAPIEXPORTS void* sbol_get_xml_annotations(int index);
 
 
 
@@ -63,7 +63,7 @@ SBOLAPIEXPORTS void* xml_annotations(int index);
 
 /// Create an empty SBOLObject.
 /// @return A pointer to the new SBOLObject.
-SBOLAPIEXPORTS IdentifiedObject* createIdentifiedObject(const char* uri);
+SBOLAPIEXPORTS IdentifiedObject* sbol_create_identified(const char* uri);
 
 /// Delete an SBOLObject.
 /// This shouldn't be called directly;
