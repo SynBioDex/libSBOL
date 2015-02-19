@@ -24,27 +24,26 @@ OPTION( SBOL_GENERATE_PYTHON  "Generate Python wrapper using SWIG"        FALSE 
 OPTION( SBOL_GENERATE_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
 
 # build libSBOLc
-# ADD_SUBDIRECTORY( schema )
+#ADD_SUBDIRECTORY( schema )
 ADD_SUBDIRECTORY( source )
 
 # build examples
-IF( SBOL_BUILD_EXAMPLES )
-    ADD_SUBDIRECTORY( examples )
-ENDIF()
+#IF( SBOL_BUILD_EXAMPLES )
+#    ADD_SUBDIRECTORY( examples )
+#ENDIF()
 
 # build tests
-IF( SBOL_BUILD_TESTS )
-    ADD_SUBDIRECTORY( tests )
-ENDIF()
+#IF( SBOL_BUILD_TESTS )
+#    ADD_SUBDIRECTORY( tests )
+#ENDIF()
 
 # generate documentation
-IF( SBOL_GENERATE_MANUAL )
-    ADD_SUBDIRECTORY( manual )
-ENDIF()
+#IF( SBOL_GENERATE_MANUAL )
+#    ADD_SUBDIRECTORY( manual )
+#ENDIF()
 
 # generate python wrapper
-IF( SBOL_GENERATE_PYTHON )
-    ADD_SUBDIRECTORY( wrapper )
-ENDIF()
+#IF( SBOL_GENERATE_PYTHON )
+#    ADD_SUBDIRECTORY( wrapper )
+#ENDIF()
 
-INSTALL(TARGETS SBOL DESTINATION)

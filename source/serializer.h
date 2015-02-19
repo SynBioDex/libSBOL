@@ -1,0 +1,1 @@
+extern "C" char* hello_sbol();
