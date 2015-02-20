@@ -21,10 +21,11 @@ INCLUDE_DIRECTORIES( ${LIBXML2_INCLUDE_DIR} )
 FILE(GLOB LIBXML2_HEADER_FILES ${LIBXML2_INCLUDE_DIR}/*)
 
 # gather source files
-FILE(GLOB SBOL_HEADER_FILES serializer.h)
+FILE(GLOB SBOL_HEADER_FILES 
+	sbol.h
+	identified.h)
 FILE(GLOB SBOL_SOURCE_FILES	
-	hello_sbol.cpp
-	serializer.c)
+	identified.cpp)
 MESSAGE(${SBOL_SOURCE_FILES})
 	
 # copy header files to release/library/include for out-of-source build
