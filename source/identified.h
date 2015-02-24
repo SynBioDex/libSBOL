@@ -1,9 +1,11 @@
+#include <string>
+
 namespace sbol {
 	class Identified {
-		string identity;
-		string persistent_identity;
+		std::string identity;
+        std::string persistent_identity;
 	public:
-		void set_values(int, int);
-		int area() { return width*height; }
+		void set_identity(std::string, std::string);
+		std::string get_identity();
 	};
 }

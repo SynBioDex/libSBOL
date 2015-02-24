@@ -1,18 +1,16 @@
 #include <iostream>
+#include <string>
 #include "sbol.h"
 //#include "identified.h"
 
 using namespace std;
 using namespace sbol;
 
-void Rectangle::set_values(int x, int y) {
-	width = x;
-	height = y;
+void Identified::set_identity(std::string uri_prefix, std::string id) {
+	identity = uri_prefix + id;
+	cout << "Identity : " << identity << endl;
 }
 
-int main() {
-	Rectangle rect;
-	rect.set_values(3, 4);
-	cout << "area: " << rect.area();
-	return 0;
+std::string Identified::get_identity() {
+	return identity;
 }

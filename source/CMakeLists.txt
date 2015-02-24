@@ -25,7 +25,8 @@ FILE(GLOB SBOL_HEADER_FILES
 	sbol.h
 	identified.h)
 FILE(GLOB SBOL_SOURCE_FILES	
-	identified.cpp)
+	identified.cpp
+	serializer.cpp)
 MESSAGE(${SBOL_SOURCE_FILES})
 	
 # copy header files to release/library/include for out-of-source build
