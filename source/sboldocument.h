@@ -34,6 +34,37 @@ struct _SBOLDocument{
 	xmlDoc* xml_doc;
 };
 
+/*
+API IDEAS
+?sbol_create_object(SBOL_DOCUMENTED, ...)
+
+// Constructors can't be overloaded, because I have to return a unique type for each object
+sbol_create_identified(const char* prefix, const char* id);
+EX: sbol_create_identified(uri_prefix, id);
+EX: sbol_create_someobject(...);
+
+// Getters follow this general form rather than sbol_get_sequence_elements
+sbol_get_elements(Sequence* seq);
+
+// Some getters can be overloaded to mimic inheritance
+sbol_get_identity(void* identified_obj);
+EX: sbol_get_identity(base_obj);
+EX: sbol_get_identity(component);
+
+// Destructors can be overloaded
+sbol_delete_object(void* sbol_obj);
+EX: sbol_delete_object(ex_sequence)
+
+// Setters can be overloaded,
+sbol_set_property(void* sbol_property, void* value);
+sbol_set_property(seq->elements, "actg");
+
+// Adders can be overloaded too
+sbol_add_object(void* sbol_list_property, void* sbol_object);
+EX: sbol_add_object(component_defn->subComponents, component);
+*/
+
+
 /// @name Methods
 /// @{
 /// Create an empty Document.
@@ -65,19 +96,6 @@ SBOLAPIEXPORTS void* _sbol_extend(void* sub, void* super);
 
 SBOLAPIEXPORTS void* _sbol_base(void *obj);
 
-/*
-?sbol_create_object(SBOL_DOCUMENTED, ...)
-sbol_create_documented(uri_prefix, display_id)
-sbol_create_sequence_annotation
-sbol_create_component_definition
-sbol_delete_object(any_sbol_object)
-sbol_set_property(dc->property)
-sbol_get_sequence_annotation
-sbol_get_identity(any_identified_obj)
-sbol_get_persistent_identity
-sbol_add_object(dc->property, obj)
-sbol_get_access
-*/
 
 //// Delete a Sequence from a Document's array of sequences
 //void removeDNASequence(Document* doc, DNASequence* seq);
