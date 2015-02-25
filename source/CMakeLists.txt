@@ -46,16 +46,16 @@ ADD_EXECUTABLE(sbol ${SBOL_SOURCE_FILES})
 	
 	# by default, GCC exports everything;
 	# this tells it to stick to SBOLAPIEXPORTS functions
-#	IF(CMAKE_COMPILER_IS_GNUCC)
-#		SET_TARGET_PROPERTIES( sbol
-#			PROPERTIES COMPILE_FLAGS -fvisibility=hidden
-#		)
-#	ENDIF()
+	IF(CMAKE_COMPILER_IS_GNUCC)
+		SET_TARGET_PROPERTIES( sbol
+			PROPERTIES COMPILE_FLAGS -fvisibility=hidden
+		)
+	ENDIF()
 
 	# link against libxml
-#	TARGET_LINK_LIBRARIES( sbol
-#		xml2
-#	)
+	TARGET_LINK_LIBRARIES( sbol
+		xml2
+	)
 #ELSE()  	# build shared library for release
 #	ADD_LIBRARY( sbol
 #		SHARED
@@ -72,9 +72,10 @@ ADD_EXECUTABLE(sbol ${SBOL_SOURCE_FILES})
 	ENDIF()
 
 	# link against libxml
-	SET_TARGET_PROPERTIES(sbol PROPERTIES LINKER_LANGUAGE C)
-	TARGET_LINK_LIBRARIES( sbol
-		xml2 )
+	#SET_TARGET_PROPERTIES(sbol PROPERTIES LINKER_LANGUAGE C)
+	#TARGET_LINK_LIBRARIES( sbol
+	#	xml2 
+	#	ws2_32)
 	#target_link_libraries(sbol -Wl,-whole-archive -l${xml2} -l${ws2_32} -Wl,-no-whole-archive  )
 
 #ENDIF()
