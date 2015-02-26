@@ -93,7 +93,7 @@ include_directories(${LIBXML2_INCLUDE_DIR})
 #else()
 #	add_library(${LIBXML2_LIBRARIES} SHARED ${libxml_src})
 #endif(SBOL_BUILD_STATIC)
-add_library(${LIBXML2_LIBRARIES} STATIC ${libxml_src})
+add_library(${LIBXML2_LIBRARIES} SHARED ${libxml_src})
 if (NOT LIBXML2_STATICLIB_OUTPUT_PATH)
         set(LIBXML2_STATICLIB_OUTPUT_PATH "." CACHE STRING
                 "LibXml2 static lib output directory")
