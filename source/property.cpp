@@ -6,9 +6,12 @@
 using namespace std;
 using namespace sbol;
 
-std::string TextProperty::get()
+string TextProperty::get()
 {
 	return text;
 }
 
-void set() {};
+void TextProperty::set(string arg) 
+{
+	text = arg;
+};

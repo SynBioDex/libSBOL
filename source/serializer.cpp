@@ -15,7 +15,9 @@ int main()
 	cout << "Identity:" << sbol_obj.getIdentity() << endl;;
 	cout << sbol_obj.getTimeStamp() << endl;
 	cout << sbol_obj.sbolString.get() << endl;
-	cerr << "Bye\n";
+	sbol_obj.sbolString.set("Good bye SBOL!");
+	cout << sbol_obj.sbolString.get() << endl;
+	//cerr << "Bye\n";
 	
 	return 0;
 

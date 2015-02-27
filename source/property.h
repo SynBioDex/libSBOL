@@ -10,7 +10,7 @@ namespace sbol {
 			{
 			}
 		std::string get();
-		void set();
+		void set(std::string arg);
 
 	};
 }

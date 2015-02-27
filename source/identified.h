@@ -4,8 +4,6 @@
 #include "property.h"
 
 namespace sbol {
-	class TextProperty;
-
 	class Identified {
 		std::string identity;  // @todo make URI type instead of string?
         std::string persistentIdentity;  // @todo make URI type instead of string?
