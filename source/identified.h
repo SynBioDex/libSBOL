@@ -1,13 +1,18 @@
 #include <string>
 #include <ctime>
 
+#include "property.h"
+
 namespace sbol {
+	class TextProperty;
+
 	class Identified {
 		std::string identity;  // @todo make URI type instead of string?
         std::string persistentIdentity;  // @todo make URI type instead of string?
 		int majorVersion;
 		int minorVersion;
 		std::string timeStamp;
+
 	public:
 
 		//Identified(std::string uri_prefix, std::string id);
@@ -19,6 +24,8 @@ namespace sbol {
 			timeStamp("") 
 			{
 			}
+		sbol::TextProperty sbolString;
+
 		Identified(std::string uri_prefix, std::string id);
 		void setIdentity(std::string, std::string);
 		void stampTime();

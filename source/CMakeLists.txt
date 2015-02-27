@@ -22,9 +22,10 @@ FILE(GLOB LIBXML2_HEADER_FILES ${LIBXML2_INCLUDE_DIR}/*)
 
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES 
-	sbol.h
+	property.h
 	identified.h)
 FILE(GLOB SBOL_SOURCE_FILES	
+	property.cpp
 	identified.cpp
 	serializer.cpp)
 MESSAGE(${SBOL_SOURCE_FILES})

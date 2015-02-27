@@ -14,6 +14,7 @@ int main()
 	sbol_obj.setIdentity("http://examples.com", "foo");
 	cout << "Identity:" << sbol_obj.getIdentity() << endl;;
 	cout << sbol_obj.getTimeStamp() << endl;
+	cout << sbol_obj.sbolString.get() << endl;
 	cerr << "Bye\n";
 	
 	return 0;

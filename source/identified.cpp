@@ -2,7 +2,8 @@
 #include <string>
 #include <ctime>
 #include <cstdio>
-#include "sbol.h"
+
+#include "identified.h"
 
 using namespace std;
 using namespace sbol;
