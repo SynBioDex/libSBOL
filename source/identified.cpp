@@ -8,18 +8,18 @@
 using namespace std;
 using namespace sbol;
 
-Identified::Identified(std::string uri_prefix, std::string id)
-{
-	stampTime(); 
-	char _identity[80];
-	int size = sprintf(_identity, "%s//%s//%d//%d", uri_prefix.c_str(), id.c_str(), majorVersion, minorVersion);
-	identity = string(_identity);
-	persistentIdentity = identity;
-}
+//Identified::Identified(std::string uri_prefix, std::string id)
+//{
+//	stampTime(); 
+//	char _identity[80];
+//	int size = sprintf(_identity, "%s//%s//%d//%d", uri_prefix.c_str(), id.c_str(), majorVersion, minorVersion);
+//	identity.set(string(_identity));
+//	persistentIdentity.set(identity.get());
+//}
 
 void Identified::setIdentity(std::string uri_prefix, std::string id) 
 {
-	identity = uri_prefix + "/" + id;
+	identity.set(uri_prefix + "/" + id);
 }
 
 void Identified::stampTime()
@@ -30,16 +30,16 @@ void Identified::stampTime()
 
 	time(&timer);
 	time_info = localtime(&timer);
-	timeStamp = string(asctime(time_info));
+	timeStamp.set(string(asctime(time_info)));
 }
 
 std::string Identified::getIdentity() {
-	return identity;
+	return identity.get();
 }
 
 std::string Identified::getTimeStamp()
 {
-	return timeStamp;
+	return timeStamp.get();
 };
 
 int Identified::getMinorVersion() 

@@ -5,8 +5,8 @@ namespace sbol {
 		std::string text;
 	public:
 		//Identified(std::string uri_prefix, std::string id);
-		TextProperty() :
-			text("Hello sbol")
+		TextProperty(std::string arg = "") :
+			text(arg)
 			{
 			}
 		std::string get();
