@@ -28,8 +28,8 @@ namespace sbol {
 
 		TextProperty identity;
 		TextProperty persistentIdentity;
-		int majorVersion;
-		int minorVersion;
+		IntProperty majorVersion;
+		IntProperty minorVersion;
 		TextProperty timeStamp;
 
 		std::string getTimeStamp();

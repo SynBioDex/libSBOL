@@ -8,10 +8,20 @@ using namespace sbol;
 
 string TextProperty::get()
 {
-	return text;
-}
+	return value;
+};
 
 void TextProperty::set(string arg) 
 {
-	text = arg;
-};
+	value = arg;
+}
+
+int IntProperty::get()
+{
+	return value;
+}
+
+void IntProperty::set(int arg)
+{
+	value = arg;
+}

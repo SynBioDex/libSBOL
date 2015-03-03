@@ -44,11 +44,11 @@ std::string Identified::getTimeStamp()
 
 int Identified::getMinorVersion() 
 {
-	return minorVersion;
+	return minorVersion.get();
 };
 
 int Identified::getMajorVersion() 
 {
-	return majorVersion;
+	return majorVersion.get();
 };
 

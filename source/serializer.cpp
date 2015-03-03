@@ -15,6 +15,7 @@ int main()
 	//cout << "Identity:" << sbol_obj.getIdentity() << endl;;
 	cout << sbol_obj.identity.get() << endl;
 	cout << sbol_obj.timeStamp.get() << endl;
+	cout << sbol_obj.minorVersion.get() << endl;
 	//cerr << "Bye\n";
 	return 0;
 
