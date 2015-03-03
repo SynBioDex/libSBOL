@@ -1,6 +1,6 @@
-#include <string>
-
 #include "property.h"
+
+#include <string>
 
 namespace sbol {
 	class Identified {
@@ -13,7 +13,7 @@ namespace sbol {
 	public:
 
 		//Identified(std::string uri_prefix, std::string id);
-		Identified(std::string uri_prefix, std::string id) :
+		Identified(std::string uri_prefix = "http://examples.com", std::string id = "identified_object") :
 			identity(TextProperty(uri_prefix + "/" + id + "/0/0")),
 			persistentIdentity(TextProperty(uri_prefix + "/" + id + "/0/0")),
 			majorVersion(0),
