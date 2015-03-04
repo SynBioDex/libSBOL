@@ -14,29 +14,27 @@ namespace sbol {
 
 		//Identified(std::string uri_prefix, std::string id);
 		Identified(std::string uri_prefix = "http://examples.com", std::string id = "identified_object") :
-			identity(TextProperty(uri_prefix + "/" + id + "/0/0")),
-			persistentIdentity(TextProperty(uri_prefix + "/" + id + "/0/0")),
-			majorVersion(0),
-			minorVersion(0),
+			identity(TextProperty(uri_prefix + "/" + id + "/1.0.0")),
+			persistentIdentity(TextProperty(uri_prefix + "/" + id + "/1.0.0")),
+			version("1.0.0"),
 			timeStamp(TextProperty())
 			{
 			}
+		Identified(std::string, std::string, std::string);
 		//sbol::TextProperty sbolString;
 
 		//Identified(std::string uri_prefix, std::string id);
 
 		TextProperty identity;
 		TextProperty persistentIdentity;
-		IntProperty majorVersion;
-		IntProperty minorVersion;
+		TextProperty version;
 		TextProperty timeStamp;
 
 		std::string getTimeStamp();
 		void setIdentity(std::string, std::string);
 		void stampTime();
 		std::string getIdentity();
-		int getMinorVersion();
-		int getMajorVersion();
+		Identified clone();
 
 	};
 }

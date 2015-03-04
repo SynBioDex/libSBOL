@@ -17,6 +17,12 @@ using namespace sbol;
 //	persistentIdentity.set(identity.get());
 //}
 
+Identified::Identified(std::string uri_prefix, std::string id, std::string version) 
+{
+	
+};
+
+
 void Identified::setIdentity(std::string uri_prefix, std::string id) 
 {
 	identity.set(uri_prefix + "/" + id);
@@ -33,6 +39,15 @@ void Identified::stampTime()
 	timeStamp.set(string(asctime(time_info)));
 }
 
+Identified Identified::clone() 
+{
+	Identified clone = Identified();
+	clone.identity.set(this->identity.get());
+	clone.persistentIdentity.set(this->persistentIdentity.get());
+	clone.version.set(this->version.get());
+	return clone;
+}
+
 std::string Identified::getIdentity() {
 	return identity.get();
 }
@@ -40,15 +55,5 @@ std::string Identified::getIdentity() {
 std::string Identified::getTimeStamp()
 {
 	return timeStamp.get();
-};
-
-int Identified::getMinorVersion() 
-{
-	return minorVersion.get();
-};
-
-int Identified::getMajorVersion() 
-{
-	return majorVersion.get();
 };
 
