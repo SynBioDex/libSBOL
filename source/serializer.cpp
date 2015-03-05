@@ -1,6 +1,7 @@
 #include "sbol.h"
 
 #include <iostream>
+#include <vector>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 //#include <libxml2/libxml/parser.h>
@@ -19,6 +20,8 @@ int main()
 	Identified clone = sbol_obj.clone();
 	cout << sbol_obj.identity.get() << endl;
 	//cerr << "Bye\n";
+	vector<string> v = sbol_obj.version.split('.');
+	cout << v[0] << endl;
 	return 0;
 
 

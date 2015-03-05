@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 namespace sbol {
 	class TextProperty {
@@ -11,7 +12,7 @@ namespace sbol {
 			}
 		std::string get();
 		void set(std::string arg);
-
+		std::vector<std::string> split(const char c);
 	};
 
 	class IntProperty {
