@@ -21,8 +21,6 @@ void TextProperty::set(string arg)
 vector<string> TextProperty::split(const char c) {
 	// Adapted from C++ cookbook
 	const string& s = this->value;
-	cout << this->value << endl;
-	cout << s << endl;
 	vector<string> v;
 
 	string::size_type i = 0;

@@ -8,12 +8,12 @@ namespace sbol {
 
 	class Documented : public Identified {
 
-
 	public:
-		Documented(std::string displayID = "displayID goes here", std::string name = "name goes here", std::string description = "description goes here") :
-			displayID(TextProperty(displayID)),
-			name(TextProperty(name)),
-			description(TextProperty(description))
+		Documented(std::string uri_prefix, std::string display_id) :
+			Identified(uri_prefix, display_id),
+			displayID(TextProperty(display_id)),
+			name(TextProperty()),
+			description(TextProperty())
 			{
 			}
 		TextProperty displayID;

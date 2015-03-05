@@ -15,7 +15,7 @@ int main()
 	cout << sbol_obj.identity.get() << endl;
 	cout << sbol_obj.timeStamp.get() << endl;
 	cout << sbol_obj.version.get() << endl;
-	sbol::Documented sbol_obj_2 = Documented();
+	sbol::Documented sbol_obj_2 = Documented("http://examples.com/", "documented_obj");
 	cout << sbol_obj_2.displayID.get() << endl;
 	Identified clone = sbol_obj.clone();
 	cout << sbol_obj.identity.get() << endl;
