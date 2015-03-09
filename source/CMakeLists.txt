@@ -25,11 +25,13 @@ FILE(GLOB SBOL_HEADER_FILES
 	property.h
 	identified.h
 	documented.h
-	toplevel.h)
+	toplevel.h
+	sboldocument.h)
 FILE(GLOB SBOL_SOURCE_FILES	
 	property.cpp
 	identified.cpp
 	documented.cpp
+	sboldocument.cpp
 	serializer.cpp)
 MESSAGE(${SBOL_SOURCE_FILES})
 	
@@ -54,6 +56,8 @@ ADD_EXECUTABLE(sbol ${SBOL_SOURCE_FILES})
 		SET_TARGET_PROPERTIES( sbol
 			PROPERTIES COMPILE_FLAGS -fvisibility=hidden
 		)
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+		MESSAGE(${CMAKE_CXX_FLAGS})
 	ENDIF()
 
 	# link against libxml

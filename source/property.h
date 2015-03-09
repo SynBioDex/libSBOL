@@ -26,4 +26,5 @@ namespace sbol {
 		int get();
 		void set(int arg);
 	};
+
 }
