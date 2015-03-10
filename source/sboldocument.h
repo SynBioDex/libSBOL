@@ -1,6 +1,7 @@
 #include <unordered_map>
 
 namespace sbol {
+	class TopLevel;
 	class SBOLDocument {
 		//std::string identity;  // @todo make URI type instead of string?
 		//      std::string persistentIdentity;  // @todo make URI type instead of string?
@@ -19,7 +20,11 @@ namespace sbol {
 			sequences = new HashMap<URI, Sequence>();
 			nameSpaces = new HashMap<URI, NamespaceBinding>();*/
 
-		std::unordered_map<std::string, TopLevel> genericTopLevels;
+		std::unordered_map<std::string, sbol::TopLevel*> SBOLObjects;
+		// SBOLDocument::getComponentDefinitions
+		// getSBOLObject(uri)
+		// doc.SBOLObjects[URI]
+		// obj.addToDocument(doc)
 
 	};
 }

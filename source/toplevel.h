@@ -1,4 +1,5 @@
 #include "documented.h"
+#include "sboldocument.h"
 
 #include <string>
 
@@ -14,5 +15,7 @@ namespace sbol
 			Documented(uri_prefix, display_id)
 			{
 			}
+		void addToDocument(sbol::SBOLDocument);
+
 	};
 }

@@ -2,6 +2,7 @@
 #include <string>
 #include <ctime>
 #include <cstdio>
+#include <unordered_map>
 
 #include "identified.h"
 
@@ -17,11 +18,13 @@ using namespace sbol;
 //	persistentIdentity.set(identity.get());
 //}
 
-Identified::Identified(std::string uri_prefix, std::string id, std::string version) 
+Identified::Identified(std::string uri_prefix, std::string id, std::string _version) 
 {
-	
+	identity = TextProperty(uri_prefix + "/" + id + "/" + _version);
+	persistentIdentity = TextProperty(identity);
+	version = TextProperty(_version);
+	timeStamp = TextProperty();
 };
-
 
 void Identified::setIdentity(std::string uri_prefix, std::string id) 
 {

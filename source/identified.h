@@ -16,7 +16,7 @@ namespace sbol {
 		Identified(std::string uri_prefix = "http://examples.com", std::string id = "identified_object") :
 			identity(TextProperty(uri_prefix + "/" + id + "/1.0.0")),
 			persistentIdentity(TextProperty(uri_prefix + "/" + id + "/1.0.0")),
-			version("1.0.0"),
+			version(TextProperty("1.0.0")),
 			timeStamp(TextProperty())
 			{
 			}
