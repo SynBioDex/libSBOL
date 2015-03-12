@@ -3,8 +3,9 @@
 using namespace sbol;
 using namespace std;
 
-
-void TopLevel::addToDocument(SBOLDocument doc)
+/*
+void TopLevel::addToDocument(SBOLDocument& doc)
 {
-	//doc.SBOLObjects["test"] = "123";
+	doc.SBOLObjects[this->identity] = this;
 };
+*/

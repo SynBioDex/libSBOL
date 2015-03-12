@@ -1,11 +1,11 @@
 #include "documented.h"
-#include "sboldocument.h"
 
 #include <string>
 
 namespace sbol 
 {
 	class TextProperty;
+	class SBOLDocument;
 
 	class TopLevel : public Documented
 	{
@@ -15,7 +15,7 @@ namespace sbol
 			Documented(uri_prefix, display_id)
 			{
 			}
-		void addToDocument(sbol::SBOLDocument);
+		void addToDocument(sbol::SBOLDocument&);
 
 	};
 }
