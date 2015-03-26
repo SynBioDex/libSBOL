@@ -1,4 +1,4 @@
-#include "toplevel.h"
+#include "generictoplevel.h"
 
 #include <unordered_map>
 

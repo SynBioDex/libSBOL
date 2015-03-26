@@ -5,9 +5,10 @@ namespace sbol
 {	
 	enum sbol_type
 	{
-		SBOL_IDENTIFIED,
+		SBOL_IDENTIFIED,  // Listed in order of abstract -> concrete classes and depedence
 		SBOL_DOCUMENTED,
 		SBOL_TOP_LEVEL,
+		SBOL_GENERIC_TOP_LEVEL,
 		SBOL_DOCUMENT
 	};
 
