@@ -4,7 +4,6 @@
 
 
 namespace sbol {
-	class TextProperty;
 
 	class Documented : public Identified {
 		static const sbol_type type = SBOL_DOCUMENTED;

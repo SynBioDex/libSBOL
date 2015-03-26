@@ -4,7 +4,6 @@
 
 namespace sbol 
 {
-	class TextProperty;
 	class SBOLDocument;
 
 	class TopLevel : public Documented
