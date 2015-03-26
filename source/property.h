@@ -1,8 +1,18 @@
 #include <string>
 #include <vector>
 
-namespace sbol {
-	class TextProperty {
+namespace sbol 
+{	
+	enum sbol_type
+	{
+		SBOL_IDENTIFIED,
+		SBOL_DOCUMENTED,
+		SBOL_TOP_LEVEL,
+		SBOL_DOCUMENT
+	};
+
+	class TextProperty 
+	{
 		std::string value;
 	public:
 		//Identified(std::string uri_prefix, std::string id);
@@ -15,7 +25,8 @@ namespace sbol {
 		std::vector<std::string> split(const char c);
 	};
 
-	class IntProperty {
+	class IntProperty 
+	{
 		int value;
 	public:
 		//Identified(std::string uri_prefix, std::string id);

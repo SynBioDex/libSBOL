@@ -7,6 +7,7 @@ namespace sbol {
 	class TextProperty;
 
 	class Documented : public Identified {
+		static const sbol_type type = SBOL_DOCUMENTED;
 
 	public:
 		Documented(std::string uri_prefix, std::string display_id) :

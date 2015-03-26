@@ -4,11 +4,7 @@
 
 namespace sbol {
 	class Identified {
-		//std::string identity;  // @todo make URI type instead of string?
-  //      std::string persistentIdentity;  // @todo make URI type instead of string?
-		//int majorVersion;
-		//int minorVersion;
-		//std::string timeStamp;
+		static const sbol_type type = SBOL_IDENTIFIED;
 
 	public:
 

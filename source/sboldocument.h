@@ -9,6 +9,7 @@ namespace sbol {
 		//int majorVersion;
 		//int minorVersion;
 		//std::string timeStamp;
+		static const sbol_type type = SBOL_DOCUMENT;
 
 	public:
 
