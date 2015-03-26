@@ -1,3 +1,6 @@
+#ifndef IDENTIFIED_INCLUDED
+#define IDENTIFIED_INCLUDED
+
 #include "property.h"
 
 #include <string>
@@ -34,3 +37,5 @@ namespace sbol {
 
 	};
 }
+
+#endif

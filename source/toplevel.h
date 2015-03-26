@@ -1,3 +1,6 @@
+#ifndef TOP_LEVEL_INCLUDED
+#define TOP_LEVEL_INCLUDED
+
 #include "documented.h"
 
 #include <string>
@@ -19,3 +22,5 @@ namespace sbol
 
 	};
 }
+
+#endif

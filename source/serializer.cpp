@@ -12,7 +12,7 @@ using namespace sbol;
 int main() 
 {
 	xmlDocPtr p = xmlNewDoc(BAD_CAST "1.0");
-	sbol::GenericTopLevel sbol_obj = GenericTopLevel("http://examples.com", "documented_obj");
+	sbol::ComponentDefinition sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
 	cout << sbol_obj.identity.get() << endl;
 	cout << sbol_obj.timeStamp.get() << endl;
 	cout << sbol_obj.version.get() << endl;
@@ -21,8 +21,10 @@ int main()
 	cout << doc.SBOLObjects.size() << endl;
 	sbol_obj.addToDocument(doc);
 	cout << doc.SBOLObjects.size() << endl;
-	TopLevel& tl = doc.getTopLevel("http://examples.com/documented_obj/1.0.0");
-
+	
+	// Should catch an error because the object is a ComponentDefinition
+	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj/1.0.0");
+	cout << tl.identity.get() << endl;
 	vector<string> v = sbol_obj.version.split('.');
 	return 0;
 

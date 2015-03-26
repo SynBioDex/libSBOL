@@ -26,7 +26,9 @@ FILE(GLOB SBOL_HEADER_FILES
 	identified.h
 	documented.h
 	toplevel.h
-	sboldocument.)
+	generictoplevel.h
+	componentdefinition.h
+	sboldocument.h)
 FILE(GLOB SBOL_SOURCE_FILES	
 	property.cpp
 	identified.cpp

@@ -4,8 +4,6 @@
 
 namespace sbol 
 {
-	class SBOLDocument;
-
 	class GenericTopLevel : public TopLevel
 	{
 		static const sbol_type type = SBOL_GENERIC_TOP_LEVEL;

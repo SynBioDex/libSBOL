@@ -1,3 +1,6 @@
+#ifndef PROPERTY_INCLUDED
+#define PROPERTY_INCLUDED
+
 #include <string>
 #include <vector>
 
@@ -9,6 +12,7 @@ namespace sbol
 		SBOL_DOCUMENTED,
 		SBOL_TOP_LEVEL,
 		SBOL_GENERIC_TOP_LEVEL,
+		SBOL_COMPONENT_DEFINITION,
 		SBOL_DOCUMENT
 	};
 
@@ -40,3 +44,5 @@ namespace sbol
 	};
 
 }
+
+#endif 

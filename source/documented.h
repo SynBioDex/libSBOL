@@ -1,3 +1,6 @@
+#ifndef DOCUMENTED_INCLUDED
+#define DOCUMENTED_INCLUDED
+
 #include "identified.h"
 
 #include <string>
@@ -21,3 +24,5 @@ namespace sbol {
 		TextProperty description;
 	};
 }
+
+#endif
