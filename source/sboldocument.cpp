@@ -16,8 +16,7 @@ void TopLevel::addToDocument(SBOLDocument& doc)
 
 TopLevel& SBOLDocument::getTopLevel(string uri)
 {
-	//std::hash<string> hash_fn;
-	//std::size_t uri_hash = hash_fn(uri);
-	//return *(this->SBOLObjects[uri_hash]);
+    // @TODO validate if object is TopLevel or else trigget a libSBOL error
+	// @TODO return libSBOL error if URI not found
 	return *(this->SBOLObjects[uri]);
 };

@@ -47,3 +47,17 @@ void IntProperty::set(int arg)
 {
 	value = arg;
 }
+
+VersionProperty::VersionProperty(std::string version_arg)
+{
+	TextProperty *base = this;
+	base->set(version_arg);
+	this->major.set(1);
+	this->minor.set(0);
+	this->incremental.set(0);
+	cout << "Instantiating version " << version_arg << endl;
+	cout << base->get() << endl;
+	cout << this->major.get() << endl;
+	cout << this->minor.get() << endl;
+	cout << this->incremental.get() << endl;
+}

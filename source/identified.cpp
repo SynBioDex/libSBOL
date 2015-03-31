@@ -22,7 +22,7 @@ Identified::Identified(std::string uri_prefix, std::string id, std::string _vers
 {
 	identity = TextProperty(uri_prefix + "/" + id + "/" + _version);
 	persistentIdentity = TextProperty(identity);
-	version = TextProperty(_version);
+	version = VersionProperty(_version);
 	timeStamp = TextProperty();
 };
 

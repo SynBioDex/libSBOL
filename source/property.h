@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace sbol 
 {	
@@ -37,10 +38,33 @@ namespace sbol
 		//Identified(std::string uri_prefix, std::string id);
 		IntProperty(int arg = 0) :
 			value(arg)
-		{
-		}
+			{
+			}
 		int get();
 		void set(int arg);
+	};
+
+	class VersionProperty : public TextProperty
+	// based on Maven version strings
+	{
+		//int major;
+		//int minor;
+		//int incremental;
+		//std::string qualifier;
+	public:
+		VersionProperty() :
+			TextProperty("1.0.0"),
+			major(IntProperty(1)),
+			minor(IntProperty(0)),
+			incremental(IntProperty(0)),
+			qualifier(TextProperty(""))
+		{
+		}
+		VersionProperty(std::string version_arg);
+		IntProperty major;
+		IntProperty minor;
+		IntProperty incremental;
+		TextProperty qualifier;
 	};
 
 }

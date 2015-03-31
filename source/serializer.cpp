@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include <typeinfo>
+//#include <typeinfo>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 //#include <libxml2/libxml/parser.h>
@@ -24,7 +24,7 @@ int main()
 	
 	// Should catch an error because the object is a ComponentDefinition
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj/1.0.0");
-	cout << tl.identity.get() << endl;
+	cout << tl.version.get() << endl;
 	vector<string> v = sbol_obj.version.split('.');
 	return 0;
 
