@@ -52,6 +52,11 @@ namespace sbol
 		//int incremental;
 		//std::string qualifier;
 	public:
+		IntProperty major;
+		IntProperty minor;
+		IntProperty incremental;
+		TextProperty qualifier;
+
 		VersionProperty() :
 			TextProperty("1.0.0"),
 			major(IntProperty(1)),
@@ -61,10 +66,7 @@ namespace sbol
 		{
 		}
 		VersionProperty(std::string version_arg);
-		IntProperty major;
-		IntProperty minor;
-		IntProperty incremental;
-		TextProperty qualifier;
+		void set(std::string version_arg);
 	};
 
 }

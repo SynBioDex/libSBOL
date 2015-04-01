@@ -52,12 +52,43 @@ VersionProperty::VersionProperty(std::string version_arg)
 {
 	TextProperty *base = this;
 	base->set(version_arg);
+	vector<string> v = base->split('-');
+	cout << v.size() << endl;
 	this->major.set(1);
 	this->minor.set(0);
 	this->incremental.set(0);
-	cout << "Instantiating version " << version_arg << endl;
 	cout << base->get() << endl;
 	cout << this->major.get() << endl;
 	cout << this->minor.get() << endl;
 	cout << this->incremental.get() << endl;
+}
+
+void VersionProperty::set(std::string version_arg)
+{
+	TextProperty *base = this;
+	std::string old_value = base->get();
+	base->set(version_arg);
+	vector<string> v = base->split('-');
+	if (v.size() > 2)
+	{
+		cout << "SBOL error: Invalid version string." << endl;
+		base->set(old_value);
+		return;
+	}
+	if (v.size() == 2)
+	{
+		qualifier.set(v[1]);
+	}
+	TextProperty left_side = TextProperty(v[0]);
+	v = left_side.split('.');
+	if (v.size() > 3)
+	{
+		cout << "SBOL error: Invalid version string." << endl;
+	}
+	int i_token = 0;
+	while (i_token < v.size())
+	{
+		cout << std::stoi(v[i_token]) << endl;
+		i_token++;
+	}
 }

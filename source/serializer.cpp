@@ -11,7 +11,7 @@ using namespace sbol;
 
 int main() 
 {
-	xmlDocPtr p = xmlNewDoc(BAD_CAST "1.0");
+	//xmlDocPtr p = xmlNewDoc(BAD_CAST "1.0");
 	sbol::ComponentDefinition sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
 	cout << sbol_obj.identity.get() << endl;
 	cout << sbol_obj.timeStamp.get() << endl;
@@ -26,8 +26,9 @@ int main()
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj/1.0.0");
 	cout << tl.version.get() << endl;
 	vector<string> v = sbol_obj.version.split('.');
+	tl.version.set("1.2.3-123");
+	cout << tl.version.get() << endl;
+	getchar();
 	return 0;
-
-
 
 }
