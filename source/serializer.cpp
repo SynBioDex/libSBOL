@@ -27,6 +27,7 @@ int main()
 	cout << tl.version.get() << endl;
 	tl.version.set("1.2.3-123");
 	cout << tl.version.get() << endl;
+	int e = SBOLError(1, "Test");
 	getchar();
 	return 0;
 

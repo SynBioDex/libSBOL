@@ -22,6 +22,7 @@ FILE(GLOB LIBXML2_HEADER_FILES ${LIBXML2_INCLUDE_DIR}/*)
 
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES 
+	sbolerror.h
 	property.h
 	identified.h
 	documented.h
@@ -30,6 +31,7 @@ FILE(GLOB SBOL_HEADER_FILES
 	componentdefinition.h
 	sboldocument.h)
 FILE(GLOB SBOL_SOURCE_FILES	
+	sbolerror.cpp
 	property.cpp
 	identified.cpp
 	documented.cpp

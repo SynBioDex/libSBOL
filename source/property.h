@@ -1,6 +1,8 @@
 #ifndef PROPERTY_INCLUDED
 #define PROPERTY_INCLUDED
 
+#include "sbolerror.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -63,7 +65,7 @@ namespace sbol
 		{
 		}
 		VersionProperty(std::string version_arg);
-		void set(std::string version_arg);
+		void set(std::string maven_version);
 
 	};
 

@@ -74,8 +74,8 @@ void VersionProperty::set(std::string maven_version)
 	int n_tokens = version_tokens.size();
 	if (n_tokens > 2)
 	{
-		cout << "SBOL error: Invalid version string." << endl;
 		base->set(old_value);
+		int e = SBOLError(1, "Invalid version string.");
 		return;
 	}
 	if (n_tokens == 2)
