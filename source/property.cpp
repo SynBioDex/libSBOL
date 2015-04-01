@@ -63,32 +63,46 @@ VersionProperty::VersionProperty(std::string version_arg)
 	cout << this->incremental.get() << endl;
 }
 
-void VersionProperty::set(std::string version_arg)
+void VersionProperty::set(std::string maven_version)
 {
 	TextProperty *base = this;
-	std::string old_value = base->get();
-	base->set(version_arg);
-	vector<string> v = base->split('-');
-	if (v.size() > 2)
+	string old_value = base->get();
+	base->set(maven_version);
+	
+	// parse qualifier string from maven version string
+	vector<string> version_tokens = base->split('-');
+	int n_tokens = version_tokens.size();
+	if (n_tokens > 2)
 	{
 		cout << "SBOL error: Invalid version string." << endl;
 		base->set(old_value);
 		return;
 	}
-	if (v.size() == 2)
+	if (n_tokens == 2)
 	{
-		qualifier.set(v[1]);
+		qualifier.set(version_tokens[1]);
 	}
-	TextProperty left_side = TextProperty(v[0]);
-	v = left_side.split('.');
-	if (v.size() > 3)
+
+	// parse major, minor, and incremental version properties
+	TextProperty left_side = TextProperty(version_tokens[0]);
+	version_tokens = left_side.split('.');
+	n_tokens = version_tokens.size();
+	if (n_tokens > 3)
 	{
 		cout << "SBOL error: Invalid version string." << endl;
+		return;
 	}
-	int i_token = 0;
-	while (i_token < v.size())
+	if (n_tokens > 2)
 	{
-		cout << std::stoi(v[i_token]) << endl;
-		i_token++;
+		incremental.set(stoi(version_tokens[2]));
+		cout << incremental.get() << endl;
 	}
+	if (n_tokens > 1)
+	{
+		minor.set(stoi(version_tokens[1]));
+		cout << minor.get() << endl;
+	}
+	major.set(stoi(version_tokens[0]));
+	cout << major.get() << endl;
+	// @todo:  free left_side TextProperty?
 }

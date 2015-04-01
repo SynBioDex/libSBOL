@@ -47,10 +47,7 @@ namespace sbol
 	class VersionProperty : public TextProperty
 	// based on Maven version strings
 	{
-		//int major;
-		//int minor;
-		//int incremental;
-		//std::string qualifier;
+		void update();
 	public:
 		IntProperty major;
 		IntProperty minor;
@@ -67,6 +64,7 @@ namespace sbol
 		}
 		VersionProperty(std::string version_arg);
 		void set(std::string version_arg);
+
 	};
 
 }

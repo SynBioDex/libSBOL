@@ -25,7 +25,6 @@ int main()
 	// Should catch an error because the object is a ComponentDefinition
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj/1.0.0");
 	cout << tl.version.get() << endl;
-	vector<string> v = sbol_obj.version.split('.');
 	tl.version.set("1.2.3-123");
 	cout << tl.version.get() << endl;
 	getchar();
