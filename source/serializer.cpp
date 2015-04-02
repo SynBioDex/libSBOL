@@ -3,15 +3,18 @@
 #include <iostream>
 #include <vector>
 //#include <typeinfo>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-//#include <libxml2/libxml/parser.h>
+//#include <libxml/parser.h>
+//#include <libxml/tree.h>
 using namespace std;
 using namespace sbol;
 
 int main() 
 {
 	//xmlDocPtr p = xmlNewDoc(BAD_CAST "1.0");
+	//xmlNodePtr root_node = NULL;
+	//root_node = xmlNewNode(NULL, BAD_CAST "root");
+	//xmlDocSetRootElement(p, root_node);
+
 	sbol::ComponentDefinition sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
 	cout << sbol_obj.identity.get() << endl;
 	cout << sbol_obj.timeStamp.get() << endl;

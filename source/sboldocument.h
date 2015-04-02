@@ -1,3 +1,6 @@
+//#include <libxml/parser.h>
+#include <libxml/tree.h>
+
 #include "generictoplevel.h"
 #include "componentdefinition.h"
 
@@ -7,7 +10,7 @@ namespace sbol {
 	class SBOLDocument {
 
 		static const sbol_type type = SBOL_DOCUMENT;
-
+		//xmlDocPtr xml;
 	public:
 
 		SBOLDocument() {};
@@ -23,3 +26,4 @@ namespace sbol {
 
 	};
 }
+

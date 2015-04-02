@@ -69,6 +69,7 @@ ADD_EXECUTABLE(sbol ${SBOL_SOURCE_FILES})
 	SET_TARGET_PROPERTIES(sbol PROPERTIES LINKER_LANGUAGE CXX)
 	TARGET_LINK_LIBRARIES( sbol
 		xml2
+		ws2_32
 	)
 #ELSE()  	# build shared library for release
 #	ADD_LIBRARY( sbol
