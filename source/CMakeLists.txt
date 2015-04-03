@@ -4,6 +4,12 @@
 #	${SBOL_SOURCE_DIR}/constants.h
 #)
 
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        MESSAGE(64)
+    else()
+        MESSAGE(32)
+    endif()
+
 #adjust paths
 SET( SBOL_RELEASE_DIR       ${SBOL_RELEASE_DIR}/library )
 SET( LIBRARY_OUTPUT_PATH    ${SBOL_RELEASE_DIR} )
