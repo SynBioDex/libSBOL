@@ -3,17 +3,26 @@
 #include <iostream>
 #include <vector>
 //#include <typeinfo>
-//#include <libxml/parser.h>
-//#include <libxml/tree.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 using namespace std;
 using namespace sbol;
 
+#define Q(x) #x
+#define QUOTE(x) Q(x)
+
+#pragma message "XMLPUBVAR = " QUOTE(XMLPUBVAR)
+#pragma message "__MINGW32__ = " QUOTE(__MINGW32__)
+#pragma message "_WIN32 = " QUOTE(_WIN32)
+#pragma message "LIBXML_STATIC = " QUOTE(LIBXML_STATIC)
+
 int main() 
 {
-	//xmlDocPtr p = xmlNewDoc(BAD_CAST "1.0");
+	xmlDocPtr p = xmlNewDoc(BAD_CAST "1.0");
 	//xmlNodePtr root_node = NULL;
 	//root_node = xmlNewNode(NULL, BAD_CAST "root");
 	//xmlDocSetRootElement(p, root_node);
+	//cout << root_node->name << endl;
 
 	sbol::ComponentDefinition sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
 	cout << sbol_obj.identity.get() << endl;

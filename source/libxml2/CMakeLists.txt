@@ -74,7 +74,6 @@ if (LIBXML2_CONFIG_COMPILER)
                                 WORKING_DIRECTORY "${LIBXML_SRC_FOLDER}/win32"
                                 ERROR_VARIABLE libxml_configure_output)
                 else(CSCRIPT)
-                        message(STATUS "BLAH")
                         configure_file(${PROJECT_SOURCE_DIR}/config.h
                                 ${LIBXML_SRC_FOLDER}/config.h
                                 COPYONLY)

@@ -1,8 +1,5 @@
 #include "sboldocument.h"
 
-#include <libxml/tree.h>
-
-
 #include <iostream>
 #include <string>
 #include <functional>
