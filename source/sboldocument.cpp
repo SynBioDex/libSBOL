@@ -5,6 +5,7 @@
 #include <functional>
 #include <vector>
 #include <unordered_map>
+#include <raptor2.h>
 
 using namespace sbol;
 using namespace std;
@@ -19,4 +20,11 @@ TopLevel& SBOLDocument::getTopLevel(string uri)
     // @TODO validate if object is TopLevel or else trigget a libSBOL error
 	// @TODO return libSBOL error if URI not found
 	return *(this->SBOLObjects[uri]);
+};
+
+raptor_world* SBOLDocument::getWorld()
+{
+	// @TODO validate if object is TopLevel or else trigget a libSBOL error
+	// @TODO return libSBOL error if URI not found
+	return (this->rdf_graph);
 };

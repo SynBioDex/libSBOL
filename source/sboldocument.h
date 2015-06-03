@@ -2,16 +2,21 @@
 #include "generictoplevel.h"
 #include "componentdefinition.h"
 
+#include <raptor2.h>
 #include <unordered_map>
 
 namespace sbol {
 	class SBOLDocument {
 
 		static const sbol_type type = SBOL_DOCUMENT;
-		//xmlDocPtr xml;
+		raptor_world *rdf_graph;
+
 	public:
 
-		SBOLDocument() {};
+		SBOLDocument() :
+			rdf_graph(raptor_new_world())
+			{
+			};
 		std::unordered_map<std::string, sbol::TopLevel*> SBOLObjects;
 		std::unordered_map<std::string, sbol::TopLevel*> componentDefinitions;
 		std::unordered_map<std::string, sbol::TopLevel*> models;
@@ -20,7 +25,7 @@ namespace sbol {
 		std::unordered_map<std::string, sbol::TopLevel*> nameSpaces;
 
 		TopLevel& getTopLevel(std::string);
-
+		raptor_world* getWorld();
 
 	};
 }
