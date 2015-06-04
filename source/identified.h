@@ -7,14 +7,14 @@
 
 namespace sbol {
 	class Identified {
-		static const sbol_type type = SBOL_IDENTIFIED;
+		sbol_type type;
 
 	public:
 
 		//Identified(std::string uri_prefix, std::string id);
 		Identified(std::string uri_prefix = "http://examples.com", std::string id = "identified_object") :
-			identity(TextProperty(uri_prefix + "/" + id + "/1.0.0")),
-			persistentIdentity(TextProperty(uri_prefix + "/" + id + "/1.0.0")),
+			identity(TextProperty(SBOL_IDENTITY, uri_prefix + "/" + id + "/1.0.0")),
+			persistentIdentity(TextProperty(SBOL_PERSISTENT_IDENTITY, uri_prefix + "/" + id + "/1.0.0")),
 			version(VersionProperty("1.0.0")),
 			timeStamp(TextProperty())
 			{

@@ -18,6 +18,12 @@ void TextProperty::set(string arg)
 	value = arg;
 }
 
+void TextProperty::getType()
+{
+	cout << this->type << endl;
+}
+
+
 vector<string> TextProperty::split(const char c) {
 	// Adapted from C++ cookbook
 	const string& s = this->value;
@@ -84,7 +90,7 @@ void VersionProperty::set(std::string maven_version)
 	}
 
 	// parse major, minor, and incremental version properties
-	TextProperty left_side = TextProperty(version_tokens[0]);
+	TextProperty left_side = TextProperty(UNDEFINED, version_tokens[0]);
 	version_tokens = left_side.split('.');
 	n_tokens = version_tokens.size();
 	if (n_tokens > 3)

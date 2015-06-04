@@ -11,7 +11,7 @@ namespace sbol
 
 	class TopLevel : public Documented
 	{
-		static const sbol_type type = SBOL_TOP_LEVEL;
+		sbol_type type = SBOL_TOP_LEVEL;
 
 	public:
 		TopLevel(std::string uri_prefix, std::string display_id) :

@@ -6,7 +6,7 @@ namespace sbol
 {
 	class GenericTopLevel : public TopLevel
 	{
-		static const sbol_type type = SBOL_GENERIC_TOP_LEVEL;
+		sbol_type type = SBOL_GENERIC_TOP_LEVEL;
 
 	public:
 		GenericTopLevel(std::string uri_prefix, std::string display_id) :

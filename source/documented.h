@@ -9,7 +9,7 @@
 namespace sbol {
 
 	class Documented : public Identified {
-		static const sbol_type type = SBOL_DOCUMENTED;
+		sbol_type type = SBOL_DOCUMENTED;
 
 	public:
 		Documented(std::string uri_prefix, std::string display_id) :

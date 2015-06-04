@@ -8,7 +8,7 @@
 namespace sbol {
 	class SBOLDocument {
 
-		static const sbol_type type = SBOL_DOCUMENT;
+		sbol_type type = SBOL_DOCUMENT;
 		raptor_world *rdf_graph;
 
 	public:

@@ -29,13 +29,17 @@ int main()
 	raptor_namespace_stack *sbol_namespaces;
 	raptor_namespace *sbol_namespace;
 	raptor_statement *triple, *triple2;
+	std::string test;
 
 	/* Start SBOL data model testing */
-
 	sbol::ComponentDefinition sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
+
 	cout << sbol_obj.identity.get() << endl;
 	cout << sbol_obj.timeStamp.get() << endl;
 	cout << sbol_obj.version.get() << endl;
+	sbol_obj.identity.getType();
+	sbol_obj.timeStamp.getType();
+	sbol_obj.version.getType();
 
 	SBOLDocument doc = SBOLDocument();
 	cout << doc.SBOLObjects.size() << endl;

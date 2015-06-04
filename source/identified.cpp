@@ -20,8 +20,8 @@ using namespace sbol;
 
 Identified::Identified(std::string uri_prefix, std::string id, std::string _version) 
 {
-	identity = TextProperty(uri_prefix + "/" + id + "/" + _version);
-	persistentIdentity = TextProperty(identity);
+	identity = TextProperty(SBOL_IDENTITY, uri_prefix + "/" + id + "/" + _version);
+	persistentIdentity = TextProperty(SBOL_PERSISTENT_IDENTITY, uri_prefix + "/" + id + "/" + _version);
 	version = VersionProperty(_version);
 	timeStamp = TextProperty();
 };

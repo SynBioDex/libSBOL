@@ -6,7 +6,7 @@ namespace sbol
 {
 	class ComponentDefinition : public TopLevel
 	{
-		static const sbol_type type = SBOL_COMPONENT_DEFINITION;
+		sbol_type type = SBOL_COMPONENT_DEFINITION;
 
 	public:
 		ComponentDefinition(std::string uri_prefix, std::string display_id) :
