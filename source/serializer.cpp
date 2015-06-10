@@ -37,9 +37,19 @@ int main()
 	cout << sbol_obj.identity.get() << endl;
 	cout << sbol_obj.timeStamp.get() << endl;
 	cout << sbol_obj.version.get() << endl;
-	sbol_obj.identity.getType();
-	sbol_obj.timeStamp.getType();
-	sbol_obj.version.getType();
+	
+	/* Check libSBOL's implementation of internal types */
+	SBOLObject &obj = SBOLObject();
+	Identified &id = Identified();
+	Documented &docum = Documented();
+	cout << obj.getTypeURI() << endl;
+	cout << id.getTypeURI() << endl;
+	cout << docum.getTypeURI() << endl;
+
+	cout << sbol_obj.identity.getTypeURI() << endl;
+	//cout << sbol_obj.timeStamp.getTypeURI() << sbol_obj.timeStamp.getTypeURI() << endl;
+	//cout << sbol_obj.version.getTypeURI() << sbol_obj.version.getTypeURI() << endl;
+
 
 	SBOLDocument doc = SBOLDocument();
 	cout << doc.SBOLObjects.size() << endl;

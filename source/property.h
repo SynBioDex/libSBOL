@@ -21,24 +21,47 @@
 
 namespace sbol 
 {	
-
 	typedef std::string sbol_type;
 
-	class TextProperty 
+	class SBOLObject
 	{
-		sbol_type type;  // The type holds the URI that names the SBOL property and determines how it will appear when serialized
+	private:
+		sbol_type type = UNDEFINED;
+	public:
+		SBOLObject()
+		{
+		}
+		virtual sbol_type getTypeURI();
+	};
+
+	class SBOLProperty
+	{
+	protected:
+		sbol_type type;
+		SBOLObject *sbol_owner;
+	public:
+		SBOLProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+			type(type_uri),
+			sbol_owner((SBOLObject *)property_owner)
+		{
+		}
+		virtual sbol_type getTypeURI();
+	};
+
+	class TextProperty : public SBOLProperty
+	{
 		std::string value;
 	public:
 		//Identified(std::string uri_prefix, std::string id);
-		TextProperty(sbol_type arg1 = UNDEFINED, std::string arg2 = "") :
-			type(arg1),
-			value(arg2)
+		TextProperty(sbol_type type_uri = UNDEFINED, SBOLObject *owner_obj = NULL, std::string val = "") :
+			SBOLProperty(type_uri, owner_obj),
+			value(val)
 			{
 			}
 		std::string get();
 		void set(std::string arg);
 		std::vector<std::string> split(const char c);
-		void getType();
+		sbol_type getTypeURI();
 	};
 
 	class IntProperty 
@@ -67,11 +90,11 @@ namespace sbol
 		TextProperty qualifier;
 
 		VersionProperty() :
-			TextProperty(SBOL_VERSION, "1.0.0"),
+			TextProperty(SBOL_VERSION, NULL, "1.0.0"),
 			major(IntProperty(1)),
 			minor(IntProperty(0)),
 			incremental(IntProperty(0)),
-			qualifier(TextProperty(UNDEFINED, ""))
+			qualifier(TextProperty(UNDEFINED, NULL, ""))
 		{
 		}
 		VersionProperty(std::string version_arg);

@@ -12,9 +12,9 @@ namespace sbol {
 		sbol_type type = SBOL_DOCUMENTED;
 
 	public:
-		Documented(std::string uri_prefix, std::string display_id) :
+		Documented(std::string uri_prefix = "http://examples.com/", std::string display_id = "Documented") :
 			Identified(uri_prefix, display_id),
-			displayID(TextProperty(display_id)),
+			displayID(TextProperty()),
 			name(TextProperty()),
 			description(TextProperty())
 			{
@@ -22,6 +22,8 @@ namespace sbol {
 		TextProperty displayID;
 		TextProperty name;
 		TextProperty description;
+
+		sbol_type getTypeURI();
 	};
 }
 
