@@ -33,6 +33,16 @@ sbol_type TextProperty::getTypeURI()
 	return type;
 }
 
+SBOLObject& SBOLProperty::getOwner()
+{
+	return *sbol_owner;
+}
+
+SBOLObject& TextProperty::getOwner()
+{
+	return *sbol_owner;
+}
+
 vector<string> TextProperty::split(const char c) {
 	// Adapted from C++ cookbook
 	const string& s = this->value;

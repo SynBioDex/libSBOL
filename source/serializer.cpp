@@ -46,7 +46,10 @@ int main()
 	cout << id.getTypeURI() << endl;
 	cout << docum.getTypeURI() << endl;
 
-	cout << sbol_obj.identity.getTypeURI() << endl;
+	cout << id.identity.getTypeURI() << endl;
+	SBOLObject &owner = id.identity.getOwner();
+
+	cout << owner.getTypeURI() << endl;
 	//cout << sbol_obj.timeStamp.getTypeURI() << sbol_obj.timeStamp.getTypeURI() << endl;
 	//cout << sbol_obj.version.getTypeURI() << sbol_obj.version.getTypeURI() << endl;
 

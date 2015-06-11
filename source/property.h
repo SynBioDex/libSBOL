@@ -46,6 +46,7 @@ namespace sbol
 		{
 		}
 		virtual sbol_type getTypeURI();
+		virtual SBOLObject& getOwner();
 	};
 
 	class TextProperty : public SBOLProperty
@@ -62,6 +63,7 @@ namespace sbol
 		void set(std::string arg);
 		std::vector<std::string> split(const char c);
 		sbol_type getTypeURI();
+		SBOLObject& getOwner();
 	};
 
 	class IntProperty 
