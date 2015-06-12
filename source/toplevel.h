@@ -7,8 +7,6 @@
 
 namespace sbol 
 {
-	class SBOLDocument;
-
 	class TopLevel : public Documented
 	{
 		sbol_type type = SBOL_TOP_LEVEL;
@@ -18,7 +16,7 @@ namespace sbol
 			Documented(uri_prefix, display_id)
 			{
 			}
-		void addToDocument(sbol::SBOLDocument&);
+		void addToDocument(sbol::Document&);
 
 	};
 }

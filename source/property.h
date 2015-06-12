@@ -22,11 +22,14 @@
 namespace sbol 
 {	
 	typedef std::string sbol_type;
+	/* All objects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
+	class Document;
 
 	class SBOLObject
 	{
 	private:
 		sbol_type type = UNDEFINED;
+		Document *doc = NULL;
 	public:
 		SBOLObject()
 		{
@@ -47,6 +50,7 @@ namespace sbol
 		}
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
+		//virtual void graph();
 	};
 
 	class TextProperty : public SBOLProperty

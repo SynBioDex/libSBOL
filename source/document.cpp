@@ -1,4 +1,4 @@
-#include "sboldocument.h"
+#include "document.h"
 
 #include <iostream>
 #include <string>
@@ -10,19 +10,19 @@
 using namespace sbol;
 using namespace std;
 
-void TopLevel::addToDocument(SBOLDocument& doc)
+void TopLevel::addToDocument(Document& doc)
 {
 	doc.SBOLObjects[this->identity.get()] = this;
 };
 
-TopLevel& SBOLDocument::getTopLevel(string uri)
+TopLevel& Document::getTopLevel(string uri)
 {
     // @TODO validate if object is TopLevel or else trigget a libSBOL error
 	// @TODO return libSBOL error if URI not found
 	return *(this->SBOLObjects[uri]);
 };
 
-raptor_world* SBOLDocument::getWorld()
+raptor_world* Document::getWorld()
 {
 	// @TODO validate if object is TopLevel or else trigget a libSBOL error
 	// @TODO return libSBOL error if URI not found

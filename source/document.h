@@ -6,14 +6,14 @@
 #include <unordered_map>
 
 namespace sbol {
-	class SBOLDocument {
+	class Document {
 
 		sbol_type type = SBOL_DOCUMENT;
 		raptor_world *rdf_graph;
 
 	public:
 
-		SBOLDocument() :
+		Document() :
 			rdf_graph(raptor_new_world())
 			{
 			};

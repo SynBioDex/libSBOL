@@ -1,1 +1,1 @@
-#include "sboldocument.h"
+#include "document.h"

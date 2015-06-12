@@ -30,14 +30,14 @@ FILE(GLOB SBOL_HEADER_FILES
 	toplevel.h
 	generictoplevel.h
 	componentdefinition.h
-	sboldocument.h)
+	document.h)
 FILE(GLOB SBOL_SOURCE_FILES	
 	sbolerror.cpp
 	property.cpp
 	identified.cpp
 	documented.cpp
 	toplevel.cpp
-	sboldocument.cpp
+	document.cpp
 	serializer.cpp)
 	
 # copy header files to release/library/include for out-of-source build

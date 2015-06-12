@@ -54,7 +54,7 @@ int main()
 	//cout << sbol_obj.version.getTypeURI() << sbol_obj.version.getTypeURI() << endl;
 
 
-	SBOLDocument doc = SBOLDocument();
+	Document doc = Document();
 	cout << doc.SBOLObjects.size() << endl;
 	sbol_obj.addToDocument(doc);
 	cout << doc.SBOLObjects.size() << endl;
