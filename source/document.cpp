@@ -28,3 +28,9 @@ raptor_world* Document::getWorld()
 	// @TODO return libSBOL error if URI not found
 	return (this->rdf_graph);
 };
+
+void Document::write()
+{
+	for (auto it = SBOLObjects.begin(); it != SBOLObjects.end(); ++it)
+		std::cout << " " << it->first << endl;
+};

@@ -55,6 +55,7 @@ int main()
 	//cout << sbol_obj.version.getTypeURI() << sbol_obj.version.getTypeURI() << endl;
 
 	/* Test registration of objects in the SBOL Document */
+	cout << "Test registration of objects in the SBOL Document" << endl;
 	Document doc = Document();
 	cout << doc.SBOLObjects.size() << endl;
 	sbol_obj.addToDocument(doc);
@@ -62,16 +63,23 @@ int main()
 	
 	
 	/* Test template function implementation for 'add' that allows user to add any SBOLObject to a document */
-	doc.add(obj);
+	cout << "Test template function implementation for 'add' that allows user to add any SBOLObject to a document" << endl;
+	//doc.add(obj);
+	id.identity.set("http://examples.com/Identified/0");
 	doc.add(id);
-	doc.add(docum);
 	cout << doc.SBOLObjects.size() << endl;
 
+	/* Test iteration through document registry and export of URIs */
+	doc.write();
+
+	/* Test Maven version properties */
 	// Should catch an error because the object is a ComponentDefinition
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj/1.0.0");
 	cout << tl.version.get() << endl;
 	tl.version.set("1.2.3-123");
 	cout << tl.version.get() << endl;
+
+	/* Exception handling*/
 	int e = SBOLError(1, "Test");
 
 	/* Begin serialization testing */

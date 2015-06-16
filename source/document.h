@@ -27,11 +27,13 @@ namespace sbol {
 		TopLevel& getTopLevel(std::string);
 		raptor_world* getWorld();
 		template <class SBOLClass > void add(SBOLClass sbol_obj);
+		void write();
 	};
 
 	template <class SBOLClass > void Document::add(SBOLClass sbol_obj)
 	{
 		cout << "Adding " << sbol_obj.getTypeURI() << " to Document " << endl;
+		SBOLObjects[sbol_obj.getTypeURI()] = (TopLevel *)&sbol_obj;
 	};
 
 }
