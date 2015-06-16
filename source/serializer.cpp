@@ -46,6 +46,7 @@ int main()
 	cout << id.getTypeURI() << endl;
 	cout << docum.getTypeURI() << endl;
 
+	/* Check that SBOL Properties are associated with their Owner Objects.  This is crucial for constructing RDF triples */
 	cout << id.identity.getTypeURI() << endl;
 	SBOLObject &owner = id.identity.getOwner();
 
@@ -53,12 +54,19 @@ int main()
 	//cout << sbol_obj.timeStamp.getTypeURI() << sbol_obj.timeStamp.getTypeURI() << endl;
 	//cout << sbol_obj.version.getTypeURI() << sbol_obj.version.getTypeURI() << endl;
 
-
+	/* Test registration of objects in the SBOL Document */
 	Document doc = Document();
 	cout << doc.SBOLObjects.size() << endl;
 	sbol_obj.addToDocument(doc);
 	cout << doc.SBOLObjects.size() << endl;
 	
+	
+	/* Test template function implementation for 'add' that allows user to add any SBOLObject to a document */
+	doc.add(obj);
+	doc.add(id);
+	doc.add(docum);
+	cout << doc.SBOLObjects.size() << endl;
+
 	// Should catch an error because the object is a ComponentDefinition
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj/1.0.0");
 	cout << tl.version.get() << endl;
