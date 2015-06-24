@@ -1,21 +1,22 @@
 #ifndef PROPERTY_INCLUDED
 #define PROPERTY_INCLUDED
 
-#define SBOL_NAMESPACE "http://sbolstandard.org"
-#define SBOL_IDENTIFIED "sbol::Identified"
-#define SBOL_DOCUMENTED "sbol::Documented"
-#define SBOL_TOP_LEVEL "sbol::TopLevel"
-#define SBOL_GENERIC_TOP_LEVEL "sbol::GenericTopLevel"
-#define SBOL_COMPONENT_DEFINITION "sbol::ComponentDefinition"
-#define SBOL_DOCUMENT "sbol::Document"
+// The URIs defined here determine the appearance of serialized RDF/XML nodes.  Change these URIs to change the appearance of an SBOL class or property name
+#define SBOL_URI "http://sbolstandard.org/v2#"
+#define SBOL_IDENTIFIED SBOL_URI "Identified"
+#define SBOL_DOCUMENTED SBOL_URI "Documented"
+#define SBOL_TOP_LEVEL SBOL_URI "TopLevel"
+#define SBOL_GENERIC_TOP_LEVEL SBOL_URI "GenericTopLevel"
+#define SBOL_COMPONENT_DEFINITION SBOL_URI "ComponentDefinition"
+#define SBOL_DOCUMENT SBOL_URI "Document"
 
-#define SBOL_IDENTITY "sbol::identity"
-#define SBOL_PERSISTENT_IDENTITY "sbol::persistentIdentity"
-#define SBOL_VERSION "sbol::version"
-#define SBOL_DISPLAY_ID "sbol::displayId"
-#define SBOL_NAME "sbol::name"
-#define SBOL_DESCRIPTION "sbol::description"
-#define UNDEFINED "undefined"
+#define SBOL_IDENTITY SBOL_URI "identity"
+#define SBOL_PERSISTENT_IDENTITY SBOL_URI "persistentIdentity"
+#define SBOL_VERSION SBOL_URI "version"
+#define SBOL_DISPLAY_ID SBOL_URI "displayId"
+#define SBOL_NAME SBOL_URI "name"
+#define SBOL_DESCRIPTION SBOL_URI "description"
+#define UNDEFINED SBOL_URI "undefined"
 
 #include "sbolerror.h"
 
@@ -44,7 +45,6 @@ namespace sbol
 		sbol_type type;
 
 		virtual sbol_type getTypeURI();
-		virtual void test();
 	};
 
 	class SBOLProperty

@@ -1,5 +1,4 @@
 #define RAPTOR_STATIC
-#define SBOL_URI "http://sbolstandard.org/v2#"
 
 #include "sbol.h"
 
@@ -40,7 +39,6 @@ int main()
 	cout << sbol_obj.timeStamp.get() << endl;
 	cout << sbol_obj.version.get() << endl;
 	cout << sbol_obj.getTypeURI() << endl;
-	sbol_obj.test();
 
 	/* Check libSBOL's implementation of internal types */
 	SBOLObject &obj = SBOLObject();
@@ -59,26 +57,23 @@ int main()
 	//cout << sbol_obj.version.getTypeURI() << sbol_obj.version.getTypeURI() << endl;
 
 	/* Test registration of objects in the SBOL Document */
+	/* There are two alternative methods for adding objects to the doc */
 	cout << "Test registration of objects in the SBOL Document" << endl;
 	Document doc = Document();
-	cout << doc.SBOLObjects.size() << endl;
-	//sbol_obj.addToDocument(doc);
-	doc.add<ComponentDefinition>(sbol_obj);
-	cout << doc.SBOLObjects.size() << endl;
-	
-	//ComponentDefinition *sbol_obj_ptr = (ComponentDefinition *)doc.SBOLObjects[sbol_obj.identity.get()];
-	//cout << sbol_obj_ptr->type << endl;
-	cout << sbol_obj.identity.get() << endl;
-	TopLevel *sbol_obj_ptr2 = doc.SBOLObjects[sbol_obj.identity.get()]; 
-	cout << sbol_obj_ptr2 << endl;
-	cout << &sbol_obj << endl;
-	getchar();
-	
+	cout << "Objects in doc: " << doc.SBOLObjects.size() << endl;
+	sbol_obj.addToDocument(doc);
+	cout << "Objects in doc: " << doc.SBOLObjects.size() << endl;
+	cout << "Registered object at address " << &sbol_obj << endl;
+
 	/* Test template function implementation for 'add' that allows user to add any SBOLObject to a document */
-	//cout << "Test template function implementation for 'add' that allows user to add any SBOLObject to a document" << endl;
-	//id.identity.set("http://examples.com/Identified/0");
-	//doc.add(id);
-	//cout << doc.SBOLObjects.size() << endl;
+	cout << "Test template function implementation for 'add' that allows user to add any SBOLObject to a document" << endl;
+	id.identity.set("http://examples.com/Identified/0");
+	doc.add<Identified>(id);
+	cout << "Objects in doc: " << doc.SBOLObjects.size() << endl;
+
+	/* Test retrieval of objects from the doc */
+	ComponentDefinition *cd = (ComponentDefinition *)doc.SBOLObjects[sbol_obj.identity.get()];
+	cout << "Retrieved object at address " << cd << endl;
 
 	/* Test iteration through document registry and export of URIs */
 	doc.write();
