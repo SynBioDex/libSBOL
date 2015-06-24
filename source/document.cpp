@@ -31,6 +31,14 @@ raptor_world* Document::getWorld()
 
 void Document::write()
 {
-	for (auto it = SBOLObjects.begin(); it != SBOLObjects.end(); ++it)
-		std::cout << " " << it->first << endl;
+	TopLevel *tl;
+	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+	{
+		std::cout << obj_i->first << endl;
+		tl = (obj_i->second);
+		//tl->test();
+	}
+	tl->test();
+	tl->getTypeURI();
+
 };

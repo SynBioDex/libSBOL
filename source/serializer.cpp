@@ -33,11 +33,15 @@ int main()
 
 	/* Start SBOL data model testing */
 	sbol::ComponentDefinition sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
+	//sbol::ComponentDefinition sbol_obj = ComponentDefinition();
+
 
 	cout << sbol_obj.identity.get() << endl;
 	cout << sbol_obj.timeStamp.get() << endl;
 	cout << sbol_obj.version.get() << endl;
-	
+	cout << sbol_obj.getTypeURI() << endl;
+	sbol_obj.test();
+
 	/* Check libSBOL's implementation of internal types */
 	SBOLObject &obj = SBOLObject();
 	Identified &id = Identified();
@@ -64,7 +68,6 @@ int main()
 	
 	/* Test template function implementation for 'add' that allows user to add any SBOLObject to a document */
 	cout << "Test template function implementation for 'add' that allows user to add any SBOLObject to a document" << endl;
-	//doc.add(obj);
 	id.identity.set("http://examples.com/Identified/0");
 	doc.add(id);
 	cout << doc.SBOLObjects.size() << endl;
@@ -75,6 +78,7 @@ int main()
 	/* Test Maven version properties */
 	// Should catch an error because the object is a ComponentDefinition
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj/1.0.0");
+	cout << tl.getTypeURI() << endl;
 	cout << tl.version.get() << endl;
 	tl.version.set("1.2.3-123");
 	cout << tl.version.get() << endl;

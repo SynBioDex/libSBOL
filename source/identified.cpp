@@ -18,9 +18,15 @@ using namespace sbol;
 //	persistentIdentity.set(identity.get());
 //}
 
+//Identified::Identified(std::string uri_prefix, std::string id)
+//{
+//	identity.set(uri_prefix + "/" + id + "/1.0.0");
+//	persistentIdentity.set(uri_prefix + "/" + id + "/1.0.0");
+//};
+
 Identified::Identified(std::string uri_prefix, std::string id, std::string _version) 
 {
-	identity = TextProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id + "/" + _version);
+	identity = TextProperty(SBOL_IDENTITY, this, "");
 	persistentIdentity = TextProperty(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id + "/" + _version);
 	version = VersionProperty(_version);
 	timeStamp = TextProperty();
@@ -60,7 +66,7 @@ std::string Identified::getTimeStamp()
 	return timeStamp.get();
 };
 
-sbol_type Identified::getTypeURI()
-{
-	return type;
-}
+//sbol_type Identified::getTypeURI()
+//{
+//	return type;
+//}

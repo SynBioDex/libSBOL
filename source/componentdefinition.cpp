@@ -1,9 +1,9 @@
-#include "toplevel.h"
+#include "componentdefinition.h"
 
-using namespace sbol;
 using namespace std;
+using namespace sbol;
 
-TopLevel::TopLevel(std::string uri_prefix, std::string display_id)
+ComponentDefinition::ComponentDefinition(std::string uri_prefix, std::string display_id)
 {
 	identity.set(uri_prefix + "/" + display_id + "/1.0.0");
 	persistentIdentity.set(uri_prefix + "/" + display_id + "/1.0.0");

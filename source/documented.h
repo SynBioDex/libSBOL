@@ -9,21 +9,21 @@
 namespace sbol {
 
 	class Documented : public Identified {
-		sbol_type type = SBOL_DOCUMENTED;
 
 	public:
-		Documented(std::string uri_prefix = "http://examples.com/", std::string display_id = "Documented") :
-			Identified(uri_prefix, display_id),
+		Documented(sbol_type type = SBOL_DOCUMENTED) :
+			Identified(type),
 			displayID(TextProperty()),
 			name(TextProperty()),
 			description(TextProperty())
 			{
 			}
+		Documented(std::string, std::string);
 		TextProperty displayID;
 		TextProperty name;
 		TextProperty description;
 
-		sbol_type getTypeURI();
+		//sbol_type getTypeURI();
 	};
 }
 

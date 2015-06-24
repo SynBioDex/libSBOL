@@ -23,6 +23,11 @@ sbol_type SBOLObject::getTypeURI()
 	return type;
 }
 
+void SBOLObject::test()
+{
+	cout << "test" << endl;
+}
+
 sbol_type SBOLProperty::getTypeURI()
 {
 	return type;

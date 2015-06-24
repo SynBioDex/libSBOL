@@ -37,6 +37,7 @@ FILE(GLOB SBOL_SOURCE_FILES
 	identified.cpp
 	documented.cpp
 	toplevel.cpp
+	componentdefinition.cpp
 	document.cpp
 	serializer.cpp)
 	

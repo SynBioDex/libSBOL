@@ -7,10 +7,8 @@
 
 namespace sbol {
 	class Document {
-
-		sbol_type type = SBOL_DOCUMENT;
+	private:
 		raptor_world *rdf_graph;
-
 	public:
 
 		Document() :
@@ -33,7 +31,7 @@ namespace sbol {
 	template <class SBOLClass > void Document::add(SBOLClass sbol_obj)
 	{
 		cout << "Adding " << sbol_obj.getTypeURI() << " to Document " << endl;
-		SBOLObjects[sbol_obj.getTypeURI()] = (TopLevel *)&sbol_obj;
+		SBOLObjects[sbol_obj.identity.get()] = (TopLevel *)&sbol_obj;
 	};
 
 }

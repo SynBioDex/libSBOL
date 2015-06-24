@@ -28,13 +28,19 @@ namespace sbol
 	class SBOLObject
 	{
 	private:
-		sbol_type type = UNDEFINED;
 		Document *doc = NULL;
+	//protected:
+	//	sbol_type type;
+
 	public:
-		SBOLObject()
-		{
-		}
+		SBOLObject(sbol_type type = UNDEFINED) :
+			type(type)
+			{
+			}
+		sbol_type type;
+
 		virtual sbol_type getTypeURI();
+		virtual void test();
 	};
 
 	class SBOLProperty
