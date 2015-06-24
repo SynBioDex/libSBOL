@@ -24,13 +24,13 @@ using namespace sbol;
 //	persistentIdentity.set(uri_prefix + "/" + id + "/1.0.0");
 //};
 
-Identified::Identified(std::string uri_prefix, std::string id, std::string _version) 
-{
-	identity = TextProperty(SBOL_IDENTITY, this, "");
-	persistentIdentity = TextProperty(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id + "/" + _version);
-	version = VersionProperty(_version);
-	timeStamp = TextProperty();
-};
+//Identified::Identified(std::string uri_prefix, std::string id, std::string _version) 
+//{
+//	identity = TextProperty(SBOL_IDENTITY, this, "");
+//	persistentIdentity = TextProperty(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id + "/" + _version);
+//	version = VersionProperty(_version);
+//	timeStamp = TextProperty();
+//};
 
 void Identified::setIdentity(std::string uri_prefix, std::string id) 
 {

@@ -10,16 +10,19 @@ namespace sbol {
 	public:
 
 		//Identified(std::string uri_prefix, std::string id);
-		Identified(sbol_type type = SBOL_IDENTIFIED) :
+		Identified(std::string uri_prefix = SBOL_NAMESPACE "/Identified", std::string id = "example") : Identified(SBOL_IDENTIFIED, uri_prefix, id)
+			{
+			}
+		Identified(sbol_type type, std::string uri_prefix, std::string id) :
 			SBOLObject(type),
-			identity(TextProperty(SBOL_IDENTITY, this, "")),
-			persistentIdentity(TextProperty(SBOL_PERSISTENT_IDENTITY, this, "")),
+			identity(TextProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id + "/1.0.0")),
+			persistentIdentity(TextProperty(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id + "/1.0.0")),
 			version(VersionProperty("1.0.0")),
 			timeStamp(TextProperty())
 			{
 			}
-		Identified(std::string, std::string);
-		Identified(std::string, std::string, std::string);
+
+		//Identified(std::string, std::string id, std::string);
 		//sbol::TextProperty sbolString;
 
 		//Identified(std::string uri_prefix, std::string id);

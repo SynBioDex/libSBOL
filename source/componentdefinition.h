@@ -7,10 +7,12 @@ namespace sbol
 	class ComponentDefinition : public TopLevel
 	{
 	public:
-		ComponentDefinition(sbol_type type = SBOL_COMPONENT_DEFINITION) :
-			TopLevel(type)
+		ComponentDefinition(sbol_type type, std::string uri_prefix, std::string display_id, std::string name, std::string description) :
+			TopLevel(type, uri_prefix, display_id, name, description)
 			{
 			}
-		ComponentDefinition(std::string, std::string);
+		ComponentDefinition(std::string uri_prefix = SBOL_NAMESPACE "/ComponentDefinition", std::string display_id = "") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, "", "")
+			{
+			}
 	};
 }

@@ -1,6 +1,7 @@
 #ifndef PROPERTY_INCLUDED
 #define PROPERTY_INCLUDED
 
+#define SBOL_NAMESPACE "http://sbolstandard.org"
 #define SBOL_IDENTIFIED "sbol::Identified"
 #define SBOL_DOCUMENTED "sbol::Documented"
 #define SBOL_TOP_LEVEL "sbol::TopLevel"
@@ -11,6 +12,9 @@
 #define SBOL_IDENTITY "sbol::identity"
 #define SBOL_PERSISTENT_IDENTITY "sbol::persistentIdentity"
 #define SBOL_VERSION "sbol::version"
+#define SBOL_DISPLAY_ID "sbol::displayId"
+#define SBOL_NAME "sbol::name"
+#define SBOL_DESCRIPTION "sbol::description"
 #define UNDEFINED "undefined"
 
 #include "sbolerror.h"

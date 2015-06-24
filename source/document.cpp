@@ -34,9 +34,9 @@ void Document::write()
 	TopLevel *tl;
 	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
 	{
-		std::cout << obj_i->first << endl;
+		std::cout << obj_i->first << obj_i->second->type << endl;
 		tl = (obj_i->second);
-		//tl->test();
+		tl->getTypeURI();
 	}
 	tl->test();
 	tl->getTypeURI();

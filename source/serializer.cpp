@@ -62,15 +62,23 @@ int main()
 	cout << "Test registration of objects in the SBOL Document" << endl;
 	Document doc = Document();
 	cout << doc.SBOLObjects.size() << endl;
-	sbol_obj.addToDocument(doc);
+	//sbol_obj.addToDocument(doc);
+	doc.add<ComponentDefinition>(sbol_obj);
 	cout << doc.SBOLObjects.size() << endl;
 	
+	//ComponentDefinition *sbol_obj_ptr = (ComponentDefinition *)doc.SBOLObjects[sbol_obj.identity.get()];
+	//cout << sbol_obj_ptr->type << endl;
+	cout << sbol_obj.identity.get() << endl;
+	TopLevel *sbol_obj_ptr2 = doc.SBOLObjects[sbol_obj.identity.get()]; 
+	cout << sbol_obj_ptr2 << endl;
+	cout << &sbol_obj << endl;
+	getchar();
 	
 	/* Test template function implementation for 'add' that allows user to add any SBOLObject to a document */
-	cout << "Test template function implementation for 'add' that allows user to add any SBOLObject to a document" << endl;
-	id.identity.set("http://examples.com/Identified/0");
-	doc.add(id);
-	cout << doc.SBOLObjects.size() << endl;
+	//cout << "Test template function implementation for 'add' that allows user to add any SBOLObject to a document" << endl;
+	//id.identity.set("http://examples.com/Identified/0");
+	//doc.add(id);
+	//cout << doc.SBOLObjects.size() << endl;
 
 	/* Test iteration through document registry and export of URIs */
 	doc.write();
