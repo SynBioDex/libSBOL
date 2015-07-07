@@ -47,76 +47,115 @@ namespace sbol
 		virtual sbol_type getTypeURI();
 	};
 
+	template <typename LiteralType>
 	class SBOLProperty
 	{
 	protected:
 		sbol_type type;
-		SBOLObject *sbol_owner;
+		SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
+		LiteralType value;
+
 	public:
-		SBOLProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+		SBOLProperty() :
+			type(UNDEFINED),
+			sbol_owner(NULL),
+			value()
+		{
+		}
+
+		SBOLProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
 			type(type_uri),
-			sbol_owner((SBOLObject *)property_owner)
+			sbol_owner((SBOLObject *)property_owner),
+			value(initial_value)
 		{
 		}
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
+		LiteralType get();
+		void set(LiteralType new_value);
+
 		//virtual void graph();
+
 	};
 
-	class TextProperty : public SBOLProperty
+	template <typename LiteralType>
+	sbol_type SBOLProperty<LiteralType>::getTypeURI()
 	{
-		std::string value;
-	public:
-		//Identified(std::string uri_prefix, std::string id);
-		TextProperty(sbol_type type_uri = UNDEFINED, SBOLObject *owner_obj = NULL, std::string val = "") :
-			SBOLProperty(type_uri, owner_obj),
-			value(val)
-			{
-			}
-		std::string get();
-		void set(std::string arg);
-		std::vector<std::string> split(const char c);
-		sbol_type getTypeURI();
-		SBOLObject& getOwner();
+		return type;
 	};
 
-	class IntProperty 
+	template <typename LiteralType>
+	LiteralType SBOLProperty<LiteralType>::get()
 	{
-		sbol_type type;
-		int value;
-	public:
-		//Identified(std::string uri_prefix, std::string id);
-		IntProperty(int arg = 0) :
-			type(),
-			value(arg)
-			{
-			}
-		int get();
-		void set(int arg);
+		return value;
 	};
 
-	class VersionProperty : public TextProperty
-	// based on Maven version strings
+	template <typename LiteralType>
+	void SBOLProperty<LiteralType>::set(LiteralType new_value)
 	{
-		void update();
-	public:
-		IntProperty major;
-		IntProperty minor;
-		IntProperty incremental;
-		TextProperty qualifier;
-
-		VersionProperty() :
-			TextProperty(SBOL_VERSION, NULL, "1.0.0"),
-			major(IntProperty(1)),
-			minor(IntProperty(0)),
-			incremental(IntProperty(0)),
-			qualifier(TextProperty(UNDEFINED, NULL, ""))
-		{
-		}
-		VersionProperty(std::string version_arg);
-		void set(std::string maven_version);
-
+		value = new_value;
 	};
+
+	template <typename LiteralType>
+	SBOLObject& SBOLProperty<LiteralType>::getOwner()
+	{
+		return *sbol_owner;
+	}
+
+	//class TextProperty : public SBOLProperty
+	//{
+	//	std::string value;
+	//public:
+	//	//Identified(std::string uri_prefix, std::string id);
+	//	TextProperty(sbol_type type_uri = UNDEFINED, SBOLObject *owner_obj = NULL, std::string val = "") :
+	//		SBOLProperty(type_uri, owner_obj),
+	//		value(val)
+	//		{
+	//		}
+	//	std::string get();
+	//	void set(std::string arg);
+	//	std::vector<std::string> split(const char c);
+	//	sbol_type getTypeURI();
+	//	SBOLObject& getOwner();
+	//};
+
+	//class IntProperty 
+	//{
+	//	sbol_type type;
+	//	int value;
+	//public:
+	//	//Identified(std::string uri_prefix, std::string id);
+	//	IntProperty(int arg = 0) :
+	//		type(),
+	//		value(arg)
+	//		{
+	//		}
+	//	int get();
+	//	void set(int arg);
+	//};
+
+	//class VersionProperty : public TextProperty
+	//// based on Maven version strings
+	//{
+	//	void update();
+	//public:
+	//	IntProperty major;
+	//	IntProperty minor;
+	//	IntProperty incremental;
+	//	TextProperty qualifier;
+
+	//	VersionProperty() :
+	//		TextProperty(SBOL_VERSION, NULL, "1.0.0"),
+	//		major(IntProperty(1)),
+	//		minor(IntProperty(0)),
+	//		incremental(IntProperty(0)),
+	//		qualifier(TextProperty(UNDEFINED, NULL, ""))
+	//	{
+	//	}
+	//	VersionProperty(std::string version_arg);
+	//	void set(std::string maven_version);
+
+	//};
 
 }
 

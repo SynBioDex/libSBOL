@@ -45,7 +45,7 @@ void Identified::stampTime()
 
 	time(&timer);
 	time_info = localtime(&timer);
-	timeStamp.set(string(asctime(time_info)));
+	//timeStamp.set(string(asctime(time_info)));
 }
 
 Identified Identified::clone() 
@@ -61,10 +61,10 @@ std::string Identified::getIdentity() {
 	return identity.get();
 }
 
-std::string Identified::getTimeStamp()
-{
-	return timeStamp.get();
-};
+//std::string Identified::getTimeStamp()
+//{
+//	return timeStamp.get();
+//};
 
 //sbol_type Identified::getTypeURI()
 //{

@@ -16,15 +16,15 @@ namespace sbol {
 			}
 		Documented(sbol_type type, std::string uri_prefix, std::string display_id, std::string name, std::string description) :
 			Identified(type, uri_prefix, display_id),
-			displayID(TextProperty(SBOL_DISPLAY_ID, this, display_id)),
-			name(TextProperty(SBOL_NAME, this, name)),
-			description(TextProperty(SBOL_DESCRIPTION, this, name))
+			displayID(SBOLProperty<std::string>(display_id, SBOL_DISPLAY_ID, this)),
+			name(SBOLProperty<std::string>(name, SBOL_NAME, this)),
+			description(SBOLProperty<std::string>(name, SBOL_DESCRIPTION, this))
 			{
 			}
 
-		TextProperty displayID;
-		TextProperty name;
-		TextProperty description;
+		SBOLProperty<std::string> displayID;
+		SBOLProperty<std::string> name;
+		SBOLProperty<std::string> description;
 
 		//sbol_type getTypeURI();
 	};

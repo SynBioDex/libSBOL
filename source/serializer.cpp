@@ -31,12 +31,13 @@ int main()
 	std::string test;
 
 	/* Start SBOL data model testing */
+	cout << "Begin testing\n";
 	sbol::ComponentDefinition sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
 	//sbol::ComponentDefinition sbol_obj = ComponentDefinition();
 
-
+	cout << "Testing getters\n";
 	cout << sbol_obj.identity.get() << endl;
-	cout << sbol_obj.timeStamp.get() << endl;
+	//cout << sbol_obj.timeStamp.get() << endl;
 	cout << sbol_obj.version.get() << endl;
 	cout << sbol_obj.getTypeURI() << endl;
 
@@ -76,10 +77,12 @@ int main()
 	cout << "Retrieved object at address " << cd << endl;
 
 	/* Test iteration through document registry and export of URIs */
+	cout << "Testing iteration through document registry and export of URIs" << endl;
 	doc.write();
 
 	/* Test Maven version properties */
 	// Should catch an error because the object is a ComponentDefinition
+	cout << "Testing version properties" << endl;
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj/1.0.0");
 	cout << tl.getTypeURI() << endl;
 	cout << tl.version.get() << endl;

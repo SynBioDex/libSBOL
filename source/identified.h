@@ -15,22 +15,18 @@ namespace sbol {
 			}
 		Identified(sbol_type type, std::string uri_prefix, std::string id) :
 			SBOLObject(type),
-			identity(TextProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id + "/1.0.0")),
-			persistentIdentity(TextProperty(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id + "/1.0.0")),
-			version(VersionProperty("1.0.0")),
-			timeStamp(TextProperty())
+			identity(SBOLProperty<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this)),
+			persistentIdentity(SBOLProperty<std::string>(uri_prefix + "/" + id, SBOL_PERSISTENT_IDENTITY, this))
+			//version(SBOLProperty("1.0.0"))			
 			{
 			}
 
 		//Identified(std::string, std::string id, std::string);
-		//sbol::TextProperty sbolString;
-
 		//Identified(std::string uri_prefix, std::string id);
 
-		TextProperty identity;
-		TextProperty persistentIdentity;
-		VersionProperty version;
-		TextProperty timeStamp;
+		SBOLProperty<std::string> identity;
+		SBOLProperty<std::string> persistentIdentity;
+		SBOLProperty<std::string> version;
 
 		//sbol_type getTypeURI();
 		std::string getTimeStamp();
