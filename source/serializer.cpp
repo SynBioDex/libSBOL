@@ -83,7 +83,7 @@ int main()
 	/* Test Maven version properties */
 	// Should catch an error because the object is a ComponentDefinition
 	cout << "Testing version properties" << endl;
-	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj/1.0.0");
+	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj");
 	cout << tl.getTypeURI() << endl;
 	cout << tl.version.get() << endl;
 	tl.version.set("1.2.3-123");

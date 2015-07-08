@@ -134,28 +134,27 @@ namespace sbol
 	//	void set(int arg);
 	//};
 
-	//class VersionProperty : public TextProperty
-	//// based on Maven version strings
-	//{
-	//	void update();
-	//public:
-	//	IntProperty major;
-	//	IntProperty minor;
-	//	IntProperty incremental;
-	//	TextProperty qualifier;
+	class VersionProperty : public SBOLProperty<std::string>
+	// based on Maven version strings
+	{
+		void update();
+	public:
+		SBOLProperty<int> major;
+		SBOLProperty<int> minor;
+		SBOLProperty<int> incremental;
+		SBOLProperty<std::string> qualifier;
 
-	//	VersionProperty() :
-	//		TextProperty(SBOL_VERSION, NULL, "1.0.0"),
-	//		major(IntProperty(1)),
-	//		minor(IntProperty(0)),
-	//		incremental(IntProperty(0)),
-	//		qualifier(TextProperty(UNDEFINED, NULL, ""))
-	//	{
-	//	}
-	//	VersionProperty(std::string version_arg);
-	//	void set(std::string maven_version);
-
-	//};
+		VersionProperty() :
+			SBOLProperty<std::string>("1.0.0", SBOL_VERSION, NULL),
+			major(SBOLProperty<int>(1)),
+			minor(SBOLProperty<int>(0)),
+			incremental(SBOLProperty<int>(0)),
+			qualifier(SBOLProperty<std::string>("", UNDEFINED, NULL))
+		{
+		}
+		VersionProperty(std::string version_arg);
+		void set(std::string maven_version);
+	};
 
 }
 

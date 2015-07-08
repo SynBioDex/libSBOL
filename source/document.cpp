@@ -34,7 +34,7 @@ void Document::write()
 	TopLevel *tl;
 	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
 	{
-		std::cout << obj_i->first << obj_i->second->type << endl;
+		std::cout << obj_i->first << "\t" << obj_i->second->type << endl;
 	}
 
 };

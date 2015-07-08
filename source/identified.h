@@ -16,8 +16,8 @@ namespace sbol {
 		Identified(sbol_type type, std::string uri_prefix, std::string id) :
 			SBOLObject(type),
 			identity(SBOLProperty<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this)),
-			persistentIdentity(SBOLProperty<std::string>(uri_prefix + "/" + id, SBOL_PERSISTENT_IDENTITY, this))
-			//version(SBOLProperty("1.0.0"))			
+			persistentIdentity(SBOLProperty<std::string>(uri_prefix + "/" + id, SBOL_PERSISTENT_IDENTITY, this)),
+			version(VersionProperty("1.0.0"))			
 			{
 			}
 

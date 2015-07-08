@@ -88,8 +88,21 @@ sbol_type SBOLObject::getTypeURI()
 //	cout << this->incremental.get() << endl;
 //}
 //
-//void VersionProperty::set(std::string maven_version)
-//{
+
+VersionProperty::VersionProperty(std::string version_arg)
+{
+	value = version_arg;
+	//vector<string> v = value.split('-');  // split method is not defined
+	//cout << v.size() << endl;
+	major.set(1);
+	minor.set(0);
+	incremental.set(0);
+	qualifier.set("");
+}
+
+void VersionProperty::set(std::string maven_version)
+{
+}
 //	TextProperty *base = this;
 //	string old_value = base->get();
 //	base->set(maven_version);

@@ -28,7 +28,7 @@ namespace sbol {
 		void write();
 	};
 
-	// Coding pitfall:  It's important that the SBOL object represented by sbol_obj is passed by reference not by value!
+	// Pitfall:  It's important that the SBOL object represented by sbol_obj is passed by reference not by value!
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
 	{
 		SBOLObjects[sbol_obj.identity.get()] = (TopLevel*)&sbol_obj;
