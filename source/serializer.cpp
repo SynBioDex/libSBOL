@@ -32,28 +32,37 @@ int main()
 
 	/* Start SBOL data model testing */
 	cout << "Begin testing\n";
-	sbol::ComponentDefinition sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
-	//sbol::ComponentDefinition sbol_obj = ComponentDefinition();
-
+	ComponentDefinition &sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
+	
+	/* Test SBOLProperty accessors */
 	cout << "Testing getters\n";
 	cout << sbol_obj.identity.get() << endl;
-	//cout << sbol_obj.timeStamp.get() << endl;
 	cout << sbol_obj.version.get() << endl;
-	cout << sbol_obj.getTypeURI() << endl;
+	cout << sbol_obj.getTypeURI() << endl << endl;
 
-	/* Check libSBOL's implementation of internal types */
+	/* Test constructor chain */
 	SBOLObject &obj = SBOLObject();
 	Identified &id = Identified();
 	Documented &docum = Documented();
-	cout << obj.getTypeURI() << endl;
+	TopLevel &top = TopLevel();
+	ComponentDefinition &cdef = ComponentDefinition();
+
+	/* Check libSBOL's implementation of internal types */
+	cout << obj.getTypeURI() << endl;  // URI should match the one produced in the next line of code
+	cout << obj.identity.getOwner().getTypeURI() << endl;
 	cout << id.getTypeURI() << endl;
+	cout << id.identity.getOwner().getTypeURI() << endl;
 	cout << docum.getTypeURI() << endl;
+	cout << docum.identity.getOwner().getTypeURI() << endl;
+	cout << top.getTypeURI() << endl;
+	cout << top.identity.getOwner().getTypeURI() << endl;
+	cout << cdef.getTypeURI() << endl;
+	cout << cdef.identity.getOwner().getTypeURI() << endl;
 
 	/* Check that SBOL Properties are associated with their Owner Objects.  This is crucial for constructing RDF triples */
-	cout << id.identity.getTypeURI() << endl;
+	cout << "Check that the SBOL Properties are associated with their Owner Objects through a valid back-pointer." << endl;
 	SBOLObject &owner = id.identity.getOwner();
-
-	cout << owner.getTypeURI() << endl;
+	cout << owner.getTypeURI() << " is owner of " << id.identity.getTypeURI() << endl;
 	//cout << sbol_obj.timeStamp.getTypeURI() << sbol_obj.timeStamp.getTypeURI() << endl;
 	//cout << sbol_obj.version.getTypeURI() << sbol_obj.version.getTypeURI() << endl;
 
@@ -76,7 +85,7 @@ int main()
 	ComponentDefinition *cd = (ComponentDefinition *)doc.SBOLObjects[sbol_obj.identity.get()];
 	cout << "Retrieved object at address " << cd << endl;
 
-	/* Test iteration through document registry and export of URIs */
+	/* Test iteration through document registry and export of all SBOLObjects as URIs */
 	cout << "Testing iteration through document registry and export of URIs" << endl;
 	doc.write();
 
@@ -84,6 +93,7 @@ int main()
 	// Should catch an error because the object is a ComponentDefinition
 	cout << "Testing version properties" << endl;
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj");
+	cout << tl.identity.get() << endl;
 	cout << tl.getTypeURI() << endl;
 	cout << tl.version.get() << endl;
 	tl.version.set("1.2.3-123");
@@ -91,6 +101,12 @@ int main()
 
 	/* Exception handling*/
 	int e = SBOLError(1, "Test");
+
+	/* Test construction of triples */
+	tl.identity.write();
+	obj.identity.write();
+	id.identity.write();
+	docum.identity.write();
 
 	/* Begin serialization testing */
 	raptor_world* world = doc.getWorld();
@@ -113,7 +129,6 @@ int main()
 	triple = raptor_new_statement(world);
 	triple->subject = parent_serialization_object;
 	triple->predicate = raptor_new_term_from_uri(world, raptor_new_uri(world, (const unsigned char *)"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
-	//	triple->predicate = raptor_new_term_from_uri(world, sbol_obj.identity.get());
 	triple->object = raptor_new_term_from_uri_string(world, (const unsigned char *)SBOL_URI "Sequence");
 
 	nucleotides_property = raptor_new_term_from_uri_string(world, (const unsigned char *)SBOL_URI "nucleotides");
@@ -145,6 +160,6 @@ int main()
 	//raptor_free_memory(uri_string);
 	//raptor_free_world(world);
 
-	getchar();
+	//getchar();
 	return 0;
 }

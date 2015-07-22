@@ -11,7 +11,7 @@ namespace sbol {
 	class Documented : public Identified {
 
 	public:
-		Documented(std::string uri_prefix = "http://sbolstandard.org/documented", std::string display_id = "example") : Documented(SBOL_DOCUMENTED, uri_prefix, display_id, "", "")
+		Documented(std::string uri_prefix = SBOL_URI "/Documented", std::string display_id = "example") : Documented(SBOL_DOCUMENTED, uri_prefix, display_id, "", "")
 			{
 			}
 		Documented(sbol_type type, std::string uri_prefix, std::string display_id, std::string name, std::string description) :

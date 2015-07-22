@@ -11,7 +11,7 @@ namespace sbol
 			TopLevel(type, uri_prefix, display_id, name, description)
 			{
 			}
-		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition", std::string display_id = "") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, "", "")
+		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition", std::string display_id = "example") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, "", "")
 			{
 			}
 	};

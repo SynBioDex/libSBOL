@@ -2,21 +2,21 @@
 #define PROPERTY_INCLUDED
 
 // The URIs defined here determine the appearance of serialized RDF/XML nodes.  Change these URIs to change the appearance of an SBOL class or property name
-#define SBOL_URI "http://sbolstandard.org/v2#"
-#define SBOL_IDENTIFIED SBOL_URI "Identified"
-#define SBOL_DOCUMENTED SBOL_URI "Documented"
-#define SBOL_TOP_LEVEL SBOL_URI "TopLevel"
-#define SBOL_GENERIC_TOP_LEVEL SBOL_URI "GenericTopLevel"
-#define SBOL_COMPONENT_DEFINITION SBOL_URI "ComponentDefinition"
-#define SBOL_DOCUMENT SBOL_URI "Document"
+#define SBOL_URI "http://sbolstandard.org/v2"
+#define SBOL_IDENTIFIED SBOL_URI "#Identified"
+#define SBOL_DOCUMENTED SBOL_URI "#Documented"
+#define SBOL_TOP_LEVEL SBOL_URI "#TopLevel"
+#define SBOL_GENERIC_TOP_LEVEL SBOL_URI "#GenericTopLevel"
+#define SBOL_COMPONENT_DEFINITION SBOL_URI "#ComponentDefinition"
+#define SBOL_DOCUMENT SBOL_URI "#Document"
 
-#define SBOL_IDENTITY SBOL_URI "identity"
-#define SBOL_PERSISTENT_IDENTITY SBOL_URI "persistentIdentity"
-#define SBOL_VERSION SBOL_URI "version"
-#define SBOL_DISPLAY_ID SBOL_URI "displayId"
-#define SBOL_NAME SBOL_URI "name"
-#define SBOL_DESCRIPTION SBOL_URI "description"
-#define UNDEFINED SBOL_URI "undefined"
+#define SBOL_IDENTITY SBOL_URI "#identity"
+#define SBOL_PERSISTENT_IDENTITY SBOL_URI "#persistentIdentity"
+#define SBOL_VERSION SBOL_URI "#version"
+#define SBOL_DISPLAY_ID SBOL_URI "#displayId"
+#define SBOL_NAME SBOL_URI "#name"
+#define SBOL_DESCRIPTION SBOL_URI "#description"
+#define UNDEFINED SBOL_URI "#Undefined"
 
 #include "sbolerror.h"
 
@@ -26,26 +26,11 @@
 
 namespace sbol 
 {	
+	/* Contains URI strings used for constructing RDF triples */
 	typedef std::string sbol_type;
-	/* All objects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
-	class Document;
 
-	class SBOLObject
-	{
-	private:
-		Document *doc = NULL;
-	//protected:
-	//	sbol_type type;
-
-	public:
-		SBOLObject(sbol_type type = UNDEFINED) :
-			type(type)
-			{
-			}
-		sbol_type type;
-
-		virtual sbol_type getTypeURI();
-	};
+	/* All SBOLProperties have a pointer back to the owning object (whose URI is the subject of an RDF triple).  This requires forward declaration of the SBOLObject class */
+	class SBOLObject;
 
 	template <typename LiteralType>
 	class SBOLProperty
@@ -73,6 +58,7 @@ namespace sbol
 		virtual SBOLObject& getOwner();
 		LiteralType get();
 		void set(LiteralType new_value);
+		virtual void write();
 
 		//virtual void graph();
 
@@ -99,7 +85,25 @@ namespace sbol
 	template <typename LiteralType>
 	SBOLObject& SBOLProperty<LiteralType>::getOwner()
 	{
+
 		return *sbol_owner;
+	}
+
+	template <typename LiteralType>
+	void SBOLProperty<LiteralType>::write()
+	{
+		std::string subject = (*sbol_owner).identity.get();
+		sbol_type predicate = type;
+		LiteralType object = value;
+
+		cout << "Subject:  " << subject << endl;
+		cout << "Predicate: " << predicate << endl;
+		cout << "Object: " << object  << endl;
+
+		//triple = raptor_new_statement(world);
+		//triple->subject = parent_serialization_object;
+		//triple->predicate = raptor_new_term_from_uri(world, raptor_new_uri(world, (const unsigned char *)"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
+		//triple->object = raptor_new_term_from_uri_string(world, (const unsigned char *)SBOL_URI "Sequence");
 	}
 
 	//class TextProperty : public SBOLProperty
@@ -156,6 +160,29 @@ namespace sbol
 		void set(std::string maven_version);
 	};
 
+	/* All SBOLObjects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
+	class Document;
+
+	class SBOLObject
+	{
+	private:
+		Document *doc = NULL;
+		//protected:
+		//	sbol_type type;
+
+	public:
+		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI "/Undefined", std::string id = "example") :
+			type(type),
+			identity(SBOLProperty<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this))
+		{
+		}
+		sbol_type type;
+		SBOLProperty<std::string> identity;
+
+		virtual sbol_type getTypeURI();
+	};
+
+	
 }
 
 #endif 
