@@ -10,6 +10,8 @@
 #define SBOL_COMPONENT_DEFINITION SBOL_URI "#ComponentDefinition"
 #define SBOL_DOCUMENT SBOL_URI "#Document"
 
+#define SO_UNDEFINED "#SO_0000001"
+
 #define SBOL_IDENTITY SBOL_URI "#identity"
 #define SBOL_PERSISTENT_IDENTITY SBOL_URI "#persistentIdentity"
 #define SBOL_VERSION SBOL_URI "#version"

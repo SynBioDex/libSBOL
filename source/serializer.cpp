@@ -111,8 +111,8 @@ int main()
 	/* Test template class for ListProperties */
 	cout << "Testing list properties" << endl;
 	//ListProperty<int> lp = ListProperty<int>(1, SBOL_TYPE, NULL);
-	cdef.type.add(2);
-	cdef.type.add(3);
+	cdef.type.add("SO_xxxxxxxx");
+	cdef.type.add("SO_xxxxxxxy");
 	cdef.type.write();
 
 	/* Begin serialization testing */
