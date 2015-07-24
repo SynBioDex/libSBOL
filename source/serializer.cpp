@@ -109,10 +109,11 @@ int main()
 	docum.identity.write();
 
 	/* Test template class for ListProperties */
-	ListProperty<int> lp = ListProperty<int>(1);
-	lp.add(2);
-	lp.add(3);
-	lp.write();
+	cout << "Testing list properties" << endl;
+	//ListProperty<int> lp = ListProperty<int>(1, SBOL_TYPE, NULL);
+	cdef.type.add(2);
+	cdef.type.add(3);
+	cdef.type.write();
 
 	/* Begin serialization testing */
 	raptor_world* world = doc.getWorld();

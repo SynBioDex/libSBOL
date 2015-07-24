@@ -16,6 +16,7 @@
 #define SBOL_DISPLAY_ID SBOL_URI "#displayId"
 #define SBOL_NAME SBOL_URI "#name"
 #define SBOL_DESCRIPTION SBOL_URI "#description"
+#define SBOL_TYPE "#type"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 #include "sbolerror.h"
@@ -167,7 +168,8 @@ namespace sbol
 		std::vector<LiteralType> value;
 		int index;
 	public:
-		ListProperty(LiteralType initial_value) :
+		ListProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+			SBOLProperty(initial_value, type_uri, property_owner),
 			value(1, initial_value),
 			index(0)
 		{
@@ -205,9 +207,18 @@ namespace sbol
 	template < typename LiteralType >
 	void ListProperty<LiteralType>::write()
 	{
+		std::string subject;
+		sbol_type predicate;
+		LiteralType object;
 		while (!end())
 		{
-			cout << get() << endl;
+			subject = (*sbol_owner).identity.get();
+			predicate = type;
+			object = get();
+
+			cout << "Subject:  " << subject << endl;
+			cout << "Predicate: " << predicate << endl;
+			cout << "Object: " << object << endl;
 		}
 	};
 
