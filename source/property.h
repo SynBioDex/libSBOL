@@ -161,16 +161,20 @@ namespace sbol
 	};
 
 	template <typename LiteralType>
-	class ListProperty 
+	class ListProperty : public SBOLProperty<LiteralType> 
 	{
 	protected:
 		std::vector<LiteralType> value;
+		int index;
 	public:
 		ListProperty(LiteralType initial_value) :
-			value(1, initial_value)
+			value(1, initial_value),
+			index(0)
 		{
 		}
 		void add(LiteralType new_value);
+		LiteralType get();
+		bool end();
 		void write();
 	};
 
@@ -181,53 +185,32 @@ namespace sbol
 	};
 
 	template < typename LiteralType >
+	LiteralType ListProperty<LiteralType>::get()
+	{
+		// TODO Throw error if list has no elements
+		LiteralType current_val = value[index];
+		if (end())
+			index = 0;
+		else 
+			index++;
+		return current_val;
+	};
+
+	template < typename LiteralType >
+	bool ListProperty<LiteralType>::end()
+	{
+		return (index == value.size());
+	};
+
+	template < typename LiteralType >
 	void ListProperty<LiteralType>::write()
 	{
-		for (std::vector<LiteralType>::iterator value_i = value.begin(); value_i != value.end(); value_i++) 
+		while (!end())
 		{
-			cout << *value_i << endl;
+			cout << get() << endl;
 		}
 	};
 
-	//template <typename LiteralType>
-	//class ListProperty
-	//{
-	//protected:
-	//	sbol_type type;
-	//	SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
-	//	std::vector<LiteralType> value;
-
-	//public:
-	//	ListProperty() :
-	//		type(UNDEFINED),
-	//		sbol_owner(NULL)
-	//		//value()
-	//	{
-	//	}
-
-	//	ListProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-	//		type(type_uri),
-	//		sbol_owner((SBOLObject *)property_owner)
-	//		//value(1, initial_value)
-	//	{
-	//	}
-
-	//	void add(LiteralType sbol_obj);
-	//	void write();
-	//};
-
-	//template < typename LiteralType >
-	//void ListProperty<LiteralType>::add(LiteralType new_value)
-	//{
-	//	value.push_back(new_value);
-	//};
-
-	//template < typename LiteralType >
-	//void ListProperty<LiteralType>::write()
-	//{
-	//	for (value_i = value.begin(); value_i != value.end(); value_i++) {
-	//		cout << value_i << endl;
-	//};
 
 	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
 	template <class SBOLClass>
