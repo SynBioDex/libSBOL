@@ -23,9 +23,11 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <map>
 
-namespace sbol 
-{	
+
+namespace sbol
+{
 	/* Contains URI strings used for constructing RDF triples */
 	typedef std::string sbol_type;
 
@@ -59,9 +61,6 @@ namespace sbol
 		LiteralType get();
 		void set(LiteralType new_value);
 		virtual void write();
-
-		//virtual void graph();
-
 	};
 
 	template <typename LiteralType>
@@ -98,13 +97,14 @@ namespace sbol
 
 		cout << "Subject:  " << subject << endl;
 		cout << "Predicate: " << predicate << endl;
-		cout << "Object: " << object  << endl;
+		cout << "Object: " << object << endl;
 
 		//triple = raptor_new_statement(world);
 		//triple->subject = parent_serialization_object;
 		//triple->predicate = raptor_new_term_from_uri(world, raptor_new_uri(world, (const unsigned char *)"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
 		//triple->object = raptor_new_term_from_uri_string(world, (const unsigned char *)SBOL_URI "Sequence");
 	}
+
 
 	//class TextProperty : public SBOLProperty
 	//{
@@ -138,8 +138,8 @@ namespace sbol
 	//	void set(int arg);
 	//};
 
-	class VersionProperty : public SBOLProperty<std::string>
-	// based on Maven version strings
+	class VersionProperty : public SBOLProperty < std::string >
+		// based on Maven version strings
 	{
 		void update();
 	public:
@@ -159,6 +159,100 @@ namespace sbol
 		VersionProperty(std::string version_arg);
 		void set(std::string maven_version);
 	};
+
+	template <typename LiteralType>
+	class ListProperty 
+	{
+	protected:
+		std::vector<LiteralType> value;
+	public:
+		ListProperty(LiteralType initial_value) :
+			value(1, initial_value)
+		{
+		}
+		void add(LiteralType new_value);
+		void write();
+	};
+
+	template < typename LiteralType >
+	void ListProperty<LiteralType>::add(LiteralType new_value)
+	{
+		value.push_back(new_value);
+	};
+
+	template < typename LiteralType >
+	void ListProperty<LiteralType>::write()
+	{
+		cout << value[0] << endl;
+	};
+
+	//template <typename LiteralType>
+	//class ListProperty
+	//{
+	//protected:
+	//	sbol_type type;
+	//	SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
+	//	std::vector<LiteralType> value;
+
+	//public:
+	//	ListProperty() :
+	//		type(UNDEFINED),
+	//		sbol_owner(NULL)
+	//		//value()
+	//	{
+	//	}
+
+	//	ListProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+	//		type(type_uri),
+	//		sbol_owner((SBOLObject *)property_owner)
+	//		//value(1, initial_value)
+	//	{
+	//	}
+
+	//	void add(LiteralType sbol_obj);
+	//	void write();
+	//};
+
+	//template < typename LiteralType >
+	//void ListProperty<LiteralType>::add(LiteralType new_value)
+	//{
+	//	value.push_back(new_value);
+	//};
+
+	//template < typename LiteralType >
+	//void ListProperty<LiteralType>::write()
+	//{
+	//	for (value_i = value.begin(); value_i != value.end(); value_i++) {
+	//		cout << value_i << endl;
+	//};
+
+	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
+	template <class SBOLClass>
+	class ComposedOf
+	{
+		public:
+			std::map<std::string, SBOLClass*> constituent_objects;
+			void add(SBOLClass& sbol_obj);
+			SBOLClass& get(std::string uri);
+	};
+
+	template < class SBOLClass >
+	void ComposedOf<SBOLClass>::add(SBOLClass& sbol_obj)
+	{
+		constitutent_objects[sbol_obj.identity.get()] = &sbol_obj;
+	};
+
+	template < class SBOLClass >
+	SBOLClass& ComposedOf<SBOLClass>::get(std::string uri)
+	{
+		return constitutent_objects[uri];
+	};
+
+	/* Placeholder for RefersTo class*/
+	//template <typename LiteralType>
+	//class RefersTo
+	//{
+	//}
 
 	/* All SBOLObjects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
 	class Document;

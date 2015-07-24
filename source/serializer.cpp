@@ -108,6 +108,10 @@ int main()
 	id.identity.write();
 	docum.identity.write();
 
+	/* Test template class for ListProperties */
+	ListProperty<int> lp = ListProperty<int>(10);
+	lp.write();
+
 	/* Begin serialization testing */
 	raptor_world* world = doc.getWorld();
 	FILE* fh = fopen("test.xml", "wb");
