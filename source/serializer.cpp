@@ -109,7 +109,9 @@ int main()
 	docum.identity.write();
 
 	/* Test template class for ListProperties */
-	ListProperty<int> lp = ListProperty<int>(10);
+	ListProperty<int> lp = ListProperty<int>(1);
+	lp.add(2);
+	lp.add(3);
 	lp.write();
 
 	/* Begin serialization testing */

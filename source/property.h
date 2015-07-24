@@ -183,7 +183,10 @@ namespace sbol
 	template < typename LiteralType >
 	void ListProperty<LiteralType>::write()
 	{
-		cout << value[0] << endl;
+		for (std::vector<LiteralType>::iterator value_i = value.begin(); value_i != value.end(); value_i++) 
+		{
+			cout << *value_i << endl;
+		}
 	};
 
 	//template <typename LiteralType>
