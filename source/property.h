@@ -63,7 +63,7 @@ namespace sbol
 		virtual SBOLObject& getOwner();
 		LiteralType get();
 		void set(LiteralType new_value);
-		virtual void write();
+		void write();
 	};
 
 	template <typename LiteralType>
@@ -212,6 +212,7 @@ namespace sbol
 		std::string subject;
 		sbol_type predicate;
 		LiteralType object;
+
 		while (!end())
 		{
 			subject = (*sbol_owner).identity.get();
@@ -224,34 +225,46 @@ namespace sbol
 		}
 	};
 
-
 	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
 	template <class SBOLClass>
-	class ComposedOf
+	class ContainedObjects : public SBOLProperty<SBOLClass>
 	{
-		public:
-			std::map<std::string, SBOLClass*> constituent_objects;
-			void add(SBOLClass& sbol_obj);
-			SBOLClass& get(std::string uri);
+	protected:
+		std::map<std::string, SBOLClass*> constituent_objects;
+	public:
+		void add(SBOLClass& sbol_obj);
+		SBOLClass& get(std::string uri);
+		void write();
 	};
 
 	template < class SBOLClass >
-	void ComposedOf<SBOLClass>::add(SBOLClass& sbol_obj)
+	void ContainedObjects<SBOLClass>::add(SBOLClass& sbol_obj)
 	{
-		constitutent_objects[sbol_obj.identity.get()] = &sbol_obj;
+		constituent_objects[sbol_obj.identity.get()] = &sbol_obj;
 	};
 
 	template < class SBOLClass >
-	SBOLClass& ComposedOf<SBOLClass>::get(std::string uri)
+	SBOLClass& ContainedObjects<SBOLClass>::get(std::string uri)
 	{
-		return constitutent_objects[uri];
+		return *constituent_objects[uri];
 	};
 
-	/* Placeholder for RefersTo class*/
-	//template <typename LiteralType>
-	//class RefersTo
+	template < class SBOLClass >
+	void ContainedObjects<SBOLClass>::write()
+	{
+		cout << "Testing object container" << endl;
+		for (std::map<std::string, SBOLClass*>::iterator obj_i = constituent_objects.begin(); obj_i != constituent_objects.end(); obj_i++) 
+		{
+			cout << obj_i->first << endl;
+		}
+	};
+
+	/* A list of URIs corresponding to the referenced objects.  Corresponding to white diamonds in UML diagrams */
+	//class ReferencedObjects : public ContainedObjects < std::string >
 	//{
-	//}
+
+	//};
+
 
 	/* All SBOLObjects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
 	class Document;

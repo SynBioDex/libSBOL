@@ -111,9 +111,15 @@ int main()
 	/* Test template class for ListProperties */
 	cout << "Testing list properties" << endl;
 	//ListProperty<int> lp = ListProperty<int>(1, SBOL_TYPE, NULL);
-	cdef.type.add("SO_xxxxxxxx");
-	cdef.type.add("SO_xxxxxxxy");
-	cdef.type.write();
+	cdef.types.add("SO_xxxxxxxx");
+	cdef.types.add("SO_xxxxxxxy");
+	cdef.types.write();
+	
+	/* Test ContainedObjects */
+	cdef.sequenceAnnotations.add(obj);
+	obj = cdef.sequenceAnnotations.get(obj.identity.get());
+	cout << obj.identity.get() << endl;
+	cdef.sequenceAnnotations.write();
 
 	/* Begin serialization testing */
 	raptor_world* world = doc.getWorld();
