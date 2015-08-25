@@ -23,6 +23,16 @@ sbol_type SBOLObject::getTypeURI()
 	return type;
 }
 
+sbol_type PropertyBase::getTypeURI()
+{
+	return type;
+};
+
+SBOLObject& PropertyBase::getOwner()
+{
+
+	return *sbol_owner;
+}
 //sbol_type SBOLProperty::getTypeURI()
 //{
 //	return type;

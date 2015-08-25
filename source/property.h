@@ -37,40 +37,56 @@ namespace sbol
 	/* All SBOLProperties have a pointer back to the owning object (whose URI is the subject of an RDF triple).  This requires forward declaration of the SBOLObject class */
 	class SBOLObject;
 
-	template <typename LiteralType>
-	class SBOLProperty
+	class PropertyBase
 	{
 	protected:
 		sbol_type type;
 		SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
+
+	public:
+		PropertyBase() :
+			type(UNDEFINED),
+			sbol_owner(NULL)
+		{
+		}
+
+		PropertyBase(sbol_type type_uri, void *property_owner) :
+			type(type_uri),
+			sbol_owner((SBOLObject *)property_owner)
+		{
+		}
+		virtual sbol_type getTypeURI();
+		virtual SBOLObject& getOwner();
+		void write();
+	};
+
+
+
+
+
+	template <typename LiteralType>
+	class SBOLProperty : public PropertyBase
+	{
+	protected:
 		LiteralType value;
 
 	public:
-		SBOLProperty() :
-			type(UNDEFINED),
-			sbol_owner(NULL),
+		SBOLProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+			PropertyBase(type_uri, property_owner),
 			value()
 		{
 		}
 
 		SBOLProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-			type(type_uri),
-			sbol_owner((SBOLObject *)property_owner),
+			PropertyBase(type_uri, property_owner),
 			value(initial_value)
 		{
 		}
-		virtual sbol_type getTypeURI();
-		virtual SBOLObject& getOwner();
 		LiteralType get();
 		void set(LiteralType new_value);
 		void write();
 	};
 
-	template <typename LiteralType>
-	sbol_type SBOLProperty<LiteralType>::getTypeURI()
-	{
-		return type;
-	};
 
 	template <typename LiteralType>
 	LiteralType SBOLProperty<LiteralType>::get()
@@ -83,13 +99,6 @@ namespace sbol
 	{
 		value = new_value;
 	};
-
-	template <typename LiteralType>
-	SBOLObject& SBOLProperty<LiteralType>::getOwner()
-	{
-
-		return *sbol_owner;
-	}
 
 	template <typename LiteralType>
 	void SBOLProperty<LiteralType>::write()
