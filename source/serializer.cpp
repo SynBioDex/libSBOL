@@ -34,7 +34,8 @@ int main()
 	cout << "Begin testing\n";
 	ComponentDefinition &sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
 	
-	/* Test SBOLProperty accessors */
+
+	/* Test Property accessors */
 	cout << "Testing getters\n";
 	cout << sbol_obj.identity.get() << endl;
 	cout << sbol_obj.version.get() << endl;
@@ -90,7 +91,6 @@ int main()
 	doc.write();
 
 	/* Test Maven version properties */
-	// Should catch an error because the object is a ComponentDefinition
 	cout << "Testing version properties" << endl;
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj");
 	cout << tl.identity.get() << endl;
@@ -120,6 +120,10 @@ int main()
 	obj = cdef.sequenceAnnotations.get(obj.identity.get());
 	cout << obj.identity.get() << endl;
 	cdef.sequenceAnnotations.write();
+
+	/* Test iteration through Properties in an SBOLObject */
+	cout << "Serializing an Object" << endl;
+	cdef.serialize();
 
 	/* Begin serialization testing */
 	raptor_world* world = doc.getWorld();

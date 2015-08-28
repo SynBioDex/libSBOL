@@ -27,7 +27,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
-
+#include <unordered_map>
 
 namespace sbol
 {
@@ -39,6 +39,9 @@ namespace sbol
 
 	class PropertyBase
 	{
+	
+	friend class SBOLObject;
+
 	protected:
 		sbol_type type;
 		SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
@@ -50,35 +53,33 @@ namespace sbol
 		{
 		}
 
-		PropertyBase(sbol_type type_uri, void *property_owner) :
-			type(type_uri),
-			sbol_owner((SBOLObject *)property_owner)
-		{
-		}
+		//PropertyBase(sbol_type type_uri, void *property_owner) :
+		//	type(type_uri),
+		//	sbol_owner((SBOLObject *)property_owner)
+		//{
+		//}
+		PropertyBase(sbol_type type_uri, void *property_owner, void *self);
+
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
 		void write();
 	};
 
-
-
-
-
 	template <typename LiteralType>
-	class SBOLProperty : public PropertyBase
+	class Property : public PropertyBase
 	{
 	protected:
 		LiteralType value;
 
 	public:
-		SBOLProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-			PropertyBase(type_uri, property_owner),
+		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+			PropertyBase(type_uri, property_owner, this),
 			value()
 		{
 		}
 
-		SBOLProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-			PropertyBase(type_uri, property_owner),
+		Property(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+			PropertyBase(type_uri, property_owner, this),
 			value(initial_value)
 		{
 		}
@@ -89,19 +90,19 @@ namespace sbol
 
 
 	template <typename LiteralType>
-	LiteralType SBOLProperty<LiteralType>::get()
+	LiteralType Property<LiteralType>::get()
 	{
 		return value;
 	};
 
 	template <typename LiteralType>
-	void SBOLProperty<LiteralType>::set(LiteralType new_value)
+	void Property<LiteralType>::set(LiteralType new_value)
 	{
 		value = new_value;
 	};
 
 	template <typename LiteralType>
-	void SBOLProperty<LiteralType>::write()
+	void Property<LiteralType>::write()
 	{
 		std::string subject = (*sbol_owner).identity.get();
 		sbol_type predicate = type;
@@ -118,13 +119,13 @@ namespace sbol
 	}
 
 
-	//class TextProperty : public SBOLProperty
+	//class TextProperty : public Property
 	//{
 	//	std::string value;
 	//public:
 	//	//Identified(std::string uri_prefix, std::string id);
 	//	TextProperty(sbol_type type_uri = UNDEFINED, SBOLObject *owner_obj = NULL, std::string val = "") :
-	//		SBOLProperty(type_uri, owner_obj),
+	//		Property(type_uri, owner_obj),
 	//		value(val)
 	//		{
 	//		}
@@ -150,22 +151,22 @@ namespace sbol
 	//	void set(int arg);
 	//};
 
-	class VersionProperty : public SBOLProperty < std::string >
+	class VersionProperty : public Property < std::string >
 		// based on Maven version strings
 	{
 		void update();
 	public:
-		SBOLProperty<int> major;
-		SBOLProperty<int> minor;
-		SBOLProperty<int> incremental;
-		SBOLProperty<std::string> qualifier;
+		Property<int> major;
+		Property<int> minor;
+		Property<int> incremental;
+		Property<std::string> qualifier;
 
 		VersionProperty() :
-			SBOLProperty<std::string>("1.0.0", SBOL_VERSION, NULL),
-			major(SBOLProperty<int>(1)),
-			minor(SBOLProperty<int>(0)),
-			incremental(SBOLProperty<int>(0)),
-			qualifier(SBOLProperty<std::string>("", UNDEFINED, NULL))
+			Property<std::string>("1.0.0", SBOL_VERSION, NULL),
+			major(Property<int>(1)),
+			minor(Property<int>(0)),
+			incremental(Property<int>(0)),
+			qualifier(Property<std::string>("", UNDEFINED, NULL))
 		{
 		}
 		VersionProperty(std::string version_arg);
@@ -173,14 +174,14 @@ namespace sbol
 	};
 
 	template <typename LiteralType>
-	class ListProperty : public SBOLProperty<LiteralType> 
+	class ListProperty : public Property<LiteralType> 
 	{
 	protected:
 		std::vector<LiteralType> value;
 		int index;
 	public:
 		ListProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-			SBOLProperty(initial_value, type_uri, property_owner),
+			Property(initial_value, type_uri, property_owner),
 			value(1, initial_value),
 			index(0)
 		{
@@ -236,7 +237,7 @@ namespace sbol
 
 	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
 	template <class SBOLClass>
-	class ContainedObjects : public SBOLProperty<SBOLClass>
+	class ContainedObjects : public Property<SBOLClass>
 	{
 	protected:
 		std::map<std::string, SBOLClass*> constituent_objects;
@@ -274,27 +275,34 @@ namespace sbol
 
 	//};
 
-
 	/* All SBOLObjects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
 	class Document;
 
 	class SBOLObject
 	{
+	
+	friend class PropertyBase;
 	private:
 		Document *doc = NULL;
+		void add(PropertyBase& property_instance);
+		PropertyBase& get();
+	protected:
+		std::unordered_map<sbol::sbol_type, sbol::PropertyBase*> properties;
+
 		//protected:
 		//	sbol_type type;
 
 	public:
 		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI "/Undefined", std::string id = "example") :
 			type(type),
-			identity(SBOLProperty<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this))
+			identity(Property<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this))
 		{
 		}
 		sbol_type type;
-		SBOLProperty<std::string> identity;
-
+		Property<std::string> identity;
+	
 		virtual sbol_type getTypeURI();
+		void serialize();
 	};
 
 	

@@ -8,16 +8,36 @@
 using namespace std;
 using namespace sbol;
 
-//string TextProperty::get()
-//{
-//	return value;
-//};
-//
-//void TextProperty::set(string arg) 
-//{
-//	value = arg;
-//}
-//
+
+
+PropertyBase::PropertyBase(sbol_type type_uri, void *property_owner, void *self)
+{
+	PropertyBase();
+	this->type = type_uri;
+	this->sbol_owner = (SBOLObject *)property_owner;
+	PropertyBase& property_instance = *this;
+	cout << type << endl;
+	// Register Property in owner Object
+	if (sbol_owner != NULL)
+	{
+		sbol_owner->properties.insert({ this->type, &property_instance });
+		//sbol_owner->properties[this->type] = &property_instance;
+		//sbol_owner->properties[this->type] = this;
+		//cout << "Registering " << &property_instance << endl;
+		//sbol_owner->add((PropertyBase &)*this); 
+		cout << "Registering " << this->type << " in " << sbol_owner->type << endl;
+		cout << "This:" << this << "\t" << self << endl;
+		cout << "Getting " << sbol_owner->properties[this->type]->type << endl;
+		//cout << ((PropertyBase &)*this).type << endl;
+		cout << "Iterating" << endl;
+
+		for (auto it = sbol_owner->properties.begin(); it != sbol_owner->properties.end(); ++it)
+		{
+			std::cout << " " << it->first << sbol_owner->properties[it->first]->type << endl;
+		}
+	}
+}
+
 sbol_type SBOLObject::getTypeURI() 
 {
 	return type;
@@ -33,7 +53,42 @@ SBOLObject& PropertyBase::getOwner()
 
 	return *sbol_owner;
 }
-//sbol_type SBOLProperty::getTypeURI()
+
+//void SBOLObject::add(PropertyBase& property_instance)
+void SBOLObject::add(PropertyBase& property_instance)
+{
+
+	properties[property_instance.type] = &property_instance;
+	cout << "Registering " << &property_instance << endl;
+	//properties.push_back(property_instance);
+	//properties.push_back((PropertyBase *)&property_instance);
+	//properties.push_back(property_instance);
+	//cout << &property_instance << endl;
+	//cout << &(*properties.back()) << endl;
+}
+
+PropertyBase& SBOLObject::get()
+{
+	return *properties[0];
+}
+
+void SBOLObject::serialize()
+{
+	for (auto it = properties.begin(); it != properties.end(); ++it) 
+	{
+		cout << "Getting " << it->second << endl;
+		PropertyBase& property_instance = *(it->second);
+		std::cout << " " << it->first << properties[it->first]->type << endl;
+	}
+	//for (std::vector<PropertyBase*>::iterator property = properties.begin(); property != properties.end(); ++property)	
+	//{
+	//	obj = (*property);
+	//	std::cout << obj->type << endl;
+	//}
+}
+
+
+//sbol_type Property::getTypeURI()
 //{
 //	return type;
 //}
@@ -43,7 +98,7 @@ SBOLObject& PropertyBase::getOwner()
 //	return type;
 //}
 //
-//SBOLObject& SBOLProperty::getOwner()
+//SBOLObject& Property::getOwner()
 //{
 //	return *sbol_owner;
 //}
