@@ -8,58 +8,57 @@
 using namespace std;
 using namespace sbol;
 
+//PropertyStore* sbol::global_property_buffer = new PropertyStore;
 
-
-PropertyBase::PropertyBase(sbol_type type_uri, void *property_owner, void *self)
-{
-	PropertyBase();
-	this->type = type_uri;
-	this->sbol_owner = (SBOLObject *)property_owner;
-	PropertyBase& property_instance = *this;
-	cout << type << endl;
-	// Register Property in owner Object
-	if (sbol_owner != NULL)
-	{
-		sbol_owner->properties.insert({ this->type, &property_instance });
-		//sbol_owner->properties[this->type] = &property_instance;
-		//sbol_owner->properties[this->type] = this;
-		//cout << "Registering " << &property_instance << endl;
-		//sbol_owner->add((PropertyBase &)*this); 
-		cout << "Registering " << this->type << " in " << sbol_owner->type << endl;
-		cout << "This:" << this << "\t" << self << endl;
-		cout << "Getting " << sbol_owner->properties[this->type]->type << endl;
-		//cout << ((PropertyBase &)*this).type << endl;
-		cout << "Iterating" << endl;
-
-		for (auto it = sbol_owner->properties.begin(); it != sbol_owner->properties.end(); ++it)
-		{
-			std::cout << " " << it->first << sbol_owner->properties[it->first]->type << endl;
-		}
-	}
-}
+//PropertyBase::PropertyBase(sbol_type type_uri, void *property_owner, void *self)
+//{
+//	this->type = type_uri;
+//	this->sbol_owner = (SBOLObject *)property_owner;
+//	SBOLObject* owner = (SBOLObject *)&property_owner;
+//	PropertyBase& property_instance = *this;
+//
+//	// Register Property in owner Object
+//	if (sbol_owner != NULL)
+//	{
+//		//sbol_owner->properties.insert({ type_uri, *this });
+//		//global_property_buffer->insert({ type_uri, *this });
+//		sbol_owner->properties.insert({ type_uri, "" });
+//	}
+//}
+//
+//void PropertyBase::write()
+//{
+//	std::string subject = (*sbol_owner).identity.get();
+//	sbol_type predicate = type;
+//
+//	cout << "Subject:  " << subject << endl;
+//	cout << "Predicate: " << predicate << endl;
+//	cout << "No Object" << endl;
+//}
+//
 
 sbol_type SBOLObject::getTypeURI() 
 {
 	return type;
 }
 
-sbol_type PropertyBase::getTypeURI()
-{
-	return type;
-};
+//sbol_type PropertyBase::getTypeURI()
+//{
+//	return type;
+//};
+//
+//SBOLObject& PropertyBase::getOwner()
+//{
+//
+//	return *sbol_owner;
+//}
 
-SBOLObject& PropertyBase::getOwner()
-{
-
-	return *sbol_owner;
-}
-
-//void SBOLObject::add(PropertyBase& property_instance)
 void SBOLObject::add(PropertyBase& property_instance)
 {
-
-	properties[property_instance.type] = &property_instance;
+	//properties[property_instance.type] = &property_instance;
 	cout << "Registering " << &property_instance << endl;
+	//sbol::global_property_buffer->insert({ property_instance.type, property_instance });
+
 	//properties.push_back(property_instance);
 	//properties.push_back((PropertyBase *)&property_instance);
 	//properties.push_back(property_instance);
@@ -67,18 +66,17 @@ void SBOLObject::add(PropertyBase& property_instance)
 	//cout << &(*properties.back()) << endl;
 }
 
-PropertyBase& SBOLObject::get()
-{
-	return *properties[0];
-}
+//Property& SBOLObject::get()
+//{
+//	//return *properties[0];
+//	return properties.begin();
+//}
 
 void SBOLObject::serialize()
 {
-	for (auto it = properties.begin(); it != properties.end(); ++it) 
+	for (auto it = properties.begin(); it != properties.end(); ++it)
 	{
-		cout << "Getting " << it->second << endl;
-		PropertyBase& property_instance = *(it->second);
-		std::cout << " " << it->first << properties[it->first]->type << endl;
+		std::cout << type << it->first << it->second << endl;
 	}
 	//for (std::vector<PropertyBase*>::iterator property = properties.begin(); property != properties.end(); ++property)	
 	//{
@@ -154,20 +152,21 @@ void SBOLObject::serialize()
 //}
 //
 
-VersionProperty::VersionProperty(std::string version_arg)
-{
-	value = version_arg;
-	//vector<string> v = value.split('-');  // split method is not defined
-	//cout << v.size() << endl;
-	major.set(1);
-	minor.set(0);
-	incremental.set(0);
-	qualifier.set("");
-}
+//VersionProperty::VersionProperty(std::string version_arg)
+//{
+//	std::string value = version_arg;
+//	//vector<string> v = value.split('-');  // split method is not defined
+//	//cout << v.size() << endl;
+//	major.set(1);
+//	minor.set(0);
+//	incremental.set(0);
+//	qualifier.set("");
+//}
+//
+//void VersionProperty::set(std::string maven_version)
+//{
+//}
 
-void VersionProperty::set(std::string maven_version)
-{
-}
 //	TextProperty *base = this;
 //	string old_value = base->get();
 //	base->set(maven_version);

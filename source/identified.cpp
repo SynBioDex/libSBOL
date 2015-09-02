@@ -53,7 +53,7 @@ Identified Identified::clone()
 	Identified clone = Identified();
 	clone.identity.set(this->identity.get());
 	clone.persistentIdentity.set(this->persistentIdentity.get());
-	clone.version.set(this->version.get());
+	//clone.version.set(this->version.get());
 	return clone;
 }
 

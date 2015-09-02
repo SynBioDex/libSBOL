@@ -34,71 +34,131 @@ namespace sbol
 	/* Contains URI strings used for constructing RDF triples */
 	typedef std::string sbol_type;
 
+
 	/* All SBOLProperties have a pointer back to the owning object (whose URI is the subject of an RDF triple).  This requires forward declaration of the SBOLObject class */
 	class SBOLObject;
 
-	class PropertyBase
-	{
-	
-	friend class SBOLObject;
+	//class PropertyBase
+	//{
+	//
+	//	friend class SBOLObject;
 
+	//protected:
+	//	sbol_type type;
+	//	SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
+
+	//public:
+	//	PropertyBase() :
+	//		type(UNDEFINED),
+	//		sbol_owner(NULL)
+	//	{
+	//	}
+
+	//	//PropertyBase(sbol_type type_uri, void *property_owner) :
+	//	//	type(type_uri),
+	//	//	sbol_owner((SBOLObject *)property_owner)
+	//	//{
+	//	//}
+	//	PropertyBase(sbol_type type_uri, void *property_owner, void *self);
+
+	//};
+
+
+
+	template <typename LiteralType>
+	class Property
+	{
 	protected:
 		sbol_type type;
 		SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
 
 	public:
-		PropertyBase() :
-			type(UNDEFINED),
-			sbol_owner(NULL)
-		{
-		}
 
-		//PropertyBase(sbol_type type_uri, void *property_owner) :
-		//	type(type_uri),
-		//	sbol_owner((SBOLObject *)property_owner)
+
+		//Property(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+		//	PropertyBase(type_uri, property_owner, this),
+		//	value(initial_value)
 		//{
 		//}
-		PropertyBase(sbol_type type_uri, void *property_owner, void *self);
-
+		//Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL);
+		Property(std::string initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL);
+		Property(int initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL);
+		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+			type(type_uri),
+			sbol_owner((SBOLObject *)property_owner)
+		{
+		}
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
-		void write();
+		std::string get();
+		virtual void set(std::string new_value);
+		virtual void set(int new_value);
+		virtual void write();
 	};
 
 	template <typename LiteralType>
-	class Property : public PropertyBase
+	Property<LiteralType>::Property(std::string initial_value, sbol_type type_uri, void *property_owner) : Property(type_uri, property_owner)
 	{
-	protected:
-		LiteralType value;
-
-	public:
-		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-			PropertyBase(type_uri, property_owner, this),
-			value()
+		// Register Property in owner Object
+		if (sbol_owner != NULL)
 		{
+			sbol_owner->properties.insert({ type_uri, initial_value });
+			//global_property_buffer->insert({ type_uri, *this });
 		}
+	}
 
-		Property(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-			PropertyBase(type_uri, property_owner, this),
-			value(initial_value)
+	template <typename LiteralType>
+	Property<LiteralType>::Property(int initial_value, sbol_type type_uri, void *property_owner) : Property(type_uri, property_owner)
+	{
+		// Register Property in owner Object
+		if (sbol_owner != NULL)
 		{
+			sbol_owner->properties.insert({ type_uri, "99" });
 		}
-		LiteralType get();
-		void set(LiteralType new_value);
-		void write();
-	};
-
+	}
 
 	template <typename LiteralType>
-	LiteralType Property<LiteralType>::get()
+	sbol_type Property<LiteralType>::getTypeURI()
 	{
-		return value;
+		return type;
+	}
+
+	template <typename LiteralType>
+	SBOLObject& Property<LiteralType>::getOwner()
+	{
+		return *sbol_owner;
+	}
+	
+
+	template <typename LiteralType>
+	std::string Property<LiteralType>::get()
+	{
+		if (sbol_owner)
+		{
+			return sbol_owner->properties[type];
+		}
+		else
+		{
+			return "";
+		}
 	};
 
 	template <typename LiteralType>
-	void Property<LiteralType>::set(LiteralType new_value)
+	void Property<LiteralType>::set(std::string new_value)
 	{
-		value = new_value;
+		if (sbol_owner)
+		{
+			sbol_owner->properties[type] = new_value;
+		}
+	};
+
+	template <typename LiteralType>
+	void Property<LiteralType>::set(int new_value)
+	{
+		if (new_value)
+		{
+			sbol_owner->properties[type] = "98";
+		}
 	};
 
 	template <typename LiteralType>
@@ -106,11 +166,11 @@ namespace sbol
 	{
 		std::string subject = (*sbol_owner).identity.get();
 		sbol_type predicate = type;
-		LiteralType object = value;
+		std::string object = sbol_owner->properties[type];
 
 		cout << "Subject:  " << subject << endl;
 		cout << "Predicate: " << predicate << endl;
-		cout << "Object: " << object << endl;
+		cout << "Object: "  << endl;
 
 		//triple = raptor_new_statement(world);
 		//triple->subject = parent_serialization_object;
@@ -151,27 +211,27 @@ namespace sbol
 	//	void set(int arg);
 	//};
 
-	class VersionProperty : public Property < std::string >
-		// based on Maven version strings
-	{
-		void update();
-	public:
-		Property<int> major;
-		Property<int> minor;
-		Property<int> incremental;
-		Property<std::string> qualifier;
+	//class VersionProperty : public Property < std::string >
+	//	// based on Maven version strings
+	//{
+	//	void update();
+	//public:
+	//	Property<int> major;
+	//	Property<int> minor;
+	//	Property<int> incremental;
+	//	Property<std::string> qualifier;
 
-		VersionProperty() :
-			Property<std::string>("1.0.0", SBOL_VERSION, NULL),
-			major(Property<int>(1)),
-			minor(Property<int>(0)),
-			incremental(Property<int>(0)),
-			qualifier(Property<std::string>("", UNDEFINED, NULL))
-		{
-		}
-		VersionProperty(std::string version_arg);
-		void set(std::string maven_version);
-	};
+	//	VersionProperty() :
+	//		Property<std::string>("1.0.0", SBOL_VERSION, NULL),
+	//		major(Property<int>(1)),
+	//		minor(Property<int>(0)),
+	//		incremental(Property<int>(0)),
+	//		qualifier(Property<std::string>("", UNDEFINED, NULL))
+	//	{
+	//	}
+	//	VersionProperty(std::string version_arg);
+	//	void set(std::string maven_version);
+	//};
 
 	template <typename LiteralType>
 	class ListProperty : public Property<LiteralType> 
@@ -275,24 +335,43 @@ namespace sbol
 
 	//};
 
+	/* Proxy constructor */
+	template <typename LiteralType>
+	Property<LiteralType> _property(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL)
+	{
+		using sbol::global_property_buffer;
+
+		Property<LiteralType> new_property = Property<LiteralType>(initial_value, type_uri, property_owner);
+		global_property_buffer->insert({ type_uri, new_property });
+		return new_property;
+	};
+
+
 	/* All SBOLObjects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
 	class Document;
 
+	//typedef std::map<sbol_type, PropertyBase> PropertyStore;
+
+	//extern PropertyStore* global_property_buffer;
+	
+
 	class SBOLObject
 	{
-	
 	friend class PropertyBase;
+
 	private:
+
+
 		Document *doc = NULL;
-		void add(PropertyBase& property_instance);
 		PropertyBase& get();
 	protected:
-		std::unordered_map<sbol::sbol_type, sbol::PropertyBase*> properties;
-
 		//protected:
 		//	sbol_type type;
 
 	public:
+		//std::unordered_map<sbol::sbol_type, sbol::PropertyBase> properties;
+		std::unordered_map<sbol::sbol_type, std::string> properties;
+
 		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI "/Undefined", std::string id = "example") :
 			type(type),
 			identity(Property<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this))
@@ -301,11 +380,12 @@ namespace sbol
 		sbol_type type;
 		Property<std::string> identity;
 	
+		void add(PropertyBase& property_instance);
 		virtual sbol_type getTypeURI();
 		void serialize();
 	};
 
-	
+		
 }
 
 #endif 

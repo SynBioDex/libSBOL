@@ -38,7 +38,7 @@ int main()
 	/* Test Property accessors */
 	cout << "Testing getters\n";
 	cout << sbol_obj.identity.get() << endl;
-	cout << sbol_obj.version.get() << endl;
+	//cout << sbol_obj.version.get() << endl;
 	cout << sbol_obj.getTypeURI() << endl << endl;
 
 	/* Test constructor chain */
@@ -95,9 +95,9 @@ int main()
 	TopLevel& tl = doc.getTopLevel("http://examples.com/cdef_obj");
 	cout << tl.identity.get() << endl;
 	cout << tl.getTypeURI() << endl;
-	cout << tl.version.get() << endl;
-	tl.version.set("1.2.3-123");
-	cout << tl.version.get() << endl;
+	//cout << tl.version.get() << endl;
+	//tl.version.set("1.2.3-123");
+	//cout << tl.version.get() << endl;
 
 	/* Exception handling*/
 	int e = SBOLError(1, "Test");

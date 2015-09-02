@@ -19,9 +19,8 @@ namespace sbol {
 			SBOLObject(type, uri_prefix, id),
 			//SBOLObject(type),
 			//identity(Property<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this)),
-			persistentIdentity(Property<std::string>(uri_prefix + "/" + id, SBOL_PERSISTENT_IDENTITY, this)),
-			//persistentIdentity(Property<std::string>(uri_prefix + "/" + id, SBOL_PERSISTENT_IDENTITY, this)),
-			version(VersionProperty("1.0.0"))			
+			persistentIdentity(Property<std::string>(uri_prefix + "/" + id, SBOL_PERSISTENT_IDENTITY, this))
+			//version(VersionProperty("1.0.0"))			
 			{
 			}
 
@@ -30,7 +29,7 @@ namespace sbol {
 
 		//Property<std::string> identity;
 		Property<std::string> persistentIdentity;
-		Property<std::string> version;
+		//Property<std::string> version;
 
 		//sbol_type getTypeURI();
 		std::string getTimeStamp();
