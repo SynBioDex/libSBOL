@@ -76,7 +76,7 @@ void SBOLObject::serialize()
 {
 	for (auto it = properties.begin(); it != properties.end(); ++it)
 	{
-		std::cout << type << it->first << it->second << endl;
+		std::cout << type << it->first << it->second.front() << endl;
 	}
 	//for (std::vector<PropertyBase*>::iterator property = properties.begin(); property != properties.end(); ++property)	
 	//{

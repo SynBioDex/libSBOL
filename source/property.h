@@ -64,7 +64,6 @@ namespace sbol
 	//};
 
 
-
 	template <typename LiteralType>
 	class Property
 	{
@@ -102,7 +101,9 @@ namespace sbol
 		// Register Property in owner Object
 		if (sbol_owner != NULL)
 		{
-			sbol_owner->properties.insert({ type_uri, initial_value });
+			std::vector<std::string> property_store;
+			property_store.push_back(initial_value);
+			sbol_owner->properties.insert({ type_uri, property_store });
 			//global_property_buffer->insert({ type_uri, *this });
 		}
 	}
@@ -113,7 +114,10 @@ namespace sbol
 		// Register Property in owner Object
 		if (sbol_owner != NULL)
 		{
-			sbol_owner->properties.insert({ type_uri, "99" });
+			std::vector<std::string> property_store;
+			property_store.push_back("");
+			sbol_owner->properties.insert({ type_uri, property_store });
+			//global_property_buffer->insert({ type_uri, *this });
 		}
 	}
 
@@ -129,15 +133,22 @@ namespace sbol
 		return *sbol_owner;
 	}
 	
-
 	template <typename LiteralType>
 	std::string Property<LiteralType>::get()
 	{
 		if (sbol_owner)
 		{
-			return sbol_owner->properties[type];
-		}
-		else
+			if (sbol_owner->properties.find(type) == sbol_owner->properties.end()) 
+			{
+				// not found
+				return "";
+			}
+			else 
+			{
+				// found
+				return sbol_owner->properties[type].front();
+			}
+		}	else
 		{
 			return "";
 		}
@@ -148,7 +159,7 @@ namespace sbol
 	{
 		if (sbol_owner)
 		{
-			sbol_owner->properties[type] = new_value;
+			sbol_owner->properties[type].push_back( new_value );
 		}
 	};
 
@@ -157,7 +168,7 @@ namespace sbol
 	{
 		if (new_value)
 		{
-			sbol_owner->properties[type] = "98";
+			sbol_owner->properties[type].push_back( "98" );
 		}
 	};
 
@@ -166,7 +177,7 @@ namespace sbol
 	{
 		std::string subject = (*sbol_owner).identity.get();
 		sbol_type predicate = type;
-		std::string object = sbol_owner->properties[type];
+		std::string object = sbol_owner->properties[type].front();
 
 		cout << "Subject:  " << subject << endl;
 		cout << "Predicate: " << predicate << endl;
@@ -335,18 +346,6 @@ namespace sbol
 
 	//};
 
-	/* Proxy constructor */
-	template <typename LiteralType>
-	Property<LiteralType> _property(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL)
-	{
-		using sbol::global_property_buffer;
-
-		Property<LiteralType> new_property = Property<LiteralType>(initial_value, type_uri, property_owner);
-		global_property_buffer->insert({ type_uri, new_property });
-		return new_property;
-	};
-
-
 	/* All SBOLObjects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
 	class Document;
 
@@ -370,7 +369,7 @@ namespace sbol
 
 	public:
 		//std::unordered_map<sbol::sbol_type, sbol::PropertyBase> properties;
-		std::unordered_map<sbol::sbol_type, std::string> properties;
+		std::unordered_map<sbol::sbol_type, std::vector< std::string > > properties;
 
 		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI "/Undefined", std::string id = "example") :
 			type(type),
