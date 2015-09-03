@@ -10,7 +10,7 @@ namespace sbol {
 	public:
 
 		//Identified(std::string uri_prefix, std::string id);
-		Identified(std::string uri_prefix = SBOL_URI "/Identified", std::string id = "example") : Identified(SBOL_IDENTIFIED, uri_prefix, id)
+		Identified(std::string uri_prefix = SBOL_URI "#" SBOL_IDENTIFIED, std::string id = "example") : Identified(SBOL_URI "#" SBOL_IDENTIFIED, uri_prefix, id)
 			{
 			}
 

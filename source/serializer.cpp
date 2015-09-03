@@ -87,8 +87,8 @@ int main()
 	cout << "Retrieved object at address " << cd << endl;
 
 	/* Test iteration through document registry and export of all SBOLObjects as URIs */
-	cout << "Testing iteration through document registry and export of URIs" << endl;
-	doc.write();
+	//cout << "Testing iteration through document registry and export of URIs" << endl;
+	//doc.write();
 
 	/* Test Maven version properties */
 	cout << "Testing version properties" << endl;
@@ -122,61 +122,63 @@ int main()
 	cdef.sequenceAnnotations.write();
 
 	/* Test iteration through Properties in an SBOLObject */
-	cout << "Serializing an Object" << endl;
-	cdef.serialize();
-
-	/* Begin serialization testing */
-	raptor_world* world = doc.getWorld();
-	FILE* fh = fopen("test.xml", "wb");
-	sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
-	ios = raptor_new_iostream_to_file_handle(world, fh);
-	raptor_serializer_start_to_iostream(sbol_serializer, NULL, ios);
-
-	sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI);
-	sbol_prefix = (const unsigned char *)"sbol";
-	sbol_namespaces = raptor_new_namespaces(world, 0);
-	sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
-	raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
-	raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
+	cout << "Serializing document" << endl;
+	//cdef.serialize();
+	doc.write("test.xml");
 
 
-	/* Make a triple with URI subject, URI predicate, literal object */
-	parent_serialization_object = raptor_new_term_from_uri_string(world, (const unsigned char *)"http://examples.com/sequence");
-
-	triple = raptor_new_statement(world);
-	triple->subject = parent_serialization_object;
-	triple->predicate = raptor_new_term_from_uri(world, raptor_new_uri(world, (const unsigned char *)"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
-	triple->object = raptor_new_term_from_uri_string(world, (const unsigned char *)SBOL_URI "Sequence");
-
-	nucleotides_property = raptor_new_term_from_uri_string(world, (const unsigned char *)SBOL_URI "nucleotides");
-
-	triple2 = raptor_new_statement(world);
-	triple2->subject = parent_serialization_object;
-	triple2->predicate = nucleotides_property;
-	triple2->object = raptor_new_term_from_literal(world,
-		(const unsigned char*)"An example literal",
-		NULL,
-		NULL);
-
-	////triple2->predicate = RAPTOR_TERM_TYPE_URI;
-	////	triple->predicate = raptor_new_term_from_uri(world, sbol_obj.identity.get());
-
-	/* Write the triple */
-	raptor_serializer_serialize_statement(sbol_serializer, triple2);
-
-	raptor_serializer_serialize_statement(sbol_serializer, triple);
-
-	///* End serialization */
-	raptor_serializer_serialize_end(sbol_serializer);
-
-	///* Delete the triple */
-	//raptor_free_statement(triple);
-	raptor_free_serializer(sbol_serializer);
-	raptor_free_iostream(ios);
-	//raptor_free_uri(sbol_uri);
-	//raptor_free_memory(uri_string);
-	//raptor_free_world(world);
-
-	//getchar();
+//	/* Begin serialization testing */
+//	raptor_world* world = doc.getWorld();
+//	FILE* fh = fopen("test.xml", "wb");
+//	sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
+//	ios = raptor_new_iostream_to_file_handle(world, fh);
+//	raptor_serializer_start_to_iostream(sbol_serializer, NULL, ios);
+//
+//	sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI);
+//	sbol_prefix = (const unsigned char *)"sbol";
+//	sbol_namespaces = raptor_new_namespaces(world, 0);
+//	sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
+//	raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
+//	raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
+//
+//
+//	/* Make a triple with URI subject, URI predicate, literal object */
+//	parent_serialization_object = raptor_new_term_from_uri_string(world, (const unsigned char *)"http://examples.com/sequence");
+//
+//	triple = raptor_new_statement(world);
+//	triple->subject = parent_serialization_object;
+//	triple->predicate = raptor_new_term_from_uri(world, raptor_new_uri(world, (const unsigned char *)"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
+//	triple->object = raptor_new_term_from_uri_string(world, (const unsigned char *)SBOL_URI "Sequence");
+//
+//	nucleotides_property = raptor_new_term_from_uri_string(world, (const unsigned char *)SBOL_URI "nucleotides");
+//
+//	triple2 = raptor_new_statement(world);
+//	triple2->subject = parent_serialization_object;
+//	triple2->predicate = nucleotides_property;
+//	triple2->object = raptor_new_term_from_literal(world,
+//		(const unsigned char*)"An example literal",
+//		NULL,
+//		NULL);
+//
+//	////triple2->predicate = RAPTOR_TERM_TYPE_URI;
+//	////	triple->predicate = raptor_new_term_from_uri(world, sbol_obj.identity.get());
+//
+//	/* Write the triple */
+//	raptor_serializer_serialize_statement(sbol_serializer, triple2);
+//
+//	raptor_serializer_serialize_statement(sbol_serializer, triple);
+//
+//	///* End serialization */
+//	raptor_serializer_serialize_end(sbol_serializer);
+//
+//	///* Delete the triple */
+//	//raptor_free_statement(triple);
+//	raptor_free_serializer(sbol_serializer);
+//	raptor_free_iostream(ios);
+//	//raptor_free_uri(sbol_uri);
+//	//raptor_free_memory(uri_string);
+//	//raptor_free_world(world);
+//
+//	//getchar();
 	return 0;
 }

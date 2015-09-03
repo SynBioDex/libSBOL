@@ -25,13 +25,14 @@ namespace sbol {
 		TopLevel& getTopLevel(std::string);
 		raptor_world* getWorld();
 		template <class SBOLClass > void add(SBOLClass& sbol_obj);
-		void write();
+		void write(std::string filename);
 	};
 
 	// Pitfall:  It's important that the SBOL object represented by sbol_obj is passed by reference not by value!
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
 	{
 		SBOLObjects[sbol_obj.identity.get()] = (TopLevel*)&sbol_obj;
+		sbol_obj.doc = this;
 	};
 
 }

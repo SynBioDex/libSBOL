@@ -1,9 +1,11 @@
 #include "property.h"
 
+#include <raptor2.h>
 #include <string>
 #include <vector>
 #include <functional>
 #include <iostream>
+
 
 using namespace std;
 using namespace sbol;
@@ -53,37 +55,19 @@ sbol_type SBOLObject::getTypeURI()
 //	return *sbol_owner;
 //}
 
-void SBOLObject::add(PropertyBase& property_instance)
-{
-	//properties[property_instance.type] = &property_instance;
-	cout << "Registering " << &property_instance << endl;
-	//sbol::global_property_buffer->insert({ property_instance.type, property_instance });
-
-	//properties.push_back(property_instance);
-	//properties.push_back((PropertyBase *)&property_instance);
-	//properties.push_back(property_instance);
-	//cout << &property_instance << endl;
-	//cout << &(*properties.back()) << endl;
-}
-
 //Property& SBOLObject::get()
 //{
 //	//return *properties[0];
 //	return properties.begin();
 //}
 
-void SBOLObject::serialize()
-{
-	for (auto it = properties.begin(); it != properties.end(); ++it)
-	{
-		std::cout << type << it->first << it->second.front() << endl;
-	}
+
+
 	//for (std::vector<PropertyBase*>::iterator property = properties.begin(); property != properties.end(); ++property)	
 	//{
 	//	obj = (*property);
 	//	std::cout << obj->type << endl;
 	//}
-}
 
 
 //sbol_type Property::getTypeURI()

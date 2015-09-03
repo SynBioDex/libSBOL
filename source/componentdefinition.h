@@ -15,7 +15,7 @@ namespace sbol
 			types(component_type, SBOL_TYPE, this)
 			{
 			}
-		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition", std::string display_id = "example", std::string component_type = SO_UNDEFINED ) : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, component_type, "", "")
+		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition", std::string display_id = "example", std::string component_type = SO_UNDEFINED ) : ComponentDefinition(SBOL_URI "#" SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, component_type, "", "")
 			{
 			}
 	};

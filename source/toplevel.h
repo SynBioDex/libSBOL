@@ -14,7 +14,7 @@ namespace sbol
 			Documented(type, uri_prefix, display_id, name, description)
 			{
 			}
-		TopLevel(std::string uri_prefix = SBOL_URI "/TopLevel", std::string display_id = "example") : TopLevel(SBOL_TOP_LEVEL, uri_prefix, display_id, "", "")
+		TopLevel(std::string uri_prefix = SBOL_URI "/TopLevel", std::string display_id = "example") : TopLevel(SBOL_URI "#" SBOL_TOP_LEVEL, uri_prefix, display_id, "", "")
 			{
 			}
 		void addToDocument(sbol::Document&);

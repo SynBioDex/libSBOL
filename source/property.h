@@ -3,26 +3,27 @@
 
 // The URIs defined here determine the appearance of serialized RDF/XML nodes.  Change these URIs to change the appearance of an SBOL class or property name
 #define SBOL_URI "http://sbolstandard.org/v2"
-#define SBOL_IDENTIFIED SBOL_URI "#Identified"
-#define SBOL_DOCUMENTED SBOL_URI "#Documented"
-#define SBOL_TOP_LEVEL SBOL_URI "#TopLevel"
-#define SBOL_GENERIC_TOP_LEVEL SBOL_URI "#GenericTopLevel"
-#define SBOL_COMPONENT_DEFINITION SBOL_URI "#ComponentDefinition"
-#define SBOL_DOCUMENT SBOL_URI "#Document"
+#define SBOL_IDENTIFIED "Identified"
+#define SBOL_DOCUMENTED "Documented"
+#define SBOL_TOP_LEVEL "TopLevel"
+#define SBOL_GENERIC_TOP_LEVEL "GenericTopLevel"
+#define SBOL_COMPONENT_DEFINITION "ComponentDefinition"
+#define SBOL_DOCUMENT "Document"
 
-#define SO_UNDEFINED "#SO_0000001"
+#define SO_UNDEFINED "SO_0000001"
 
-#define SBOL_IDENTITY SBOL_URI "#identity"
-#define SBOL_PERSISTENT_IDENTITY SBOL_URI "#persistentIdentity"
-#define SBOL_VERSION SBOL_URI "#version"
-#define SBOL_DISPLAY_ID SBOL_URI "#displayId"
-#define SBOL_NAME SBOL_URI "#name"
-#define SBOL_DESCRIPTION SBOL_URI "#description"
-#define SBOL_TYPE "#type"
-#define UNDEFINED SBOL_URI "#Undefined"
+#define SBOL_IDENTITY "identity"
+#define SBOL_PERSISTENT_IDENTITY "persistentIdentity"
+#define SBOL_VERSION "version"
+#define SBOL_DISPLAY_ID  "displayId"
+#define SBOL_NAME "name"
+#define SBOL_DESCRIPTION "description"
+#define SBOL_TYPE "type"
+#define UNDEFINED "Undefined"
 
 #include "sbolerror.h"
 
+#include <raptor2.h>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -356,13 +357,12 @@ namespace sbol
 
 	class SBOLObject
 	{
-	friend class PropertyBase;
+	friend class Document;
 
 	private:
 
 
 		Document *doc = NULL;
-		PropertyBase& get();
 	protected:
 		//protected:
 		//	sbol_type type;
@@ -379,9 +379,8 @@ namespace sbol
 		sbol_type type;
 		Property<std::string> identity;
 	
-		void add(PropertyBase& property_instance);
 		virtual sbol_type getTypeURI();
-		void serialize();
+		void serialize(raptor_serializer* sbol_serializer);
 	};
 
 		
