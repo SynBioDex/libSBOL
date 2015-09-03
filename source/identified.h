@@ -7,6 +7,17 @@
 
 namespace sbol {
 	class Identified : public SBOLObject {
+
+	// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
+	protected:
+		Identified(sbol_type type, std::string uri_prefix, std::string id) :
+			SBOLObject(type, uri_prefix, id),
+			//SBOLObject(type),
+			//identity(Property<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this)),
+			persistentIdentity(Property<std::string>(uri_prefix + "/" + id, SBOL_PERSISTENT_IDENTITY, this))
+			//version(VersionProperty("1.0.0"))			
+		{
+		}
 	public:
 
 		//Identified(std::string uri_prefix, std::string id);
@@ -14,15 +25,7 @@ namespace sbol {
 			{
 			}
 
-		// Delegate constructor
-		Identified(sbol_type type, std::string uri_prefix, std::string id) :
-			SBOLObject(type, uri_prefix, id),
-			//SBOLObject(type),
-			//identity(Property<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this)),
-			persistentIdentity(Property<std::string>(uri_prefix + "/" + id, SBOL_PERSISTENT_IDENTITY, this))
-			//version(VersionProperty("1.0.0"))			
-			{
-			}
+
 
 		//Identified(std::string, std::string id, std::string);
 		//Identified(std::string uri_prefix, std::string id);

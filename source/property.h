@@ -8,6 +8,7 @@
 #define SBOL_TOP_LEVEL "TopLevel"
 #define SBOL_GENERIC_TOP_LEVEL "GenericTopLevel"
 #define SBOL_COMPONENT_DEFINITION "ComponentDefinition"
+#define SBOL_SEQUENCE_ANNOTATION "SequenceAnnotation"
 #define SBOL_DOCUMENT "Document"
 
 #define SO_UNDEFINED "SO_0000001"
@@ -73,14 +74,6 @@ namespace sbol
 		SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
 
 	public:
-
-
-		//Property(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-		//	PropertyBase(type_uri, property_owner, this),
-		//	value(initial_value)
-		//{
-		//}
-		//Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL);
 		Property(std::string initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL);
 		Property(int initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL);
 		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
@@ -105,7 +98,6 @@ namespace sbol
 			std::vector<std::string> property_store;
 			property_store.push_back(initial_value);
 			sbol_owner->properties.insert({ type_uri, property_store });
-			//global_property_buffer->insert({ type_uri, *this });
 		}
 	}
 
@@ -118,7 +110,6 @@ namespace sbol
 			std::vector<std::string> property_store;
 			property_store.push_back("");
 			sbol_owner->properties.insert({ type_uri, property_store });
-			//global_property_buffer->insert({ type_uri, *this });
 		}
 	}
 
@@ -183,67 +174,30 @@ namespace sbol
 		cout << "Subject:  " << subject << endl;
 		cout << "Predicate: " << predicate << endl;
 		cout << "Object: "  << endl;
+	};
 
-		//triple = raptor_new_statement(world);
-		//triple->subject = parent_serialization_object;
-		//triple->predicate = raptor_new_term_from_uri(world, raptor_new_uri(world, (const unsigned char *)"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"));
-		//triple->object = raptor_new_term_from_uri_string(world, (const unsigned char *)SBOL_URI "Sequence");
-	}
+	class OwnedObjects
+	{
+	protected:
+		sbol_type type;
+		SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
+		
+	public:
+		OwnedObjects() :
+			type(UNDEFINED),
+			sbol_owner(NULL)
+		{
+		}
+		OwnedObjects(sbol_type type_uri, void *property_owner);
+		OwnedObjects(SBOLObject& first_object, sbol_type type_uri, void *property_owner);
+		void add(SBOLObject& sbol_obj);
+		SBOLObject& get(std::string uri);
+		//SBOLObject& get(int index);
+		void remove(std::string uri);
+	};
 
 
-	//class TextProperty : public Property
-	//{
-	//	std::string value;
-	//public:
-	//	//Identified(std::string uri_prefix, std::string id);
-	//	TextProperty(sbol_type type_uri = UNDEFINED, SBOLObject *owner_obj = NULL, std::string val = "") :
-	//		Property(type_uri, owner_obj),
-	//		value(val)
-	//		{
-	//		}
-	//	std::string get();
-	//	void set(std::string arg);
-	//	std::vector<std::string> split(const char c);
-	//	sbol_type getTypeURI();
-	//	SBOLObject& getOwner();
-	//};
-
-	//class IntProperty 
-	//{
-	//	sbol_type type;
-	//	int value;
-	//public:
-	//	//Identified(std::string uri_prefix, std::string id);
-	//	IntProperty(int arg = 0) :
-	//		type(),
-	//		value(arg)
-	//		{
-	//		}
-	//	int get();
-	//	void set(int arg);
-	//};
-
-	//class VersionProperty : public Property < std::string >
-	//	// based on Maven version strings
-	//{
-	//	void update();
-	//public:
-	//	Property<int> major;
-	//	Property<int> minor;
-	//	Property<int> incremental;
-	//	Property<std::string> qualifier;
-
-	//	VersionProperty() :
-	//		Property<std::string>("1.0.0", SBOL_VERSION, NULL),
-	//		major(Property<int>(1)),
-	//		minor(Property<int>(0)),
-	//		incremental(Property<int>(0)),
-	//		qualifier(Property<std::string>("", UNDEFINED, NULL))
-	//	{
-	//	}
-	//	VersionProperty(std::string version_arg);
-	//	void set(std::string maven_version);
-	//};
+	
 
 	template <typename LiteralType>
 	class ListProperty : public Property<LiteralType> 
@@ -370,6 +324,8 @@ namespace sbol
 	public:
 		//std::unordered_map<sbol::sbol_type, sbol::PropertyBase> properties;
 		std::unordered_map<sbol::sbol_type, std::vector< std::string > > properties;
+		std::unordered_map<sbol::sbol_type, std::vector< std::string > > list_properties;
+		std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
 
 		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI "/Undefined", std::string id = "example") :
 			type(type),

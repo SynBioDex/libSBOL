@@ -109,17 +109,17 @@ int main()
 	docum.identity.write();
 
 	/* Test template class for ListProperties */
-	cout << "Testing list properties" << endl;
-	//ListProperty<int> lp = ListProperty<int>(1, SBOL_TYPE, NULL);
-	cdef.types.add("SO_xxxxxxxx");
-	cdef.types.add("SO_xxxxxxxy");
-	cdef.types.write();
-	
+	//cout << "Testing list properties" << endl;
+	////ListProperty<int> lp = ListProperty<int>(1, SBOL_TYPE, NULL);
+	//cdef.types.add("SO_xxxxxxxx");
+	//cdef.types.add("SO_xxxxxxxy");
+	//cdef.types.write();
+
 	/* Test ContainedObjects */
 	cdef.sequenceAnnotations.add(obj);
 	obj = cdef.sequenceAnnotations.get(obj.identity.get());
 	cout << obj.identity.get() << endl;
-	cdef.sequenceAnnotations.write();
+	//cdef.sequenceAnnotations.write();
 
 	/* Test iteration through Properties in an SBOLObject */
 	cout << "Serializing document" << endl;
