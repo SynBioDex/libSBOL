@@ -116,6 +116,7 @@ int main()
 	//cdef.types.write();
 
 	/* Test ContainedObjects */
+	cout << "Test Container Objects" << endl;
 	cdef.sequenceAnnotations.add(obj);
 	obj = cdef.sequenceAnnotations.get(obj.identity.get());
 	cout << obj.identity.get() << endl;

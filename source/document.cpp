@@ -12,37 +12,31 @@ using namespace std;
 
 void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 {
-
-	for (auto it = properties.begin(); it != properties.end(); ++it)
+	if (doc)
 	{
-		if (doc)
+		cout << "Serializing object" << endl;
+		raptor_world *sbol_world = doc->getWorld();
+
+		for (auto it = properties.begin(); it != properties.end(); ++it)
 		{
-			cout << "Serializing object" << endl;
-			raptor_world *sbol_world = doc->getWorld();
-			raptor_statement *triple = raptor_new_statement(sbol_world);
 
 			// This RDF triple makes the following statement:
 			// "This instance of an SBOL object belongs to the indicated class type"
-
+			raptor_statement *triple = raptor_new_statement(sbol_world);
 			std::string subject = identity.get();
 			std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 			std::string object = type;
 
-
-			cout << identity.get() << '\n' << subject << endl;
-			cout << "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" << '\n' << predicate << endl;
-			cout << type << '\n' << object << endl;
 			triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 			triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
 			triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
 			
+			// This RDF triple makes the following statement:
+			// "This SBOL object has a property called X and its value is Y"
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
 
 			std::string new_predicate = (SBOL_URI "#" + it->first);
 			std::string new_object = it->second.front();
-
-			cout << (SBOL_URI "#" + it->first) << '\n' << new_predicate << endl;
-			cout << it->second.front() << '\n' << new_object << endl;
 
 			triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 			triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_predicate.c_str());
@@ -55,6 +49,18 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 			// Delete the triple 
 			raptor_free_statement(triple);
 			raptor_free_statement(triple2);
+		}
+
+		// Serialize all properties that are containers of owned objects
+		for (auto i = owned_objects.begin(); i != owned_objects.end(); ++i)
+		{
+			// Serialize each object in the object store that belongs to this property
+			vector<SBOLObject*> object_store = i->second;
+			for (auto o = object_store.begin(); o != object_store.end(); ++o)
+			{
+				SBOLObject* obj = *o;
+				obj->serialize(sbol_serializer);
+			}
 		}
 	}
 }
@@ -81,7 +87,8 @@ raptor_world* Document::getWorld()
 
 void Document::write(std::string filename)
 {
-	TopLevel *tl;
+
+	// Initialize raptor serializer
 	FILE* fh = fopen(filename.c_str(), "wb");
 	raptor_world* world = getWorld();
 	raptor_serializer* sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
@@ -93,7 +100,8 @@ void Document::write(std::string filename)
 	raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
 	raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
-
+	
+	// Iterate through objects in document and serialize them
 	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
 	{
 		obj_i->second->serialize(sbol_serializer);
@@ -103,7 +111,5 @@ void Document::write(std::string filename)
 	raptor_serializer_serialize_end(sbol_serializer);
 	raptor_free_serializer(sbol_serializer);
 	raptor_free_iostream(ios);
-	//raptor_free_uri(sbol_uri);
-	//raptor_free_memory(uri_string);
-	//raptor_free_world(world);
+
 };
