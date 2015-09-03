@@ -24,7 +24,8 @@ namespace sbol {
 
 		TopLevel& getTopLevel(std::string);
 		raptor_world* getWorld();
-		template <class SBOLClass > void add(SBOLClass& sbol_obj);
+		template < class SBOLClass > void add(SBOLClass& sbol_obj);
+		template < class SBOLClass > SBOLClass& get(std::string uri);
 		void write(std::string filename);
 	};
 
@@ -35,5 +36,9 @@ namespace sbol {
 		sbol_obj.doc = this;
 	};
 
+	template <class SBOLClass > SBOLClass& Document::get(std::string uri)
+	{
+		return (SBOLClass &)*(this->SBOLObjects[uri]);
+	};
 }
 
