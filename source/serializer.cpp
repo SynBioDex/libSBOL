@@ -116,8 +116,9 @@ int main()
 	/* Test ContainedObjects */
 	cout << "Test Container Objects" << endl;
 	cdef.sequenceAnnotations.add(obj);
-	obj = cdef.sequenceAnnotations.get(obj.identity.get());
-	cout << obj.identity.get() << endl;
+	vector<SBOLObject> annotations = cdef.sequenceAnnotations.get();
+	//obj = cdef.sequenceAnnotations.get(obj.identity.get());
+	//cout << obj.identity.get() << endl;
 	//cdef.sequenceAnnotations.write();
 
 	/* Test iteration through Properties in an SBOLObject */

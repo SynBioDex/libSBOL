@@ -176,6 +176,8 @@ namespace sbol
 		cout << "Object: "  << endl;
 	};
 
+	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
+	template <class SBOLClass>
 	class OwnedObjects
 	{
 	protected:
@@ -183,21 +185,52 @@ namespace sbol
 		SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
 		
 	public:
-		OwnedObjects() :
+		OwnedObjects<SBOLClass>() :
 			type(UNDEFINED),
 			sbol_owner(NULL)
 		{
 		}
 		OwnedObjects(sbol_type type_uri, void *property_owner);
 		OwnedObjects(SBOLObject& first_object, sbol_type type_uri, void *property_owner);
-		void add(SBOLObject& sbol_obj);
-		SBOLObject& get(std::string uri);
-		//SBOLObject& get(int index);
+		std::vector<SBOLClass> get();
+		void add(SBOLClass& sbol_obj);
 		void remove(std::string uri);
 	};
 
+	template <class SBOLClass >
+	OwnedObjects< SBOLClass >::OwnedObjects(sbol_type type_uri, void *property_owner)
+	{
+		type = type_uri;
+		sbol_owner = ((SBOLObject *)property_owner);
 
-	
+		// Register Property in owner Object
+		if (sbol_owner != NULL)
+		{
+			std::vector<sbol::SBOLObject*> object_store;
+			sbol_owner->owned_objects.insert({ type_uri, object_store });
+		}
+	};
+
+	template <class SBOLClass>
+	OwnedObjects< SBOLClass >::OwnedObjects(SBOLObject& first_object, sbol_type type_uri, void *property_owner)
+	{
+	};
+
+	template < class SBOLClass >
+	void OwnedObjects<SBOLClass>::add(SBOLClass& sbol_obj)
+	{
+		sbol_owner->owned_objects[type].push_back((SBOLObject *)&sbol_obj);
+	};
+
+	template < class SBOLClass >
+	std::vector<SBOLClass> OwnedObjects<SBOLClass>::get()
+	{
+		std::vector<SBOLClass> vector_copy;
+		vector_copy.push_back(*sbol_owner->owned_objects[type].front());
+		return vector_copy;
+	};
+
+
 
 	template <typename LiteralType>
 	class ListProperty : public Property<LiteralType> 
@@ -261,39 +294,39 @@ namespace sbol
 		}
 	};
 
-	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
-	template <class SBOLClass>
-	class ContainedObjects : public Property<SBOLClass>
-	{
-	protected:
-		std::map<std::string, SBOLClass*> constituent_objects;
-	public:
-		void add(SBOLClass& sbol_obj);
-		SBOLClass& get(std::string uri);
-		void write();
-	};
+	///* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
+	//template <class SBOLClass>
+	//class ContainedObjects : public Property<SBOLClass>
+	//{
+	//protected:
+	//	std::map<std::string, SBOLClass*> constituent_objects;
+	//public:
+	//	void add(SBOLClass& sbol_obj);
+	//	SBOLClass& get(std::string uri);
+	//	void write();
+	//};
 
-	template < class SBOLClass >
-	void ContainedObjects<SBOLClass>::add(SBOLClass& sbol_obj)
-	{
-		constituent_objects[sbol_obj.identity.get()] = &sbol_obj;
-	};
+	//template < class SBOLClass >
+	//void ContainedObjects<SBOLClass>::add(SBOLClass& sbol_obj)
+	//{
+	//	constituent_objects[sbol_obj.identity.get()] = &sbol_obj;
+	//};
 
-	template < class SBOLClass >
-	SBOLClass& ContainedObjects<SBOLClass>::get(std::string uri)
-	{
-		return *constituent_objects[uri];
-	};
+	//template < class SBOLClass >
+	//SBOLClass& ContainedObjects<SBOLClass>::get(std::string uri)
+	//{
+	//	return *constituent_objects[uri];
+	//};
 
-	template < class SBOLClass >
-	void ContainedObjects<SBOLClass>::write()
-	{
-		cout << "Testing object container" << endl;
-		for (std::map<std::string, SBOLClass*>::iterator obj_i = constituent_objects.begin(); obj_i != constituent_objects.end(); obj_i++) 
-		{
-			cout << obj_i->first << endl;
-		}
-	};
+	//template < class SBOLClass >
+	//void ContainedObjects<SBOLClass>::write()
+	//{
+	//	cout << "Testing object container" << endl;
+	//	for (std::map<std::string, SBOLClass*>::iterator obj_i = constituent_objects.begin(); obj_i != constituent_objects.end(); obj_i++) 
+	//	{
+	//		cout << obj_i->first << endl;
+	//	}
+	//};
 
 	/* A list of URIs corresponding to the referenced objects.  Corresponding to white diamonds in UML diagrams */
 	//class ReferencedObjects : public ContainedObjects < std::string >
