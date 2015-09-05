@@ -226,7 +226,11 @@ namespace sbol
 	std::vector<SBOLClass> OwnedObjects<SBOLClass>::get()
 	{
 		std::vector<SBOLClass> vector_copy;
-		vector_copy.push_back(*sbol_owner->owned_objects[type].front());
+		for (auto o = sbol_owner->owned_objects[type].begin(); o != sbol_owner->owned_objects[type].end(); o++)
+		{
+			vector_copy.push_back(**o);
+		}
+		//vector_copy = sbol_owner->owned_objects[type];
 		return vector_copy;
 	};
 

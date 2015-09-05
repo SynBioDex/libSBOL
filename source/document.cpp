@@ -54,11 +54,13 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 		// Serialize all properties that are containers of owned objects
 		for (auto i = owned_objects.begin(); i != owned_objects.end(); ++i)
 		{
+			cout << "Serializing " << owned_objects.size() << " owned_objects" << endl;
 			// Serialize each object in the object store that belongs to this property
 			vector<SBOLObject*> object_store = i->second;
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
 			{
 				SBOLObject* obj = *o;
+				cout << obj->type << endl;
 				obj->serialize(sbol_serializer);
 			}
 		}
