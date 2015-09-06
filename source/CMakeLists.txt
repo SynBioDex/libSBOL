@@ -30,6 +30,7 @@ FILE(GLOB SBOL_HEADER_FILES
 	toplevel.h
 	generictoplevel.h
 	componentdefinition.h
+	sequenceannotation.h
 	document.h)
 FILE(GLOB SBOL_SOURCE_FILES	
 	sbolerror.cpp

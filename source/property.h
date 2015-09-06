@@ -20,6 +20,7 @@
 #define SBOL_NAME "name"
 #define SBOL_DESCRIPTION "description"
 #define SBOL_TYPE "type"
+#define SBOL_START "start"
 #define UNDEFINED "Undefined"
 
 #include "sbolerror.h"
@@ -234,69 +235,75 @@ namespace sbol
 		return vector_copy;
 	};
 
-
-
-	template <typename LiteralType>
-	class ListProperty : public Property<LiteralType> 
+	class ReferencedObjects : public Property<std::string>
 	{
-	protected:
-		std::vector<LiteralType> value;
-		int index;
 	public:
-		ListProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-			Property(initial_value, type_uri, property_owner),
-			value(1, initial_value),
-			index(0)
+		ReferencedObjects(std::string initial_value, sbol_type type_uri, void *property_owner) : Property<std::string>::Property(initial_value, type_uri, property_owner)
 		{
 		}
-		void add(LiteralType new_value);
-		LiteralType get();
-		bool end();
-		void write();
 	};
 
-	template < typename LiteralType >
-	void ListProperty<LiteralType>::add(LiteralType new_value)
-	{
-		value.push_back(new_value);
-	};
+	//template <typename LiteralType>
+	//class ListProperty : public Property<LiteralType> 
+	//{
+	//protected:
+	//	std::vector<LiteralType> value;
+	//	int index;
+	//public:
+	//	ListProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+	//		Property(initial_value, type_uri, property_owner),
+	//		value(1, initial_value),
+	//		index(0)
+	//	{
+	//	}
+	//	void add(LiteralType new_value);
+	//	LiteralType get();
+	//	bool end();
+	//	void write();
+	//};
 
-	template < typename LiteralType >
-	LiteralType ListProperty<LiteralType>::get()
-	{
-		// TODO Throw error if list has no elements
-		LiteralType current_val = value[index];
-		if (end())
-			index = 0;
-		else 
-			index++;
-		return current_val;
-	};
+	//template < typename LiteralType >
+	//void ListProperty<LiteralType>::add(LiteralType new_value)
+	//{
+	//	value.push_back(new_value);
+	//};
 
-	template < typename LiteralType >
-	bool ListProperty<LiteralType>::end()
-	{
-		return (index == value.size());
-	};
+	//template < typename LiteralType >
+	//LiteralType ListProperty<LiteralType>::get()
+	//{
+	//	// TODO Throw error if list has no elements
+	//	LiteralType current_val = value[index];
+	//	if (end())
+	//		index = 0;
+	//	else 
+	//		index++;
+	//	return current_val;
+	//};
 
-	template < typename LiteralType >
-	void ListProperty<LiteralType>::write()
-	{
-		std::string subject;
-		sbol_type predicate;
-		LiteralType object;
+	//template < typename LiteralType >
+	//bool ListProperty<LiteralType>::end()
+	//{
+	//	return (index == value.size());
+	//};
 
-		while (!end())
-		{
-			subject = (*sbol_owner).identity.get();
-			predicate = type;
-			object = get();
+	//template < typename LiteralType >
+	//void ListProperty<LiteralType>::write()
+	//{
+	//	std::string subject;
+	//	sbol_type predicate;
+	//	LiteralType object;
 
-			cout << "Subject:  " << subject << endl;
-			cout << "Predicate: " << predicate << endl;
-			cout << "Object: " << object << endl;
-		}
-	};
+	//	while (!end())
+	//	{
+	//		subject = (*sbol_owner).identity.get();
+	//		predicate = type;
+	//		object = get();
+
+	//		cout << "Subject:  " << subject << endl;
+	//		cout << "Predicate: " << predicate << endl;
+	//		cout << "Object: " << object << endl;
+	//	}
+	//};
 
 	///* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
 	//template <class SBOLClass>

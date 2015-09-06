@@ -115,16 +115,16 @@ int main()
 
 	/* Test ContainedObjects */
 	cout << "Test Container Objects" << endl;
-	cdef.sequenceAnnotations.add(obj);
-	SBOLObject& obj2 = SBOLObject();
-	cdef.sequenceAnnotations.add(obj2);
+	//cdef.sequenceAnnotations.add(obj);
+	//SBOLObject& obj2 = SBOLObject();
+	//cdef.sequenceAnnotations.add(obj2);
 	doc.add<ComponentDefinition>(cdef);
+	//vector<SBOLObject> annotations = cdef.sequenceAnnotations.get();
 
-	vector<SBOLObject> annotations = cdef.sequenceAnnotations.get();
-	//obj = cdef.sequenceAnnotations.get(obj.identity.get());
-	//cout << obj.identity.get() << endl;
-	//cdef.sequenceAnnotations.write();
-
+	SequenceAnnotation& SA = SequenceAnnotation();
+	cout << SA.start.get() << endl;
+	cdef.sequenceAnnotations.add(SA);
+	doc.add<SequenceAnnotation>(SA);
 	/* Test iteration through Properties in an SBOLObject */
 	cout << "Serializing document" << endl;
 	//cdef.serialize();

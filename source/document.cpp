@@ -21,7 +21,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 		{
 
 			// This RDF triple makes the following statement:
-			// "This instance of an SBOL object belongs to the indicated class type"
+			// "This instance of an SBOL object belongs to class X"
 			raptor_statement *triple = raptor_new_statement(sbol_world);
 			std::string subject = identity.get();
 			std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
@@ -51,16 +51,39 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 			raptor_free_statement(triple2);
 		}
 
-		// Serialize all properties that are containers of owned objects
+		// Serialize all properties corresponding to black diamonds in UML diagrams
 		for (auto i = owned_objects.begin(); i != owned_objects.end(); ++i)
 		{
 			cout << "Serializing " << owned_objects.size() << " owned_objects" << endl;
 			// Serialize each object in the object store that belongs to this property
+			std::string property_name = i->first;
 			vector<SBOLObject*> object_store = i->second;
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
 			{
 				SBOLObject* obj = *o;
 				cout << obj->type << endl;
+
+				// This RDF triple makes the following statement:
+				// "This instance of an SBOL object belongs to class X"
+				raptor_statement *triple = raptor_new_statement(sbol_world);
+				std::string subject = type;
+				std::string predicate = SBOL_URI "#" + property_name;
+				std::string object = obj->identity.get();
+
+				triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
+				triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
+				triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
+
+				cout << subject << predicate << object << endl;
+				getchar;
+
+				// Write the triples
+				raptor_serializer_serialize_statement(sbol_serializer, triple);
+
+				// Delete the triple 
+				raptor_free_statement(triple);
+
+				// Recursive call to serialize child objects
 				obj->serialize(sbol_serializer);
 			}
 		}

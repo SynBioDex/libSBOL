@@ -4,6 +4,9 @@
 
 namespace sbol 
 {
+
+	class SequenceAnnotation;
+
 	class ComponentDefinition : public TopLevel
 	{
 
@@ -16,8 +19,8 @@ namespace sbol
 		{
 		}
 	public:
-		ListProperty<std::string> types;
-		OwnedObjects<SBOLObject> sequenceAnnotations;
+		Property<std::string> types;
+		OwnedObjects<SequenceAnnotation> sequenceAnnotations;
 
 		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition", std::string display_id = "example", std::string component_type = SO_UNDEFINED ) : ComponentDefinition(SBOL_URI "#" SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, component_type, "", "")
 			{

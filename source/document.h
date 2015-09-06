@@ -1,6 +1,7 @@
 //#include <libxml/xmlexports.h>
 #include "generictoplevel.h"
 #include "componentdefinition.h"
+#include "sequenceannotation.h"
 
 #include <raptor2.h>
 #include <unordered_map>
