@@ -21,6 +21,7 @@
 #define SBOL_DESCRIPTION "description"
 #define SBOL_TYPE "type"
 #define SBOL_START "start"
+#define SBOL_SEQUENCE_ANNOTATIONS "sequenceAnnotation"
 #define UNDEFINED "Undefined"
 
 #include "sbolerror.h"
@@ -37,42 +38,15 @@ namespace sbol
 	/* Contains URI strings used for constructing RDF triples */
 	typedef std::string sbol_type;
 
-
 	/* All SBOLProperties have a pointer back to the owning object (whose URI is the subject of an RDF triple).  This requires forward declaration of the SBOLObject class */
 	class SBOLObject;
-
-	//class PropertyBase
-	//{
-	//
-	//	friend class SBOLObject;
-
-	//protected:
-	//	sbol_type type;
-	//	SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
-
-	//public:
-	//	PropertyBase() :
-	//		type(UNDEFINED),
-	//		sbol_owner(NULL)
-	//	{
-	//	}
-
-	//	//PropertyBase(sbol_type type_uri, void *property_owner) :
-	//	//	type(type_uri),
-	//	//	sbol_owner((SBOLObject *)property_owner)
-	//	//{
-	//	//}
-	//	PropertyBase(sbol_type type_uri, void *property_owner, void *self);
-
-	//};
-
 
 	template <typename LiteralType>
 	class Property
 	{
 	protected:
 		sbol_type type;
-		SBOLObject *sbol_owner;  // pointer to the owning SBOLObject to which this Property belongs
+		SBOLObject *sbol_owner;  // back pointer to the SBOLObject to which this Property belongs
 
 	public:
 		Property(std::string initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL);
@@ -84,7 +58,7 @@ namespace sbol
 		}
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
-		std::string get();
+		virtual std::string get();
 		virtual void set(std::string new_value);
 		virtual void set(int new_value);
 		virtual void write();
@@ -152,7 +126,8 @@ namespace sbol
 	{
 		if (sbol_owner)
 		{
-			sbol_owner->properties[type].push_back( new_value );
+			//sbol_owner->properties[type].push_back( new_value );
+			sbol_owner->properties[type][0] = new_value;
 		}
 	};
 
@@ -243,24 +218,60 @@ namespace sbol
 		}
 	};
 
-	//template <typename LiteralType>
-	//class ListProperty : public Property<LiteralType> 
-	//{
-	//protected:
-	//	std::vector<LiteralType> value;
-	//	int index;
-	//public:
-	//	ListProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-	//		Property(initial_value, type_uri, property_owner),
-	//		value(1, initial_value),
-	//		index(0)
-	//	{
-	//	}
-	//	void add(LiteralType new_value);
-	//	LiteralType get();
-	//	bool end();
-	//	void write();
-	//};
+	template <typename LiteralType>
+	class ListProperty : public Property<LiteralType> 
+	{
+	public:
+		ListProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+			Property(initial_value, type_uri, property_owner)
+		{
+		}
+	void add(std::string new_value);
+	std::string get(int index);
+	void remove(int index);
+	};
+
+	template <typename LiteralType>
+	std::string ListProperty<LiteralType>::get(int index)
+	{
+		if (sbol_owner)
+		{
+			if (sbol_owner->properties.find(type) == sbol_owner->properties.end())
+			{
+				// not found
+				return "";
+			}
+			else
+			{
+				// found
+				return sbol_owner->properties[type].at(index);
+			}
+		}
+		else
+		{
+			return "";
+		}
+	};
+
+	template <typename LiteralType>
+	void ListProperty<LiteralType>::add(std::string new_value)
+	{
+		if (sbol_owner)
+		{
+			sbol_owner->properties[type].push_back(new_value);
+		}
+	};
+
+
+	template <typename LiteralType>
+	void ListProperty<LiteralType>::remove(int index)
+	{
+		if (sbol_owner)
+		{
+			sbol_owner->properties[type].erase( sbol_owner->properties[type].begin() + index - 1);
+		}
+	};
+
 
 	//template < typename LiteralType >
 	//void ListProperty<LiteralType>::add(LiteralType new_value)
@@ -305,45 +316,7 @@ namespace sbol
 	//	}
 	//};
 
-	///* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
-	//template <class SBOLClass>
-	//class ContainedObjects : public Property<SBOLClass>
-	//{
-	//protected:
-	//	std::map<std::string, SBOLClass*> constituent_objects;
-	//public:
-	//	void add(SBOLClass& sbol_obj);
-	//	SBOLClass& get(std::string uri);
-	//	void write();
-	//};
-
-	//template < class SBOLClass >
-	//void ContainedObjects<SBOLClass>::add(SBOLClass& sbol_obj)
-	//{
-	//	constituent_objects[sbol_obj.identity.get()] = &sbol_obj;
-	//};
-
-	//template < class SBOLClass >
-	//SBOLClass& ContainedObjects<SBOLClass>::get(std::string uri)
-	//{
-	//	return *constituent_objects[uri];
-	//};
-
-	//template < class SBOLClass >
-	//void ContainedObjects<SBOLClass>::write()
-	//{
-	//	cout << "Testing object container" << endl;
-	//	for (std::map<std::string, SBOLClass*>::iterator obj_i = constituent_objects.begin(); obj_i != constituent_objects.end(); obj_i++) 
-	//	{
-	//		cout << obj_i->first << endl;
-	//	}
-	//};
-
-	/* A list of URIs corresponding to the referenced objects.  Corresponding to white diamonds in UML diagrams */
-	//class ReferencedObjects : public ContainedObjects < std::string >
-	//{
-
-	//};
+	
 
 	/* All SBOLObjects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
 	class Document;
@@ -380,7 +353,7 @@ namespace sbol
 		Property<std::string> identity;
 	
 		virtual sbol_type getTypeURI();
-		void serialize(raptor_serializer* sbol_serializer);
+		void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
 	};
 
 		

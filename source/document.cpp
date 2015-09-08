@@ -10,13 +10,22 @@
 using namespace sbol;
 using namespace std;
 
-void SBOLObject::serialize(raptor_serializer* sbol_serializer)
+void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world)
 {
+	cout << "Serializing object" << endl;
+
+	// Check if there is an RDF graph associated with this SBOLObject.  Only TopLevel objects can be belong to SBOL Documents, so
+	// only TopLevel objects have a valid back-pointer.
+	//
+	// The only other type of SBOL Object that can serialize besides TopLevel are objects
+	// that form a composite with a TopLevel object.  In this case, the TopLevel object will pass the
+	// pointer to the RDF graph to its children objects
 	if (doc)
 	{
-		cout << "Serializing object" << endl;
-		raptor_world *sbol_world = doc->getWorld();
-
+		sbol_world = doc->getWorld();
+	}
+	if (sbol_world)
+	{
 		for (auto it = properties.begin(); it != properties.end(); ++it)
 		{
 
@@ -30,7 +39,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 			triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 			triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
 			triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
-			
+
 			// This RDF triple makes the following statement:
 			// "This SBOL object has a property called X and its value is Y"
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
@@ -42,16 +51,19 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 			triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_predicate.c_str());
 			triple2->object = raptor_new_term_from_literal(sbol_world, (const unsigned char *)new_object.c_str(), NULL, NULL);
 
+			cout << subject << new_predicate << new_object << endl;
+
 			// Write the triples
 			raptor_serializer_serialize_statement(sbol_serializer, triple);
 			raptor_serializer_serialize_statement(sbol_serializer, triple2);
-			
+
 			// Delete the triple 
 			raptor_free_statement(triple);
 			raptor_free_statement(triple2);
 		}
 
 		// Serialize all properties corresponding to black diamonds in UML diagrams
+		// RDF-XML list/container elements
 		for (auto i = owned_objects.begin(); i != owned_objects.end(); ++i)
 		{
 			cout << "Serializing " << owned_objects.size() << " owned_objects" << endl;
@@ -64,9 +76,9 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 				cout << obj->type << endl;
 
 				// This RDF triple makes the following statement:
-				// "This instance of an SBOL object belongs to class X"
+				// "This instance of an SBOL object owns another SBOL object"
 				raptor_statement *triple = raptor_new_statement(sbol_world);
-				std::string subject = type;
+				std::string subject = identity.get();
 				std::string predicate = SBOL_URI "#" + property_name;
 				std::string object = obj->identity.get();
 
@@ -75,7 +87,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 				triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
 
 				cout << subject << predicate << object << endl;
-				getchar;
 
 				// Write the triples
 				raptor_serializer_serialize_statement(sbol_serializer, triple);
@@ -84,7 +95,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer)
 				raptor_free_statement(triple);
 
 				// Recursive call to serialize child objects
-				obj->serialize(sbol_serializer);
+				obj->serialize(sbol_serializer, sbol_world);
 			}
 		}
 	}

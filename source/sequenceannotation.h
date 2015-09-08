@@ -15,7 +15,7 @@ namespace sbol
 		{
 		}
 	public:
-		SequenceAnnotation(std::string uri_prefix = SBOL_URI "#" SBOL_SEQUENCE_ANNOTATION, std::string id = "example", std::string start = "0") : SequenceAnnotation(SBOL_URI "#" SBOL_SEQUENCE_ANNOTATION, uri_prefix, id, start)
+		SequenceAnnotation(std::string uri_prefix = SBOL_URI "/" SBOL_SEQUENCE_ANNOTATION, std::string id = "example", std::string start = "0") : SequenceAnnotation(SBOL_URI "#" SBOL_SEQUENCE_ANNOTATION, uri_prefix, id, start)
 			{
 			}
 		

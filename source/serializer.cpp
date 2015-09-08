@@ -122,9 +122,10 @@ int main()
 	//vector<SBOLObject> annotations = cdef.sequenceAnnotations.get();
 
 	SequenceAnnotation& SA = SequenceAnnotation();
+	SA.start.set("10");
 	cout << SA.start.get() << endl;
 	cdef.sequenceAnnotations.add(SA);
-	doc.add<SequenceAnnotation>(SA);
+	//doc.add<SequenceAnnotation>(SA);
 	/* Test iteration through Properties in an SBOLObject */
 	cout << "Serializing document" << endl;
 	//cdef.serialize();
