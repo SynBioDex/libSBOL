@@ -21,7 +21,7 @@ namespace sbol {
 		}
 
 	public:
-		Documented(std::string uri_prefix = SBOL_URI "/Documented", std::string display_id = "example") : Documented(SBOL_URI "#" SBOL_DOCUMENTED, uri_prefix, display_id, "", "")
+		Documented(std::string uri_prefix = SBOL_URI "/Documented", std::string display_id = "example") : Documented(SBOL_DOCUMENTED, uri_prefix, display_id, "", "")
 			{
 			}
 
