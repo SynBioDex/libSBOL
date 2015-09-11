@@ -82,26 +82,12 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			
 			// This RDF triple makes the following statement:
 			// "This instance of an SBOL object has property called X"
-			raptor_statement *triple = raptor_new_statement(sbol_world);
-			std::string subject = identity.get();
-			std::string predicate = property_name;
-			raptor_term *blank = raptor_new_term_from_blank(sbol_world, NULL);
-			triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
-			triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
-			triple->object = blank;
-
-			// Write the triples
-			raptor_serializer_serialize_statement(sbol_serializer, triple);
-
-			// Delete the triple 
-			raptor_free_statement(triple);
-
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
-			subject = property_name;
+			subject = identity.get();
 			predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 			object = property_name;
 			
-			triple2->subject = blank;
+			triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 			triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
 			triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
 			cout << subject << predicate << object << endl;
@@ -111,24 +97,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 
 			// Delete the triple 
 			raptor_free_statement(triple2);
-
-			// This RDF triple makes the following statement:
-			// "This property is an RDF container"
-			//raptor_statement *triple2 = raptor_new_statement(sbol_world);
-			//subject = property_name;
-			//predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
-			//object = "http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag";
-			//
-			//triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
-			//triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
-			//triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
-			//cout << subject << predicate << object << endl;
-
-			//// Write the triple2s
-			//raptor_serializer_serialize_statement(sbol_serializer, triple2);
-
-			//// Delete the triple 
-			//raptor_free_statement(triple2);
 
 			int i_o = 0;
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
@@ -149,7 +117,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 				//std::string object = obj->identity.get();
 
 				//triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
-				triple->subject = blank;
+				triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 				triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
 				triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
 

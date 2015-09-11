@@ -52,8 +52,8 @@ namespace sbol
 		SBOLObject *sbol_owner;  // back pointer to the SBOLObject to which this Property belongs
 
 	public:
-		Property(std::string initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL);
-		Property(int initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL);
+		Property(sbol_type type_uri, void *property_owner, std::string initial_value);
+		Property(sbol_type type_uri, void *property_owner, int initial_value);
 		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
 			type(type_uri),
 			sbol_owner((SBOLObject *)property_owner)
@@ -68,7 +68,7 @@ namespace sbol
 	};
 
 	template <typename LiteralType>
-	Property<LiteralType>::Property(std::string initial_value, sbol_type type_uri, void *property_owner) : Property(type_uri, property_owner)
+	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value) : Property(type_uri, property_owner)
 	{
 		// Register Property in owner Object
 		if (sbol_owner != NULL)
@@ -80,7 +80,7 @@ namespace sbol
 	}
 
 	template <typename LiteralType>
-	Property<LiteralType>::Property(int initial_value, sbol_type type_uri, void *property_owner) : Property(type_uri, property_owner)
+	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value) : Property(type_uri, property_owner)
 	{
 		// Register Property in owner Object
 		if (sbol_owner != NULL)
@@ -170,7 +170,7 @@ namespace sbol
 		{
 		}
 		OwnedObjects(sbol_type type_uri, void *property_owner);
-		OwnedObjects(SBOLObject& first_object, sbol_type type_uri, void *property_owner);
+		OwnedObjects(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
 		std::vector<SBOLClass> get();
 		void add(SBOLClass& sbol_obj);
 		void remove(std::string uri);
@@ -191,7 +191,7 @@ namespace sbol
 	};
 
 	template <class SBOLClass>
-	OwnedObjects< SBOLClass >::OwnedObjects(SBOLObject& first_object, sbol_type type_uri, void *property_owner)
+	OwnedObjects< SBOLClass >::OwnedObjects(sbol_type type_uri, void *property_owner, SBOLObject& first_object)
 	{
 	};
 
@@ -216,7 +216,7 @@ namespace sbol
 	class ReferencedObjects : public Property<std::string>
 	{
 	public:
-		ReferencedObjects(std::string initial_value, sbol_type type_uri, void *property_owner) : Property<std::string>::Property(initial_value, type_uri, property_owner)
+		ReferencedObjects(sbol_type type_uri, void *property_owner, std::string initial_value) : Property<std::string>::Property(type_uri, property_owner, initial_value)
 		{
 		}
 	};
@@ -225,8 +225,8 @@ namespace sbol
 	class ListProperty : public Property<LiteralType> 
 	{
 	public:
-		ListProperty(LiteralType initial_value, sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
-			Property(initial_value, type_uri, property_owner)
+		ListProperty(sbol_type type_uri, void *property_owner, LiteralType initial_value) :
+			Property(type_uri, property_owner, initial_value)
 		{
 		}
 	void add(std::string new_value);
@@ -349,7 +349,7 @@ namespace sbol
 
 		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI "/Undefined", std::string id = "example") :
 			type(type),
-			identity(Property<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this))
+			identity(Property<std::string>(SBOL_IDENTITY, this, uri_prefix + "/" + id ))
 		{
 		}
 		sbol_type type;
