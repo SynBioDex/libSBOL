@@ -131,5 +131,9 @@ int main()
 	//cdef.serialize();
 	doc.write("test.xml");
 
+
+	cout << "Testing proxy constructor " << endl;
+	SBOLObject& aaa = SBOL_DATA_MODEL_REGISTER["test"]();
+	cout << aaa.getTypeURI() << endl;
 	return 0;
 }
