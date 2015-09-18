@@ -125,15 +125,20 @@ int main()
 	SA.start.set("10");
 	cout << SA.start.get() << endl;
 	cdef.sequenceAnnotations.add(SA);
-	//doc.add<SequenceAnnotation>(SA);
-	/* Test iteration through Properties in an SBOLObject */
+
+	/* Test iterative serialization of all properties in an SBOLObject */
 	cout << "Serializing document" << endl;
 	//cdef.serialize();
 	doc.write("test.xml");
 
 
+
+	// In order to extend. This associates an SBOL URI with the appropriate constructor call. 	
+	extend_data_model<ComponentDefinition>("SBOL_COMPONENT_DEFINITION");
+	cout << SBOL_DATA_MODEL_REGISTER.size() << endl;
+
 	cout << "Testing proxy constructor " << endl;
-	SBOLObject& aaa = SBOL_DATA_MODEL_REGISTER["test"]();
+	SBOLObject& aaa = SBOL_DATA_MODEL_REGISTER["SBOL_COMPONENT_DEFINITION"]();
 	cout << aaa.getTypeURI() << endl;
 	return 0;
 }

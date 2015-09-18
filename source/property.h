@@ -362,15 +362,22 @@ namespace sbol
 
 // This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
 template <class SBOLClass>
-SBOLClass& create()
+sbol::SBOLObject& create()
 {
 	// Construct an SBOLObject with emplacement
 	void* mem = malloc(sizeof(SBOLClass));
-	SBOLClass* a = new (mem)SBOLClass;
+	SBOLClass* a = new (mem) SBOLClass;
 	return (SBOLObject&)*a;
 };
 
 // This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
 extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
+
+template <class SBOLClass>
+void extend_data_model(std::string uri)
+{
+	SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
+
+};
 
 #endif 

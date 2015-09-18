@@ -9,7 +9,8 @@
 using namespace std;
 using namespace sbol;
 
-extern unordered_map<std::string, SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER =
+
+extern unordered_map<string, SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER =
 {
 	std::make_pair("test", &create<SBOLObject>)
 };

@@ -10,6 +10,12 @@
 using namespace sbol;
 using namespace std;
 
+void Document::read(std::string filename)
+{
+
+}
+
+
 void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world)
 {
 	cout << "Serializing object" << endl;

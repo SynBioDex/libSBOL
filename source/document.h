@@ -28,6 +28,7 @@ namespace sbol {
 		template < class SBOLClass > void add(SBOLClass& sbol_obj);
 		template < class SBOLClass > SBOLClass& get(std::string uri);
 		void write(std::string filename);
+		void read(std::string filename);
 	};
 
 	// Pitfall:  It's important that the SBOL object represented by sbol_obj is passed by reference not by value!
