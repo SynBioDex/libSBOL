@@ -10,8 +10,77 @@
 using namespace sbol;
 using namespace std;
 
+unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
+{
+	// Typecast proxy constructors to a constructor for SBOL
+	// This makes some ugly syntax, but library users should never see it.
+	make_pair(UNDEFINED, &create<SBOLObject>),
+	make_pair(SBOL_COMPONENT_DEFINITION, (SBOLObject&(*)()) &create<ComponentDefinition>),
+	make_pair(SBOL_SEQUENCE_ANNOTATION, (SBOLObject&(*)()) &create<SequenceAnnotation>)
+
+};
+
+void Document::parse_objects(void* user_data, raptor_statement* triple)
+{
+	Document *doc = (Document *)user_data;
+	//vector<raptor_statement > *triples = (vector<raptor_statement > *)user_data;
+	//triples->push_back(*triple);
+	//user_data = triples;
+	//cout << raptor_term_to_string(((vector<raptor_statement > *)user_data)->back().subject) << endl;
+	//cout << ((vector<raptor_statement > *)user_data)->size() << endl;
+
+	string subject = reinterpret_cast<char*>(raptor_term_to_string(triple->subject));
+	string predicate = reinterpret_cast<char*>(raptor_term_to_string(triple->predicate));
+	string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
+
+	// Triples that have a predicate matching the following uri indicate that new SBOL object should be constructred
+	if (predicate.compare("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>") == 0)
+	{
+		// Checks if the object has already been created and whether a constructor for this type of object exists
+		string new_id = subject.substr(1, subject.length() - 2);
+		string sbol_class = object.substr(1, object.length() - 2);
+
+		if ((doc->SBOLObjects.count(new_id) == 0) && (SBOL_DATA_MODEL_REGISTER.count(sbol_class) == 1))
+		{
+			cout << "Instantiating " << new_id << sbol_class << endl;
+
+			SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ sbol_class ]();
+			cout << doc->SBOLObjects.size() << endl;
+
+		}
+	}
+
+}
+
 void Document::read(std::string filename)
 {
+	this->rdf_graph = raptor_new_world();
+	FILE* fh = fopen(filename.c_str(), "rb");
+	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
+	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
+	unsigned char *uri_string;
+	raptor_uri *uri, *base_uri;
+	
+	//vector<raptor_statement> *user_data = new vector<raptor_statement>;
+	
+	void *user_data = this;
+	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
+
+
+
+	//cout << reinterpret_cast<char*>(raptor_term_to_string(((raptor_statement *)user_data)->subject)) << endl;
+	//triple = (raptor_statement *)&user_data;
+	//cout << raptor_term_to_string(triple->subject) << endl;
+
+	raptor_uri *sbol_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
+
+	raptor_parser_parse_iostream(rdf_parser, ios, sbol_uri);
+
+	raptor_free_parser(rdf_parser);
+
+	//raptor_free_uri(base_uri);
+	//raptor_free_uri(uri);
+	//raptor_free_memory(uri_string);
 
 }
 
@@ -192,5 +261,5 @@ void Document::write(std::string filename)
 	raptor_serializer_serialize_end(sbol_serializer);
 	raptor_free_serializer(sbol_serializer);
 	raptor_free_iostream(ios);
-
+	fclose(fh);
 };

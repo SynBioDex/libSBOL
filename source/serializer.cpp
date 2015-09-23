@@ -131,14 +131,16 @@ int main()
 	//cdef.serialize();
 	doc.write("test.xml");
 
-
+	// Test reader implementation
 
 	// In order to extend. This associates an SBOL URI with the appropriate constructor call. 	
-	extend_data_model<ComponentDefinition>("SBOL_COMPONENT_DEFINITION");
+	//extend_data_model<ComponentDefinition>(SBOL_COMPONENT_DEFINITION);
 	cout << SBOL_DATA_MODEL_REGISTER.size() << endl;
 
 	cout << "Testing proxy constructor " << endl;
-	SBOLObject& aaa = SBOL_DATA_MODEL_REGISTER["SBOL_COMPONENT_DEFINITION"]();
+	SBOLObject& aaa = SBOL_DATA_MODEL_REGISTER[SBOL_COMPONENT_DEFINITION]();
 	cout << aaa.getTypeURI() << endl;
+
+	doc.read("test.xml");
 	return 0;
 }

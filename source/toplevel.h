@@ -10,7 +10,7 @@ namespace sbol
 	class TopLevel : public Documented
 	{
 
-	// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
+	// The public constructor delegates to this protected constructor in order to initialize the object with an SBOL type URI 
 	protected:
 		TopLevel(sbol_type type, std::string uri_prefix, std::string display_id, std::string name, std::string description) :
 			Documented(type, uri_prefix, display_id, name, description)
