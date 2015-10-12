@@ -40,11 +40,14 @@ namespace sbol {
 		void write(std::string filename);
 		void read(std::string filename);
 		static void parse_objects(void* user_data, raptor_statement* triple);
+		static void parse_properties(void* user_data, raptor_statement* triple);
 	};
 
 	// Pitfall:  It's important that the SBOL object represented by sbol_obj is passed by reference not by value!
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
 	{
+		// Check if the uri is already assigned and delete the object
+		//if (SBOLObjects[whatever]!=SBOLObjects.end()) {delete SBOLObjects[whatever]'}
 		SBOLObjects[sbol_obj.identity.get()] = (TopLevel*)&sbol_obj;
 		sbol_obj.doc = this;
 	};

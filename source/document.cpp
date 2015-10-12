@@ -39,10 +39,10 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 		// Checks if the object has already been created and whether a constructor for this type of object exists
 		string new_id = subject.substr(1, subject.length() - 2);
 		string sbol_class = object.substr(1, object.length() - 2);
+		cout << "Instantiating " << new_id << sbol_class << endl;
 
 		if ((doc->SBOLObjects.count(new_id) == 0) && (SBOL_DATA_MODEL_REGISTER.count(sbol_class) == 1))
 		{
-			cout << "Instantiating " << new_id << sbol_class << endl;
 
 			SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ sbol_class ]();
 			cout << doc->SBOLObjects.size() << endl;
@@ -52,9 +52,35 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 
 }
 
+void Document::parse_properties(void* user_data, raptor_statement* triple)
+{
+	Document *doc = (Document *)user_data;
+
+	string subject = reinterpret_cast<char*>(raptor_term_to_string(triple->subject));
+	string predicate = reinterpret_cast<char*>(raptor_term_to_string(triple->predicate));
+	string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
+
+	string sbol_property = predicate.substr(1, subject.length() - 2);
+	std::size_t found = sbol_property.find('#');
+	if (found != std::string::npos)
+		sbol_property = sbol_property.substr(0, found);
+
+	// Triples that have a predicate matching the following uri indicate that new SBOL object should be constructred
+	if (predicate.compare(SBOL_URI) == 0)
+	{
+		// Checks if the object has already been created and whether a constructor for this type of object exists
+		string id = subject.substr(1, subject.length() - 2);
+		string property_value = object;
+		
+		cout << id << property_value << endl;
+	}
+
+}
+
+
 void Document::read(std::string filename)
 {
-	this->rdf_graph = raptor_new_world();
+
 	FILE* fh = fopen(filename.c_str(), "rb");
 	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
@@ -63,6 +89,19 @@ void Document::read(std::string filename)
 	
 	//vector<raptor_statement> *user_data = new vector<raptor_statement>;
 	
+	// Wipe existing contents of this Document
+	raptor_free_world(this->rdf_graph);  //  Probably need to free other objects as well...
+	this->rdf_graph = raptor_new_world();
+	cout << "Wiping old document" << endl;
+	cout << SBOLObjects.size() << endl;
+	while (SBOLObjects.size() > 0) {
+		if (SBOLObjects.begin()->second != NULL) {
+			delete SBOLObjects.begin()->second;  // free the SBOL Object
+		}
+		SBOLObjects.erase(SBOLObjects.begin());  // remove URI key from SBOLObject map
+	}
+	cout << this->SBOLObjects.size() << endl;
+
 	void *user_data = this;
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
 
@@ -75,7 +114,9 @@ void Document::read(std::string filename)
 	raptor_uri *sbol_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
 
 	raptor_parser_parse_iostream(rdf_parser, ios, sbol_uri);
-
+	
+	//raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_properties);
+	//raptor_parser_parse_iostream(rdf_parser, ios, sbol_uri);
 	raptor_free_parser(rdf_parser);
 
 	//raptor_free_uri(base_uri);

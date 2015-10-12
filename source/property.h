@@ -352,6 +352,7 @@ namespace sbol
 			identity(Property<std::string>(SBOL_IDENTITY, this, uri_prefix + "/" + id ))
 		{
 		}
+		~SBOLObject();
 		sbol_type type;
 		Property<std::string> identity;
 	
