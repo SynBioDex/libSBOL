@@ -33,7 +33,8 @@ int main()
 	/* Start SBOL data model testing */
 	cout << "Begin testing\n";
 	ComponentDefinition &sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
-	
+	cout << "Deleted sbol_obj" << endl;
+	//ComponentDefinition sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
 
 	/* Test Property accessors */
 	cout << "Testing getters\n";
@@ -140,7 +141,11 @@ int main()
 	cout << "Testing proxy constructor " << endl;
 	SBOLObject& aaa = SBOL_DATA_MODEL_REGISTER[SBOL_COMPONENT_DEFINITION]();
 	cout << aaa.getTypeURI() << endl;
-
 	doc.read("test.xml");
+
+	/* Test memory management with pointers */
+	// ComponentDefinition* cd2 = new ComponentDefinition("http://examples.com", "dummy");
+	// delete cd2;
+
 	return 0;
 }

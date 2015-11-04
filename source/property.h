@@ -59,6 +59,7 @@ namespace sbol
 			sbol_owner((SBOLObject *)property_owner)
 		{
 		}
+		~Property();
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
 		virtual std::string get();
