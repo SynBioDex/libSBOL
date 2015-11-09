@@ -13,24 +13,10 @@ using namespace sbol;
 template <typename LiteralType>
 Property<LiteralType>::~Property()
 {
-	cout << "Deleting " << this->type << " from " << this->sbol_owner->identity.get() << endl;
 };
 
 SBOLObject::~SBOLObject()
 {
-	cout << "Deleting " << this->identity.get() << endl;
-	//while (owned_objects.size() > 0)
-	//{
-	//	if (!owned_objects.begin()->second.empty())
-	//	{
-	//		vector<SBOLObject*> *object_store = &owned_objects.begin()->second;
-	//		while (object_store->size() > 0)
-	//		{
-	//			delete &object_store->begin();
-	//		}
-	//	}
-	//	owned_objects.erase(owned_objects.begin());
-	//}
 }
 
 

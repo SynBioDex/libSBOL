@@ -22,26 +22,42 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
 
 void Document::parse_objects(void* user_data, raptor_statement* triple)
 {
-	cout << "Parsing objects" << endl;
 	Document *doc = (Document *)user_data;
 
 	string subject = reinterpret_cast<char*>(raptor_term_to_string(triple->subject));
 	string predicate = reinterpret_cast<char*>(raptor_term_to_string(triple->predicate));
 	string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
+	
+	subject = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from uri
+	predicate = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
+	object = object.substr(1, object.length() - 2);  // Removes flanking < and > from uri
 
-	// Triples that have a predicate matching the following uri indicate that new SBOL object should be constructred
-	if (predicate.compare("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>") == 0)
+
+	// Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
+	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
 		// Checks if the object has already been created and whether a constructor for this type of object exists
-		string new_id = subject.substr(1, subject.length() - 2);
-		string sbol_class = object.substr(1, object.length() - 2);
-		cout << "Instantiating " << new_id << sbol_class << endl;
-
-		if ((doc->SBOLObjects.count(new_id) == 0) && (SBOL_DATA_MODEL_REGISTER.count(sbol_class) == 1))
+		std::cout << "Instantiating " << subject << " of class " << object << endl;
+		//  Check if a synonymous object has already been defined and added to the document's object store
+		if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{
 
-			SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ sbol_class ]();
-			cout << doc->SBOLObjects.size() << endl;
+			SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();
+			new_obj.identity.set(subject);
+
+			// All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
+			// Owned objects are kept in the object store as a temporary convenience and will be removed later.
+			doc->add<SBOLObject>(new_obj);
+			//TopLevel *test = dynamic_cast<TopLevel*>(&new_obj);
+			//if (test == NULL)
+			//{
+			//	cout << subject << " not TopLevel" << endl;
+			//}
+			//else
+			//{
+			//	cout << subject << " is TopLevel" << endl;
+ 		//	}
+			//cout << doc->SBOLObjects.size() << endl;
 
 		}
 	}
@@ -56,21 +72,44 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 	string predicate = reinterpret_cast<char*>(raptor_term_to_string(triple->predicate));
 	string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
 
-	string sbol_property = predicate.substr(1, subject.length() - 2);
-	std::size_t found = sbol_property.find('#');
+	string id = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from the uri
+	string property_uri = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
+	string property_value = object.substr(1, object.length() - 2);  // Removes flanking " from literal
+
+	std::size_t found = property_uri.find('#');
 	if (found != std::string::npos)
-		sbol_property = sbol_property.substr(0, found);
-
-	// Triples that have a predicate matching the following uri indicate that new SBOL object should be constructred
-	if (predicate.compare(SBOL_URI) == 0)
 	{
-		// Checks if the object has already been created and whether a constructor for this type of object exists
-		string id = subject.substr(1, subject.length() - 2);
-		string property_value = object;
-		
-		cout << id << property_value << endl;
+		string property_ns = property_uri.substr(0, found);
+		string property_name = property_uri.substr(found + 1, subject.length() - 1);
+		// If property name is something other than "type" than the triple matches the pattern for defining properties
+		if (property_name.compare("type") != 0)
+		{
+			// Checks if the object to which this property belongs already exists
+			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
+			{
+				TopLevel *sbol_obj = doc->SBOLObjects[id];
+				// Decide if this triple corresponds to a simple property, a list property, an owned property or a referenced property
+				if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
+				{
+					cout << "Simple property\t" << id << "\t" << property_name << "\t" << property_value << endl;
+					sbol_obj->properties[property_uri].push_back(property_value);
+				}
+				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
+				{
+					cout << "List property\t" << id << "\t" << property_name << "\t" << property_value << endl;
+					sbol_obj->list_properties[property_uri].push_back(property_value);
+				}
+				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
+				{
+					cout << "Owner property\t" << id << "\t" << property_name << "\t" << property_value << endl;
+					string owned_obj_id = property_value;
+					TopLevel *owned_obj = doc->SBOLObjects[owned_obj_id];
+					sbol_obj->owned_objects[property_uri].push_back(owned_obj);
+					doc->SBOLObjects.erase(owned_obj_id);
+				}
+			}
+		}
 	}
-
 }
 
 
@@ -83,7 +122,7 @@ void Document::read(std::string filename)
 	cout << SBOLObjects.size() << endl;
 	SBOLObjects.clear();
 	cout << this->SBOLObjects.size() << endl;
-
+	this->write("dummy.xml");
 
 	FILE* fh = fopen(filename.c_str(), "rb");
 	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
@@ -94,6 +133,13 @@ void Document::read(std::string filename)
 	void *user_data = this;
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
 	raptor_uri *sbol_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
+	raptor_parser_parse_iostream(rdf_parser, ios, sbol_uri);
+	cout << this->SBOLObjects.size() << endl;
+
+	raptor_free_iostream(ios);
+	rewind(fh);
+	ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
+	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_properties);
 	raptor_parser_parse_iostream(rdf_parser, ios, sbol_uri);
 
 	raptor_free_uri(sbol_uri);

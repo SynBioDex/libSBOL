@@ -142,7 +142,7 @@ int main()
 	SBOLObject& aaa = SBOL_DATA_MODEL_REGISTER[SBOL_COMPONENT_DEFINITION]();
 	cout << aaa.getTypeURI() << endl;
 	doc.read("test.xml");
-
+	doc.write("test2.xml");
 	/* Test memory management with pointers */
 	// ComponentDefinition* cd2 = new ComponentDefinition("http://examples.com", "dummy");
 	// delete cd2;

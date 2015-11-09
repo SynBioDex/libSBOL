@@ -348,7 +348,7 @@ namespace sbol
 		std::unordered_map<sbol::sbol_type, std::vector< std::string > > list_properties;
 		std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
 
-		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI "/Undefined", std::string id = "example") :
+		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = std::to_string(10), std::string id = "example") :
 			type(type),
 			identity(Property<std::string>(SBOL_IDENTITY, this, uri_prefix + "/" + id ))
 		{
