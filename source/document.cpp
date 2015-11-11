@@ -31,14 +31,12 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 	subject = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from uri
 	predicate = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
 	object = object.substr(1, object.length() - 2);  // Removes flanking < and > from uri
-
+	cout << subject << "\t" << predicate << "\t" << object << endl;
 
 	// Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
 	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
 		// Checks if the object has already been created and whether a constructor for this type of object exists
-		std::cout << "Instantiating " << subject << " of class " << object << endl;
-		//  Check if a synonymous object has already been defined and added to the document's object store
 		if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{
 
@@ -48,16 +46,6 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 			// All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
 			// Owned objects are kept in the object store as a temporary convenience and will be removed later.
 			doc->add<SBOLObject>(new_obj);
-			//TopLevel *test = dynamic_cast<TopLevel*>(&new_obj);
-			//if (test == NULL)
-			//{
-			//	cout << subject << " not TopLevel" << endl;
-			//}
-			//else
-			//{
-			//	cout << subject << " is TopLevel" << endl;
- 		//	}
-			//cout << doc->SBOLObjects.size() << endl;
 
 		}
 	}
@@ -72,6 +60,8 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 	string predicate = reinterpret_cast<char*>(raptor_term_to_string(triple->predicate));
 	string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
 
+
+
 	string id = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from the uri
 	string property_uri = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
 	string property_value = object.substr(1, object.length() - 2);  // Removes flanking " from literal
@@ -82,26 +72,34 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 		string property_ns = property_uri.substr(0, found);
 		string property_name = property_uri.substr(found + 1, subject.length() - 1);
 		// If property name is something other than "type" than the triple matches the pattern for defining properties
+
 		if (property_name.compare("type") != 0)
 		{
 			// Checks if the object to which this property belongs already exists
 			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
 			{
 				TopLevel *sbol_obj = doc->SBOLObjects[id];
+				cout << "Parsing " << property_uri <<  endl;
+
 				// Decide if this triple corresponds to a simple property, a list property, an owned property or a referenced property
 				if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
 				{
-					cout << "Simple property\t" << id << "\t" << property_name << "\t" << property_value << endl;
+					if (property_name.compare("persistentIdentity") == 0)
+					{
+						cout << subject << predicate << object << endl;
+						getchar();
+					}
+					// TODO: double-check this, is there a memory-leak here?
+					sbol_obj->properties[property_uri].clear();
 					sbol_obj->properties[property_uri].push_back(property_value);
+					cout << "Setting simple property " << property_name << endl;
 				}
 				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
 				{
-					cout << "List property\t" << id << "\t" << property_name << "\t" << property_value << endl;
 					sbol_obj->list_properties[property_uri].push_back(property_value);
 				}
 				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
 				{
-					cout << "Owner property\t" << id << "\t" << property_name << "\t" << property_value << endl;
 					string owned_obj_id = property_value;
 					TopLevel *owned_obj = doc->SBOLObjects[owned_obj_id];
 					sbol_obj->owned_objects[property_uri].push_back(owned_obj);
@@ -118,11 +116,7 @@ void Document::read(std::string filename)
 	// Wipe existing contents of this Document
 	raptor_free_world(this->rdf_graph);  //  Probably need to free other objects as well...
 	this->rdf_graph = raptor_new_world();
-	cout << "Wiping old document" << endl;
-	cout << SBOLObjects.size() << endl;
 	SBOLObjects.clear();
-	cout << this->SBOLObjects.size() << endl;
-	this->write("dummy.xml");
 
 	FILE* fh = fopen(filename.c_str(), "rb");
 	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
@@ -135,6 +129,7 @@ void Document::read(std::string filename)
 	raptor_uri *sbol_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
 	raptor_parser_parse_iostream(rdf_parser, ios, sbol_uri);
 	cout << this->SBOLObjects.size() << endl;
+	getchar();
 
 	raptor_free_iostream(ios);
 	rewind(fh);
@@ -201,8 +196,14 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 			triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_predicate.c_str());
 			triple2->object = raptor_new_term_from_literal(sbol_world, (const unsigned char *)new_object.c_str(), NULL, NULL);
+			if (new_object.length() > 0 && new_object.front() == '<' && new_object.back() == '>')
+			{
+				cout << subject << new_predicate << new_object << endl;
 
-			cout << subject << new_predicate << new_object << endl;
+				getchar();
+			}
+
+
 
 			// Write the triples
 			raptor_serializer_serialize_statement(sbol_serializer, triple2);

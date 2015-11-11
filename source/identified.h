@@ -2,7 +2,6 @@
 #define IDENTIFIED_INCLUDED
 
 #include "property.h"
-
 #include <string>
 
 namespace sbol {
@@ -14,7 +13,7 @@ namespace sbol {
 			SBOLObject(type, uri_prefix, id),
 			//SBOLObject(type),
 			//identity(Property<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this)),
-			persistentIdentity(Property<std::string>(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id))
+			persistentIdentity(Property<std::string>(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id ))
 			//version(VersionProperty("1.0.0"))			
 		{
 		}

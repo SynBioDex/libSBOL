@@ -1,3 +1,6 @@
+#ifndef SBOL_INCLUDED
+#define SBOL_INCLUDED
+
 #include "document.h"
 
 //// This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
@@ -8,3 +11,5 @@
 //{
 //	SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, ( SBOLObject&(*)() )&create<SBOLClass>));
 //};
+
+#endif

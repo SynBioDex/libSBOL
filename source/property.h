@@ -2,7 +2,7 @@
 #define PROPERTY_INCLUDED
 
 // The URIs defined here determine the appearance of serialized RDF/XML nodes.  Change these URIs to change the appearance of an SBOL class or property name
-#define SBOL_URI "http://sbolstandard.org/v2"
+#define SBOL_URI "http://sbols.org/v2"
 #define RDF_URI "http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
 #define PURL_URI "http://purl.org/dc/terms/"
 
@@ -26,8 +26,10 @@
 #define SBOL_TYPE SBOL_URI "#type"
 #define SBOL_START SBOL_URI "#start"
 #define SBOL_SEQUENCE_ANNOTATIONS SBOL_URI "#sequenceAnnotation"
+#define SBOL_ROLE SBOL_URI "#role"
 
 #include "sbolerror.h"
+#include "validation.h"
 
 #include <raptor2.h>
 #include <string>
@@ -47,12 +49,14 @@ namespace sbol
 	template <typename LiteralType>
 	class Property
 	{
+
 	protected:
 		sbol_type type;
 		SBOLObject *sbol_owner;  // back pointer to the SBOLObject to which this Property belongs
+		ValidationRules validationRules;
 
 	public:
-		Property(sbol_type type_uri, void *property_owner, std::string initial_value);
+		Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = { validation_rule_1 });
 		Property(sbol_type type_uri, void *property_owner, int initial_value);
 		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
 			type(type_uri),
@@ -69,7 +73,7 @@ namespace sbol
 	};
 
 	template <typename LiteralType>
-	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value) : Property(type_uri, property_owner)
+	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner)
 	{
 		// Register Property in owner Object
 		if (sbol_owner != NULL)
@@ -140,6 +144,7 @@ namespace sbol
 	{
 		if (new_value)
 		{
+			// TODO:  need to convert new_value to string
 			sbol_owner->properties[type].push_back( "98" );
 		}
 	};

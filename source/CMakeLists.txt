@@ -23,6 +23,7 @@ INCLUDE_DIRECTORIES( ${HEADER_DIR} )
 
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES 
+	validation.h
 	sbolerror.h
 	property.h
 	identified.h
@@ -33,6 +34,7 @@ FILE(GLOB SBOL_HEADER_FILES
 	sequenceannotation.h
 	document.h)
 FILE(GLOB SBOL_SOURCE_FILES	
+	validation.cpp
 	sbolerror.cpp
 	property.cpp
 	identified.cpp

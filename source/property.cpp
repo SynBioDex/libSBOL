@@ -1,5 +1,4 @@
 #include "property.h"
-
 #include <raptor2.h>
 #include <string>
 #include <vector>
@@ -19,14 +18,10 @@ SBOLObject::~SBOLObject()
 {
 }
 
-
-
 sbol_type SBOLObject::getTypeURI() 
 {
 	return type;
 }
-
-
 
 
 //SBOLObject& OwnedObjects::get(int index)
