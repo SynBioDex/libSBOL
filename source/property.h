@@ -56,11 +56,12 @@ namespace sbol
 		ValidationRules validationRules;
 
 	public:
-		Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = { validation_rule_1 });
-		Property(sbol_type type_uri, void *property_owner, int initial_value);
-		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+		Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {} );
+		Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules = {} );
+		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, ValidationRules rules = {} ) :
 			type(type_uri),
-			sbol_owner((SBOLObject *)property_owner)
+			sbol_owner((SBOLObject *)property_owner),
+			validationRules(rules)
 		{
 		}
 		~Property();
@@ -70,10 +71,11 @@ namespace sbol
 		virtual void set(std::string new_value);
 		virtual void set(int new_value);
 		virtual void write();
+		virtual void validate();
 	};
 
 	template <typename LiteralType>
-	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner)
+	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
 	{
 		// Register Property in owner Object
 		if (sbol_owner != NULL)
@@ -85,13 +87,13 @@ namespace sbol
 	}
 
 	template <typename LiteralType>
-	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value) : Property(type_uri, property_owner)
+	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
 	{
 		// Register Property in owner Object
 		if (sbol_owner != NULL)
 		{
 			std::vector<std::string> property_store;
-			property_store.push_back("");
+			property_store.push_back(std::to_string(initial_value));
 			sbol_owner->properties.insert({ type_uri, property_store });
 		}
 	}
@@ -137,6 +139,8 @@ namespace sbol
 			//sbol_owner->properties[type].push_back( new_value );
 			sbol_owner->properties[type][0] = new_value;
 		}
+		validate();
+
 	};
 
 	template <typename LiteralType>
@@ -145,8 +149,9 @@ namespace sbol
 		if (new_value)
 		{
 			// TODO:  need to convert new_value to string
-			sbol_owner->properties[type].push_back( "98" );
+			sbol_owner->properties[type].push_back(std::to_string(new_value) );
 		}
+		validate();
 	};
 
 	template <typename LiteralType>
@@ -160,6 +165,18 @@ namespace sbol
 		cout << "Predicate: " << predicate << endl;
 		cout << "Object: "  << endl;
 	};
+
+	template <typename LiteralType>
+	void Property<LiteralType>::validate()
+	{
+		for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
+		{
+			cout << "Iterating through validation rules" << endl;
+			ValidationRule& validate_fx = *i_rule;
+			validate_fx(sbol_owner);
+		}
+	};
+
 
 	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
 	template <class SBOLClass>
@@ -215,7 +232,6 @@ namespace sbol
 		{
 			vector_copy.push_back(**o);
 		}
-		//vector_copy = sbol_owner->owned_objects[type];
 		return vector_copy;
 	};
 
@@ -338,24 +354,23 @@ namespace sbol
 	class SBOLObject
 	{
 	friend class Document;
+	
 
-	private:
-
-
-		Document *doc = NULL;
 	protected:
 		//protected:
 		//	sbol_type type;
 
 	public:
+		Document *doc = NULL;
+
 		//std::unordered_map<sbol::sbol_type, sbol::PropertyBase> properties;
 		std::unordered_map<sbol::sbol_type, std::vector< std::string > > properties;
 		std::unordered_map<sbol::sbol_type, std::vector< std::string > > list_properties;
 		std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
 
-		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = std::to_string(10), std::string id = "example") :
+		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI, std::string id = "example") :
 			type(type),
-			identity(Property<std::string>(SBOL_IDENTITY, this, uri_prefix + "/" + id ))
+			identity(Property<std::string>(SBOL_IDENTITY, this, uri_prefix + "/" + id, { validation_rule_10202 }))
 		{
 		}
 		~SBOLObject();

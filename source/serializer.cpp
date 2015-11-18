@@ -31,8 +31,12 @@ int main()
 	raptor_statement *triple, *triple2;
 	std::string test;
 
+	// Test getter and setter.  Verify that validation rules are executed when setter is called.
 	Document& doc = Document();
 	doc.read("singleComponentDefinition.rdf");
+	ComponentDefinition& cd = doc.get < ComponentDefinition >("http://www.async.ece.utah.edu/pLac/1.0");
+	cd.identity.set(cd.identity.get());
+	//TopLevel& tl = doc.getTopLevel("http://www.async.ece.utah/edu/pLac");
 	doc.write("test.xml");
 	///* Start SBOL data model testing */
 	//cout << "Begin testing\n";

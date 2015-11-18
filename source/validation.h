@@ -2,7 +2,9 @@
 
 namespace sbol
 {
-	typedef std::vector<void(*)()> ValidationRules;
+	typedef void(*ValidationRule)(void *);
+	typedef std::vector<ValidationRule> ValidationRules;
+	//typedef std::vector<void(*)(void *)> ValidationRules;
 	
-	void validation_rule_1();
+	void validation_rule_10202(void *sbol_obj);
 };

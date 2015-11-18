@@ -11,21 +11,18 @@ namespace sbol {
 	protected:
 		Identified(sbol_type type, std::string uri_prefix, std::string id) :
 			SBOLObject(type, uri_prefix, id),
-			//SBOLObject(type),
-			//identity(Property<std::string>(uri_prefix + "/" + id, SBOL_IDENTITY, this)),
 			persistentIdentity(Property<std::string>(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id ))
 			//version(VersionProperty("1.0.0"))			
 		{
+			std::cout << "Validating Identified object" << std::endl;
+			identity.validate();
 		}
 	public:
 
-		//Identified(std::string uri_prefix, std::string id);
 		Identified(std::string uri_prefix = SBOL_URI "/Identified", std::string id = "example") : Identified(SBOL_IDENTIFIED, uri_prefix, id)
 			{
 			}
 
-
-		//Property<std::string> identity;
 		Property<std::string> persistentIdentity;
 		//Property<std::string> version;
 
