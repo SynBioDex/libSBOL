@@ -5,16 +5,22 @@
 using namespace sbol;
 using namespace std;
 
-void sbol::validation_rule_10202(void *sbol_obj)
+void sbol::validation_rule_10202(void *sbol_obj, void *arg)
 {
+	// The identity property of an Identified object MUST be globally unique.
 	Identified *identified_obj = (Identified *)sbol_obj;
-	if (identified_obj->doc->SBOLObjects.find("f") == identified_obj->doc->SBOLObjects.end()) {
-		// not found
+	string new_id;
+
+	if (arg != NULL)
+	{
+		new_id = *static_cast<std::string*>(arg);
 	}
-	else {
-		// found
+	if (identified_obj->doc)
+	{
+		if (identified_obj->doc->SBOLObjects.find(new_id) != identified_obj->doc->SBOLObjects.end())  // If the new identity is already in the document throw an error
+		{
+			throw SBOLError(DUPLICATE_URI_ERROR, "Duplicate URI");
+		}
 	}
 	cout << "Testing validation_rule_10202" << endl;
-	//SBOLObject &owner_obj = (SBOLObject &)validation_target;
-	//cout << "Testing validation rule on " << owner_obj.identity.get() << endl;
 };

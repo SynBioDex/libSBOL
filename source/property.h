@@ -71,7 +71,7 @@ namespace sbol
 		virtual void set(std::string new_value);
 		virtual void set(int new_value);
 		virtual void write();
-		virtual void validate();
+		virtual void validate(void * arg = NULL);
 	};
 
 	template <typename LiteralType>
@@ -139,7 +139,7 @@ namespace sbol
 			//sbol_owner->properties[type].push_back( new_value );
 			sbol_owner->properties[type][0] = new_value;
 		}
-		validate();
+		validate((void *)&new_value);
 
 	};
 
@@ -167,13 +167,13 @@ namespace sbol
 	};
 
 	template <typename LiteralType>
-	void Property<LiteralType>::validate()
+	void Property<LiteralType>::validate(void * arg)
 	{
 		for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
 		{
 			cout << "Iterating through validation rules" << endl;
 			ValidationRule& validate_fx = *i_rule;
-			validate_fx(sbol_owner);
+			validate_fx(sbol_owner, arg);
 		}
 	};
 
