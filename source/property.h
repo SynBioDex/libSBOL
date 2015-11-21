@@ -58,6 +58,7 @@ namespace sbol
 	public:
 		Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {} );
 		Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules = {} );
+
 		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, ValidationRules rules = {} ) :
 			type(type_uri),
 			sbol_owner((SBOLObject *)property_owner),
@@ -74,6 +75,17 @@ namespace sbol
 		virtual void validate(void * arg = NULL);
 	};
 
+	class URIProperty : public Property<std::string>
+	{
+	public:
+		URIProperty(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {}) :
+			Property(type_uri, property_owner, initial_value, rules = {})
+		{
+		}
+		void set(std::string new_value);
+	};
+
+	/* Constructor for string Property */
 	template <typename LiteralType>
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
 	{
@@ -86,6 +98,7 @@ namespace sbol
 		}
 	}
 
+	/* Constructor for int Property */
 	template <typename LiteralType>
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
 	{
@@ -140,7 +153,6 @@ namespace sbol
 			sbol_owner->properties[type][0] = new_value;
 		}
 		validate((void *)&new_value);
-
 	};
 
 	template <typename LiteralType>
@@ -151,7 +163,7 @@ namespace sbol
 			// TODO:  need to convert new_value to string
 			sbol_owner->properties[type].push_back(std::to_string(new_value) );
 		}
-		validate();
+		validate((void *)&new_value);  //  Call validation rules associated with this Property
 	};
 
 	template <typename LiteralType>
