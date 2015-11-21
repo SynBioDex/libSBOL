@@ -85,6 +85,16 @@ namespace sbol
 		void set(std::string new_value);
 	};
 
+	class TextProperty : public Property<std::string>
+	{
+	public:
+		TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules rules = {}) :
+			Property(type_uri, property_owner, "\"" + initial_value + "\"", rules = {})
+		{
+		}
+		void set(std::string new_value);
+	};
+
 	/* Constructor for string Property */
 	template <typename LiteralType>
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
