@@ -79,10 +79,9 @@ namespace sbol
 	{
 	public:
 		URIProperty(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {}) :
-			Property(type_uri, property_owner, initial_value, rules = {})
+			Property(type_uri, property_owner, "<" + initial_value + ">", rules = {})
 		{
 		}
-		void set(std::string new_value);
 	};
 
 	class TextProperty : public Property<std::string>
@@ -92,7 +91,6 @@ namespace sbol
 			Property(type_uri, property_owner, "\"" + initial_value + "\"", rules = {})
 		{
 		}
-		void set(std::string new_value);
 	};
 
 	/* Constructor for string Property */
@@ -392,12 +390,12 @@ namespace sbol
 
 		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI, std::string id = "example") :
 			type(type),
-			identity(Property<std::string>(SBOL_IDENTITY, this, uri_prefix + "/" + id, { validation_rule_10202 }))
+			identity(URIProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id, { validation_rule_10202 }))
 		{
 		}
 		~SBOLObject();
 		sbol_type type;
-		Property<std::string> identity;
+		URIProperty identity;
 	
 		virtual sbol_type getTypeURI();
 		void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);

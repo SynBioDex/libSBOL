@@ -13,14 +13,14 @@ Property<LiteralType>::~Property()
 {
 };
 
-void URIProperty::set(std::string new_value)
-{
-	if (sbol_owner && !new_value.empty())
-	{
-		sbol_owner->properties[type][0] = "<" + new_value + ">";
-	}
-	validate((void *)&new_value);
-};
+//void URIProperty::set(std::string new_value)
+//{
+//	if (sbol_owner && !new_value.empty())
+//	{
+//		sbol_owner->properties[type][0] = "<" + new_value + ">";
+//	}
+//	validate((void *)&new_value);
+//};
 
 SBOLObject::~SBOLObject()
 {
