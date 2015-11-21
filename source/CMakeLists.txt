@@ -72,12 +72,13 @@ FIND_LIBRARY(raptor2
     )
 MESSAGE(${raptor2})
 
+
 TARGET_LINK_LIBRARIES( sbol
 	${raptor2}
-	C:/Users/user/Dev/libSBOLc_v2/libSBOLc2/source/raptor/lib/libxml2_a.lib
-	C:/Users/user/Dev/libSBOLc_v2/libSBOLc2/source/raptor/lib/zlib.lib
-	C:/Users/user/Dev/libSBOLc_v2/libSBOLc2/source/raptor/lib/iconv_a.lib
+	${LINK_DIR}/libxml2_a.lib
+	${LINK_DIR}/zlib.lib
+	${LINK_DIR}/iconv_a.lib
 	Ws2_32.lib )
-
+	
 
 
