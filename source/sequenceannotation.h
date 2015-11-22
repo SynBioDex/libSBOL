@@ -12,6 +12,7 @@ namespace sbol
 		SequenceAnnotation(sbol_type type, std::string uri_prefix, std::string id, std::string start) :
 			Identified(type, uri_prefix, id),
 			start(Property<std::string>(SBOL_START, this, "0"))
+
 		{
 		}
 	public:
