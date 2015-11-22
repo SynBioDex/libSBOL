@@ -144,7 +144,9 @@ namespace sbol
 			else 
 			{
 				// found
-				return sbol_owner->properties[type].front();
+				std::string value = sbol_owner->properties[type].front();
+				value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+				return value;
 			}
 		}	else
 		{
@@ -158,7 +160,16 @@ namespace sbol
 		if (sbol_owner)
 		{
 			//sbol_owner->properties[type].push_back( new_value );
-			sbol_owner->properties[type][0] = new_value;
+			std::string current_value = sbol_owner->properties[type][0];
+			if (current_value[0] == '<')  //  this property is a uri
+			{
+				sbol_owner->properties[type][0] = "<" + new_value + ">";
+			}
+			else if (current_value[0] == '"') // this property is a literal
+			{
+				sbol_owner->properties[type][0] = "\"" + new_value + "\"";
+			}
+
 		}
 		validate((void *)&new_value);
 	};
@@ -169,7 +180,7 @@ namespace sbol
 		if (new_value)
 		{
 			// TODO:  need to convert new_value to string
-			sbol_owner->properties[type].push_back(std::to_string(new_value) );
+			sbol_owner->properties[type][0] = "\"" + std::to_string(new_value) + "\"";
 		}
 		validate((void *)&new_value);  //  Call validation rules associated with this Property
 	};

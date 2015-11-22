@@ -40,13 +40,14 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 		if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{
 
-			SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();
+			SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();  // Call constructor for the appropriate SBOLObject
 			new_obj.identity.set(subject);
-
+		
 			// All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
 			// Owned objects are kept in the object store as a temporary convenience and will be removed later.
+			cout << "Adding " << subject << endl;
+			cout << "Adding " << new_obj.identity.get() << endl;
 			doc->add<SBOLObject>(new_obj);
-
 		}
 	}
 
@@ -64,7 +65,9 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 
 	string id = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from the uri
 	string property_uri = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
-	string property_value = object.substr(1, object.length() - 2);  // Removes flanking " from literal
+	//string property_value = object.substr(1, object.length() - 2);  // Removes flanking " from literal
+	string property_value = object;
+
 
 	std::size_t found = property_uri.find('#');
 	if (found != std::string::npos)
@@ -84,15 +87,10 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 				// Decide if this triple corresponds to a simple property, a list property, an owned property or a referenced property
 				if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
 				{
-					if (property_name.compare("persistentIdentity") == 0)
-					{
-						cout << subject << predicate << object << endl;
-						getchar();
-					}
 					// TODO: double-check this, is there a memory-leak here?
 					sbol_obj->properties[property_uri].clear();
 					sbol_obj->properties[property_uri].push_back(property_value);
-					cout << "Setting simple property " << property_name << endl;
+					cout << "Setting simple property " << property_name << " to " << property_value << endl;
 				}
 				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
 				{
@@ -192,22 +190,29 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			//std::string new_predicate = (SBOL_URI "#" + it->first);
 			std::string new_predicate = it->first;
 			std::string new_object = it->second.front();
-
+			cout << "Setting property value " << new_object << endl;
+			getchar();
 			triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 			triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_predicate.c_str());
-			triple2->object = raptor_new_term_from_literal(sbol_world, (const unsigned char *)new_object.c_str(), NULL, NULL);
-			if (new_object.length() > 0 && new_object.front() == '<' && new_object.back() == '>')
+			if (new_object.length() > 0 && new_object.front() == '<' && new_object.back() == '>') // Angle brackets indicate a uri
 			{
-				cout << subject << new_predicate << new_object << endl;
+				new_object = new_object.substr(1, new_object.length() - 2);  // Strip angle brackets
+				cout << new_object << endl;
+				triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_object.c_str());
 
-				getchar();
+				// Write the triples
+				raptor_serializer_serialize_statement(sbol_serializer, triple2);
 			}
+			else if (new_object.length() > 0 && new_object.front() == '"' && new_object.back() == '"')  // Quotes indicate a literal
+			{
+				new_object = new_object.substr(1, new_object.length() - 2);  // Strip quotes
 
+				cout << new_object << endl;
+				triple2->object = raptor_new_term_from_literal(sbol_world, (const unsigned char *)new_object.c_str(), NULL, NULL);
 
-
-			// Write the triples
-			raptor_serializer_serialize_statement(sbol_serializer, triple2);
-
+				// Write the triples
+				raptor_serializer_serialize_statement(sbol_serializer, triple2);
+			}
 			// Delete the triple 
 			raptor_free_statement(triple2);
 		}

@@ -14,7 +14,6 @@ namespace sbol
 		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
 		ComponentDefinition(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string type, std::string role, std::string name, std::string description, std::string version) :
 			TopLevel(sbol_type_uri, uri_prefix, display_id, name, description),
-			persistentIdentity(uri_prefix + "/" + display_id),
 			version(SBOL_VERSION, this, version),
 			types(SBOL_TYPE, this, type),
 			roles(SBOL_ROLE, this, role),
@@ -22,7 +21,6 @@ namespace sbol
 		{
 		}
 	public:
-		Property<std::string> persistentIdentity;
 		Property<std::string> version;
 		ListProperty<std::string> types;
 		ListProperty<std::string> roles;

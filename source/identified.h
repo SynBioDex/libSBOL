@@ -11,10 +11,10 @@ namespace sbol {
 	protected:
 		Identified(sbol_type type, std::string uri_prefix, std::string id) :
 			SBOLObject(type, uri_prefix, id),
-			persistentIdentity(Property<std::string>(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id ))
+			persistentIdentity(TextProperty(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id ))
 			//version(VersionProperty("1.0.0"))			
 		{
-			std::cout << "Validating Identified object" << std::endl;
+			std::cout << "Validating Identified object " << identity.get() <<  std::endl;
 			identity.validate();
 		}
 	public:
@@ -23,7 +23,7 @@ namespace sbol {
 			{
 			}
 
-		Property<std::string> persistentIdentity;
+		TextProperty persistentIdentity;
 		//Property<std::string> version;
 
 		std::string getTimeStamp();

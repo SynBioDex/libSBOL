@@ -33,14 +33,18 @@ int main()
 
 	// Test getter and setter.  Verify that validation rules are executed when setter is called.
 	Document& doc = Document();
-	ComponentDefinition& cd = ComponentDefinition("http://examples.com", "cdef_obj");
-	cout << cd.identity.get() << endl;;
-	//doc.read("singleComponentDefinition.rdf");
+	doc.read("singleComponentDefinition.rdf");
 	//ComponentDefinition& cd = doc.get < ComponentDefinition >("http://www.async.ece.utah.edu/pLac/1.0");
+	//cout << cd.identity.get() << endl;
+	//cout << cd.persistentIdentity.get() << endl;
+	//cout << cd.displayID.get() << endl;
+	//cout << cd.version.get() << endl;
 	//cd.identity.set(cd.identity.get());  //  Should trigger SBOLError 0 in violation of validation_code_10202
 
 	//TopLevel& tl = doc.getTopLevel("http://www.async.ece.utah/edu/pLac");
 	doc.write("test.xml");
+
+
 	///* Start SBOL data model testing */
 	//cout << "Begin testing\n";
 	//ComponentDefinition &sbol_obj = ComponentDefinition("http://examples.com", "cdef_obj");
