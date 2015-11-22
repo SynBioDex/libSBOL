@@ -172,8 +172,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 		triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
 		triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
 
-		cout << subject << predicate << object << endl;
-
 		// Write the triples
 		raptor_serializer_serialize_statement(sbol_serializer, triple);
 
@@ -188,30 +186,37 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
 
 			//std::string new_predicate = (SBOL_URI "#" + it->first);
-			std::string new_predicate = it->first;
-			std::string new_object = it->second.front();
-			cout << "Setting property value " << new_object << endl;
-			getchar();
-			triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
-			triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_predicate.c_str());
-			if (new_object.length() > 0 && new_object.front() == '<' && new_object.back() == '>') // Angle brackets indicate a uri
+			std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
+			//			std::string new_object = it->second.front();  // The triple's object corresponds to an SBOL property value
+
+			// Serialize each of the values in a List property as an RDF triple
+			vector<std::string> property_values = it->second;
+			for (auto i_val = property_values.begin(); i_val != property_values.end(); ++i_val)
 			{
-				new_object = new_object.substr(1, new_object.length() - 2);  // Strip angle brackets
-				cout << new_object << endl;
-				triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_object.c_str());
+				std::string new_object = *i_val;
+				cout << "Setting property value " << new_object << endl;
+				getchar();
+				triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
+				triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_predicate.c_str());
+				if (new_object.length() > 0 && new_object.front() == '<' && new_object.back() == '>') // Angle brackets indicate a uri
+				{
+					new_object = new_object.substr(1, new_object.length() - 2);  // Strip angle brackets
+					cout << new_object << endl;
+					triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_object.c_str());
 
-				// Write the triples
-				raptor_serializer_serialize_statement(sbol_serializer, triple2);
-			}
-			else if (new_object.length() > 0 && new_object.front() == '"' && new_object.back() == '"')  // Quotes indicate a literal
-			{
-				new_object = new_object.substr(1, new_object.length() - 2);  // Strip quotes
+					// Write the triples
+					raptor_serializer_serialize_statement(sbol_serializer, triple2);
+				}
+				else if (new_object.length() > 0 && new_object.front() == '"' && new_object.back() == '"')  // Quotes indicate a literal
+				{
+					new_object = new_object.substr(1, new_object.length() - 2);  // Strip quotes
 
-				cout << new_object << endl;
-				triple2->object = raptor_new_term_from_literal(sbol_world, (const unsigned char *)new_object.c_str(), NULL, NULL);
+					cout << new_object << endl;
+					triple2->object = raptor_new_term_from_literal(sbol_world, (const unsigned char *)new_object.c_str(), NULL, NULL);
 
-				// Write the triples
-				raptor_serializer_serialize_statement(sbol_serializer, triple2);
+					// Write the triples
+					raptor_serializer_serialize_statement(sbol_serializer, triple2);
+				}
 			}
 			// Delete the triple 
 			raptor_free_statement(triple2);

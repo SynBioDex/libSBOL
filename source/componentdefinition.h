@@ -15,15 +15,15 @@ namespace sbol
 		ComponentDefinition(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string type, std::string role, std::string name, std::string description, std::string version) :
 			TopLevel(sbol_type_uri, uri_prefix, display_id, name, description),
 			version(SBOL_VERSION, this, version),
-			types(SBOL_TYPE, this, type),
-			roles(SBOL_ROLE, this, role),
+			types(List<URIProperty>(SBOL_TYPE, this, type)),
+			roles(List<URIProperty>(SBOL_ROLE, this, role)),
 			sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this)
 		{
 		}
 	public:
 		Property<std::string> version;
-		ListProperty<std::string> types;
-		ListProperty<std::string> roles;
+		List<URIProperty> types;
+		List<URIProperty> roles;
 		OwnedObjects<SequenceAnnotation> sequenceAnnotations;
 
 		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition", 

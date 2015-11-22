@@ -274,12 +274,12 @@ namespace sbol
 		}
 	};
 
-	template <typename LiteralType>
-	class ListProperty : public Property<LiteralType> 
+	template <class PropertyType>
+	class List : public PropertyType 
 	{
 	public:
-		ListProperty(sbol_type type_uri, void *property_owner, LiteralType initial_value) :
-			Property(type_uri, property_owner, initial_value)
+		List(sbol_type type_uri, void *property_owner, std::string initial_value) :
+			PropertyType(type_uri, property_owner, initial_value)
 		{
 		}
 	void add(std::string new_value);
@@ -287,8 +287,8 @@ namespace sbol
 	void remove(int index);
 	};
 
-	template <typename LiteralType>
-	std::string ListProperty<LiteralType>::get(int index)
+	template <class PropertyType>
+	std::string List<PropertyType>::get(int index)
 	{
 		if (sbol_owner)
 		{
@@ -300,7 +300,9 @@ namespace sbol
 			else
 			{
 				// found
-				return sbol_owner->properties[type].at(index);
+				std::string current_value = sbol_owner->properties[type].at(index);
+				current_value = current_value.substr(1, current_value.length() - 2);
+				return current_value;
 			}
 		}
 		else
@@ -309,18 +311,26 @@ namespace sbol
 		}
 	};
 
-	template <typename LiteralType>
-	void ListProperty<LiteralType>::add(std::string new_value)
+	template <class PropertyType>
+	void List<PropertyType>::add(std::string new_value)
 	{
 		if (sbol_owner)
 		{
-			sbol_owner->properties[type].push_back(new_value);
+			std::string current_value = sbol_owner->properties[type][0];
+			if (current_value[0] == '<')  //  this property is a uri
+			{
+				sbol_owner->properties[type].push_back("<" + new_value + ">");
+			}
+			else if (current_value[0] == '"') // this property is a literal
+			{
+				sbol_owner->properties[type].push_back("\"" + new_value + "\"");
+			}
 		}
 	};
 
 
-	template <typename LiteralType>
-	void ListProperty<LiteralType>::remove(int index)
+	template <class PropertyType>
+	void List<PropertyType>::remove(int index)
 	{
 		if (sbol_owner)
 		{
