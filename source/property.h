@@ -101,6 +101,16 @@ namespace sbol
 		}
 	};
 
+	class IntProperty : public Property<int>
+	{
+	public:
+		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0, ValidationRules rules = {}) :
+			Property(type_uri, property_owner, initial_value, rules = {})
+		{
+		}
+	};
+
+
 	/* Constructor for string Property */
 	template <class LiteralType>
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
