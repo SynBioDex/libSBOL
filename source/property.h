@@ -17,6 +17,8 @@
 
 #define SO_UNDEFINED "SO_0000001"
 
+
+/* URIs for SBOL Properties */
 #define SBOL_IDENTITY SBOL_URI "#identity"
 #define SBOL_PERSISTENT_IDENTITY SBOL_URI "#persistentIdentity"
 #define SBOL_VERSION SBOL_URI "#version"
@@ -25,6 +27,7 @@
 #define SBOL_DESCRIPTION PURL_URI "#description"
 #define SBOL_TYPE SBOL_URI "#type"
 #define SBOL_START SBOL_URI "#start"
+#define SBOL_END SBOL_URI "#end"
 #define SBOL_SEQUENCE_ANNOTATIONS SBOL_URI "#sequenceAnnotation"
 #define SBOL_ROLE SBOL_URI "#role"
 
