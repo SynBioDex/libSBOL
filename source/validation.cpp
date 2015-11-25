@@ -7,6 +7,8 @@ using namespace std;
 
 void sbol::validation_rule_10202(void *sbol_obj, void *arg)
 {
+	cout << "Testing validation_rule_10202" << endl;
+
 	// The identity property of an Identified object MUST be globally unique.
 	Identified *identified_obj = (Identified *)sbol_obj;
 	string new_id;
@@ -22,5 +24,4 @@ void sbol::validation_rule_10202(void *sbol_obj, void *arg)
 			throw SBOLError(DUPLICATE_URI_ERROR, "Duplicate URI");
 		}
 	}
-	cout << "Testing validation_rule_10202" << endl;
 };

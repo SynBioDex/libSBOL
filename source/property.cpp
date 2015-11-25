@@ -8,10 +8,10 @@
 using namespace std;
 using namespace sbol;
 
-template <typename LiteralType>
-Property<LiteralType>::~Property()
-{
-};
+//template <class LiteralType>
+//Property<LiteralType>::~Property()
+//{
+//};
 
 //void URIProperty::set(std::string new_value)
 //{
@@ -32,11 +32,12 @@ sbol_type SBOLObject::getTypeURI()
 }
 
 
+
 //SBOLObject& OwnedObjects::get(int index)
 //{
 //	sbol_owner->owned_objects[index].front();
 //};
 
-void OwnedObjects< class SBOLClass >::remove(std::string uri)
-{
-};
+//void OwnedObject< class SBOLClass >::remove(std::string uri)
+//{
+//};

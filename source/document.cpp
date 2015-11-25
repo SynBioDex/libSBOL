@@ -36,16 +36,19 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 	// Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
 	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
+		cout << "Assigning type" << endl;
 		// Checks if the object has already been created and whether a constructor for this type of object exists
 		if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{
+			cout << "Calling constructor for " << object << endl;
 
 			SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();  // Call constructor for the appropriate SBOLObject
+			cout << "Setting identity for " << subject << endl;
+
 			new_obj.identity.set(subject);
 		
 			// All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
 			// Owned objects are kept in the object store as a temporary convenience and will be removed later.
-			cout << "Adding " << subject << endl;
 			cout << "Adding " << new_obj.identity.get() << endl;
 			doc->add<SBOLObject>(new_obj);
 		}
@@ -244,7 +247,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
 			cout << subject << predicate << object << endl;
 
-			// Write the triple2s
+			// Write the triples
 			raptor_serializer_serialize_statement(sbol_serializer, triple2);
 
 			// Delete the triple 

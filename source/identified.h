@@ -14,8 +14,10 @@ namespace sbol {
 			persistentIdentity(TextProperty(SBOL_PERSISTENT_IDENTITY, this, uri_prefix + "/" + id ))
 			//version(VersionProperty("1.0.0"))			
 		{
-			std::cout << "Validating Identified object " << identity.get() <<  std::endl;
+			std::cout << "Contructing Identified" << std::endl;
 			identity.validate();
+			std::cout << "Validating Identified object " << identity.get() << std::endl;
+
 		}
 	public:
 

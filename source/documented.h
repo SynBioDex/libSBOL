@@ -18,6 +18,8 @@ namespace sbol {
 			name(Property<std::string>(SBOL_NAME, this, name)),
 			description(Property<std::string>(SBOL_DESCRIPTION, this, name))
 		{
+			std::cout << "Constructing Documented" << std::endl;
+
 		}
 
 	public:
