@@ -192,9 +192,9 @@ namespace sbol
 		sbol_type predicate = type;
 		std::string object = sbol_owner->properties[type].front();
 
-		cout << "Subject:  " << subject << endl;
-		cout << "Predicate: " << predicate << endl;
-		cout << "Object: "  << endl;
+        std::cout << "Subject:  " << subject << std::endl;
+        std::cout << "Predicate: " << predicate << std::endl;
+        std::cout << "Object: "  << std::endl;
 	};
 
 	template <typename LiteralType>
@@ -202,7 +202,7 @@ namespace sbol
 	{
 		for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
 		{
-			cout << "Iterating through validation rules" << endl;
+            std::cout << "Iterating through validation rules" << std::endl;
 			ValidationRule& validate_fx = *i_rule;
 			validate_fx(sbol_owner, arg);
 		}
