@@ -27,18 +27,17 @@ FILE(GLOB SBOL_HEADER_FILES
 	sbolerror.h
 	property.h
 	identified.h
-	documented.h
 	toplevel.h
 	generictoplevel.h
-	componentdefinition.h
 	sequenceannotation.h
+	componentdefinition.h
+	sequence.h
 	document.h)
 FILE(GLOB SBOL_SOURCE_FILES	
 	validation.cpp
 	sbolerror.cpp
 	property.cpp
 	identified.cpp
-	documented.cpp
 	toplevel.cpp
 	componentdefinition.cpp
 	document.cpp

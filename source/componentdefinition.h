@@ -10,10 +10,10 @@ namespace sbol
 	class ComponentDefinition : public TopLevel
 	{
 	public:
-		TextProperty version;
 		List<URIProperty> types;
 		List<URIProperty> roles;
 		//OwnedObjects<SequenceAnnotation> sequenceAnnotations;
+		ReferencedObject sequence;
 		List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
 
 		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition",
@@ -29,10 +29,10 @@ namespace sbol
 	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri 
 		ComponentDefinition(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string type, std::string role, std::string name, std::string description, std::string version) :
-			TopLevel(sbol_type_uri, uri_prefix, display_id, name, description),
-			version(SBOL_VERSION, this, version),
+			TopLevel(sbol_type_uri, uri_prefix, display_id, name, description, version),
 			types(SBOL_TYPE, this, type),
 			roles(SBOL_ROLE, this, role),
+			sequence(SBOL_SEQUENCE_PROPERTY, this, ""),
 			sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this)
 		{
 		}

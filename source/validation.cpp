@@ -1,4 +1,3 @@
-#include "validation.h"
 #include "sbol.h"
 #include <iostream>
 

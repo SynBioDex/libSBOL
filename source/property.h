@@ -1,22 +1,32 @@
 #ifndef PROPERTY_INCLUDED
 #define PROPERTY_INCLUDED
 
+#include "sbolerror.h"
+#include "validation.h"
+
+#include <raptor2.h>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <map>
+#include <unordered_map>
+
 // The URIs defined here determine the appearance of serialized RDF/XML nodes.  Change these URIs to change the appearance of an SBOL class or property name
 #define SBOL_URI "http://sbols.org/v2"
 #define RDF_URI "http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
 #define PURL_URI "http://purl.org/dc/terms/"
+#define PROV_URI "http://www.w3.org/ns/prov"
 
+/* URIs for SBOL objects */
 #define SBOL_IDENTIFIED SBOL_URI "#Identified"
 #define SBOL_DOCUMENTED SBOL_URI "#Documented"
 #define SBOL_TOP_LEVEL SBOL_URI "#TopLevel"
 #define SBOL_GENERIC_TOP_LEVEL SBOL_URI "#GenericTopLevel"
-#define SBOL_COMPONENT_DEFINITION SBOL_URI "#ComponentDefinition"
 #define SBOL_SEQUENCE_ANNOTATION SBOL_URI "#SequenceAnnotation"
+#define SBOL_COMPONENT_DEFINITION SBOL_URI "#ComponentDefinition"
+#define SBOL_SEQUENCE SBOL_URI "#Sequence"
 #define SBOL_DOCUMENT SBOL_URI "#Document"
 #define UNDEFINED SBOL_URI "#Undefined"
-
-#define SO_UNDEFINED "SO_0000001"
-
 
 /* URIs for SBOL Properties */
 #define SBOL_IDENTITY SBOL_URI "#identity"
@@ -30,16 +40,13 @@
 #define SBOL_END SBOL_URI "#end"
 #define SBOL_SEQUENCE_ANNOTATIONS SBOL_URI "#sequenceAnnotation"
 #define SBOL_ROLE SBOL_URI "#role"
+#define SBOL_ELEMENTS SBOL_URI "#elements"
+#define SBOL_ENCODING SBOL_URI "#encoding"
+#define SBOL_SEQUENCE_PROPERTY SBOL_URI "#sequence"
+#define SBOL_WAS_DERIVED_FROM PROV_URI "#wasDerivedFrom"
 
-#include "sbolerror.h"
-#include "validation.h"
-
-#include <raptor2.h>
-#include <string>
-#include <vector>
-#include <iostream>
-#include <map>
-#include <unordered_map>
+/* URIs for common Sequence Ontology terms */
+#define SO_UNDEFINED "SO_0000001"
 
 namespace sbol
 {
@@ -78,7 +85,7 @@ namespace sbol
 		virtual void set(std::string new_value);
 		virtual void set(int new_value);
 		virtual void write();
-		virtual void validate(void * arg = NULL);
+		void validate(void * arg = NULL);
 	};
 
 	template <class LiteralType>
@@ -90,7 +97,7 @@ namespace sbol
 	{
 	public:
 		URIProperty(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {}) :
-			Property(type_uri, property_owner, "<" + initial_value + ">", rules = {})
+			Property(type_uri, property_owner, "<" + initial_value + ">", rules)
 		{
 		}
 	};
@@ -213,21 +220,17 @@ namespace sbol
 		sbol_type predicate = type;
 		std::string object = sbol_owner->properties[type].front();
 
-		cout << "Subject:  " << subject << endl;
-		cout << "Predicate: " << predicate << endl;
-		cout << "Object: "  << endl;
+		cout << subject + "\t" + predicate + "\t" + object << endl;
 	};
 
 	template <class LiteralType>
 	void Property<LiteralType>::validate(void * arg)
 	{
-		cout << "Iterating through " << validationRules.size() << " validation rules" << endl;
 		for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
 		{
 			ValidationRule& validate_fx = *i_rule;
 			validate_fx(sbol_owner, arg);
 		}
-		cout << "Validation complete" << endl;
 	};
 
 	template <class LiteralType>
@@ -247,9 +250,6 @@ namespace sbol
 		}
 	};
 
-
-
-
 	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
 	template <class SBOLClass>
 	class OwnedObject : public Property<SBOLClass>
@@ -259,12 +259,8 @@ namespace sbol
 		OwnedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL);
 		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
 
-
-		//std::vector<SBOLClass> get();
 		void add(SBOLClass& sbol_obj);
 		SBOLClass& get(std::string object_id);
-
-		//void remove(std::string uri);
 	};
 
 	template <class SBOLClass >
@@ -277,8 +273,6 @@ namespace sbol
 				std::vector<sbol::SBOLObject*> object_store;
 				sbol_owner->owned_objects.insert({ type_uri, object_store });
 			}
-		std::cout << "Constructing OwnedObject" << std::endl;
-
 		};
 
 	template <class SBOLClass>
@@ -435,10 +429,6 @@ namespace sbol
 		}
 	};
 
-
-
-
-
 	template < class PropertyType >
 	std::vector<PropertyType> List<PropertyType>::copy()
 	{
@@ -492,8 +482,6 @@ namespace sbol
 			type(type),
 			identity(URIProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id, { validation_rule_10202 }))
 		{
-			std::cout << "Constructing SBOLObject" << std::endl;
-
 		}
 		~SBOLObject();
 		sbol_type type;

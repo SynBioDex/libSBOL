@@ -10,17 +10,18 @@ namespace sbol
 		TextProperty elements;
 		URIProperty encoding;
 
-		Sequence(std::string uri_prefix = SBOL_URI "/Sequence", std::string id = "example", std::string elements = "", uri encoding = "") : Sequence(SBOL_SEQUENCE, uri_prefix, id, start)
+		Sequence(std::string uri_prefix = SBOL_URI "/Sequence", std::string display_id = "example", std::string name = "", std::string description = "", std::string elements = "", std::string encoding = "", std::string version = "1.0.0") : Sequence(SBOL_SEQUENCE, uri_prefix, display_id, name, description, elements, encoding, version)
 		{
 		}
 		~Sequence() {};
 	protected:
 		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
 
-		Sequence(uri type, std::string uri_prefix, std::string id, int start) :
-			Identified(type, uri_prefix, id)
+		Sequence(sbol_type type_uri, std::string uri_prefix, std::string display_id, std::string name, std::string description, std::string elements, std::string encoding, std::string version) :
+			TopLevel(type_uri, uri_prefix, display_id, name, description, version),
+			elements(SBOL_ELEMENTS, this, elements),
+			encoding(SBOL_ENCODING, this, encoding)
 		{
 		}
-
 	};
 }
