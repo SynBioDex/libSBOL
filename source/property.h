@@ -220,7 +220,9 @@ namespace sbol
 		sbol_type predicate = type;
 		std::string object = sbol_owner->properties[type].front();
 
-		cout << subject + "\t" + predicate + "\t" + object << endl;
+        std::cout << "Subject:  " << subject << std::endl;
+        std::cout << "Predicate: " << predicate << std::endl;
+        std::cout << "Object: "  << std::endl;
 	};
 
 	template <class LiteralType>
