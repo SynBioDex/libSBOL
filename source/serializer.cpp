@@ -1,7 +1,7 @@
 #define RAPTOR_STATIC
 
 #include "sbol.h"
-#include "validation.h"
+#include "sequenceannotationextension.h"
 
 #include <iostream>
 #include <vector>
@@ -100,6 +100,13 @@ int main()
 	SA.end.set(100);
 	cd.sequenceAnnotations.add(SA);
 
+	SequenceAnnotationExt& SA2 = SequenceAnnotationExt();
+	SA2.start.set(101);
+	SA2.end.set(201);
+	SA2.roles.add("SO_0000002");
+	cd.sequenceAnnotations.add(SA2);
+
+
 	/* Test reader implementation
 	  In order to extend the data model, use: 	
 	  extend_data_model<MyExtensionClass>(MY_EXTENSION_CLASS_URI); */
@@ -109,7 +116,7 @@ int main()
 	cout << some_obj.getTypeURI() << endl;
 
 	/* Round trip */
-	doc.read("SimpleComponentDefinitionExample.rdf");   // Existing contents of the current document are wiped when the file is imported
+	//doc.read("SimpleComponentDefinitionExample.rdf");   // Existing contents of the current document are wiped when the file is imported
 	doc.write("test.xml");
 
 	/* Test exception handling and validation rules */
