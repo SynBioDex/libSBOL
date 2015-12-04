@@ -15,9 +15,11 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
 	// Typecast proxy constructors to a constructor for SBOL
 	// This makes some ugly syntax, but library users should never see it.
 	make_pair(UNDEFINED, &create<SBOLObject>),
-	make_pair(SBOL_COMPONENT_DEFINITION, ( SBOLObject&(*)() ) &create<ComponentDefinition> ),
-	make_pair(SBOL_SEQUENCE_ANNOTATION, ( SBOLObject&(*)() ) &create<SequenceAnnotation> ),
-	make_pair(SBOL_SEQUENCE, ( SBOLObject&(*)() ) &create<Sequence> )
+	make_pair(SBOL_COMPONENT_DEFINITION, (SBOLObject&(*)()) &create<ComponentDefinition>),
+	make_pair(SBOL_SEQUENCE_ANNOTATION, (SBOLObject&(*)()) &create<SequenceAnnotation>),
+	make_pair(SBOL_SEQUENCE, (SBOLObject&(*)()) &create<Sequence>),
+	make_pair(SBOL_COMPONENT, (SBOLObject&(*)()) &create<Component>),
+	make_pair(SBOL_FUNCTIONAL_COMPONENT, (SBOLObject&(*)()) &create<FunctionalComponent>)
 };
 
 void Document::parse_objects(void* user_data, raptor_statement* triple)
@@ -211,59 +213,64 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 		// Serialize all properties corresponding to black diamonds in UML diagrams
 		// RDF-XML list/container elements
 		for (auto i = owned_objects.begin(); i != owned_objects.end(); ++i)
-		{	
+		{
 			// Serialize each object in the object store that belongs to this property
 			std::string property_name = i->first;
 			vector<SBOLObject*> object_store = i->second;
-			
-			// This RDF triple makes the following statement:
-			// "This instance of an SBOL object has property called X"
-			raptor_statement *triple2 = raptor_new_statement(sbol_world);
-			subject = identity.get();
-			predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
-			object = property_name;
-			
-			triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
-			triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
-			triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
 
-			// Write the triples
-			raptor_serializer_serialize_statement(sbol_serializer, triple2);
-
-			// Delete the triple 
-			raptor_free_statement(triple2);
-
-			int i_o = 0;
-			for (auto o = object_store.begin(); o != object_store.end(); ++o)
+			if (object_store.size() > 0)
 			{
-				SBOLObject* obj = *o;
-				++i_o;
-
 				// This RDF triple makes the following statement:
-				// "This instance of an SBOL object owns another SBOL object"
-				raptor_statement *triple = raptor_new_statement(sbol_world);
-				std::string subject = identity.get();
-				std::string predicate = property_name;
-				std::string object = obj->identity.get();
-				
-				//std::string subject = property_name;
-				//std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#_" + std::to_string(i_o);
-				//std::string object = obj->identity.get();
+				// "This instance of an SBOL object has property called X"
+				raptor_statement *triple2 = raptor_new_statement(sbol_world);
+				subject = identity.get();
+				predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+				object = property_name;
 
-				//triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
-				triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
-				triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
-				triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
+				triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
+				triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
+				triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
 
 				// Write the triples
-				raptor_serializer_serialize_statement(sbol_serializer, triple);
+				raptor_serializer_serialize_statement(sbol_serializer, triple2);
 
 				// Delete the triple 
-				raptor_free_statement(triple);
+				raptor_free_statement(triple2);
 
-				// Recursive call to serialize child objects
-				obj->serialize(sbol_serializer, sbol_world);
+				int i_o = 0;
+				for (auto o = object_store.begin(); o != object_store.end(); ++o)
+				{
+					SBOLObject* obj = *o;
+					++i_o;
+
+					// This RDF triple makes the following statement:
+					// "This instance of an SBOL object owns another SBOL object"
+					raptor_statement *triple = raptor_new_statement(sbol_world);
+					std::string subject = identity.get();
+					std::string predicate = property_name;
+					std::string object = obj->identity.get();
+
+					//std::string subject = property_name;
+					//std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#_" + std::to_string(i_o);
+					//std::string object = obj->identity.get();
+
+					//triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
+					triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
+					triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
+					triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
+
+					// Write the triples
+					raptor_serializer_serialize_statement(sbol_serializer, triple);
+
+					// Delete the triple 
+					raptor_free_statement(triple);
+
+					// Recursive call to serialize child objects
+					obj->serialize(sbol_serializer, sbol_world);
+				}
+
 			}
+
 		}
 	}
 }

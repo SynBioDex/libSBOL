@@ -3,6 +3,7 @@
 #include "componentdefinition.h"
 #include "sequenceannotation.h"
 #include "sequence.h"
+#include "component.h"
 
 #include <raptor2.h>
 #include <unordered_map>
