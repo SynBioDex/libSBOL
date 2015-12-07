@@ -4,11 +4,9 @@
 using namespace sbol;
 using namespace std;
 
-void sbol::validation_rule_10202(void *sbol_obj, void *arg)
+/* The identity property of an Identified object MUST be globally unique. */
+void sbol::sbol_rule_10202(void *sbol_obj, void *arg)
 {
-	cout << "Testing validation_rule_10202" << endl;
-
-	// The identity property of an Identified object MUST be globally unique.
 	Identified *identified_obj = (Identified *)sbol_obj;
 	string new_id;
 
@@ -23,4 +21,14 @@ void sbol::validation_rule_10202(void *sbol_obj, void *arg)
 			throw SBOLError(DUPLICATE_URI_ERROR, "Duplicate URI");
 		}
 	}
+};
+
+/*	The definition property MUST NOT refer to the same ComponentDefinition as the one that contains the
+ComponentInstance.Furthermore, ComponentInstance objects MUST NOT form a cyclical chain of references
+via their definition properties and the ComponentDefinition objects that contain them.For example, consider
+the ComponentInstance objects A and B and the ComponentDefinition objects X and Y.The reference chain “X
+contains A, A is defined by Y, Y contains B, and B is defined by X” is cyclical. */
+void sbol::libsbol_rule_1(void *sbol_obj, void *arg)
+{
+	cout << "Testing internal validation rules" << endl;
 };

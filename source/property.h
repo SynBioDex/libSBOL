@@ -500,7 +500,7 @@ namespace sbol
 
 		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI, std::string id = "example") :
 			type(type),
-			identity(URIProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id, { validation_rule_10202 }))
+			identity(URIProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id, { sbol_rule_10202 }))
 		{
 		}
 		~SBOLObject();

@@ -198,9 +198,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			// "This SBOL object has a property called X and its value is Y"
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
 
-			//std::string new_predicate = (SBOL_URI "#" + it->first);
 			std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
-			//			std::string new_object = it->second.front();  // The triple's object corresponds to an SBOL property value
 
 			// Serialize each of the values in a List property as an RDF triple
 			vector<std::string> property_values = it->second;
@@ -216,8 +214,8 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 					new_object = new_object.substr(1, new_object.length() - 2);  // Strip angle brackets
 					triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_object.c_str());
 
-					// Write the triples
-					raptor_serializer_serialize_statement(sbol_serializer, triple2);
+					// Write the triples, but don't write the identity property (it results in a redundant XML element)
+					if (new_predicate.compare(SBOL_IDENTITY) != 0) raptor_serializer_serialize_statement(sbol_serializer, triple2);
 				}
 				else if (new_object.length() > 2 && new_object.front() == '"' && new_object.back() == '"')  // Quotes indicate a literal
 				{

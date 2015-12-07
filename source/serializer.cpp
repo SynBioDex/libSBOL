@@ -127,7 +127,7 @@ int main()
 	//doc.write("test.xml");
 
 	///* Test exception handling and validation rules */
-	//cd.identity.set(cd.identity.get());  //  Should trigger SBOLError 0 in violation of validation_rule_10202 because the uri
+	//cd.identity.set(cd.identity.get());  //  Should trigger SBOLError 0 in violation of sbol_rule_10202 because the uri
 
 	return 0;
 }
