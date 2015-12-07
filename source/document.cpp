@@ -89,9 +89,6 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 		string property_ns = property_uri.substr(0, found);
 		string property_name = property_uri.substr(found + 1, subject.length() - 1);
 		// If property name is something other than "type" than the triple matches the pattern for defining properties
-		cout << id << endl;
-		cout << property_name << endl;
-		cout << property_uri << endl;
 		if (property_uri.compare(RDF_URI "#type") != 0)
 		{
 			// Checks if the object to which this property belongs already exists
@@ -101,7 +98,6 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 				// Decide if this triple corresponds to a simple property, a list property, an owned property or a referenced property
 				if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
 				{
-					std::cout << "Adding property value " << property_value << std::endl;
 					// TODO: double-check this, is there a memory-leak here?
 					// sbol_obj->properties[property_uri].clear();
 					sbol_obj->properties[property_uri].push_back(property_value);
@@ -113,12 +109,16 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 				}
 				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
 				{
-					std::cout << "Adding owned object " << property_value << std::endl;
-
-					string owned_obj_id = property_value;
+					// Strip off the angle brackets from the URI value.  Note that a Document's object_store
+					// and correspondingly, an SBOLObject's property_store uses stripped URIs as keys,
+					// while libSBOL uses as a convention angle brackets or quotes for Literal values
+					string owned_obj_id = property_value.substr(1, property_value.length() - 2);
+					
+					// Form a composite SBOL data structure.  The owned object is added to its parent
+					// TopLevel object.  The owned object is then removed from the Document's object store
+					// and is now associated only with it's parent TopLevel object.
 					TopLevel *owned_obj = doc->SBOLObjects[owned_obj_id];
-					sbol_obj->owned_objects[property_uri].push_back(owned_obj);
-					cout << owned_obj->identity.get() << endl;
+					sbol_obj->owned_objects[property_uri].push_back(owned_obj);			
 					doc->SBOLObjects.erase(owned_obj_id);
 				}
 			}

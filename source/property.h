@@ -47,6 +47,7 @@
 #define SBOL_ENCODING SBOL_URI "#encoding"
 #define SBOL_SEQUENCE_PROPERTY SBOL_URI "#sequence"
 #define SBOL_WAS_DERIVED_FROM PROV_URI "#wasDerivedFrom"
+#define SBOL_DEFINITION SBOL_URI "#definition"
 #define SBOL_ACCESS SBOL_URI "#access"
 #define SBOL_DIRECTION SBOL_URI "#direction"
 
@@ -265,6 +266,7 @@ namespace sbol
 			{
 				sbol_owner->properties[type].push_back("\"" + new_value + "\"");
 			}
+			validate((void *)&new_value);  //  Call validation rules associated with this Property
 		}
 	};
 
@@ -398,7 +400,7 @@ namespace sbol
 	class ReferencedObject : public URIProperty
 	{
 		public:
-			ReferencedObject(sbol_type type_uri, void *property_owner, std::string initial_value) : URIProperty(type_uri, property_owner, initial_value)
+			ReferencedObject(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {}) : URIProperty(type_uri, property_owner, initial_value, rules)
 			{
 			}
 	};
