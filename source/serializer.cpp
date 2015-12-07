@@ -22,10 +22,10 @@ int main()
 
 	Document& doc = Document();
 
-	doc.read("SimpleComponentDefinitionExample.rdf");
+	doc.read("singleFunctionalComponent.rdf");
 	doc.write("test.xml");
 
-	///* Start SBOL data model testing */
+	/* Start SBOL data model testing */
 
 	///* Test constructor chain */
 	//SBOLObject &obj = SBOLObject();

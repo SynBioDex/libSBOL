@@ -41,8 +41,24 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 		if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{
 			SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();  // Call constructor for the appropriate SBOLObject
+
+			// Wipe default property values passed from default constructor. New property values will be added as properties are parsed from the input file
+			for (auto it = new_obj.properties.begin(); it != new_obj.properties.end(); it++)
+			{
+				std::string token = it->second.front();
+				if (token[0] == '<')  // clear defaults and re-initialize this property as a URI
+				{
+					new_obj.properties[it->first].clear();
+					new_obj.properties[it->first].push_back("<>");
+				} 
+				else if (token[0] == '"')  // clear defaults and re-initialize as a literal
+				{
+					new_obj.properties[it->first].clear();
+					new_obj.properties[it->first].push_back("\"\"");
+				}
+			}
 			new_obj.identity.set(subject);
-		
+
 			// All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
 			// Owned objects are kept in the object store as a temporary convenience and will be removed later.
 			doc->add<SBOLObject>(new_obj);
@@ -73,8 +89,10 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 		string property_ns = property_uri.substr(0, found);
 		string property_name = property_uri.substr(found + 1, subject.length() - 1);
 		// If property name is something other than "type" than the triple matches the pattern for defining properties
-
-		if (property_name.compare("type") != 0)
+		cout << id << endl;
+		cout << property_name << endl;
+		cout << property_uri << endl;
+		if (property_uri.compare(RDF_URI "#type") != 0)
 		{
 			// Checks if the object to which this property belongs already exists
 			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
@@ -83,19 +101,24 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 				// Decide if this triple corresponds to a simple property, a list property, an owned property or a referenced property
 				if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
 				{
+					std::cout << "Adding property value " << property_value << std::endl;
 					// TODO: double-check this, is there a memory-leak here?
-					sbol_obj->properties[property_uri].clear();
+					// sbol_obj->properties[property_uri].clear();
 					sbol_obj->properties[property_uri].push_back(property_value);
 				}
+				// TODO: the list_properties member should be deprecated, use properties member instead
 				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
 				{
 					sbol_obj->list_properties[property_uri].push_back(property_value);
 				}
 				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
 				{
+					std::cout << "Adding owned object " << property_value << std::endl;
+
 					string owned_obj_id = property_value;
 					TopLevel *owned_obj = doc->SBOLObjects[owned_obj_id];
 					sbol_obj->owned_objects[property_uri].push_back(owned_obj);
+					cout << owned_obj->identity.get() << endl;
 					doc->SBOLObjects.erase(owned_obj_id);
 				}
 			}
@@ -135,7 +158,6 @@ void Document::read(std::string filename)
 	fclose(fh);
 
 }
-
 
 void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world)
 {
@@ -187,6 +209,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 				std::string new_object = *i_val;
 				triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 				triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_predicate.c_str());
+				
 				// TODO:  the condition below, new_object.length() > 2, should be replaced with a function is_empty()
 				if (new_object.length() > 2 && new_object.front() == '<' && new_object.back() == '>') // Angle brackets indicate a uri
 				{
