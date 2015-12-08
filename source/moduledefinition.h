@@ -1,18 +1,18 @@
 #include "toplevel.h"
 #include "module.h"
 #include "component.h"
+#include "interaction.h"
 
 #include <string>
 
 namespace sbol
 {
-
 	class ModuleDefinition : public TopLevel
 	{
 	public:
 		List<URIProperty> roles;
 		ReferencedObject models;
-		//List<OwnedObject<Module>> modules;
+		List<OwnedObject<Module>> modules;
 		//List<OwnedObject<Interaction>> interactions;
 		List<OwnedObject<FunctionalComponent>> functionalComponents;
 
@@ -32,8 +32,8 @@ namespace sbol
 			TopLevel(sbol_type_uri, uri_prefix, display_id, name, description, version),
 			roles(SBOL_ROLES, this, role),
 			models(SBOL_MODELS, this, ""),
-			functionalComponents(SBOL_FUNCTIONAL_COMPONENTS, this)
-			//modules(SBOL_MODULES, this),
+			functionalComponents(SBOL_FUNCTIONAL_COMPONENTS, this),
+			modules(SBOL_MODULES, this)
 			//interactions(SBOL_INTERACTIONS, this)
 			{
 			}

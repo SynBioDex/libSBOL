@@ -10,7 +10,8 @@ namespace sbol
 
 	public:
 		ReferencedObject definition;
-		//OwnedObject<MapsTo> mapsTos;
+		//List<OwnedObject<MapsTo>> mapsTos;
+
 		Module(std::string uri_prefix = SBOL_URI "/Module", std::string id = "example") :
 			Module(SBOL_MODULE, uri_prefix, id)
 			{
@@ -20,6 +21,7 @@ namespace sbol
 		Module(sbol_type type, std::string uri_prefix, std::string id) :
 			Identified(type, uri_prefix, id, "", "", ""),
 			definition(SBOL_DEFINITION, this, UNDEFINED, {})
+			//mapsTos(SBOL_MAPS_TO, this)
 			{
 			}
 	};

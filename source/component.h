@@ -35,7 +35,9 @@ namespace sbol
 
 	protected:
 		Component(sbol_type type, std::string uri_prefix, std::string id, std::string access) :
-			ComponentInstance(type, uri_prefix, id, access) {};
+			ComponentInstance(type, uri_prefix, id, access) 
+			{
+			};
 	};
 
 	class FunctionalComponent : public ComponentInstance

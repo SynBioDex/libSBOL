@@ -37,6 +37,10 @@ FILE(GLOB SBOL_HEADER_FILES
 	sequenceannotationextension.h
 	componentdefinition.h
 	component.h
+	interaction.h
+	participation.h
+	location.h
+	sequenceconstraint.h
 	model.h)
 FILE(GLOB SBOL_SOURCE_FILES	
 	validation.cpp

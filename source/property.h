@@ -32,7 +32,7 @@
 #define SBOL_MODEL SBOL_URI "#Model"
 #define SBOL_MAPS_TO SBOL_URI "#MapsTo"
 #define SBOL_INTERACTION SBOL_URI "#Interaction"
-
+#define SBOL_PARTICIPATION SBOL_URI "#Participation"
 #define SBOL_DOCUMENT SBOL_URI "#Document"
 #define UNDEFINED SBOL_URI "#Undefined"
 
@@ -56,11 +56,12 @@
 #define SBOL_DEFINITION SBOL_URI "#definition"
 #define SBOL_ACCESS SBOL_URI "#access"
 #define SBOL_DIRECTION SBOL_URI "#direction"
-#define SBOL_MODELS "#model"
-#define SBOL_MODULES "#module"
-#define SBOL_FUNCTIONAL_COMPONENTS "#functionalComponent"
-#define SBOL_INTERACTIONS "#interaction"
-#define SBOL_MAPS_TOS "#mapsTo"
+#define SBOL_MODELS SBOL_URI "#model"
+#define SBOL_MODULES SBOL_URI "#module"
+#define SBOL_FUNCTIONAL_COMPONENTS SBOL_URI "#functionalComponent"
+#define SBOL_INTERACTIONS SBOL_URI "#interaction"
+#define SBOL_MAPS_TOS SBOL_URI "#mapsTo"
+#define SBOL_PARTICIPATIONS SBOL_URI "#participation"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"
@@ -72,6 +73,12 @@
 #define SBOL_ENCODING_IUPAC "www.chem.qmul.ac.uk/iubmb/misc/naseq.html"
 #define SBOL_ENCODING_IUPAC_PROTEIN "www.chem.qmul.ac.uk/iupac/AminoAcid/"
 #define SBOL_ENCODING_SMILES "www.opensmiles.org/opensmiles.html"
+
+#define SBO "http://identifiers.org/biomodels.sbo/SBO:"
+#define SBO_INHIBITION SBO "0000169"
+#define SBO_GENETIC_PRODUCTION SBO "0000170"
+#define SBO_STIMULATION SBO "0000589"
+#define SBO_NONCOVALENT_BINDING SBO "0000177"
 
 /* URIs for common Sequence Ontology terms */
 #define SO_UNDEFINED "SO_0000001"
