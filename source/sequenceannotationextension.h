@@ -18,7 +18,7 @@ namespace sbol
 		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
 		SequenceAnnotationExt(sbol_type type, std::string uri_prefix, std::string id, int start, int end, std::string role) :
 			SequenceAnnotation(type, uri_prefix, id, start, end),
-			roles(SBOL_ROLE, this, role)
+			roles(SBOL_ROLES, this, role)
 		{
 		}
 	};

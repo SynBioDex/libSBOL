@@ -215,6 +215,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 					triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_object.c_str());
 
 					// Write the triples, but don't write the identity property (it results in a redundant XML element)
+					// TODO: squelching the identity property like this is kludgey.  There's probably a more efficient way to squelch properties
 					if (new_predicate.compare(SBOL_IDENTITY) != 0) raptor_serializer_serialize_statement(sbol_serializer, triple2);
 				}
 				else if (new_object.length() > 2 && new_object.front() == '"' && new_object.back() == '"')  // Quotes indicate a literal

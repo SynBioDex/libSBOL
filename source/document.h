@@ -4,6 +4,9 @@
 #include "sequenceannotation.h"
 #include "sequence.h"
 #include "component.h"
+#include "moduledefinition.h"
+#include "module.h"
+#include "model.h"
 
 #include <raptor2.h>
 #include <unordered_map>

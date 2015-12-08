@@ -34,7 +34,10 @@ FILE(GLOB SBOL_HEADER_FILES
 	componentdefinition.h
 	sequence.h
 	document.h
-	sequenceannotationextension.h)
+	sequenceannotationextension.h
+	componentdefinition.h
+	component.h
+	model.h)
 FILE(GLOB SBOL_SOURCE_FILES	
 	validation.cpp
 	sbolerror.cpp

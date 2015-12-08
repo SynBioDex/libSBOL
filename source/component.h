@@ -34,7 +34,7 @@ namespace sbol
 		URIProperty direction;
 		~FunctionalComponent();
 
-		FunctionalComponent(sbol_type type = SBOL_COMPONENT, std::string uri_prefix = SBOL_URI "/FunctionalComponent", std::string id = "example") : 
+		FunctionalComponent(sbol_type type = SBOL_FUNCTIONAL_COMPONENT, std::string uri_prefix = SBOL_URI "/FunctionalComponent", std::string id = "example") : 
 			ComponentInstance(type, uri_prefix, id),
 			direction(SBOL_DIRECTION, this, SBOL_DIRECTION_NONE)
 		{};
