@@ -27,9 +27,12 @@
 #define SBOL_FUNCTIONAL_COMPONENT SBOL_URI "#FunctionalComponent"
 #define SBOL_COMPONENT_DEFINITION SBOL_URI "#ComponentDefinition"
 #define SBOL_SEQUENCE SBOL_URI "#Sequence"
-#define SBOL_MODULE_DEFINITION "#ModuleDefinition"
-#define SBOL_MODULE "#Module"
-#define SBOL_MODEL "#Model"
+#define SBOL_MODULE_DEFINITION SBOL_URI "#ModuleDefinition"
+#define SBOL_MODULE SBOL_URI "#Module"
+#define SBOL_MODEL SBOL_URI "#Model"
+#define SBOL_MAPS_TO SBOL_URI "#MapsTo"
+#define SBOL_INTERACTION SBOL_URI "#Interaction"
+
 #define SBOL_DOCUMENT SBOL_URI "#Document"
 #define UNDEFINED SBOL_URI "#Undefined"
 
@@ -56,7 +59,8 @@
 #define SBOL_MODELS "#model"
 #define SBOL_MODULES "#module"
 #define SBOL_FUNCTIONAL_COMPONENTS "#functionalComponent"
-#define SBOL_INTERACTIONS "#interactions"
+#define SBOL_INTERACTIONS "#interaction"
+#define SBOL_MAPS_TOS "#mapsTo"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"

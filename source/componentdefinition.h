@@ -27,8 +27,8 @@ namespace sbol
 			std::string description = "",
 			std::string version = "1.0.0") :
 			ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, type, role, name, description, version)
-		{
-		}
+			{
+			}
 	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri 
 		ComponentDefinition(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string type, std::string role, std::string name, std::string description, std::string version) :
@@ -38,7 +38,7 @@ namespace sbol
 			sequence(SBOL_SEQUENCE_PROPERTY, this, ""),
 			sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this),
 			components(SBOL_COMPONENTS, this)
-		{
-		}
+			{
+			}
 	};
 }

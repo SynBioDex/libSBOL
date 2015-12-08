@@ -19,7 +19,9 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
 	make_pair(SBOL_SEQUENCE_ANNOTATION, (SBOLObject&(*)()) &create<SequenceAnnotation>),
 	make_pair(SBOL_SEQUENCE, (SBOLObject&(*)()) &create<Sequence>),
 	make_pair(SBOL_COMPONENT, (SBOLObject&(*)()) &create<Component>),
-	make_pair(SBOL_FUNCTIONAL_COMPONENT, (SBOLObject&(*)()) &create<FunctionalComponent>)
+	make_pair(SBOL_FUNCTIONAL_COMPONENT, (SBOLObject&(*)()) &create<FunctionalComponent>),
+	make_pair(SBOL_MODULE_DEFINITION, (SBOLObject&(*)()) &create<ModuleDefinition>),
+	make_pair(SBOL_MODULE, (SBOLObject&(*)()) &create<Module>)
 };
 
 void Document::parse_objects(void* user_data, raptor_statement* triple)
