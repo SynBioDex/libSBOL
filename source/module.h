@@ -15,7 +15,7 @@ namespace sbol
 			Module(SBOL_MODULE, uri_prefix, id)
 			{
 			}
-
+		~Module();
 	protected:
 		Module(sbol_type type, std::string uri_prefix, std::string id) :
 			Identified(type, uri_prefix, id, "", "", ""),
