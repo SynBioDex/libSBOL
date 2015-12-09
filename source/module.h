@@ -2,6 +2,7 @@
 #define MODULE_INCLUDED
 
 #include "identified.h"
+#include "mapsto.h"
 
 namespace sbol
 {

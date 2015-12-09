@@ -2,6 +2,8 @@
 #define COMPONENT_INCLUDED
 
 #include "identified.h"
+#include "mapsto.h"
+
 #include <string>
 
 namespace sbol
@@ -12,14 +14,14 @@ namespace sbol
 	public:
 		ReferencedObject definition;
 		URIProperty access;
-		//OwnedObject<MapsTo> mapsTos;
+		List<OwnedObject<MapsTo>> mapsTos;
 
 	protected:
 		ComponentInstance(sbol_type type = SBOL_COMPONENT, std::string uri_prefix = SBOL_URI "/Component", std::string id = "example", std::string access = SBOL_ACCESS_PRIVATE) :
 			Identified(type, uri_prefix, id, "", "", ""),
 			definition(SBOL_DEFINITION, this, UNDEFINED, {}),
-			access(SBOL_ACCESS, this, access)
-			//mapTos(SBOL_MAPS_TO, this)
+			access(SBOL_ACCESS, this, access),
+			mapsTos(SBOL_MAPS_TO, this)
 			{
 			};
 	};

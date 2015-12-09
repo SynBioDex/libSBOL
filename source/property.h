@@ -63,6 +63,9 @@
 #define SBOL_MAPS_TOS SBOL_URI "#mapsTo"
 #define SBOL_PARTICIPATIONS SBOL_URI "#participation"
 #define SBOL_PARTICIPANT SBOL_URI "#participant"
+#define SBOL_LOCAL SBOL_URI "#local"
+#define SBOL_REMOTE SBOL_URI "#remote"
+#define SBOL_REFINEMENT SBOL_URI "#refinement"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"
@@ -141,7 +144,7 @@ namespace sbol
 	class URIProperty : public Property<std::string>
 	{
 	public:
-		URIProperty(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {}) :
+		URIProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules rules = {}) :
 			Property(type_uri, property_owner, "<" + initial_value + ">", rules)
 		{
 		}
