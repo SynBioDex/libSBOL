@@ -1,6 +1,7 @@
 #include "toplevel.h"
-#include "sequenceannotation.h"
 #include "component.h"
+#include "sequenceannotation.h"
+#include "sequenceconstraint.h"
 #include <string>
 
 namespace sbol 
@@ -10,11 +11,10 @@ namespace sbol
 	public:
 		List<URIProperty> types;
 		List<URIProperty> roles;
-		//OwnedObjects<SequenceAnnotation> sequenceAnnotations;
 		ReferencedObject sequence;
 		List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
 		List<OwnedObject<Component>> components;
-
+		List<OwnedObject<SequenceConstraint>> sequenceConstraints;
 
 		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition",
 			std::string display_id = "example",
@@ -35,7 +35,8 @@ namespace sbol
 			roles(SBOL_ROLES, this, role),
 			sequence(SBOL_SEQUENCE_PROPERTY, this, ""),
 			sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this),
-			components(SBOL_COMPONENTS, this)
+			components(SBOL_COMPONENTS, this),
+			sequenceConstraints(SBOL_SEQUENCE_CONSTRAINTS, this)
 			{
 			}
 	};

@@ -33,6 +33,7 @@
 #define SBOL_MAPS_TO SBOL_URI "#MapsTo"
 #define SBOL_INTERACTION SBOL_URI "#Interaction"
 #define SBOL_PARTICIPATION SBOL_URI "#Participation"
+#define SBOL_SEQUENCE_CONSTRAINT SBOL_URI "#SequenceConstraint"
 #define SBOL_DOCUMENT SBOL_URI "#Document"
 #define UNDEFINED SBOL_URI "#Undefined"
 
@@ -69,6 +70,10 @@
 #define SBOL_SOURCE SBOL_URI "#source"
 #define SBOL_LANGUAGE SBOL_URI "#language"
 #define SBOL_FRAMEWORK SBOL_URI "#framework"
+#define SBOL_SEQUENCE_CONSTRAINTS SBOL_URI "#sequenceConstraints"
+#define SBOL_SUBJECT SBOL_URI "#subject"
+#define SBOL_OBJECT SBOL_URI "#object"
+#define SBOL_RESTRICTION SBOL_URI "#restriction"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"
@@ -77,6 +82,9 @@
 #define SBOL_DIRECTION_OUT SBOL_URI "#out"
 #define SBOL_DIRECTION_IN_OUT SBOL_URI "#inout"
 #define SBOL_DIRECTION_NONE SBOL_URI "#none"
+#define SBOL_PRECEDES SBOL_URI "#precedes"
+#define SBOL_SAME_ORIENTATION_AS "#sameOrientationAs"
+#define SBOL_OPPOSITE_ORIENTATION_AS "#oppositeOrientationAs"
 #define SBOL_ENCODING_IUPAC "www.chem.qmul.ac.uk/iubmb/misc/naseq.html"
 #define SBOL_ENCODING_IUPAC_PROTEIN "www.chem.qmul.ac.uk/iupac/AminoAcid/"
 #define SBOL_ENCODING_SMILES "www.opensmiles.org/opensmiles.html"
