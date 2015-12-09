@@ -13,7 +13,7 @@ namespace sbol
 		List<URIProperty> roles;
 		ReferencedObject models;
 		List<OwnedObject<Module>> modules;
-		//List<OwnedObject<Interaction>> interactions;
+		List<OwnedObject<Interaction>> interactions;
 		List<OwnedObject<FunctionalComponent>> functionalComponents;
 
 		ModuleDefinition(std::string uri_prefix = SBOL_URI "/ModuleDefinition",
@@ -33,8 +33,8 @@ namespace sbol
 			roles(SBOL_ROLES, this, role),
 			models(SBOL_MODELS, this, ""),
 			functionalComponents(SBOL_FUNCTIONAL_COMPONENTS, this),
-			modules(SBOL_MODULES, this)
-			//interactions(SBOL_INTERACTIONS, this)
+			modules(SBOL_MODULES, this),
+			interactions(SBOL_INTERACTIONS, this)
 			{
 			}
 	};

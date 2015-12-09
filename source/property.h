@@ -43,7 +43,7 @@
 #define SBOL_DISPLAY_ID  SBOL_URI "#displayId"
 #define SBOL_NAME PURL_URI "#title"
 #define SBOL_DESCRIPTION PURL_URI "#description"
-#define SBOL_TYPE SBOL_URI "#type"
+#define SBOL_TYPES SBOL_URI "#type"
 #define SBOL_START SBOL_URI "#start"
 #define SBOL_END SBOL_URI "#end"
 #define SBOL_SEQUENCE_ANNOTATIONS SBOL_URI "#sequenceAnnotation"
@@ -62,6 +62,7 @@
 #define SBOL_INTERACTIONS SBOL_URI "#interaction"
 #define SBOL_MAPS_TOS SBOL_URI "#mapsTo"
 #define SBOL_PARTICIPATIONS SBOL_URI "#participation"
+#define SBOL_PARTICIPANT SBOL_URI "#participant"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"
@@ -74,11 +75,20 @@
 #define SBOL_ENCODING_IUPAC_PROTEIN "www.chem.qmul.ac.uk/iupac/AminoAcid/"
 #define SBOL_ENCODING_SMILES "www.opensmiles.org/opensmiles.html"
 
+/* Systems Biology Ontology */
+/* Interaction.roles */
 #define SBO "http://identifiers.org/biomodels.sbo/SBO:"
 #define SBO_INHIBITION SBO "0000169"
 #define SBO_GENETIC_PRODUCTION SBO "0000170"
 #define SBO_STIMULATION SBO "0000589"
 #define SBO_NONCOVALENT_BINDING SBO "0000177"
+/* Participant.roles */
+#define SBO_INHIBITOR SBO "0000020"
+#define SBO_STIMULATOR SBO "0000459"
+#define SBO_REACTANT SBO "0000010"
+#define SBO_PRODUCT SBO "0000011"
+#define SBO_LIGAND SBO "0000280"
+#define SBOL_NONCOVALENT_COMPLEX SBO "0000253"
 
 /* URIs for common Sequence Ontology terms */
 #define SO_UNDEFINED "SO_0000001"

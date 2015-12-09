@@ -22,7 +22,7 @@ int main()
 
 	Document& doc = Document();
 
-	doc.read("singleFunctionalComponent.rdf");
+	doc.read("singleModuleDefinition.rdf");
 	doc.write("test.xml");
 
 	/* Start SBOL data model testing */
@@ -33,7 +33,7 @@ int main()
 	//TopLevel &top = TopLevel();
 	//ComponentDefinition &cd = ComponentDefinition("http://examples.com", "cdef_obj");
 
-	///* Test Property constructors.  An ordinary user generally doesn't use these */
+	///* Test Property constructors.  An ordinary user generally doesn't use these, but they're important for extensions */
 	//OwnedObject<SequenceAnnotation> sequenceAnnotation = OwnedObject<SequenceAnnotation>();
 	//List<OwnedObject<SequenceAnnotation>> sequenceAnnotations = List<OwnedObject<SequenceAnnotation>>(SBOL_SEQUENCE_ANNOTATIONS, NULL);
 

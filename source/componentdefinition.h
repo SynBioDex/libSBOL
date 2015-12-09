@@ -34,7 +34,7 @@ namespace sbol
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri 
 		ComponentDefinition(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string type, std::string role, std::string name, std::string description, std::string version) :
 			TopLevel(sbol_type_uri, uri_prefix, display_id, name, description, version),
-			types(SBOL_TYPE, this, type),
+			types(SBOL_TYPES, this, type),
 			roles(SBOL_ROLES, this, role),
 			sequence(SBOL_SEQUENCE_PROPERTY, this, ""),
 			sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this),

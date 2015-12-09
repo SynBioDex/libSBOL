@@ -2,6 +2,7 @@
 #define INTERACTION_INCLUDED
 
 #include "identified.h"
+#include "participation.h"
 
 namespace sbol
 {
@@ -10,7 +11,7 @@ namespace sbol
 
 	public:
 		List<URIProperty> types;
-		//List<OwnedObject<Participations>> participations;
+		List<OwnedObject<Participation>> participations;
 		
 		Interaction(std::string uri_prefix = SBOL_URI "/Interaction", std::string id = "example") :
 			Interaction(SBOL_INTERACTION, uri_prefix, id)
@@ -20,8 +21,8 @@ namespace sbol
 	protected:
 		Interaction(sbol_type type, std::string uri_prefix, std::string id) :
 			Identified(type, uri_prefix, id, "", "", ""),
-			types(SBOL_TYPE, this, UNDEFINED)
-			//participations(SBOL_PARTICIPATIONS, this)
+			types(SBOL_TYPES, this, UNDEFINED),
+			participations(SBOL_PARTICIPATIONS, this)
 			{
 			}
 	};
