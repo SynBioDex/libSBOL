@@ -25,7 +25,9 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
 	make_pair(SBOL_INTERACTION, (SBOLObject&(*)()) &create<Interaction>),
 	make_pair(SBOL_PARTICIPATION, (SBOLObject&(*)()) &create<Participation>),
 	make_pair(SBOL_MODEL, (SBOLObject&(*)()) &create<Model>),
-	make_pair(SBOL_SEQUENCE_CONSTRAINT, (SBOLObject&(*)()) &create<SequenceConstraint>)
+	make_pair(SBOL_SEQUENCE_CONSTRAINT, (SBOLObject&(*)()) &create<SequenceConstraint>),
+	make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>)
+
 };
 
 void Document::parse_objects(void* user_data, raptor_statement* triple)

@@ -34,7 +34,9 @@
 #define SBOL_INTERACTION SBOL_URI "#Interaction"
 #define SBOL_PARTICIPATION SBOL_URI "#Participation"
 #define SBOL_SEQUENCE_CONSTRAINT SBOL_URI "#SequenceConstraint"
+#define SBOL_LOCATION SBOL_URI "#Location"
 #define SBOL_DOCUMENT SBOL_URI "#Document"
+#define SBOL_RANGE SBOL_URI "#Range"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */
@@ -74,6 +76,8 @@
 #define SBOL_SUBJECT SBOL_URI "#subject"
 #define SBOL_OBJECT SBOL_URI "#object"
 #define SBOL_RESTRICTION SBOL_URI "#restriction"
+#define SBOL_ORIENTATION SBOL_URI "#orientation"
+#define SBOL_LOCATIONS SBOL_URI "#locations"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"
@@ -88,6 +92,8 @@
 #define SBOL_ENCODING_IUPAC "www.chem.qmul.ac.uk/iubmb/misc/naseq.html"
 #define SBOL_ENCODING_IUPAC_PROTEIN "www.chem.qmul.ac.uk/iupac/AminoAcid/"
 #define SBOL_ENCODING_SMILES "www.opensmiles.org/opensmiles.html"
+#define SBOL_INLINE SBOL_URI "#inline"
+#define SBOL_REVERSE_COMPLEMENT SBOL_URI "#reverseComplement"
 
 /* Systems Biology Ontology */
 /* Interaction.roles */
@@ -207,7 +213,7 @@ namespace sbol
 		if (sbol_owner != NULL)
 		{
 			std::vector<std::string> property_store;
-			property_store.push_back(std::to_string(initial_value));
+			property_store.push_back("\"" + std::to_string(initial_value) + "\"");
 			sbol_owner->properties.insert({ type_uri, property_store });
 		}
 	}
