@@ -66,6 +66,9 @@
 #define SBOL_LOCAL SBOL_URI "#local"
 #define SBOL_REMOTE SBOL_URI "#remote"
 #define SBOL_REFINEMENT SBOL_URI "#refinement"
+#define SBOL_SOURCE SBOL_URI "#source"
+#define SBOL_LANGUAGE SBOL_URI "#language"
+#define SBOL_FRAMEWORK SBOL_URI "#framework"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"
@@ -95,6 +98,12 @@
 
 /* URIs for common Sequence Ontology terms */
 #define SO_UNDEFINED "SO_0000001"
+
+/* Modeling frameworks */
+#define SBML "http://identifiers.org/edam/format_2585"
+#define CELLML "http://identifiers.org/edam/format_3240"
+#define BIOPAX "http://identifiers.org/edam/format_3156"
+
 
 namespace sbol
 {

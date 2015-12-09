@@ -22,7 +22,7 @@ int main()
 
 	Document& doc = Document();
 
-	doc.read("singleModuleDefinition.rdf");
+	doc.read("singleModel.rdf");
 	doc.write("test.xml");
 
 	/* Start SBOL data model testing */

@@ -5,9 +5,6 @@
 
 namespace sbol 
 {
-
-	//class SequenceAnnotation;
-
 	class ComponentDefinition : public TopLevel
 	{
 	public:
