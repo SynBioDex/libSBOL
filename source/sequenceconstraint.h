@@ -16,7 +16,7 @@ namespace sbol
 			SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri_prefix, id)
 			{
 			}
-		~SequenceConstraint();
+		~SequenceConstraint() {};
 	
 	protected:
 		SequenceConstraint(sbol_type type, std::string uri_prefix, std::string id) :
