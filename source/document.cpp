@@ -1,11 +1,17 @@
 #include "document.h"
+#include "libxml/parser.h"
+#include <libxml/xmlwriter.h>
+#include <libxml/tree.h>
+#include <libxml/xpath.h>
 
+
+#include <raptor2.h>
 #include <iostream>
 #include <string>
 #include <functional>
 #include <vector>
 #include <unordered_map>
-#include <raptor2.h>
+#include <regex>
 
 using namespace sbol;
 using namespace std;
@@ -328,6 +334,8 @@ raptor_world* Document::getWorld()
 void Document::write(std::string filename)
 {
 
+
+
 	// Initialize raptor serializer
 	FILE* fh = fopen(filename.c_str(), "wb");
 	raptor_world* world = getWorld();
@@ -362,5 +370,70 @@ void Document::write(std::string filename)
 	raptor_serializer_serialize_end(sbol_serializer);
 	raptor_free_serializer(sbol_serializer);
 	raptor_free_iostream(ios);
+
 	fclose(fh);
+
+	// Begin pretty-writer of nested SBOL elements
+	//xmlInitParser();
+	//xmlDoc* xml_doc = xmlParseFile(filename.c_str());
+	//xmlXPathContext* xml_context = xmlXPathNewContext(xml_doc);
+	//xmlXPathObject* xpath_object;
+	//
+	//xmlNode* rdf_root = xmlDocGetRootElement(xml_doc);
+	//xmlNode* sbol_root = rdf_root->children;
+	//cout << sbol_root->name << endl;
+	//xmlNode* sbol_node = sbol_root;
+	//unordered_map<SBOLObject*, xmlNode*> top_level_objects;
+	//unordered_map<std::string, xmlNode*> owned_objects;
+	//while (sbol_node)
+	//{
+	//	if (sbol_node->type == XML_ELEMENT_NODE)
+	//	{
+	//		std::string uri = (std::string)(const char *)xmlGetNsProp(sbol_node, BAD_CAST NODENAME_ABOUT, BAD_CAST RDF_URI);
+	//		//TopLevel& tl = getTopLevel((std::string)(const char *)uri_xml);
+	//		cout << "Searching for " << uri << endl;
+	//		// Check if this xml element corresponds to a TopLevel SBOL object.
+	//		// If it is TopLevel, it should be registered in this Document's object store
+	//		if (this->SBOLObjects.find(uri) != this->SBOLObjects.end())
+	//		{
+	//			SBOLObject* obj = this->SBOLObjects[uri];
+	//			top_level_objects[obj] = sbol_node;
+	//		}
+	//		else
+	//		{
+	//			owned_objects[uri] = sbol_node;
+	//		}
+	//	}
+	//	for (auto i_obj = this->SBOLObjects.begin(); i_obj != this->SBOLObjects.end(); ++i_obj)
+	//	{
+	//		SBOLObject* parent_obj = i_obj->second;
+	//		xmlNode* parent_node = top_level_objects[parent_obj];
+	//		for (auto i = parent_obj->owned_objects.begin(); i != parent_obj->owned_objects.end(); ++i)
+	//		{
+	//			// Serialize each object in the object store that belongs to this property
+	//			std::string property_name = i->first;
+	//			vector<SBOLObject*> object_store = i->second;
+	//			cout << property_name << object_store.size() << endl;
+	//			if (object_store.size() > 0)
+	//			{
+	//				for (auto o = object_store.begin(); o != object_store.end(); ++o)
+	//				{
+	//					//SBOLObject* child = *o;
+	//					SBOLObject* child_obj = *o;
+	//					cout << child_obj->identity.get() << endl;
+	//					xmlNode* child_node = owned_objects[child_obj->identity.get()];
+	//					parent_node = xmlAddChild(parent_node, child_node);
+	//					cout << xmlChildElementCount(parent_node) << endl;
+	//				}
+	//			}
+	//		}
+	//	}
+	//	sbol_node = sbol_node->next;
+	//}
+	//fh = fopen(filename.c_str(), "wb");
+
+	//int test = xmlDocDump(fh, xml_doc);
+	//cout << test << endl;
+	////xmlFreeDoc(xml_doc);
+
 };

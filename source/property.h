@@ -17,6 +17,11 @@
 #define PURL_URI "http://purl.org/dc/terms/"
 #define PROV_URI "http://www.w3.org/ns/prov"
 
+// rdf nodes used in SBOL
+#define NODENAME_ABOUT    "about"    ///< URI of a node representing an SBOLObject.
+#define NODENAME_RESOURCE "resource" ///< URI of a node referencing an SBOLObject somewhere else.
+
+
 /* URIs for SBOL objects */
 #define SBOL_IDENTIFIED SBOL_URI "#Identified"
 #define SBOL_DOCUMENTED SBOL_URI "#Documented"
@@ -72,7 +77,7 @@
 #define SBOL_SOURCE SBOL_URI "#source"
 #define SBOL_LANGUAGE SBOL_URI "#language"
 #define SBOL_FRAMEWORK SBOL_URI "#framework"
-#define SBOL_SEQUENCE_CONSTRAINTS SBOL_URI "#sequenceConstraints"
+#define SBOL_SEQUENCE_CONSTRAINTS SBOL_URI "#sequenceConstraint"
 #define SBOL_SUBJECT SBOL_URI "#subject"
 #define SBOL_OBJECT SBOL_URI "#object"
 #define SBOL_RESTRICTION SBOL_URI "#restriction"

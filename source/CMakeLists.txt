@@ -1,3 +1,5 @@
+OPTION( SBOL_GENERATE_PYTHON  "Generate Python wrapper using SWIG"        FALSE )
+
 # set variables in source code
 #CONFIGURE_FILE(
 #	${SBOL_SOURCE_DIR}/constants.h.in
@@ -13,6 +15,7 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 # set up folder structure
 SET( PROJECT_DIR      ${CMAKE_CURRENT_SOURCE_DIR} )
 SET( LINK_DIR	${PROJECT_DIR}/raptor/lib )
+SET( XML2_HEADER_DIR ${CMAKE_SOURCE_DIR}/source/libxml2/include CACHE PATH "libxml2 include dir")
 SET( HEADER_DIR	${PROJECT_DIR}/raptor/include/raptor2 )
 SET( SBOL_RELEASE_DIR       ${SBOL_RELEASE_DIR}/library )
 SET( LIBRARY_OUTPUT_PATH    ${SBOL_RELEASE_DIR} )
@@ -20,7 +23,7 @@ SET( HEADER_OUTPUT_PATH		${SBOL_RELEASE_DIR}/include )
 
 # gather headers
 INCLUDE_DIRECTORIES( ${HEADER_DIR} )
-
+INCLUDE_DIRECTORIES( ${XML2_HEADER_DIR})
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES 
 	validation.h
@@ -94,5 +97,9 @@ TARGET_LINK_LIBRARIES( sbol
 	${LINK_DIR}/iconv_a.lib
 	Ws2_32.lib )
 	
+# generate python wrapper
+IF( SBOL_GENERATE_PYTHON )
+    ADD_SUBDIRECTORY( wrapper )
+ENDIF()
 
 
