@@ -333,15 +333,20 @@ raptor_world* Document::getWorld()
 
 void Document::write(std::string filename)
 {
-
-
-
 	// Initialize raptor serializer
 	FILE* fh = fopen(filename.c_str(), "wb");
 	raptor_world* world = getWorld();
 	raptor_serializer* sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
-	raptor_iostream* ios = raptor_new_iostream_to_file_handle(world, fh);
-	raptor_serializer_start_to_iostream(sbol_serializer, NULL, ios);
+	//raptor_iostream* ios = raptor_new_iostream_to_file_handle(world, fh);
+	char * string_p = "";
+	size_t statement_string_len;
+
+	raptor_iostream* ios = raptor_new_iostream_to_string(world, 
+		(void **)&string_p,
+		&statement_string_len,
+		NULL);
+	int err = raptor_serializer_start_to_iostream(sbol_serializer, NULL, ios);
+	if (err) cout << "Error starting iostream" << endl;
 	raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
 	raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI "#");
 	raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
@@ -358,8 +363,10 @@ void Document::write(std::string filename)
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
-	raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
-	
+	//raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
+	err = raptor_serializer_start_to_string(sbol_serializer, NULL, (void **)&string_p, &statement_string_len);
+	//if (err) cout << "Error " << err << "starting string" << endl;
+
 	// Iterate through objects in document and serialize them
 	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
 	{
@@ -368,6 +375,9 @@ void Document::write(std::string filename)
 
 	// End serialization 
 	raptor_serializer_serialize_end(sbol_serializer);
+	const char* string_P = (const char*)string_p;
+	if (string_p == NULL) cout << "Serialization failed"; else cout << string_P << endl;
+
 	raptor_free_serializer(sbol_serializer);
 	raptor_free_iostream(ios);
 
