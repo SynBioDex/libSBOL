@@ -62,5 +62,7 @@ namespace sbol {
 		cout << "Getting " << uri << endl;
 		return (SBOLClass &)*(this->SBOLObjects[uri]);
 	};
+
+	void parseXMLNodes(char * xml_buffer);
 }
 

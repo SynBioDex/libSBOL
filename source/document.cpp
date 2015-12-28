@@ -7,6 +7,7 @@
 
 #include <raptor2.h>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <functional>
 #include <vector>
@@ -34,6 +35,22 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
 	make_pair(SBOL_SEQUENCE_CONSTRAINT, (SBOLObject&(*)()) &create<SequenceConstraint>),
 	make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>)
 
+};
+
+void sbol::parseXMLNodes(char * xml_buffer)
+{
+	stringstream ss;
+	ss << xml_buffer;
+	char buffer[255];
+	while (ss.getline(buffer, 255)) {
+		cout << buffer << strlen(buffer) << endl;
+		string sbol_buffer_string = string(buffer);
+		size_t pos;
+		if ((pos = sbol_buffer_string.find('<')) != std::string::npos) {
+			cout << "Found start element at " << int(pos) << endl;
+		}
+	}
+	ss.clear();
 };
 
 void Document::parse_objects(void* user_data, raptor_statement* triple)
@@ -173,6 +190,8 @@ void Document::read(std::string filename)
 
 }
 
+
+
 void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world)
 {
 	// Check if there is an RDF graph associated with this SBOLObject.  Only TopLevel objects can be belong to SBOL Documents, so
@@ -182,12 +201,26 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 	// that form a composite with a TopLevel object.  In this case, the TopLevel object will pass the
 	// pointer to the RDF graph to its composite objects
 
+
 	if (doc)
 	{
 		sbol_world = doc->getWorld();
 	}
 	if (sbol_world)
 	{
+		char * sbol_buffer = "";
+		size_t sbol_buffer_len;
+
+		raptor_iostream* ios = raptor_new_iostream_to_string(sbol_world,
+			(void **)&sbol_buffer,
+			&sbol_buffer_len,
+			NULL);
+		int err = raptor_serializer_start_to_iostream(sbol_serializer, NULL, ios);
+		if (err) cout << "Error starting iostream" << endl;
+		err = raptor_serializer_start_to_string(sbol_serializer, NULL, (void **)&sbol_buffer, &sbol_buffer_len);
+		if (err) cout << "Error " << err << "starting string" << endl;
+		
+		
 		// This RDF triple makes the following statement:
 		// "This instance of an SBOL object belongs to class X"
 		raptor_statement *triple = raptor_new_statement(sbol_world);
@@ -305,10 +338,49 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 					obj->serialize(sbol_serializer, sbol_world);
 				}
 
-			}
+			}  // if
 
+		} // for
+		// End serialization 
+		raptor_serializer_serialize_end(sbol_serializer);
+		char* sbol_buffer_string = (char*)sbol_buffer;
+		const int size = (const int)sbol_buffer_len;
+		if (sbol_buffer == NULL)
+		{
+			cout << "Serialization of " << identity.get() << "Failed" << endl;
 		}
-	}
+		else
+		{
+			cout << "Serializing " << size << " of " << identity.get() << endl;
+			parseXMLNodes(sbol_buffer);
+			//stringstream ss;
+			//ss << sbol_buffer;
+			//char buffer[255];
+			//while (ss.getline(buffer, 255)) {
+			//	cout << buffer << strlen(buffer) << endl;
+			//	string sbol_buffer_string = string(buffer);
+			//	size_t pos;
+			//	if ((pos = sbol_buffer_string.find(identity.get())) != std::string::npos) {
+			//		cout << "Found " << identity.get() << " at " << int(pos) << endl;
+			//	}
+			//}
+			//ss.clear();
+		}
+
+
+
+		//std::string delimiter = "\n";
+		//size_t pos = 0;
+		//std::string token;
+		//while ((pos = s.find(delimiter)) != std::string::npos) {
+		//	token = s.substr(0, pos);
+		//	std::cout << token << std::endl;
+		//	s.erase(0, pos + delimiter.length());
+		//}
+		//std::cout << s << std::endl;
+
+		raptor_free_iostream(ios);
+	} // if
 }
 
 void TopLevel::addToDocument(Document& doc)
@@ -333,20 +405,14 @@ raptor_world* Document::getWorld()
 
 void Document::write(std::string filename)
 {
+
 	// Initialize raptor serializer
 	FILE* fh = fopen(filename.c_str(), "wb");
 	raptor_world* world = getWorld();
 	raptor_serializer* sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
-	//raptor_iostream* ios = raptor_new_iostream_to_file_handle(world, fh);
-	char * string_p = "";
-	size_t statement_string_len;
 
-	raptor_iostream* ios = raptor_new_iostream_to_string(world, 
-		(void **)&string_p,
-		&statement_string_len,
-		NULL);
-	int err = raptor_serializer_start_to_iostream(sbol_serializer, NULL, ios);
-	if (err) cout << "Error starting iostream" << endl;
+	// Add default namespaces to Document
+	//raptor_iostream* ios = raptor_new_iostream_to_file_handle(world, fh);
 	raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
 	raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI "#");
 	raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
@@ -364,8 +430,6 @@ void Document::write(std::string filename)
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
 	//raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
-	err = raptor_serializer_start_to_string(sbol_serializer, NULL, (void **)&string_p, &statement_string_len);
-	//if (err) cout << "Error " << err << "starting string" << endl;
 
 	// Iterate through objects in document and serialize them
 	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
@@ -373,13 +437,8 @@ void Document::write(std::string filename)
 		obj_i->second->serialize(sbol_serializer);
 	}
 
-	// End serialization 
-	raptor_serializer_serialize_end(sbol_serializer);
-	const char* string_P = (const char*)string_p;
-	if (string_p == NULL) cout << "Serialization failed"; else cout << string_P << endl;
-
 	raptor_free_serializer(sbol_serializer);
-	raptor_free_iostream(ios);
+	
 
 	fclose(fh);
 
