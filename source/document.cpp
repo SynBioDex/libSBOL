@@ -53,6 +53,19 @@ void sbol::parseXMLNodes(char * xml_buffer)
 	ss.clear();
 };
 
+vector<SBOLObject *> Document::flatten()
+{
+	vector<SBOLObject *> list_of_sbol_obj;
+	// Iterate through objects in document and serialize them
+	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+	{
+		//obj_i->second->serialize(sbol_serializer);
+		list_of_sbol_obj.push_back(obj_i->second);
+		cout << obj_i->second->identity.get() << endl;
+	}
+	return list_of_sbol_obj;
+};
+
 void Document::parse_objects(void* user_data, raptor_statement* triple)
 {
 	Document *doc = (Document *)user_data;
@@ -208,19 +221,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 	}
 	if (sbol_world)
 	{
-		char * sbol_buffer = "";
-		size_t sbol_buffer_len;
-
-		raptor_iostream* ios = raptor_new_iostream_to_string(sbol_world,
-			(void **)&sbol_buffer,
-			&sbol_buffer_len,
-			NULL);
-		int err = raptor_serializer_start_to_iostream(sbol_serializer, NULL, ios);
-		if (err) cout << "Error starting iostream" << endl;
-		err = raptor_serializer_start_to_string(sbol_serializer, NULL, (void **)&sbol_buffer, &sbol_buffer_len);
-		if (err) cout << "Error " << err << "starting string" << endl;
-		
-		
+				
 		// This RDF triple makes the following statement:
 		// "This instance of an SBOL object belongs to class X"
 		raptor_statement *triple = raptor_new_statement(sbol_world);
@@ -342,44 +343,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 
 		} // for
 		// End serialization 
-		raptor_serializer_serialize_end(sbol_serializer);
-		char* sbol_buffer_string = (char*)sbol_buffer;
-		const int size = (const int)sbol_buffer_len;
-		if (sbol_buffer == NULL)
-		{
-			cout << "Serialization of " << identity.get() << "Failed" << endl;
-		}
-		else
-		{
-			cout << "Serializing " << size << " of " << identity.get() << endl;
-			parseXMLNodes(sbol_buffer);
-			//stringstream ss;
-			//ss << sbol_buffer;
-			//char buffer[255];
-			//while (ss.getline(buffer, 255)) {
-			//	cout << buffer << strlen(buffer) << endl;
-			//	string sbol_buffer_string = string(buffer);
-			//	size_t pos;
-			//	if ((pos = sbol_buffer_string.find(identity.get())) != std::string::npos) {
-			//		cout << "Found " << identity.get() << " at " << int(pos) << endl;
-			//	}
-			//}
-			//ss.clear();
-		}
-
-
-
-		//std::string delimiter = "\n";
-		//size_t pos = 0;
-		//std::string token;
-		//while ((pos = s.find(delimiter)) != std::string::npos) {
-		//	token = s.substr(0, pos);
-		//	std::cout << token << std::endl;
-		//	s.erase(0, pos + delimiter.length());
-		//}
-		//std::cout << s << std::endl;
-
-		raptor_free_iostream(ios);
 	} // if
 }
 
@@ -431,15 +394,63 @@ void Document::write(std::string filename)
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
 	//raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
 
+	char * sbol_buffer = "";
+	size_t sbol_buffer_len;
+
+	raptor_iostream* ios = raptor_new_iostream_to_string(world,
+		(void **)&sbol_buffer,
+		&sbol_buffer_len,
+		NULL);
+	int err = raptor_serializer_start_to_iostream(sbol_serializer, NULL, ios);
+	if (err) cout << "Error starting iostream" << endl;
+	err = raptor_serializer_start_to_string(sbol_serializer, NULL, (void **)&sbol_buffer, &sbol_buffer_len);
+	if (err) cout << "Error " << err << "starting string" << endl;
+
+
 	// Iterate through objects in document and serialize them
 	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
 	{
 		obj_i->second->serialize(sbol_serializer);
 	}
 
+	// Finalize serialization
+	raptor_serializer_serialize_end(sbol_serializer);
 	raptor_free_serializer(sbol_serializer);
-	
 
+	std::string sbol_buffer_string = std::string((char*)sbol_buffer);
+	const int size = (const int)sbol_buffer_len;
+	if (sbol_buffer == NULL)
+	{
+		cout << "Serialization failed" << endl;
+	}
+	else
+	{
+		cout << "Serializing " << size << " of document" << endl;
+		cout << sbol_buffer_string << endl;
+		//parseXMLNodes(sbol_buffer);
+		//stringstream ss;
+		//ss << sbol_buffer;
+		//char buffer[255];
+		//while (ss.getline(buffer, 255)) {
+		//	cout << buffer << strlen(buffer) << endl;
+		//	string sbol_buffer_string = string(buffer);
+		//	size_t pos;
+		//	if ((pos = sbol_buffer_string.find(identity.get())) != std::string::npos) {
+		//		cout << "Found " << identity.get() << " at " << int(pos) << endl;
+		//	}
+		//}
+		//ss.clear();
+	}
+	//std::string delimiter = "\n";
+	//size_t pos = 0;
+	//std::string token;
+	//while ((pos = s.find(delimiter)) != std::string::npos) {
+	//	token = s.substr(0, pos);
+	//	std::cout << token << std::endl;
+	//	s.erase(0, pos + delimiter.length());
+	//}
+	//std::cout << s << std::endl;
+	raptor_free_iostream(ios);
 	fclose(fh);
 
 	// Begin pretty-writer of nested SBOL elements

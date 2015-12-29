@@ -46,6 +46,8 @@ namespace sbol {
 		void read(std::string filename);
 		static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
+		std::vector<SBOLObject*> flatten();
+
 	};
 
 	// Pitfall:  It's important that the SBOL object represented by sbol_obj is passed by reference not by value!
