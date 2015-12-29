@@ -568,6 +568,7 @@ namespace sbol
 	
 		virtual sbol_type getTypeURI();
 		void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
+		std::string nest(std::string sbol_buffer);
 	};
 }
 

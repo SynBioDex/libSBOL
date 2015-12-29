@@ -53,6 +53,7 @@ void sbol::parseXMLNodes(char * xml_buffer)
 	ss.clear();
 };
 
+// Not finished!  A general recursive algorith which returns a flattened vector of all the objects in the document
 vector<SBOLObject *> Document::flatten()
 {
 	vector<SBOLObject *> list_of_sbol_obj;
@@ -65,6 +66,12 @@ vector<SBOLObject *> Document::flatten()
 	}
 	return list_of_sbol_obj;
 };
+
+std::string SBOLObject::nest(std::string sbol_buffer)
+{
+	return "";
+};
+
 
 void Document::parse_objects(void* user_data, raptor_statement* triple)
 {
@@ -419,11 +426,7 @@ void Document::write(std::string filename)
 
 	std::string sbol_buffer_string = std::string((char*)sbol_buffer);
 	const int size = (const int)sbol_buffer_len;
-	if (sbol_buffer == NULL)
-	{
-		cout << "Serialization failed" << endl;
-	}
-	else
+	if (sbol_buffer)
 	{
 		cout << "Serializing " << size << " of document" << endl;
 		cout << sbol_buffer_string << endl;
@@ -440,6 +443,10 @@ void Document::write(std::string filename)
 		//	}
 		//}
 		//ss.clear();
+	}
+	else
+	{
+		cout << "Serialization failed" << endl;
 	}
 	//std::string delimiter = "\n";
 	//size_t pos = 0;
