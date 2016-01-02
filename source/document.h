@@ -10,6 +10,7 @@
 
 #include <raptor2.h>
 #include <unordered_map>
+#include <istream>
 
 namespace sbol {
 	// This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
@@ -65,6 +66,16 @@ namespace sbol {
 		return (SBOLClass &)*(this->SBOLObjects[uri]);
 	};
 
-	void parseXMLNodes(char * xml_buffer);
+	std::string getXMLNode(std::string uri, std::string xml_buffer);
+	void seekElement(std::istringstream& xml_buffer, std::string uri);
+	void seekNextElement(std::istringstream& xml_buffer);
+	void seekNewLine(std::istringstream& xml_buffer);
+	void seekEndOfLine(std::istringstream& xml_buffer);
+	void seekEndOfElement(std::istringstream& xml_buffer);
+	void seekEndOfNode(std::istringstream& xml_buffer, std::string uri);
+	void seekResource(std::istringstream& xml_buffer, std::string uri);
+	bool isOpenNode(std::istringstream& xml_buffer);
+	std::vector<std::string> parseElement(std::istringstream& xml_buffer);
+
 }
 

@@ -18,8 +18,8 @@
 #define PROV_URI "http://www.w3.org/ns/prov"
 
 // rdf nodes used in SBOL
-#define NODENAME_ABOUT    "about"    ///< URI of a node representing an SBOLObject.
-#define NODENAME_RESOURCE "resource" ///< URI of a node referencing an SBOLObject somewhere else.
+#define NODENAME_ABOUT    "rdf:about"    ///< URI of a node representing an SBOLObject.
+#define NODENAME_RESOURCE "rdf:resource" ///< URI of a node referencing an SBOLObject somewhere else.
 
 
 /* URIs for SBOL objects */
@@ -568,7 +568,7 @@ namespace sbol
 	
 		virtual sbol_type getTypeURI();
 		void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
-		std::string nest(std::string sbol_buffer);
+		std::string nest(std::string rdfxml_buffer);
 	};
 }
 
