@@ -68,19 +68,19 @@ namespace sbol {
 
 	std::string cut_sbol_resource(std::string& xml_string, const std::string resource_id);
 	void replace_reference_to_resource(std::string& xml_string, const std::string resource_id, std::string& replacement_text);
-	void seekElement(std::istringstream& xml_buffer, std::string uri);
-	void seekNextElement(std::istringstream& xml_buffer);
-	void seekNewLine(std::istringstream& xml_buffer);
-	void seekEndOfLine(std::istringstream& xml_buffer);
-	void seekEndOfElement(std::istringstream& xml_buffer);
-	void seekEndOfNode(std::istringstream& xml_buffer, std::string uri);
-	void seekResource(std::istringstream& xml_buffer, std::string uri);
-	bool isOpenNode(std::istringstream& xml_buffer);
+	void seek_element(std::istringstream& xml_buffer, std::string uri);
+	void seek_next_element(std::istringstream& xml_buffer);
+	void seek_new_line(std::istringstream& xml_buffer);
+	void seek_end_of_line(std::istringstream& xml_buffer);
+	void seek_end_of_element(std::istringstream& xml_buffer);
+	void seek_end_of_node(std::istringstream& xml_buffer, std::string uri);
+	void seek_resource(std::istringstream& xml_buffer, std::string uri);
+	bool is_open_node(std::istringstream& xml_buffer);
 	void indent(std::string& text, int indentation); 
-	std::string getQName(std::istringstream& xml_buffer);
-	std::string getLocalPart(std::string qname);
-	std::string getPrefix(std::string qname);
-	std::vector<std::string> parseElement(std::istringstream& xml_buffer);
+	std::string get_qname(std::istringstream& xml_buffer);
+	std::string get_local_part(std::string qname);
+	std::string get_prefix(std::string qname);
+	std::vector<std::string> parse_element(std::istringstream& xml_buffer);
 
 }
 

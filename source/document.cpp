@@ -35,33 +35,33 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
 	make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>)
 };
 
-void sbol::seekElement(std::istringstream& xml_buffer, std::string uri)
+void sbol::seek_element(std::istringstream& xml_buffer, std::string uri)
 {
 	string SEARCH_TOKEN = NODENAME_ABOUT "=\"" + uri + "\"";
 
-	seekNextElement(xml_buffer);
+	seek_next_element(xml_buffer);
 	while (xml_buffer)
 	{
 		int START_OF_ELEMENT = xml_buffer.tellg();
 		// Parse element into qname and tag 
 		// This assumes xml elements have a certain form which is not generally true,
 		// so sometimes the parsed qname and about_id will not make sense
-		vector<string> subtokens = parseElement(xml_buffer);
+		vector<string> subtokens = parse_element(xml_buffer);
 		std::string qname = subtokens.front();
 		std::string about_id = subtokens.back();
-		if (about_id.compare(SEARCH_TOKEN) == 0 && isOpenNode(xml_buffer))
+		if (about_id.compare(SEARCH_TOKEN) == 0 && is_open_node(xml_buffer))
 		{
 			cout << "Found element" << about_id << endl;
 			xml_buffer.seekg(START_OF_ELEMENT);
 			return;
 		}
 		xml_buffer.get();  // Advance the stream one byte, so we don't get trapped in an infinite loop
-		seekNextElement(xml_buffer);
+		seek_next_element(xml_buffer);
 	}
 	return;
 };
 
-void sbol::seekNextElement(std::istringstream& xml_buffer)
+void sbol::seek_next_element(std::istringstream& xml_buffer)
 {
 	char inchar;
 	while (xml_buffer.get(inchar))
@@ -75,7 +75,7 @@ void sbol::seekNextElement(std::istringstream& xml_buffer)
 	return;
 };
 
-void sbol::seekEndOfElement(std::istringstream& xml_buffer)
+void sbol::seek_end_of_element(std::istringstream& xml_buffer)
 {
 	// Scan to end of XML element
 	char inchar;
@@ -89,13 +89,13 @@ void sbol::seekEndOfElement(std::istringstream& xml_buffer)
 	}
 };
 
-string sbol::getQName(istringstream& xml_buffer)
+string sbol::get_qname(istringstream& xml_buffer)
 {
-	vector<string> subtokens = parseElement(xml_buffer);
+	vector<string> subtokens = parse_element(xml_buffer);
 	return subtokens.front();
 };
 
-string sbol::getLocalPart(string qname)
+string sbol::get_local_part(string qname)
 {
 	size_t pos;
 	if ((pos = qname.find(':')) == std::string::npos)
@@ -104,7 +104,7 @@ string sbol::getLocalPart(string qname)
 		return qname.substr(pos + 1, qname.length() - pos);
 };
 
-string sbol::getPrefix(string qname)
+string sbol::get_prefix(string qname)
 {
 	size_t pos;
 	if ((pos = qname.find(':')) == std::string::npos)
@@ -113,37 +113,37 @@ string sbol::getPrefix(string qname)
 		return qname.substr(0, pos);
 };
 
-void sbol::seekEndOfNode(std::istringstream& xml_buffer, std::string uri)
+void sbol::seek_end_of_node(std::istringstream& xml_buffer, std::string uri)
 {
-	seekElement(xml_buffer, uri);  // Seek open element
+	seek_element(xml_buffer, uri);  // Seek open element
 	int START_OF_ELEMENT = xml_buffer.tellg();
 
 	// The qname for open element is the search term for close element
-	vector<string> subtokens = parseElement(xml_buffer);
+	vector<string> subtokens = parse_element(xml_buffer);
 	std::string qname = subtokens.front();
 	std::string SEARCH_TOKEN = qname;  
 	
-	seekNextElement(xml_buffer);
+	seek_next_element(xml_buffer);
 	while (xml_buffer)
 	{
 		
 		// Parse element into qname and tag 
 		// This assumes xml elements have a certain form which is not generally true,
 		// so sometimes the parsed qname and about_id will not make sense
-		vector<string> subtokens = parseElement(xml_buffer);
+		vector<string> subtokens = parse_element(xml_buffer);
 		std::string qname = subtokens.front();
-		if (qname.compare(SEARCH_TOKEN) == 0 && !isOpenNode(xml_buffer)) // Check if it's a close node
+		if (qname.compare(SEARCH_TOKEN) == 0 && !is_open_node(xml_buffer)) // Check if it's a close node
 		{
-			seekEndOfElement(xml_buffer);
+			seek_end_of_element(xml_buffer);
 			return;
 		}
 		xml_buffer.get();  // Advance the stream one byte, so we don't get trapped in an infinite loop
-		seekNextElement(xml_buffer);
+		seek_next_element(xml_buffer);
 	}
 	return;
 };
 
-void sbol::seekNewLine(std::istringstream& xml_buffer)
+void sbol::seek_new_line(std::istringstream& xml_buffer)
 {
 	char inchar;
 	while (xml_buffer.unget())
@@ -157,7 +157,7 @@ void sbol::seekNewLine(std::istringstream& xml_buffer)
 	return;
 };
 
-void sbol::seekEndOfLine(std::istringstream& xml_buffer)
+void sbol::seek_end_of_line(std::istringstream& xml_buffer)
 {
 	char inchar;
 	while (xml_buffer.get(inchar))
@@ -168,31 +168,31 @@ void sbol::seekEndOfLine(std::istringstream& xml_buffer)
 	return;
 };
 
-void sbol::seekResource(std::istringstream& xml_buffer, std::string uri)
+void sbol::seek_resource(std::istringstream& xml_buffer, std::string uri)
 {
 	string SEARCH_TOKEN = NODENAME_RESOURCE "=\"" + uri + "\"";
-	seekNextElement(xml_buffer);
+	seek_next_element(xml_buffer);
 	while (xml_buffer)
 	{
 		int START_OF_ELEMENT = xml_buffer.tellg();
 		// Parse element into qname and tag 
 		// This assumes xml elements have a certain form which is not generally true,
 		// so sometimes the parsed qname and resource_id will not make sense
-		vector<string> subtokens = parseElement(xml_buffer);
+		vector<string> subtokens = parse_element(xml_buffer);
 		std::string resource_id = subtokens.back();
 
-		if (resource_id.compare(SEARCH_TOKEN) == 0 && isOpenNode(xml_buffer))
+		if (resource_id.compare(SEARCH_TOKEN) == 0 && is_open_node(xml_buffer))
 		{
 			xml_buffer.seekg(START_OF_ELEMENT);
 			return;
 		}
 		xml_buffer.get();  // Advance the stream one byte, so we don't get trapped in an infinite loop
-		seekNextElement(xml_buffer);
+		seek_next_element(xml_buffer);
 	}
 	return;
 }
 
-std::vector<std::string> sbol::parseElement(std::istringstream& xml_buffer)
+std::vector<std::string> sbol::parse_element(std::istringstream& xml_buffer)
 {
 	// Parse XML element into qname and attribute tags
 	vector<string> element_subtokens;
@@ -223,7 +223,7 @@ std::vector<std::string> sbol::parseElement(std::istringstream& xml_buffer)
 	return element_subtokens;
 };
 
-bool sbol::isOpenNode(std::istringstream& xml_buffer)
+bool sbol::is_open_node(std::istringstream& xml_buffer)
 {
 	bool IS_OPEN_NODE;
 	int START_OF_ELEMENT = xml_buffer.tellg();
@@ -253,11 +253,11 @@ std::string sbol::cut_sbol_resource(std::string& xml_string, const std::string r
 	xml_buffer.str(xml_string);
 
 	// Find the cut for the OwnedObject.
-	seekElement(xml_buffer, resource_id);
-	seekNewLine(xml_buffer);
+	seek_element(xml_buffer, resource_id);
+	seek_new_line(xml_buffer);
 	cut_start = xml_buffer.tellg();
-	seekEndOfNode(xml_buffer, resource_id);
-	seekEndOfLine(xml_buffer);
+	seek_end_of_node(xml_buffer, resource_id);
+	seek_end_of_line(xml_buffer);
 	cut_end = xml_buffer.tellg();
 	cut_length = cut_end - cut_start;
 
@@ -279,12 +279,12 @@ void sbol::replace_reference_to_resource(std::string& xml_string, const std::str
 
 	istringstream xml_buffer;
 	xml_buffer.str(xml_string);
-	seekResource(xml_buffer, resource_id);
+	seek_resource(xml_buffer, resource_id);
 	node_start = xml_buffer.tellg();
-	seekNewLine(xml_buffer);
+	seek_new_line(xml_buffer);
 	repl_start = xml_buffer.tellg();
-	qname = getQName(xml_buffer);
-	seekEndOfLine(xml_buffer);
+	qname = get_qname(xml_buffer);
+	seek_end_of_line(xml_buffer);
 	repl_end = xml_buffer.tellg();
 	repl_length = repl_end - repl_start;
 
