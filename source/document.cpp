@@ -183,7 +183,6 @@ void sbol::seekResource(std::istringstream& xml_buffer, std::string uri)
 
 		if (resource_id.compare(SEARCH_TOKEN) == 0 && isOpenNode(xml_buffer))
 		{
-			cout << "Found resource " << resource_id << endl;
 			xml_buffer.seekg(START_OF_ELEMENT);
 			return;
 		}
@@ -242,15 +241,64 @@ bool sbol::isOpenNode(std::istringstream& xml_buffer)
 	return IS_OPEN_NODE;
 };
 
-std::string sbol::cut(std::istringstream& xml_buffer, int start, int length)
+/*
+As the first step in turning the flat RDF/XML serialization produced by Raptor into structured SBOL,
+this procedure cuts the node corresponding to the specified resource. 
+*/
+std::string sbol::cut_sbol_resource(std::string& xml_string, const std::string resource_id)
 {
-	char * cut_buffer = new char[length + 1];
-	cut_buffer[length] = '\0';
-	xml_buffer.seekg(start);
-	xml_buffer.read(cut_buffer, length);
-	string cut_string = string(cut_buffer);
-	delete cut_buffer;
+	int cut_start, cut_end, cut_length;  // Marks the start and end of the child node that will be substituted in place of the reference node
+
+	istringstream xml_buffer;
+	xml_buffer.str(xml_string);
+
+	// Find the cut for the OwnedObject.
+	seekElement(xml_buffer, resource_id);
+	seekNewLine(xml_buffer);
+	cut_start = xml_buffer.tellg();
+	seekEndOfNode(xml_buffer, resource_id);
+	seekEndOfLine(xml_buffer);
+	cut_end = xml_buffer.tellg();
+	cut_length = cut_end - cut_start;
+
+	// Cut text
+	string cut_string = xml_string.substr(cut_start, cut_length);
+	xml_string.replace(cut_start, cut_length, "");  // Cut
+
 	return cut_string;
+};
+
+/* 
+Replace a reference node in flat RDF/XML with a nested node. The resource text is modified before inserting
+it 
+*/
+void sbol::replace_reference_to_resource(std::string& xml_string, const std::string resource_id, std::string& replacement_text)
+{
+	int repl_start, repl_end, repl_length, node_start, indentation;
+	string qname;
+
+	istringstream xml_buffer;
+	xml_buffer.str(xml_string);
+	seekResource(xml_buffer, resource_id);
+	node_start = xml_buffer.tellg();
+	seekNewLine(xml_buffer);
+	repl_start = xml_buffer.tellg();
+	qname = getQName(xml_buffer);
+	seekEndOfLine(xml_buffer);
+	repl_end = xml_buffer.tellg();
+	repl_length = repl_end - repl_start;
+
+	// Before inserting the new nested SBOL node, a few modifications have to be made first.
+	// New open and close elements for the nested node are created.
+	// Then the original node text is indented.
+	string open_element, close_element;
+	indentation = node_start - repl_start;
+	open_element = string(indentation, ' ') + "<" + qname + ">\n";
+	close_element = string(indentation, ' ') + "</" + qname + ">\n";
+	indent(replacement_text, indentation);
+	replacement_text.insert(0,open_element);
+	replacement_text.append(close_element);
+	xml_string.replace(repl_start, repl_length, replacement_text);
 };
 
 void sbol::indent(std::string& text, int indentation)
@@ -263,108 +311,6 @@ void sbol::indent(std::string& text, int indentation)
 		END_OF_LINE = END_OF_LINE + indentation;
 		LINE_START = END_OF_LINE + 1;
 	}
-};
-
-std::string sbol::getXMLNode(std::string xml_buffer, std::string uri)
-{
-	string search_token = NODENAME_ABOUT "=\"" + uri + "\"";
-	string search_qname;
-	bool OPEN_ELEMENT, CLOSE_ELEMENT;
-	istringstream buffer_stream;
-	buffer_stream.str(xml_buffer);
-	char inchar = 1;
-	char * element;
-
-	int EOL = 0;
-	int start_tag, end_tag, start_node, end_node;
-	while (buffer_stream.get(inchar)) 
-	{
-		// Make note of newlines, because it's important for determining indentation level
-		if (inchar == '\n') EOL = buffer_stream.tellg();
-		
-		// Start reading XML element
-		if (inchar == '<') 
-		{
-			start_tag = buffer_stream.tellg();
-			start_tag = start_tag - 1;
-
-			// Scan the next char to determine if this is an open or close XML element
-			buffer_stream.get(inchar);
-			if (inchar == '/')
-			{
-				CLOSE_ELEMENT = true;
-				OPEN_ELEMENT = false;
-			}
-			else
-			{
-				CLOSE_ELEMENT = false;
-				OPEN_ELEMENT = true;
-			}
-			// Scan to end of XML element
-			while (inchar != '>')
-			{
-				buffer_stream.get(inchar);
-			}
-			end_tag = buffer_stream.tellg();
-			end_tag = end_tag - 1;
-			
-			// Parse XML element into qname and attribute tags
-			istringstream element;
-			vector<string> element_subtokens;
-			std::string qname = "";
-			std::string about_id = "";
-			element.str(xml_buffer);  // Begin from last EOL, including white space for indentation preceding XML element
-			element.seekg(start_tag);
-			while (element.tellg() < end_tag)
-			{
-				std::string token;
-				element >> token;
-
-				// Trim angle brackets
-				if (token[0] == '<')
-				{
-					token = token.substr(1, token.size() - 1);
-					if (token[0] == '/') token = token.substr(1, token.size() - 1);
-				}
-				if (token[token.size() - 1] == '>')
-				{
-					token = token.substr(0, token.size() - 1);
-					if (token[token.size() - 1] == '/') token = token.substr(0, token.size() - 1);
-				}
-				element_subtokens.push_back(token);
-			}
-
-			// Parse element into qname and tag
-			about_id = element_subtokens.back();
-			qname = element_subtokens.front();
-
-			if (OPEN_ELEMENT)
-			{
-				// Check if this element matches the uri we are searching for 
-				if (about_id.compare(search_token) == 0)
-				{
-					start_node = EOL;  // Cut text from raptor output starting at last EOL
-					search_qname = qname;
-				}
-			}
-			else if (CLOSE_ELEMENT)
-			{
-				if (qname.compare(search_qname) == 0)
-				{
-					end_node = end_tag + 1;
-
-					std::string cut_string = xml_buffer.substr(start_node, end_node - start_node);
-					cout << cut_string;
-					cout << (int)cut_string[cut_string.size() - 2] << (int)cut_string[cut_string.size() - 1] << endl << endl;
-					return cut_string;
-
-				}
-			}
-		}
-	}
-	cout << "Done " << endl;
-	buffer_stream.clear();
-	return "";
 };
 
 // Not finished!  A general recursive algorith which returns a flattened vector of all the objects in the document
@@ -396,74 +342,10 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
 			{
 				SBOLObject* obj = *o;
-		 		rdfxml_string = obj->nest(rdfxml_string);
-				istringstream rdfxml_buffer;
-				rdfxml_buffer.str(rdfxml_string);
-
-				// Procedure for structuring the data starts here
-				int repl_start, repl_end, repl_length;  // Marks the start and end of the reference node to be replaced
-				int cut_start, cut_end, cut_length;  // Marks the start and end of the child node that will be substituted in place of the reference node
-				int node_start, indentation;
-
-				// Find the cut for the OwnedObject.
-				seekElement(rdfxml_buffer, obj->identity.get());
-				cout << "found element at " << rdfxml_buffer.tellg() << endl;
-				node_start = rdfxml_buffer.tellg();
-				
-				//// Reformat the QName, it should have the format sbol:sbolProperty
-				//string qname = getQName(rdfxml_buffer);
-				//string local_part = getLocalPart(qname);
-				//local_part[0] = tolower(local_part[0]);
-				//string prefix = getPrefix(qname);
-				//qname = prefix + ":" + local_part;
-
-				seekNewLine(rdfxml_buffer);
-				cut_start = rdfxml_buffer.tellg();
-				cout << "start cut at " << cut_start << endl;
-				seekEndOfNode(rdfxml_buffer, obj->identity.get());
-				seekEndOfLine(rdfxml_buffer);
-				cut_end = rdfxml_buffer.tellg();
-				cout << "end cut at " << cut_end << endl;
-				cut_length = cut_end - cut_start;
-
-				// Cut text
-				//string cut_string = cut(rdfxml_buffer, cut_start, cut_length);
-				string cut_string = rdfxml_string.substr(cut_start, cut_length);
-				rdfxml_string.replace(cut_start, cut_length, "");  // Cut
-
-				// Find uri reference to resource (a reference to the OwnedObject)
-				//rdfxml_buffer.seekg(0);
-				rdfxml_buffer.str(rdfxml_string);
-				cout << "Seeking " << obj->identity.get() << endl;
-				cout << "start" << rdfxml_buffer.tellg() << endl;
-				seekResource(rdfxml_buffer, obj->identity.get());
-				cout << "Resource at " << rdfxml_buffer.tellg() << endl;
-				node_start = rdfxml_buffer.tellg();
-				//string qname = getQName(rdfxml_buffer);
-				seekNewLine(rdfxml_buffer);
-				cout << "Start replacement at " << rdfxml_buffer.tellg() << endl;
-				repl_start = rdfxml_buffer.tellg();
-				indentation = node_start - repl_start;
-				// Reformat the QName, it should have the format sbol:sbolProperty
-				string qname = getQName(rdfxml_buffer);
-				string local_part = getLocalPart(qname);
-				local_part[0] = tolower(local_part[0]);
-				string prefix = getPrefix(qname);
-				qname = prefix + ":" + local_part;
-
-				seekEndOfLine(rdfxml_buffer);
-				repl_end = rdfxml_buffer.tellg();
-				cout << "End replacement at " << rdfxml_buffer.tellg() << endl;
-				repl_length = repl_end - repl_start;
-				string repl_string = rdfxml_string.substr(repl_start, repl_length);
-				indent(cut_string, indentation);
-				string open_element = string(indentation, ' ') + "<" + qname + ">\n";
-				string close_element = string(indentation, ' ') + "</" + qname + ">\n";
-				string modified_cut_string = open_element + cut_string + close_element;
-
-				rdfxml_string.replace(repl_start, repl_length, modified_cut_string);
-				cout << rdfxml_string << endl;
-				getchar();
+				string id = obj->identity.get();
+		 		rdfxml_string = obj->nest(rdfxml_string);  // Recurse, start nesting with leaf objects
+				string cut_text = cut_sbol_resource(rdfxml_string, id);
+				replace_reference_to_resource(rdfxml_string, id, cut_text);
 			}
 		}
 	}
@@ -847,97 +729,12 @@ void Document::write(std::string filename)
 			sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
 		}
 		fputs(sbol_buffer_string.c_str(), fh);
-		//parseXMLNodes(sbol_buffer);
-		//stringstream ss;
-		//ss << sbol_buffer;
-		//char buffer[255];
-		//while (ss.getline(buffer, 255)) {
-		//	cout << buffer << strlen(buffer) << endl;
-		//	string sbol_buffer_string = string(buffer);
-		//	size_t pos;
-		//	if ((pos = sbol_buffer_string.find(identity.get())) != std::string::npos) {
-		//		cout << "Found " << identity.get() << " at " << int(pos) << endl;
-		//	}
-		//}
-		//ss.clear();
 	}
 	else
 	{
 		cout << "Serialization failed" << endl;
 	}
-	//std::string delimiter = "\n";
-	//size_t pos = 0;
-	//std::string token;
-	//while ((pos = s.find(delimiter)) != std::string::npos) {
-	//	token = s.substr(0, pos);
-	//	std::cout << token << std::endl;
-	//	s.erase(0, pos + delimiter.length());
-	//}
-	//std::cout << s << std::endl;
 	raptor_free_iostream(ios);
 	fclose(fh);
-
-	// Begin pretty-writer of nested SBOL elements
-	//xmlInitParser();
-	//xmlDoc* xml_doc = xmlParseFile(filename.c_str());
-	//xmlXPathContext* xml_context = xmlXPathNewContext(xml_doc);
-	//xmlXPathObject* xpath_object;
-	//
-	//xmlNode* rdf_root = xmlDocGetRootElement(xml_doc);
-	//xmlNode* sbol_root = rdf_root->children;
-	//cout << sbol_root->name << endl;
-	//xmlNode* sbol_node = sbol_root;
-	//unordered_map<SBOLObject*, xmlNode*> top_level_objects;
-	//unordered_map<std::string, xmlNode*> owned_objects;
-	//while (sbol_node)
-	//{
-	//	if (sbol_node->type == XML_ELEMENT_NODE)
-	//	{
-	//		std::string uri = (std::string)(const char *)xmlGetNsProp(sbol_node, BAD_CAST NODENAME_ABOUT, BAD_CAST RDF_URI);
-	//		//TopLevel& tl = getTopLevel((std::string)(const char *)uri_xml);
-	//		cout << "Searching for " << uri << endl;
-	//		// Check if this xml element corresponds to a TopLevel SBOL object.
-	//		// If it is TopLevel, it should be registered in this Document's object store
-	//		if (this->SBOLObjects.find(uri) != this->SBOLObjects.end())
-	//		{
-	//			SBOLObject* obj = this->SBOLObjects[uri];
-	//			top_level_objects[obj] = sbol_node;
-	//		}
-	//		else
-	//		{
-	//			owned_objects[uri] = sbol_node;
-	//		}
-	//	}
-	//	for (auto i_obj = this->SBOLObjects.begin(); i_obj != this->SBOLObjects.end(); ++i_obj)
-	//	{
-	//		SBOLObject* parent_obj = i_obj->second;
-	//		xmlNode* parent_node = top_level_objects[parent_obj];
-	//		for (auto i = parent_obj->owned_objects.begin(); i != parent_obj->owned_objects.end(); ++i)
-	//		{
-	//			// Serialize each object in the object store that belongs to this property
-	//			std::string property_name = i->first;
-	//			vector<SBOLObject*> object_store = i->second;
-	//			cout << property_name << object_store.size() << endl;
-	//			if (object_store.size() > 0)
-	//			{
-	//				for (auto o = object_store.begin(); o != object_store.end(); ++o)
-	//				{
-	//					//SBOLObject* child = *o;
-	//					SBOLObject* child_obj = *o;
-	//					cout << child_obj->identity.get() << endl;
-	//					xmlNode* child_node = owned_objects[child_obj->identity.get()];
-	//					parent_node = xmlAddChild(parent_node, child_node);
-	//					cout << xmlChildElementCount(parent_node) << endl;
-	//				}
-	//			}
-	//		}
-	//	}
-	//	sbol_node = sbol_node->next;
-	//}
-	//fh = fopen(filename.c_str(), "wb");
-
-	//int test = xmlDocDump(fh, xml_doc);
-	//cout << test << endl;
-	////xmlFreeDoc(xml_doc);
 
 };

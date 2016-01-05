@@ -66,7 +66,8 @@ namespace sbol {
 		return (SBOLClass &)*(this->SBOLObjects[uri]);
 	};
 
-	std::string getXMLNode(std::string uri, std::string xml_buffer);
+	std::string cut_sbol_resource(std::string& xml_string, const std::string resource_id);
+	void replace_reference_to_resource(std::string& xml_string, const std::string resource_id, std::string& replacement_text);
 	void seekElement(std::istringstream& xml_buffer, std::string uri);
 	void seekNextElement(std::istringstream& xml_buffer);
 	void seekNewLine(std::istringstream& xml_buffer);
@@ -75,7 +76,6 @@ namespace sbol {
 	void seekEndOfNode(std::istringstream& xml_buffer, std::string uri);
 	void seekResource(std::istringstream& xml_buffer, std::string uri);
 	bool isOpenNode(std::istringstream& xml_buffer);
-	std::string cut(std::istringstream& xml_buffer, int start, int length);
 	void indent(std::string& text, int indentation); 
 	std::string getQName(std::istringstream& xml_buffer);
 	std::string getLocalPart(std::string qname);
