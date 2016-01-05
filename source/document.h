@@ -75,6 +75,8 @@ namespace sbol {
 	void seekEndOfNode(std::istringstream& xml_buffer, std::string uri);
 	void seekResource(std::istringstream& xml_buffer, std::string uri);
 	bool isOpenNode(std::istringstream& xml_buffer);
+	std::string cut(std::istringstream& xml_buffer, int start, int length);
+	void indent(std::string& text, int indentation); 
 	std::vector<std::string> parseElement(std::istringstream& xml_buffer);
 
 }

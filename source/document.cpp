@@ -166,6 +166,7 @@ void sbol::seekResource(std::istringstream& xml_buffer, std::string uri)
 
 		if (resource_id.compare(SEARCH_TOKEN) == 0 && isOpenNode(xml_buffer))
 		{
+			cout << "Found resource " << resource_id << endl;
 			xml_buffer.seekg(START_OF_ELEMENT);
 			return;
 		}
@@ -222,6 +223,29 @@ bool sbol::isOpenNode(std::istringstream& xml_buffer)
 	}
 	xml_buffer.seekg(START_OF_ELEMENT);
 	return IS_OPEN_NODE;
+};
+
+std::string sbol::cut(std::istringstream& xml_buffer, int start, int length)
+{
+	char * cut_buffer = new char[length + 1];
+	cut_buffer[length] = '\0';
+	xml_buffer.seekg(start);
+	xml_buffer.read(cut_buffer, length);
+	string cut_string = string(cut_buffer);
+	delete cut_buffer;
+	return cut_string;
+};
+
+void sbol::indent(std::string& text, int indentation)
+{
+	size_t LINE_START = 0;
+	size_t END_OF_LINE = 0;
+	while ((END_OF_LINE = text.find('\n', LINE_START)) != std::string::npos)
+	{
+		text.insert(LINE_START, string(indentation, ' '));
+		END_OF_LINE = END_OF_LINE + indentation;
+		LINE_START = END_OF_LINE + 1;
+	}
 };
 
 std::string sbol::getXMLNode(std::string xml_buffer, std::string uri)
@@ -360,44 +384,51 @@ std::string SBOLObject::nest(std::string rdfxml_string)
 				rdfxml_buffer.str(rdfxml_string);
 
 				// Procedure for structuring the data starts here
-				int start_cut, end_cut, cut_length;
-				int start_node, indent;
+				int repl_start, repl_end, repl_length;  // Marks the start and end of the reference node to be replaced
+				int cut_start, cut_end, cut_length;  // Marks the start and end of the child node that will be substituted in place of the reference node
+				int node_start, indentation;
 
-				// Find resource definition (a reference to the OwnedObject)
+				// Find the cut for the OwnedObject.
+				seekElement(rdfxml_buffer, obj->identity.get());
+				cout << "found element at " << rdfxml_buffer.tellg() << endl;
+				node_start = rdfxml_buffer.tellg();
+				seekNewLine(rdfxml_buffer);
+				cut_start = rdfxml_buffer.tellg();
+				cout << "start cut at " << cut_start << endl;
+				seekEndOfNode(rdfxml_buffer, obj->identity.get());
+				seekEndOfLine(rdfxml_buffer);
+				cut_end = rdfxml_buffer.tellg();
+				cout << "end cut at " << cut_end << endl;
+				cut_length = cut_end - cut_start;
+
+				// Cut text
+				//string cut_string = cut(rdfxml_buffer, cut_start, cut_length);
+				string cut_string = rdfxml_string.substr(cut_start, cut_length);
+				rdfxml_string.replace(cut_start, cut_length, "");  // Cut
+
+				// Find uri reference to resource (a reference to the OwnedObject)
+				//rdfxml_buffer.seekg(0);
+				rdfxml_buffer.str(rdfxml_string);
 				cout << "Seeking " << obj->identity.get() << endl;
 				cout << "start" << rdfxml_buffer.tellg() << endl;
 				seekResource(rdfxml_buffer, obj->identity.get());
 				cout << "Resource at " << rdfxml_buffer.tellg() << endl;
+				node_start = rdfxml_buffer.tellg();
 				string qname = getQName(rdfxml_buffer);
 				seekNewLine(rdfxml_buffer);
-				cout << "Start cut at " << rdfxml_buffer.tellg() << endl;
-				start_cut = rdfxml_buffer.tellg();
+				cout << "Start replacement at " << rdfxml_buffer.tellg() << endl;
+				repl_start = rdfxml_buffer.tellg();
+				indentation = node_start - repl_start;
 				seekEndOfLine(rdfxml_buffer);
-				end_cut = rdfxml_buffer.tellg();
+				repl_end = rdfxml_buffer.tellg();
+				cout << "End replacement at " << rdfxml_buffer.tellg() << endl;
+				repl_length = repl_end - repl_start;
+				string repl_string = rdfxml_string.substr(repl_start, repl_length);
+				indent(cut_string, indentation);
 
-				// Find the cut for the OwnedObject.
-				rdfxml_buffer.seekg(0);
-				seekElement(rdfxml_buffer, obj->identity.get());
-				cout << "found element at " << rdfxml_buffer.tellg() << endl;
-				start_node = rdfxml_buffer.tellg();
-				seekNewLine(rdfxml_buffer);
-				start_cut = rdfxml_buffer.tellg();
-				cout << "start cut at " << start_cut << endl;
-				seekEndOfNode(rdfxml_buffer, obj->identity.get());
-				seekEndOfLine(rdfxml_buffer);
-				end_cut = rdfxml_buffer.tellg();
-				end_cut = end_cut;
-				cut_length = end_cut - start_cut;
-
-				// Calculate the indentation
-				indent = start_node - start_cut;
-
-				// Cut text
-				char * cut_buffer = new char[cut_length + 1];
-				rdfxml_buffer.seekg(start_cut);
-				rdfxml_buffer.read(cut_buffer, cut_length);
-				cut_buffer[cut_length + 1] = '\0';
-				string cut_text = string(cut_buffer);
+				rdfxml_string.replace(repl_start, repl_length, cut_string);
+				cout << rdfxml_string << endl;
+				getchar();
 			}
 		}
 	}

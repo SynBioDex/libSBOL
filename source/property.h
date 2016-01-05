@@ -82,7 +82,7 @@
 #define SBOL_OBJECT SBOL_URI "#object"
 #define SBOL_RESTRICTION SBOL_URI "#restriction"
 #define SBOL_ORIENTATION SBOL_URI "#orientation"
-#define SBOL_LOCATIONS SBOL_URI "#locations"
+#define SBOL_LOCATIONS SBOL_URI "#location"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"
