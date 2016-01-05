@@ -659,6 +659,10 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 
 			if (object_store.size() > 0)
 			{
+				// TODO:  this triple appears to be unneccessary and creates an extra 
+				// xml node in serialization <rdf:type rdf:resource="someSBOLProperty">
+				// Double check this conclusion and remove code as necessary
+
 				// This RDF triple makes the following statement:
 				// "This instance of an SBOL object has property called X"
 				raptor_statement *triple2 = raptor_new_statement(sbol_world);
@@ -671,7 +675,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 				triple2->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
 
 				// Write the triples
-				raptor_serializer_serialize_statement(sbol_serializer, triple2);
+				//raptor_serializer_serialize_statement(sbol_serializer, triple2);
 
 				// Delete the triple 
 				raptor_free_statement(triple2);
