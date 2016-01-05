@@ -21,8 +21,8 @@ int main()
 {
 	Document& doc = Document();
 
-	//doc.read("SequenceConstraintOutput.rdf");
-	//doc.write("test.xml");
+	doc.read("test_in.xml");
+	doc.write("test_out.xml");
 
 	///* Start SBOL data model testing */
 
@@ -30,8 +30,8 @@ int main()
 	//SBOLObject &obj = SBOLObject();
 	//Identified &id = Identified();
 	//TopLevel &top = TopLevel();
-	ComponentDefinition &cd = ComponentDefinition("http://examples.com", "cdef_obj");
-	cd.addToDocument(doc);
+	//ComponentDefinition &cd = ComponentDefinition("http://examples.com", "cdef_obj");
+	//cd.addToDocument(doc);
 	///* Test Property constructors.  An ordinary user generally doesn't use these, but they're important for extensions */
 	//OwnedObject<SequenceAnnotation> sequenceAnnotation = OwnedObject<SequenceAnnotation>();
 	//List<OwnedObject<SequenceAnnotation>> sequenceAnnotations = List<OwnedObject<SequenceAnnotation>>(SBOL_SEQUENCE_ANNOTATIONS, NULL);
@@ -92,15 +92,15 @@ int main()
 	//cout << cd.types.get(1) << endl;
 
 	///* Test 'add' method for OwnedObjects.  A SequenceAnnotation is an OwnedObject corresponding to white diamond in UML diagram */
-	SequenceAnnotation& SA = SequenceAnnotation(BASE_URI, "SA1");
-	Range& r = Range(SBOL_URI, "testRange1", 1, 10);
-	SA.locations.add(r);
-	cd.sequenceAnnotations.add(SA);
+	//SequenceAnnotation& SA = SequenceAnnotation(BASE_URI, "SA1");
+	//Range& r = Range(SBOL_URI, "testRange1", 1, 10);
+	//SA.locations.add(r);
+	//cd.sequenceAnnotations.add(SA);
 
-	SequenceAnnotation& SA2 = SequenceAnnotation(BASE_URI, "SA2");
-	cd.sequenceAnnotations.add(SA2);
-	Range& r2 = Range(SBOL_URI, "testRange2", 1, 10);
-	SA.locations.add(r2);
+	//SequenceAnnotation& SA2 = SequenceAnnotation(BASE_URI, "SA2");
+	//cd.sequenceAnnotations.add(SA2);
+	//Range& r2 = Range(SBOL_URI, "testRange2", 1, 10);
+	//SA.locations.add(r2);
 
 	//SequenceAnnotationExt& SA2 = SequenceAnnotationExt();
 	//SA2.roles.add("SO_0000002");
@@ -121,7 +121,7 @@ int main()
 
 	///* Round trip */
 	////doc.read("SimpleComponentDefinitionExample.rdf");   // Existing contents of the current document are wiped when the file is imported
-	doc.write("test.xml");
+	//doc.write("test_in.xml");
 
 	///* Test exception handling and validation rules */
 	//cd.identity.set(cd.identity.get());  //  Should trigger SBOLError 0 in violation of sbol_rule_10202 because the uri

@@ -12,7 +12,6 @@
 #include <functional>
 #include <vector>
 #include <unordered_map>
-#include <regex>
 
 using namespace sbol;
 using namespace std;
@@ -90,10 +89,28 @@ void sbol::seekEndOfElement(std::istringstream& xml_buffer)
 	}
 };
 
-std::string getQName(istringstream& xml_buffer)
+string sbol::getQName(istringstream& xml_buffer)
 {
 	vector<string> subtokens = parseElement(xml_buffer);
 	return subtokens.front();
+};
+
+string sbol::getLocalPart(string qname)
+{
+	size_t pos;
+	if ((pos = qname.find(':')) == std::string::npos)
+		return "";
+	else
+		return qname.substr(pos + 1, qname.length() - pos);
+};
+
+string sbol::getPrefix(string qname)
+{
+	size_t pos;
+	if ((pos = qname.find(':')) == std::string::npos)
+		return "";
+	else
+		return qname.substr(0, pos);
 };
 
 void sbol::seekEndOfNode(std::istringstream& xml_buffer, std::string uri)
@@ -364,7 +381,7 @@ vector<SBOLObject *> Document::flatten()
 	return list_of_sbol_obj;
 };
 
-std::string SBOLObject::nest(std::string rdfxml_string)
+std::string SBOLObject::nest(std::string& rdfxml_string)
 {
 	// Serialize all properties corresponding to black diamonds in UML diagrams
 	// RDF-XML list/container elements
@@ -392,6 +409,14 @@ std::string SBOLObject::nest(std::string rdfxml_string)
 				seekElement(rdfxml_buffer, obj->identity.get());
 				cout << "found element at " << rdfxml_buffer.tellg() << endl;
 				node_start = rdfxml_buffer.tellg();
+				
+				//// Reformat the QName, it should have the format sbol:sbolProperty
+				//string qname = getQName(rdfxml_buffer);
+				//string local_part = getLocalPart(qname);
+				//local_part[0] = tolower(local_part[0]);
+				//string prefix = getPrefix(qname);
+				//qname = prefix + ":" + local_part;
+
 				seekNewLine(rdfxml_buffer);
 				cut_start = rdfxml_buffer.tellg();
 				cout << "start cut at " << cut_start << endl;
@@ -414,19 +439,29 @@ std::string SBOLObject::nest(std::string rdfxml_string)
 				seekResource(rdfxml_buffer, obj->identity.get());
 				cout << "Resource at " << rdfxml_buffer.tellg() << endl;
 				node_start = rdfxml_buffer.tellg();
-				string qname = getQName(rdfxml_buffer);
+				//string qname = getQName(rdfxml_buffer);
 				seekNewLine(rdfxml_buffer);
 				cout << "Start replacement at " << rdfxml_buffer.tellg() << endl;
 				repl_start = rdfxml_buffer.tellg();
 				indentation = node_start - repl_start;
+				// Reformat the QName, it should have the format sbol:sbolProperty
+				string qname = getQName(rdfxml_buffer);
+				string local_part = getLocalPart(qname);
+				local_part[0] = tolower(local_part[0]);
+				string prefix = getPrefix(qname);
+				qname = prefix + ":" + local_part;
+
 				seekEndOfLine(rdfxml_buffer);
 				repl_end = rdfxml_buffer.tellg();
 				cout << "End replacement at " << rdfxml_buffer.tellg() << endl;
 				repl_length = repl_end - repl_start;
 				string repl_string = rdfxml_string.substr(repl_start, repl_length);
 				indent(cut_string, indentation);
+				string open_element = string(indentation, ' ') + "<" + qname + ">\n";
+				string close_element = string(indentation, ' ') + "</" + qname + ">\n";
+				string modified_cut_string = open_element + cut_string + close_element;
 
-				rdfxml_string.replace(repl_start, repl_length, cut_string);
+				rdfxml_string.replace(repl_start, repl_length, modified_cut_string);
 				cout << rdfxml_string << endl;
 				getchar();
 			}
@@ -504,6 +539,7 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 		// If property name is something other than "type" than the triple matches the pattern for defining properties
 		if (property_uri.compare(RDF_URI "#type") != 0)
 		{
+			cout << "Parsing " << property_uri << endl;
 			// Checks if the object to which this property belongs already exists
 			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
 			{
@@ -528,11 +564,20 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 					string owned_obj_id = property_value.substr(1, property_value.length() - 2);
 					
 					// Form a composite SBOL data structure.  The owned object is added to its parent
-					// TopLevel object.  The owned object is then removed from the Document's object store
+					// TopLevel object.  The owned object is then removed from its temporary location in the Document's object store
 					// and is now associated only with it's parent TopLevel object.
 					TopLevel *owned_obj = doc->SBOLObjects[owned_obj_id];
 					sbol_obj->owned_objects[property_uri].push_back(owned_obj);			
 					doc->SBOLObjects.erase(owned_obj_id);
+				}
+				else if (doc->SBOLObjects.find(property_value.substr(1,property_value.length()-2)) != doc->SBOLObjects.end())
+				{
+					cout << property_name << " is owned by " << id << endl;
+				}
+				else
+				{
+					cout << property_value.substr(1, property_value.length() - 2) << " is not in property store" << endl;
+					cout << property_name << " is not recognized as a property of " << id << endl;
 				}
 			}
 		}
@@ -801,7 +846,7 @@ void Document::write(std::string filename)
 		{
 			sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
 		}
-
+		fputs(sbol_buffer_string.c_str(), fh);
 		//parseXMLNodes(sbol_buffer);
 		//stringstream ss;
 		//ss << sbol_buffer;
