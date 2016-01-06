@@ -11,7 +11,7 @@ namespace sbol
 		URIProperty orientation;
 
 	// A public constructor is required so objects can be auto created by the SBOLObject.OwnedObjects.create(...) method
-		Location(sbol_type type = SBOL_LOCATIONS, std::string uri_prefix = SBOL_URI "Location", std::string id = "Example", std::string orientation = SBOL_INLINE) :
+		Location(sbol_type type = SBOL_LOCATION, std::string uri_prefix = SBOL_URI "/Location", std::string id = "Example", std::string orientation = SBOL_INLINE) :
 			Identified(type, uri_prefix, id, "", "", ""),
 			orientation(SBOL_ORIENTATION, this, orientation)
 			{

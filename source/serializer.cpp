@@ -106,7 +106,8 @@ int main()
 	cout << r2.identity.get() << endl;
 	cout << r2.orientation.get() << endl;
 	
-	Range& r3 = (Range &)r2;
+	Range& r3 = (Range &)r2;				     // This works
+	//Range& r3 = static_cast<Range>(r2);		 // This doesn't work, casting a Location into a Range
 	cout << r3.start.get() << "\t" << r3.end.get() << endl;
 
 	SequenceAnnotation& SA2 = SequenceAnnotation(BASE_URI, "SA2");

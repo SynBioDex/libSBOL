@@ -355,7 +355,7 @@ namespace sbol
 		SBOLClass* owned_obj = new (mem)SBOLClass;
 
 		owned_obj->identity.set(prefix + "/" + display_id);
-		//owned_obj->display_id.set(display_id);
+		owned_obj->displayId.set(display_id);
 		owned_obj->name.set(name);
 		owned_obj->description.set(description);
 		owned_obj->version.set(version);
@@ -421,6 +421,10 @@ namespace sbol
 		//std::string get(int index);
 		//SBOLClass& get(std::string object_id);
 		void remove(int index);
+
+		//template <class SBOLClass>
+		//SBOLClass& get(std::string object_id);
+
 		std::vector<PropertyType> copy();
 		//void remove(std::string uri);
 	};
