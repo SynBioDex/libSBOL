@@ -51,7 +51,6 @@ void sbol::seek_element(std::istringstream& xml_buffer, std::string uri)
 		std::string about_id = subtokens.back();
 		if (about_id.compare(SEARCH_TOKEN) == 0 && is_open_node(xml_buffer))
 		{
-			cout << "Found element" << about_id << endl;
 			xml_buffer.seekg(START_OF_ELEMENT);
 			return;
 		}
@@ -421,7 +420,6 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 		// If property name is something other than "type" than the triple matches the pattern for defining properties
 		if (property_uri.compare(RDF_URI "#type") != 0)
 		{
-			cout << "Parsing " << property_uri << endl;
 			// Checks if the object to which this property belongs already exists
 			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
 			{
@@ -452,15 +450,7 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 					sbol_obj->owned_objects[property_uri].push_back(owned_obj);			
 					doc->SBOLObjects.erase(owned_obj_id);
 				}
-				else if (doc->SBOLObjects.find(property_value.substr(1,property_value.length()-2)) != doc->SBOLObjects.end())
-				{
-					cout << property_name << " is owned by " << id << endl;
-				}
-				else
-				{
-					cout << property_value.substr(1, property_value.length() - 2) << " is not in property store" << endl;
-					cout << property_name << " is not recognized as a property of " << id << endl;
-				}
+
 			}
 		}
 	}
@@ -721,8 +711,6 @@ void Document::write(std::string filename)
 	const int size = (const int)sbol_buffer_len;
 	if (sbol_buffer)
 	{
-		cout << "Serializing " << size << " of document" << endl;
-		cout << sbol_buffer_string << endl;
 		// Iterate through objects in document and nest them
 		for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
 		{
