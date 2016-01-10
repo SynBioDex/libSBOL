@@ -38,6 +38,9 @@ namespace sbol
 			}	
 	};
 
-}
+};
+
+
+
 
 #endif

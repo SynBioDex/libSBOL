@@ -429,6 +429,7 @@ namespace sbol
 		//void remove(std::string uri);
 	};
 
+
 	//template <class PropertyType>
 	//template <class SBOLClass>
 	//SBOLClass& List<PropertyType>::get(std::string object_id)

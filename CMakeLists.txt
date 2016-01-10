@@ -1,9 +1,13 @@
 PROJECT( SBOL )
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        MESSAGE(64)
+    else()
+        MESSAGE(32)
+    endif()
 
 # set up folder structure
 SET( SBOL_ROOT_DIR          ${CMAKE_CURRENT_SOURCE_DIR} )
-SET( SBOL_SCHEMA_DIR        ${SBOL_ROOT_DIR}/schema     )
 SET( SBOL_SOURCE_DIR        ${SBOL_ROOT_DIR}/source     )
 SET( SBOL_EXAMPLE_DIR       ${SBOL_ROOT_DIR}/examples   )
 SET( SBOL_TEST_DIR          ${SBOL_ROOT_DIR}/tests      )
@@ -12,7 +16,8 @@ SET( SBOL_WRAPPER_DIR       ${SBOL_ROOT_DIR}/wrapper    )
 SET( SBOL_BUILD_DIR         ${SBOL_ROOT_DIR}/build      )
 SET( SBOL_RELEASE_DIR       ${SBOL_ROOT_DIR}/release    )
 SET( EXECUTABLE_OUTPUT_PATH ${SBOL_RELEASE_DIR}         )
-SET( LIBRARY_OUTPUT_PATH    ${SBOL_RELEASE_DIR}         )
+SET( LIBRARY_OUTPUT_PATH    ${SBOL_RELEASE_DIR}/library )
+SET( HEADER_OUTPUT_PATH		${LIBRARY_OUTPUT_PATH}/include )
 
 # set build options
 OPTION( SBOL_BUILD_STATIC     "Build statically linked library"           FALSE )
