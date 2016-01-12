@@ -71,12 +71,20 @@ ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC)
 
 MESSAGE(${raptor2})
 
-TARGET_LINK_LIBRARIES( sbol
-	${raptor2}
-	${xml2}
-	${zlib}
-	${iconv}
-	Ws2_32.lib )
+IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    TARGET_LINK_LIBRARIES( sbol
+        ${raptor2}
+        ${xml2}
+        ${zlib}
+        ${iconv}
+        Ws2_32.lib )
+ELSE ()
+    TARGET_LINK_LIBRARIES( sbol
+        ${raptor2}
+        ${xml2}
+        ${zlib}
+        ${iconv} )
+ENDIF ()
 
 # generate python wrapper
 IF( SBOL_GENERATE_PYTHON )

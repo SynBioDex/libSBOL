@@ -23,7 +23,7 @@ namespace sbol
 			std::string name = "",
 			std::string description = "",
 			std::string version = "1.0.0") :
-			ModuleDefinition(SBOL_MODULE_DEFINITION, uri_prefix, display_id, role, name, description, version)
+			ModuleDefinition(SBOL_MODULE_DEFINITION, uri_prefix, display_id, role, model, name, description, version)
 			{
 			}
 		~ModuleDefinition();

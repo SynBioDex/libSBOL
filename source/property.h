@@ -202,11 +202,11 @@ namespace sbol
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
 	{
 		// Register Property in owner Object
-		if (sbol_owner != NULL)
+		if (this->sbol_owner != NULL)
 		{
 			std::vector<std::string> property_store;
 			property_store.push_back(initial_value);
-			sbol_owner->properties.insert({ type_uri, property_store });
+			this->sbol_owner->properties.insert({ type_uri, property_store });
 		}
 	}
 
@@ -215,11 +215,11 @@ namespace sbol
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
 	{
 		// Register Property in owner Object
-		if (sbol_owner != NULL)
+		if (this->sbol_owner != NULL)
 		{
 			std::vector<std::string> property_store;
 			property_store.push_back("\"" + std::to_string(initial_value) + "\"");
-			sbol_owner->properties.insert({ type_uri, property_store });
+			this->sbol_owner->properties.insert({ type_uri, property_store });
 		}
 	}
 
@@ -238,9 +238,9 @@ namespace sbol
 	template <class LiteralType>
 	std::string Property<LiteralType>::get()
 	{
-		if (sbol_owner)
+		if (this->sbol_owner)
 		{
-			if (sbol_owner->properties.find(type) == sbol_owner->properties.end()) 
+			if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
 			{
 				// not found
 				return "";
@@ -248,7 +248,7 @@ namespace sbol
 			else 
 			{
 				// found
-				std::string value = sbol_owner->properties[type].front();
+				std::string value = this->sbol_owner->properties[type].front();
 				value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
 				return value;
 			}
@@ -264,14 +264,14 @@ namespace sbol
 		if (sbol_owner)
 		{
 			//sbol_owner->properties[type].push_back( new_value );
-			std::string current_value = sbol_owner->properties[type][0];
+			std::string current_value = this->sbol_owner->properties[type][0];
 			if (current_value[0] == '<')  //  this property is a uri
 			{
-				sbol_owner->properties[type][0] = "<" + new_value + ">";
+				this->sbol_owner->properties[type][0] = "<" + new_value + ">";
 			}
 			else if (current_value[0] == '"') // this property is a literal
 			{
-				sbol_owner->properties[type][0] = "\"" + new_value + "\"";
+				this->sbol_owner->properties[type][0] = "\"" + new_value + "\"";
 			}
 
 		}
@@ -284,7 +284,7 @@ namespace sbol
 		if (new_value)
 		{
 			// TODO:  need to convert new_value to string
-			sbol_owner->properties[type][0] = "\"" + std::to_string(new_value) + "\"";
+			this->sbol_owner->properties[type][0] = "\"" + std::to_string(new_value) + "\"";
 		}
 		validate((void *)&new_value);  //  Call validation rules associated with this Property
 	};
@@ -292,9 +292,9 @@ namespace sbol
 	template <class LiteralType>
 	void Property<LiteralType>::write()
 	{
-		std::string subject = (*sbol_owner).identity.get();
+		std::string subject = (*this->sbol_owner).identity.get();
 		sbol_type predicate = type;
-		std::string object = sbol_owner->properties[type].front();
+		std::string object = this->sbol_owner->properties[type].front();
 
         std::cout << "Subject:  " << subject << std::endl;
         std::cout << "Predicate: " << predicate << std::endl;
@@ -316,14 +316,14 @@ namespace sbol
 	{
 		if (sbol_owner)
 		{
-			std::string current_value = sbol_owner->properties[type][0];
+			std::string current_value = this->sbol_owner->properties[type][0];
 			if (current_value[0] == '<')  //  this property is a uri
 			{
-				sbol_owner->properties[type].push_back("<" + new_value + ">");
+				this->sbol_owner->properties[type].push_back("<" + new_value + ">");
 			}
 			else if (current_value[0] == '"') // this property is a literal
 			{
-				sbol_owner->properties[type].push_back("\"" + new_value + "\"");
+				this->sbol_owner->properties[type].push_back("\"" + new_value + "\"");
 			}
 			validate((void *)&new_value);  //  Call validation rules associated with this Property
 		}
@@ -364,13 +364,13 @@ namespace sbol
 
 	template <class SBOLClass >
 	OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner) : 
-		Property(type_uri, property_owner)
+		Property<SBOLClass>(type_uri, property_owner)
 		{
 			// Register Property in owner Object
-			if (sbol_owner != NULL)
+			if (this->sbol_owner != NULL)
 			{
 				std::vector<sbol::SBOLObject*> object_store;
-				sbol_owner->owned_objects.insert({ type_uri, object_store });
+				this->sbol_owner->owned_objects.insert({ type_uri, object_store });
 			}
 		};
 
@@ -382,16 +382,15 @@ namespace sbol
 	template < class SBOLClass>
 	void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
 	{
-		sbol_owner->owned_objects[type].push_back((SBOLObject *)&sbol_obj);
+		this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
 	};
 
 	template <class SBOLClass>
 	SBOLClass& OwnedObject<SBOLClass>::get(std::string object_id)
 	{
-		vector<SBOLObject*> *object_store = &sbol_owner->owned_objects[type];
+        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
 		//cout << object_store->size() << endl;
 		SBOLObject& obj = *object_store->front();
-		Range & r = (Range &)obj;
 		//cout << r.identity.get() << endl;
 		//cout << r.orientation.get() << endl;
 		return (SBOLClass &)*object_store->front();
@@ -470,7 +469,7 @@ namespace sbol
 	std::vector<PropertyType> List<PropertyType>::copy()
 	{
 		std::vector<PropertyType> vector_copy;
-		for (auto o = sbol_owner->owned_objects[type].begin(); o != sbol_owner->owned_objects[type].end(); o++)
+		for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
 		{
 			vector_copy.push_back(**o);
 		}
@@ -482,9 +481,9 @@ namespace sbol
 	template <class PropertyType>
 	void List<PropertyType>::remove(int index)
 	{
-		if (sbol_owner)
+		if (this->sbol_owner)
 		{
-			sbol_owner->properties[type].erase( sbol_owner->properties[type].begin() + index - 1);
+			this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index - 1);
 		}
 	};
 
@@ -537,7 +536,7 @@ sbol::SBOLObject& create()
 	// Construct an SBOLObject with emplacement
 	void* mem = malloc(sizeof(SBOLClass));
 	SBOLClass* a = new (mem) SBOLClass;
-	return (SBOLObject&)*a;
+    return (sbol::SBOLObject&)*a;
 };
 
 

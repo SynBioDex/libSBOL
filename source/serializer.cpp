@@ -1,4 +1,3 @@
-#define RAPTOR_STATIC
 #define BASE_URI "http://sys-bio.org"
 
 #include "sbol.h"
@@ -12,14 +11,11 @@
 using namespace std;
 using namespace sbol;
 
-#pragma message "XMLPUBVAR = " QUOTE(XMLPUBVAR)
-#pragma message "__MINGW32__ = " QUOTE(__MINGW32__)
-#pragma message "_WIN32 = " QUOTE(_WIN32)
-#pragma message "LIBXML_STATIC = " QUOTE(LIBXML_STATIC)
 
 int main() 
 {
-	Document& doc = Document();
+    Document& doc = *new Document();
+    //Document& doc = Document();
 
 	//doc.read("test_in.xml");
 	//doc.write("test_out.xml");
@@ -30,7 +26,7 @@ int main()
 	//SBOLObject &obj = SBOLObject();
 	//Identified &id = Identified();
 	//TopLevel &top = TopLevel();
-	ComponentDefinition &cd = ComponentDefinition("http://examples.com", "cdef_obj");
+	ComponentDefinition &cd = *new ComponentDefinition("http://examples.com", "cdef_obj");
 	cd.addToDocument(doc);
 	///* Test Property constructors.  An ordinary user generally doesn't use these, but they're important for extensions */
 	OwnedObject<SequenceAnnotation> sequenceAnnotation = OwnedObject<SequenceAnnotation>();
@@ -92,8 +88,8 @@ int main()
 	//cout << cd.types.get(1) << endl;
 
 	///* Test 'add' method for OwnedObjects.  A SequenceAnnotation is an OwnedObject corresponding to white diamond in UML diagram */
-	SequenceAnnotation& SA = SequenceAnnotation(BASE_URI, "SA1");
-	Range& r = Range(SBOL_URI, "testRange1", SBOL_INLINE, 1, 10);
+	SequenceAnnotation& SA = *new SequenceAnnotation(BASE_URI, "SA1");
+	Range& r = *new Range(SBOL_URI, "testRange1", SBOL_INLINE, 1, 10);
 	cout << r.identity.get() << endl;
 	cout << r.orientation.get() << endl;
 	cout << r.start.get() << endl;
@@ -110,7 +106,7 @@ int main()
 	//Range& r3 = static_cast<Range>(r2);		 // This doesn't work, casting a Location into a Range
 	cout << r3.start.get() << "\t" << r3.end.get() << endl;
 
-	SequenceAnnotation& SA2 = SequenceAnnotation(BASE_URI, "SA2");
+	SequenceAnnotation& SA2 = *new SequenceAnnotation(BASE_URI, "SA2");
 	cd.sequenceAnnotations.add(SA2);
 	SA.locations.create(SBOL_URI, "testRange2");
 
