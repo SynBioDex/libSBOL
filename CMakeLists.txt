@@ -48,7 +48,7 @@ ADD_SUBDIRECTORY( source )
 #ENDIF()
 
 # generate python wrapper
-#IF( SBOL_GENERATE_PYTHON )
-#    ADD_SUBDIRECTORY( wrapper )
-#ENDIF()
+IF( SBOL_GENERATE_PYTHON )
+    ADD_SUBDIRECTORY( wrapper )
+ENDIF()
 

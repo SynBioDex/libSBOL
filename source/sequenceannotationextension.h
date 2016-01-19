@@ -1,3 +1,6 @@
+#ifndef SEQUENCE_ANNOTATION_EXT_INCLUDED
+#define SEQUENCE_ANNOTATION_EXT_INCLUDED
+
 
 #include "sbol.h"
 
@@ -23,3 +26,5 @@ namespace sbol
 		}
 	};
 }
+
+#endif

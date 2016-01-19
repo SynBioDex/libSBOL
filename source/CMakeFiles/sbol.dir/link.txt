@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc ../release/library/libsbol.a  CMakeFiles/sbol.dir/validation.cpp.o CMakeFiles/sbol.dir/sbolerror.cpp.o CMakeFiles/sbol.dir/property.cpp.o CMakeFiles/sbol.dir/identified.cpp.o CMakeFiles/sbol.dir/toplevel.cpp.o CMakeFiles/sbol.dir/componentdefinition.cpp.o CMakeFiles/sbol.dir/document.cpp.o CMakeFiles/sbol.dir/serializer.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib ../release/library/libsbol.a

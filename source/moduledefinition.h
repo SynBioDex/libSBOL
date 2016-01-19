@@ -1,3 +1,6 @@
+#ifndef MODULE_DEFINITION_INCLUDED
+#define MODULE_DEFINITION_INCLUDED
+
 #include "toplevel.h"
 #include "module.h"
 #include "component.h"
@@ -40,3 +43,5 @@ namespace sbol
 			}
 	};
 }
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef MODEL_INCLUDED
+#define MODEL_INCLUDED
+
 #include "toplevel.h"
 
 namespace sbol
@@ -29,3 +32,5 @@ namespace sbol
 			}
 	};
 }
+
+#endif

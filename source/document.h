@@ -1,3 +1,6 @@
+#ifndef DOCUMENT_INCLUDED
+#define DOCUMENT_INCLUDED
+
 //#include <libxml/xmlexports.h>
 #include "generictoplevel.h"
 #include "componentdefinition.h"
@@ -83,3 +86,4 @@ namespace sbol {
 
 }
 
+#endif

@@ -1,3 +1,6 @@
+#ifndef GENERIC_TOP_LEVEL_INCLUDED
+#define GENERIC_TOP_LEVEL_INCLUDED
+
 #include "toplevel.h"
 
 #include <string>
@@ -16,3 +19,5 @@ namespace sbol
 
 	};
 }
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef SEQUENCE_INCLUDED
+#define SEQUENCE_INCLUDED
+
 #include "toplevel.h"
 
 #include <string>
@@ -25,3 +28,5 @@ namespace sbol
 		}
 	};
 }
+
+#endif

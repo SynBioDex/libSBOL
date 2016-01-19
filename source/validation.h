@@ -1,9 +1,13 @@
 #include <vector>
 
+
+typedef void(*ValidationRule)(void *, void *);  // This defines the signature for validation rules.  The first argument is an SBOLObject, and the second argument is arbitrary data passed through to the handler function for validation
+typedef std::vector<ValidationRule> ValidationRules;
+
 namespace sbol
 {
-	typedef void(*ValidationRule)(void *, void *);  // This defines the signature for validation rules.  The first argument is an SBOLObject, and the second argument is arbitrary data passed through to the handler function for validation
-	typedef std::vector<ValidationRule> ValidationRules;
+/*    typedef void(*ValidationRule)(void *, void *);  // This defines the signature for validation rules.  The first argument is an SBOLObject, and the second argument is arbitrary data passed through to the handler function for validation
+    typedef std::vector<ValidationRule> ValidationRules;*/
 
 	/* These validation rules are explicitly defined in the SBOL 2.0 specification document */
 	void sbol_rule_10202(void *sbol_obj, void *arg);

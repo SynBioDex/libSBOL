@@ -1,3 +1,6 @@
+#ifndef COMPONENT_DEFINITION_INCLUDED
+#define COMPONENT_DEFINITION_INCLUDED
+
 #include "toplevel.h"
 #include "component.h"
 #include "sequenceannotation.h"
@@ -41,3 +44,5 @@ namespace sbol
 			}
 	};
 }
+
+#endif
