@@ -164,384 +164,157 @@ namespace sbol
 		void validate(void * arg = NULL);
 	};
 
-	template <class LiteralType>
-	Property<LiteralType>::~Property()
-	{
-	};
+//	/* Constructor for string Property */
+//	template <class LiteralType>
+//	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
+//	{
+//		// Register Property in owner Object
+//		if (this->sbol_owner != NULL)
+//		{
+//			std::vector<std::string> property_store;
+//			property_store.push_back(initial_value);
+//			this->sbol_owner->properties.insert({ type_uri, property_store });
+//		}
+//	}
+//
+//	/* Constructor for int Property */
+//	template <class LiteralType>
+//	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
+//	{
+//		// Register Property in owner Object
+//		if (this->sbol_owner != NULL)
+//		{
+//			std::vector<std::string> property_store;
+//			property_store.push_back("\"" + std::to_string(initial_value) + "\"");
+//			this->sbol_owner->properties.insert({ type_uri, property_store });
+//		}
+//	}
 
-	class URIProperty : public Property<std::string>
-	{
-	public:
-		URIProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules rules = {}) :
-			Property(type_uri, property_owner, "<" + initial_value + ">", rules)
-		{
-		}
-	};
-
-	class TextProperty : public Property<std::string>
-	{
-	public:
-		TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules rules = {}) :
-			Property(type_uri, property_owner, "\"" + initial_value + "\"", rules = {})
-		{
-		}
-	};
-
-	class IntProperty : public Property<int>
-	{
-	public:
-		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0, ValidationRules rules = {}) :
-			Property(type_uri, property_owner, initial_value, rules = {})
-		{
-		}
-	};
-
-
-	/* Constructor for string Property */
-	template <class LiteralType>
-	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
-	{
-		// Register Property in owner Object
-		if (this->sbol_owner != NULL)
-		{
-			std::vector<std::string> property_store;
-			property_store.push_back(initial_value);
-			this->sbol_owner->properties.insert({ type_uri, property_store });
-		}
-	}
-
-	/* Constructor for int Property */
-	template <class LiteralType>
-	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
-	{
-		// Register Property in owner Object
-		if (this->sbol_owner != NULL)
-		{
-			std::vector<std::string> property_store;
-			property_store.push_back("\"" + std::to_string(initial_value) + "\"");
-			this->sbol_owner->properties.insert({ type_uri, property_store });
-		}
-	}
-
-	template <class LiteralType>
-	sbol_type Property<LiteralType>::getTypeURI()
-	{
-		return type;
-	}
-
-	template <class LiteralType>
-	SBOLObject& Property<LiteralType>::getOwner()
-	{
-		return *sbol_owner;
-	}
-	
-	template <class LiteralType>
-	std::string Property<LiteralType>::get()
-	{
-		if (this->sbol_owner)
-		{
-			if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
-			{
-				// not found
-				return "";
-			}
-			else 
-			{
-				// found
-				std::string value = this->sbol_owner->properties[type].front();
-				value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
-				return value;
-			}
-		}	else
-		{
-			return "";
-		}
-	};
-
-	template <class LiteralType>
-	void Property<LiteralType>::set(std::string new_value)
-	{
-		if (sbol_owner)
-		{
-			//sbol_owner->properties[type].push_back( new_value );
-			std::string current_value = this->sbol_owner->properties[type][0];
-			if (current_value[0] == '<')  //  this property is a uri
-			{
-				this->sbol_owner->properties[type][0] = "<" + new_value + ">";
-			}
-			else if (current_value[0] == '"') // this property is a literal
-			{
-				this->sbol_owner->properties[type][0] = "\"" + new_value + "\"";
-			}
-
-		}
-		validate((void *)&new_value);
-	};
-
-	template <class LiteralType>
-	void Property<LiteralType>::set(int new_value)
-	{
-		if (new_value)
-		{
-			// TODO:  need to convert new_value to string
-			this->sbol_owner->properties[type][0] = "\"" + std::to_string(new_value) + "\"";
-		}
-		validate((void *)&new_value);  //  Call validation rules associated with this Property
-	};
-
-	template <class LiteralType>
-	void Property<LiteralType>::write()
-	{
-		std::string subject = (*this->sbol_owner).identity.get();
-		sbol_type predicate = type;
-		std::string object = this->sbol_owner->properties[type].front();
-
-        std::cout << "Subject:  " << subject << std::endl;
-        std::cout << "Predicate: " << predicate << std::endl;
-        std::cout << "Object: "  << std::endl;
-	};
-
-	template <class LiteralType>
-	void Property<LiteralType>::validate(void * arg)
-	{
-		for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
-		{
-			ValidationRule& validate_fx = *i_rule;
-			validate_fx(sbol_owner, arg);
-		}
-	};
-
-	template <class LiteralType>
-	void Property<LiteralType>::add(std::string new_value)
-	{
-		if (sbol_owner)
-		{
-			std::string current_value = this->sbol_owner->properties[type][0];
-			if (current_value[0] == '<')  //  this property is a uri
-			{
-				this->sbol_owner->properties[type].push_back("<" + new_value + ">");
-			}
-			else if (current_value[0] == '"') // this property is a literal
-			{
-				this->sbol_owner->properties[type].push_back("\"" + new_value + "\"");
-			}
-			validate((void *)&new_value);  //  Call validation rules associated with this Property
-		}
-	};
-
-	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
-	template <class SBOLClass>
-	class OwnedObject : public Property<SBOLClass>
-	{
-
-	public:
-		OwnedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL);
-		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
-
-		void add(SBOLClass& sbol_obj);
-		SBOLClass& get(std::string object_id);
-		void create(std::string prefix = SBOL_URI "/OwnedObject",
-			std::string display_id = "example",
-			std::string name = "",
-			std::string description = "",
-			std::string version = "1.0.0");
-	};
-
-	template <class SBOLClass>
-	void OwnedObject<SBOLClass>::create(std::string prefix, std::string display_id, std::string name, std::string description, std::string version)
-	{
-		// Construct an SBOLObject with emplacement
-		void* mem = malloc(sizeof(SBOLClass));
-		SBOLClass* owned_obj = new (mem)SBOLClass;
-
-		owned_obj->identity.set(prefix + "/" + display_id);
-		owned_obj->displayId.set(display_id);
-		owned_obj->name.set(name);
-		owned_obj->description.set(description);
-		owned_obj->version.set(version);
-		add(*owned_obj);
-	};
-
-	template <class SBOLClass >
-	OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner) : 
-		Property<SBOLClass>(type_uri, property_owner)
-		{
-			// Register Property in owner Object
-			if (this->sbol_owner != NULL)
-			{
-				std::vector<sbol::SBOLObject*> object_store;
-				this->sbol_owner->owned_objects.insert({ type_uri, object_store });
-			}
-		};
-
-	template <class SBOLClass>
-	OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object)
-	{
-	};
-
-	template < class SBOLClass>
-	void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
-	{
-		this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
-	};
-
-	template <class SBOLClass>
-	SBOLClass& OwnedObject<SBOLClass>::get(std::string object_id)
-	{
-        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-		//cout << object_store->size() << endl;
-		SBOLObject& obj = *object_store->front();
-		//cout << r.identity.get() << endl;
-		//cout << r.orientation.get() << endl;
-		return (SBOLClass &)*object_store->front();
-	};
-
-	class ReferencedObject : public URIProperty
-	{
-		public:
-			ReferencedObject(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {}) : URIProperty(type_uri, property_owner, initial_value, rules)
-			{
-			}
-	};
-
-	template <class PropertyType>
-	class List : public PropertyType 
-	{
-
-	public:
-		List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
-			PropertyType(type_uri, property_owner, initial_value)
-		{
-		}
-		List(sbol_type type_uri, SBOLObject *property_owner) :
-			PropertyType(type_uri, property_owner)
-		{
-		}
-		//std::string get(int index);
-		//SBOLClass& get(std::string object_id);
-		void remove(int index);
-
-		//template <class SBOLClass>
-		//SBOLClass& get(std::string object_id);
-
-		std::vector<PropertyType> copy();
-		//void remove(std::string uri);
-	};
-
-
-	//template <class PropertyType>
-	//template <class SBOLClass>
-	//SBOLClass& List<PropertyType>::get(std::string object_id)
-	//{
-	//	vector<SBOLObject*> object_store = sbol_owner->owned_objects[type];
-	//	cout << object_store.size() << endl;
-	//	return (SBOLClass &)object_store.front();
-
-	//};
-
-	//template <class PropertyType>
-	//std::string List<PropertyType>::get(int index)
-	//{
-	//	if (sbol_owner)
-	//	{
-	//		if (sbol_owner->properties.find(type) == sbol_owner->properties.end())
-	//		{
-	//			// TODO: trigger exception
-	//			// not found
-	//			return "";
-	//		}
-	//		else
-	//		{
-	//			// found
-	//			std::string current_value = sbol_owner->properties[type].at(index);
-	//			current_value = current_value.substr(1, current_value.length() - 2);
-	//			return current_value;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		return "";
-	//	}
-	//};
-
-
-	template < class PropertyType >
-	std::vector<PropertyType> List<PropertyType>::copy()
-	{
-		std::vector<PropertyType> vector_copy;
-		for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
-		{
-			vector_copy.push_back(**o);
-		}
-		return vector_copy;
-	};
-
-
-
-	template <class PropertyType>
-	void List<PropertyType>::remove(int index)
-	{
-		if (this->sbol_owner)
-		{
-			this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index - 1);
-		}
-	};
-
-	
-
-	/* All SBOLObjects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
-	class Document;
 
 	//typedef std::map<sbol_type, PropertyBase> PropertyStore;
 
 	//extern PropertyStore* global_property_buffer;
-	
 
-	class SBOLObject
-	{
-	friend class Document;
-	
-
-	protected:
-		//protected:
-		//	sbol_type type;
-
-	public:
-		Document *doc = NULL;
-
-		//std::unordered_map<sbol::sbol_type, sbol::PropertyBase> properties;
-		std::unordered_map<sbol::sbol_type, std::vector< std::string > > properties;
-		std::unordered_map<sbol::sbol_type, std::vector< std::string > > list_properties;
-		std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
-
-		SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI, std::string id = "example") :
-			type(type),
-			identity(URIProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id, { sbol_rule_10202 }))
-		{
-		}
-		~SBOLObject();
-		sbol_type type;
-		URIProperty identity;
-	
-		virtual sbol_type getTypeURI();
-		void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
-		std::string nest(std::string& rdfxml_buffer);
-	};
+    template <class LiteralType>
+    Property<LiteralType>::~Property()
+    {
+    };
+    
+    
+    template <class LiteralType>
+    sbol_type Property<LiteralType>::getTypeURI()
+    {
+        return type;
+    }
+    
+    template <class LiteralType>
+    SBOLObject& Property<LiteralType>::getOwner()
+    {
+        return *sbol_owner;
+    }
+    
+    template <class LiteralType>
+    std::string Property<LiteralType>::get()
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+            {
+                // not found
+                return "";
+            }
+            else
+            {
+                // found
+                std::string value = this->sbol_owner->properties[type].front();
+                value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                return value;
+            }
+        }	else
+        {
+            return "";
+        }
+    };
+    
+    template <class LiteralType>
+    void Property<LiteralType>::set(std::string new_value)
+    {
+        if (sbol_owner)
+        {
+            //sbol_owner->properties[type].push_back( new_value );
+            std::string current_value = this->sbol_owner->properties[type][0];
+            if (current_value[0] == '<')  //  this property is a uri
+            {
+                this->sbol_owner->properties[type][0] = "<" + new_value + ">";
+            }
+            else if (current_value[0] == '"') // this property is a literal
+            {
+                this->sbol_owner->properties[type][0] = "\"" + new_value + "\"";
+            }
+            
+        }
+        validate((void *)&new_value);
+    };
+    
+    template <class LiteralType>
+    void Property<LiteralType>::set(int new_value)
+    {
+        if (new_value)
+        {
+            // TODO:  need to convert new_value to string
+            this->sbol_owner->properties[type][0] = "\"" + std::to_string(new_value) + "\"";
+        }
+        validate((void *)&new_value);  //  Call validation rules associated with this Property
+    };
+    
+    template <class LiteralType>
+    void Property<LiteralType>::write()
+    {
+        std::string subject = (*this->sbol_owner).identity.get();
+        sbol_type predicate = type;
+        std::string object = this->sbol_owner->properties[type].front();
+        
+        std::cout << "Subject:  " << subject << std::endl;
+        std::cout << "Predicate: " << predicate << std::endl;
+        std::cout << "Object: "  << std::endl;
+    };
+    
+    template <class LiteralType>
+    void Property<LiteralType>::validate(void * arg)
+    {
+        for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
+        {
+            ValidationRule& validate_fx = *i_rule;
+            validate_fx(sbol_owner, arg);
+        }
+    };
+    
+    template <class LiteralType>
+    void Property<LiteralType>::add(std::string new_value)
+    {
+        if (sbol_owner)
+        {
+            std::string current_value = this->sbol_owner->properties[type][0];
+            if (current_value[0] == '<')  //  this property is a uri
+            {
+                this->sbol_owner->properties[type].push_back("<" + new_value + ">");
+            }
+            else if (current_value[0] == '"') // this property is a literal
+            {
+                this->sbol_owner->properties[type].push_back("\"" + new_value + "\"");
+            }
+            validate((void *)&new_value);  //  Call validation rules associated with this Property
+        }
+    };
+    
+    
 }
 
-// This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
-template <class SBOLClass>
-sbol::SBOLObject& create()
-{
-	// Construct an SBOLObject with emplacement
-	void* mem = malloc(sizeof(SBOLClass));
-	SBOLClass* a = new (mem) SBOLClass;
-    return (sbol::SBOLObject&)*a;
-};
 
 
 
 
 
 
-#endif 
+
+#endif

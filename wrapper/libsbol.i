@@ -5,6 +5,8 @@
     #include "validation.h"
     #include "sbolerror.h"
     #include "property.h"
+    #include "properties.h"
+    #include "object.h"
     #include "identified.h"
     #include "toplevel.h"
     #include "generictoplevel.h"
@@ -25,12 +27,12 @@
     #include "sbol.h"
 
     #include <vector>
+    #include <map>
+    #include <unordered_map>
 
     using namespace sbol;
-
+    using namespace std;
 %}
-%include "std_string.i"
-%include "std_vector.i"
 
 
 
@@ -41,78 +43,58 @@
 // tell SWIG how to free strings
 %typemap(newfree) char* "free($1);";
 
+
+// Instantiate STL templates
+
+%include "std_string.i"
+
 namespace sbol
 {
     typedef std::string sbol_type;
-    
-    /* All SBOLProperties have a pointer back to the object which the property belongs to.
-     This requires forward declaration of the SBOLObject class */
-    class SBOLObject;
-    
-    template <class LiteralType>
-    class Property
-    {
-        
-    protected:
-        sbol_type type;
-        SBOLObject *sbol_owner;  // back pointer to the SBOLObject to which this Property belongs
-        ValidationRules validationRules;
-        
-    public:
-        Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {} );
-        Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules = {} );
-        
-        Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, ValidationRules rules = {} ) :
-        type(type_uri),
-        sbol_owner((SBOLObject *)property_owner),
-        validationRules(rules)
-        {
-        }
-        ~Property();
-        virtual sbol_type getTypeURI();
-        virtual SBOLObject& getOwner();
-        virtual std::string get();
-        void add(std::string new_value);
-        
-        virtual void set(std::string new_value);
-        virtual void set(int new_value);
-        virtual void write();
-        void validate(void * arg = NULL);
-    };
-    
-    /* Instantiate a few different versions of the template */
-    %template(IntProperty) Property<int>;
-    %template(TextProperty) Property<std::string>;
-    
-    
-    class SBOLObject
-    {
-        friend class Document;
-    public:
-        Document *doc = NULL;
-    
-        //std::unordered_map<sbol::sbol_type, sbol::PropertyBase> properties;
-        std::unordered_map<sbol::sbol_type, std::vector< std::string > > properties;
-        std::unordered_map<sbol::sbol_type, std::vector< std::string > > list_properties;
-        std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
-    
-        SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI, std::string id = "example") :
-            type(type),
-            identity(URIProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id, { sbol_rule_10202 }))
-            {
-            }
-        ~SBOLObject();
-        sbol_type type;
-        URIProperty identity;
-    
-        virtual sbol_type getTypeURI();
-        void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
-        std::string nest(std::string& rdfxml_buffer);
-    };
+}
+
+%include "std_vector.i"
+
+namespace std {
+    %template(_IntVector) vector<int>;
+    %template(_StringVector) vector<string>;
+}
+
+%include "std_unordered_map.i"
+namespace std {
+    %template(_UnorderedMapVector) unordered_map<string, string >;
+    //%template(_UnorderedMapOfStringVector) unordered_map<string, string>;
 }
 
 
+%include "std_map.i"
+namespace std {
+    %template(_MapVector) map<string, string >;
+    %template(_MapOfStringVector) map<string, vector<string> >;
+}
 
+//    %template(_UnorderedMapVector) unordered_map<sbol::sbol_type, vector<string> >;
+//    %template(_MapVector) map<sbol::sbol_type, vector<string> >;
+
+// Instantiate libSBOL templates
+%include "validation.h"
+%include "property.h"
+
+namespace sbol
+{
+
+    %template(_StringProperty) Property<std::string>;  // These template instantiations are private, hence the underscore...
+    %template(_IntProperty) Property<int>;             // They are required to have names in order to derive subclasses
+
+}
+
+%include "properties.h"
+%include "object.h"
+//%template(get) sbol::TextProperty::get<std::string>;
+//%template(set) sbol::TextProperty::set<std::string>;
+
+//%template(get) sbol::URIProperty::get<std::string>;
+//%template(set) sbol::URIProperty::set<std::string>;
 
 
 

@@ -1,11 +1,13 @@
 #ifndef IDENTIFIED_INCLUDED
 #define IDENTIFIED_INCLUDED
 
-#include "property.h"
+#include "object.h"
 #include <string>
 
-namespace sbol {
-	class Identified : public SBOLObject {
+namespace sbol
+{
+	class Identified : public SBOLObject
+    {
 	
 	public:
 		TextProperty persistentIdentity;
@@ -44,6 +46,6 @@ namespace sbol {
 			identity.validate();
 		}
 	};
-}
+};
 
 #endif

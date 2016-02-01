@@ -11,6 +11,8 @@ FILE(GLOB SBOL_HEADER_FILES
 	validation.h
 	sbolerror.h
 	property.h
+    properties.h
+    object.h
 	identified.h
 	toplevel.h
 	generictoplevel.h
@@ -29,10 +31,10 @@ FILE(GLOB SBOL_HEADER_FILES
 	mapsto.h
 	model.h
 	sbol.h)
-FILE(GLOB SBOL_SOURCE_FILES	
+FILE(GLOB SBOL_SOURCE_FILES
 	validation.cpp
 	sbolerror.cpp
-	property.cpp
+	object.cpp
 	identified.cpp
 	toplevel.cpp
 	componentdefinition.cpp
