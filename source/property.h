@@ -117,6 +117,8 @@
 
 /* URIs for common Sequence Ontology terms */
 #define SO_UNDEFINED "SO_0000001"
+#define SO_PROMOTER "http://identifiers.org/so/SO:0000167"
+
 
 /* Modeling frameworks */
 #define SBML "http://identifiers.org/edam/format_2585"
