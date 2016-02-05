@@ -2,6 +2,7 @@
 %{
     #define SWIG_FILE_WITH_INIT
 
+    #include "constants.h"
     #include "validation.h"
     #include "sbolerror.h"
     #include "property.h"
@@ -60,11 +61,11 @@ namespace std {
     %template(_StringVector) vector<string>;
 }
 
-%include "std_unordered_map.i"
-namespace std {
-    %template(_UnorderedMapVector) unordered_map<string, string >;
-    //%template(_UnorderedMapOfStringVector) unordered_map<string, string>;
-}
+//%include "std_unordered_map.i"
+//namespace std {
+//    %template(_UnorderedMapVector) unordered_map<string, string >;
+//    //%template(_UnorderedMapOfStringVector) unordered_map<string, string>;
+//}
 
 
 %include "std_map.i"
@@ -73,23 +74,49 @@ namespace std {
     %template(_MapOfStringVector) map<string, vector<string> >;
 }
 
-//    %template(_UnorderedMapVector) unordered_map<sbol::sbol_type, vector<string> >;
-//    %template(_MapVector) map<sbol::sbol_type, vector<string> >;
+//%include "std_function.i"
+//namespace std {
+//    %template(_ValidationRule) function<void(void *, void *)>;
+//    %template(_ValidationRules) vector<function<void(void *, void *)>>;}
+//}
+
+//typedef const void(*sbol::ValidationRule)(void *, void *);
+// %template(_ValidationRules) std::vector<sbol::ValidationRule>;
 
 // Instantiate libSBOL templates
-%include "validation.h"
-%include "property.h"
+%include "constants.h"
 
-namespace sbol
-{
+%ignore sbol::Identified(std::string prefix, std::string display_id, std::string name, std::string description, std::string version);
 
-    %template(_StringProperty) Property<std::string>;  // These template instantiations are private, hence the underscore...
-    %template(_IntProperty) Property<int>;             // They are required to have names in order to derive subclasses
+%include "identified.h"
 
-}
 
-%include "properties.h"
-%include "object.h"
+//%include "validation.h"
+//namespace std
+//{
+////    typedef void(*ValidationRule)(void *, void *);  // This defines the signature for validation rules.  The first argument is an SBOLObject, and the second argument is arbitrary data passed through to the handler function for validation
+////    
+//    
+////    typedef std::vector<ValidationRule> ValidationRules;
+//    //%template(_ValidationRules) vector< void(*)>;  // This compiles, but doesn't appear to wrap anything useful
+//
+//}
+//
+//%include "property.h"
+//
+//namespace sbol
+//{
+//
+//    %template(_StringProperty) Property<std::string>;  // These template instantiations are private, hence the underscore...
+//    %template(_IntProperty) Property<int>;             // They are required to have names in order to derive subclasses
+//}
+//
+//%ignore Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {} );
+//
+//%include "properties.h"
+
+
+//%include "object.h"
 //%template(get) sbol::TextProperty::get<std::string>;
 //%template(set) sbol::TextProperty::set<std::string>;
 
