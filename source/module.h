@@ -21,7 +21,7 @@ namespace sbol
 	protected:
 		Module(sbol_type type, std::string uri_prefix, std::string id) :
 			Identified(type, uri_prefix, id, "", "", ""),
-			definition(SBOL_DEFINITION, this, UNDEFINED, {})
+			definition(SBOL_DEFINITION, this, UNDEFINED)
 			//mapsTos(SBOL_MAPS_TO, this)
 			{
 			}

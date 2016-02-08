@@ -27,21 +27,21 @@ IF( SWIG_FOUND )
 	# because the non-SBOLAPIEXPORTS functions could be useful
 	# in writing a higher-level wrapper, and because Python
 	# will try to import them anyway and fail
-	ADD_LIBRARY( sbol_swig
-		STATIC
-        ${SBOL_HEADER_FILES}
-		${SBOL_SOURCE_FILES}
-	)
-	TARGET_LINK_LIBRARIES( sbol_swig
-        ${raptor2}
-        ${xml2}
-        ${zlib}
-        ${iconv}
-	)
-    SET_TARGET_PROPERTIES(sbol_swig PROPERTIES LINKER_LANGUAGE CXX)
+#ADD_LIBRARY( sbol_swig
+#		STATIC
+#		${SBOL_SOURCE_FILES}
+#	)
 
-    INSTALL(TARGETS sbol_swig DESTINATION lib)
-	
+#   TARGET_LINK_LIBRARIES( sbol_swig
+#       ${raptor2}
+#       ${xml2}
+#       ${zlib}
+#       ${iconv}
+#	)
+#   SET_TARGET_PROPERTIES(sbol_swig PROPERTIES LINKER_LANGUAGE CXX)
+
+#   INSTALL(TARGETS sbol_swig DESTINATION lib)
+#
 	# set up some SWIG stuff
     INCLUDE( ${SWIG_USE_FILE} )
     FIND_PACKAGE( PythonLibs REQUIRED )
@@ -50,29 +50,29 @@ IF( SWIG_FOUND )
     ENDIF()
     INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
     SET( CMAKE_SWIG_FLAGS "-c++" )
-    SET( CMAKE_SWIG_OUTDIR ${SBOL_RELEASE_DIR} )
     SET_SOURCE_FILES_PROPERTIES(libsbol.i PROPERTIES CPLUSPLUS ON)
+    SET( CMAKE_SWIG_OUTDIR ${SBOL_RELEASE_DIR} )
 
 	# build the SWIG wrapper
     SWIG_ADD_MODULE( libsbol
         python
         libsbol.i
-        ${SBOL_SOURCE_FILES}
     )
     IF(APPLE)
       # Do not link in the Python libraries
       SWIG_LINK_LIBRARIES( libsbol
-          xml2
-          sbol_swig
-      )
+          ${sbol}
+          ${raptor2}
+          ${xml2}
+          ${zlib}
+          ${iconv} )
 
       # Resolve Pyhton symbols dynamically due to differing runtime env
       SET_TARGET_PROPERTIES(_libsbol PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
     ELSE()
       SWIG_LINK_LIBRARIES( libsbol
           ${PYTHON_LIBRARIES}
-          xml2
-          sbol_swig
+          sbol
       )
     ENDIF()
 

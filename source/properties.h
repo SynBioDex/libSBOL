@@ -15,8 +15,8 @@ namespace sbol
     class URIProperty : public Property<std::string>
 	{
 	public:
-		URIProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, std::string initial_value = "", ValidationRules rules = {}) :
-			Property(type_uri, property_owner, "<" + initial_value + ">", rules)
+		URIProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, std::string initial_value = "") :
+			Property(type_uri, property_owner, "<" + initial_value + ">")
 		{
 		}
 	};
@@ -24,8 +24,8 @@ namespace sbol
 	class TextProperty : public Property<std::string>
 	{
 	public:
-		TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules rules = {}) :
-			Property(type_uri, property_owner, "\"" + initial_value + "\"", rules = {})
+		TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
+			Property(type_uri, property_owner, "\"" + initial_value + "\"")
 		{
 		}
 	};
@@ -33,8 +33,8 @@ namespace sbol
 	class IntProperty : public Property<int>
 	{
 	public:
-		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0, ValidationRules rules = {}) :
-			Property(type_uri, property_owner, initial_value, rules = {})
+		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0) :
+			Property(type_uri, property_owner, initial_value)
 		{
 		}
 	};
@@ -110,7 +110,7 @@ namespace sbol
 	class ReferencedObject : public URIProperty
 	{
 		public:
-			ReferencedObject(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {}) : URIProperty(type_uri, property_owner, initial_value, rules)
+			ReferencedObject(sbol_type type_uri, void *property_owner, std::string initial_value) : URIProperty(type_uri, property_owner, initial_value)
 			{
 			}
 	};

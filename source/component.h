@@ -19,7 +19,7 @@ namespace sbol
 	protected:
 		ComponentInstance(sbol_type type = SBOL_COMPONENT, std::string uri_prefix = SBOL_URI "/Component", std::string id = "example", std::string access = SBOL_ACCESS_PRIVATE) :
 			Identified(type, uri_prefix, id, "", "", ""),
-			definition(SBOL_DEFINITION, this, UNDEFINED, {}),
+			definition(SBOL_DEFINITION, this, UNDEFINED),
 			access(SBOL_ACCESS, this, access),
 			mapsTos(SBOL_MAPS_TO, this)
 			{

@@ -31,13 +31,13 @@ namespace sbol
 		ValidationRules validationRules;
 
 	public:
-		Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {} );
-		Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules = {} );
+		Property(sbol_type type_uri, void *property_owner, std::string initial_value);
+		Property(sbol_type type_uri, void *property_owner, int initial_value);
 
-		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, ValidationRules rules = {} ) :
+		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
 			type(type_uri),
 			sbol_owner((SBOLObject *)property_owner),
-			validationRules(rules)
+            validationRules({})
 		{
 		}
 		~Property();

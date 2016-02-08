@@ -86,11 +86,22 @@ namespace std {
 // Instantiate libSBOL templates
 %include "constants.h"
 
-%ignore sbol::Identified(std::string prefix, std::string display_id, std::string name, std::string description, std::string version);
+//%ignore sbol::Property(std::string , void *, std::string , std::vector< std::string> );
+//%ignore sbol::Property(std::string , void *, int initial_value, std::vector< (sbol::*)(void *)(void *) > );
+//%ignore sbol::Property(std::string , void *, std::vector< (sbol::*)(void *)(void *) > );
 
-%include "identified.h"
+
+%include "property.h"
 
 
+namespace sbol
+{
+    
+    %template(_StringProperty) Property<std::string>;  // These template instantiations are private, hence the underscore...
+    %template(_IntProperty) Property<int>;             // They are required to have names in order to derive subclasses
+}
+%include "properties.h"
+%include "object.h"
 //%include "validation.h"
 //namespace std
 //{
@@ -102,18 +113,6 @@ namespace std {
 //
 //}
 //
-//%include "property.h"
-//
-//namespace sbol
-//{
-//
-//    %template(_StringProperty) Property<std::string>;  // These template instantiations are private, hence the underscore...
-//    %template(_IntProperty) Property<int>;             // They are required to have names in order to derive subclasses
-//}
-//
-//%ignore Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules = {} );
-//
-//%include "properties.h"
 
 
 //%include "object.h"
