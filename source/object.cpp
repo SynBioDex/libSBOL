@@ -26,11 +26,15 @@ SBOLObject::~SBOLObject()
 {
 }
 
-sbol_type SBOLObject::getTypeURI() 
-{
-	return type;
-}
+//sbol_type SBOLObject::getTypeURI() 
+//{
+//	return type;
+//}
 
+string SBOLObject::testSWIG()
+{
+    return type;
+}
 
 
 //SBOLObject& OwnedObjects::get(int index)

@@ -44,21 +44,22 @@ namespace sbol
         sbol_type type;
         URIProperty identity;
     
-        virtual sbol_type getTypeURI();
+        //virtual sbol_type getTypeURI();
+        virtual std::string testSWIG();
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
         std::string nest(std::string& rdfxml_buffer);
     };
 }
 
-// This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
-template <class SBOLClass>
-sbol::SBOLObject& create()
-{
-    // Construct an SBOLObject with emplacement
-    void* mem = malloc(sizeof(SBOLClass));
-    SBOLClass* a = new (mem) SBOLClass;
-    return (sbol::SBOLObject&)*a;
-};
+//// This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
+//template <class SBOLClass>
+//sbol::SBOLObject& create()
+//{
+//    // Construct an SBOLObject with emplacement
+//    void* mem = malloc(sizeof(SBOLClass));
+//    SBOLClass* a = new (mem) SBOLClass;
+//    return (sbol::SBOLObject&)*a;
+//};
 
 
 

@@ -33,6 +33,7 @@
 
     using namespace sbol;
     using namespace std;
+    
 %}
 
 
@@ -49,16 +50,13 @@
 
 %include "std_string.i"
 
-namespace sbol
-{
-    typedef std::string sbol_type;
-}
 
 %include "std_vector.i"
 
 namespace std {
     %template(_IntVector) vector<int>;
     %template(_StringVector) vector<string>;
+    %template(_SBOLObjectVector) vector<sbol::SBOLObject*>;
 }
 
 //%include "std_unordered_map.i"
@@ -72,6 +70,8 @@ namespace std {
 namespace std {
     %template(_MapVector) map<string, string >;
     %template(_MapOfStringVector) map<string, vector<string> >;
+    %template(_MapOfSBOLObject) map<string, vector< sbol::SBOLObject* > >;
+
 }
 
 //%include "std_function.i"
@@ -85,6 +85,9 @@ namespace std {
 
 // Instantiate libSBOL templates
 %include "constants.h"
+
+typedef std::string sbol::sbol_type;
+
 
 //%ignore sbol::Property(std::string , void *, std::string , std::vector< std::string> );
 //%ignore sbol::Property(std::string , void *, int initial_value, std::vector< (sbol::*)(void *)(void *) > );
@@ -101,7 +104,17 @@ namespace sbol
     %template(_IntProperty) Property<int>;             // They are required to have names in order to derive subclasses
 }
 %include "properties.h"
+
+%ignore sbol::SBOLObject::getTypeURI;
 %include "object.h"
+%ignore sbol::SBOLObject::getTypeURI;
+
+
+
+#%include "identified.h"
+#%include "toplevel.h"
+#%include "generictoplevel.h"
+
 //%include "validation.h"
 //namespace std
 //{

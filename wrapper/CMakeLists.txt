@@ -67,7 +67,7 @@ IF( SWIG_FOUND )
           ${zlib}
           ${iconv} )
 
-      # Resolve Pyhton symbols dynamically due to differing runtime env
+      # Resolve Python symbols dynamically due to differing runtime env
       SET_TARGET_PROPERTIES(_libsbol PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
     ELSE()
       SWIG_LINK_LIBRARIES( libsbol
