@@ -32,34 +32,34 @@ using namespace sbol;
 //	timeStamp = TextProperty();
 //};
 
-void Identified::setIdentity(std::string uri_prefix, std::string id) 
-{
-	identity.set(uri_prefix + "/" + id);
-}
-
-void Identified::stampTime()
-{
-	time_t timer;
-	struct tm * time_info;
-	char time_stamp[80];
-
-	time(&timer);
-	time_info = localtime(&timer);
-	//timeStamp.set(string(asctime(time_info)));
-}
-
-Identified Identified::clone() 
-{
-	Identified clone = Identified();
-	clone.identity.set(this->identity.get());
-	clone.persistentIdentity.set(this->persistentIdentity.get());
-	//clone.version.set(this->version.get());
-	return clone;
-}
-
-std::string Identified::getIdentity() {
-	return identity.get();
-}
+//void Identified::setIdentity(std::string uri_prefix, std::string id) 
+//{
+//	identity.set(uri_prefix + "/" + id);
+//}
+//
+//void Identified::stampTime()
+//{
+//	time_t timer;
+//	struct tm * time_info;
+//	char time_stamp[80];
+//
+//	time(&timer);
+//	time_info = localtime(&timer);
+//	//timeStamp.set(string(asctime(time_info)));
+//}
+//
+//Identified Identified::clone() 
+//{
+//	Identified clone = Identified();
+//	clone.identity.set(this->identity.get());
+//	clone.persistentIdentity.set(this->persistentIdentity.get());
+//	//clone.version.set(this->version.get());
+//	return clone;
+//}
+//
+//std::string Identified::getIdentity() {
+//	return identity.get();
+//}
 
 //std::string Identified::getTimeStamp()
 //{

@@ -17,11 +17,11 @@ namespace sbol
 		TextProperty name;
 		TextProperty description;
 
-		std::string getTimeStamp();
-		void setIdentity(std::string, std::string);
-		void stampTime();
-		std::string getIdentity();
-		Identified clone();
+		//std::string getTimeStamp();
+		//void setIdentity(std::string, std::string);
+		//void stampTime();
+		//std::string getIdentity();
+		//Identified clone();
 
 		Identified(std::string prefix = SBOL_URI "/Identified",
 				   std::string display_id = "example",
@@ -29,7 +29,7 @@ namespace sbol
 				   std::string description = "",
 				   std::string version = "1.0.0") : Identified(SBOL_IDENTIFIED, prefix, display_id, name, description, version)
 		{
-		}
+        }
 
 
 	// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
@@ -43,7 +43,8 @@ namespace sbol
 			name(SBOL_NAME, this, name),
 			description(SBOL_DESCRIPTION, this, description)
 		{
-			identity.validate();
+            std::cout << "Created Identified object at " << this << std::endl;
+            identity.validate();
 		}
 	};
 };
