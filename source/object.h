@@ -44,8 +44,7 @@ namespace sbol
         sbol_type type;
         URIProperty identity;
     
-        //virtual sbol_type getTypeURI();
-        virtual std::string testSWIG();
+        virtual sbol_type getTypeURI();
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
         std::string nest(std::string& rdfxml_buffer);
     };

@@ -31,7 +31,8 @@ namespace sbol
 		ValidationRules validationRules;
 
 	public:
-		Property(sbol_type type_uri, void *property_owner, std::string initial_value);
+        Property(sbol_type type_uri, void *property_owner, std::string initial_value);
+
 		Property(sbol_type type_uri, void *property_owner, int initial_value);
 
 		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
@@ -51,32 +52,33 @@ namespace sbol
 		virtual void write();
 		void validate(void * arg = NULL);
 	};
+    
 
-//	/* Constructor for string Property */
-//	template <class LiteralType>
-//	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
-//	{
-//		// Register Property in owner Object
-//		if (this->sbol_owner != NULL)
-//		{
-//			std::vector<std::string> property_store;
-//			property_store.push_back(initial_value);
-//			this->sbol_owner->properties.insert({ type_uri, property_store });
-//		}
-//	}
-//
-//	/* Constructor for int Property */
-//	template <class LiteralType>
-//	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules rules) : Property(type_uri, property_owner, rules)
-//	{
-//		// Register Property in owner Object
-//		if (this->sbol_owner != NULL)
-//		{
-//			std::vector<std::string> property_store;
-//			property_store.push_back("\"" + std::to_string(initial_value) + "\"");
-//			this->sbol_owner->properties.insert({ type_uri, property_store });
-//		}
-//	}
+	/* Constructor for string Property */
+	template <class LiteralType>
+	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value) : Property(type_uri, property_owner)
+	{
+		// Register Property in owner Object
+		if (this->sbol_owner != NULL)
+		{
+			std::vector<std::string> property_store;
+			property_store.push_back(initial_value);
+			this->sbol_owner->properties.insert({ type_uri, property_store });
+		}
+	}
+
+	/* Constructor for int Property */
+	template <class LiteralType>
+	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value) : Property(type_uri, property_owner)
+	{
+		// Register Property in owner Object
+		if (this->sbol_owner != NULL)
+		{
+			std::vector<std::string> property_store;
+			property_store.push_back("\"" + std::to_string(initial_value) + "\"");
+			this->sbol_owner->properties.insert({ type_uri, property_store });
+		}
+	}
 
 
 	//typedef std::map<sbol_type, PropertyBase> PropertyStore;
@@ -104,8 +106,13 @@ namespace sbol
     template <class LiteralType>
     std::string Property<LiteralType>::get()
     {
+        std::cout << "Getting" << std::endl;
         if (this->sbol_owner)
         {
+            std::cout << "Address of object = " << sbol_owner << std::endl;
+            std::cout << this->sbol_owner->getTypeURI() << std::endl;
+            std::cout << this->sbol_owner->properties.size() << std::endl;
+
             if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
             {
                 // not found

@@ -26,14 +26,9 @@ SBOLObject::~SBOLObject()
 {
 }
 
-//sbol_type SBOLObject::getTypeURI() 
-//{
-//	return type;
-//}
-
-string SBOLObject::testSWIG()
+sbol_type SBOLObject::getTypeURI() 
 {
-    return type;
+	return type;
 }
 
 
