@@ -20,7 +20,7 @@ namespace sbol
 			Model(SBOL_MODEL, uri_prefix, display_id, source, language, framework)
 			{
 			}
-		~Model();
+        ~Model() {};
 	protected:
 		// This protected constructor is a delegate constructor.  It initializes Models with the corresponding sbol_type_uri 
 		Model(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string source, std::string language, std::string framework) :

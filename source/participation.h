@@ -16,7 +16,7 @@ namespace sbol
 			Participation(SBOL_PARTICIPATION, uri_prefix, id)
 			{
 			}
-		~Participation();
+        ~Participation(){};
 	protected:
 		Participation(sbol_type type, std::string uri_prefix, std::string id) :
 			Identified(type, uri_prefix, id, "", "", ""),

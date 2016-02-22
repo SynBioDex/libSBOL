@@ -17,7 +17,7 @@ namespace sbol
 			MapsTo(SBOL_MAPS_TO, uri_prefix, id)
 		{
 		}
-		~MapsTo();
+        ~MapsTo() {};
 	protected:
 		MapsTo(sbol_type type, std::string uri_prefix, std::string id) :
 			Identified(type, uri_prefix, id, "", "", ""),

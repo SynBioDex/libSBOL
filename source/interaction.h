@@ -17,7 +17,7 @@ namespace sbol
 			Interaction(SBOL_INTERACTION, uri_prefix, id)
 			{
 			}
-		~Interaction();
+        ~Interaction() {};
 	protected:
 		Interaction(sbol_type type, std::string uri_prefix, std::string id) :
 			Identified(type, uri_prefix, id, "", "", ""),
