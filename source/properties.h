@@ -46,7 +46,7 @@ namespace sbol
 	{
 
 	public:
-		OwnedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL);
+        OwnedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string dummy = "");  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
 		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
 
 		void add(SBOLClass& sbol_obj);
@@ -74,7 +74,7 @@ namespace sbol
 	};
 
 	template <class SBOLClass >
-	OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner) : 
+    OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :
 		Property<SBOLClass>(type_uri, property_owner)
 		{
 			// Register Property in owner Object
@@ -93,6 +93,7 @@ namespace sbol
 	template < class SBOLClass>
 	void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
 	{
+        std::cout << this->sbol_owner->owned_objects.size() << std::endl;  //Debugging code
 		this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
 	};
 
@@ -100,10 +101,7 @@ namespace sbol
 	SBOLClass& OwnedObject<SBOLClass>::get(std::string object_id)
 	{
         std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-		//cout << object_store->size() << endl;
 		SBOLObject& obj = *object_store->front();
-		//cout << r.identity.get() << endl;
-		//cout << r.orientation.get() << endl;
 		return (SBOLClass &)*object_store->front();
 	};
 
@@ -120,14 +118,8 @@ namespace sbol
 	{
 
 	public:
-		List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
-			PropertyType(type_uri, property_owner, initial_value)
-		{
-		}
-		List(sbol_type type_uri, SBOLObject *property_owner) :
-			PropertyType(type_uri, property_owner)
-		{
-		}
+        List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value = "");
+
 		//std::string get(int index);
 		//SBOLClass& get(std::string object_id);
 		void remove(int index);
@@ -135,11 +127,16 @@ namespace sbol
 		//template <class SBOLClass>
 		//SBOLClass& get(std::string object_id);
 
-		std::vector<PropertyType> copy();
+		//std::vector<PropertyType> copy();
 		//void remove(std::string uri);
 	};
 
-
+    template <class PropertyType>
+    List<PropertyType>::List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
+        PropertyType(type_uri, property_owner, initial_value)
+    {
+    };
+    
 	//template <class PropertyType>
 	//template <class SBOLClass>
 	//SBOLClass& List<PropertyType>::get(std::string object_id)
@@ -176,16 +173,16 @@ namespace sbol
 	//};
 
 
-	template < class PropertyType >
-	std::vector<PropertyType> List<PropertyType>::copy()
-	{
-		std::vector<PropertyType> vector_copy;
-		for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
-		{
-			vector_copy.push_back(**o);
-		}
-		return vector_copy;
-	};
+//	template < class PropertyType >
+//	std::vector<PropertyType> List<PropertyType>::copy()
+//	{
+//		std::vector<PropertyType> vector_copy;
+//		for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
+//		{
+//			vector_copy.push_back(**o);
+//		}
+//		return vector_copy;
+//	};
 
 
 
