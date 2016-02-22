@@ -21,7 +21,7 @@ namespace sbol
 			Identified(type, uri_prefix, id, "", "", ""),
 			definition(SBOL_DEFINITION, this, UNDEFINED),
 			access(SBOL_ACCESS, this, access),
-			mapsTos(SBOL_MAPS_TO, this)
+			mapsTos(SBOL_MAPS_TOS, this)
 			{
 			};
 	};
@@ -33,7 +33,7 @@ namespace sbol
 			Component(SBOL_COMPONENT, uri_prefix, id, access)
 			{
 			};
-		~Component();
+        ~Component() {};
 
 	protected:
 		Component(sbol_type type, std::string uri_prefix, std::string id, std::string access) :
@@ -50,7 +50,7 @@ namespace sbol
 			FunctionalComponent(SBOL_FUNCTIONAL_COMPONENT, uri_prefix, id)
 			{
 			};
-		~FunctionalComponent();
+        ~FunctionalComponent() {};
 
 	protected:
 		FunctionalComponent(sbol_type type, std::string uri_prefix, std::string id) : 
