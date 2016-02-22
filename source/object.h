@@ -39,7 +39,7 @@ namespace sbol
             type(type),
             identity(URIProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id))
         {
-        }
+        };
         ~SBOLObject();
         sbol_type type;
         URIProperty identity;

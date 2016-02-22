@@ -2,6 +2,7 @@
 %{
     #define SWIG_FILE_WITH_INIT
 
+    //  Headers are listed in strict order of dependency
     #include "constants.h"
     #include "validation.h"
     #include "sbolerror.h"
@@ -11,20 +12,20 @@
     #include "identified.h"
     #include "toplevel.h"
     #include "generictoplevel.h"
+    #include "location.h"
+    #include "sequenceconstraint.h"
     #include "sequenceannotation.h"
+    #include "mapsto.h"
     #include "component.h"
     #include "componentdefinition.h"
     #include "sequence.h"
-    #include "document.h"
     #include "sequenceannotationextension.h"
-    #include "interaction.h"
     #include "participation.h"
-    #include "location.h"
-    #include "sequenceconstraint.h"
-    #include "moduledefinition.h"
+    #include "interaction.h"
     #include "module.h"
-    #include "mapsto.h"
     #include "model.h"
+    #include "moduledefinition.h"
+    #include "document.h"
     #include "sbol.h"
 
     #include <vector>
@@ -44,6 +45,7 @@
 
 // tell SWIG how to free strings
 %typemap(newfree) char* "free($1);";
+
 
 
 // Instantiate STL templates
@@ -85,17 +87,14 @@ namespace std {
 
 // Instantiate libSBOL templates
 %include "constants.h"
-
 typedef std::string sbol::sbol_type;
 
+%include "validation.h"
 
 //%ignore sbol::Property(std::string , void *, std::string , std::vector< std::string> );
 //%ignore sbol::Property(std::string , void *, int initial_value, std::vector< (sbol::*)(void *)(void *) > );
 //%ignore sbol::Property(std::string , void *, std::vector< (sbol::*)(void *)(void *) > );
-
-
 %include "property.h"
-
 
 namespace sbol
 {
@@ -103,40 +102,108 @@ namespace sbol
     %template(_StringProperty) Property<std::string>;  // These template instantiations are private, hence the underscore...
     %template(_IntProperty) Property<int>;             // They are required to have names in order to derive subclasses
 }
+
 %include "properties.h"
 
-%ignore sbol::SBOLObject::getTypeURI;
 %include "object.h"
-%ignore sbol::SBOLObject::getTypeURI;
+
+//%pythoncode
+//%{
+//    import sys
+//    from cStringIO import StringIO
+//    def capture_stdout(fn, *args, **kwargs):
+//      backup = sys.stdout
+//      sys.stdout = StringIO()
+//      fn(*args, **kwargs)
+//      output = sys.stdout.getvalue()
+//      sys.stdout.close()
+//      sys.stdout = backup
+//      return output
+//%}
 
 
+%include "identified.h"
 
-#%include "identified.h"
-#%include "toplevel.h"
-#%include "generictoplevel.h"
+%include "toplevel.h"
 
-//%include "validation.h"
-//namespace std
-//{
-////    typedef void(*ValidationRule)(void *, void *);  // This defines the signature for validation rules.  The first argument is an SBOLObject, and the second argument is arbitrary data passed through to the handler function for validation
-////    
-//    
-////    typedef std::vector<ValidationRule> ValidationRules;
-//    //%template(_ValidationRules) vector< void(*)>;  // This compiles, but doesn't appear to wrap anything useful
+%include "generictoplevel.h"
+
+// Declare instances of the member templates first, then declare instances of the class templates.
+
+%include "location.h"
+%template(locationProperty) sbol::Property<sbol::Location>;
+//%template(addLocation) sbol::OwnedObject::add<Location>;
+%template(ownedLocation) sbol::OwnedObject<sbol::Location>;
+%template(listOfOwnedLocations) sbol::List<sbol::OwnedObject<sbol::Location>>;
+%include "sequenceannotation.h"
+
+
+%include "mapsto.h"
+%template(mapsToProperty) sbol::Property<sbol::MapsTo>;
+%template(ownedMapsTo) sbol::OwnedObject<sbol::MapsTo>;
+%template(listOfOwnedMapsTos) sbol::List<sbol::OwnedObject<sbol::MapsTo>>;
+%include "component.h"
+
+%include "sequenceconstraint.h"
+%template(sequenceConstraintProperty) sbol::Property<sbol::SequenceConstraint>;
+%template(ownedSequenceConstraint) sbol::OwnedObject<sbol::SequenceConstraint>;
+%template(listOfOwnedSequenceConstraints) sbol::List<sbol::OwnedObject<sbol::SequenceConstraint>>;
+
+%template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
+%template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
+%template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
+%include "componentdefinition.h"
+
+%include "sequence.h"
+
+%template(listOfURIs) sbol::List<sbol::URIProperty>;
+%include "participation.h"
+
+%template(participationProperty) sbol::Property<sbol::Participation>;
+%template(ownedParticipation) sbol::OwnedObject<sbol::Participation>;
+%template(listOfOwnedParticipations) sbol::List<sbol::OwnedObject<sbol::Participation>>;
+%include "interaction.h"
+
+%include "module.h"
+%include "model.h"
+
+%template(moduleProperty) sbol::Property<sbol::Module>;
+%template(ownedModule) sbol::OwnedObject<sbol::Module>;
+%template(listOfOwnedModules) sbol::List<sbol::OwnedObject<sbol::Module>>;
+%template(interactionProperty) sbol::Property<sbol::Interaction>;
+%template(ownedInteraction) sbol::OwnedObject<sbol::Interaction>;
+%template(listOfOwnedInteractions) sbol::List<sbol::OwnedObject<sbol::Interaction>>;
+%template(functionalComponentProperty) sbol::Property<sbol::FunctionalComponent>;
+%template(ownedFunctionalComponent) sbol::OwnedObject<sbol::FunctionalComponent>;
+%template(listOfOwnedFunctionalComponents) sbol::List<sbol::OwnedObject<sbol::FunctionalComponent>>;
+
+%include "moduledefinition.h"
+
+
+//template < class SBOLClass > void add(SBOLClass& sbol_obj);
+//template < class SBOLClass > SBOLClass& get(std::string uri);
 //
-//}
-//
+//#include "location.h"
+//#include "sequenceconstraint.h"
+//#include "sequenceannotation.h"
+//#include "mapsto.h"
+//#include "component.h"
+//#include "componentdefinition.h"
+//#include "sequence.h"
+//#include "sequenceannotationextension.h"
+//#include "participation.h"
+//#include "interaction.h"
+//#include "module.h"
 
-
-//%include "object.h"
-//%template(get) sbol::TextProperty::get<std::string>;
-//%template(set) sbol::TextProperty::set<std::string>;
-
-//%template(get) sbol::URIProperty::get<std::string>;
-//%template(set) sbol::URIProperty::set<std::string>;
-
-
-
+%include "document.h"
+%template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
+%template(addSequence) sbol::Document::add<Sequence>;
+%template(addModel) sbol::Document::add<Model>;
+%template(addModuleDefinition) sbol::Document::add<ModuleDefinition>;
+%template(getComponentDefinition) sbol::Document::get<ComponentDefinition>;
+%template(getSequence) sbol::Document::get<Sequence>;
+%template(getModel) sbol::Document::get<Model>;
+%template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
 
 
 // tell SWIG to free the strings returned
@@ -151,23 +218,3 @@ namespace sbol
 //  so this just makes doubly sure to avoid segfaults
 //  from freeing twice)
 //%delobject deleteDNASequence;
-
-// functions returing pointers to new objects
-//Document* createDocument();
-
-
-// functions that delete objects
-//void deleteDocument(Document* doc);
-
-// funtions returning strings to be newfree()d
-//#char* getDNASequenceNucleotides(const DNASequence* seq);
-
-// functions returning pointers to existing objects
-//#DNASequence* getDNASequence(Document* doc, const char* uri);
-
-// functions returning ints
-//int getNumSBOLObjects(Document* doc);
-
-// functions returning void
-//void setDNASequenceNucleotides(DNASequence* seq, const char* nucleotides);
-
