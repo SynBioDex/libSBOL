@@ -61,7 +61,7 @@ IF( SWIG_FOUND )
     IF(APPLE)
       # Do not link in the Python libraries
       SWIG_LINK_LIBRARIES( libsbol
-          ${sbol}
+          sbol
           ${raptor2}
           ${xml2}
           ${zlib}

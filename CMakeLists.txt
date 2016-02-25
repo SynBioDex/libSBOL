@@ -17,7 +17,11 @@ SET( SBOL_BUILD_DIR         ${SBOL_ROOT_DIR}/build      )
 SET( SBOL_RELEASE_DIR       ${SBOL_ROOT_DIR}/release    )
 SET( EXECUTABLE_OUTPUT_PATH ${SBOL_RELEASE_DIR}         )
 SET( LIBRARY_OUTPUT_PATH    ${SBOL_RELEASE_DIR}/library )
-SET( HEADER_OUTPUT_PATH		${LIBRARY_OUTPUT_PATH}/include )
+IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    SET( HEADER_OUTPUT_PATH		${LIBRARY_OUTPUT_PATH}/include )
+ELSE()
+    SET( HEADER_OUTPUT_PATH		${LIBRARY_OUTPUT_PATH}/sbol )
+ENDIF()
 
 # set build options
 OPTION( SBOL_BUILD_STATIC     "Build statically linked library"           FALSE )
