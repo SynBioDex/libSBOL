@@ -43,7 +43,6 @@ namespace sbol
 			name(SBOL_NAME, this, name),
 			description(SBOL_DESCRIPTION, this, description)
 		{
-            std::cout << "Created Identified object at " << this << std::endl;
             identity.validate();
 		}
 	};
