@@ -51,12 +51,38 @@ namespace sbol
 
 		void add(SBOLClass& sbol_obj);
 		SBOLClass& get(std::string object_id);
+        std::vector<SBOLClass*> copy();
 		void create(std::string prefix = SBOL_URI "/OwnedObject",
 			std::string display_id = "example",
 			std::string name = "",
 			std::string description = "",
 			std::string version = "1.0.0");
-	};
+
+        class iterator : public std::vector<SBOLObject*>::iterator {
+        public:
+            
+            iterator(typename std::vector<SBOLObject*>::iterator i_object) : std::vector<SBOLObject*>::iterator(i_object) {
+            }
+
+            SBOLClass& operator*(){
+
+                return (SBOLClass&) *std::vector<SBOLObject*>::iterator::operator *();
+            }
+        };
+        
+
+        iterator begin() {
+            std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+            return iterator(object_store->begin());
+        };
+        
+        iterator end() {
+            std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+            return iterator(object_store->end());
+        };
+
+        
+    };
 
 	template <class SBOLClass>
 	void OwnedObject<SBOLClass>::create(std::string prefix, std::string display_id, std::string name, std::string description, std::string version)
@@ -93,7 +119,6 @@ namespace sbol
 	template < class SBOLClass>
 	void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
 	{
-        std::cout << this->sbol_owner->owned_objects.size() << std::endl;  //Debugging code
 		this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
 	};
 
@@ -119,7 +144,6 @@ namespace sbol
 
 	public:
         List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value = "");
-
 		//std::string get(int index);
 		//SBOLClass& get(std::string object_id);
 		void remove(int index);

@@ -47,11 +47,12 @@ namespace sbol
 		virtual std::string get();
 		void add(std::string new_value);
 
+        
 		virtual void set(std::string new_value);
 		virtual void set(int new_value);
 		virtual void write();
 		void validate(void * arg = NULL);
-	};
+    };
     
 
 	/* Constructor for string Property */
@@ -106,13 +107,8 @@ namespace sbol
     template <class LiteralType>
     std::string Property<LiteralType>::get()
     {
-        std::cout << "Getting" << std::endl;
         if (this->sbol_owner)
         {
-            std::cout << "Address of object = " << sbol_owner << std::endl;
-            std::cout << this->sbol_owner->getTypeURI() << std::endl;
-            std::cout << this->sbol_owner->properties.size() << std::endl;
-
             if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
             {
                 // not found
