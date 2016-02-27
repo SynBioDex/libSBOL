@@ -97,6 +97,17 @@ namespace sbol {
 	std::string get_prefix(std::string qname);
 	std::vector<std::string> parse_element(std::istringstream& xml_buffer);
 
+    	template < class SBOLClass >
+    	std::vector<SBOLClass*> OwnedObject<SBOLClass>::copy()
+    	{
+    		std::vector<SBOLClass*> vector_copy;
+    		for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
+    		{
+    			vector_copy.push_back((SBOLClass*)*o);
+    		}
+    		return vector_copy;
+    	};
+    
 }
 
 #endif
