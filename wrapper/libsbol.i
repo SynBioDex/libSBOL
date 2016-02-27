@@ -19,7 +19,6 @@
     #include "component.h"
     #include "componentdefinition.h"
     #include "sequence.h"
-    #include "sequenceannotationextension.h"
     #include "participation.h"
     #include "interaction.h"
     #include "module.h"
@@ -133,22 +132,26 @@ namespace sbol
 %include "location.h"
 %template(locationProperty) sbol::Property<sbol::Location>;
 //%template(addLocation) sbol::OwnedObject::add<Location>;
+%template(_VectorOfLocations) std::vector<sbol::Location>;
 %template(ownedLocation) sbol::OwnedObject<sbol::Location>;
 %template(listOfOwnedLocations) sbol::List<sbol::OwnedObject<sbol::Location>>;
 %include "sequenceannotation.h"
 
 
 %include "mapsto.h"
+%template(_VectorOfMapsTos) std::vector<sbol::MapsTo>;
 %template(mapsToProperty) sbol::Property<sbol::MapsTo>;
 %template(ownedMapsTo) sbol::OwnedObject<sbol::MapsTo>;
 %template(listOfOwnedMapsTos) sbol::List<sbol::OwnedObject<sbol::MapsTo>>;
 %include "component.h"
 
 %include "sequenceconstraint.h"
+%template(_VectorOfSequenceConstraints) std::vector<sbol::SequenceConstraint>;
 %template(sequenceConstraintProperty) sbol::Property<sbol::SequenceConstraint>;
 %template(ownedSequenceConstraint) sbol::OwnedObject<sbol::SequenceConstraint>;
 %template(listOfOwnedSequenceConstraints) sbol::List<sbol::OwnedObject<sbol::SequenceConstraint>>;
 
+%template(_VectorOfSequenceAnnotations) std::vector<sbol::SequenceAnnotation>;
 %template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
 %template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
 %template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
@@ -179,21 +182,6 @@ namespace sbol
 
 %include "moduledefinition.h"
 
-
-//template < class SBOLClass > void add(SBOLClass& sbol_obj);
-//template < class SBOLClass > SBOLClass& get(std::string uri);
-//
-//#include "location.h"
-//#include "sequenceconstraint.h"
-//#include "sequenceannotation.h"
-//#include "mapsto.h"
-//#include "component.h"
-//#include "componentdefinition.h"
-//#include "sequence.h"
-//#include "sequenceannotationextension.h"
-//#include "participation.h"
-//#include "interaction.h"
-//#include "module.h"
 
 %include "document.h"
 %template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
