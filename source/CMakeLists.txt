@@ -22,7 +22,6 @@ FILE(GLOB SBOL_HEADER_FILES
 	componentdefinition.h
 	sequence.h
 	document.h
-	sequenceannotationextension.h
 	interaction.h
 	participation.h
 	location.h
