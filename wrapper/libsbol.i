@@ -182,6 +182,94 @@ namespace sbol
 
 %include "moduledefinition.h"
 
+/* Convert C++ vector of Locations --> Python list */
+%typemap(out) std::vector<sbol::Location*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::Location*), 0 |  0 );
+        PyList_Append(list, elem);
+        
+    }
+    $result  = list;
+}
+
+/* Convert C++ vector of mapsTos --> Python list */
+%typemap(out) std::vector<sbol::mapsTo*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::mapsTo*), 0 |  0 );
+        PyList_Append(list, elem);
+        
+    }
+    $result  = list;
+}
+
+/* Convert C++ vector of SequenceConstraints --> Python list */
+%typemap(out) std::vector<sbol::SequenceConstraint*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::SequenceConstraint*), 0 |  0 );
+        PyList_Append(list, elem);
+        
+    }
+    $result  = list;
+}
+
+/* Convert C++ vector of SequenceAnnotations --> Python list */
+%typemap(out) std::vector<sbol::SequenceAnnotation*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::SequenceAnnotation*), 0 |  0 );
+        PyList_Append(list, elem);
+        
+    }
+    $result  = list;
+}
+
+/* Convert C++ vector of Participations --> Python list */
+%typemap(out) std::vector<sbol::Participation*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::Participation*), 0 |  0 );
+        PyList_Append(list, elem);
+        
+    }
+    $result  = list;
+    
+}/* Convert C++ vector of Modules --> Python list */
+%typemap(out) std::vector<sbol::Module*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::Module*), 0 |  0 );
+        PyList_Append(list, elem);
+        
+    }
+    $result  = list;
+}
+
+/* Convert C++ vector of Interactions --> Python list */
+%typemap(out) std::vector<sbol::Interaction*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::Interaction*), 0 |  0 );
+        PyList_Append(list, elem);
+    }
+    $result  = list;
+}
 
 %include "document.h"
 %template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;

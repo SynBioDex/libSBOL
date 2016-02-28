@@ -57,7 +57,8 @@ namespace sbol
 			std::string name = "",
 			std::string description = "",
 			std::string version = "1.0.0");
-
+        
+#ifndef SWIG
         class iterator : public std::vector<SBOLObject*>::iterator {
         public:
             
@@ -80,6 +81,7 @@ namespace sbol
             std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
             return iterator(object_store->end());
         };
+#endif
 
         
     };
