@@ -78,16 +78,18 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         ${zlib}
         ${iconv}
         Ws2_32.lib )
+	INSTALL(TARGETS sbol DESTINATION lib)  # Installs to /usr/local/lib
+	INSTALL(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)  
 ELSE ()
     TARGET_LINK_LIBRARIES( sbol
         ${raptor2}
         ${xml2}
         ${zlib}
         ${iconv} )
+	INSTALL(TARGETS sbol DESTINATION lib)  # Installs to C:\Program Files (x86)\SBOL\lib
+	INSTALL(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)  
 ENDIF ()
 
 
-INSTALL(TARGETS sbol DESTINATION lib)  # Installs to /usr/local/lib
-INSTALL(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)  # Mac include path
-MESSAGE("${CMAKE_INSTALL_PREFIX}")
+
 
