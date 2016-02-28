@@ -62,7 +62,6 @@ namespace sbol {
 
 	template <class SBOLClass > SBOLClass& Document::get(std::string uri)
 	{
-		cout << "Getting " << uri << endl;
 		return (SBOLClass &)*(this->SBOLObjects[uri]);
 	};
 

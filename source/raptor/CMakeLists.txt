@@ -25,7 +25,7 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 ELSE ()
     FIND_LIBRARY (raptor2 raptor2)
     FIND_LIBRARY (xml2 xml2)
-    FIND_LIBRARY (zlib zlib)
+    FIND_LIBRARY (zlib z)
     FIND_LIBRARY (iconv iconv)
 ENDIF ()
 
