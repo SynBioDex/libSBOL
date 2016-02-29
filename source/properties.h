@@ -57,7 +57,9 @@ namespace sbol
 			std::string name = "",
 			std::string description = "",
 			std::string version = "1.0.0");
-        
+		SBOLClass& operator[] (const int nIndex);
+		SBOLClass& operator[] (const std::string uri);
+
 #ifndef SWIG
         class iterator : public std::vector<SBOLObject*>::iterator {
         public:
@@ -132,6 +134,30 @@ namespace sbol
 		return (SBOLClass &)*object_store->front();
 	};
 
+	template <class SBOLClass>
+	SBOLClass& OwnedObject<SBOLClass>::operator[] (const int nIndex)
+	{
+		std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+		return (SBOLClass&)*object_store->at(nIndex);
+	};
+
+	template <class SBOLClass>
+	SBOLClass& OwnedObject<SBOLClass>::operator[] (const std::string uri)
+	{
+		std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+		for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+		{
+			SBOLObject* obj = *i_obj;
+			if (uri.compare(obj->identity.get()) == 0)
+			{
+				return (SBOLClass&)*obj;
+			}
+		}
+		SBOLError(NOT_FOUND_ERROR, "Object not found");
+	};
+
+
+
 	class ReferencedObject : public URIProperty
 	{
 		public:
@@ -163,6 +189,8 @@ namespace sbol
     {
     };
     
+
+
 	//template <class PropertyType>
 	//template <class SBOLClass>
 	//SBOLClass& List<PropertyType>::get(std::string object_id)

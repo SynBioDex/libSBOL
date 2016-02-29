@@ -6,7 +6,7 @@
 
 namespace sbol
 {
-	enum SBOLErrorCode { DUPLICATE_URI_ERROR };
+	enum SBOLErrorCode { DUPLICATE_URI_ERROR, NOT_FOUND_ERROR };
 
 	SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);
 };
