@@ -104,6 +104,22 @@ namespace sbol
 
 %include "properties.h"
 
+%extend sbol::OwnedObject 
+{
+	SBOLClass& __getitem__(const int nIndex)
+	{
+		return $self->operator[](nIndex);
+	}
+
+	SBOLClass& __getitem__(const std::string uri)
+	{
+		return $self->operator[](uri);
+	}
+};
+
+
+
+
 %include "object.h"
 
 //%pythoncode
@@ -119,68 +135,6 @@ namespace sbol
 //      sys.stdout = backup
 //      return output
 //%}
-
-
-%include "identified.h"
-
-%include "toplevel.h"
-
-%include "generictoplevel.h"
-
-// Declare instances of the member templates first, then declare instances of the class templates.
-
-%include "location.h"
-%template(locationProperty) sbol::Property<sbol::Location>;
-//%template(addLocation) sbol::OwnedObject::add<Location>;
-%template(_VectorOfLocations) std::vector<sbol::Location>;
-%template(ownedLocation) sbol::OwnedObject<sbol::Location>;
-%template(listOfOwnedLocations) sbol::List<sbol::OwnedObject<sbol::Location>>;
-%include "sequenceannotation.h"
-
-
-%include "mapsto.h"
-%template(_VectorOfMapsTos) std::vector<sbol::MapsTo>;
-%template(mapsToProperty) sbol::Property<sbol::MapsTo>;
-%template(ownedMapsTo) sbol::OwnedObject<sbol::MapsTo>;
-%template(listOfOwnedMapsTos) sbol::List<sbol::OwnedObject<sbol::MapsTo>>;
-%include "component.h"
-
-%include "sequenceconstraint.h"
-%template(_VectorOfSequenceConstraints) std::vector<sbol::SequenceConstraint>;
-%template(sequenceConstraintProperty) sbol::Property<sbol::SequenceConstraint>;
-%template(ownedSequenceConstraint) sbol::OwnedObject<sbol::SequenceConstraint>;
-%template(listOfOwnedSequenceConstraints) sbol::List<sbol::OwnedObject<sbol::SequenceConstraint>>;
-
-%template(_VectorOfSequenceAnnotations) std::vector<sbol::SequenceAnnotation>;
-%template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
-%template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
-%template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
-%include "componentdefinition.h"
-
-%include "sequence.h"
-
-%template(listOfURIs) sbol::List<sbol::URIProperty>;
-%include "participation.h"
-
-%template(participationProperty) sbol::Property<sbol::Participation>;
-%template(ownedParticipation) sbol::OwnedObject<sbol::Participation>;
-%template(listOfOwnedParticipations) sbol::List<sbol::OwnedObject<sbol::Participation>>;
-%include "interaction.h"
-
-%include "module.h"
-%include "model.h"
-
-%template(moduleProperty) sbol::Property<sbol::Module>;
-%template(ownedModule) sbol::OwnedObject<sbol::Module>;
-%template(listOfOwnedModules) sbol::List<sbol::OwnedObject<sbol::Module>>;
-%template(interactionProperty) sbol::Property<sbol::Interaction>;
-%template(ownedInteraction) sbol::OwnedObject<sbol::Interaction>;
-%template(listOfOwnedInteractions) sbol::List<sbol::OwnedObject<sbol::Interaction>>;
-%template(functionalComponentProperty) sbol::Property<sbol::FunctionalComponent>;
-%template(ownedFunctionalComponent) sbol::OwnedObject<sbol::FunctionalComponent>;
-%template(listOfOwnedFunctionalComponents) sbol::List<sbol::OwnedObject<sbol::FunctionalComponent>>;
-
-%include "moduledefinition.h"
 
 /* Convert C++ vector of Locations --> Python list */
 %typemap(out) std::vector<sbol::Location*> {
@@ -271,6 +225,67 @@ namespace sbol
     $result  = list;
 }
 
+
+%include "identified.h"
+
+%include "toplevel.h"
+
+%include "generictoplevel.h"
+
+// Declare instances of the member templates first, then declare instances of the class templates.
+
+%include "location.h"
+%template(locationProperty) sbol::Property<sbol::Location>;
+//%template(addLocation) sbol::OwnedObject::add<Location>;
+%template(_VectorOfLocations) std::vector<sbol::Location>;
+%template(ownedLocation) sbol::OwnedObject<sbol::Location>;
+%template(listOfOwnedLocations) sbol::List<sbol::OwnedObject<sbol::Location>>;
+%include "sequenceannotation.h"
+
+%include "mapsto.h"
+%template(_VectorOfMapsTos) std::vector<sbol::MapsTo>;
+%template(mapsToProperty) sbol::Property<sbol::MapsTo>;
+%template(ownedMapsTo) sbol::OwnedObject<sbol::MapsTo>;
+%template(listOfOwnedMapsTos) sbol::List<sbol::OwnedObject<sbol::MapsTo>>;
+%include "component.h"
+
+%include "sequenceconstraint.h"
+%template(_VectorOfSequenceConstraints) std::vector<sbol::SequenceConstraint>;
+%template(sequenceConstraintProperty) sbol::Property<sbol::SequenceConstraint>;
+%template(ownedSequenceConstraint) sbol::OwnedObject<sbol::SequenceConstraint>;
+%template(listOfOwnedSequenceConstraints) sbol::List<sbol::OwnedObject<sbol::SequenceConstraint>>;
+
+%template(_VectorOfSequenceAnnotations) std::vector<sbol::SequenceAnnotation>;
+%template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
+%template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
+%template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
+%include "componentdefinition.h"
+
+%include "sequence.h"
+
+%template(listOfURIs) sbol::List<sbol::URIProperty>;
+%include "participation.h"
+
+%template(participationProperty) sbol::Property<sbol::Participation>;
+%template(ownedParticipation) sbol::OwnedObject<sbol::Participation>;
+%template(listOfOwnedParticipations) sbol::List<sbol::OwnedObject<sbol::Participation>>;
+%include "interaction.h"
+
+%include "module.h"
+%include "model.h"
+
+%template(moduleProperty) sbol::Property<sbol::Module>;
+%template(ownedModule) sbol::OwnedObject<sbol::Module>;
+%template(listOfOwnedModules) sbol::List<sbol::OwnedObject<sbol::Module>>;
+%template(interactionProperty) sbol::Property<sbol::Interaction>;
+%template(ownedInteraction) sbol::OwnedObject<sbol::Interaction>;
+%template(listOfOwnedInteractions) sbol::List<sbol::OwnedObject<sbol::Interaction>>;
+%template(functionalComponentProperty) sbol::Property<sbol::FunctionalComponent>;
+%template(ownedFunctionalComponent) sbol::OwnedObject<sbol::FunctionalComponent>;
+%template(listOfOwnedFunctionalComponents) sbol::List<sbol::OwnedObject<sbol::FunctionalComponent>>;
+
+%include "moduledefinition.h"
+
 %include "document.h"
 %template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
 %template(addSequence) sbol::Document::add<Sequence>;
@@ -280,6 +295,16 @@ namespace sbol
 %template(getSequence) sbol::Document::get<Sequence>;
 %template(getModel) sbol::Document::get<Model>;
 %template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
+
+// The following stub code can be used to make vectors act like Python lists 
+//%extend std::vector {             // Attach these functions to vector
+//    void __getitem__() {
+//		std::cout << "Test" << std::endl;
+//	}
+//};
+
+
+
 
 
 // tell SWIG to free the strings returned

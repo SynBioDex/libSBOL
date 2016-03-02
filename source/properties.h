@@ -59,6 +59,7 @@ namespace sbol
 			std::string version = "1.0.0");
 		SBOLClass& operator[] (const int nIndex);
 		SBOLClass& operator[] (const std::string uri);
+		//SBOLClass& __getitem__(const std::string uri);
 
 #ifndef SWIG
         class iterator : public std::vector<SBOLObject*>::iterator {
@@ -156,7 +157,11 @@ namespace sbol
 		SBOLError(NOT_FOUND_ERROR, "Object not found");
 	};
 
-
+	//template <class SBOLClass>
+	//SBOLClass& OwnedObject<SBOLClass>::__getitem__(const std::string uri)
+	//{
+	//	return operator[](uri);
+	//};
 
 	class ReferencedObject : public URIProperty
 	{
