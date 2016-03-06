@@ -104,6 +104,20 @@ namespace sbol
 
 %include "properties.h"
 
+
+%exception next
+{
+	try
+	{
+		$action
+	}
+	catch(SBOLErrorCode exception)
+	{
+		PyErr_SetNone(PyExc_StopIteration);
+		return NULL;
+	}
+}
+
 %extend sbol::OwnedObject 
 {
 	SBOLClass& __getitem__(const int nIndex)
@@ -115,8 +129,29 @@ namespace sbol
 	{
 		return $self->operator[](uri);
 	}
-};
 
+	OwnedObject<SBOLClass>* __iter__()
+	{
+		$self->python_iter = OwnedObject<SBOLClass>::iterator($self->begin());
+		return $self;
+	}
+
+	SBOLClass* next()
+	{
+		if ($self->python_iter != $self->end())
+		{
+			SBOLObject* obj = *$self->python_iter;
+			$self->python_iter++;
+			if ($self->python_iter == $self->end())
+			{
+				PyErr_SetNone(PyExc_StopIteration);
+			}
+			return (SBOLClass*)obj;
+		}
+		throw (END_OF_LIST);
+		return NULL;
+	}
+};
 
 
 
@@ -131,10 +166,23 @@ namespace sbol
 //      sys.stdout = StringIO()
 //      fn(*args, **kwargs)
 //      output = sys.stdout.getvalue()
-//      sys.stdout.close()
+ //      sys.stdout.close()
 //      sys.stdout = backup
 //      return output
 //%}
+
+
+/* Bind C++ iterator --> Python list */
+//%typemap(out) sbol::OwnedObject<sbol::SequenceAnnotation>* 
+//{
+//	sbol::OwnedObject<sbol::SequenceAnnotation>* container = $1;
+//	sbol::SequenceAnnotation* owned_obj = (SequenceAnnotation*)*container->python_iter;
+//	PyObject* iter = SWIG_NewPointerObj(SWIG_as_voidptr(owned_obj), $descriptor(sbol::SequenceAnnotation*), 0 |  0 );
+//	iter = PyObject_GetIter(iter);
+//    $result  = iter;
+//}
+
+
 
 /* Convert C++ vector of Locations --> Python list */
 %typemap(out) std::vector<sbol::Location*> {

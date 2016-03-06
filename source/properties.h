@@ -60,34 +60,37 @@ namespace sbol
 		SBOLClass& operator[] (const int nIndex);
 		SBOLClass& operator[] (const std::string uri);
 		//SBOLClass& __getitem__(const std::string uri);
-
-#ifndef SWIG
-        class iterator : public std::vector<SBOLObject*>::iterator {
+#ifdef SWIG
+	protected:
+#endif
+        class iterator : public std::vector<SBOLObject*>::iterator 
+		{
         public:
             
-            iterator(typename std::vector<SBOLObject*>::iterator i_object) : std::vector<SBOLObject*>::iterator(i_object) {
+            iterator(typename std::vector<SBOLObject*>::iterator i_object = std::vector<SBOLObject*>::iterator()) : std::vector<SBOLObject*>::iterator(i_object) 
+			{
             }
 
-            SBOLClass& operator*(){
-
+            SBOLClass& operator*()
+			{
                 return (SBOLClass&) *std::vector<SBOLObject*>::iterator::operator *();
             }
         };
         
-
-        iterator begin() {
+        iterator begin() 
+		{
             std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
             return iterator(object_store->begin());
         };
         
-        iterator end() {
+        iterator end() 
+		{
             std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
             return iterator(object_store->end());
         };
-#endif
 
-        
-    };
+		std::vector<SBOLObject*>::iterator python_iter;
+	};
 
 	template <class SBOLClass>
 	void OwnedObject<SBOLClass>::create(std::string prefix, std::string display_id, std::string name, std::string description, std::string version)
