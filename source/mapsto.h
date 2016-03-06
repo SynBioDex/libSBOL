@@ -7,10 +7,10 @@ namespace sbol
 {
 	class MapsTo : public Identified
 	{
-
+	class ComponentInstance;  // Forward declaration necessary for ReferencedObject templates
 	public:
-		ReferencedObject local;
-		ReferencedObject remote;
+		ReferencedObject<ComponentInstance> local;
+		ReferencedObject<ComponentInstance> remote;
 		URIProperty refinement;
 
 		MapsTo(std::string uri_prefix = SBOL_URI "/MapsTo", std::string id = "example") :

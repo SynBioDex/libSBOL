@@ -7,9 +7,12 @@ namespace sbol
 {
 	class SequenceConstraint : public Identified
 	{
+		// Forward declaration of Component necessary for SequenceConstraint.subject and .object properties
+		class Component;
+	
 	public:
-		ReferencedObject subject;
-		ReferencedObject object;
+		ReferencedObject<Component> subject;
+		ReferencedObject<Component> object;
 		URIProperty restriction;
 
 		SequenceConstraint(std::string uri_prefix = SBOL_URI "/SequenceConstraint", std::string id = "example") :

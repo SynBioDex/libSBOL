@@ -10,9 +10,11 @@ namespace sbol
 {
 	class ComponentInstance : public Identified
 	{
+	// Forward declaration necessary for ComponentInstance.definition
+	class ComponentDefinition;
 
 	public:
-		ReferencedObject definition;
+		ReferencedObject<ComponentDefinition> definition;
 		URIProperty access;
 		List<OwnedObject<MapsTo>> mapsTos;
 

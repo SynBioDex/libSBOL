@@ -47,13 +47,13 @@ namespace sbol
 		virtual std::string get();
 		void add(std::string new_value);
 
-        
-		virtual void set(std::string new_value);
+   		virtual void set(std::string new_value);
 		virtual void set(int new_value);
 		virtual void write();
 		void validate(void * arg = NULL);
     };
     
+
 
 	/* Constructor for string Property */
 	template <class LiteralType>

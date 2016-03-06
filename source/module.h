@@ -8,9 +8,10 @@ namespace sbol
 {
 	class Module : public Identified
 	{
-
+		// Forward declaration of ModuleDefinition necesaary for Module.definition template
+		class ModuleDefinition;
 	public:
-		ReferencedObject definition;
+		ReferencedObject<ModuleDefinition> definition;
 		//List<OwnedObject<MapsTo>> mapsTos;
 
 		Module(std::string uri_prefix = SBOL_URI "/Module", std::string id = "example") :

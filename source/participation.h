@@ -7,10 +7,11 @@ namespace sbol
 {
 	class Participation : public Identified
 	{
-
+		// Forward declaration of FunctionalComponent necessary for Participation.participant property
+		class FunctionalComponent;
 	public:
 		List<URIProperty> roles;
-		ReferencedObject participant;
+		ReferencedObject<FunctionalComponent> participant;
 
 		Participation(std::string uri_prefix = SBOL_URI "/Participation", std::string id = "example") :
 			Participation(SBOL_PARTICIPATION, uri_prefix, id)

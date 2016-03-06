@@ -11,10 +11,12 @@ namespace sbol
 {
 	class ComponentDefinition : public TopLevel
 	{
+		// Forward declaration of Sequence necessary for ComponentDefinition.sequence property
+		class Sequence;
 	public:
 		List<URIProperty> types;
 		List<URIProperty> roles;
-		ReferencedObject sequence;
+		ReferencedObject<Sequence> sequence;
 		List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
 		List<OwnedObject<Component>> components;
 		List<OwnedObject<SequenceConstraint>> sequenceConstraints;

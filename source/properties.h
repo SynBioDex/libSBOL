@@ -21,6 +21,8 @@ namespace sbol
 		}
 	};
 
+
+
 	class TextProperty : public Property<std::string>
 	{
 	public:
@@ -160,18 +162,55 @@ namespace sbol
 		SBOLError(NOT_FOUND_ERROR, "Object not found");
 	};
 
-	//template <class SBOLClass>
-	//SBOLClass& OwnedObject<SBOLClass>::__getitem__(const std::string uri)
+	
+	//class ReferencedObject : public URIProperty
 	//{
-	//	return operator[](uri);
+	//	public:
+	//		ReferencedObject(sbol_type type_uri, void *property_owner, std::string initial_value) : URIProperty(type_uri, property_owner, initial_value)
+	//		{
+	//		}
+
+	//		void reference(std::string uri) { add(uri); };
 	//};
 
-	class ReferencedObject : public URIProperty
+
+	template <class SBOLClass>
+	class ReferencedObject : public Property < SBOLClass >
 	{
-		public:
-			ReferencedObject(sbol_type type_uri, void *property_owner, std::string initial_value) : URIProperty(type_uri, property_owner, initial_value)
-			{
-			}
+
+	public:
+		ReferencedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string dummy = "");  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
+		ReferencedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
+
+		void add(SBOLClass& sbol_obj);
+		SBOLClass& lookUp();
+		void reference(std::string uri) { add(uri); };
+	};
+
+	template <class SBOLClass >
+	ReferencedObject< SBOLClass >::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :
+		Property<SBOLClass>(type_uri, property_owner)
+	{
+		// Register Property in owner Object
+		if (this->sbol_owner != NULL)
+		{
+			std::vector<std::string> property_store;
+			this->sbol_owner->properties.insert({ type_uri, property_store });
+		}
+	};
+
+	template < class SBOLClass>
+	void ReferencedObject<SBOLClass>::add(SBOLClass& sbol_obj)
+	{
+		this->sbol_owner->properties[this->type].push_back(sbol_obj.identity.get());
+	};
+
+	template <class SBOLClass>
+	SBOLClass& ReferencedObject<SBOLClass>::lookUp()
+	{
+		std::vector<SBOLObject*> *object_store = &this->sbol_owner->properties[this->type];
+		SBOLObject& obj = *object_store->front();
+		return (SBOLClass &)*object_store->front();
 	};
 
 	template <class PropertyType>
