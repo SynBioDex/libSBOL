@@ -5,10 +5,11 @@
 
 namespace sbol
 {
-	class Participation : public Identified
+    // Forward declaration of FunctionalComponent necessary for Participation.participant property
+    class FunctionalComponent;
+    
+    class Participation : public Identified
 	{
-		// Forward declaration of FunctionalComponent necessary for Participation.participant property
-		class FunctionalComponent;
 	public:
 		List<URIProperty> roles;
 		ReferencedObject<FunctionalComponent> participant;

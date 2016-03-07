@@ -21,8 +21,6 @@ namespace sbol
 		}
 	};
 
-
-
 	class TextProperty : public Property<std::string>
 	{
 	public:
@@ -52,7 +50,8 @@ namespace sbol
 		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
 
 		void add(SBOLClass& sbol_obj);
-		SBOLClass& get(std::string object_id);
+        void set(SBOLClass& sbol_obj);
+		SBOLClass& get(const std::string object_id);
         std::vector<SBOLClass*> copy();
 		void create(std::string prefix = SBOL_URI "/OwnedObject",
 			std::string display_id = "example",
@@ -126,18 +125,19 @@ namespace sbol
 	{
 	};
 
+    // Sets the first object in the container
+    template < class SBOLClass>
+    void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
+    {
+        // This could cause a memory leak if the overwritten object is not freed!
+        this->sbol_owner->owned_objects[this->type][0] = ((SBOLObject *)&sbol_obj);
+    };
+    
+    // Pushes an object into the container
 	template < class SBOLClass>
 	void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
 	{
 		this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
-	};
-
-	template <class SBOLClass>
-	SBOLClass& OwnedObject<SBOLClass>::get(std::string object_id)
-	{
-        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-		SBOLObject& obj = *object_store->front();
-		return (SBOLClass &)*object_store->front();
 	};
 
 	template <class SBOLClass>
@@ -147,20 +147,22 @@ namespace sbol
 		return (SBOLClass&)*object_store->at(nIndex);
 	};
 
-	template <class SBOLClass>
-	SBOLClass& OwnedObject<SBOLClass>::operator[] (const std::string uri)
-	{
-		std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-		for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
-		{
-			SBOLObject* obj = *i_obj;
-			if (uri.compare(obj->identity.get()) == 0)
-			{
-				return (SBOLClass&)*obj;
-			}
-		}
-		SBOLError(NOT_FOUND_ERROR, "Object not found");
-	};
+    
+    // Moved to object.h
+//	template <class SBOLClass>
+//	SBOLClass& OwnedObject<SBOLClass>::operator[] (const std::string uri)
+//	{
+//		std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+//		for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+//		{
+//			SBOLObject* obj = *i_obj;
+//			if (uri.compare(obj->identity.get()) == 0)
+//			{
+//				return (SBOLClass&)*obj;
+//			}
+//		}
+//		SBOLError(NOT_FOUND_ERROR, "Object not found");
+//	};
 
 	
 	//class ReferencedObject : public URIProperty
@@ -183,13 +185,21 @@ namespace sbol
 		ReferencedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
 
 		void add(SBOLClass& sbol_obj);
-		SBOLClass& lookUp();
-		void reference(std::string uri) { add(uri); };
-	};
+        void set(std::string uri);
+        void set(SBOLClass& sbol_obj);
+        SBOLClass& get(std::string object_id);
+		void addReference(const std::string uri);
+        void addReference(const std::string uri_prefix, const std::string display_id);
+        void addReference(const std::string uri_prefix, const std::string display_id, const std::string version);
+        void setReference(const std::string uri);
+        void setReference(const std::string uri_prefix, const std::string display_id);
+        void setReference(const std::string uri_prefix, const std::string display_id, const std::string version);
+
+    };
 
 	template <class SBOLClass >
 	ReferencedObject< SBOLClass >::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :
-		Property<SBOLClass>(type_uri, property_owner)
+		Property<SBOLClass>(type_uri, property_owner, "<>")
 	{
 		// Register Property in owner Object
 		if (this->sbol_owner != NULL)
@@ -199,20 +209,116 @@ namespace sbol
 		}
 	};
 
+//    template <class SBOLClass>
+//    void ReferencedObject<SBOLClass>::set(const std::string uri)
+//    {
+//        if (sbol_owner)
+//        {
+//            std::string current_value = this->sbol_owner->properties[type][0];
+//            if (current_value[0] == '<')  //  this property is a uri
+//            {
+//                this->sbol_owner->properties[this->type][0] = "<" + new_value + ">";
+//            }
+//            else if (current_value[0] == '"') // this property is a literal
+//            {
+//                this->sbol_owner->properties[this->type][0] = "\"" + new_value + "\"";
+//            }
+//            
+//        }
+//        validate((void *)&new_value);
+//    };
+
+    // Sets or overwrites the first reference URI with the argument object's identity
+    // Automatically adds the object to the document
+    // This may cause some inconsistency as non-TopLevel objects get added to the Document's registry
+    template < class SBOLClass>
+    void ReferencedObject<SBOLClass>::set(SBOLClass& sbol_obj)
+    {
+        this->sbol_owner->properties[this->type][0] = sbol_obj.identity.get();
+        if (this->sbol_owner->doc)
+        {
+            //sbol_obj.addToDocument(*this->sbol_owner->doc);
+        }
+    };
+
+    template < class SBOLClass>
+    void ReferencedObject<SBOLClass>::set(std::string uri)
+    {
+        if (this->sbol_owner)
+        {
+            //sbol_owner->properties[type].push_back( new_value );
+            std::string current_value = this->sbol_owner->properties[this->type][0];
+            if (current_value[0] == '<')  //  this property is a uri
+            {
+                this->sbol_owner->properties[this->type][0] = "<" + uri + ">";
+            }
+            else if (current_value[0] == '"') // this property is a literal
+            {
+                throw;
+            }
+            
+        }
+        //validate((void *)&uri);
+    };
+    
+    template < class SBOLClass>
+    void ReferencedObject<SBOLClass>::setReference(const std::string uri)
+    {
+        this->set(uri);
+    };
+
+    // For compliant URIs
+    template < class SBOLClass>
+    void ReferencedObject<SBOLClass>::setReference(const std::string uri_prefix, const std::string display_id)
+    {
+        this->set(uri_prefix + "/" + display_id + "/1.0.0");
+    };
+    
+    // For compliant URIs
+    template < class SBOLClass>
+    void ReferencedObject<SBOLClass>::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+    {
+        this->set(uri_prefix + "/" + display_id + "/" + version);
+    };
+    
 	template < class SBOLClass>
 	void ReferencedObject<SBOLClass>::add(SBOLClass& sbol_obj)
 	{
 		this->sbol_owner->properties[this->type].push_back(sbol_obj.identity.get());
+        if (this->sbol_owner->doc)
+        {
+            sbol_obj.addToDocument(*this->sbol_owner->doc);
+        }
 	};
 
-	template <class SBOLClass>
-	SBOLClass& ReferencedObject<SBOLClass>::lookUp()
+    // Look up object in Document registry
+    template <class SBOLClass>
+	SBOLClass& ReferencedObject<SBOLClass>::get(std::string object_id)
 	{
-		std::vector<SBOLObject*> *object_store = &this->sbol_owner->properties[this->type];
-		SBOLObject& obj = *object_store->front();
-		return (SBOLClass &)*object_store->front();
+		SBOLObject* obj = this->sbol_owner->doc->SBOLObjects[object_id];
+		return (SBOLClass &)*obj;
 	};
 
+    template < class SBOLClass >
+    void ReferencedObject<SBOLClass>::addReference(const std::string uri)
+    {
+        this->sbol_owner->properties[this->type].push_back(uri);
+    };
+
+    // For compliant URI's
+    template < class SBOLClass >
+    void ReferencedObject<SBOLClass>::addReference(const std::string uri_prefix, const std::string display_id)
+    {
+        this->addReference(uri_prefix + "/" + display_id + "/1.0.0");
+    };
+    
+    // For compliant URI's
+    template < class SBOLClass >
+    void ReferencedObject<SBOLClass>::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+    {
+        this->addReference(uri_prefix + "/" + display_id + "/" + version);
+    };
+    
 	template <class PropertyType>
 	class List : public PropertyType 
 	{

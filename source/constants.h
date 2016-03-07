@@ -1,6 +1,9 @@
 #ifndef CONSTANTS_INCLUDED
 #define CONSTANTS_INCLUDED
 
+// All SBOL objects will be created in the default namespace, unless otherwise specified
+#define DEFAULT_NS "http://examples.org/"
+
 // The URIs defined here determine the appearance of serialized RDF/XML nodes.  Change these URIs to change the appearance of an SBOL class or property name
 #define SBOL_URI "http://sbols.org/v2"
 #define RDF_URI "http://www.w3.org/1999/02/22-rdf-syntax-ns#"

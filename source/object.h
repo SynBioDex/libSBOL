@@ -48,6 +48,36 @@ namespace sbol
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
         std::string nest(std::string& rdfxml_buffer);
     };
+    
+    template <class SBOLClass>
+    SBOLClass& OwnedObject<SBOLClass>::get(const std::string object_id)
+    {
+        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+        {
+            SBOLObject* obj = *i_obj;
+            if (object_id.compare(obj->identity.get()) == 0)
+            {
+                return (SBOLClass&)*obj;
+            }
+        }
+        SBOLError(NOT_FOUND_ERROR, "Object not found");
+    };
+    
+    template <class SBOLClass>
+    SBOLClass& OwnedObject<SBOLClass>::operator[] (const std::string uri)
+    {
+        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+        {
+            SBOLObject* obj = *i_obj;
+            if (uri.compare(obj->identity.get()) == 0)
+            {
+                return (SBOLClass&)*obj;
+            }
+        }
+        SBOLError(NOT_FOUND_ERROR, "Object not found");
+    };
 }
 
 //// This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)

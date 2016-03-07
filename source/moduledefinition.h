@@ -10,10 +10,12 @@
 
 namespace sbol
 {
-	class ModuleDefinition : public TopLevel
+    // Forward declaration of Model necessary for template instantiation of ModuleDefinition.models;
+    class Model;
+    
+    class ModuleDefinition : public TopLevel
 	{
-		// Forward declaration of Model necessary for template instantiation of ModuleDefinition.models;
-		class Model;
+
 	public:
 		List<URIProperty> roles;
 		ReferencedObject<Model> models;

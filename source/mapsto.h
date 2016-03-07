@@ -5,9 +5,10 @@
 
 namespace sbol
 {
-	class MapsTo : public Identified
+    class ComponentInstance;  // Forward declaration necessary for ReferencedObject templates
+    
+    class MapsTo : public Identified
 	{
-	class ComponentInstance;  // Forward declaration necessary for ReferencedObject templates
 	public:
 		ReferencedObject<ComponentInstance> local;
 		ReferencedObject<ComponentInstance> remote;

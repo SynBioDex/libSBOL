@@ -5,10 +5,11 @@
 
 namespace sbol
 {
-	class SequenceConstraint : public Identified
+    // Forward declaration of Component necessary for SequenceConstraint.subject and .object properties
+    class Component;
+    
+    class SequenceConstraint : public Identified
 	{
-		// Forward declaration of Component necessary for SequenceConstraint.subject and .object properties
-		class Component;
 	
 	public:
 		ReferencedObject<Component> subject;

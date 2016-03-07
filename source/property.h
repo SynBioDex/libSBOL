@@ -133,14 +133,14 @@ namespace sbol
         if (sbol_owner)
         {
             //sbol_owner->properties[type].push_back( new_value );
-            std::string current_value = this->sbol_owner->properties[type][0];
+            std::string current_value = this->sbol_owner->properties[this->type][0];
             if (current_value[0] == '<')  //  this property is a uri
             {
-                this->sbol_owner->properties[type][0] = "<" + new_value + ">";
+                this->sbol_owner->properties[this->type][0] = "<" + new_value + ">";
             }
             else if (current_value[0] == '"') // this property is a literal
             {
-                this->sbol_owner->properties[type][0] = "\"" + new_value + "\"";
+                this->sbol_owner->properties[this->type][0] = "\"" + new_value + "\"";
             }
             
         }
@@ -185,14 +185,14 @@ namespace sbol
     {
         if (sbol_owner)
         {
-            std::string current_value = this->sbol_owner->properties[type][0];
+            std::string current_value = this->sbol_owner->properties[this->type][0];
             if (current_value[0] == '<')  //  this property is a uri
             {
-                this->sbol_owner->properties[type].push_back("<" + new_value + ">");
+                this->sbol_owner->properties[this->type].push_back("<" + new_value + ">");
             }
             else if (current_value[0] == '"') // this property is a literal
             {
-                this->sbol_owner->properties[type].push_back("\"" + new_value + "\"");
+                this->sbol_owner->properties[this->type].push_back("\"" + new_value + "\"");
             }
             validate((void *)&new_value);  //  Call validation rules associated with this Property
         }

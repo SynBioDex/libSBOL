@@ -633,8 +633,8 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 
 void TopLevel::addToDocument(Document& doc)
 {
-	//doc.SBOLObjects[this->identity.get()] = this;
-	doc.add(*this);
+    doc.SBOLObjects[this->identity.get()] = this;
+    this->doc = &doc;
 };
 
 TopLevel& Document::getTopLevel(string uri)
