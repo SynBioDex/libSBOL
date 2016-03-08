@@ -6,10 +6,11 @@
 
 namespace sbol
 {
-	class Module : public Identified
+    // Forward declaration of ModuleDefinition necesaary for Module.definition template
+    class ModuleDefinition;
+    
+    class Module : public Identified
 	{
-		// Forward declaration of ModuleDefinition necesaary for Module.definition template
-		class ModuleDefinition;
 	public:
 		ReferencedObject<ModuleDefinition> definition;
 		//List<OwnedObject<MapsTo>> mapsTos;

@@ -62,6 +62,8 @@ namespace sbol
             }
         }
         SBOLError(NOT_FOUND_ERROR, "Object not found");
+        SBOLClass& dummy = * new SBOLClass();  // Dummy object necessary to suppress warning
+        return dummy;
     };
     
     template <class SBOLClass>
@@ -77,7 +79,10 @@ namespace sbol
             }
         }
         SBOLError(NOT_FOUND_ERROR, "Object not found");
+        SBOLClass& dummy = * new SBOLClass();  // Dummy object necessary to suppress warning
+        return dummy;
     };
+
 }
 
 //// This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)

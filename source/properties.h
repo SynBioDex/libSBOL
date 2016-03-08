@@ -188,13 +188,38 @@ namespace sbol
         void set(std::string uri);
         void set(SBOLClass& sbol_obj);
         SBOLClass& get(std::string object_id);
+        std::string operator[] (const int nIndex);
 		void addReference(const std::string uri);
         void addReference(const std::string uri_prefix, const std::string display_id);
         void addReference(const std::string uri_prefix, const std::string display_id, const std::string version);
         void setReference(const std::string uri);
         void setReference(const std::string uri_prefix, const std::string display_id);
         void setReference(const std::string uri_prefix, const std::string display_id, const std::string version);
-
+#ifdef SWIG
+    protected:
+#endif
+        class iterator : public std::vector<std::string>::iterator
+        {
+        public:
+            
+            iterator(typename std::vector<std::string>::iterator i_str = std::vector<std::string>::iterator()) : std::vector<std::string>::iterator(i_str)
+            {
+            }
+        };
+        
+        iterator begin()
+        {
+            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
+            return iterator(object_store->begin());
+        };
+        
+        iterator end()
+        {
+            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
+            return iterator(object_store->end());
+        };
+        
+        std::vector<std::string>::iterator python_iter;
     };
 
 	template <class SBOLClass >
@@ -281,13 +306,14 @@ namespace sbol
         this->set(uri_prefix + "/" + display_id + "/" + version);
     };
     
+    // Need to make addToDocument a method for all Identified objects (not just TopLevel)
 	template < class SBOLClass>
 	void ReferencedObject<SBOLClass>::add(SBOLClass& sbol_obj)
 	{
 		this->sbol_owner->properties[this->type].push_back(sbol_obj.identity.get());
         if (this->sbol_owner->doc)
         {
-            sbol_obj.addToDocument(*this->sbol_owner->doc);
+            //sbol_obj.addToDocument(*this->sbol_owner->doc);
         }
 	};
 
@@ -298,6 +324,15 @@ namespace sbol
 		SBOLObject* obj = this->sbol_owner->doc->SBOLObjects[object_id];
 		return (SBOLClass &)*obj;
 	};
+    
+    template <class SBOLClass>
+    std::string ReferencedObject<SBOLClass>::operator[] (const int nIndex)
+    {
+        std::vector<std::string> *reference_store = &this->sbol_owner->properties[this->type];
+        return reference_store->at(nIndex);
+    };
+    
+
 
     template < class SBOLClass >
     void ReferencedObject<SBOLClass>::addReference(const std::string uri)

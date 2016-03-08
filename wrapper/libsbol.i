@@ -153,7 +153,35 @@ namespace sbol
 	}
 };
 
-
+%extend sbol::ReferencedObject
+{
+    std::string __getitem__(const int nIndex)
+    {
+        return $self->operator[](nIndex);
+    }
+    
+    ReferencedObject<SBOLClass>* __iter__()
+    {
+        $self->python_iter = ReferencedObject<SBOLClass>::iterator($self->begin());
+        return $self;
+    }
+    
+    std::string next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw (END_OF_LIST);
+        return NULL;
+    }
+};
 
 %include "object.h"
 
@@ -284,12 +312,15 @@ namespace sbol
 
 %include "location.h"
 %template(locationProperty) sbol::Property<sbol::Location>;
-//%template(addLocation) sbol::OwnedObject::add<Location>;
 %template(_VectorOfLocations) std::vector<sbol::Location>;
-%template(ownedLocation) sbol::OwnedObject<sbol::Location>;
+%template(_ownedLocation) sbol::OwnedObject<sbol::Location>;
 %template(listOfOwnedLocations) sbol::List<sbol::OwnedObject<sbol::Location>>;
 %include "sequenceannotation.h"
 
+//%template(_componentInstance) sbol::Property<sbol::ComponentInstance>;
+//%template(referencedComponentInstance) sbol::ReferencedObject<sbol::ComponentInstance>;
+//%template(_componentDefinition) sbol::Property<sbol::ComponentDefinition>;
+//%template(referencedComponentDefinition) sbol::ReferencedObject<sbol::ComponentDefinition>;
 %include "mapsto.h"
 %template(_VectorOfMapsTos) std::vector<sbol::MapsTo>;
 %template(mapsToProperty) sbol::Property<sbol::MapsTo>;
@@ -297,6 +328,9 @@ namespace sbol
 %template(listOfOwnedMapsTos) sbol::List<sbol::OwnedObject<sbol::MapsTo>>;
 %include "component.h"
 
+//%include "sequence.h"
+//%template(_sequence) sbol::Property<sbol::Sequence>;
+//%template(referencedSequence) sbol::ReferencedObject<sbol::Sequence>;
 %include "sequenceconstraint.h"
 %template(_VectorOfSequenceConstraints) std::vector<sbol::SequenceConstraint>;
 %template(sequenceConstraintProperty) sbol::Property<sbol::SequenceConstraint>;

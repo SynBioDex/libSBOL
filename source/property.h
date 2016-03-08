@@ -51,6 +51,29 @@ namespace sbol
 		virtual void set(int new_value);
 		virtual void write();
 		void validate(void * arg = NULL);
+#ifdef SWIG
+    protected:
+#endif
+        class iterator : public std::vector<std::string>::iterator
+        {
+        public:
+            
+            iterator(typename std::vector<std::string>::iterator i_str = std::vector<std::string>::iterator()) : std::vector<std::string>::iterator(i_str)
+            {
+            }
+        };
+        
+        iterator begin()
+        {
+            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
+            return iterator(object_store->begin());
+        };
+        
+        iterator end()
+        {
+            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
+            return iterator(object_store->end());
+        };
     };
     
 

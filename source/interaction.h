@@ -13,15 +13,15 @@ namespace sbol
 		List<URIProperty> types;
 		List<OwnedObject<Participation>> participations;
 		
-		Interaction(std::string uri_prefix = SBOL_URI "/Interaction", std::string id = "example") :
-			Interaction(SBOL_INTERACTION, uri_prefix, id)
+        Interaction(std::string uri_prefix = SBOL_URI "/Interaction", std::string id = "example", std::string interaction_type = SBO_INTERACTION) :
+			Interaction(SBOL_INTERACTION, uri_prefix, id, interaction_type)
 			{
 			}
         ~Interaction() {};
 	protected:
-		Interaction(sbol_type type, std::string uri_prefix, std::string id) :
+        Interaction(sbol_type type, std::string uri_prefix, std::string id, std::string interaction_type) :
 			Identified(type, uri_prefix, id, "", "", ""),
-			types(SBOL_TYPES, this, UNDEFINED),
+			types(SBOL_TYPES, this, interaction_type),
 			participations(SBOL_PARTICIPATIONS, this)
 			{
 			}
