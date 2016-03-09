@@ -21,8 +21,43 @@ namespace sbol
 			{
 			}
 		void addToDocument(sbol::Document&);
-
-	};
+    };
+    
+    // Sets or overwrites the first reference URI with the argument object's identity
+    // Automatically adds TopLevel objects to the document
+    template < class SBOLClass>
+    void ReferencedObject<SBOLClass>::set(SBOLClass& sbol_obj)
+    {
+        this->sbol_owner->properties[this->type][0] = sbol_obj.identity.get();
+        if (this->sbol_owner->doc)
+        {
+            SBOLClass* ptr = &sbol_obj;
+            if (TopLevel* top_level = dynamic_cast<sbol::TopLevel*>(ptr))
+            {
+                top_level->addToDocument(*this->sbol_owner->doc);
+            }
+        }
+    };
+    
+    // Need to make addToDocument a method for all Identified objects (not just TopLevel)
+    // Automatically adds TopLevel objects to the document
+    template < class SBOLClass>
+    void ReferencedObject<SBOLClass>::add(SBOLClass& sbol_obj)
+    {
+        this->sbol_owner->properties[this->type].push_back(sbol_obj.identity.get());
+        if (this->sbol_owner->doc)
+        {
+            SBOLClass* ptr = &sbol_obj;
+            if (TopLevel* top_level = dynamic_cast<sbol::TopLevel*>(ptr))
+            {
+                top_level->addToDocument(*this->sbol_owner->doc);
+            }
+        }
+    };
+    
 }
+
+
+
 
 #endif

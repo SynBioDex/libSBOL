@@ -253,18 +253,6 @@ namespace sbol
 //        validate((void *)&new_value);
 //    };
 
-    // Sets or overwrites the first reference URI with the argument object's identity
-    // Automatically adds the object to the document
-    // This may cause some inconsistency as non-TopLevel objects get added to the Document's registry
-    template < class SBOLClass>
-    void ReferencedObject<SBOLClass>::set(SBOLClass& sbol_obj)
-    {
-        this->sbol_owner->properties[this->type][0] = sbol_obj.identity.get();
-        if (this->sbol_owner->doc)
-        {
-            //sbol_obj.addToDocument(*this->sbol_owner->doc);
-        }
-    };
 
     template < class SBOLClass>
     void ReferencedObject<SBOLClass>::set(std::string uri)
@@ -306,16 +294,6 @@ namespace sbol
         this->set(uri_prefix + "/" + display_id + "/" + version);
     };
     
-    // Need to make addToDocument a method for all Identified objects (not just TopLevel)
-	template < class SBOLClass>
-	void ReferencedObject<SBOLClass>::add(SBOLClass& sbol_obj)
-	{
-		this->sbol_owner->properties[this->type].push_back(sbol_obj.identity.get());
-        if (this->sbol_owner->doc)
-        {
-            //sbol_obj.addToDocument(*this->sbol_owner->doc);
-        }
-	};
 
     // Look up object in Document registry
     template <class SBOLClass>
