@@ -100,7 +100,7 @@ namespace sbol
 		void* mem = malloc(sizeof(SBOLClass));
 		SBOLClass* owned_obj = new (mem)SBOLClass;
 
-		owned_obj->identity.set(prefix + "/" + display_id);
+		owned_obj->identity.set(prefix + "/" + display_id + "/" + version);
 		owned_obj->displayId.set(display_id);
 		owned_obj->name.set(name);
 		owned_obj->description.set(description);

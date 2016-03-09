@@ -14,16 +14,16 @@ namespace sbol
 		List<URIProperty> roles;
 		ReferencedObject<FunctionalComponent> participant;
 
-		Participation(std::string uri_prefix = SBOL_URI "/Participation", std::string id = "example") :
-			Participation(SBOL_PARTICIPATION, uri_prefix, id)
+        Participation(std::string uri_prefix = SBOL_URI "/Participation", std::string id = "example", std::string role = SBO_REACTANT, std::string participant_uri = "") :
+			Participation(SBOL_PARTICIPATION, uri_prefix, id, role, participant_uri)
 			{
 			}
         ~Participation(){};
 	protected:
-		Participation(sbol_type type, std::string uri_prefix, std::string id) :
+        Participation(sbol_type type, std::string uri_prefix, std::string id, std::string role, std::string participant_uri) :
 			Identified(type, uri_prefix, id, "", "", ""),
-			roles(SBOL_ROLES, this, UNDEFINED),
-			participant(SBOL_PARTICIPANT, this, UNDEFINED) 
+			roles(SBOL_ROLES, this, role),
+			participant(SBOL_PARTICIPANT, this, participant_uri)
 		{
 		}
 	};

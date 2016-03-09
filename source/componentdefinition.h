@@ -25,8 +25,8 @@ namespace sbol
 
 		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition",
 			std::string display_id = "example",
-			std::string type = SO_UNDEFINED,
-			std::string role = SO_UNDEFINED,
+			std::string type = BIOPAX_DNA,
+			std::string role = "",
 			std::string name = "",
 			std::string description = "",
 			std::string version = "1.0.0") :

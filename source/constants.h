@@ -101,6 +101,7 @@
 #define SBO_GENETIC_PRODUCTION SBO "0000170"
 #define SBO_STIMULATION SBO "0000589"
 #define SBO_NONCOVALENT_BINDING SBO "0000177"
+#define SBO_PROMOTER SBO "0000598"
 
 /* Participant.roles */
 #define SBO_INHIBITOR SBO "0000020"
@@ -111,7 +112,18 @@
 #define SBOL_NONCOVALENT_COMPLEX SBO "0000253"
 
 /* URIs for common Sequence Ontology terms */
-#define SO_UNDEFINED "SO_0000001"
+#define SO "http://identifiers.org/so/SO:"
+#define SO_UNDEFINED "0000001"
+#define SO_MISC "0000001"
+#define SO_PROMOTER SO "S0000167"
+#define SO_CDS SO "0000316"
+
+/* BioPAX is used to indicate macromolecular and molecular types */
+#define BIOPAX_DNA "http://www.biopax.org/release/biopax-level3.owl#DnaRegion"
+#define BIOPAX_RNA "http://www.biopax.org/release/biopax-level3.owl#RnaRegion"
+#define BIOPAX_PROTEIN "http://www.biopax.org/release/biopax-level3.owl#Protein"
+#define BIOPAX_SMALL_MOLECULE "http://www.biopax.org/release/biopax-level3.owl#SmallMolecule"
+#define BIOPAX_COMPLEX "http://www.biopax.org/release/biopax-level3.owl#Complex"
 
 /* Modeling frameworks */
 #define SBML "http://identifiers.org/edam/format_2585"
