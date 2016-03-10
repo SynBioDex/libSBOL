@@ -120,7 +120,7 @@ namespace sbol
         class iterator : public std::vector<std::string>::iterator
         {
         public:
-            iterator(typename std::vector<std::string>::iterator i_str = std::vector<std::string>::iterator()) : std::vector<std::string>::iterator(i_str)
+            iterator( std::vector<std::string>::iterator i_str = std::vector<std::string>::iterator()) : std::vector<std::string>::iterator(i_str)
             {
             }
         };
