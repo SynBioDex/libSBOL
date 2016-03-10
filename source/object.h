@@ -95,9 +95,49 @@ namespace sbol
         return dummy;
     };
 
-#ifdef SBOL_GENERATE_PY
-    #include "swig_referenced_objects.h"
-#endif
+    
+    class ReferencedObject : public URIProperty
+    {
+        
+    public:
+        ReferencedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string initial_value = "");  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
+        //ReferencedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
+        
+        //void add(SBOLClass& sbol_obj);
+        void set(std::string uri);
+        //void set(SBOLClass& sbol_obj);
+        //SBOLClass& get(std::string object_id);
+        std::string operator[] (const int nIndex);
+        void addReference(const std::string uri);
+        //void addReference(const std::string uri_prefix, const std::string display_id);
+        //void addReference(const std::string uri_prefix, const std::string display_id, const std::string version);
+        void setReference(const std::string uri);
+        //void setReference(const std::string uri_prefix, const std::string display_id);
+        //void setReference(const std::string uri_prefix, const std::string display_id, const std::string version);
+
+        class iterator : public std::vector<std::string>::iterator
+        {
+        public:
+            iterator(typename std::vector<std::string>::iterator i_str = std::vector<std::string>::iterator()) : std::vector<std::string>::iterator(i_str)
+            {
+            }
+        };
+        
+        iterator begin()
+        {
+            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
+            return iterator(object_store->begin());
+        };
+        
+        iterator end()
+        {
+            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
+            return iterator(object_store->end());
+        };
+        
+        std::vector<std::string>::iterator python_iter;
+    };
+    
 }
 
 

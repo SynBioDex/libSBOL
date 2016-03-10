@@ -51,6 +51,7 @@ namespace sbol
 
 		void add(SBOLClass& sbol_obj);
         void set(SBOLClass& sbol_obj);
+        template < class SBOLSubClass > void set(SBOLSubClass& sbol_obj);
 		SBOLClass& get(const std::string object_id);
         std::vector<SBOLClass*> copy();
 		void create(std::string prefix = SBOL_URI "/OwnedObject",
@@ -146,7 +147,15 @@ namespace sbol
 		return (SBOLClass&)*object_store->at(nIndex);
 	};
     
-	template <class PropertyType>
+    template <class SBOLClass>
+    template <class SBOLSubClass>
+    void OwnedObject< SBOLClass >::set(SBOLSubClass& sbol_obj)
+    {
+        
+    };
+
+    
+    template <class PropertyType>
 	class List : public PropertyType 
 	{
 

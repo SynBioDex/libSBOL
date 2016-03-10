@@ -1,6 +1,6 @@
-#ifdef SBOL_GENERATE_PY
-#pragma message("Including implementation file")
-#include "swig_referenced_objects.h"
+#include "object.h"
+
+#include <vector>
 
 using namespace sbol;
 
@@ -52,4 +52,4 @@ void ReferencedObject::addReference(const std::string uri)
     this->sbol_owner->properties[this->type].push_back("<" + uri + ">");
 };
 
-#endif
+

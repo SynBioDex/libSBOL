@@ -17,6 +17,7 @@ namespace sbol
 
         SequenceAnnotation(std::string uri_prefix, std::string display_id, std::string version) : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri_prefix, display_id, version) {};
 
+        
         ~SequenceAnnotation() {};
 	
 	protected:
@@ -33,6 +34,8 @@ namespace sbol
             {
             };
 	};
+    
+
 }
 
 #endif

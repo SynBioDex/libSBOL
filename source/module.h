@@ -12,11 +12,7 @@ namespace sbol
     class Module : public Identified
 	{
 	public:
-#ifdef SBOL_GENERATE_PY
         ReferencedObject definition;
-#else
-		ReferencedObject<ModuleDefinition> definition;
-#endif
         List<OwnedObject<MapsTo>> mapsTos;
         
         Module(std::string uri = DEFAULT_NS "/Module/example", std::string definition = "") : Module(SBOL_MODULE, uri, definition) {};

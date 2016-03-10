@@ -18,12 +18,7 @@ namespace sbol
 	public:
 		List<URIProperty> types;
         List<URIProperty> roles;
-#ifdef SBOL_GENERATE_PY
-        ReferencedObject sequence;
-#else
-        ReferencedObject<Sequence> sequence;
-#endif
-        
+        ReferencedObject sequence;        
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
 		List<OwnedObject<Component>> components;
 		List<OwnedObject<SequenceConstraint>> sequenceConstraints;
@@ -59,6 +54,7 @@ namespace sbol
 			{
 			}
 	};
+    
 }
 
 #endif

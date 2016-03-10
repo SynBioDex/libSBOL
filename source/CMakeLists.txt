@@ -6,6 +6,7 @@ ADD_SUBDIRECTORY( raptor )
 INCLUDE_DIRECTORIES( ${HEADER_DIR} )
 INCLUDE_DIRECTORIES( ${XML2_HEADER_DIR})
 INCLUDE_DIRECTORIES( ${RAPTOR_HEADER_DIR})
+
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES
     constants.h
@@ -14,8 +15,6 @@ FILE(GLOB SBOL_HEADER_FILES
 	property.h
     properties.h
     object.h
-    referenced_objects.h
-    swig_referenced_objects.h
 	identified.h
 	toplevel.h
 	sequenceannotation.h
@@ -35,9 +34,9 @@ FILE(GLOB SBOL_HEADER_FILES
 FILE(GLOB SBOL_SOURCE_FILES
 	validation.cpp
 	sbolerror.cpp
+    properties.cpp
 	object.cpp
-    swig_referenced_objects.cpp
-	identified.cpp
+    identified.cpp
 	toplevel.cpp
 	componentdefinition.cpp
 	document.cpp)
