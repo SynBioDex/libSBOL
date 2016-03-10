@@ -2,7 +2,6 @@
 #define DOCUMENT_INCLUDED
 
 //#include <libxml/xmlexports.h>
-#include "generictoplevel.h"
 #include "componentdefinition.h"
 #include "sequenceannotation.h"
 #include "sequence.h"

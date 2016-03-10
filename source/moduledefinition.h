@@ -18,11 +18,15 @@ namespace sbol
 
 	public:
 		List<URIProperty> roles;
-		ReferencedObject<Model> models;
 		List<OwnedObject<Module>> modules;
 		List<OwnedObject<Interaction>> interactions;
 		List<OwnedObject<FunctionalComponent>> functionalComponents;
-
+#ifdef SBOL_GENERATE_PY
+        ReferencedObject models;
+#else
+        ReferencedObject<Model> models;
+#endif
+        
 		ModuleDefinition(std::string uri = DEFAULT_NS "/ModuleDefinition/example") : ModuleDefinition(SBOL_MODULE_DEFINITION, uri) {};
         
 		ModuleDefinition(std::string uri_prefix, std::string display_id, std::string version) : ModuleDefinition(SBOL_MODULE_DEFINITION, uri_prefix, display_id, version) {};

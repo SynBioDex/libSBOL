@@ -95,7 +95,11 @@ namespace sbol
         return dummy;
     };
 
+#ifdef SBOL_GENERATE_PY
+    #include "swig_referenced_objects.h"
+#endif
 }
+
 
 //// This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
 //template <class SBOLClass>

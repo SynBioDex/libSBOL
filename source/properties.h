@@ -61,10 +61,8 @@ namespace sbol
 		SBOLClass& operator[] (const int nIndex);
 		SBOLClass& operator[] (const std::string uri);
 		//SBOLClass& __getitem__(const std::string uri);
-#ifdef SWIG
-	protected:
-#endif
-        class iterator : public std::vector<SBOLObject*>::iterator 
+
+        class iterator : public std::vector<SBOLObject*>::iterator
 		{
         public:
             
@@ -147,12 +145,6 @@ namespace sbol
 		std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
 		return (SBOLClass&)*object_store->at(nIndex);
 	};
-
-#ifdef SWIG
-    #include "swig_referenced_objects.h"
-#else
-    #include "referenced_objects.h"
-#endif
     
 	template <class PropertyType>
 	class List : public PropertyType 

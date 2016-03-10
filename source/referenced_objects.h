@@ -1,6 +1,9 @@
 #ifndef REFERENCED_OBJECTS_INCLUDED
 #define REFERENCED_OBJECTS_INCLUDED
 
+#ifndef SBOL_GENERATE_PY
+#pragma message ("Including native (non-SWIG) interface for sbol::ReferencedObjects")
+
 template <class SBOLClass>
 class ReferencedObject : public Property < SBOLClass >
 {
@@ -20,13 +23,10 @@ public:
     void setReference(const std::string uri);
     void setReference(const std::string uri_prefix, const std::string display_id);
     void setReference(const std::string uri_prefix, const std::string display_id, const std::string version);
-#ifdef SWIG
-protected:
-#endif
+
     class iterator : public std::vector<std::string>::iterator
     {
     public:
-        
         iterator(typename std::vector<std::string>::iterator i_str = std::vector<std::string>::iterator()) : std::vector<std::string>::iterator(i_str)
         {
         }
@@ -165,5 +165,5 @@ void ReferencedObject<SBOLClass>::addReference(const std::string uri_prefix, con
     this->addReference(compliant_uri);
 };
 
-
+#endif
 #endif

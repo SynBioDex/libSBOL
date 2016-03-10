@@ -1,6 +1,11 @@
 #ifndef IDENTIFIED_INCLUDED
 #define IDENTIFIED_INCLUDED
 
+
+#ifdef SWIG
+    #include "swig_referenced_objects.h"
+#endif
+
 #include "object.h"
 #include <string>
 

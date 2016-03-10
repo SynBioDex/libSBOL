@@ -26,7 +26,8 @@ namespace sbol
             {
             };
     };
-    
+
+#ifndef SBOL_GENERATE_PY
     // Sets or overwrites the first reference URI with the argument object's identity
     // Automatically adds TopLevel objects to the document
     template < class SBOLClass>
@@ -58,7 +59,10 @@ namespace sbol
             }
         }
     };
-    
+#else
+    #pragma message ("The native interface for sbol::ReferencedObjects in toplevel.h was excluded for SWIG-Python buid")
+#endif
+
 }
 
 

@@ -7,9 +7,9 @@
     #include "validation.h"
     #include "sbolerror.h"
     #include "property.h"
-    #include "swig_referenced_objects.h"
     #include "properties.h"
     #include "object.h"
+    #include "swig_referenced_objects.h"
     #include "identified.h"
     #include "toplevel.h"
     #include "location.h"
@@ -104,7 +104,6 @@ namespace sbol
 
 %include "properties.h"
 
-
 %exception next
 {
 	try
@@ -153,6 +152,9 @@ namespace sbol
 	}
 };
 
+%include "object.h"
+%include "swig_referenced_objects.h"
+
 %extend sbol::ReferencedObject
 {
     std::string __getitem__(const int nIndex)
@@ -182,8 +184,6 @@ namespace sbol
         return NULL;
     }
 };
-
-%include "object.h"
 
 //%pythoncode
 //%{
@@ -305,8 +305,6 @@ namespace sbol
 %include "identified.h"
 
 %include "toplevel.h"
-
-%include "generictoplevel.h"
 
 // Declare instances of the member templates first, then declare instances of the class templates.
 

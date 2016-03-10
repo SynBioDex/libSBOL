@@ -10,9 +10,14 @@ namespace sbol
     class MapsTo : public Identified
 	{
 	public:
+        URIProperty refinement;
+#ifdef SBOL_GENERATE_PY
+        ReferencedObject local;
+        ReferencedObject remote;
+#else
 		ReferencedObject<ComponentInstance> local;
 		ReferencedObject<ComponentInstance> remote;
-		URIProperty refinement;
+#endif
 
         MapsTo(std::string uri = DEFAULT_NS "/MapsTo/example", std::string local = "", std::string remote = "", std::string refinement = SBOL_REFINEMENT_VERIFY_IDENTICAL) : MapsTo(SBOL_MAPS_TO, uri, local, remote, refinement) {};
         

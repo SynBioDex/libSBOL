@@ -12,8 +12,12 @@ namespace sbol
 	{
 	public:
 		List<URIProperty> roles;
+#ifdef SBOL_GENERATE_PY
+        ReferencedObject participant;
+#else
 		ReferencedObject<FunctionalComponent> participant;
-
+#endif
+        
         Participation(std::string uri = DEFAULT_NS "/Participation/example", std::string participant = "") : Participation(SBOL_PARTICIPATION, uri, participant) {};
 
         Participation(std::string uri_prefix, std::string display_id, std::string version, std::string participant) : Participation(SBOL_PARTICIPATION, uri_prefix, display_id, version, participant) {};

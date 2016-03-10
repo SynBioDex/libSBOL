@@ -12,10 +12,15 @@ namespace sbol
 	{
 	
 	public:
-		ReferencedObject<Component> subject;
-		ReferencedObject<Component> object;
-		URIProperty restriction;
-
+#ifdef SBOL_GENERATE_PY
+        ReferencedObject subject;
+        ReferencedObject object;
+#else
+        ReferencedObject<Component> subject;
+        ReferencedObject<Component> object;
+#endif
+        URIProperty restriction;
+        
         SequenceConstraint(std::string uri = DEFAULT_NS "/SequenceConstraint/example", std::string subject = "", std::string object = "", std::string restriction = SBOL_RESTRICTION_PRECEDES) :
             SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri, subject, object, restriction) {};
         
