@@ -14,17 +14,24 @@ namespace sbol
 		ReferencedObject<ComponentInstance> remote;
 		URIProperty refinement;
 
-		MapsTo(std::string uri_prefix = SBOL_URI "/MapsTo", std::string id = "example") :
-			MapsTo(SBOL_MAPS_TO, uri_prefix, id)
-		{
-		}
+        MapsTo(std::string uri = DEFAULT_NS "/MapsTo/example", std::string local = "", std::string remote = "", std::string refinement = SBOL_REFINEMENT_VERIFY_IDENTICAL) : MapsTo(SBOL_MAPS_TO, uri, local, remote, refinement) {};
+        
+        MapsTo(std::string uri_prefix, std::string display_id, std::string version, std::string local, std::string remote, std::string refinement) : MapsTo(SBOL_MAPS_TO, uri_prefix, display_id, version, local, remote, refinement) {};
+        
         ~MapsTo() {};
 	protected:
-		MapsTo(sbol_type type, std::string uri_prefix, std::string id) :
-			Identified(type, uri_prefix, id, "", "", ""),
-			refinement(SBOL_REFINEMENT, this),
-			local(SBOL_LOCAL, this, UNDEFINED),
-			remote(SBOL_REMOTE, this, UNDEFINED)
+        MapsTo(sbol_type type, std::string uri, std::string local, std::string remote, std::string refinement) :
+            Identified(type, uri),
+            refinement(SBOL_REFINEMENT, this, refinement),
+            local(SBOL_LOCAL, this, local),
+            remote(SBOL_REMOTE, this, remote)
+            {
+            }
+        MapsTo(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string local, std::string remote, std::string refinement) :
+			Identified(type, uri_prefix, display_id, version),
+			refinement(SBOL_REFINEMENT, this, refinement),
+			local(SBOL_LOCAL, this, local),
+			remote(SBOL_REMOTE, this, remote)
 			{
 			}
 	};

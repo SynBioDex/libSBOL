@@ -14,19 +14,28 @@ namespace sbol
 	public:
 		ReferencedObject<ModuleDefinition> definition;
 		//List<OwnedObject<MapsTo>> mapsTos;
+        
+        Module(std::string uri = DEFAULT_NS "/Module/example", std::string definition = "") : Module(SBOL_MODULE, uri, definition) {};
 
-		Module(std::string uri_prefix = SBOL_URI "/Module", std::string id = "example") :
-			Module(SBOL_MODULE, uri_prefix, id)
-			{
-			}
+        Module(std::string uri_prefix, std::string display_id, std::string version, std::string definition) :
+            Module(SBOL_MODULE, uri_prefix, display_id, version, definition) {};
+
         ~Module() {};
+        
 	protected:
-		Module(sbol_type type, std::string uri_prefix, std::string id) :
-			Identified(type, uri_prefix, id, "", "", ""),
-			definition(SBOL_DEFINITION, this, UNDEFINED)
+        Module(sbol_type type, std::string uri, std::string definition) :
+            Identified(type, uri),
+            definition(SBOL_DEFINITION, this, definition)
+            //mapsTos(SBOL_MAPS_TO, this)
+            {
+            };
+        
+        Module(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition) :
+			Identified(type, uri_prefix, display_id, version),
+			definition(SBOL_DEFINITION, this, definition)
 			//mapsTos(SBOL_MAPS_TO, this)
 			{
-			}
+            };
 	};
 }
 

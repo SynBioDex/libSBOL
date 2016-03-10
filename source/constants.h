@@ -84,14 +84,18 @@
 #define SBOL_DIRECTION_OUT SBOL_URI "#out"
 #define SBOL_DIRECTION_IN_OUT SBOL_URI "#inout"
 #define SBOL_DIRECTION_NONE SBOL_URI "#none"
-#define SBOL_PRECEDES SBOL_URI "#precedes"
-#define SBOL_SAME_ORIENTATION_AS "#sameOrientationAs"
-#define SBOL_OPPOSITE_ORIENTATION_AS "#oppositeOrientationAs"
+#define SBOL_RESTRICTION_PRECEDES SBOL_URI "#precedes"
+#define SBOL_RESTRICTION_SAME_ORIENTATION_AS "#sameOrientationAs"
+#define SBOL_RESTRICTION_OPPOSITE_ORIENTATION_AS "#oppositeOrientationAs"
 #define SBOL_ENCODING_IUPAC "www.chem.qmul.ac.uk/iubmb/misc/naseq.html"
 #define SBOL_ENCODING_IUPAC_PROTEIN "www.chem.qmul.ac.uk/iupac/AminoAcid/"
 #define SBOL_ENCODING_SMILES "www.opensmiles.org/opensmiles.html"
 #define SBOL_INLINE SBOL_URI "#inline"
 #define SBOL_REVERSE_COMPLEMENT SBOL_URI "#reverseComplement"
+#define SBOL_REFINEMENT_USE_REMOTE SBOL_URI "#useRemote"
+#define SBOL_REFINEMENT_USE_LOCAL SBOL_URI "#useLocal"
+#define SBOL_REFINEMENT_VERIFY_IDENTICAL SBOL_URI "#verifyIndentical"
+#define SBOL_REFINEMENT_MERGE SBOL_URI "#merge"
 
 /* Systems Biology Ontology */
 /* Interaction.types */
@@ -125,11 +129,14 @@
 #define BIOPAX_SMALL_MOLECULE "http://www.biopax.org/release/biopax-level3.owl#SmallMolecule"
 #define BIOPAX_COMPLEX "http://www.biopax.org/release/biopax-level3.owl#Complex"
 
-/* Modeling frameworks */
-#define SBML "http://identifiers.org/edam/format_2585"
-#define CELLML "http://identifiers.org/edam/format_3240"
-#define BIOPAX "http://identifiers.org/edam/format_3156"
+/* EDAM ontology is used for Model.languages */
+#define EDAM_SBML "http://identifiers.org/edam/format_2585"
+#define EDAM_CELLML "http://identifiers.org/edam/format_3240"
+#define EDAM_BIOPAX "http://identifiers.org/edam/format_3156"
 
+/* Model.frameworks */
+#define SBO_CONTINUOUS SBO "0000062"
+#define SBO_DISCRETE SBO "0000063"
 
 
 #endif

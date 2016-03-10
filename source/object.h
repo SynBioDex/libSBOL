@@ -22,11 +22,6 @@ namespace sbol
     {
     friend class Document;
     
-    
-    protected:
-        //protected:
-        //	sbol_type type;
-    
     public:
         Document *doc = NULL;
     
@@ -35,11 +30,12 @@ namespace sbol
         std::map<sbol::sbol_type, std::vector< std::string > > list_properties;
         std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
     
-        SBOLObject(sbol_type type = UNDEFINED, std::string uri_prefix = SBOL_URI, std::string id = "example") :
-            type(type),
-            identity(URIProperty(SBOL_IDENTITY, this, uri_prefix + "/" + id))
-        {
-        };
+        // Open-world constructor
+        SBOLObject(std::string uri = DEFAULT_NS "/SBOLObject/example") : SBOLObject(UNDEFINED, uri) {};
+
+        // Conforms to SBOL compliant URIs
+        SBOLObject(std::string uri_prefix, std::string display_id, std::string version) : SBOLObject(UNDEFINED, uri_prefix, display_id, version) {};
+        
         ~SBOLObject();
         sbol_type type;
         URIProperty identity;
@@ -47,6 +43,22 @@ namespace sbol
         virtual sbol_type getTypeURI();
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
         std::string nest(std::string& rdfxml_buffer);
+        std::string getClassName(std::string type);
+
+    protected:
+        // Open-world constructor
+        SBOLObject(sbol_type type, std::string uri) :
+            type(type),
+            identity(SBOL_IDENTITY, this, uri)
+        {
+        };
+
+        // Conforms to SBOL compliant URIs
+        SBOLObject(sbol_type type, std::string uri_prefix, std::string display_id, std::string version) :
+            type(type),
+        identity(SBOL_IDENTITY, this, uri_prefix + "/" + getClassName(type) + "/" + display_id + "/" + version)
+        {
+        };
     };
     
     template <class SBOLClass>

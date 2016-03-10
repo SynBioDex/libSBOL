@@ -23,24 +23,31 @@ namespace sbol
 		List<OwnedObject<Component>> components;
 		List<OwnedObject<SequenceConstraint>> sequenceConstraints;
 
-		ComponentDefinition(std::string uri_prefix = SBOL_URI "/ComponentDefinition",
-			std::string display_id = "example",
-			std::string type = BIOPAX_DNA,
-			std::string role = "",
-			std::string name = "",
-			std::string description = "",
-			std::string version = "1.0.0") :
-			ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, type, role, name, description, version)
-			{
-			}
-		~ComponentDefinition() {  };
+        // Open world constructor
+        ComponentDefinition(std::string uri = DEFAULT_NS "/ComponentDefinition/example", std::string type = BIOPAX_DNA) : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type) {};
+        
+        // SBOL compliant constructor
+        ComponentDefinition(std::string uri_prefix, std::string display_id, std::string version, std::string type) : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, version, type) {};
+        
+        ~ComponentDefinition() {  };
 	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri 
-		ComponentDefinition(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string type, std::string role, std::string name, std::string description, std::string version) :
-			TopLevel(sbol_type_uri, uri_prefix, display_id, name, description, version),
-			types(SBOL_TYPES, this, type),
-			roles(SBOL_ROLES, this, role),
-			sequence(SBOL_SEQUENCE_PROPERTY, this, ""),
+        ComponentDefinition(sbol_type type, std::string uri, std::string component_type) :
+            TopLevel(type, uri),
+            types(SBOL_TYPES, this, component_type),
+            roles(SBOL_ROLES, this),
+            sequence(SBOL_SEQUENCE_PROPERTY, this),
+            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this),
+            components(SBOL_COMPONENTS, this),
+            sequenceConstraints(SBOL_SEQUENCE_CONSTRAINTS, this)
+            {
+            };
+        
+        ComponentDefinition(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string component_type) :
+			TopLevel(type, uri_prefix, display_id, version),
+			types(SBOL_TYPES, this, component_type),
+			roles(SBOL_ROLES, this),
+			sequence(SBOL_SEQUENCE_PROPERTY, this),
 			sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this),
 			components(SBOL_COMPONENTS, this),
 			sequenceConstraints(SBOL_SEQUENCE_CONSTRAINTS, this)

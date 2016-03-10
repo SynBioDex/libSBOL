@@ -38,8 +38,7 @@ FILE(GLOB SBOL_SOURCE_FILES
 	identified.cpp
 	toplevel.cpp
 	componentdefinition.cpp
-	document.cpp
-	serializer.cpp)
+	document.cpp)
 	
 
 FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )

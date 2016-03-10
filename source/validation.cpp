@@ -4,6 +4,12 @@
 using namespace sbol;
 using namespace std;
 
+std::string sbol::getCompliantURI(std::string uri_prefix, std::string display_id, std::string sbol_class_name, std::string version)
+{
+    return uri_prefix + "/" + display_id + "/" + sbol_class_name + "/" + version;
+
+};
+
 /* The identity property of an Identified object MUST be globally unique. */
 void sbol::sbol_rule_10202(void *sbol_obj, void *arg)
 {

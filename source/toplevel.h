@@ -11,16 +11,20 @@ namespace sbol
 	{
 
 	// The public constructor delegates to this protected constructor in order to initialize the object with an SBOL type URI 
-	protected:
-		TopLevel(sbol_type type_uri, std::string uri_prefix, std::string display_id, std::string name, std::string description, std::string version) :
-			Identified(type_uri, uri_prefix, display_id, name, description, version)
-		{
-		}	
-	public:
-		TopLevel(std::string uri_prefix = SBOL_URI "/TopLevel", std::string display_id = "example", std::string name = "", std::string description = "", std::string version = "") : TopLevel(SBOL_TOP_LEVEL, uri_prefix, display_id, name, description, version)
-			{
-			}
-		void addToDocument(sbol::Document&);
+    public:
+        TopLevel(std::string uri = DEFAULT_NS "/TopLevel/example") : TopLevel(SBOL_TOP_LEVEL, uri) {};
+        TopLevel(std::string uri_prefix, std::string display_id, std::string version) : TopLevel(SBOL_TOP_LEVEL, uri_prefix, display_id, version) {};
+        void addToDocument(sbol::Document&);
+        
+    protected:
+        TopLevel(sbol_type type_uri, std::string uri) :
+            Identified(type_uri, uri)
+            {
+            };
+        TopLevel(sbol_type type_uri, std::string uri_prefix, std::string display_id, std::string version) :
+			Identified(type_uri, uri_prefix, display_id, version)
+            {
+            };
     };
     
     // Sets or overwrites the first reference URI with the argument object's identity

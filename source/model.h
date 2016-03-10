@@ -12,24 +12,27 @@ namespace sbol
 		URIProperty language;
 		URIProperty framework;
 
-		Model(std::string uri_prefix = SBOL_URI "/Model",
-			std::string display_id = "example",
-			std::string source = UNDEFINED,
-			std::string language = UNDEFINED,
-			std::string framework = UNDEFINED ) :
-			Model(SBOL_MODEL, uri_prefix, display_id, source, language, framework)
-			{
-			}
+        Model(std::string uri = DEFAULT_NS "/Model/example", std::string source = "", std::string language = EDAM_SBML, std::string framework = SBO_CONTINUOUS) : Model(SBOL_MODEL, uri, source, language, framework) {};
+
+        Model(std::string uri_prefix, std::string display_id, std::string version, std::string source, std::string language, std::string framework) : Model(SBOL_MODEL, uri_prefix, display_id, version, source, language, framework) {};
+
         ~Model() {};
 	protected:
 		// This protected constructor is a delegate constructor.  It initializes Models with the corresponding sbol_type_uri 
-		Model(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string source, std::string language, std::string framework) :
-			TopLevel(sbol_type_uri, uri_prefix, display_id, "", "", ""),
+        Model(sbol_type type, std::string uri, std::string source, std::string language, std::string framework) :
+            TopLevel(type, uri),
+            source(SBOL_SOURCE, this, source),
+            language(SBOL_LANGUAGE, this, language),
+            framework(SBOL_FRAMEWORK, this, framework)
+            {
+            };
+        Model(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string source, std::string language, std::string framework) :
+			TopLevel(type, uri_prefix, display_id, version),
 			source(SBOL_SOURCE, this, source),
 			language(SBOL_LANGUAGE, this, language),
 			framework(SBOL_FRAMEWORK, this, framework)
 			{
-			}
+            };
 	};
 }
 

@@ -123,7 +123,8 @@ namespace sbol
 	template <class SBOLClass>
 	OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object)
 	{
-	};
+
+    };
 
     // Sets the first object in the container
     template < class SBOLClass>
@@ -284,14 +285,18 @@ namespace sbol
     template < class SBOLClass>
     void ReferencedObject<SBOLClass>::setReference(const std::string uri_prefix, const std::string display_id)
     {
-        this->set(uri_prefix + "/" + display_id + "/1.0.0");
+        SBOLClass dummy_obj = SBOLClass();
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, dummy_obj.getClassName(dummy_obj.type), "1.0.0");
+        this->set(compliant_uri);
     };
     
     // For compliant URIs
     template < class SBOLClass>
     void ReferencedObject<SBOLClass>::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
     {
-        this->set(uri_prefix + "/" + display_id + "/" + version);
+        SBOLClass dummy_obj = SBOLClass();
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, dummy_obj.getClassName(dummy_obj.type), version);
+        this->set(compliant_uri);
     };
     
 
@@ -322,14 +327,18 @@ namespace sbol
     template < class SBOLClass >
     void ReferencedObject<SBOLClass>::addReference(const std::string uri_prefix, const std::string display_id)
     {
-        this->addReference(uri_prefix + "/" + display_id + "/1.0.0");
+        SBOLClass dummy_obj = SBOLClass();
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, dummy_obj.getClassName(dummy_obj.type), "1.0.0");
+        this->addReference(compliant_uri);
     };
     
     // For compliant URI's
     template < class SBOLClass >
     void ReferencedObject<SBOLClass>::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
     {
-        this->addReference(uri_prefix + "/" + display_id + "/" + version);
+        SBOLClass dummy_obj = SBOLClass();
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, dummy_obj.getClassName(dummy_obj.type), version);
+        this->addReference(compliant_uri);
     };
     
 	template <class PropertyType>
