@@ -153,6 +153,19 @@ namespace sbol
 
 %include "object.h"
 
+%extend sbol::SBOLObject
+{
+    std::string __repr__()
+    {
+        return $self->type;
+    }
+
+    std::string __str__()
+    {
+        return $self->identity.get();
+    }
+}
+
 %extend sbol::ReferencedObject
 {
     std::string __getitem__(const int nIndex)
@@ -180,6 +193,11 @@ namespace sbol
         }
         throw (END_OF_LIST);
         return NULL;
+    }
+    
+    int __len__()
+    {
+        return 0;
     }
 };
 
@@ -306,6 +324,8 @@ namespace sbol
 
 // Declare instances of the member templates first, then declare instances of the class templates.
 
+%template(addRange) sbol::OwnedObject::add<Range>;
+%template(getRange) sbol::OwnedObject::get<Range>;
 %include "location.h"
 %template(locationProperty) sbol::Property<sbol::Location>;
 %template(_VectorOfLocations) std::vector<sbol::Location>;

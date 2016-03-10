@@ -51,8 +51,9 @@ namespace sbol
 
 		void add(SBOLClass& sbol_obj);
         void set(SBOLClass& sbol_obj);
-        template < class SBOLSubClass > void set(SBOLSubClass& sbol_obj);
-		SBOLClass& get(const std::string object_id);
+        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);
+        template < class SBOLSubClass > SBOLSubClass& get();
+        SBOLClass& get(const std::string object_id);
         std::vector<SBOLClass*> copy();
 		void create(std::string prefix = SBOL_URI "/OwnedObject",
 			std::string display_id = "example",
@@ -149,9 +150,17 @@ namespace sbol
     
     template <class SBOLClass>
     template <class SBOLSubClass>
-    void OwnedObject< SBOLClass >::set(SBOLSubClass& sbol_obj)
+    void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
     {
-        
+        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
+    };
+
+    template <class SBOLClass>
+    template <class SBOLSubClass>
+    SBOLSubClass& OwnedObject< SBOLClass >::get()
+    {
+        SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
+        return (SBOLSubClass&)*obj;
     };
 
     
