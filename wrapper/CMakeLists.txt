@@ -20,7 +20,7 @@ IF( SWIG_FOUND )
     )
 
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-    ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC -DSBOL_GENERATE_PY)
+    ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC)
 
 
 	# build a shared library without visibility limitations

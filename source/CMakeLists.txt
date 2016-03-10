@@ -14,8 +14,6 @@ FILE(GLOB SBOL_HEADER_FILES
 	property.h
     properties.h
     object.h
-    referenced_objects.h
-    swig_referenced_objects.h
 	identified.h
 	toplevel.h
 	sequenceannotation.h
@@ -36,7 +34,6 @@ FILE(GLOB SBOL_SOURCE_FILES
 	validation.cpp
 	sbolerror.cpp
 	object.cpp
-    swig_referenced_objects.cpp
 	identified.cpp
 	toplevel.cpp
 	componentdefinition.cpp

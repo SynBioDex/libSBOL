@@ -9,7 +9,6 @@
     #include "property.h"
     #include "properties.h"
     #include "object.h"
-    #include "swig_referenced_objects.h"
     #include "identified.h"
     #include "toplevel.h"
     #include "location.h"
@@ -153,7 +152,6 @@ namespace sbol
 };
 
 %include "object.h"
-%include "swig_referenced_objects.h"
 
 %extend sbol::ReferencedObject
 {

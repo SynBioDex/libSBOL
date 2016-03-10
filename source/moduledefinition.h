@@ -21,11 +21,7 @@ namespace sbol
 		List<OwnedObject<Module>> modules;
 		List<OwnedObject<Interaction>> interactions;
 		List<OwnedObject<FunctionalComponent>> functionalComponents;
-#ifdef SBOL_GENERATE_PY
-        ReferencedObject models;
-#else
         ReferencedObject<Model> models;
-#endif
         
 		ModuleDefinition(std::string uri = DEFAULT_NS "/ModuleDefinition/example") : ModuleDefinition(SBOL_MODULE_DEFINITION, uri) {};
         

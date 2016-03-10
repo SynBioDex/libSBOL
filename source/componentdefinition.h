@@ -18,14 +18,9 @@ namespace sbol
 	public:
 		List<URIProperty> types;
         List<URIProperty> roles;
-#ifdef SBOL_GENERATE_PY
-        ReferencedObject sequence;
-#else
+        List<OwnedObject<Component>> components;
         ReferencedObject<Sequence> sequence;
-#endif
-        
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
-		List<OwnedObject<Component>> components;
 		List<OwnedObject<SequenceConstraint>> sequenceConstraints;
 
         // Open world constructor

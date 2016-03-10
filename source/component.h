@@ -17,11 +17,7 @@ namespace sbol
 	public:
 		URIProperty access;
 		List<OwnedObject<MapsTo>> mapsTos;
-#ifdef SBOL_GENERATE_PY
-        ReferencedObject definition;
-#else
         ReferencedObject<ComponentDefinition> definition;
-#endif
         
 	protected:
         ComponentInstance(sbol_type type, std::string uri, std::string definition, std::string access) :
