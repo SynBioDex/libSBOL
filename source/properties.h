@@ -89,6 +89,12 @@ namespace sbol
             std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
             return iterator(object_store->end());
         };
+        
+        int size()
+        {
+            std::size_t size = this->sbol_owner->owned_objects[this->type].size();
+            return (int)size;
+        }
 
 		std::vector<SBOLObject*>::iterator python_iter;
 	};
@@ -152,6 +158,7 @@ namespace sbol
     template <class SBOLSubClass>
     void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
     {
+        // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
         this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
     };
 
@@ -159,6 +166,7 @@ namespace sbol
     template <class SBOLSubClass>
     SBOLSubClass& OwnedObject< SBOLClass >::get()
     {
+        // This should use dynamic_cast instead of implicit casting
         SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
         return (SBOLSubClass&)*obj;
     };

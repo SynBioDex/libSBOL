@@ -149,6 +149,11 @@ namespace sbol
 		throw (END_OF_LIST);
 		return NULL;
 	}
+
+    int __len__()
+    {
+        return $self->size();
+    }
 };
 
 %include "object.h"
@@ -197,7 +202,7 @@ namespace sbol
     
     int __len__()
     {
-        return 0;
+        return $self->size();
     }
 };
 

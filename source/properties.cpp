@@ -15,6 +15,17 @@ URIProperty(type_uri, property_owner, initial_value)
     }
 };
 
+ReferencedObject::ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :
+    URIProperty(type_uri, property_owner, initial_value),
+    reference_type(reference_type_uri)
+{
+    // Register Property in owner Object
+    if (this->sbol_owner != NULL)
+    {
+        std::vector<std::string> property_store;
+        this->sbol_owner->properties.insert({ type_uri, property_store });
+    }
+};
 
 void ReferencedObject::set(std::string uri)
 {
