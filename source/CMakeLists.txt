@@ -12,11 +12,12 @@ FILE(GLOB SBOL_HEADER_FILES
 	validation.h
 	sbolerror.h
 	property.h
+    referenced_objects.h
+    swig_referenced_objects.h
     properties.h
     object.h
 	identified.h
 	toplevel.h
-	generictoplevel.h
 	sequenceannotation.h
 	component.h
 	componentdefinition.h
