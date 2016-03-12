@@ -55,11 +55,8 @@ namespace sbol
         template < class SBOLSubClass > SBOLSubClass& get();
         SBOLClass& get(const std::string object_id);
         std::vector<SBOLClass*> copy();
-		void create(std::string prefix = SBOL_URI "/OwnedObject",
-			std::string display_id = "example",
-			std::string name = "",
-			std::string description = "",
-			std::string version = "1.0.0");
+        void create(std::string uri);
+        void create(std::string uri_prefix, std::string display_id, std::string version);
 		SBOLClass& operator[] (const int nIndex);
 		SBOLClass& operator[] (const std::string uri);
 		//SBOLClass& __getitem__(const std::string uri);
@@ -99,20 +96,32 @@ namespace sbol
 		std::vector<SBOLObject*>::iterator python_iter;
 	};
 
-	template <class SBOLClass>
-	void OwnedObject<SBOLClass>::create(std::string prefix, std::string display_id, std::string name, std::string description, std::string version)
-	{
-		// Construct an SBOLObject with emplacement
-		void* mem = malloc(sizeof(SBOLClass));
-		SBOLClass* owned_obj = new (mem)SBOLClass;
-
-		owned_obj->identity.set(prefix + "/" + display_id + "/" + version);
-		owned_obj->displayId.set(display_id);
-		owned_obj->name.set(name);
-		owned_obj->description.set(description);
-		owned_obj->version.set(version);
-		add(*owned_obj);
-	};
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::create(std::string uri)
+    {
+        // Construct an SBOLObject with emplacement
+        void* mem = malloc(sizeof(SBOLClass));
+        SBOLClass* owned_obj = new (mem)SBOLClass;
+        
+        owned_obj->identity.set(uri);
+        add(*owned_obj);
+    };
+    
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::create(std::string uri_prefix, std::string display_id, std::string version)
+    {
+        // Construct an SBOLObject with emplacement
+        void* mem = malloc(sizeof(SBOLClass));
+        SBOLClass* owned_obj = new (mem)SBOLClass;
+        
+        std::string sbol_class_name = owned_obj->getClassName(owned_obj->type);
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
+        
+        owned_obj->identity.set(compliant_uri);
+        owned_obj->displayId.set(display_id);
+        owned_obj->version.set(version);
+        add(*owned_obj);
+    };
 
 	template <class SBOLClass >
     OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :

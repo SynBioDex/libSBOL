@@ -17,7 +17,7 @@ URIProperty(type_uri, property_owner, initial_value)
 
 ReferencedObject::ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :
     URIProperty(type_uri, property_owner, initial_value),
-    reference_type(reference_type_uri)
+    reference_type_uri(reference_type_uri)
 {
     // Register Property in owner Object
     if (this->sbol_owner != NULL)
@@ -45,6 +45,41 @@ void ReferencedObject::set(std::string uri)
     }
     //validate((void *)&uri);
 };
+
+
+// For compliant URIs
+void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id)
+{
+    std::string sbol_class_name = getClassName(this->reference_type_uri);
+    std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
+    this->set(compliant_uri);
+};
+
+// For compliant URIs
+void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+{
+    std::string sbol_class_name = getClassName(this->reference_type_uri);
+    std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, version);
+    this->set(compliant_uri);
+};
+
+// For compliant URIs
+void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id)
+{
+    std::string sbol_class_name = getClassName(this->reference_type_uri);
+    std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
+    this->addReference(compliant_uri);
+};
+
+// For compliant URI's
+void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+{
+    std::string sbol_class_name = getClassName(this->reference_type_uri);
+    std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, version);
+    this->addReference(compliant_uri);
+};
+
+
 
 void ReferencedObject::setReference(const std::string uri)
 {
