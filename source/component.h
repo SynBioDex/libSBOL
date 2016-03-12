@@ -22,14 +22,14 @@ namespace sbol
 	protected:
         ComponentInstance(sbol_type type, std::string uri, std::string definition, std::string access) :
             Identified(type, uri),
-            definition(SBOL_DEFINITION, this, definition),
+            definition(SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, this, definition),
             access(SBOL_ACCESS, this, access),
             mapsTos(SBOL_MAPS_TOS, this)
             {
             };
         ComponentInstance(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) :
             Identified(type, uri_prefix, display_id, version),
-            definition(SBOL_DEFINITION, this, definition),
+            definition(SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, this, definition),
             access(SBOL_ACCESS, this, access),
             mapsTos(SBOL_MAPS_TOS, this)
             {

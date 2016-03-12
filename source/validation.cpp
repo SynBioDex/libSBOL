@@ -10,7 +10,7 @@ std::string sbol::getCompliantURI(std::string uri_prefix, std::string display_id
 
 };
 
-std::string getClassName(std::string type)
+std::string sbol::getClassName(std::string type)
 {
     std::size_t uri_subordinate_pos = type.find("#") + 1;
     if (uri_subordinate_pos != std::string::npos)

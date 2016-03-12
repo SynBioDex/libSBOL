@@ -101,7 +101,7 @@ namespace sbol
     protected:
         sbol_type reference_type_uri;
     public:
-        ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value);
+        ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value = "");
         ReferencedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string initial_value = "");  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
         //ReferencedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
         

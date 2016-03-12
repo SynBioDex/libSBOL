@@ -23,14 +23,14 @@ namespace sbol
         Participation(sbol_type type, std::string uri, std::string participant) :
             Identified(type, uri),
             roles(SBOL_ROLES, this),
-            participant(SBOL_PARTICIPANT, this, participant)
+            participant(SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, this, participant)
             {
             };
         
         Participation(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string participant) :
 			Identified(type, uri_prefix, display_id, version),
 			roles(SBOL_ROLES, this),
-			participant(SBOL_PARTICIPANT, this, participant)
+			participant(SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, this, participant)
             {
             };
 	};

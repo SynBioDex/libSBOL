@@ -27,15 +27,15 @@ namespace sbol
 	protected:
         SequenceConstraint(sbol_type type, std::string uri, std::string subject, std::string object, std::string restriction) :
             Identified(type, uri),
-            subject(SBOL_SUBJECT, this, subject),
-            object(SBOL_OBJECT, this, object),
+            subject(SBOL_SUBJECT, SBOL_COMPONENT, this, subject),
+            object(SBOL_OBJECT, SBOL_COMPONENT, this, object),
             restriction(SBOL_RESTRICTION, this, restriction)
             {
             }
         SequenceConstraint(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string subject, std::string object, std::string restriction) :
 			Identified(type, uri_prefix, display_id, version),
-			subject(SBOL_SUBJECT, this, subject),
-			object(SBOL_OBJECT, this, object),
+			subject(SBOL_SUBJECT, SBOL_COMPONENT, this, subject),
+			object(SBOL_OBJECT, SBOL_COMPONENT, this, object),
 			restriction(SBOL_RESTRICTION, this, restriction)
 			{
 			}
