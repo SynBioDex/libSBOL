@@ -15,8 +15,8 @@ namespace sbol
     class URIProperty : public Property<std::string>
 	{
 	public:
-		URIProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, std::string initial_value = "") :
-			Property(type_uri, property_owner, "<" + initial_value + ">")
+        URIProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, std::string initial_value = "", ValidationRules validation_rules = {}) :
+			Property(type_uri, property_owner, "<" + initial_value + ">", validation_rules)
 		{
 		}
 	};
@@ -53,11 +53,8 @@ namespace sbol
         void set(SBOLClass& sbol_obj);
 		SBOLClass& get(const std::string object_id);
         std::vector<SBOLClass*> copy();
-		void create(std::string prefix = SBOL_URI "/OwnedObject",
-			std::string display_id = "example",
-			std::string name = "",
-			std::string description = "",
-			std::string version = "1.0.0");
+        void create(std::string uri);
+        void create(std::string uri_prefix, std::string display_id, std::string version);
 		SBOLClass& operator[] (const int nIndex);
 		SBOLClass& operator[] (const std::string uri);
 
@@ -91,20 +88,32 @@ namespace sbol
 	};
 
 	template <class SBOLClass>
-	void OwnedObject<SBOLClass>::create(std::string prefix, std::string display_id, std::string name, std::string description, std::string version)
+	void OwnedObject<SBOLClass>::create(std::string uri)
 	{
 		// Construct an SBOLObject with emplacement
 		void* mem = malloc(sizeof(SBOLClass));
 		SBOLClass* owned_obj = new (mem)SBOLClass;
 
-		owned_obj->identity.set(prefix + "/" + display_id + "/" + version);
-		owned_obj->displayId.set(display_id);
-		owned_obj->name.set(name);
-		owned_obj->description.set(description);
-		owned_obj->version.set(version);
+		owned_obj->identity.set(uri);
 		add(*owned_obj);
 	};
 
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::create(std::string uri_prefix, std::string display_id, std::string version)
+    {
+        // Construct an SBOLObject with emplacement
+        void* mem = malloc(sizeof(SBOLClass));
+        SBOLClass* owned_obj = new (mem)SBOLClass;
+        
+        std::string sbol_class_name = owned_obj->getClassName(owned_obj->type);
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
+        
+        owned_obj->identity.set(compliant_uri);
+        owned_obj->displayId.set(display_id);
+        owned_obj->version.set(version);
+        add(*owned_obj);
+    };
+    
 	template <class SBOLClass >
     OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :
 		Property<SBOLClass>(type_uri, property_owner)
@@ -149,9 +158,11 @@ namespace sbol
     template <class SBOLClass>
     class ReferencedObject : public Property < SBOLClass >
     {
-        
+    protected:
+        sbol_type reference_type_uri;
     public:
         ReferencedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string dummy = "");  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
+        ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value = "");
         ReferencedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
         
         void add(SBOLClass& sbol_obj);
@@ -201,7 +212,18 @@ namespace sbol
         }
     };
     
-    
+    template <class SBOLClass >
+    ReferencedObject< SBOLClass >::ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :
+        Property<SBOLClass>(type_uri, property_owner, "<>"),
+        reference_type_uri(reference_type_uri)
+    {
+        // Register Property in owner Object
+        if (this->sbol_owner != NULL)
+        {
+            std::vector<std::string> property_store;
+            this->sbol_owner->properties.insert({ type_uri, property_store });
+        }
+    };
     
     template < class SBOLClass>
     void ReferencedObject<SBOLClass>::set(std::string uri)
@@ -233,8 +255,8 @@ namespace sbol
     template < class SBOLClass>
     void ReferencedObject<SBOLClass>::setReference(const std::string uri_prefix, const std::string display_id)
     {
-        SBOLClass dummy_obj = SBOLClass();
-        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, dummy_obj.getClassName(dummy_obj.type), "1.0.0");
+        std::string sbol_class_name = getClassName(this->reference_type_uri);
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
         this->set(compliant_uri);
     };
     
@@ -242,8 +264,8 @@ namespace sbol
     template < class SBOLClass>
     void ReferencedObject<SBOLClass>::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
     {
-        SBOLClass dummy_obj = SBOLClass();
-        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, dummy_obj.getClassName(dummy_obj.type), version);
+        std::string sbol_class_name = getClassName(this->reference_type_uri);
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
         this->set(compliant_uri);
     };
     
@@ -275,8 +297,8 @@ namespace sbol
     template < class SBOLClass >
     void ReferencedObject<SBOLClass>::addReference(const std::string uri_prefix, const std::string display_id)
     {
-        SBOLClass dummy_obj = SBOLClass();
-        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, dummy_obj.getClassName(dummy_obj.type), "1.0.0");
+        std::string sbol_class_name = getClassName(this->reference_type_uri);
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
         this->addReference(compliant_uri);
     };
     
@@ -284,8 +306,8 @@ namespace sbol
     template < class SBOLClass >
     void ReferencedObject<SBOLClass>::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
     {
-        SBOLClass dummy_obj = SBOLClass();
-        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, dummy_obj.getClassName(dummy_obj.type), version);
+        std::string sbol_class_name = getClassName(this->reference_type_uri);
+        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
         this->addReference(compliant_uri);
     };
 

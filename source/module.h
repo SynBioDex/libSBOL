@@ -25,14 +25,14 @@ namespace sbol
 	protected:
         Module(sbol_type type, std::string uri, std::string definition) :
             Identified(type, uri),
-            definition(SBOL_DEFINITION, this, definition),
+            definition(SBOL_DEFINITION, SBOL_MODULE_DEFINITION, this, definition),
             mapsTos(SBOL_MAPS_TO, this)
             {
             };
         
         Module(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition) :
 			Identified(type, uri_prefix, display_id, version),
-			definition(SBOL_DEFINITION, this, definition),
+			definition(SBOL_DEFINITION, SBOL_MODULE_DEFINITION, this, definition),
 			mapsTos(SBOL_MAPS_TO, this)
 			{
             };

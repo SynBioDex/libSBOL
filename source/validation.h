@@ -9,7 +9,9 @@ typedef std::vector<ValidationRule> ValidationRules;
 namespace sbol
 {
     std::string getCompliantURI(std::string uri_prefix, std::string display_id, std::string sbol_class_name, std::string version);
-                                
+    
+    std::string getClassName(std::string type);
+
     /* These validation rules are explicitly defined in the SBOL 2.0 specification document */
 	void sbol_rule_10202(void *sbol_obj, void *arg);
 

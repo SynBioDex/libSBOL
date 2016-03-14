@@ -36,7 +36,7 @@ namespace sbol
             TopLevel(type, uri),
             types(SBOL_TYPES, this, component_type),
             roles(SBOL_ROLES, this),
-            sequence(SBOL_SEQUENCE_PROPERTY, this),
+            sequence(SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, this),
             sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this),
             components(SBOL_COMPONENTS, this),
             sequenceConstraints(SBOL_SEQUENCE_CONSTRAINTS, this)

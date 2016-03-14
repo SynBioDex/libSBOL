@@ -31,14 +31,14 @@ namespace sbol
 		ValidationRules validationRules;
 
 	public:
-        Property(sbol_type type_uri, void *property_owner, std::string initial_value);
+        Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules = {});
 
-		Property(sbol_type type_uri, void *property_owner, int initial_value);
+		Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules validation_rules = {});
 
-		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL) :
+		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, ValidationRules validation_rules = {}) :
 			type(type_uri),
 			sbol_owner((SBOLObject *)property_owner),
-            validationRules({})
+            validationRules(validation_rules)
 		{
 		}
 		~Property();
@@ -80,7 +80,7 @@ namespace sbol
 
 	/* Constructor for string Property */
 	template <class LiteralType>
-	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value) : Property(type_uri, property_owner)
+	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
 	{
 		// Register Property in owner Object
 		if (this->sbol_owner != NULL)
@@ -93,7 +93,7 @@ namespace sbol
 
 	/* Constructor for int Property */
 	template <class LiteralType>
-	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value) : Property(type_uri, property_owner)
+	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
 	{
 		// Register Property in owner Object
 		if (this->sbol_owner != NULL)

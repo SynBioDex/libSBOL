@@ -49,7 +49,7 @@ namespace sbol
         // Open-world constructor
         SBOLObject(sbol_type type, std::string uri) :
             type(type),
-            identity(SBOL_IDENTITY, this, uri)
+            identity(SBOL_IDENTITY, this, uri, { sbol_rule_10202 })
         {
         };
 
