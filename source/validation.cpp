@@ -6,8 +6,20 @@ using namespace std;
 
 std::string sbol::getCompliantURI(std::string uri_prefix, std::string display_id, std::string sbol_class_name, std::string version)
 {
-    return uri_prefix + "/" + display_id + "/" + sbol_class_name + "/" + version;
+    return uri_prefix + "/" + sbol_class_name + "/" + display_id + "/" + version;
 
+};
+
+std::string sbol::getClassName(std::string type)
+{
+    std::size_t uri_subordinate_pos = type.find("#") + 1;
+    if (uri_subordinate_pos != std::string::npos)
+    {
+        std::string sbol_class = type.substr(uri_subordinate_pos, type.size() - uri_subordinate_pos);
+        return sbol_class;
+    }
+    else
+        return type;
 };
 
 /* The identity property of an Identified object MUST be globally unique. */
