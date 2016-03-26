@@ -6,7 +6,7 @@ using namespace std;
 
 std::string sbol::getCompliantURI(std::string uri_prefix, std::string display_id, std::string sbol_class_name, std::string version)
 {
-    return uri_prefix + "/" + display_id + "/" + sbol_class_name + "/" + version;
+    return uri_prefix + "/" + sbol_class_name + "/" + display_id + "/" + version;
 
 };
 

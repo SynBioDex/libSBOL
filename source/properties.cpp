@@ -4,6 +4,7 @@
 
 using namespace sbol;
 
+
 ReferencedObject::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
 URIProperty(type_uri, property_owner, initial_value)
 {

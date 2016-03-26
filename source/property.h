@@ -51,6 +51,9 @@ namespace sbol
 		virtual void set(int new_value);
 		virtual void write();
 		void validate(void * arg = NULL);
+        
+        std::string operator[] (const int nIndex);
+
 #ifdef SWIG
     protected:
 #endif
@@ -74,6 +77,14 @@ namespace sbol
             std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
             return iterator(object_store->end());
         };
+        
+        int size()
+        {
+            std::size_t size = this->sbol_owner->owned_objects[this->type].size();
+            return (int)size;
+        };
+        
+        std::vector<std::string>::iterator python_iter;
     };
     
 
@@ -148,6 +159,13 @@ namespace sbol
         {
             return "";
         }
+    };
+ 
+    template <class LiteralType>
+    std::string Property<LiteralType>::operator[] (const int nIndex)
+    {
+        std::vector<std::string> *value_store = &this->sbol_owner->properties[this->type];
+        return value_store->at(nIndex);
     };
     
     template <class LiteralType>

@@ -94,6 +94,56 @@ typedef std::string sbol::sbol_type;
 //%ignore sbol::Property(std::string , void *, std::vector< (sbol::*)(void *)(void *) > );
 %include "property.h"
 
+
+%exception next
+{
+    try
+    {
+        $action
+    }
+    catch(SBOLErrorCode exception)
+    {
+        PyErr_SetNone(PyExc_StopIteration);
+        return NULL;
+    }
+}
+
+%extend sbol::Property
+{
+    std::string __getitem__(const int nIndex)
+    {
+        return $self->operator[](nIndex);
+    }
+    
+    Property<LiteralType>* __iter__()
+    {
+        $self->python_iter = Property<LiteralType>::iterator($self->begin());
+        return $self;
+    }
+    
+    std::string next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw (END_OF_LIST);
+        return NULL;
+    }
+    
+    int __len__()
+    {
+        return $self->size();
+    }
+    
+}
+
 namespace sbol
 {
     
@@ -102,19 +152,6 @@ namespace sbol
 }
 
 %include "properties.h"
-
-%exception next
-{
-	try
-	{
-		$action
-	}
-	catch(SBOLErrorCode exception)
-	{
-		PyErr_SetNone(PyExc_StopIteration);
-		return NULL;
-	}
-}
 
 %extend sbol::OwnedObject 
 {
