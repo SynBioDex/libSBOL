@@ -1,7 +1,7 @@
 # libSBOL
 C++ implementation of libSBOL 2.0.0. 
 
-pySBOL 2.0.1
+libSBOL 2.0.1
 ======================================
 
 **libSBOL** is a SWIG-Python wrapper around [libSBOL](https://github.com/SynBioDex/libSBOL), a module for reading, writing, and constructing genetic designs according to the standardized specifications of the [Synthetic Biology Open Language (SBOL)](http://www.sbolstandard.org/).  
