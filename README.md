@@ -1,6 +1,3 @@
-# libSBOL
-C++ implementation of libSBOL 2.0.0. 
-
 libSBOL 2.0.1
 ======================================
 
