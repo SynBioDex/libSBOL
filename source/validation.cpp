@@ -22,6 +22,19 @@ std::string sbol::getClassName(std::string type)
         return type;
 };
 
+std::string sbol::getNameSpace(std::string type)
+{
+    std::size_t uri_subordinate_pos = type.find("#") + 1;
+    if (uri_subordinate_pos != std::string::npos)
+    {
+        std::string ns = type.substr(0, uri_subordinate_pos);
+        cout << ns << endl;
+        return ns;
+    }
+    else
+        return type;
+};
+
 /* The identity property of an Identified object MUST be globally unique. */
 void sbol::sbol_rule_10202(void *sbol_obj, void *arg)
 {

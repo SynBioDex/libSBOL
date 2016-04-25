@@ -509,6 +509,9 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 		std::string subject = identity.get();
 		std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 		std::string object = type;
+        
+        // Add missing namespace to the Document
+        doc->addNameSpace(getNameSpace(type), "", sbol_serializer);
 
 		triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 		triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
@@ -629,7 +632,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 		} // for
 		// End serialization 
 	} // if
-}
+};
 
 void TopLevel::addToDocument(Document& doc)
 {
@@ -651,6 +654,16 @@ raptor_world* Document::getWorld()
 	return (this->rdf_graph);
 };
 
+
+void Document::addNameSpace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer)
+{
+    raptor_world *world = getWorld();
+    raptor_uri *ns_uri = raptor_new_uri(world, (const unsigned char *)ns.c_str());
+    const unsigned char *ns_prefix = (const unsigned char *)prefix.c_str();
+    ns_prefix = (const unsigned char *)"host_context";  // Kludge to be removed
+    raptor_serializer_set_namespace(sbol_serializer, ns_uri, ns_prefix);
+};
+            
 void Document::write(std::string filename)
 {
 

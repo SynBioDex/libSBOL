@@ -31,15 +31,18 @@ namespace sbol {
 
     
     template <class SBOLClass>
-	void extend_data_model(std::string uri)
+    void register_extension(std::string ns_prefix, std::string uri)
 	{
 		SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
+        // TODO: register ns_prefix in SBOLObject
 	};
 
 	
 	class Document {
 	private:
 		raptor_world *rdf_graph;
+        
+
 	public:
 
 		Document() :
@@ -62,6 +65,7 @@ namespace sbol {
 		static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
 		std::vector<SBOLObject*> flatten();
+        void addNameSpace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
 
 	};
 

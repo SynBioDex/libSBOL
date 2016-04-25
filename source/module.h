@@ -12,9 +12,9 @@ namespace sbol
     class Module : public Identified
 	{
 	public:
-		ReferencedObject<ModuleDefinition> definition;
-        List<OwnedObject<MapsTo>> mapsTos;
-        
+		ReferencedObject < ModuleDefinition > definition;
+        List < OwnedObject < MapsTo > > mapsTos;
+
         Module(std::string uri = DEFAULT_NS "/Module/example", std::string definition = "") : Module(SBOL_MODULE, uri, definition) {};
 
         Module(std::string uri_prefix, std::string display_id, std::string version, std::string definition) :
