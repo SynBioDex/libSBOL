@@ -203,7 +203,7 @@ The first time you click Configure CMake will list variables, like CMAKE_BUILD_T
 
 The last step is to cd into the libSBOL/build folder and run the compiler.
 
-```make```
+```make ```
 
 or
 
