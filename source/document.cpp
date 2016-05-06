@@ -451,16 +451,59 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 	}
 }
 
+void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
+{
+//    cout << message->text << endl;
+//    if (message->level == RAPTOR_LOG_LEVEL_NONE) cout << "RAPTOR_LOG_LEVEL_NONE" << endl;
+//    if (message->level == RAPTOR_LOG_LEVEL_TRACE) cout << "RAPTOR_LOG_LEVEL_TRACE" << endl;
+//    if (message->level == RAPTOR_LOG_LEVEL_DEBUG) cout << "RAPTOR_LOG_LEVEL_DEBUG" << endl;
+//    if (message->level == RAPTOR_LOG_LEVEL_INFO) cout << "RAPTOR_LOG_LEVEL_INFO" << endl;
+//    if (message->level == RAPTOR_LOG_LEVEL_WARN) cout << "RAPTOR_LOG_LEVEL_WARN" << endl;
+//    if (message->level == RAPTOR_LOG_LEVEL_ERROR) cout << "RAPTOR_LOG_LEVEL_ERROR" << endl;
+//    if (message->level == RAPTOR_LOG_LEVEL_FATAL) cout << "RAPTOR_LOG_LEVEL_FATAL" << endl;
+//    if (message->level == RAPTOR_LOG_LEVEL_LAST) cout << "RAPTOR_LOG_LEVEL_LAST" << endl;
+//    
+//    if (message->locator != NULL)
+//        {
+//        cout << message->locator->line << ", " << message->locator->column << endl;
+//        if (message->locator->file) cout << message->locator->file;
+//        if (message->locator->uri) cout << raptor_uri_as_string(message->locator->uri) << endl;
+//        }
+}
+
+void Document::validate(void *arg)
+{
+    for (ValidationRules::iterator i_rule = this->validationRules.begin(); i_rule != this->validationRules.end(); ++i_rule)
+    {
+        ValidationRule& validate_fx = *i_rule;
+        validate_fx(this, NULL);
+    }
+}
+
+std::vector<std::string> Document::getNamespaces()
+{
+    return this->namespaces;
+};
+
+void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
+{
+    vector<std::string>* namespaces = (vector<string>*)user_data;
+    string ns = string((const char *)raptor_uri_as_string(raptor_namespace_get_uri(nspace)));
+    namespaces->push_back(ns);
+}
 
 void Document::read(std::string filename)
 {
 	// Wipe existing contents of this Document
 	raptor_free_world(this->rdf_graph);  //  Probably need to free other objects as well...
+    SBOLObjects.clear();
+    namespaces.clear();
 	this->rdf_graph = raptor_new_world();
-	SBOLObjects.clear();
+    raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Set error handler
 
 	FILE* fh = fopen(filename.c_str(), "rb");
 	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
+    raptor_parser_set_namespace_handler(rdf_parser, &this->namespaces, this->namespaceHandler);
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
 	unsigned char *uri_string;
 	raptor_uri *uri, *base_uri;
@@ -479,11 +522,11 @@ void Document::read(std::string filename)
 	raptor_free_uri(sbol_uri);
 	raptor_free_iostream(ios);
 	raptor_free_parser(rdf_parser);
+    
+    this->validate();
 
 	fclose(fh);
-
 }
-
 
 
 void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world)

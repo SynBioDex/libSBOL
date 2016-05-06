@@ -37,16 +37,19 @@ namespace sbol {
         // TODO: register ns_prefix in SBOLObject
 	};
 
+    void raptor_error_handler(void *user_data, raptor_log_message* message);
 	
 	class Document {
 	private:
 		raptor_world *rdf_graph;
-        
+        std::vector<std::string> namespaces;
+        ValidationRules validationRules;
 
 	public:
 
 		Document() :
-			rdf_graph(raptor_new_world())
+			rdf_graph(raptor_new_world()),
+            validationRules({ sbolRule10101, sbolRule10102 })
 			{
 			};
 		std::unordered_map<std::string, sbol::TopLevel*> SBOLObjects;
@@ -64,6 +67,10 @@ namespace sbol {
 		void read(std::string filename);
 		static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
+        void validate(void *arg = NULL);
+        static void namespaceHandler(void *user_data, raptor_namespace *nspace);
+        std::vector<std::string> getNamespaces();
+
 		std::vector<SBOLObject*> flatten();
         void addNameSpace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
 

@@ -13,8 +13,12 @@ namespace sbol
     std::string getClassName(std::string type);
 
     std::string getNameSpace(std::string type);
-    
+
     /* These validation rules are explicitly defined in the SBOL 2.0 specification document */
+    void sbolRule10101(void *sbol_obj, void *arg);
+    void sbolRule10102(void *sbol_obj, void *arg);
+    
+
 	void sbol_rule_10202(void *sbol_obj, void *arg);
 
 	/* These validation rules are internal to libSBOL */
