@@ -47,9 +47,9 @@ ADD_SUBDIRECTORY( source )
 #ENDIF()
 
 # generate documentation
-#IF( SBOL_GENERATE_MANUAL )
-#    ADD_SUBDIRECTORY( manual )
-#ENDIF()
+IF( SBOL_GENERATE_MANUAL )
+    ADD_SUBDIRECTORY( manual )
+ENDIF()
 
 IF( SBOL_GENERATE_PYTHON )
     ADD_SUBDIRECTORY( wrapper )

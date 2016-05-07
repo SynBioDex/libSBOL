@@ -12,15 +12,26 @@
 #include <map>
 #include <unordered_map>
 
+/// @defgroup extension_layer Extension layer
+/// These classes are not a usual part of the SBOL core data model.  Rather they can be used to define new extension classes which add custom data to the SBOL file format.
+ 
 namespace sbol
 {
-	/* Contains URI strings used for constructing RDF triples */
+    /// @brief This string type is assigned URI strings (see constants.h for default values).  This URI controls the tags of RDF/XML nodes
 	typedef std::string sbol_type;
 
 	/* All SBOLProperties have a pointer back to the object which the property belongs to.  
 	This requires forward declaration of the SBOLObject class */
 	class SBOLObject;
 
+
+    /// @ingroup extension_layer
+    /// @brief metafunction for generation of a map of message types to
+    /// their associated callbacks.
+    /// @details
+    /// Usage: Use <tt>generate_callback_map<Type>::type</tt> to ...
+    /// @tparam LiteralType The library currently supports Property<string> and Property<int> specification currently supports integer, string, and URI literals
+    ///
 	template <class LiteralType>
 	class Property
 	{

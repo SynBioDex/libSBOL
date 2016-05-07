@@ -103,6 +103,8 @@ namespace sbol
 
 %include "properties.h"
 
+%include "python_docs.i"
+
 %exception next
 {
 	try

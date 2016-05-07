@@ -39,9 +39,10 @@ namespace sbol {
 
     void raptor_error_handler(void *user_data, raptor_log_message* message);
 	
+    /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
 	class Document {
 	private:
-		raptor_world *rdf_graph;
+		raptor_world *rdf_graph;  ///< Triple store that holds SBOL objects and properties
         std::vector<std::string> namespaces;
         ValidationRules validationRules;
 
