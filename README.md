@@ -5,7 +5,7 @@ libSBOL 2.0.1
 
 DOCUMENTATION
 =============
-[An API reference and Getting Started tutorial can be found here](http://synbiodex.github.io/libSBOL/getting_started.html)
+[An API reference and Getting Started tutorial can be found here](http://synbiodex.github.io/libSBOL/#doxygen)
 
 INSTALLATION
 ============
