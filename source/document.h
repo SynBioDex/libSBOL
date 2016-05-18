@@ -43,7 +43,7 @@ namespace sbol {
 	class Document {
 	private:
 		raptor_world *rdf_graph;  ///< Triple store that holds SBOL objects and properties
-        std::vector<std::string> namespaces;
+        std::unordered_map<std::string, std::string> namespaces;
         ValidationRules validationRules;  ///< A list of validation functions to run on the Document prior to serialization
 
 	public:
@@ -62,7 +62,6 @@ namespace sbol {
 		std::unordered_map<std::string, sbol::TopLevel*> models;
 		std::unordered_map<std::string, sbol::TopLevel*> moduleDefinitions;
 		std::unordered_map<std::string, sbol::TopLevel*> sequences;
-		std::unordered_map<std::string, sbol::TopLevel*> nameSpaces;
         /// @endcond
 
 		TopLevel& getTopLevel(std::string);
@@ -97,13 +96,14 @@ namespace sbol {
 
 		std::vector<SBOLObject*> flatten();
         void addNameSpace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
-
+        void addNameSpace(std::string ns, std::string prefix);
 	};
 
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
 	{
 		// Check if the uri is already assigned and delete the object, otherwise it will cause a memory leak!!!
 		//if (SBOLObjects[whatever]!=SBOLObjects.end()) {delete SBOLObjects[whatever]'}
+        std::cout << "Adding " << sbol_obj.identity.get() << std::endl;
 		SBOLObjects[sbol_obj.identity.get()] = (TopLevel*)&sbol_obj;
 		sbol_obj.doc = this;
 	};

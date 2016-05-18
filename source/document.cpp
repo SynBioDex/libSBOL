@@ -357,7 +357,7 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 	subject = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from uri
 	predicate = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
 	object = object.substr(1, object.length() - 2);  // Removes flanking < and > from uri
-
+    cout << subject << endl;
 	// Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
 	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
@@ -552,14 +552,12 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 		std::string subject = identity.get();
 		std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 		std::string object = type;
-        
-        // Add missing namespace to the Document
-        doc->addNameSpace(getNameSpace(type), "", sbol_serializer);
 
+        // Add missing namespace to the Document
+        //doc->addNameSpace(getNameSpace(type), "", sbol_serializer);
 		triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 		triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
 		triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
-
 		// Write the triples
 		raptor_serializer_serialize_statement(sbol_serializer, triple);
 
@@ -574,7 +572,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
 
 			std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
-
 			// Serialize each of the values in a List property as an RDF triple
 			vector<std::string> property_values = it->second;
 			for (auto i_val = property_values.begin(); i_val != property_values.end(); ++i_val)
@@ -697,13 +694,19 @@ raptor_world* Document::getWorld()
 	return (this->rdf_graph);
 };
 
+void Document::addNameSpace(std::string ns, std::string prefix)
+{
+    this->namespaces[prefix] = ns;
+}
 
 void Document::addNameSpace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer)
 {
+    cout << "Setting namespace " << prefix << ns << endl;
+
     raptor_world *world = getWorld();
     raptor_uri *ns_uri = raptor_new_uri(world, (const unsigned char *)ns.c_str());
     const unsigned char *ns_prefix = (const unsigned char *)prefix.c_str();
-    ns_prefix = (const unsigned char *)"host_context";  // Kludge to be removed
+    //ns_prefix = (const unsigned char *)"host_context";  // Kludge to be removed
     raptor_serializer_set_namespace(sbol_serializer, ns_uri, ns_prefix);
 };
             
