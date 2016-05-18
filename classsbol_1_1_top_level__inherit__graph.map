@@ -1,0 +1,10 @@
+<map id="sbol::TopLevel" name="sbol::TopLevel">
+<area shape="rect" id="node4" href="$classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. " alt="" coords="5,703,183,896"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_generic_top_level.html" title="{sbol::GenericTopLevel\n||+ GenericTopLevel()\l}" alt="" coords="207,763,360,836"/>
+<area shape="rect" id="node7" href="$classsbol_1_1_model.html" title="{sbol::Model\n|+ source\l+ language\l+ framework\l|+ Model()\l+ Model()\l+ ~Model()\l# Model()\l# Model()\l}" alt="" coords="384,723,479,876"/>
+<area shape="rect" id="node8" href="$classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="503,709,669,889"/>
+<area shape="rect" id="node9" href="$classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="694,729,807,869"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="365,300,498,480"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ doc\l+ properties\l+ list_properties\l+ owned_objects\l+ type\l+ identity\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="367,5,496,252"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_host.html" title="{sbol::Host\n|+ modules\l+ parents\l+ children\l+ generation\l+ medium\l+ vendorId\l|+ Host()\l+ ~Host()\l# Host()\l}" alt="" coords="292,944,387,1111"/>
+</map>

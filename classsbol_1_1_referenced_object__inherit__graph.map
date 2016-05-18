@@ -1,0 +1,4 @@
+<map id="sbol::ReferencedObject" name="sbol::ReferencedObject">
+<area shape="rect" id="node2" href="$classsbol_1_1_u_r_i_property.html" title="{sbol::URIProperty\n||+ URIProperty()\l}" alt="" coords="22,313,149,387"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="19,5,152,265"/>
+</map>

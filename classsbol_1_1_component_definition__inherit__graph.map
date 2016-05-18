@@ -1,0 +1,6 @@
+<map id="sbol::ComponentDefinition" name="sbol::ComponentDefinition">
+<area shape="rect" id="node5" href="$classsbol_1_1_host.html" title="{sbol::Host\n|+ modules\l+ parents\l+ children\l+ generation\l+ medium\l+ vendorId\l|+ Host()\l+ ~Host()\l# Host()\l}" alt="" coords="46,944,142,1111"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_top_level.html" title="{sbol::TopLevel\n||+ TopLevel()\l+ TopLevel()\l+ addToDocument()\l# TopLevel()\l# TopLevel()\l}" alt="" coords="25,528,164,655"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="27,300,161,480"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ doc\l+ properties\l+ list_properties\l+ owned_objects\l+ type\l+ identity\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="30,5,159,252"/>
+</map>
