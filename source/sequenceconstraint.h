@@ -8,6 +8,7 @@ namespace sbol
     // Forward declaration of Component necessary for SequenceConstraint.subject and .object properties
     class Component;
     
+    /// The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based positions of pairs of Component objects contained by the same parent ComponentDefinition. The primary purpose of this class is to enable the specification of partially designed ComponentDefinition objects, for which the precise positions or orientations of their contained Component objects are not yet fully determined.
     class SequenceConstraint : public Identified
 	{
 	

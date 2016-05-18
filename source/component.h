@@ -11,6 +11,7 @@ namespace sbol
     // Forward declaration necessary for ComponentInstance.definition
     class ComponentDefinition;
     
+    /// @cond
     class ComponentInstance : public Identified
 	{
 
@@ -35,7 +36,9 @@ namespace sbol
             {
             };
 	};
+    /// @endcond
 
+    /// The Component class is used to compose ComponentDefinition objects into a structural hierarchy. For example, the ComponentDefinition of a gene could contain four Component objects: a promoter, RBS, CDS, and terminator. In turn, the ComponentDefinition of the promoter Component could contain Component objects defined as various operator sites.
 	class Component : public ComponentInstance
 	{
 	public:
@@ -52,7 +55,8 @@ namespace sbol
         
         Component(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) : ComponentInstance(type, uri_prefix, display_id, version, definition, access) {};
 	};
-
+ 
+    /// The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside a ModuleDefinition. The ModuleDefinition describes how the that describes how the FunctionalComponent interacts with others and summarizes their aggregate function.
 	class FunctionalComponent : public ComponentInstance
 	{
 	public:

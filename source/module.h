@@ -9,6 +9,7 @@ namespace sbol
     // Forward declaration of ModuleDefinition necesaary for Module.definition template
     class ModuleDefinition;
     
+    /// The Module class represents a submodule of a ModuleDefinition within a hierarchical design.
     class Module : public Identified
 	{
 	public:

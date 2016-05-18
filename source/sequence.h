@@ -7,6 +7,7 @@
 
 namespace sbol
 {
+    /// The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object
 	class Sequence : public TopLevel
 	{
 	public:

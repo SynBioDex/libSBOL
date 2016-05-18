@@ -123,10 +123,15 @@
 #define SO_CDS SO "0000316"
 
 /* BioPAX is used to indicate macromolecular and molecular types */
+/// DNA
 #define BIOPAX_DNA "http://www.biopax.org/release/biopax-level3.owl#DnaRegion"
+/// RNA
 #define BIOPAX_RNA "http://www.biopax.org/release/biopax-level3.owl#RnaRegion"
+/// PROTEIN
 #define BIOPAX_PROTEIN "http://www.biopax.org/release/biopax-level3.owl#Protein"
+/// SMALL_MOLECULE
 #define BIOPAX_SMALL_MOLECULE "http://www.biopax.org/release/biopax-level3.owl#SmallMolecule"
+/// COMPLEX
 #define BIOPAX_COMPLEX "http://www.biopax.org/release/biopax-level3.owl#Complex"
 
 /* EDAM ontology is used for Model.languages */

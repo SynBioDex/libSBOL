@@ -5,6 +5,7 @@
 
 namespace sbol
 {
+    /// The Location class specifies the strand orientation of a Component and can be further extended by the Range, Cut, and GenericLocation classes.
 	class Location : public Identified
 	{
 	public:
@@ -23,6 +24,7 @@ namespace sbol
             }
     };
 
+    /// A Range object specifies a region via discrete, inclusive start and end positions that correspond to indices for characters in the elements String of a Sequence.  Note that the index of the first location is 1, as is typical practice in biology, rather than 0, as is typical practice in computer science.
 	class Range : public Location
 	{
 	public:

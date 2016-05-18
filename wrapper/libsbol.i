@@ -35,6 +35,7 @@
     
 %}
 
+%include "python_docs.i"
 
 
 #ifdef SWIGWIN
@@ -92,6 +93,10 @@ typedef std::string sbol::sbol_type;
 //%ignore sbol::Property(std::string , void *, std::string , std::vector< std::string> );
 //%ignore sbol::Property(std::string , void *, int initial_value, std::vector< (sbol::*)(void *)(void *) > );
 //%ignore sbol::Property(std::string , void *, std::vector< (sbol::*)(void *)(void *) > );
+
+
+
+
 %include "property.h"
 
 
@@ -148,7 +153,7 @@ namespace sbol
 {
     
     %template(_StringProperty) Property<std::string>;  // These template instantiations are private, hence the underscore...
-    %template(_IntProperty) Property<int>;             // They are required to have names in order to derive subclasses
+    %template(_IntProperty) Property<int>;
 }
 
 %include "properties.h"
@@ -362,6 +367,7 @@ namespace sbol
 
 %include "identified.h"
 
+
 %include "toplevel.h"
 
 // Declare instances of the member templates first, then declare instances of the class templates.
@@ -435,6 +441,21 @@ namespace sbol
 %template(getSequence) sbol::Document::get<Sequence>;
 %template(getModel) sbol::Document::get<Model>;
 %template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
+
+
+
+%pythonappend ComponentDefinition %{
+    name = property(name.set, name.get)
+    %}
+
+%extend sbol::Identified{
+    %pythoncode %{
+        __swig_getmethods__["identity"] = _libsbol.TextProperty.get
+        __swig_setmethods__["identity"] = _libsbol.TextProperty.set
+        if _newclass: identity = property(_libsbol.TextProperty.get, _libsbol.URIProperty.set)
+            %}
+};
+
 
 // The following stub code can be used to make vectors act like Python lists 
 //%extend std::vector {             // Attach these functions to vector

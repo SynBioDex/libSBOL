@@ -6,6 +6,7 @@
 
 namespace sbol
 {
+    /// All SBOL-defined classes are directly or indirectly derived from the Identified abstract class. An Identified object is identified using a Uniform Resource Identifier (URI) which is essentially a unique string referring to an objects in an SBOL document or somewhere on the World Wide Web (a URL is a kind of URI).
 	class Identified : public SBOLObject
     {
 	

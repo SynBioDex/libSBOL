@@ -13,6 +13,7 @@ namespace sbol
     // Forward declaration of Model necessary for template instantiation of ModuleDefinition.models;
     class Model;
     
+    /// The ModuleDefinition class represents a grouping of structural and functional entities in a biological design. The primary usage of this class is to assert the molecular interactions and abstract function of its child entities.
     class ModuleDefinition : public TopLevel
 	{
 

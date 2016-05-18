@@ -7,6 +7,7 @@ namespace sbol
 {
     class ComponentInstance;  // Forward declaration necessary for ReferencedObject templates
     
+    /// MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. 
     class MapsTo : public Identified
 	{
 	public:

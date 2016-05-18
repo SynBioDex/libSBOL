@@ -31,6 +31,7 @@ OPTION( SBOL_BUILD_EXAMPLES   "Build the example programs"                FALSE 
 OPTION( SBOL_BUILD_TESTS      "Build the unit tests and example tests"    FALSE )
 OPTION( SBOL_GENERATE_PYTHON  "Generate Python wrapper using SWIG"        FALSE )
 OPTION( SBOL_GENERATE_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
+OPTION( SBOL_BUILD_REST  "Generate RESTful API" FALSE )
 
 # build libSBOLc
 #ADD_SUBDIRECTORY( schema )
@@ -49,6 +50,10 @@ ADD_SUBDIRECTORY( source )
 # generate documentation
 IF( SBOL_GENERATE_MANUAL )
     ADD_SUBDIRECTORY( manual )
+ENDIF()
+
+IF( SBOL_BUILD_REST )
+    ADD_SUBDIRECTORY( rest_api )
 ENDIF()
 
 IF( SBOL_GENERATE_PYTHON )

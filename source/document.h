@@ -44,31 +44,54 @@ namespace sbol {
 	private:
 		raptor_world *rdf_graph;  ///< Triple store that holds SBOL objects and properties
         std::vector<std::string> namespaces;
-        ValidationRules validationRules;
+        ValidationRules validationRules;  ///< A list of validation functions to run on the Document prior to serialization
 
 	public:
-
+        /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
 			rdf_graph(raptor_new_world()),
             validationRules({ sbolRule10101, sbolRule10102 })
 			{
 			};
+        
+        /// The Document's register of objects
 		std::unordered_map<std::string, sbol::TopLevel*> SBOLObjects;
+        
+        /// @cond
 		std::unordered_map<std::string, sbol::TopLevel*> componentDefinitions;
 		std::unordered_map<std::string, sbol::TopLevel*> models;
 		std::unordered_map<std::string, sbol::TopLevel*> moduleDefinitions;
 		std::unordered_map<std::string, sbol::TopLevel*> sequences;
 		std::unordered_map<std::string, sbol::TopLevel*> nameSpaces;
+        /// @endcond
 
 		TopLevel& getTopLevel(std::string);
 		raptor_world* getWorld();
+        /// Register an object in the Document
+        /// @param sbol_obj The SBOL object you want to serialize
+        /// @tparam SBOLClass The type of SBOL object
 		template < class SBOLClass > void add(SBOLClass& sbol_obj);
-		template < class SBOLClass > SBOLClass& get(std::string uri);
-		void write(std::string filename);
-		void read(std::string filename);
-		static void parse_objects(void* user_data, raptor_statement* triple);
-		static void parse_properties(void* user_data, raptor_statement* triple);
+        
+        /// Retrieve an object from the Document
+        /// @param uri The identity of the SBOL object you want to retrieve
+        /// @tparam SBOLClass The type of SBOL object
+        template < class SBOLClass > SBOLClass& get(std::string uri);
+
+        /// Serialize to an RDF/XML file
+        /// @param filename The full name of the file you want to write (including file extension)
+        void write(std::string filename);
+
+        /// Serialize to an RDF/XML file
+        /// @param filename The full name of the file you want to write (including file extension)
+        void read(std::string filename);
+
+        /// Run validation rules on this Document
         void validate(void *arg = NULL);
+
+        static void parse_objects(void* user_data, raptor_statement* triple);
+		static void parse_properties(void* user_data, raptor_statement* triple);
+        
+        
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
         std::vector<std::string> getNamespaces();
 
@@ -77,10 +100,9 @@ namespace sbol {
 
 	};
 
-	// Pitfall:  It's important that the SBOL object represented by sbol_obj is passed by reference not by value!
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
 	{
-		// Check if the uri is already assigned and delete the object
+		// Check if the uri is already assigned and delete the object, otherwise it will cause a memory leak!!!
 		//if (SBOLObjects[whatever]!=SBOLObjects.end()) {delete SBOLObjects[whatever]'}
 		SBOLObjects[sbol_obj.identity.get()] = (TopLevel*)&sbol_obj;
 		sbol_obj.doc = this;
