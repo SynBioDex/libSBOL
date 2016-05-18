@@ -56,7 +56,7 @@ namespace sbol
         // Conforms to SBOL compliant URIs
         SBOLObject(sbol_type type, std::string uri_prefix, std::string display_id, std::string version) :
             type(type),
-        identity(SBOL_IDENTITY, this, uri_prefix + "/" + getClassName(type) + "/" + display_id + "/" + version)
+            identity(SBOL_IDENTITY, this, uri_prefix + "/" + getClassName(type) + "/" + display_id + "/" + version)
         {
         };
     };
