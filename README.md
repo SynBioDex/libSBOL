@@ -2,6 +2,64 @@ libSBOL 2.0.1
 ======================================
 
 [libSBOL](https://github.com/SynBioDex/libSBOL) is a C++ library for reading, writing, and constructing genetic designs according to the standardized specifications of the [Synthetic Biology Open Language (SBOL)](http://www.sbolstandard.org/).  
+
+DOCUMENTATION
+=============
+[An API reference and Getting Started tutorial can be found here](http://synbiodex.github.io/libSBOL/getting_started.html)
+
+INSTALLATION
+============
+To compile libSBOL, you will need:
+* git for downloading the source code
+* CMake for generating platform-specific build instructions
+* a C++ compiler, such as VisualStudio, g++, or MinGW
+
+First, download them from the links above. Or if you're on Debian/Ubuntu this command should install /// everything:
+
+```
+sudo apt-get install git cmake-qt-gui build-essential libxml2-dev
+```
+
+If you want to update the documentation you also need Doxygen, and to generate the Python wrapper you need SWIG. To install them on Debian/Ubuntu:
+
+```
+sudo apt-get install doxygen-gui swig
+```
+
+Then, clone the repository:
+
+```
+git clone git://github.com/SynBioDex/libSBOLc.git
+```
+
+This will create a libSBOLc directory with the code. Next, run CMake (cmake-qt-gui on linux). For "Where is the source code" enter the path to your libSBOLc folder. "Where to build the binaries" can technically be anywhere, but it's only been tested with libSBOLc/build.
+
+Click Configure, and choose what type of compiler you want to generate instructions for. /// All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake should also be able to generate projects for Eclipse, Visual Studio, XCode, etc. However, that will probably involve adjusting some paths.
+
+The first time you click Configure CMake will list variables, like CMAKE_BUILD_TYPE and LIBXML2_INCLUDE_DIR, in red. That means they've been updated. To build the main SBOL library, just click Configure again until the red goes away. This is also where you set up the optional targets: examples, tests, manual, and Python wrapper. To add them check the appropriate boxes (SBOL_BUILD_EXAMPLES, for example) and then Configure again to adjust the settings. There's one other SBOL-specific option: SBOL_DEBUG_STATEMENTS will cause libSBOLc to be compiled with some extra debugging statements. A lot of other options might be visibile too; checking Grouped at the top makes things more managable. Once it's all set, click Generate to create the compiler instructions.
+
+The last step is to cd into the libSBOL/build folder and run the compiler.
+
+```
+make 
+```
+
+or
+
+```
+mingw32-make.exe
+```
+
+Binaries will be generated in the libSBOL/release folder.
+
+PLATFORMS
+=========
+Tested on Mac OSX Version 10.9.5 and Windows 7 Enterprise with Python 2.7.9 32 bit. Python 3 not currently supported.
+
+DEPENDENCIES
+============
+Releases include precompiled binaries for libSBOL.
+
 USE CASE
 ========
 ![](crispr_repression2.png)
@@ -175,60 +233,6 @@ int main()
   doc.write("CRISPR_example.xml");
 }
 ```
-
-INSTALLATION
-============
-To compile libSBOL, you will need:
-* git for downloading the source code
-* CMake for generating platform-specific build instructions
-* a C++ compiler, such as VisualStudio, g++, or MinGW
-
-First, download them from the links above. Or if you're on Debian/Ubuntu this command should install /// everything:
-
-```
-sudo apt-get install git cmake-qt-gui build-essential libxml2-dev
-```
-
-If you want to update the documentation you also need Doxygen, and to generate the Python wrapper you need SWIG. To install them on Debian/Ubuntu:
-
-```
-sudo apt-get install doxygen-gui swig
-```
-
-Then, clone the repository:
-
-```
-git clone git://github.com/SynBioDex/libSBOLc.git
-```
-
-This will create a libSBOLc directory with the code. Next, run CMake (cmake-qt-gui on linux). For "Where is the source code" enter the path to your libSBOLc folder. "Where to build the binaries" can technically be anywhere, but it's only been tested with libSBOLc/build.
-
-Click Configure, and choose what type of compiler you want to generate instructions for. /// All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake should also be able to generate projects for Eclipse, Visual Studio, XCode, etc. However, that will probably involve adjusting some paths.
-
-The first time you click Configure CMake will list variables, like CMAKE_BUILD_TYPE and LIBXML2_INCLUDE_DIR, in red. That means they've been updated. To build the main SBOL library, just click Configure again until the red goes away. This is also where you set up the optional targets: examples, tests, manual, and Python wrapper. To add them check the appropriate boxes (SBOL_BUILD_EXAMPLES, for example) and then Configure again to adjust the settings. There's one other SBOL-specific option: SBOL_DEBUG_STATEMENTS will cause libSBOLc to be compiled with some extra debugging statements. A lot of other options might be visibile too; checking Grouped at the top makes things more managable. Once it's all set, click Generate to create the compiler instructions.
-
-The last step is to cd into the libSBOL/build folder and run the compiler.
-
-```
-make 
-```
-
-or
-
-```
-mingw32-make.exe
-```
-
-Binaries will be generated in the libSBOL/release folder.
-
-PLATFORMS
-=========
-Tested on Mac OSX Version 10.9.5 and Windows 7 Enterprise with Python 2.7.9 32 bit. Python 3 not currently supported.
-
-DEPENDENCIES
-============
-Releases include precompiled binaries for libSBOL.
-
 
 ACKNOWLEDGEMENTS
 ================
