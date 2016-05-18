@@ -10,7 +10,7 @@ namespace sbol
     {
 	
 	public:
-		TextProperty persistentIdentity;
+		URIProperty persistentIdentity;
 		TextProperty displayId;
 		TextProperty version;
 		URIProperty wasDerivedFrom;

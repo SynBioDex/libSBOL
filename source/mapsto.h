@@ -14,7 +14,6 @@ namespace sbol
         ReferencedObject local;
         ReferencedObject remote;
 
-
         MapsTo(std::string uri = DEFAULT_NS "/MapsTo/example", std::string local = "", std::string remote = "", std::string refinement = SBOL_REFINEMENT_VERIFY_IDENTICAL) : MapsTo(SBOL_MAPS_TO, uri, local, remote, refinement) {};
         
         MapsTo(std::string uri_prefix, std::string display_id, std::string version, std::string local, std::string remote, std::string refinement) : MapsTo(SBOL_MAPS_TO, uri_prefix, display_id, version, local, remote, refinement) {};

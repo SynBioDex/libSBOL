@@ -1,0 +1,2474 @@
+Testing sbol-10101.rdf
+SBOL error 4:Missing namespace http://sbols.org/v2#
+8
+8
+FAILED
+Testing sbol-10102.rdf
+The namespace prefix in "rdf:RDF" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using node element 'RDF' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_WARN
+2, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+3, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+408, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+408, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+550, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+550, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+557, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+557, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+565, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+565, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+573, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+573, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+580, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+580, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+615, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+615, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+621, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+621, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+656, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+656, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+662, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+662, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+668, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+668, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+675, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+675, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+681, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+681, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+689, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+689, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+695, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+695, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+703, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+703, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+709, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+709, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+716, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+716, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+751, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+751, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+786, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+786, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+840, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+840, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+846, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+846, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+852, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+852, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+859, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+859, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+865, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+865, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+871, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+871, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+878, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+878, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+885, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+885, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+892, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+892, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+899, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+899, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:RDF" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using node element 'RDF' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_WARN
+2, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+3, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+408, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+408, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+550, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+550, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+557, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+557, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+565, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+565, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+573, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+573, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+580, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+580, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+615, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+615, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+621, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+621, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+656, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+656, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+662, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+662, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+668, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+668, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+675, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+675, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+681, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+681, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+689, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+689, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+695, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+695, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+703, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+703, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+709, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+709, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+716, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+716, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+751, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+751, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+786, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+786, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+840, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+840, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+846, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+846, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+852, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+852, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+859, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+859, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+865, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+865, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+871, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+871, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+878, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+878, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+885, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+885, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+892, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+892, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:about" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Tried to set multiple objects of a statement
+RAPTOR_LOG_LEVEL_ERROR
+899, -1
+http://sbols.org/v2#
+Using property attribute 'about' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+899, -1
+http://sbols.org/v2#
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+The namespace prefix in "rdf:resource" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+SBOL error 4:Missing namespace http://www.w3.org/1999/02/22-rdf-syntax-ns#
+FAILED
+Testing sbol-10103.rdf
+The namespace prefix in "dcterms:title" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using an element 'ModuleDefinition' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+6, -1
+http://sbols.org/v2#
+The namespace prefix in "dcterms:title" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using an element 'ModuleDefinition' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+6, -1
+http://sbols.org/v2#
+6
+6
+FAILED
+Testing sbol-10104.rdf
+The namespace prefix in "prov:wasDerivedFrom" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using an element 'ModuleDefinition' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+5, -1
+http://sbols.org/v2#
+The namespace prefix in "prov:wasDerivedFrom" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using an element 'ModuleDefinition' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+5, -1
+http://sbols.org/v2#
+6
+6
+FAILED
+Testing sbol-10201.rdf
+8
+8
+FAILED
+Testing sbol-10202.rdf
+8
+8
+FAILED
+Testing sbol-10203.rdf
+8
+8
+FAILED
+Testing sbol-10204.rdf
+8
+8
+FAILED
+Testing sbol-10206.rdf
+8
+8
+FAILED
+Testing sbol-10208.rdf
+8
+8
+FAILED
+Testing sbol-10209.rdf
+8
+8
+FAILED
+Testing sbol-10210.rdf
+8
+8
+FAILED
+Testing sbol-10211.rdf
+8
+8
+FAILED
+Testing sbol-10212.rdf
+8
+8
+FAILED
+Testing sbol-10213.rdf
+8
+8
+FAILED
+Testing sbol-10214.rdf
+The namespace prefix in "gb:molecule" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using an element 'ModuleDefinition' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+148, -1
+http://sbols.org/v2#
+The namespace prefix in "gb:molecule" was not declared.
+RAPTOR_LOG_LEVEL_ERROR
+Using an element 'ModuleDefinition' without a namespace is forbidden.
+RAPTOR_LOG_LEVEL_ERROR
+148, -1
+http://sbols.org/v2#
+8
+8
+FAILED
+Testing sbol-10215.rdf
+8
+8
+FAILED
+Testing sbol-10216.rdf
+8
+8
+FAILED
+Testing sbol-10218.rdf
+8
+8
+FAILED
+Testing sbol-10402.rdf
+8
+8
+FAILED
+Testing sbol-10403.rdf
+8
+8
+FAILED
+Testing sbol-10405.rdf
+8
+8
+FAILED
+Testing sbol-10406.rdf
+8
+8
+FAILED
+Testing sbol-10502.rdf
+8
+8
+FAILED
+Testing sbol-10503.rdf
+8
+8
+FAILED
+Testing sbol-10505.rdf
+8
+8
+FAILED
+Testing sbol-10507.rdf
+8
+8
+FAILED
+Testing sbol-10510.rdf
+8
+8
+FAILED
+Testing sbol-10512.rdf
+8
+8
+FAILED
+Testing sbol-10513.rdf
+8
+8
+FAILED
+Testing sbol-10516.rdf
+8
+8
+FAILED
+Testing sbol-10518.rdf
+8
+8
+FAILED
+Testing sbol-10519.rdf
+8
+8
+FAILED
+Testing sbol-10521.rdf
+8
+8
+FAILED
+Testing sbol-10524.rdf
+8
+8
+FAILED
+Testing sbol-10602.rdf
+8
+8
+FAILED
+Testing sbol-10603.rdf
+8
+8
+FAILED
+Testing sbol-10604.rdf
+8
+8
+FAILED
+Testing sbol-10606.rdf
+8
+8
+FAILED
+Testing sbol-10607.rdf
+8
+8
+FAILED
+Testing sbol-10802.rdf
+8
+8
+FAILED
+Testing sbol-10805.rdf
+8
+8
+FAILED
+Testing sbol-10809.rdf
+8
+8
+FAILED
+Testing sbol-10810.rdf
+8
+8
+FAILED
+Testing sbol-10811.rdf
+8
+8
+FAILED
+Testing sbol-11104.rdf
+8
+8
+FAILED
+Testing sbol-11404.rdf
+8
+8
+FAILED
+Testing sbol-11406.rdf
+8
+8
+FAILED
+Testing sbol-11407.rdf
+8
+8
+FAILED
+Testing sbol-11606.rdf
+8
+8
+FAILED
+Testing sbol-11702.rdf
+8
+8
+FAILED
+Testing sbol-12002.rdf
+12
+12
+FAILED
+Testing sbol-12003.rdf
+12
+12
+FAILED
+Testing sbol-12004.rdf
+12
+12
+FAILED
+Testing sbol-12006.rdf
+12
+12
+FAILED
+Testing sbol-12007.rdf
+12
+12
+FAILED
+Testing sbol-12102.rdf
+8
+8
+FAILED
+Testing sbol-12103.rdf
+10
+10
+FAILED
+Passed: 0
+FAILED: 58

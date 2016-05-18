@@ -20,7 +20,6 @@ namespace sbol
         List<URIProperty> roles;
         ReferencedObject sequence;        
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
-		List<OwnedObject<Component>> components;
 		List<OwnedObject<SequenceConstraint>> sequenceConstraints;
 
         // Open world constructor
@@ -54,7 +53,6 @@ namespace sbol
 			{
 			}
 	};
-    
 }
 
 #endif

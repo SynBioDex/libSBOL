@@ -34,9 +34,6 @@ OPTION( SBOL_GENERATE_MANUAL  "Generate SBOL documentation using Doxygen" FALSE 
 
 # build libSBOLc
 #ADD_SUBDIRECTORY( schema )
-IF( SBOL_GENERATE_PYTHON )
-    ADD_DEFINITIONS( -DSBOL_GENERATE_PY )
-ENDIF()
 ADD_SUBDIRECTORY( source )
 
 # build examples
@@ -50,14 +47,11 @@ ADD_SUBDIRECTORY( source )
 #ENDIF()
 
 # generate documentation
-#IF( SBOL_GENERATE_MANUAL )
-#    ADD_SUBDIRECTORY( manual )
-#ENDIF()
+IF( SBOL_GENERATE_MANUAL )
+    ADD_SUBDIRECTORY( manual )
+ENDIF()
 
-# generate python wrapper
-# the SWIG preprocessor symbol will selectively enable some parts of the code base while disabling others
 IF( SBOL_GENERATE_PYTHON )
-    ADD_DEFINITIONS( -DSBOL_GENERATE_PY )
     ADD_SUBDIRECTORY( wrapper )
 ENDIF()
 

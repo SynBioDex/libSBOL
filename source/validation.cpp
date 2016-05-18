@@ -22,6 +22,46 @@ std::string sbol::getClassName(std::string type)
         return type;
 };
 
+std::string sbol::getNameSpace(std::string type)
+{
+    std::size_t uri_subordinate_pos = type.find("#") + 1;
+    if (uri_subordinate_pos != std::string::npos)
+    {
+        std::string ns = type.substr(0, uri_subordinate_pos);
+        cout << ns << endl;
+        return ns;
+    }
+    else
+        return type;
+};
+
+/* An SBOL document MUST declare the use of the following XML namespace: Òhttp://sbols.org/v2#Ó. */
+void sbol::sbolRule10101(void *sbol_obj, void *arg)
+{
+    Document* doc = (Document *)sbol_obj;
+    vector<string> namespaces = doc->getNamespaces();
+    int FOUND_NS = 0;
+    for (vector<string>::iterator i_ns = namespaces.begin(); i_ns != namespaces.end(); ++i_ns)
+    {
+        string ns = *i_ns;
+        if(ns.compare(SBOL_URI "#") == 0) FOUND_NS = 1;
+    }
+    if (!FOUND_NS) SBOLError(SBOL_ERROR_MISSING_NAMESPACE, "Missing namespace " SBOL_URI "#");
+}
+
+/* An SBOL document MUST declare the use of the following XML namespace: Òhttp://www.w3.org/1999/02/22-rdf-syntax-ns#Ó.*/
+void sbol::sbolRule10102(void *sbol_obj, void *arg)
+{
+    Document* doc = (Document *)sbol_obj;
+    vector<string> namespaces = doc->getNamespaces();
+    int FOUND_NS = 0;
+    for (vector<string>::iterator i_ns = namespaces.begin(); i_ns != namespaces.end(); ++i_ns)
+    {
+        string ns = *i_ns;
+        if(ns.compare(RDF_URI) == 0) FOUND_NS = 1;
+    }
+    if (!FOUND_NS) SBOLError(SBOL_ERROR_MISSING_NAMESPACE, "Missing namespace " RDF_URI);
+}
 
 /* The identity property of an Identified object MUST be globally unique. */
 void sbol::sbol_rule_10202(void *sbol_obj, void *arg)

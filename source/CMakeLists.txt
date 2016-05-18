@@ -30,7 +30,8 @@ FILE(GLOB SBOL_HEADER_FILES
 	module.h
 	mapsto.h
 	model.h
-	sbol.h)
+	sbol.h
+    host.h)
 FILE(GLOB SBOL_SOURCE_FILES
 	validation.cpp
 	sbolerror.cpp

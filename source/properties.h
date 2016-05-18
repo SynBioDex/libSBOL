@@ -59,7 +59,6 @@ namespace sbol
         void create(std::string uri_prefix, std::string display_id, std::string version);
 		SBOLClass& operator[] (const int nIndex);
 		SBOLClass& operator[] (const std::string uri);
-		//SBOLClass& __getitem__(const std::string uri);
 
         class iterator : public std::vector<SBOLObject*>::iterator
 		{

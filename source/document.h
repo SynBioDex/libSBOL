@@ -31,19 +31,26 @@ namespace sbol {
 
     
     template <class SBOLClass>
-	void extend_data_model(std::string uri)
+    void register_extension(std::string ns_prefix, std::string uri)
 	{
 		SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
+        // TODO: register ns_prefix in SBOLObject
 	};
 
+    void raptor_error_handler(void *user_data, raptor_log_message* message);
 	
+    /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
 	class Document {
 	private:
-		raptor_world *rdf_graph;
+		raptor_world *rdf_graph;  ///< Triple store that holds SBOL objects and properties
+        std::vector<std::string> namespaces;
+        ValidationRules validationRules;
+
 	public:
 
 		Document() :
-			rdf_graph(raptor_new_world())
+			rdf_graph(raptor_new_world()),
+            validationRules({ sbolRule10101, sbolRule10102 })
 			{
 			};
 		std::unordered_map<std::string, sbol::TopLevel*> SBOLObjects;
@@ -61,7 +68,12 @@ namespace sbol {
 		void read(std::string filename);
 		static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
+        void validate(void *arg = NULL);
+        static void namespaceHandler(void *user_data, raptor_namespace *nspace);
+        std::vector<std::string> getNamespaces();
+
 		std::vector<SBOLObject*> flatten();
+        void addNameSpace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
 
 	};
 
