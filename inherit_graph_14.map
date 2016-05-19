@@ -1,4 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classsbol_1_1_property.html" title="sbol::Property\&lt; SBOLClass \&gt;" alt="" coords="5,12,201,37"/>
-<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l SBOLClass \&gt;" alt="" coords="249,5,391,44"/>
+<area shape="rect" id="node1" href="$classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::SequenceConstraint \&gt;" alt="" coords="5,5,166,44"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::SequenceConstraint \&gt;" alt="" coords="214,5,404,44"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::SequenceConstraint \&gt; \&gt;" alt="" coords="452,5,660,44"/>
 </map>
