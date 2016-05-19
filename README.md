@@ -66,6 +66,7 @@ USE CASE
 
 CODE EXAMPLE
 ============
+```
 #include "sbol.h"
 
 #include <iostream>
