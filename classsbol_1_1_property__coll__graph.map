@@ -1,7 +1,7 @@
 <map id="sbol::Property&lt; LiteralType &gt;" name="sbol::Property&lt; LiteralType &gt;">
-<area shape="rect" id="node2" href="$classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ properties\l+ list_properties\l+ owned_objects\l+ type\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="19,313,149,533"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="118,595,250,828"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_u_r_i_property.html" title="{sbol::URIProperty\n||+ URIProperty()\l}" alt="" coords="21,877,147,951"/>
-<area shape="rect" id="node5" href="$classsbol_1_1_property_1_1iterator.html" title="{sbol::Property\&lt; LiteralType\l \&gt;::iterator\n||+ iterator()\l}" alt="" coords="266,380,446,467"/>
-<area shape="rect" id="node7" href="$classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="5,5,163,252"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ properties\l+ list_properties\l+ owned_objects\l+ type\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="19,327,149,547"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="118,608,250,841"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_u_r_i_property.html" title="{sbol::URIProperty\n||+ URIProperty()\l}" alt="" coords="21,891,147,964"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_property_1_1iterator.html" title="{sbol::Property\&lt; LiteralType\l \&gt;::iterator\n||+ iterator()\l}" alt="" coords="266,393,446,480"/>
+<area shape="rect" id="node7" href="$classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="5,5,163,265"/>
 </map>
