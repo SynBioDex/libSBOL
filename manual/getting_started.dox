@@ -1,13 +1,60 @@
 //////////////////////////////////////////////////////////////////////
 /// @page getting_started
-/// 
 /// @section getting_started Getting Started
+///
+/// This beginner’s guide introduces the creation and use of SBOL 2.0 objects using libSBOL. This guide is not meant to be a comprehensive documentation of the library but rather a simple introduction to the basic methods available.  Refer to the [specification document](http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/) for a complete description of all SBOL data objects and their properties.
 ///
 /// @section document Creating an SBOL Document
 ///
+/// An SBOLDocument object is a container for SBOL data objects. Therefore, the first step is to create an SBOLDocument in which to put our objects. This can be done by calling the SBOLDocument constructor as
+/// ```
+/// Document& doc = *new Document();
+/// ```
+/// Experienced C++ programmers may find that returning a reference from a new operator is an unusual idiomatic choice.  See @ref idiomatic_cpp for a discussion about this stylistic preference in this tutorial.
+///
 /// @section creating_objects Creating SBOL Data Objects
 ///
+/// Both structural and functional details of biological designs can be described with SBOL data objects.  The principle classes for describing the structure and primary sequence of a design are ComponentDefinitions, Components, and Sequences, SequenceAnnotations.  The principle classes for describing the function of a design are ModuleDefinitions, Modules, and Interactions. These classes and their properties are represented as Unified Modeling Language (UML) diagrams in the specification document.  For example, following is the diagram for a ComponentDefinition which will be referred to in later sections.
+/// ![](component_definition_uml.png) 
+/// Objects can be created by calling their respective constructors. Each new object must be assigned a unique identity, or uniform resource identifier (URI), and each constructor has two alternative signatures.  One signature accepts a raw URI, while the "compliant" constructor auto-constructs a URI.
+///
+/// The following constructs a ModuleDefinition given a raw URI:
+/// ```
+/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("sys-bio.org/CRISPRTemplate");
+/// ```
+///
+/// The following auto-constructs a compliant URI from an authority, a displayID, and a version number:
+/// ```
+/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("sys-bio.org", "CRISPRTemplate", "1.0.0");
+/// ```
+/// The identity of the new object is thus assigned as "sys-bio.org/ModuleDefinition/CRISPRTemplate/1.0.0"
+///
+/// Some constructors have required fields. In the specification document, required fields are indicated as properties with a cardinality of 1 or more.  For example, a ComponentDefinition (see the UML diagram above) has only one required field, the type, which specifies the molecular type of a component. Required fields MUST be specified when calling a constructor.  The following creates a protein component.
+/// 
+/// ```
+/// ComponentDefinition& Cas9 = *new ComponentDefinition("sys-bio.org", "Cas9", "1.0.0", BIOPAX_PROTEIN);
+/// ```
+/// 
+/// Notice the type is specified using a predefined constant.  See @ref constants.h for all such predefined constants.
+///
 /// @section optional_fields Setting and Editing Optional Fields
+///
+/// Objects may also include optional fields.  These are indicated in UML as properties having a cardinality of 0 or more.  All properties of a ComponentDefinition are optional, except for the type.  Optional properties can only be set after the object is created. The following code creates a DNA component which is designated as a promoter: 
+/// ```
+/// ComponentDefinition& TargetPromoter = *new ComponentDefinition("sys-bio.org", "TargetPromoter", "1.0.0", BIOPAX_DNA);
+/// TargetPromoter.roles.set(SO_PROMOTER)
+/// ```
+///
+/// All properties have a set and a get method. To view the value of a property:
+/// ```
+/// cout << TargetPromoter.roles.get() << endl;
+/// ```
+/// This returns the string "http://identifiers.org/so/SO:0000167" which is the Sequence Ontology term for a promoter.
+///
+/// Note also that some properties support a list of values.  A property with a cardinality indicated by an asterisk symbol indicates that the property may hold an arbitrary number of values.  For example, a ComponentDefinition may be assigned multiple roles.  To add a new role:
+/// ```
+/// TargetPromoter.roles.add(SO "0000568");
+/// ```
 ///
 /// @section child_objects Creating and Editing Child Objects
 ///
@@ -16,4 +63,7 @@
 /// @section custom_annotations Creating Custom Annotations
 ///
 /// @section serialization Reading and Writing SBOL Files
+///
+/// @section idiomatic_cpp A Note on our Idiomatic Use of References
+/// Coming from a Python background to C++, this syntax feels more object-oriented.  Additionally, the libSBOL interface is designed to hide pointer operations, so it is not necessary to free pointers.  Rather, objects are freed when the document destructor is called.  Again, this is to provide a more object-oriented experience to the programmer.  Rest assured however, that if you disagree with this idiomatic style, you can work with pointers in the more traditional way.
 //////////////////////////////////////////////////////////////////////
