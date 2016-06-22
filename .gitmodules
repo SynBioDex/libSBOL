@@ -1,6 +1,15 @@
 [submodule "./restbed"] 
 path = ./restbed 
 url = https://github.com/Corvusoft/restbed/
-[submodule "restbed"]
-	path = restbed
-	url = https://github.com/Corvusoft/restbed
+
+[submodule "./restbed/dependency/asio"] 
+path = ./restbed/dependency/asio 
+url = https://github.com/Corvusoft/asio-dependency/tree/722f7e2be05a51c69644662ec514d6149b2b7ef8/asio
+
+[submodule "./restbed/dependency/catch"] 
+path = ./restbed/dependency/catch 
+url = https://github.com/Corvusoft/restbed/
+
+[submodule "./restbed/dependency/openssl"] 
+path = ./restbed/dependency/openssl 
+url = https://github.com/Corvusoft/restbed/
