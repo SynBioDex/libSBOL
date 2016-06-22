@@ -95,8 +95,17 @@
 /// DEPENDENCIES
 /// ============
 /// 
-/// Releases include precompiled binaries for libSBOL.
+/// LibSBOL depends on libxml2 and raptor libraries for I/O in XML and RDF formats. Windows releases include precompiled binaries for these dependencies libSBOL  On Mac, these libraries are typically installed by default.
 /// 
+/// Optionally, LibSBOL also depends on Restbed for Web API integration.  This is useful for features like querying biological parts in a repository or validating SBOL files.  This dependency also has subdependencies and is managed by Git's submodule feature.  After cloning the libSBOL project, you will also need to clone the submodules:
+/// ```
+/// git submodule add https://github.com/Corvusoft/restbed ./restbed
+/// git submodule add https://github.com/corvusoft/asio-dependency/tree/#### ./restbed/dependency/asio
+/// git submodule add https://github.com/corvusoft/catch-dependency/tree/#### ./restbed/dependency/catch
+/// git submodule add https://github.com/corvusoft/openssl-dependency/tree/#### ./restbed/dependency/openssl
+/// ```
+/// A .gitmodules configuration file is already included in the project root.  This may have to be modified occasionally as the depencies upgrade to more recent commits.
+///
 /// EXAMPLE CODE
 /// ============
 /// The example code below can be used to construct the biological design in the figure.  See @ref getting_started for a tutorial that walks the user through this example.
