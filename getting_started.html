@@ -81,7 +81,8 @@ Getting Started</h1>
 <p>This beginner’s guide introduces the creation and use of SBOL 2.0 objects using libSBOL. This guide is not meant to be a comprehensive documentation of the library but rather a simple introduction to the basic methods available. Refer to the <a href="http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/">specification document</a> for a complete description of all SBOL data objects and their properties.</p>
 <h1><a class="anchor" id="document"></a>
 Creating an SBOL Document</h1>
-<p>An SBOLDocument object is a container for SBOL data objects. Therefore, the first step is to create an SBOLDocument in which to put our objects. This can be done by calling the SBOLDocument constructor as </p><div class="fragment"><div class="line">Document&amp; doc = *<span class="keyword">new</span> Document();</div></div><!-- fragment --> <h1><a class="anchor" id="creating_objects"></a>
+<p>An SBOLDocument object is a container for SBOL data objects. Therefore, the first step is to create an SBOLDocument in which to put our objects. This can be done by calling the SBOLDocument constructor as </p><div class="fragment"><div class="line">Document&amp; doc = *<span class="keyword">new</span> Document();</div></div><!-- fragment --><p> Experienced C++ programmers may find that returning a reference from a new operator is an unusual idiomatic choice. See <a class="el" href="getting_started.html#idiomatic_cpp">A Note on our Idiomatic Use of References</a> for a discussion about this stylistic preference in this tutorial.</p>
+<h1><a class="anchor" id="creating_objects"></a>
 Creating SBOL Data Objects</h1>
 <p>Both structural and functional details of biological designs can be described with SBOL data objects. The principle classes for describing the structure and primary sequence of a design are ComponentDefinitions, Components, and Sequences, SequenceAnnotations. The principle classes for describing the function of a design are ModuleDefinitions, Modules, and Interactions. These classes and their properties are represented as Unified Modeling Language (UML) diagrams in the specification document. For example, following is the diagram for a ComponentDefinition which will be referred to in later sections. </p><div class="image">
 <img src="component_definition_uml.png" alt="component_definition_uml.png"/>
@@ -101,10 +102,13 @@ Creating and Editing References</h1>
 Creating Custom Annotations</h1>
 <h1><a class="anchor" id="serialization"></a>
 Reading and Writing SBOL Files</h1>
+<h1><a class="anchor" id="idiomatic_cpp"></a>
+A Note on our Idiomatic Use of References</h1>
+<p>Coming from a Python background to C++, this syntax feels more object-oriented. Additionally, the libSBOL interface is designed to hide pointer operations, so it is not necessary to free pointers. Rather, objects are freed when the document destructor is called. Again, this is to provide a more object-oriented experience to the programmer. Rest assured however, that if you disagree with this idiomatic style, you can work with pointers in the more traditional way. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 15 2016 17:26:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 21 2016 22:39:16 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
