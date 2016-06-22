@@ -8,8 +8,8 @@ url = https://github.com/Corvusoft/asio-dependency/tree/722f7e2be05a51c69644662e
 
 [submodule "./restbed/dependency/catch"] 
 path = ./restbed/dependency/catch 
-url = https://github.com/Corvusoft/restbed/
+url = https://github.com/corvusoft/catch-dependency/tree/c984fc3ecde60b59efa2203e82261acac8ac8502
 
 [submodule "./restbed/dependency/openssl"] 
 path = ./restbed/dependency/openssl 
-url = https://github.com/Corvusoft/restbed/
+url = https://github.com/corvusoft/openssl-dependency/tree/2df619b06ca0026e40e8689020b0e54ed7165583
