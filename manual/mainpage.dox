@@ -21,7 +21,7 @@
 ///
 /// Windows
 /// -------
-/// First, download the developer utilities from the links above. 
+/// First, download the developer utilities from the links above. These instructions are for Minimalist GNU for Windows or VisualStudio.
 ///
 /// Then, clone the repository:
 /// ```
@@ -36,25 +36,35 @@
 /// The first time you click Configure CMake will list variables, like CMAKE_BUILD_TYPE and LIBXML2_INCLUDE_DIR, in red. That means they've been updated. To build the main SBOL library, just click Configure again until the red goes away. This is also where you set up the optional targets: examples, tests, manual, and Python wrapper. To add them check the appropriate boxes (SBOL_BUILD_EXAMPLES, for example) and then Configure again to adjust the settings. A lot of other options might be visibile too; checking Grouped at the top makes things more managable. Once it's all set, click Generate to create the compiler instructions.
 /// 
 /// The last step is to cd into the libSBOL/build folder and run the compiler.
-/// 
 /// ```
-/// make 
+/// mingw32-make
 /// ```
-/// 
 /// or
-/// 
 /// ```
-/// mingw32-make.exe
+/// mingw32-make install
 /// ```
-/// 
 /// Binaries will be generated in the libSBOL/release folder.
 ///
 /// Mac
 /// ---
+/// You can use the cmake utility on Mac as well.  One important difference about CMake on Mac versus Windows is that there is no GUI application.  However, there is an interactive utility that runs in a terminal window.
+/// ```
+/// ccmake .
+/// ```
+/// Proceed with configuration and generation steps as described in the Windows installation. 
+///
+/// The last step is to cd into the libSBOL/build folder and run the compiler.
+/// ```
+/// make 
+/// ```
+/// or
+/// ```
+/// make install
+/// ```
+///
 /// Debian/Ubuntu
 /// -------------
 /// Or if you're on Debian/Ubuntu this command should install everything:
-/// 
 /// ```
 /// sudo apt-get install git cmake-qt-gui build-essential libxml2-dev
 /// ```

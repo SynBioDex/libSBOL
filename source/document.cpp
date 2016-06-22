@@ -482,7 +482,11 @@ void Document::validate(void *arg)
 
 std::vector<std::string> Document::getNamespaces()
 {
-    return this->namespaces;
+    vector<string> ns_list;
+    for( auto i_ns = this->namespaces.begin(); i_ns != this->namespaces.end(); ++i_ns ) {
+        ns_list.push_back( i_ns->second );
+    }
+    return ns_list;
 };
 
 void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)

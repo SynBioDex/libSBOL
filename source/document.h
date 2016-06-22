@@ -43,7 +43,7 @@ namespace sbol {
 	class Document {
 	private:
 		raptor_world *rdf_graph;  ///< Triple store that holds SBOL objects and properties
-        std::unordered_map<std::string, std::string> namespaces;
+        std::unordered_map<std::string, std::string> namespaces;  // A namespace prefix serves as the hash key for the full namespace URI
         ValidationRules validationRules;  ///< A list of validation functions to run on the Document prior to serialization
 
 	public:
