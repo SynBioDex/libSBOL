@@ -483,17 +483,23 @@ void Document::validate(void *arg)
 std::vector<std::string> Document::getNamespaces()
 {
     vector<string> ns_list;
-    for( auto i_ns = this->namespaces.begin(); i_ns != this->namespaces.end(); ++i_ns ) {
-        ns_list.push_back( i_ns->second );
+    if (this->namespaces.size() != 0)
+    {
+        for( auto i_ns = this->namespaces.begin(); i_ns != this->namespaces.end(); ++i_ns )
+        {
+            ns_list.push_back( i_ns->second );
+        }
     }
     return ns_list;
 };
 
 void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
 {
-    vector<std::string>* namespaces = (vector<string>*)user_data;
+    //vector<std::string>* namespaces = (vector<string>*)user_data;
+    Document* doc = (Document *)user_data;
     string ns = string((const char *)raptor_uri_as_string(raptor_namespace_get_uri(nspace)));
-    namespaces->push_back(ns);
+    string prefix = string((const char *)raptor_namespace_get_prefix(nspace));
+    doc->namespaces[prefix] = ns;
 }
 
 void Document::read(std::string filename)
@@ -507,7 +513,7 @@ void Document::read(std::string filename)
 
 	FILE* fh = fopen(filename.c_str(), "rb");
 	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
-    raptor_parser_set_namespace_handler(rdf_parser, &this->namespaces, this->namespaceHandler);
+    raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
 	unsigned char *uri_string;
 	raptor_uri *uri, *base_uri;
