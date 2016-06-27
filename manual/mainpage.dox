@@ -17,7 +17,7 @@
 /// * OPTIONAL: Doxygen for creating autodocumentation
 /// * OPTIONAL: SWIG for generating Python wrappers
 /// 
-/// All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake should also be able to generate projects for Eclipse, Visual Studio, XCode, etc. However, that will probably involve adjusting some paths.
+/// All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake is also be able to generate projects for Eclipse, Visual Studio, XCode, etc. 
 ///
 /// Windows
 /// -------
@@ -109,12 +109,10 @@
 /// 
 /// Optionally, LibSBOL also depends on Restbed for Web API integration.  This is useful for features like querying biological parts in a repository or validating SBOL files.  This dependency also has subdependencies and is managed by Git's submodule feature.  After cloning the libSBOL project, you will also need to clone the submodules:
 /// ```
-/// git submodule add https://github.com/Corvusoft/restbed ./restbed
-/// git submodule add https://github.com/corvusoft/asio-dependency/tree/#### ./restbed/dependency/asio
-/// git submodule add https://github.com/corvusoft/catch-dependency/tree/#### ./restbed/dependency/catch
-/// git submodule add https://github.com/corvusoft/openssl-dependency/tree/#### ./restbed/dependency/openssl
+/// cd libSBOL
+/// git submodule update --init --recursive
 /// ```
-/// A .gitmodules configuration file is already included in the project root.  This may have to be modified occasionally as the depencies upgrade to more recent commits.
+/// A .gitmodules configuration file is already included in the project root.  
 ///
 /// EXAMPLE CODE
 /// ============
