@@ -2,7 +2,11 @@
 /// @page getting_started
 /// @section getting_started Getting Started
 ///
-/// This beginner’s guide introduces the creation and use of SBOL 2.0 objects using libSBOL. This guide is not meant to be a comprehensive documentation of the library but rather a simple introduction to the basic methods available.  Refer to the [specification document](http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/) for a complete description of all SBOL data objects and their properties.
+/// This beginner’s guide will help you quickly set up a client project and introduces the basic principles of libSBOL for new users. This guide is not meant to be a comprehensive documentation of the library or the SBOL standard.  Refer to the [specification document](http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/) for a complete description of all SBOL data objects and their properties.
+///
+/// The libSBOL repository contains example Xcode and Visual Studio project files.  You can open these project files in your preferred IDE. The projects assume that you have already run `make install` (see @ref mainpage for build instructions) and that libSBOL has been installed to your system's standard library path. 
+///
+/// If you have installed libSBOL to a custom location and you would like to configure your Xcode project to link your local build, then you will have to configure the Build Settings.  Under Search Paths specify the Library and Header Search Paths to your local build.  Under Linking, Other Linker Flags, specify "-lsbol -lraptor2 -lxml2 -liconv -lz"
 ///
 /// @section document Creating an SBOL Document
 ///
@@ -104,8 +108,6 @@
 /// ```
 /// cout << Cas9ComplexFormation.participations[0].identity.get() << endl;
 /// ```
-/// @section custom_annotations Creating Custom Annotations
-///
 /// @section idiomatic_cpp A Note on our Idiomatic Use of References
 ///
 /// In C++ creating a reference to an object using the new operator is a matter of stylistic controversy. For one thing, mixing references with the new operator can make low level memory management confusing for some developers.  The reason this isn't an issue here is because libSBOL encapsulates memory management within the Document object. Pointers to all the objects in a Document are freed when the Document destructor is called.  Coming from a Python background to C++, we wanted to maximize the object-oriented experience using the library and the reference syntax feels and looks more object-oriented. Rest assured however, that if you disagree with this idiomatic style, you can still work with pointers in the more traditional way.
