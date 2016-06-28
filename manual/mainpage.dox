@@ -43,7 +43,7 @@
 /// ```
 /// mingw32-make install
 /// ```
-/// Binaries will be generated in the libSBOL/release folder.
+/// Binaries will be generated in the libSBOL/release folder and installed in the standard library path for your OS.  You will need administrator privileges for a make install.
 ///
 /// Mac
 /// ---
@@ -61,7 +61,7 @@
 /// ```
 /// make install
 /// ```
-///
+/// 
 /// Debian/Ubuntu
 /// -------------
 /// Or if you're on Debian/Ubuntu this command should install everything:
@@ -107,12 +107,12 @@
 /// 
 /// LibSBOL depends on libxml2 and raptor libraries for I/O in XML and RDF formats. Windows releases include precompiled binaries for these dependencies libSBOL  On Mac, these libraries are typically installed by default.
 /// 
-/// Optionally, LibSBOL also depends on Restbed for Web API integration.  This is useful for features like querying biological parts in a repository or validating SBOL files.  This dependency also has subdependencies and is managed by Git's submodule feature.  After cloning the libSBOL project, you will also need to clone the submodules:
+/// Optionally, LibSBOL also depends on Restbed for web integration.  This is useful for features like querying biological parts in a repository or validating SBOL files.  This dependency also has subdependencies and is managed by Git's submodule feature.  After cloning the libSBOL project, you will also need to clone the submodules:
 /// ```
 /// cd libSBOL
 /// git submodule update --init --recursive
 /// ```
-/// A .gitmodules configuration file is already included in the project root.  
+/// A .gitmodules configuration file is included in the project root.  
 ///
 /// EXAMPLE CODE
 /// ============
