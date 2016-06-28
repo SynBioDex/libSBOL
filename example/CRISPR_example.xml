@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/#"
+   xmlns:prov="http://www.w3.org/ns/prov#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:sbol="http://sbols.org/v2#">
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/CRPbPromoter/1.0.0">
+    <sbol:displayId>CRPbPromoter</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/CRPbPromoter"/>
+    <sbol:sequence rdf:resource="sys-bio.org/Sequence/CRPbPromoterSeq/1.0.0"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/Cas9-GuideRNAComplex/1.0.0">
+    <sbol:displayId>Cas9-GuideRNAComplex</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/Cas9-GuideRNAComplex"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Complex"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/Cas9-mBFP/1.0.0">
+    <sbol:displayId>Cas9-mBFP</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/Cas9-mBFP"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/Cas9/1.0.0">
+    <sbol:displayId>Cas9</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/Cas9"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/Cas9mBFPGuideRNAComplex/1.0.0">
+    <sbol:displayId>Cas9mBFPGuideRNAComplex</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/Cas9mBFPGuideRNAComplex"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#RnaRegion"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/EYFP/1.0.0">
+    <sbol:displayId>EYFP</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/EYFP"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/EYFPGene/1.0.0">
+    <sbol:displayId>EYFPGene</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/EYFPGene"/>
+    <sbol:sequence rdf:resource="sys-bio.org/Sequence/EYFPSequence/1.0.0"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/GuideRNA/1.0.0">
+    <sbol:displayId>GuideRNA</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/GuideRNA"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#RnaRegion"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/GuideRNAb/1.0.0">
+    <sbol:displayId>GuideRNAb</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/GuideRNAb"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#RnaRegion"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/TargetGene/1.0.0">
+    <sbol:displayId>TargetGene</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/TargetGene"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/TargetPromoter/1.0.0">
+    <sbol:displayId>TargetPromoter</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/TargetPromoter"/>
+    <sbol:sequenceConstraint>
+      <sbol:SequenceConstraint rdf:about="sys-bio.org/SequenceConstraint/0/1.0.0">
+        <sbol:displayId>0</sbol:displayId>
+        <sbol:object rdf:resource="sys-bio.org/Component/TargetGene/1.0.0"/>
+        <sbol:persistentIdentity rdf:resource="http://examples.org//SequenceConstraint/example"/>
+        <sbol:restriction rdf:resource="http://sbols.org/v2#precedes"/>
+        <sbol:subject rdf:resource="sys-bio.org/Component/TargetPromoter/1.0.0"/>
+        <sbol:version>1.0.0</sbol:version>
+      </sbol:SequenceConstraint>
+    </sbol:sequenceConstraint>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ComponentDefinition rdf:about="sys-bio.org/ComponentDefinition/TargetProtein/1.0.0">
+    <sbol:displayId>TargetProtein</sbol:displayId>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/TargetProtein"/>
+    <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#Protein"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ComponentDefinition>
+  <sbol:ModuleDefinition rdf:about="sys-bio.org/ModuleDefinition/CRISPRTemplate/1.0.0">
+    <sbol:displayId>CRISPRTemplate</sbol:displayId>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="sys-bio.org/Interaction/complex_formation/1.0.0">
+        <sbol:displayId>complex_formation</sbol:displayId>
+        <sbol:participation>
+          <sbol:Participation rdf:about="sys-bio.org/Participation/A/1.0.0">
+            <sbol:displayId>A</sbol:displayId>
+            <sbol:participant rdf:resource="sys-bio.org/FunctionalComponent/cas9/1.0.0"/>
+            <sbol:persistentIdentity rdf:resource="sys-bio.org/A"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000010"/>
+            <sbol:version>1.0.0</sbol:version>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="sys-bio.org/Participation/AB/1.0.0">
+            <sbol:displayId>AB</sbol:displayId>
+            <sbol:participant rdf:resource="sys-bio.org/FunctionalComponent/cas9-guide_rna_complex/1.0.0"/>
+            <sbol:persistentIdentity rdf:resource="sys-bio.org/AB"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000253"/>
+            <sbol:version>1.0.0</sbol:version>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="sys-bio.org/Participation/B/1.0.0">
+            <sbol:displayId>B</sbol:displayId>
+            <sbol:participant rdf:resource="sys-bio.org/FunctionalComponent/guide_rna/1.0.0"/>
+            <sbol:persistentIdentity rdf:resource="sys-bio.org/B"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000010"/>
+            <sbol:version>1.0.0</sbol:version>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:persistentIdentity rdf:resource="sys-bio.org/complex_formation"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000177"/>
+        <sbol:version>1.0.0</sbol:version>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="sys-bio.org/Interaction/gene_inhibition/1.0.0">
+        <sbol:displayId>gene_inhibition</sbol:displayId>
+        <sbol:participation>
+          <sbol:Participation rdf:about="sys-bio.org/Participation/CRISPRRepression/inhibitor/1.0.0">
+            <sbol:displayId>CRISPRRepression/inhibitor</sbol:displayId>
+            <sbol:participant rdf:resource="sys-bio.org/FunctionalComponent/cas9_grna_complex/1.0.0"/>
+            <sbol:persistentIdentity rdf:resource="http://examples.org//Participation/example"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000020"/>
+            <sbol:version>1.0.0</sbol:version>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="sys-bio.org/Participation/CRISPRRepression/promoter/1.0.0">
+            <sbol:displayId>CRISPRRepression/promoter</sbol:displayId>
+            <sbol:participant rdf:resource="sys-bio.org/FunctionalComponent/target_promoter/1.0.0"/>
+            <sbol:persistentIdentity rdf:resource="http://examples.org//Participation/example"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000598"/>
+            <sbol:version>1.0.0</sbol:version>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:persistentIdentity rdf:resource="sys-bio.org/gene_inhibition"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000169"/>
+        <sbol:version>1.0.0</sbol:version>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:interaction>
+      <sbol:Interaction rdf:about="sys-bio.org/Interaction/target_production/1.0.0">
+        <sbol:displayId>target_production</sbol:displayId>
+        <sbol:participation>
+          <sbol:Participation rdf:about="sys-bio.org/Participation/TargetProduction/gene/1.0.0">
+            <sbol:displayId>TargetProduction/gene</sbol:displayId>
+            <sbol:participant rdf:resource="sys-bio.org/FunctionalComponent/target_gene/1.0.0"/>
+            <sbol:persistentIdentity rdf:resource="http://examples.org//Participation/example"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000598"/>
+            <sbol:version>1.0.0</sbol:version>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="sys-bio.org/Participation/TargetProduction/gene_product/1.0.0">
+            <sbol:displayId>TargetProduction/gene_product</sbol:displayId>
+            <sbol:participant rdf:resource="sys-bio.org/FunctionalComponent/target_protein/1.0.0"/>
+            <sbol:persistentIdentity rdf:resource="http://examples.org//Participation/example"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000011"/>
+            <sbol:version>1.0.0</sbol:version>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:participation>
+          <sbol:Participation rdf:about="sys-bio.org/Participation/TargetProduction/promoter/1.0.0">
+            <sbol:displayId>TargetProduction/promoter</sbol:displayId>
+            <sbol:participant rdf:resource="sys-bio.org/FunctionalComponent/target_promoter/1.0.0"/>
+            <sbol:persistentIdentity rdf:resource="http://examples.org//Participation/example"/>
+            <sbol:role rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000598"/>
+            <sbol:version>1.0.0</sbol:version>
+          </sbol:Participation>
+        </sbol:participation>
+        <sbol:persistentIdentity rdf:resource="sys-bio.org/target_production"/>
+        <sbol:type rdf:resource="http://identifiers.org/biomodels.sbo/SBO:0000170"/>
+        <sbol:version>1.0.0</sbol:version>
+      </sbol:Interaction>
+    </sbol:interaction>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/CRISPRTemplate"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ModuleDefinition>
+  <sbol:ModuleDefinition rdf:about="sys-bio.org/ModuleDefinition/CRPbCircuit/1.0.0">
+    <sbol:displayId>CRPbCircuit</sbol:displayId>
+    <sbol:module>
+      <sbol:Module rdf:about="sys-bio.org/Module/crpb_circuit/1.0.0">
+        <sbol:definition rdf:resource="sys-bio.org/ModuleDefinition/CRPbPromoter/1.0.0"/>
+        <sbol:displayId>crpb_circuit</sbol:displayId>
+        <sbol:persistentIdentity rdf:resource="sys-bio.org/crpb_circuit"/>
+        <sbol:version>1.0.0</sbol:version>
+      </sbol:Module>
+    </sbol:module>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/CRPbCircuit"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:ModuleDefinition>
+  <sbol:Sequence rdf:about="sys-bio.org/Sequence/EYFPSequence/1.0.0">
+    <sbol:displayId>EYFPSequence</sbol:displayId>
+    <sbol:elements>atggtgagcaagggcgaggagctgttcaccggggtggtgcccatcctggtcgagctggacggcgacgtaaacggccacaagttcagcgtgtccggcgagggcgagggcgatgccacctacggcaagctgaccctgaagttcatctgcaccaccggcaagctgcccgtgccctggcccaccctcgtgaccaccttcggctacggcctgcaatgcttcgcccgctaccccgaccacatgaagctgcacgacttcttcaagtccgccatgcccgaaggctacgtccaggagcgcaccatcttcttcaaggacgacggcaactacaagacccgcgccgaggtgaagttcgagggcgacaccctggtgaaccgcatcgagctgaagggcatcgacttcaaggaggacggcaacatcctggggcacaagctggagtacaactacaacagccacaacgtctatatcatggccgacaagcagaagaacggcatcaaggtgaacttcaagatccgccacaacatcgaggacggcagcgtgcagctcgccgaccactaccagcagaacacccccatcggcgacggccccgtgctgctgcccgacaaccactacctgagctaccagtccgccctgagcaaagaccccaacgagaagcgcgatcacatggtcctgctggagttcgtgaccgccgccgggatcactctcggcatggacgagctgtacaagtaataa</sbol:elements>
+    <sbol:encoding rdf:resource="www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+    <sbol:persistentIdentity rdf:resource="sys-bio.org/EYFPSequence"/>
+    <sbol:version>1.0.0</sbol:version>
+  </sbol:Sequence>
+</rdf:RDF>
