@@ -6,9 +6,11 @@
 ///
 /// @section document Creating an SBOL Document
 ///
-/// An SBOLDocument object is a container for SBOL data objects. Therefore, the first step is to create an SBOLDocument in which to put our objects. This can be done by calling the SBOLDocument constructor as
+/// An SBOLDocument object is a container for SBOL data objects. All file I/O operations are performed on the Document object. Usually the first step is to create an SBOLDocument in which to put your objects. This can be done by calling the SBOLDocument constructor.  The read and write methods are used for 
 /// ```
 /// Document& doc = *new Document();
+/// doc.read("CRISPR_example.xml")
+/// doc.write("CRISPR_example.xml")
 /// ```
 /// Experienced C++ programmers may find that returning a reference from a new operator is an unusual idiomatic choice.  See @ref idiomatic_cpp for a discussion about this stylistic preference in this tutorial.
 ///
@@ -34,9 +36,15 @@
 /// ```
 /// ComponentDefinition& Cas9 = *new ComponentDefinition("sys-bio.org", "Cas9", "1.0.0", BIOPAX_PROTEIN);
 /// ```
-/// 
 /// Notice the type is specified using a predefined constant.  See @ref constants.h for all such predefined constants.
 ///
+/// @section adding_objects Adding Objects to a Document
+///
+/// In some cases a developer may want to use SBOL objects as intermediate data structures in a computational biology workflow.  In this case the user is free to manipulate objects independently of a Document.  However, if the user wishes to write out a file with all the information contained in their object, they must first add it to the Document.  This is done using a templated add method.
+/// ```
+/// doc.add<ModuleDefinition>(CRISPRTemplate);
+/// doc.add<ComponentDefinition>(Cas9);
+/// ``` 
 /// @section optional_fields Setting and Editing Optional Fields
 ///
 /// Objects may also include optional fields.  These are indicated in UML as properties having a cardinality of 0 or more.  All properties of a ComponentDefinition are optional, except for the type.  Optional properties can only be set after the object is created. The following code creates a DNA component which is designated as a promoter: 
@@ -58,12 +66,47 @@
 ///
 /// @section child_objects Creating and Editing Child Objects
 ///
-/// @section references Creating and Editing References
+/// Some SBOL objects can be composed into hierarchical parent-child relationships.  In the specification diagrams, these relationshipss are indicated by black diamond arrows.  In the UML diagram above, the black diamond indicates that ComponentDefinitions are parents of SequenceAnnotations.  Properties of this type can be modified using the add method and passing the child object as the argument.
+/// ```
+/// TargetPromoter.annotations.add(annotation_object)
+/// ```
+/// @section references Creating and Editing Reference Properties
 ///
+/// Some SBOL objects point to other objects by way of references. For example, ComponentDefinitions point to their corresponding Sequences. Properties of this type should be set with the URI of the related object. 
+/// ``` 
+/// ComponentDefinition& EYFPGene = *new ComponentDefinition(BASE_URI, "EYFPGene", v, BIOPAX_DNA);
+/// Sequence& seq = *new Sequence(BASE_URI, "EYFPSequence", "1.0.0", "atgnnntaa", SBOL_ENCODING_IUPAC);
+/// EYFPGene.sequence.setReference(BASE_URI, "EYFPSequence, "1.0.0");
+/// ```
+/// The setReference method automatically constructs a complicant URI.  Another way to set the reference is to specify the full URI.
+/// ```
+/// EYFPGene.sequence.set(seq.identity.get());
+/// ```
+/// @section lists_of_objects Iterating and Indexing Lists
+/// Some properties can contain multiple values or objects. As mentioned under @ref optional_fields additional values can be specified with the add method.  In addition you may iterate over lists of objects or values.
+/// ```
+/// // Iterate through objects (black diamond properties in UML)
+/// for( auto i_p = Cas9ComplexFormation.participations.begin(); i_p != Cas9ComplexFormation.participations.end(); i_p++)
+/// {
+///     Participation& p = (*i_p);
+///     cout << p.identity.get() << endl;
+///     cout << p.roles.get() << endl;
+/// }
+///   
+/// // Iterate through references (white diamond properties in UML)
+/// for (auto i_role = reaction_participant.roles.begin(); i_role != reaction_participant.roles.end(); i_role++)
+/// {
+///     string role = *i_role;
+///     cout << role << endl;
+/// }
+/// ```
+/// Numerical indexing of lists works as well:
+/// ```
+/// cout << Cas9ComplexFormation.participations[0].identity.get() << endl;
+/// ```
 /// @section custom_annotations Creating Custom Annotations
 ///
-/// @section serialization Reading and Writing SBOL Files
-///
 /// @section idiomatic_cpp A Note on our Idiomatic Use of References
-/// Coming from a Python background to C++, this syntax feels more object-oriented.  Additionally, the libSBOL interface is designed to hide pointer operations, so it is not necessary to free pointers.  Rather, objects are freed when the document destructor is called.  Again, this is to provide a more object-oriented experience to the programmer.  Rest assured however, that if you disagree with this idiomatic style, you can work with pointers in the more traditional way.
+///
+/// In C++ creating a reference to an object using the new operator is a matter of stylistic controversy. For one thing, mixing references with the new operator can make low level memory management confusing for some developers.  The reason this isn't an issue here is because libSBOL encapsulates memory management within the Document object. Pointers to all the objects in a Document are freed when the Document destructor is called.  Coming from a Python background to C++, we wanted to maximize the object-oriented experience using the library and the reference syntax feels and looks more object-oriented. Rest assured however, that if you disagree with this idiomatic style, you can still work with pointers in the more traditional way.
 //////////////////////////////////////////////////////////////////////
