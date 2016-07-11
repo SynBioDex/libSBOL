@@ -9,8 +9,9 @@ INCLUDE_DIRECTORIES( ${RAPTOR_HEADER_DIR})
 
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES
+    config.h
     constants.h
-	validation.h
+    validation.h
 	sbolerror.h
 	property.h
     properties.h
@@ -32,6 +33,7 @@ FILE(GLOB SBOL_HEADER_FILES
 	model.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
+    config.cpp
 	validation.cpp
 	sbolerror.cpp
     properties.cpp

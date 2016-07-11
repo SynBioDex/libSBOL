@@ -13,21 +13,21 @@ using namespace std;
 
 unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
 {
-	// Typecast proxy constructors to a constructor for SBOL
-	// This makes some ugly syntax, but library users should never see it.
-	make_pair(UNDEFINED, &create<SBOLObject>),
-	make_pair(SBOL_COMPONENT_DEFINITION, (SBOLObject&(*)()) &create<ComponentDefinition>),
-	make_pair(SBOL_SEQUENCE_ANNOTATION, (SBOLObject&(*)()) &create<SequenceAnnotation>),
-	make_pair(SBOL_SEQUENCE, (SBOLObject&(*)()) &create<Sequence>),
-	make_pair(SBOL_COMPONENT, (SBOLObject&(*)()) &create<Component>),
-	make_pair(SBOL_FUNCTIONAL_COMPONENT, (SBOLObject&(*)()) &create<FunctionalComponent>),
-	make_pair(SBOL_MODULE_DEFINITION, (SBOLObject&(*)()) &create<ModuleDefinition>),
-	make_pair(SBOL_MODULE, (SBOLObject&(*)()) &create<Module>),
-	make_pair(SBOL_INTERACTION, (SBOLObject&(*)()) &create<Interaction>),
-	make_pair(SBOL_PARTICIPATION, (SBOLObject&(*)()) &create<Participation>),
-	make_pair(SBOL_MODEL, (SBOLObject&(*)()) &create<Model>),
-	make_pair(SBOL_SEQUENCE_CONSTRAINT, (SBOLObject&(*)()) &create<SequenceConstraint>),
-	make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>)
+    // Typecast proxy constructors to a constructor for SBOL
+    // This makes some ugly syntax, but library users should never see it.
+    make_pair(UNDEFINED, &create<SBOLObject>),
+    make_pair(SBOL_COMPONENT_DEFINITION, (SBOLObject&(*)()) &create<ComponentDefinition>),
+    make_pair(SBOL_SEQUENCE_ANNOTATION, (SBOLObject&(*)()) &create<SequenceAnnotation>),
+    make_pair(SBOL_SEQUENCE, (SBOLObject&(*)()) &create<Sequence>),
+    make_pair(SBOL_COMPONENT, (SBOLObject&(*)()) &create<Component>),
+    make_pair(SBOL_FUNCTIONAL_COMPONENT, (SBOLObject&(*)()) &create<FunctionalComponent>),
+    make_pair(SBOL_MODULE_DEFINITION, (SBOLObject&(*)()) &create<ModuleDefinition>),
+    make_pair(SBOL_MODULE, (SBOLObject&(*)()) &create<Module>),
+    make_pair(SBOL_INTERACTION, (SBOLObject&(*)()) &create<Interaction>),
+    make_pair(SBOL_PARTICIPATION, (SBOLObject&(*)()) &create<Participation>),
+    make_pair(SBOL_MODEL, (SBOLObject&(*)()) &create<Model>),
+    make_pair(SBOL_SEQUENCE_CONSTRAINT, (SBOLObject&(*)()) &create<SequenceConstraint>),
+    make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>)
 };
 
 void sbol::seek_element(std::istringstream& xml_buffer, std::string uri)
@@ -509,8 +509,8 @@ void Document::read(std::string filename)
     SBOLObjects.clear();
     namespaces.clear();
 	this->rdf_graph = raptor_new_world();
-    raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Set error handler
-
+    raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
+    
 	FILE* fh = fopen(filename.c_str(), "rb");
 	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
@@ -520,16 +520,17 @@ void Document::read(std::string filename)
 	
 	void *user_data = this;
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
-	raptor_uri *sbol_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
-	raptor_parser_parse_iostream(rdf_parser, ios, sbol_uri);
+	//base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
+    base_uri = NULL;
+    raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
 
 	raptor_free_iostream(ios);
 	rewind(fh);
 	ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_properties);
-	raptor_parser_parse_iostream(rdf_parser, ios, sbol_uri);
+	raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
 
-	raptor_free_uri(sbol_uri);
+	raptor_free_uri(base_uri);
 	raptor_free_iostream(ios);
 	raptor_free_parser(rdf_parser);
     
@@ -704,12 +705,12 @@ raptor_world* Document::getWorld()
 	return (this->rdf_graph);
 };
 
-void Document::addNameSpace(std::string ns, std::string prefix)
+void Document::addNamespace(std::string ns, std::string prefix)
 {
     this->namespaces[prefix] = ns;
 }
 
-void Document::addNameSpace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer)
+void Document::addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer)
 {
     cout << "Setting namespace " << prefix << ns << endl;
 
@@ -719,7 +720,7 @@ void Document::addNameSpace(std::string ns, std::string prefix, raptor_serialize
     //ns_prefix = (const unsigned char *)"host_context";  // Kludge to be removed
     raptor_serializer_set_namespace(sbol_serializer, ns_uri, ns_prefix);
 };
-            
+
 void Document::write(std::string filename)
 {
 
@@ -751,13 +752,19 @@ void Document::write(std::string filename)
 	char * sbol_buffer = "";
 	size_t sbol_buffer_len;
 
-	raptor_iostream* ios = raptor_new_iostream_to_string(world,
-		(void **)&sbol_buffer,
-		&sbol_buffer_len,
-		NULL);
-	int err = raptor_serializer_start_to_iostream(sbol_serializer, NULL, ios);
+    raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
+    raptor_uri *base_uri = NULL;
+    
+    // Set the default authority for URIs
+//    if (hasHomespace())
+//    {
+//        cout << "Writing in Homespace " << getHomespace() << endl;
+//        base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());
+//    }
+
+	int err = raptor_serializer_start_to_iostream(sbol_serializer, base_uri, ios);
 	if (err) cout << "Error starting iostream" << endl;
-	err = raptor_serializer_start_to_string(sbol_serializer, NULL, (void **)&sbol_buffer, &sbol_buffer_len);
+	err = raptor_serializer_start_to_string(sbol_serializer, base_uri, (void **)&sbol_buffer, &sbol_buffer_len);
 	if (err) cout << "Error " << err << "starting string" << endl;
 
 
@@ -787,6 +794,7 @@ void Document::write(std::string filename)
 		cout << "Serialization failed" << endl;
 	}
 	raptor_free_iostream(ios);
+    raptor_free_uri(base_uri);
 	fclose(fh);
 
 };

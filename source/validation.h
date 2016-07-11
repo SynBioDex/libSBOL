@@ -2,6 +2,7 @@
 #define VALIDATION_RULE_INCLUDED
 
 #include <vector>
+#include "config.h"
 
 typedef void(*ValidationRule)(void *, void *);  // This defines the signature for validation rules.  The first argument is an SBOLObject, and the second argument is arbitrary data passed through to the handler function for validation
 typedef std::vector<ValidationRule> ValidationRules;

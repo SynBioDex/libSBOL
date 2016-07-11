@@ -15,9 +15,9 @@
 #include <istream>
 
 namespace sbol {
-	// This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
-	extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
-
+    
+    // This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
+    extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
     
     // This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
     template <class SBOLClass>
@@ -42,13 +42,18 @@ namespace sbol {
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
 	class Document {
 	private:
-		raptor_world *rdf_graph;  ///< Triple store that holds SBOL objects and properties
-        std::unordered_map<std::string, std::string> namespaces;  // A namespace prefix serves as the hash key for the full namespace URI
+        std::string home; ///< The authoritative namespace for the Document. Setting the home namespace is like signing a piece of paper.
+        int SBOLCompliant; ///< Flag indicating whether to autoconstruct URI's consistent with SBOL's versioning scheme
+        std::unordered_map<std::string, std::string> namespaces;  ///< A namespace prefix serves as the hash key for the full namespace URI
         ValidationRules validationRules;  ///< A list of validation functions to run on the Document prior to serialization
+        raptor_world *rdf_graph;  ///< RDF triple store that holds SBOL objects and properties
 
 	public:
         /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
+            home(""),
+            SBOLCompliant(0),
+            namespaces({}),
 			rdf_graph(raptor_new_world()),
             validationRules({ sbolRule10101, sbolRule10102 })
 			{
@@ -66,6 +71,7 @@ namespace sbol {
 
 		TopLevel& getTopLevel(std::string);
 		raptor_world* getWorld();
+        
         /// Register an object in the Document
         /// @param sbol_obj The SBOL object you want to serialize
         /// @tparam SBOLClass The type of SBOL object
@@ -89,14 +95,14 @@ namespace sbol {
 
         static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
-        
-        
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
-        std::vector<std::string> getNamespaces();
 
+        std::vector<std::string> getNamespaces();
+        void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
+        void addNamespace(std::string ns, std::string prefix);
+        
 		std::vector<SBOLObject*> flatten();
-        void addNameSpace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
-        void addNameSpace(std::string ns, std::string prefix);
+
 	};
 
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)

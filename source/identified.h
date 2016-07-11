@@ -34,13 +34,19 @@ namespace sbol
 	protected:
         Identified(sbol_type type_uri, std::string uri) :
             SBOLObject(type_uri, uri),
-            persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, uri),
+            persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, getHomespace() + uri),
             displayId(SBOL_DISPLAY_ID, this, ""),
             version(SBOL_VERSION, this, ""),
             wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this, ""),
             name(SBOL_NAME, this, ""),
             description(SBOL_DESCRIPTION, this, "")
         {
+            if  (isSBOLCompliant())
+            {
+                this->displayId.set( uri );
+                this->identity = getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get() + "/" + this->version.get();
+                this->persistentIdentity = getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get();
+            }
             identity.validate();
         }
         
