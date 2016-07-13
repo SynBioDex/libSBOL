@@ -2,3 +2,8 @@ gh-pages/
 .DS_Store
 xcuserdata
 DerivedData
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Makefile
+cmake_install.cmake
