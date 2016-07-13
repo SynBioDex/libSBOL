@@ -43,9 +43,9 @@ namespace sbol
         {
             if  (isSBOLCompliant())
             {
-                this->displayId.set( uri );
-                this->identity = getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get() + "/" + this->version.get();
-                this->persistentIdentity = getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get();
+                this->displayId.set(uri);
+                this->identity.set(getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get() + "/" + this->version.get());
+                this->persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get());
             }
             identity.validate();
         }
