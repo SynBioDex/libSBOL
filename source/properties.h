@@ -41,6 +41,8 @@ namespace sbol
 
     class VersionProperty : public TextProperty
     {
+    private:
+        std::vector<std::string> split(const char c);
     public:
         void incrementMinor();
         void incrementMajor();
@@ -48,6 +50,9 @@ namespace sbol
         void decrementMinor();
         void decrementMajor();
         void decrementPatch();
+        int major();
+        int minor();
+        int patch();
         VersionProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
             TextProperty(type_uri, property_owner, "\"" + initial_value + "\"")
         {

@@ -250,11 +250,4 @@ namespace sbol
     
 }
 
-
-
-
-
-
-
-
 #endif

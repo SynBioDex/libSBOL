@@ -3,6 +3,7 @@
 #include <vector>
 
 using namespace sbol;
+using namespace std;
 
 
 
@@ -18,6 +19,22 @@ void VersionProperty::decrementMajor()
 {};
 void VersionProperty::decrementPatch()
 {};
+int VersionProperty::major()
+{
+    vector<string> v = this->split('.');
+    return stoi(v[0]);
+};
+
+int VersionProperty::minor()
+{
+    return 0;
+};
+
+int VersionProperty::patch()
+{
+    return 0;
+};
+
 
 ReferencedObject::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
 URIProperty(type_uri, property_owner, initial_value)
@@ -29,6 +46,26 @@ URIProperty(type_uri, property_owner, initial_value)
         this->sbol_owner->properties.insert({ type_uri, property_store });
     }
 };
+
+vector<string> VersionProperty::split(const char c)
+{
+      // Adapted from C++ cookbook
+    const string& s = this->get();
+    vector<string> v;
+
+    string::size_type i = 0;
+    string::size_type j = s.find(c);
+
+    while (j != string::npos)
+    {
+        v.push_back(s.substr(i, j - i));
+        i = ++j;
+        j = s.find(c, j);
+        if (j == string::npos)
+            v.push_back(s.substr(i, s.length()));
+    }
+    return v;
+}
 
 ReferencedObject::ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :
     URIProperty(type_uri, property_owner, initial_value),
