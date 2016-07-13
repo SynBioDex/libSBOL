@@ -26,11 +26,8 @@ namespace sbol
 
 
     /// @ingroup extension_layer
-    /// @brief metafunction for generation of a map of message types to
-    /// their associated callbacks.
-    /// @details
-    /// Usage: Use <tt>generate_callback_map<Type>::type</tt> to ...
-    /// @tparam LiteralType The library currently supports Property<string> and Property<int> specification currently supports integer, string, and URI literals
+    /// @brief These classes are for user defined extensions, the casual user need not worry about them.
+    /// @tparam LiteralType The SBOL specification currently supports supports integer, string, and URI literals
     ///
 	template <class LiteralType>
 	class Property

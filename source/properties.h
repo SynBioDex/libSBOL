@@ -39,6 +39,20 @@ namespace sbol
 		}
 	};
 
+    class VersionProperty : public TextProperty
+    {
+    public:
+        void incrementMinor();
+        void incrementMajor();
+        void incrementPatch();
+        void decrementMinor();
+        void decrementMajor();
+        void decrementPatch();
+        VersionProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
+            TextProperty(type_uri, property_owner, "\"" + initial_value + "\"")
+        {
+        }
+    };
 
 	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
 	template <class SBOLClass>

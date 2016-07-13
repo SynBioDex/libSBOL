@@ -5,6 +5,20 @@
 using namespace sbol;
 
 
+
+void VersionProperty::incrementMinor()
+{};
+void VersionProperty::incrementMajor()
+{};
+void VersionProperty::incrementPatch()
+{};
+void VersionProperty::decrementMinor()
+{};
+void VersionProperty::decrementMajor()
+{};
+void VersionProperty::decrementPatch()
+{};
+
 ReferencedObject::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
 URIProperty(type_uri, property_owner, initial_value)
 {
