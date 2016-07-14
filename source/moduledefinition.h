@@ -24,15 +24,15 @@ namespace sbol
 		List<OwnedObject<FunctionalComponent>> functionalComponents;
         ReferencedObject models;
         
-		ModuleDefinition(std::string uri = DEFAULT_NS "/ModuleDefinition/example") : ModuleDefinition(SBOL_MODULE_DEFINITION, uri) {};
+        ModuleDefinition(std::string uri = DEFAULT_NS "/ModuleDefinition/example", std::string version = "1.0.0") : ModuleDefinition(SBOL_MODULE_DEFINITION, uri, version) {};
         
-		ModuleDefinition(std::string uri_prefix, std::string display_id, std::string version) : ModuleDefinition(SBOL_MODULE_DEFINITION, uri_prefix, display_id, version) {};
+//		ModuleDefinition(std::string uri_prefix, std::string display_id, std::string version) : ModuleDefinition(SBOL_MODULE_DEFINITION, uri_prefix, display_id, version) {};
         
         ~ModuleDefinition() {};
 	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri
-        ModuleDefinition(sbol_type sbol_type_uri, std::string uri) :
-            TopLevel(sbol_type_uri, uri),
+        ModuleDefinition(sbol_type sbol_type_uri, std::string uri, std::string version) :
+            TopLevel(sbol_type_uri, uri, version),
             roles(SBOL_ROLES, this),
             models(SBOL_MODELS, this),
             functionalComponents(SBOL_FUNCTIONAL_COMPONENTS, this),
@@ -41,15 +41,15 @@ namespace sbol
             {
             };
 
-		ModuleDefinition(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string version) :
-			TopLevel(sbol_type_uri, uri_prefix, display_id, version),
-			roles(SBOL_ROLES, this),
-			models(SBOL_MODELS, this),
-			functionalComponents(SBOL_FUNCTIONAL_COMPONENTS, this),
-			modules(SBOL_MODULES, this),
-			interactions(SBOL_INTERACTIONS, this)
-			{
-            };
+//		ModuleDefinition(sbol_type sbol_type_uri, std::string uri_prefix, std::string display_id, std::string version) :
+//			TopLevel(sbol_type_uri, uri_prefix, display_id, version),
+//			roles(SBOL_ROLES, this),
+//			models(SBOL_MODELS, this),
+//			functionalComponents(SBOL_FUNCTIONAL_COMPONENTS, this),
+//			modules(SBOL_MODULES, this),
+//			interactions(SBOL_INTERACTIONS, this)
+//			{
+//            };
 	};
 }
 

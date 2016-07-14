@@ -13,7 +13,7 @@ namespace sbol
 	public:
 		URIProperty persistentIdentity;
 		TextProperty displayId;
-		TextProperty version;
+		VersionProperty version;
 		URIProperty wasDerivedFrom;
 		TextProperty name;
 		TextProperty description;

@@ -54,7 +54,7 @@ namespace sbol
         int minor();
         int patch();
         VersionProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
-            TextProperty(type_uri, property_owner, "\"" + initial_value + "\"")
+            TextProperty(type_uri, property_owner, initial_value)
         {
         }
     };

@@ -1,5 +1,7 @@
 #include "object.h"
 
+#include <stdexcept>      // std::invalid_argument
+
 #include <vector>
 
 using namespace sbol;
@@ -22,7 +24,23 @@ void VersionProperty::decrementPatch()
 int VersionProperty::major()
 {
     vector<string> v = this->split('.');
-    return stoi(v[0]);
+    for (auto i_v = v.begin(); i_v != v.end(); ++i_v)
+    {
+        cout << *i_v << endl;
+    }
+    // @TODO Throw error if more than 3 tokens
+    int major_version;
+    try
+    {
+        // bitset constructor throws an invalid_argument if initialized
+        // with a string containing characters other than 0 and 1
+        major_version = stoi(v[0]);
+    }
+    catch (const std::invalid_argument& ia)
+    {
+        std::cerr << "Invalid major version: " << ia.what() << "\nMajor version must be an int";
+    }
+    return major_version;
 };
 
 int VersionProperty::minor()
