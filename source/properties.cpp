@@ -11,15 +11,28 @@ using namespace std;
 
 void VersionProperty::incrementMinor()
 {
+    int minor_version = this->minor();
+    minor_version++;
+    string new_version = to_string(this->major()) + "." + to_string(minor_version) + "." + to_string(this->patch());
+    this->set(new_version);
 };
+
 void VersionProperty::incrementMajor()
 {
     int major_version = this->major();
     major_version++;
-    
+    string new_version = to_string(major_version) + "." + to_string(this->minor()) + "." + to_string(this->patch());
+    this->set(new_version);
 };
+
 void VersionProperty::incrementPatch()
-{};
+{
+    int patch_version = this->patch();
+    patch_version++;
+    string new_version = to_string(this->major()) + "." + to_string(this->minor()) + "." + to_string(patch_version);
+    this->set(new_version);
+};
+
 void VersionProperty::decrementMinor()
 {};
 void VersionProperty::decrementMajor()
