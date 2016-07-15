@@ -55,8 +55,33 @@ namespace sbol
         int patch();
         VersionProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
             TextProperty(type_uri, property_owner, initial_value)
-        {
-        }
+            {
+                std::vector<std::string> v = this->split('.');
+                // @TODO move this error checking to validation rules to be run on VersionProperty::set() and VersionProperty()::VersionProperty()
+                // sbol-10207 The version property of an Identified object is OPTIONAL and MAY contain a String that MUST be composed of only alphanumeric characters, underscores, hyphens, or periods and MUST begin with a digit. 20 Reference: Section 7.4 on page 16 21
+                // sbol-10208 The version property of an Identified object SHOULD follow the conventions of semantic 22 versioning as implemented by Maven.
+                if (isSBOLCompliant())
+                {
+                    if (v.size() != 3)
+                        throw SBOLError(SBOL_ERROR_NONCOMPLIANT_VERSION, "SBOL-compliant versions require a major, minor, and patch number in accordance with Maven versioning schemes. Use toggleSBOLCompliance() to relax these versioning requirements.");
+                    else
+                    {
+                        try
+                        {
+                            // bitset constructor throws an invalid_argument if initialized
+                            // with a string containing characters other than 0 and 1
+                            int major_version = stoi(v[0]);
+                            int minor_version = stoi(v[1]);
+                            int patch_version = stoi(v[2]);
+                        }
+                        catch (const std::invalid_argument& ia)
+                        {
+                            throw SBOLError(SBOL_ERROR_NONCOMPLIANT_VERSION, "SBOL-compliant versions require a major, minor, and patch number in accordance with Maven versioning schemes. Use toggleSBOLCompliance() to relax these versioning requirements.");
+                        }
+                    }
+                }
+                
+            }
     };
 
 	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */

@@ -6,7 +6,13 @@
 
 namespace sbol
 {
-	enum SBOLErrorCode { DUPLICATE_URI_ERROR, NOT_FOUND_ERROR, END_OF_LIST, SBOL_ERROR_PARSE, SBOL_ERROR_MISSING_NAMESPACE };
+	enum SBOLErrorCode { DUPLICATE_URI_ERROR,
+                         NOT_FOUND_ERROR,
+                         END_OF_LIST,
+                         SBOL_ERROR_PARSE,
+                         SBOL_ERROR_MISSING_NAMESPACE,
+                         SBOL_ERROR_NONCOMPLIANT_VERSION
+                        };
 
 	SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);
 };
