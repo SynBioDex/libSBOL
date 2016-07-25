@@ -19,33 +19,24 @@ namespace sbol
 		TextProperty description;
 
 
-        Identified(std::string uri = DEFAULT_NS "/Identified/example") : Identified(SBOL_IDENTIFIED, uri) {};
-        Identified(std::string prefix, std::string display_id, std::string version) : Identified(SBOL_IDENTIFIED, prefix, display_id, version) {};
-//        Identified(std::string prefix = SBOL_URI "/Identified",
-//				   std::string display_id = "example",
-//				   std::string name = "",
-//				   std::string description = "",
-//				   std::string version = "1.0.0") : Identified(SBOL_IDENTIFIED, prefix, display_id, name, description, version)
-//		{
-//        }
+//        Identified(std::string uri = DEFAULT_NS "/Identified/example", std::string version) : Identified(SBOL_IDENTIFIED, uri, version) {};
+//        Identified(std::string prefix, std::string display_id, std::string version) : Identified(SBOL_IDENTIFIED, prefix, display_id, version) {};
 
 
 	// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
 	protected:
-        Identified(sbol_type type_uri, std::string uri) :
+        Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
             SBOLObject(type_uri, uri),
-            persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, getHomespace() + uri),
-            displayId(SBOL_DISPLAY_ID, this, ""),
-            version(SBOL_VERSION, this, ""),
+            persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, getHomespace() + "/" + uri),
+            displayId(SBOL_DISPLAY_ID, this, uri),
+            version(SBOL_VERSION, this, version),
             wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this, ""),
             name(SBOL_NAME, this, ""),
             description(SBOL_DESCRIPTION, this, "")
         {
-            if  (isSBOLCompliant())
+            if(isSBOLCompliant())
             {
-                this->displayId.set(uri);
-                this->identity.set(getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get() + "/" + this->version.get());
-                this->persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get());
+                this->identity.set(getHomespace() + "/" + uri + "/" + version);
             }
             identity.validate();
         }
@@ -74,6 +65,31 @@ namespace sbol
 //            identity.validate();
 //        }
 	};
+    
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::create(std::string uri)
+    {
+        if (isSBOLCompliant())
+        {
+            // Construct an SBOLObject with emplacement
+            void* mem = malloc(sizeof(SBOLClass));
+            SBOLClass* child_obj = new (mem)SBOLClass;
+            Identified* parent_obj = this->sbol_owner;
+            std::string child_id = parent_obj->persistentIdentity.get() + "/" + uri + "/" + parent_obj->version.get();
+            std::cout << "Persistent identity of child object = " << child_id << std::endl;
+            child_obj->identity.set(child_id);
+            add(*child_obj);
+        }
+        else
+        {
+            // Construct an SBOLObject with emplacement
+            void* mem = malloc(sizeof(SBOLClass));
+            SBOLClass* child_obj = new (mem)SBOLClass;
+            
+            child_obj->identity.set(uri);
+            add(*child_obj);
+        }
+    };
 };
 
 #endif

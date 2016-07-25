@@ -9,10 +9,10 @@ INCLUDE_DIRECTORIES( ${RAPTOR_HEADER_DIR})
 
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES
-    config.h
     constants.h
-    validation.h
 	sbolerror.h
+    config.h
+    validation.h
 	property.h
     properties.h
     object.h
@@ -31,17 +31,19 @@ FILE(GLOB SBOL_HEADER_FILES
 	module.h
 	mapsto.h
 	model.h
+    assembly.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
-    config.cpp
-	validation.cpp
 	sbolerror.cpp
+    config.cpp
+    validation.cpp
     properties.cpp
 	object.cpp
     identified.cpp
 	toplevel.cpp
 	componentdefinition.cpp
-	document.cpp)
+	document.cpp
+    assembly.cpp)
 	
 
 FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )

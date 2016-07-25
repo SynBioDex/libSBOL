@@ -2,7 +2,7 @@
 #define PROPERTY_INCLUDED
 
 #include "constants.h"
-#include "sbolerror.h"
+#include "config.h"
 #include "validation.h"
 
 #include <raptor2.h>

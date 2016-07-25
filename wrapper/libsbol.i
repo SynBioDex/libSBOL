@@ -3,6 +3,7 @@
     #define SWIG_FILE_WITH_INIT
 
     //  Headers are listed in strict order of dependency
+    #include "config.h"
     #include "constants.h"
     #include "validation.h"
     #include "sbolerror.h"
@@ -11,19 +12,21 @@
     #include "object.h"
     #include "identified.h"
     #include "toplevel.h"
-    #include "location.h"
-    #include "sequenceconstraint.h"
     #include "sequenceannotation.h"
-    #include "mapsto.h"
     #include "component.h"
     #include "componentdefinition.h"
     #include "sequence.h"
-    #include "participation.h"
-    #include "interaction.h"
-    #include "module.h"
-    #include "model.h"
-    #include "moduledefinition.h"
     #include "document.h"
+    #include "interaction.h"
+    #include "participation.h"
+    #include "location.h"
+    #include "sequenceconstraint.h"
+    #include "moduledefinition.h"
+    #include "module.h"
+
+    #include "mapsto.h"
+    #include "model.h"
+    #include "assembly.h"
     #include "sbol.h"
 
     #include <vector>
@@ -35,7 +38,7 @@
     
 %}
 
-%include "python_docs.i"
+//%include "python_docs.i"
 
 
 #ifdef SWIGWIN
@@ -443,18 +446,18 @@ namespace sbol
 %template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
 
 
-
-%pythonappend ComponentDefinition %{
-    name = property(name.set, name.get)
-    %}
-
-%extend sbol::Identified{
-    %pythoncode %{
-        __swig_getmethods__["identity"] = _libsbol.TextProperty.get
-        __swig_setmethods__["identity"] = _libsbol.TextProperty.set
-        if _newclass: identity = property(_libsbol.TextProperty.get, _libsbol.URIProperty.set)
-            %}
-};
+//// The following code was experimented with for mapping C++ class structure to Python class structure
+//%pythonappend ComponentDefinition %{
+//    name = property(name.set, name.get)
+//    %}
+//
+//%extend sbol::Identified{
+//    %pythoncode %{
+//        __swig_getmethods__["identity"] = _libsbol.TextProperty.get
+//        __swig_setmethods__["identity"] = _libsbol.TextProperty.set
+//        if _newclass: identity = property(_libsbol.TextProperty.get, _libsbol.URIProperty.set)
+//            %}
+//};
 
 
 // The following stub code can be used to make vectors act like Python lists 

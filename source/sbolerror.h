@@ -11,7 +11,8 @@ namespace sbol
                          END_OF_LIST,
                          SBOL_ERROR_PARSE,
                          SBOL_ERROR_MISSING_NAMESPACE,
-                         SBOL_ERROR_NONCOMPLIANT_VERSION
+                         SBOL_ERROR_NONCOMPLIANT_VERSION,
+                         SBOL_ERROR_COMPLIANCE
                         };
 
 	SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);

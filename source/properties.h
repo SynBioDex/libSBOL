@@ -138,17 +138,7 @@ namespace sbol
 
 		std::vector<SBOLObject*>::iterator python_iter;
 	};
-
-    template <class SBOLClass>
-    void OwnedObject<SBOLClass>::create(std::string uri)
-    {
-        // Construct an SBOLObject with emplacement
-        void* mem = malloc(sizeof(SBOLClass));
-        SBOLClass* owned_obj = new (mem)SBOLClass;
-        
-        owned_obj->identity.set(uri);
-        add(*owned_obj);
-    };
+    
     
     template <class SBOLClass>
     void OwnedObject<SBOLClass>::create(std::string uri_prefix, std::string display_id, std::string version)
@@ -158,7 +148,7 @@ namespace sbol
         SBOLClass* owned_obj = new (mem)SBOLClass;
         
         std::string sbol_class_name = owned_obj->getClassName(owned_obj->type);
-        std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
+        std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name,  display_id, "1.0.0");
         
         owned_obj->identity.set(compliant_uri);
         owned_obj->displayId.set(display_id);

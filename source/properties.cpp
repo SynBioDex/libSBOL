@@ -8,7 +8,7 @@ using namespace sbol;
 using namespace std;
 
 
-
+// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMinor()
 {
     int minor_version = this->minor();
@@ -17,6 +17,7 @@ void VersionProperty::incrementMinor()
     this->set(new_version);
 };
 
+// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMajor()
 {
     int major_version = this->major();
@@ -25,6 +26,7 @@ void VersionProperty::incrementMajor()
     this->set(new_version);
 };
 
+// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementPatch()
 {
     int patch_version = this->patch();
@@ -34,11 +36,17 @@ void VersionProperty::incrementPatch()
 };
 
 void VersionProperty::decrementMinor()
-{};
+{
+};
+
 void VersionProperty::decrementMajor()
-{};
+{
+};
+
 void VersionProperty::decrementPatch()
-{};
+{
+};
+
 int VersionProperty::major()
 {
     vector<string> v = this->split('.');
@@ -148,7 +156,7 @@ void ReferencedObject::set(std::string uri)
 void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id)
 {
     std::string sbol_class_name = getClassName(this->reference_type_uri);
-    std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
+    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, "1.0.0");
     this->set(compliant_uri);
 };
 
@@ -156,7 +164,7 @@ void ReferencedObject::setReference(const std::string uri_prefix, const std::str
 void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
 {
     std::string sbol_class_name = getClassName(this->reference_type_uri);
-    std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, version);
+    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
     this->set(compliant_uri);
 };
 
@@ -164,7 +172,7 @@ void ReferencedObject::setReference(const std::string uri_prefix, const std::str
 void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id)
 {
     std::string sbol_class_name = getClassName(this->reference_type_uri);
-    std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, "1.0.0");
+    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, "1.0.0");
     this->addReference(compliant_uri);
 };
 
@@ -172,7 +180,7 @@ void ReferencedObject::addReference(const std::string uri_prefix, const std::str
 void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
 {
     std::string sbol_class_name = getClassName(this->reference_type_uri);
-    std::string compliant_uri = getCompliantURI(uri_prefix, display_id, sbol_class_name, version);
+    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
     this->addReference(compliant_uri);
 };
 

@@ -20,6 +20,12 @@ namespace sbol
         TopLevel(sbol_type type_uri, std::string uri, std::string version) :
             Identified(type_uri, uri, version)
             {
+                if  (isSBOLCompliant())
+                {
+                    this->displayId.set(uri);
+                    this->identity.set(getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get() + "/" + this->version.get());
+                    this->persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get());
+                }
             };
         TopLevel(sbol_type type_uri, std::string uri_prefix, std::string display_id, std::string version) :
 			Identified(type_uri, uri_prefix, display_id, version)

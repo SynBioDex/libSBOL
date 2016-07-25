@@ -17,29 +17,29 @@ namespace sbol
         ReferencedObject object;
         URIProperty restriction;
         
-        SequenceConstraint(std::string uri = DEFAULT_NS "/SequenceConstraint/example", std::string subject = "", std::string object = "", std::string restriction = SBOL_RESTRICTION_PRECEDES) :
-            SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri, subject, object, restriction) {};
+        SequenceConstraint(std::string uri = DEFAULT_NS "/SequenceConstraint/example", std::string subject = "", std::string object = "", std::string restriction = SBOL_RESTRICTION_PRECEDES, std::string version = "1.0.0") :
+            SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri, subject, object, restriction, version) {};
         
-        SequenceConstraint(std::string uri_prefix, std::string display_id, std::string version, std::string subject, std::string object, std::string restriction) :
-			SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri_prefix, display_id, version, subject, object, restriction) {};
+//        SequenceConstraint(std::string uri_prefix, std::string display_id, std::string version, std::string subject, std::string object, std::string restriction) :
+//			SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri_prefix, display_id, version, subject, object, restriction) {};
 		
         ~SequenceConstraint() {};
 	
 	protected:
-        SequenceConstraint(sbol_type type, std::string uri, std::string subject, std::string object, std::string restriction) :
-            Identified(type, uri),
+        SequenceConstraint(sbol_type type, std::string uri, std::string subject, std::string object, std::string restriction, std::string version) :
+            Identified(type, uri, version),
             subject(SBOL_SUBJECT, SBOL_COMPONENT, this, subject),
             object(SBOL_OBJECT, SBOL_COMPONENT, this, object),
             restriction(SBOL_RESTRICTION, this, restriction)
             {
             }
-        SequenceConstraint(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string subject, std::string object, std::string restriction) :
-			Identified(type, uri_prefix, display_id, version),
-			subject(SBOL_SUBJECT, SBOL_COMPONENT, this, subject),
-			object(SBOL_OBJECT, SBOL_COMPONENT, this, object),
-			restriction(SBOL_RESTRICTION, this, restriction)
-			{
-			}
+//        SequenceConstraint(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string subject, std::string object, std::string restriction) :
+//			Identified(type, uri_prefix, display_id, version),
+//			subject(SBOL_SUBJECT, SBOL_COMPONENT, this, subject),
+//			object(SBOL_OBJECT, SBOL_COMPONENT, this, object),
+//			restriction(SBOL_RESTRICTION, this, restriction)
+//			{
+//			}
 	};
 }
 

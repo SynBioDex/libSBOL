@@ -4,37 +4,6 @@
 using namespace sbol;
 using namespace std;
 
-std::string sbol::getCompliantURI(std::string uri_prefix, std::string display_id, std::string sbol_class_name, std::string version)
-{
-    return uri_prefix + "/" + sbol_class_name + "/" + display_id + "/" + version;
-
-};
-
-std::string sbol::getClassName(std::string type)
-{
-    std::size_t uri_subordinate_pos = type.find("#") + 1;
-    if (uri_subordinate_pos != std::string::npos)
-    {
-        std::string sbol_class = type.substr(uri_subordinate_pos, type.size() - uri_subordinate_pos);
-        return sbol_class;
-    }
-    else
-        return type;
-};
-
-std::string sbol::getNameSpace(std::string type)
-{
-    std::size_t uri_subordinate_pos = type.find("#") + 1;
-    if (uri_subordinate_pos != std::string::npos)
-    {
-        std::string ns = type.substr(0, uri_subordinate_pos);
-        cout << ns << endl;
-        return ns;
-    }
-    else
-        return type;
-};
-
 /* An SBOL document MUST declare the use of the following XML namespace: Òhttp://sbols.org/v2#Ó. */
 void sbol::sbolRule10101(void *sbol_obj, void *arg)
 {
