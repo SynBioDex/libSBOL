@@ -13,7 +13,7 @@ namespace sbol
     public:
         Config() :
         home(""),
-        SBOLCompliant(0)
+        SBOLCompliant(1)
             {
             };
         void setHomespace(std::string ns);
