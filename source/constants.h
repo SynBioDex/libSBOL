@@ -119,8 +119,10 @@
 #define SO "http://identifiers.org/so/SO:"
 #define SO_UNDEFINED "0000001"
 #define SO_MISC "0000001"
-#define SO_PROMOTER SO "S0000167"
+#define SO_PROMOTER SO "0000167"
 #define SO_CDS SO "0000316"
+#define SO_RBS SO "0000139"
+#define SO_TERMINATOR SO "0000141"
 
 /* BioPAX is used to indicate macromolecular and molecular types */
 /// DNA
