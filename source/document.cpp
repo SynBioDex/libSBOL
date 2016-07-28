@@ -418,7 +418,7 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 			// Checks if the object to which this property belongs already exists
 			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
 			{
-				TopLevel *sbol_obj = doc->SBOLObjects[id];
+				SBOLObject *sbol_obj = doc->SBOLObjects[id];
 				// Decide if this triple corresponds to a simple property, a list property, an owned property or a referenced property
 				if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
 				{
@@ -441,7 +441,7 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 					// Form a composite SBOL data structure.  The owned object is added to its parent
 					// TopLevel object.  The owned object is then removed from its temporary location in the Document's object store
 					// and is now associated only with it's parent TopLevel object.
-					TopLevel *owned_obj = doc->SBOLObjects[owned_obj_id];
+					SBOLObject *owned_obj = doc->SBOLObjects[owned_obj_id];
 					sbol_obj->owned_objects[property_uri].push_back(owned_obj);			
 					doc->SBOLObjects.erase(owned_obj_id);
 				}
@@ -695,7 +695,7 @@ TopLevel& Document::getTopLevel(string uri)
 {
     // @TODO validate if object is TopLevel or else trigget a libSBOL error
 	// @TODO return libSBOL error if URI not found
-	return *(this->SBOLObjects[uri]);
+	return (TopLevel&)*(this->SBOLObjects[uri]);
 };
 
 raptor_world* Document::getWorld()

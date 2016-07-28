@@ -99,7 +99,7 @@ namespace sbol
         template < class SBOLSubClass > SBOLSubClass& get();
         SBOLClass& get(const std::string object_id);
         std::vector<SBOLClass*> copy();
-        void create(std::string uri);
+        SBOLClass& create(std::string uri);
         void create(std::string uri_prefix, std::string display_id, std::string version);
 		SBOLClass& operator[] (const int nIndex);
 		SBOLClass& operator[] (const std::string uri);
@@ -182,12 +182,6 @@ namespace sbol
         this->sbol_owner->owned_objects[this->type][0] = ((SBOLObject *)&sbol_obj);
     };
     
-    // Pushes an object into the container
-	template < class SBOLClass>
-	void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
-	{
-		this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
-	};
 
 	template <class SBOLClass>
 	SBOLClass& OwnedObject<SBOLClass>::operator[] (const int nIndex)

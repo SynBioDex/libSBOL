@@ -66,30 +66,6 @@ namespace sbol
 //        }
 	};
     
-    template <class SBOLClass>
-    void OwnedObject<SBOLClass>::create(std::string uri)
-    {
-        if (isSBOLCompliant())
-        {
-            // Construct an SBOLObject with emplacement
-            void* mem = malloc(sizeof(SBOLClass));
-            SBOLClass* child_obj = new (mem)SBOLClass;
-            Identified* parent_obj = this->sbol_owner;
-            std::string child_id = parent_obj->persistentIdentity.get() + "/" + uri + "/" + parent_obj->version.get();
-            std::cout << "Persistent identity of child object = " << child_id << std::endl;
-            child_obj->identity.set(child_id);
-            add(*child_obj);
-        }
-        else
-        {
-            // Construct an SBOLObject with emplacement
-            void* mem = malloc(sizeof(SBOLClass));
-            SBOLClass* child_obj = new (mem)SBOLClass;
-            
-            child_obj->identity.set(uri);
-            add(*child_obj);
-        }
-    };
 };
 
 #endif

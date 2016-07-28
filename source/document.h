@@ -60,7 +60,7 @@ namespace sbol {
 			};
         
         /// The Document's register of objects
-		std::unordered_map<std::string, sbol::TopLevel*> SBOLObjects;
+		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
         
         /// @cond
 		std::unordered_map<std::string, sbol::TopLevel*> componentDefinitions;
@@ -109,9 +109,21 @@ namespace sbol {
 	{
 		// Check if the uri is already assigned and delete the object, otherwise it will cause a memory leak!!!
 		//if (SBOLObjects[whatever]!=SBOLObjects.end()) {delete SBOLObjects[whatever]'}
-        std::cout << "Adding " << sbol_obj.identity.get() << std::endl;
-		SBOLObjects[sbol_obj.identity.get()] = (TopLevel*)&sbol_obj;
-		sbol_obj.doc = this;
+        if (this->SBOLObjects.find(sbol_obj.identity.get()) != this->SBOLObjects.end())
+            SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained in the Document");
+        else
+        {
+            for (auto i_store = sbol_obj.owned_objects.begin(); i_store != sbol_obj.owned_objects.end(); ++i_store)
+            {
+                std::vector<SBOLObject*>& object_store = i_store->second;
+                for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
+                {
+                    this->add<SBOLObject>(**i_obj);
+                }
+            }
+            SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
+            sbol_obj.doc = this;
+        }
 	};
 
 	template <class SBOLClass > SBOLClass& Document::get(std::string uri)
@@ -147,6 +159,66 @@ namespace sbol {
     		return vector_copy;
     	};
     
+    template <class SBOLClass>
+    SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
+    {
+        if (isSBOLCompliant())
+        {
+            Identified* parent_obj = (Identified*)this->sbol_owner;
+            Document* parent_doc = parent_obj->doc;
+            
+            // Construct an SBOLObject with emplacement
+            void* mem = malloc(sizeof(SBOLClass));
+            SBOLClass* child_obj = new (mem)SBOLClass;
+            std::string child_persistent_id =  parent_obj->persistentIdentity.get() + "/" + uri;
+            std::string child_id = child_persistent_id + "/" + parent_obj->version.get();
+            
+            child_obj->identity.set(child_id);
+            child_obj->persistentIdentity.set(child_persistent_id);
+            child_obj->displayId.set(uri);
+            child_obj->version.set(parent_obj->version.get());
+            this->add(*child_obj);
+            
+            //parent_doc->add<SBOLClass>(*child_obj);
+
+            return *child_obj;
+        }
+        else
+        {
+            // Construct an SBOLObject with emplacement
+            void* mem = malloc(sizeof(SBOLClass));
+            SBOLClass* child_obj = new (mem)SBOLClass;
+            Identified* parent_obj = (Identified*)this->sbol_owner;
+            
+            child_obj->identity.set(uri);
+            child_obj->persistentIdentity.set(uri);
+            
+            
+            this->add(*child_obj);
+            return *child_obj;
+        }
+    };
+    
+    // Pushes an object into the container
+    template < class SBOLClass>
+    void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
+    {
+        
+        if (this->sbol_owner)
+        {
+            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+            if (std::find(object_store.begin(), object_store.end(), &sbol_obj) != object_store.end())
+                SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained by the property");
+            else
+            {
+                object_store.push_back((SBOLObject *)&sbol_obj);
+                if (this->sbol_owner->doc)
+                {
+                    this->sbol_owner->doc->template add<SBOLClass>(sbol_obj);
+                }
+            }
+        }
+    };
 }
 
 #endif
