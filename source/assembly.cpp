@@ -5,34 +5,179 @@
 using namespace std;
 using namespace sbol;
 
-//// @TODO: make this a member function of ComponentDefinition class
-//ComponentDefinition& initializeStructure(ComponentDefinition& parent_component, vector<ComponentDefinition*> list_of_subcomponents)
-//{
-//    if (parent_component.components.size() > 0)
-//        // @TODO Allow adding subcomponents to a root object that already has subcomponents
-//        cerr << "The parent component appears to have been initialized already."
+
+int sbol::hasUpstreamComponent(ComponentDefinition& cd_root, Component& current_component)
+{
+    if (cd_root.sequenceConstraints.size() < 0)
+        throw;
+    else if (cd_root.doc == NULL)
+        throw;
+    else
+    {
+        int hasUpstreamComponent = 0;
+        for (auto i_sc = cd_root.sequenceConstraints.begin(); i_sc != cd_root.sequenceConstraints.end(); i_sc++)
+        {
+            SequenceConstraint& sc = *i_sc;
+            if (sc.object.get() == current_component.identity.get() && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
+                hasUpstreamComponent = 1;
+        }
+        return hasUpstreamComponent;
+    }
+}
+
+int sbol::hasDownstreamComponent(ComponentDefinition& cd_root, Component& current_component)
+{
+    if (cd_root.sequenceConstraints.size() < 0)
+        throw;
+    else if (cd_root.doc == NULL)
+        throw;
+    else
+    {
+        int hasDownstreamComponent = 0;
+        for (auto i_sc = cd_root.sequenceConstraints.begin(); i_sc != cd_root.sequenceConstraints.end(); i_sc++)
+        {
+            SequenceConstraint& sc = *i_sc;
+            if (sc.subject.get() == current_component.identity.get() && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
+                hasDownstreamComponent = 1;
+        }
+        return hasDownstreamComponent;
+    }
+}
+
+Component& sbol::getUpstreamComponent(ComponentDefinition& cd_root, Component& current_component)
+{
+    if (cd_root.sequenceConstraints.size() < 0)
+        throw;
+    else if (cd_root.doc == NULL)
+        throw;
+    else if (!hasUpstreamComponent(cd_root, current_component))
+        throw;
+    else
+    {
+        string upstream_component_id;
+        for (auto i_sc = cd_root.sequenceConstraints.begin(); i_sc != cd_root.sequenceConstraints.end(); i_sc++)
+        {
+            SequenceConstraint& sc = *i_sc;
+            if (sc.object.get() == current_component.identity.get() && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
+                 upstream_component_id = sc.subject.get();
+        }
+        Component& upstream_component = cd_root.doc->get<Component>(upstream_component_id);
+        return upstream_component;
+    }
+}
+
+Component& sbol::getDownstreamComponent(ComponentDefinition& cd_root, Component& current_component)
+{
+    if (cd_root.sequenceConstraints.size() < 0)
+        throw;
+    else if (cd_root.doc == NULL)
+        throw;
+    else if (!hasDownstreamComponent(cd_root, current_component))
+        throw;
+    else
+    {
+        string downstream_component_id;
+        for (auto i_sc = cd_root.sequenceConstraints.begin(); i_sc != cd_root.sequenceConstraints.end(); i_sc++)
+        {
+            SequenceConstraint& sc = *i_sc;
+            if (sc.subject.get() == current_component.identity.get() && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
+                downstream_component_id = sc.object.get();
+        }
+        Component& downstream_component = cd_root.doc->get<Component>(downstream_component_id);
+        return downstream_component;
+    }
+}
+
+Component& sbol::getFirstComponent(ComponentDefinition& cd_root)
+{
+    if (cd_root.components.size() < 0)
+        throw;
+    else if (cd_root.doc == NULL)
+        throw;
+    else
+    {
+        Component& arbitrary_component = cd_root.components[0];
+        Component& iterator_component = arbitrary_component;
+        while (hasUpstreamComponent(cd_root, iterator_component))
+        {
+            iterator_component = getUpstreamComponent(cd_root, iterator_component);
+        }
+        return iterator_component;
+    }
+}
+
+Component& sbol::getLastComponent(ComponentDefinition& cd_root)
+{
+    if (cd_root.components.size() < 0)
+        throw;
+    else if (cd_root.doc == NULL)
+        throw;
+    else
+    {
+        Component* arbitrary_component = &cd_root.components[0];
+        Component* iterator_component = arbitrary_component;
+        while (hasDownstreamComponent(cd_root, *iterator_component))
+        {
+            iterator_component = &getDownstreamComponent(cd_root, *iterator_component);
+        }
+        return *iterator_component;
+    }
+}
+
+vector<Component*> sbol::getInSequentialOrder(ComponentDefinition& cd_root)
+{
+//    if (cd_root.sequenceConstraints.size() < 0)
 //        throw;
 //    else
 //    {
-//        cout << "Auto constructing components"
-//        // Instantiate parent Component
-//        string root_id;
-//        if (isSBOLCompliant())
-//            root_id = getCompliantURI(parent_component.identity.get(), "Component", to_string(), parent_component.version.get());
-//        else
-//            root_id = parent_component.identity.get() + "#"
-//        Component& root = *new Component(root_id);
-//                                         
-//        // Instantiate child Components
-//        for (auto i_cd = 0; i_cd != list_of_subcomponents.size(); i_cd++)
+//        while (hasUpstreamComponent(cd_root))
 //        {
-//            // Create list of new Component objects from the Definitions contained in list_of_components
-//            ComponentDefinition& cd = list_of_subcomponents[i_cd];
-//
+//            
+//        }
+//        string upstream_component_id;
+//        for (auto i_sc = cd_root.sequenceConstraints.begin(); i_sc != cd_root.sequenceConstraints.end(); i_sc++)
+//        {
+//            SequenceConstraint& sc = *i_sc;
+//            if (sc.object.get() == current_component.identity.get() && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
+//                string upstream_component_id = sc.subject.get();
+//        }
+//        Component& upstream_component = cd_root.doc->get<Component>(upstream_component_id);
+//        return upstream_component;
 //    }
-//};
+}
 
-void sbol::join(ComponentDefinition& parent_component, vector<ComponentDefinition*> list_of_components)
+void sbol::updateSequence(ComponentDefinition& parent_component)
+{
+//    if (parent_component.components.size() > 0)
+//    {
+//        string upstream_component_uri = "";
+//        for (auto i_sc = parent_component.sequenceConstraints.begin(); i_sc != parent_component.end(); i_sc++)
+//        {
+//            SequenceConstraint& sc = *i_sc;
+//            if (upstream_component_uri == "" && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
+//            {
+//                upstream_component_uri = sc.restriction.subject.get();
+//            }
+//            else if (upstream_component_uri != "" && sc.restriction.get == SBOL_RESTRICTION_PRECEDES)
+//            {
+//                
+//            }
+//        }
+//        
+//        for (auto i_c = parent_component.components.begin(); i_c != parent_component.components.end(); i_c++)
+//        {
+//            Component& c = *i_c;
+//            ComponentDefinition& cdef = parent_component.doc->get<ComponentDefinition>(c.definition.get());
+//            updateSequence(cdef);
+//            if (cdef.sequence.get() != "")
+//            {
+//                
+//            }
+//        }
+//    }
+}
+
+void sbol::assemble(ComponentDefinition& parent_component, vector<ComponentDefinition*> list_of_components)
 {
     if (list_of_components.size() < 2)
     {
@@ -46,28 +191,31 @@ void sbol::join(ComponentDefinition& parent_component, vector<ComponentDefinitio
             for (auto i_com = 0; i_com != list_of_components.size(); i_com++)
             {
                 ComponentDefinition& cdef = *list_of_components[i_com];
-//                string new_uri = "ComponentDefinition/" + component.displayId.get() + "/Component/" + to_string(i_com+1) + "/" + component.version.get();
-                string temp_displayId = "ComponentDefinition/" + parent_component.displayId.get() + "/" + cdef.displayId.get();
-                Component* component_instance = new Component(temp_displayId, cdef.identity.get(), SBOL_ACCESS_PRIVATE, cdef.version.get());
-                component_instance->displayId.set(cdef.displayId.get());
-                parent_component.components.add(*component_instance);
-                //component.doc->add<Component>(*component_instance);
-                list_of_instances.push_back(component_instance);
+                //string temp_displayId = "ComponentDefinition/" + parent_component.displayId.get() + "/" + cdef.displayId.get();
+                //Component* component_instance = new Component(temp_displayId, cdef.identity.get(), SBOL_ACCESS_PRIVATE, cdef.version.get());
+                Component& c = parent_component.components.create(cdef.displayId.get());
+                c.definition.set(cdef.identity.get());
+                list_of_instances.push_back(&c);
             }
             for (auto i_com = 1; i_com != list_of_components.size(); i_com++)
             {
                 ComponentDefinition& cd_upstream = *list_of_components[i_com - 1];
                 ComponentDefinition& cd_downstream = *list_of_components[i_com];
-                //string new_seq_constraint_uri = "ComponentDefinition/" + cd_upstream.displayId.get() + "/SequenceConstraint/" + to_string(i_com) + "/" + cd_upstream.version.get();
                 
                 Component& constraint_subject = *list_of_instances[i_com - 1];
                 Component& constraint_object = *list_of_instances[i_com];
                 
-                string temp_displayId = "ComponentDefinition/" + parent_component.displayId.get() + "/constraint" + to_string(i_com);
-                SequenceConstraint& joint = *new SequenceConstraint(temp_displayId, constraint_subject.identity.get(), constraint_object.identity.get(), SBOL_RESTRICTION_PRECEDES, constraint_subject.version.get());
-                joint.displayId.set("constraint" + to_string(i_com));
+//                string temp_displayId = "ComponentDefinition/" + parent_component.displayId.get() + "/constraint" + to_string(i_com);
+//                SequenceConstraint& joint = *new SequenceConstraint(temp_displayId, constraint_subject.identity.get(), constraint_object.identity.get(), SBOL_RESTRICTION_PRECEDES, constraint_subject.version.get());
+//                joint.displayId.set("constraint" + to_string(i_com));
+
                 // @TODO update SequenceAnnotation starts and ends
-                parent_component.sequenceConstraints.add(joint);
+//                parent_component.sequenceConstraints.add(joint);
+                
+                SequenceConstraint& sc = parent_component.sequenceConstraints.create("constraint" + to_string(i_com));
+                sc.subject.set(constraint_subject.identity.get());
+                sc.object.set(constraint_object.identity.get());
+                sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
             }
         }
         else
@@ -76,22 +224,3 @@ void sbol::join(ComponentDefinition& parent_component, vector<ComponentDefinitio
     }
 }
 
-void sbol::assemble(ComponentDefinition& parent_component, vector<ComponentDefinition*> list_of_subcomponents)
-{
-    join(parent_component, list_of_subcomponents);
-    for (auto i_com = 0; i_com != list_of_subcomponents.size(); i_com++)
-    {
-        if (isSBOLCompliant())
-        {
-            //Autoconstruct URI
-            ComponentDefinition& subcomponent = *list_of_subcomponents[i_com];
-            string new_uri = "ComponentDefinition/" + subcomponent.displayId.get() + "/Component/" + to_string(i_com+1) + "/" + subcomponent.version.get();
-            toggleSBOLCompliance();  // Enable constructors with raw URI
-            Component& subcomponent_instance = *new Component(new_uri, subcomponent.identity.get(), SBOL_ACCESS_PRIVATE, subcomponent.version.get());
-            toggleSBOLCompliance();
-            parent_component.components.add(subcomponent_instance);
-        }
-        else
-            throw;
-    }
-}
