@@ -9,16 +9,10 @@
 
 namespace sbol
 {
-    //ComponentDefinition& assemble(std::vector<ComponentDefinition*> list_of_components);
-    void assemble(ComponentDefinition& parent_component, std::vector<ComponentDefinition*> list_of_components);
 
-    void updateSequence(ComponentDefinition& parent_component);
-    int hasUpstreamComponent(ComponentDefinition& cd_root, Component& current_component);
-    Component& getUpstreamComponent(ComponentDefinition& cd_root, Component& current_component);
-    int hasDownstreamComponent(ComponentDefinition& cd_root, Component& current_component);
-    Component& getDownstreamComponent(ComponentDefinition& cd_root, Component& current_component);
-    Component& getFirstComponent(ComponentDefinition& cd_root);
-    Component& getLastComponent(ComponentDefinition& cd_root);
+//    void assemble(ComponentDefinition& parent_component, std::vector<ComponentDefinition*> list_of_components);
+
+
 
     std::vector<Component*> getInSequentialOrder(ComponentDefinition& cd_root);
 

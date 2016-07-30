@@ -33,6 +33,15 @@ namespace sbol
 //        // SBOL compliant constructor
 //        ComponentDefinition(std::string uri_prefix, std::string display_id, std::string version, std::string type) : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, version, type) {};
         
+        void assemble(std::vector<ComponentDefinition*> list_of_components);
+        void updateSequence();
+        int hasUpstreamComponent(Component& current_component);
+        Component& getUpstreamComponent(Component& current_component);
+        int hasDownstreamComponent(Component& current_component);
+        Component& getDownstreamComponent(Component& current_component);
+        Component& getFirstComponent();
+        Component& getLastComponent();
+        
         ~ComponentDefinition() {  };
 	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri 

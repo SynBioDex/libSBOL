@@ -6,8 +6,9 @@ using namespace std;
 using namespace sbol;
 
 
-int sbol::hasUpstreamComponent(ComponentDefinition& cd_root, Component& current_component)
+int ComponentDefinition::hasUpstreamComponent(Component& current_component)
 {
+    ComponentDefinition& cd_root = *this;
     if (cd_root.sequenceConstraints.size() < 0)
         throw;
     else if (cd_root.doc == NULL)
@@ -25,8 +26,9 @@ int sbol::hasUpstreamComponent(ComponentDefinition& cd_root, Component& current_
     }
 }
 
-int sbol::hasDownstreamComponent(ComponentDefinition& cd_root, Component& current_component)
+int ComponentDefinition::hasDownstreamComponent(Component& current_component)
 {
+    ComponentDefinition& cd_root = *this;
     if (cd_root.sequenceConstraints.size() < 0)
         throw;
     else if (cd_root.doc == NULL)
@@ -44,13 +46,14 @@ int sbol::hasDownstreamComponent(ComponentDefinition& cd_root, Component& curren
     }
 }
 
-Component& sbol::getUpstreamComponent(ComponentDefinition& cd_root, Component& current_component)
+Component& ComponentDefinition::getUpstreamComponent(Component& current_component)
 {
+    ComponentDefinition& cd_root = *this;
     if (cd_root.sequenceConstraints.size() < 0)
         throw;
     else if (cd_root.doc == NULL)
         throw;
-    else if (!hasUpstreamComponent(cd_root, current_component))
+    else if (!cd_root.hasUpstreamComponent(current_component))
         throw;
     else
     {
@@ -66,13 +69,14 @@ Component& sbol::getUpstreamComponent(ComponentDefinition& cd_root, Component& c
     }
 }
 
-Component& sbol::getDownstreamComponent(ComponentDefinition& cd_root, Component& current_component)
+Component& ComponentDefinition::getDownstreamComponent(Component& current_component)
 {
+    ComponentDefinition& cd_root = *this;
     if (cd_root.sequenceConstraints.size() < 0)
         throw;
     else if (cd_root.doc == NULL)
         throw;
-    else if (!hasDownstreamComponent(cd_root, current_component))
+    else if (!cd_root.hasDownstreamComponent(current_component))
         throw;
     else
     {
@@ -88,8 +92,9 @@ Component& sbol::getDownstreamComponent(ComponentDefinition& cd_root, Component&
     }
 }
 
-Component& sbol::getFirstComponent(ComponentDefinition& cd_root)
+Component& ComponentDefinition::getFirstComponent()
 {
+    ComponentDefinition& cd_root = *this;
     if (cd_root.components.size() < 0)
         throw;
     else if (cd_root.doc == NULL)
@@ -98,29 +103,30 @@ Component& sbol::getFirstComponent(ComponentDefinition& cd_root)
     {
         Component& arbitrary_component = cd_root.components[0];
         Component& iterator_component = arbitrary_component;
-        while (hasUpstreamComponent(cd_root, iterator_component))
+        while (cd_root.hasUpstreamComponent(iterator_component))
         {
-            iterator_component = getUpstreamComponent(cd_root, iterator_component);
+            iterator_component = cd_root.getUpstreamComponent(iterator_component);
         }
         return iterator_component;
     }
 }
 
-Component& sbol::getLastComponent(ComponentDefinition& cd_root)
+Component& ComponentDefinition::getLastComponent()
 {
+    ComponentDefinition& cd_root = *this;
     if (cd_root.components.size() < 0)
         throw;
     else if (cd_root.doc == NULL)
         throw;
     else
     {
-        Component* arbitrary_component = &cd_root.components[0];
-        Component* iterator_component = arbitrary_component;
-        while (hasDownstreamComponent(cd_root, *iterator_component))
+        Component& arbitrary_component = cd_root.components[0];
+        Component& iterator_component = arbitrary_component;
+        while (cd_root.hasDownstreamComponent(iterator_component))
         {
-            iterator_component = &getDownstreamComponent(cd_root, *iterator_component);
+            iterator_component = cd_root.getDownstreamComponent(iterator_component);
         }
-        return *iterator_component;
+        return iterator_component;
     }
 }
 
@@ -146,7 +152,7 @@ vector<Component*> sbol::getInSequentialOrder(ComponentDefinition& cd_root)
 //    }
 }
 
-void sbol::updateSequence(ComponentDefinition& parent_component)
+void ComponentDefinition::updateSequence()
 {
 //    if (parent_component.components.size() > 0)
 //    {
@@ -177,7 +183,7 @@ void sbol::updateSequence(ComponentDefinition& parent_component)
 //    }
 }
 
-void sbol::assemble(ComponentDefinition& parent_component, vector<ComponentDefinition*> list_of_components)
+void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_components)
 {
     if (list_of_components.size() < 2)
     {
@@ -185,6 +191,7 @@ void sbol::assemble(ComponentDefinition& parent_component, vector<ComponentDefin
     }
     else
     {
+        ComponentDefinition& parent_component = *this;
         if (isSBOLCompliant())
         {
             vector<Component*> list_of_instances = {};
