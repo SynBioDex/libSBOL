@@ -23,7 +23,7 @@ namespace sbol
 //        SequenceConstraint(std::string uri_prefix, std::string display_id, std::string version, std::string subject, std::string object, std::string restriction) :
 //			SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri_prefix, display_id, version, subject, object, restriction) {};
 		
-        ~SequenceConstraint() {};
+        virtual ~SequenceConstraint() {};
 	
 	protected:
         SequenceConstraint(sbol_type type, std::string uri, std::string subject, std::string object, std::string restriction, std::string version) :

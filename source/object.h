@@ -36,7 +36,6 @@ namespace sbol
         // Conforms to SBOL compliant URIs
         SBOLObject(std::string uri_prefix, std::string display_id, std::string version) : SBOLObject(UNDEFINED, uri_prefix, display_id, version) {};
         
-        ~SBOLObject();
         sbol_type type;
         URIProperty identity;
     
@@ -44,7 +43,9 @@ namespace sbol
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
         std::string nest(std::string& rdfxml_buffer);
         std::string getClassName(std::string type);
-
+        virtual ~SBOLObject();
+        void close();
+        
     protected:
         // Open-world constructor
         SBOLObject(sbol_type type, std::string uri) :
@@ -73,7 +74,7 @@ namespace sbol
                 return (SBOLClass&)*obj;
             }
         }
-        SBOLError(NOT_FOUND_ERROR, "Object not found");
+        SBOLError(NOT_FOUND_ERROR, "Object " + object_id + " not found");
         SBOLClass& dummy = * new SBOLClass();  // Dummy object necessary to suppress warning
         return dummy;
     };
@@ -90,7 +91,7 @@ namespace sbol
                 return (SBOLClass&)*obj;
             }
         }
-        SBOLError(NOT_FOUND_ERROR, "Object not found");
+        SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
         SBOLClass& dummy = * new SBOLClass();  // Dummy object necessary to suppress warning
         return dummy;
     };

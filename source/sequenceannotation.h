@@ -19,7 +19,7 @@ namespace sbol
         SequenceAnnotation(std::string uri_prefix, std::string display_id, std::string version) : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri_prefix, display_id, version) {};
 
         
-        ~SequenceAnnotation() {};
+        virtual ~SequenceAnnotation() {};
 	
 	protected:
 		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 

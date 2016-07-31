@@ -18,7 +18,7 @@ namespace sbol
 
         Participation(std::string uri_prefix, std::string display_id, std::string version, std::string participant) : Participation(SBOL_PARTICIPATION, uri_prefix, display_id, version, participant) {};
         
-        ~Participation(){};
+        virtual ~Participation(){};
 	protected:
         Participation(sbol_type type, std::string uri, std::string participant) :
             Identified(type, uri),

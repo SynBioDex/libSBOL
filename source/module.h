@@ -21,7 +21,7 @@ namespace sbol
         Module(std::string uri_prefix, std::string display_id, std::string version, std::string definition) :
             Module(SBOL_MODULE, uri_prefix, display_id, version, definition) {};
 
-        ~Module() {};
+        virtual ~Module() {};
         
 	protected:
         Module(sbol_type type, std::string uri, std::string definition) :

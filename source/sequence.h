@@ -18,7 +18,7 @@ namespace sbol
         
 //        Sequence(std::string uri_prefix, std::string display_id, std::string version, std::string elements, std::string encoding) : Sequence(SBOL_SEQUENCE, uri_prefix, display_id, version, elements, encoding) {};
 
-        ~Sequence() {};
+        virtual ~Sequence() {};
 	protected:
 		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
 

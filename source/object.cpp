@@ -26,6 +26,12 @@ SBOLObject::~SBOLObject()
 {
 }
 
+/// Use this method to destroy an SBOL object that is not contained by a parent Document.  If the object does have a parent Document, instead use doc.close() with the object's URI identity as an argument.
+void SBOLObject::close()
+{
+    delete this;
+}
+
 sbol_type SBOLObject::getTypeURI() 
 {
 	return type;

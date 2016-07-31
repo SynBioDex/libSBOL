@@ -18,7 +18,7 @@ namespace sbol
         
         Interaction(std::string uri_prefix, std::string display_id, std::string version, std::string interaction_type) : Interaction(SBOL_INTERACTION, uri_prefix, display_id, version, interaction_type) {};
         
-        ~Interaction() {};
+        virtual ~Interaction() {};
         
 	protected:
         Interaction(sbol_type type, std::string uri, std::string interaction_type) :

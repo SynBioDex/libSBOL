@@ -20,6 +20,7 @@ namespace sbol
 		List<OwnedObject<MapsTo>> mapsTos;
         ReferencedObject definition;
         
+        virtual ~ComponentInstance() {};
 	protected:
         ComponentInstance(sbol_type type, std::string uri, std::string definition, std::string access, std::string version) :
             Identified(type, uri, version),
@@ -47,7 +48,7 @@ namespace sbol
         
 //        Component(std::string uri_prefix, std::string display_id, std::string version, std::string definition,std::string access) : Component(SBOL_COMPONENT, uri_prefix, display_id, version, definition, access) {};
         
-        ~Component() {};
+        virtual ~Component() {};
 
 	protected:
         Component(sbol_type type, std::string uri, std::string definition, std::string access, std::string version) :
@@ -66,7 +67,7 @@ namespace sbol
         
 //        FunctionalComponent(std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access, std::string direction) : FunctionalComponent(SBOL_FUNCTIONAL_COMPONENT, uri_prefix, display_id, version, definition, access, direction) {};
         
-        ~FunctionalComponent() {};
+        virtual ~FunctionalComponent() {};
 
 	protected:
         FunctionalComponent(sbol_type type, std::string uri, std::string definition, std::string access, std::string direction) :

@@ -19,7 +19,7 @@ namespace sbol
         
         MapsTo(std::string uri_prefix, std::string display_id, std::string version, std::string local, std::string remote, std::string refinement) : MapsTo(SBOL_MAPS_TO, uri_prefix, display_id, version, local, remote, refinement) {};
         
-        ~MapsTo() {};
+        virtual ~MapsTo() {};
 	protected:
         MapsTo(sbol_type type, std::string uri, std::string local, std::string remote, std::string refinement) :
             Identified(type, uri),

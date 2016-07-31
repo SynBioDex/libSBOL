@@ -43,7 +43,7 @@ namespace sbol
         Component& getFirstComponent();
         Component& getLastComponent();
         
-        ~ComponentDefinition() {  };
+        virtual ~ComponentDefinition() {  };
 	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri 
         ComponentDefinition(sbol_type type, std::string uri, std::string component_type, std::string version) :

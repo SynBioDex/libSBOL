@@ -90,7 +90,7 @@ namespace sbol {
         /// @param filename The full name of the file you want to write (including file extension)
         void read(std::string filename);
 
-        /// Run validation rules on this Document
+        /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization.
         void validate(void *arg = NULL);
 
         static void parse_objects(void* user_data, raptor_statement* triple);
@@ -102,7 +102,8 @@ namespace sbol {
         void addNamespace(std::string ns, std::string prefix);
         
 		std::vector<SBOLObject*> flatten();
-
+        /// Delete all objects in this Document and destroy the Document
+        void close(std::string uri = "");
 	};
 
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)

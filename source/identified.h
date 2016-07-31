@@ -23,7 +23,8 @@ namespace sbol
 //        Identified(std::string prefix, std::string display_id, std::string version) : Identified(SBOL_IDENTIFIED, prefix, display_id, version) {};
 
 
-	// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
+	// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI
+        virtual ~Identified() {};
 	protected:
         Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
             SBOLObject(type_uri, uri),

@@ -798,3 +798,29 @@ void Document::write(std::string filename)
 	fclose(fh);
 
 };
+
+void Document::close(std::string uri)
+{
+    if (uri == "")
+    {
+        for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+        {
+            SBOLObject* obj = i_obj->second;
+            obj->close();
+        }
+        delete this;
+    }
+    else
+    {
+        if (SBOLObjects.find(uri) == SBOLObjects.end())
+            throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " is not contained in Document and cannot be deleted");
+        else
+        {
+            SBOLObject* obj = SBOLObjects[uri];
+            obj->close();
+            SBOLObjects.erase(uri);
+        }
+    }
+};
+
+

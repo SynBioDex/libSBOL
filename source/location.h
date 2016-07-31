@@ -22,6 +22,7 @@ namespace sbol
             orientation(SBOL_ORIENTATION, this, SBOL_INLINE)
             {
             }
+        virtual ~Location() {};;
     };
 
     /// A Range object specifies a region via discrete, inclusive start and end positions that correspond to indices for characters in the elements String of a Sequence.  Note that the index of the first location is 1, as is typical practice in biology, rather than 0, as is typical practice in computer science.
@@ -35,7 +36,7 @@ namespace sbol
 
         Range(std::string uri_prefix, std::string display_id, std::string version, int start, int end) : Range(SBOL_RANGE, uri_prefix, display_id, version, start, end) {};
         
-		~Range() {};
+		virtual ~Range() {};
         
 	protected:
         Range(sbol_type type, std::string uri, int start, int end) :

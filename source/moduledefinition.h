@@ -28,7 +28,7 @@ namespace sbol
         
 //		ModuleDefinition(std::string uri_prefix, std::string display_id, std::string version) : ModuleDefinition(SBOL_MODULE_DEFINITION, uri_prefix, display_id, version) {};
         
-        ~ModuleDefinition() {};
+        virtual ~ModuleDefinition() {};
 	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri
         ModuleDefinition(sbol_type sbol_type_uri, std::string uri, std::string version) :
