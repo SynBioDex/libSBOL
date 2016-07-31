@@ -34,7 +34,8 @@ namespace sbol
 //        ComponentDefinition(std::string uri_prefix, std::string display_id, std::string version, std::string type) : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, version, type) {};
         
         void assemble(std::vector<ComponentDefinition*> list_of_components);
-        void updateSequence();
+        std::string updateSequence(std::string composite_sequence = "");
+        std::vector<Component*> getInSequentialOrder();
         int hasUpstreamComponent(Component& current_component);
         Component& getUpstreamComponent(Component& current_component);
         int hasDownstreamComponent(Component& current_component);

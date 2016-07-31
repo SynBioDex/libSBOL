@@ -102,12 +102,12 @@ Component& ComponentDefinition::getFirstComponent()
     else
     {
         Component& arbitrary_component = cd_root.components[0];
-        Component& iterator_component = arbitrary_component;
-        while (cd_root.hasUpstreamComponent(iterator_component))
+        Component* iterator_component = &arbitrary_component;
+        while (cd_root.hasUpstreamComponent(*iterator_component))
         {
-            iterator_component = cd_root.getUpstreamComponent(iterator_component);
+            iterator_component = &cd_root.getUpstreamComponent(*iterator_component);
         }
-        return iterator_component;
+        return *iterator_component;
     }
 }
 
@@ -120,67 +120,64 @@ Component& ComponentDefinition::getLastComponent()
         throw;
     else
     {
+
         Component& arbitrary_component = cd_root.components[0];
-        Component& iterator_component = arbitrary_component;
-        while (cd_root.hasDownstreamComponent(iterator_component))
+        Component* iterator_component = &arbitrary_component;
+
+        while (cd_root.hasDownstreamComponent(*iterator_component))
         {
-            iterator_component = cd_root.getDownstreamComponent(iterator_component);
+            iterator_component = &cd_root.getDownstreamComponent(*iterator_component);
         }
-        return iterator_component;
+
+        return *iterator_component;
     }
 }
 
-vector<Component*> sbol::getInSequentialOrder(ComponentDefinition& cd_root)
+/// Get subcomponents in sequential order based on SequenceConstraints
+vector<Component*> ComponentDefinition::getInSequentialOrder()
 {
-//    if (cd_root.sequenceConstraints.size() < 0)
-//        throw;
-//    else
-//    {
-//        while (hasUpstreamComponent(cd_root))
-//        {
-//            
-//        }
-//        string upstream_component_id;
-//        for (auto i_sc = cd_root.sequenceConstraints.begin(); i_sc != cd_root.sequenceConstraints.end(); i_sc++)
-//        {
-//            SequenceConstraint& sc = *i_sc;
-//            if (sc.object.get() == current_component.identity.get() && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
-//                string upstream_component_id = sc.subject.get();
-//        }
-//        Component& upstream_component = cd_root.doc->get<Component>(upstream_component_id);
-//        return upstream_component;
-//    }
+    ComponentDefinition& cd_root = *this;
+    if (cd_root.sequenceConstraints.size() < 0)
+        throw;
+    else
+    {
+        Component* first = &getFirstComponent();
+        vector<Component*> sequential_components = { first };
+
+        Component* next = first;
+        while (hasDownstreamComponent(*next))
+        {
+            next = &getDownstreamComponent(*next);
+            sequential_components.push_back(next);
+        }
+        return sequential_components;
+    }
 }
 
-void ComponentDefinition::updateSequence()
+
+std::string ComponentDefinition::updateSequence(std::string composite_sequence)
 {
-//    if (parent_component.components.size() > 0)
-//    {
-//        string upstream_component_uri = "";
-//        for (auto i_sc = parent_component.sequenceConstraints.begin(); i_sc != parent_component.end(); i_sc++)
-//        {
-//            SequenceConstraint& sc = *i_sc;
-//            if (upstream_component_uri == "" && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
-//            {
-//                upstream_component_uri = sc.restriction.subject.get();
-//            }
-//            else if (upstream_component_uri != "" && sc.restriction.get == SBOL_RESTRICTION_PRECEDES)
-//            {
-//                
-//            }
-//        }
-//        
-//        for (auto i_c = parent_component.components.begin(); i_c != parent_component.components.end(); i_c++)
-//        {
-//            Component& c = *i_c;
-//            ComponentDefinition& cdef = parent_component.doc->get<ComponentDefinition>(c.definition.get());
-//            updateSequence(cdef);
-//            if (cdef.sequence.get() != "")
-//            {
-//                
-//            }
-//        }
-//    }
+    ComponentDefinition& parent_component = *this;
+    std::string parent_component_id = parent_component.identity.get();
+    if (parent_component.components.size() > 0)
+    {
+
+        vector<Component*> subcomponents = getInSequentialOrder();
+        for (auto i_c = subcomponents.begin(); i_c != subcomponents.end(); i_c++)
+        {
+            Component& c = **i_c;
+            ComponentDefinition& cdef = doc->get < ComponentDefinition > (c.definition.get());
+            Sequence& seq = doc->get < Sequence > (cdef.sequence.get());
+            composite_sequence = composite_sequence + cdef.updateSequence(composite_sequence);
+        }
+        return composite_sequence;
+    }
+    else
+    {
+        std::string parent_component_seq = parent_component.sequence.get();
+        Sequence& seq = doc->get < Sequence >(parent_component.sequence.get());
+        return seq.elements.get();
+    }
 }
 
 void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_components)
@@ -224,6 +221,7 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
                 sc.object.set(constraint_object.identity.get());
                 sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
             }
+
         }
         else
             throw;

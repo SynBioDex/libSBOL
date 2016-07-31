@@ -9,13 +9,7 @@
 
 namespace sbol
 {
-
-//    void assemble(ComponentDefinition& parent_component, std::vector<ComponentDefinition*> list_of_components);
-
-
-
-    std::vector<Component*> getInSequentialOrder(ComponentDefinition& cd_root);
-
+    
 //void sbol::dissemble(ComponentDefinition& );
 //void sbol::attachSubcomponent();
 //void sbol::attachSubcomponents();
