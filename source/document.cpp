@@ -504,11 +504,17 @@ void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
 
 void Document::read(std::string filename)
 {
-	// Wipe existing contents of this Document
-	raptor_free_world(this->rdf_graph);  //  Probably need to free other objects as well...
+    // Wipe existing contents of this Document
+    raptor_free_world(this->rdf_graph);  //  Probably need to free other objects as well...
     SBOLObjects.clear();
     namespaces.clear();
-	this->rdf_graph = raptor_new_world();
+    this->rdf_graph = raptor_new_world();
+    this->append(filename);
+};
+
+void Document::append(std::string filename)
+{
+
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
     
 	FILE* fh = fopen(filename.c_str(), "rb");
@@ -713,8 +719,6 @@ void Document::addNamespace(std::string ns, std::string prefix)
 
 void Document::addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer)
 {
-    cout << "Setting namespace " << prefix << ns << endl;
-
     raptor_world *world = getWorld();
     raptor_uri *ns_uri = raptor_new_uri(world, (const unsigned char *)ns.c_str());
     const unsigned char *ns_prefix = (const unsigned char *)prefix.c_str();

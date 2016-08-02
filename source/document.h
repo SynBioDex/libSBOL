@@ -82,14 +82,18 @@ namespace sbol {
         /// @tparam SBOLClass The type of SBOL object
         template < class SBOLClass > SBOLClass& get(std::string uri);
 
-        /// Serialize to an RDF/XML file
+        /// Serialize all objects in this Document to an RDF/XML file
         /// @param filename The full name of the file you want to write (including file extension)
         void write(std::string filename);
 
-        /// Serialize to an RDF/XML file
-        /// @param filename The full name of the file you want to write (including file extension)
+        /// Read an RDF/XML file and attach the SBOL objects to this Document. Existing contents of the Document will be wiped.
+        /// @param filename The full name of the file you want to read (including file extension)
         void read(std::string filename);
 
+        /// Read an RDF/XML file and attach the SBOL objects to this Document. New objects will be added to the existing contents of the Document
+        /// @param filename The full name of the file you want to read (including file extension)
+        void append(std::string filename);
+        
         /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization.
         void validate(void *arg = NULL);
 
