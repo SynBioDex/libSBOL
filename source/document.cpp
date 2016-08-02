@@ -357,8 +357,8 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 	subject = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from uri
 	predicate = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
 	object = object.substr(1, object.length() - 2);  // Removes flanking < and > from uri
-    cout << subject << endl;
-	// Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
+
+    // Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
 	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
 		// Checks if the object has already been created and whether a constructor for this type of object exists
@@ -521,7 +521,8 @@ void Document::read(std::string filename)
 	void *user_data = this;
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
 	//base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
-    base_uri = NULL;
+   	base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
+
     raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
 
 	raptor_free_iostream(ios);
