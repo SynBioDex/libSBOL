@@ -164,6 +164,9 @@ namespace sbol {
     		return vector_copy;
     	};
     
+    /// @param If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
+    /// @return A reference to the child object
+    /// Autoconstructs a child object and attaches it to the parent object.  If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
     {
@@ -204,7 +207,7 @@ namespace sbol {
         }
     };
     
-    // Pushes an object into the container
+    /// @param sbol_obj The child object
     template < class SBOLClass>
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {

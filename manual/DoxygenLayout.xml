@@ -25,10 +25,9 @@
 
   <!-- Layout definition for a class page -->
   <class>
-    <briefdescription visible="yes"/>
-    <includes visible="$SHOW_INCLUDE_FILES"/>
-    <inheritancegraph visible="$CLASS_GRAPH"/>
-    <collaborationgraph visible="$COLLABORATION_GRAPH"/>
+    <detaileddescription title="" visible="yes"/>
+    <briefdescription visible="no"/>
+
     <memberdecl>
       <nestedclasses visible="yes" title=""/>
       <publictypes title=""/>
@@ -36,21 +35,21 @@
       <interfaces title=""/>
       <publicslots title=""/>
       <signals title=""/>
-      <publicmethods visible="yes" title=""/>
-      <publicstaticmethods title=""/>
       <publicattributes visible="yes" title=""/>
       <publicstaticattributes title=""/>
+      <publicmethods visible="yes" title=""/>
+      <publicstaticmethods title=""/>
       <protectedtypes title=""/>
       <protectedslots title=""/>
-      <protectedmethods title=""/>
-      <protectedstaticmethods title=""/>
       <protectedattributes title=""/>
       <protectedstaticattributes title=""/>
+      <protectedmethods title=""/>
+      <protectedstaticmethods title=""/>
       <packagetypes title=""/>
-      <packagemethods title=""/>
-      <packagestaticmethods title=""/>
       <packageattributes title=""/>
       <packagestaticattributes title=""/>
+      <packagemethods title=""/>
+      <packagestaticmethods title=""/>
       <properties visible="yes" title=""/>
       <events title=""/>
       <privatetypes title=""/>
@@ -63,7 +62,6 @@
       <related title="" subtitle=""/>
       <membergroups visible="yes"/>
     </memberdecl>
-    <detaileddescription title="" visible="yes"/>
     <memberdef>
       <inlineclasses visible="yes" title=""/>
       <typedefs visible="yes" title=""/>
@@ -79,6 +77,7 @@
     </memberdef>
     <allmemberslink visible="yes"/>
     <usedfiles visible="$SHOW_USED_FILES"/>
+    <inheritancegraph visible="$CLASS_GRAPH"/>
     <authorsection visible="yes"/>
   </class>
 
@@ -138,7 +137,8 @@
 
   <!-- Layout definition for a group page -->
   <group>
-    <briefdescription visible="yes"/>
+    <detaileddescription title="" visible="yes"/>
+    <briefdescription visible="no"/>
     <groupgraph visible="yes"/>
     <memberdecl>
       <classes title=""/>

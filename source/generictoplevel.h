@@ -7,6 +7,7 @@
 
 namespace sbol 
 {
+    /// @cond
 	class GenericTopLevel : public TopLevel
 	{
 		sbol_type type = SBOL_GENERIC_TOP_LEVEL;
@@ -18,6 +19,7 @@ namespace sbol
 			}
 
 	};
+    /// @endcond
 }
 
 #endif

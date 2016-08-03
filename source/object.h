@@ -18,6 +18,7 @@ namespace sbol
     /* All SBOLObjects have a pointer back to their Document.  This requires forward declaration of SBOL Document class here */
     class Document;
     
+    /// An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for serializing and parsing RDF triples
     class SBOLObject
     {
     friend class Document;
@@ -62,6 +63,8 @@ namespace sbol
         };
     };
     
+    /// @param object_id The URI of the child object
+    /// @return A reference to the child object
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::get(const std::string object_id)
     {
@@ -74,11 +77,11 @@ namespace sbol
                 return (SBOLClass&)*obj;
             }
         }
-        SBOLError(NOT_FOUND_ERROR, "Object " + object_id + " not found");
-        SBOLClass& dummy = * new SBOLClass();  // Dummy object necessary to suppress warning
-        return dummy;
+        throw SBOLError(NOT_FOUND_ERROR, "Object " + object_id + " not found");
     };
-    
+
+    /// @param uri The URI of the child object
+    /// @return A reference to the child object
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::operator[] (const std::string uri)
     {
@@ -91,12 +94,12 @@ namespace sbol
                 return (SBOLClass&)*obj;
             }
         }
-        SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
-        SBOLClass& dummy = * new SBOLClass();  // Dummy object necessary to suppress warning
-        return dummy;
+        throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };
 
-    
+    /// @ingroup extension_layer
+    /// @brief A reference to another SBOL object
+    /// Contains a Uniform Resource Identifier (URI) that refers to an an associated object.  The object it points to may be another resource in this Document or an external reference, for example to an object in an external repository.  In the SBOL specification, association by reference is indicated in class diagrams by arrows with open (white) diamonds.
     class ReferencedObject : public URIProperty
     {
     protected:
@@ -118,6 +121,7 @@ namespace sbol
         void setReference(const std::string uri_prefix, const std::string display_id);
         void setReference(const std::string uri_prefix, const std::string display_id, const std::string version);
 
+        /// Provides iterator functionality for SBOL properties that contain multiple references
         class iterator : public std::vector<std::string>::iterator
         {
         public:

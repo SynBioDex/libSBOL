@@ -1,5 +1,4 @@
-/// @file assembly.h
-/// A suite of high-level methods for the synthetic biologist to perform DNA sequence assembly operations
+
 
 #ifndef SBOL_ASSEMBLY_INCLUDED
 #define SBOL_ASSEMBLY_INCLUDED

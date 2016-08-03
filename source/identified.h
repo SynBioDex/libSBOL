@@ -6,7 +6,11 @@
 
 namespace sbol
 {
-    /// All SBOL-defined classes are directly or indirectly derived from the Identified abstract class. An Identified object is identified using a Uniform Resource Identifier (URI) which is essentially a unique string referring to an objects in an SBOL document or somewhere on the World Wide Web (a URL is a kind of URI).
+    /// @defgroup sbol_core_data_model SBOL Core Data Model
+    /// The core data model consists of classes described in the [Synthetic Biology Open Language specification document](http://sbolstandard.org).  Classes in the core data model represent key ideas in the description of biological structure and function.
+    
+    /// @ingroup sbol_core_data_model
+    /// All SBOL-defined classes are directly or indirectly derived from the Identified abstract class. An Identified object is identified using a Uniform Resource Identifier (URI), a unique string that identifies and refers to a specific object in an SBOL document or in an online resource such as a DNA repository.
 	class Identified : public SBOLObject
     {
 	

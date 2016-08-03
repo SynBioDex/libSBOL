@@ -8,6 +8,7 @@
 
 namespace sbol
 {
+    /// @cond
 	class SequenceAnnotationExt : public SequenceAnnotation
 	{
 	public:
@@ -25,6 +26,7 @@ namespace sbol
 		{
 		}
 	};
+    /// @endcond
 }
 
 #endif

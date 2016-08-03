@@ -12,6 +12,10 @@
 
 namespace sbol
 {
+    class SBOLObject;
+    
+    /// @ingroup extension_layer
+    /// A URIProperty may contain a restricted type of string that conforms to the specification for a Uniform Resource Identifier (URI), typically consisting of a namespace authority followed by an identifier.  A URIProperty often contains a reference to an SBOL object or may contain an ontology term.
     class URIProperty : public Property<std::string>
 	{
 	public:
@@ -21,6 +25,8 @@ namespace sbol
 		}
 	};
 
+    /// @ingroup extension_layer
+    /// TextProperty objects are used to contain string literals.  They can be used as member objects inside custom SBOL Extension classes.
 	class TextProperty : public Property<std::string>
 	{
 	public:
@@ -30,6 +36,8 @@ namespace sbol
 		}
 	};
 
+    /// @ingroup extension_layer
+    /// IntProperty objects are used to contain integers.  They can be used as member objects inside custom SBOL Extension classes.
 	class IntProperty : public Property<int>
 	{
 	public:
@@ -37,22 +45,26 @@ namespace sbol
 			Property(type_uri, property_owner, initial_value)
 		{
 		}
+
 	};
 
+    /// @ingroup extension_layer
+    /// @brief Contains a version number for an SBOL object.
+    /// The VersionProperty follows Maven versioning semantics and includes a major, minor, and patch version number. Specifically, libSBOL currently only supports using '.' as a delimiter. Ex: v2.0.1.  If the user does not want to follow Maven versioning, they can specify an arbitrary version string using the set() method.
     class VersionProperty : public TextProperty
     {
     private:
         std::vector<std::string> split(const char c);
     public:
-        void incrementMinor();
-        void incrementMajor();
-        void incrementPatch();
-        void decrementMinor();
-        void decrementMajor();
-        void decrementPatch();
-        int major();
-        int minor();
-        int patch();
+        void incrementMajor(); ///< Increment major version
+        void incrementMinor(); ///< Increment minor version
+        void incrementPatch(); ///< Increment patch version
+        void decrementMinor(); ///< Decrement major version
+        void decrementMajor(); ///< Decrement major version
+        void decrementPatch(); ///< Decrement major version
+        int major(); ///< Get major version
+        int minor(); ///< Get minor version
+        int patch(); ///< Get patch version
         VersionProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
             TextProperty(type_uri, property_owner, initial_value)
             {
@@ -83,8 +95,10 @@ namespace sbol
                 
             }
     };
-
-	/* Corresponding to black diamonds in UML diagrams.  Creates a composite out of two or more classes */
+    
+    /// A container property that contains child objects. Creates a composition out of two or more classes.  In the SBOL specification, compositional relationships are indicated in class diagrams by arrows with black diamonds. A compositional relationship means that deleting the parent object will delete the child objects, and adding the parent object to a Document will also add the child object.  Owned objects are stored in arbitrary order.
+    /// @ingroup extension_layer
+    /// @tparam SBOLClass The type of child SBOL object contained by this Property
 	template <class SBOLClass>
 	class OwnedObject : public Property<SBOLClass>
 	{
@@ -93,17 +107,18 @@ namespace sbol
         OwnedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string dummy = "");  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
 		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
 
-		void add(SBOLClass& sbol_obj);
-        void set(SBOLClass& sbol_obj);
+        void set(SBOLClass& sbol_obj);                  ///< Attach a child SBOL object to a parent SBOL object
+        SBOLClass& get(const std::string object_id);    ///< Get the child object
+		void add(SBOLClass& sbol_obj);                  ///< Push another child object to the list, if the property allows multiple values
         template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);
         template < class SBOLSubClass > SBOLSubClass& get();
-        SBOLClass& get(const std::string object_id);
         std::vector<SBOLClass*> copy();
-        SBOLClass& create(std::string uri);
+        SBOLClass& create(std::string uri);             ///< Autoconstruct a child object and add it to a parent SBOL object
         void create(std::string uri_prefix, std::string display_id, std::string version);
-		SBOLClass& operator[] (const int nIndex);
-		SBOLClass& operator[] (const std::string uri);
+		SBOLClass& operator[] (const int nIndex);       ///< Retrieve a child object by numerical index.
+        SBOLClass& operator[] (const std::string uri);  ///< Retrieve a child object by URI
 
+        /// Provides iterator functionality for SBOL properties that contain multiple objects
         class iterator : public std::vector<SBOLObject*>::iterator
 		{
         public:
@@ -174,15 +189,17 @@ namespace sbol
 
     };
 
-    // Sets the first object in the container
+    /// @param sbol_obj The child object
+    /// Sets the first object in the container
     template < class SBOLClass>
     void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
     {
-        // This could cause a memory leak if the overwritten object is not freed!
+        /// @TODO This could cause a memory leak if the overwritten object is not freed!
         this->sbol_owner->owned_objects[this->type][0] = ((SBOLObject *)&sbol_obj);
     };
     
-
+    /// @param nIndex A numerical index
+    /// @return A reference to the child object
 	template <class SBOLClass>
 	SBOLClass& OwnedObject<SBOLClass>::operator[] (const int nIndex)
 	{
@@ -207,7 +224,9 @@ namespace sbol
         return (SBOLSubClass&)*obj;
     };
 
-    
+    /// Provides interface for an SBOL container Property that is allowed to have more than one object or value
+    /// @tparam PropertyType The type of SBOL Property, eg, Text, Int, OwnedObject, etc
+    /// @ingroup extension_layer
     template <class PropertyType>
 	class List : public PropertyType 
 	{

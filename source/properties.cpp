@@ -7,8 +7,7 @@
 using namespace sbol;
 using namespace std;
 
-
-// @TODO if the object is SBOL Compliant, update the identity
+/// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMinor()
 {
     int minor_version = this->minor();
@@ -17,7 +16,7 @@ void VersionProperty::incrementMinor()
     this->set(new_version);
 };
 
-// @TODO if the object is SBOL Compliant, update the identity
+/// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMajor()
 {
     int major_version = this->major();
@@ -26,7 +25,7 @@ void VersionProperty::incrementMajor()
     this->set(new_version);
 };
 
-// @TODO if the object is SBOL Compliant, update the identity
+/// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementPatch()
 {
     int patch_version = this->patch();
@@ -47,6 +46,8 @@ void VersionProperty::decrementPatch()
 {
 };
 
+/// @return The major version as an integer
+/// Splits the version string by a delimiter and returns the major version number
 int VersionProperty::major()
 {
     vector<string> v = this->split('.');
@@ -54,6 +55,8 @@ int VersionProperty::major()
     return major_version;
 };
 
+/// @return The minor version as an integer
+/// Splits the version string by a delimiter and returns the minor version number
 int VersionProperty::minor()
 {
     vector<string> v = this->split('.');
@@ -71,6 +74,8 @@ int VersionProperty::minor()
     return minor_version;
 };
 
+/// @return The patch version as an integer
+/// Splits the version string by a delimiter and returns the patch version
 int VersionProperty::patch()
 {
     vector<string> v = this->split('.');

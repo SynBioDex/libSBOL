@@ -7,6 +7,7 @@
 
 namespace sbol 
 {
+    /// All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBOL files. An abstract class.
 	class TopLevel : public Identified
 	{
 

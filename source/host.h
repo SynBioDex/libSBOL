@@ -11,6 +11,7 @@
 
 namespace sbol
 {
+    /// @cond
     class Host : public ModuleDefinition, public ComponentDefinition
     {
         
@@ -41,6 +42,7 @@ namespace sbol
            register_extension < Host > (EXTENSION_PREFIX, EXTENSION_NS EXTENSION_CLASS);
         };
     };
+    /// @endcond
 }
 
 #endif

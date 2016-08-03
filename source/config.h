@@ -6,6 +6,7 @@
 
 namespace sbol
 {
+    /// A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the `config' object.
     class Config
     {
         std::string home; ///< The authoritative namespace for the Document. Setting the home namespace is like     signing a piece of paper.
@@ -23,11 +24,11 @@ namespace sbol
         int isSBOLCompliant();
     };
 
-    void setHomespace(std::string ns);
-    extern std::string getHomespace();
-    int hasHomespace();
-    void toggleSBOLCompliance();
-    int isSBOLCompliant();
+    void setHomespace(std::string ns); ///< Set the default namespace for autocreation of URIs when a new SBOL object is created
+    extern std::string getHomespace(); ///< Get the current default namespace for autocreation of URIs when a new SBOL object is created
+    int hasHomespace();                ///< Checks if a valid default namespace has been defined
+    void toggleSBOLCompliance();       ///< Enables SBOLCompliance, which simplifies creation of URIs in constructor calls
+    int isSBOLCompliant();             ///< Checks if SBOLCompliance is enabled
     std::string randomIdentifier();
     std::string autoconstructURI();
     std::string constructNonCompliantURI(std::string uri);
