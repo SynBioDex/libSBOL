@@ -228,4 +228,53 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
         //@TODO update sequenceAnnotations
     }
 }
+    
+std::string Sequence::assemble(std::string composite_sequence)
+{
+    // Throw an error if this Sequence is not attached to a Document
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Sequence cannot be assembled because it does not belong to a Document. Add the Sequence to a Document.");
+    }
+    // Search for ComponentDefinition that this Sequence describes
+    ComponentDefinition* parent_cdef = NULL;
+    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        if (obj->getTypeURI() == SBOL_COMPONENT_DEFINITION)
+        {
+            ComponentDefinition* cdef = (ComponentDefinition*)obj;
+            if (cdef->sequence.get() == identity.get())
+            {
+                parent_cdef = cdef;
+            }
+        }
+    }
+    // Throw an error if no ComponentDefinitions in the Document refer to this Sequence
+    if (parent_cdef == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Sequence cannot be assembled. There are no ComponentDefinitions in the Document which refer to this Sequence. ");
+    }
+
+    ComponentDefinition& parent_component = *parent_cdef;
+    if (parent_component.components.size() > 0)
+    {
+            
+        vector<Component*> subcomponents = parent_component.getInSequentialOrder();
+        for (auto i_c = subcomponents.begin(); i_c != subcomponents.end(); i_c++)
+        {
+            Component& c = **i_c;
+            ComponentDefinition& cdef = doc->get < ComponentDefinition > (c.definition.get());
+            Sequence& seq = doc->get < Sequence > (cdef.sequence.get());
+            composite_sequence = composite_sequence + seq.assemble(composite_sequence);
+        }
+        return composite_sequence;
+    }
+    else
+    {
+        std::string parent_component_seq = parent_component.sequence.get();
+        Sequence& seq = doc->get < Sequence >(parent_component.sequence.get());
+        return seq.elements.get();
+    }
+}
 

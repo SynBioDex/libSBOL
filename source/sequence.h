@@ -17,6 +17,7 @@ namespace sbol
         Sequence(std::string uri = DEFAULT_NS "/Sequence/example", std::string elements = "", std::string encoding = SBOL_ENCODING_IUPAC, std::string version = "1.0.0") : Sequence(SBOL_SEQUENCE, uri, elements, encoding, version) {};
         
 //        Sequence(std::string uri_prefix, std::string display_id, std::string version, std::string elements, std::string encoding) : Sequence(SBOL_SEQUENCE, uri_prefix, display_id, version, elements, encoding) {};
+        std::string assemble(std::string composite_sequence = "");
 
         virtual ~Sequence() {};
 	protected:
