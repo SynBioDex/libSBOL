@@ -16,31 +16,31 @@
 /// doc.read("CRISPR_example.xml")
 /// doc.write("CRISPR_example.xml")
 /// ```
+/// Reading a Document will wipe its contents clean before import. However, you can import objects from multiple files into a single Document object using `doc.append('file.xml')`. This can be advantageous when you want to integrate multiple ComponentDefinitions from multiple files into a single design.
 /// Experienced C++ programmers may find that returning a reference from a new operator is an unusual idiomatic choice.  See @ref idiomatic_cpp for a discussion about this stylistic preference in this tutorial.
 ///
 /// @section creating_objects Creating SBOL Data Objects
 ///
-/// Both structural and functional details of biological designs can be described with SBOL data objects.  The principle classes for describing the structure and primary sequence of a design are ComponentDefinitions, Components, and Sequences, SequenceAnnotations.  The principle classes for describing the function of a design are ModuleDefinitions, Modules, and Interactions. These classes and their properties are represented as Unified Modeling Language (UML) diagrams in the specification document.  For example, following is the diagram for a ComponentDefinition which will be referred to in later sections.
+/// Both structural and functional details of biological designs can be described with SBOL data objects.  The principle classes for describing the structure and primary sequence of a design are ComponentDefinitions, Components, and Sequences, SequenceAnnotations.  The principle classes for describing the function of a design are ModuleDefinitions, Modules, and Interactions. In the official SBOL specification document, these classes and their properties are represented as Unified Modeling Language (UML) diagrams.  For example, following is the diagram for a ComponentDefinition which will be referred to in later sections.
 /// ![](component_definition_uml.png) 
-/// Objects can be created by calling their respective constructors. Each new object must be assigned a unique identity, or uniform resource identifier (URI), and each constructor has two alternative signatures.  One signature accepts a raw URI, while the "compliant" constructor auto-constructs a URI.
+/// When a new object is created, it must be assigned a unique identity, or uniform resource identifier (URI). A typical URI consists of a scheme, a namespace, and an identifier, although other forms of URI's are allowed.  In this tutorial, we use URI's of the type `http://sys-bio.org/my_design`, where the scheme is indicated by `http://`, the namespace is `sys-bio.org` and the identifier is `my_design`.
 ///
-/// The following constructs a ModuleDefinition given a raw URI:
+/// Objects can be created by calling their respective constructors. The following constructs a ModuleDefinition:
 /// ```
-/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("sys-bio.org/CRISPRTemplate");
+/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("http://sys-bio.org/CRISPRTemplate");
 /// ```
+/// LibSBOL provides a few global configuration options that make URI construction easy. The first configuration option allows you to specify a default namespace for new object creation. If the default namespace is set, then only an identifier needs to be passed to the constructor.  This identifier will be automatically appended to the default namespace. Setting the default namespace is like signing your homework and claims ownership of an object.
+/// ```
+/// setHomespace("http://sys-bio.org");
+/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("CRISPRTemplate");
+/// ```
+/// Another configuration option enables automatic construction of SBOL-compliant URIs. These URIs consist of a namespace, an identifier, AND a Maven version number. In addition, SBOL-compliance simplifies autoconstruction of certain types of SBOL objects, as we will see later.  LibSBOL operates in SBOL-compliant mode by default. However, some RDF power users will prefer to operate in "open-world" mode and provide the full raw URI when constructing objects. To disable URI construction, SBOL-compliance use `toggleSBOLCompliance()`.
 ///
-/// The following auto-constructs a compliant URI from an authority, a displayID, and a version number:
+/// Some constructors have required fields. In the specification document, required fields are indicated as properties with a cardinality of 1 or more.  For example, a ComponentDefinition (see the UML diagram above) has only one required field, the type, which specifies the molecular type of a component.  Arguments to a constructor are always determined by whether the official SBOL specification document indicates if it is required.  Required fields SHOULD be specified when calling a constructor.  If they are not, then they will be assigned default values.  The following creates a protein component. If the BioPAX term for protein were not specified, then the constructor would create a ComponentDefinition of DNA by default.
 /// ```
-/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("sys-bio.org", "CRISPRTemplate", "1.0.0");
+/// ComponentDefinition& Cas9 = *new ComponentDefinition("Cas9", BIOPAX_PROTEIN);
 /// ```
-/// The identity of the new object is thus assigned as "sys-bio.org/ModuleDefinition/CRISPRTemplate/1.0.0"
-///
-/// Some constructors have required fields. In the specification document, required fields are indicated as properties with a cardinality of 1 or more.  For example, a ComponentDefinition (see the UML diagram above) has only one required field, the type, which specifies the molecular type of a component. Required fields MUST be specified when calling a constructor.  The following creates a protein component.
-/// 
-/// ```
-/// ComponentDefinition& Cas9 = *new ComponentDefinition("sys-bio.org", "Cas9", "1.0.0", BIOPAX_PROTEIN);
-/// ```
-/// Notice the type is specified using a predefined constant.  See @ref constants.h for all such predefined constants.
+/// Notice the type is specified using a predefined constant.  See the help page for the ComponentDefinition class for all such predefined constants.
 ///
 /// @section adding_objects Adding Objects to a Document
 ///
@@ -49,9 +49,9 @@
 /// doc.add<ModuleDefinition>(CRISPRTemplate);
 /// doc.add<ComponentDefinition>(Cas9);
 /// ``` 
-/// @section optional_fields Setting and Editing Optional Fields
+/// @section optional_fields Getting, Setting, and Editing Optional Fields
 ///
-/// Objects may also include optional fields.  These are indicated in UML as properties having a cardinality of 0 or more.  All properties of a ComponentDefinition are optional, except for the type.  Optional properties can only be set after the object is created. The following code creates a DNA component which is designated as a promoter: 
+/// Objects may also include optional fields.  These are indicated in UML as properties having a cardinality of 0 or more.  Except for the molecular type field, all properties of a ComponentDefinition are optional.  Optional properties can only be set after the object is created. The following code creates a DNA component which is designated as a promoter:
 /// ```
 /// ComponentDefinition& TargetPromoter = *new ComponentDefinition("sys-bio.org", "TargetPromoter", "1.0.0", BIOPAX_DNA);
 /// TargetPromoter.roles.set(SO_PROMOTER)
