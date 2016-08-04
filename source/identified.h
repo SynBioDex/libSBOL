@@ -32,7 +32,7 @@ namespace sbol
 	protected:
         Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
             SBOLObject(type_uri, uri),
-            persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, getHomespace() + "/" + uri),
+            persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, uri),
             displayId(SBOL_DISPLAY_ID, this, uri),
             version(SBOL_VERSION, this, version),
             wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this, ""),
@@ -41,7 +41,13 @@ namespace sbol
         {
             if(isSBOLCompliant())
             {
-                this->identity.set(getHomespace() + "/" + uri + "/" + version);
+                identity.set(getHomespace() + "/" + uri + "/" + version);
+                persistentIdentity.set(getHomespace() + "/" + uri);
+            }
+            else if (hasHomespace())
+            {
+                identity.set(getHomespace() + "/" + uri);
+                persistentIdentity.set(getHomespace() + "/" + uri);
             }
             identity.validate();
         }
