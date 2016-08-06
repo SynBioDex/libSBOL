@@ -158,11 +158,20 @@ void ReferencedObject::set(std::string uri)
 
 
 // For compliant URIs
-void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id)
+void ReferencedObject::setReference(const std::string uri)
 {
-    std::string sbol_class_name = getClassName(this->reference_type_uri);
-    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, "1.0.0");
-    this->set(compliant_uri);
+    if (isSBOLCompliant())
+    {
+        // if not TopLevel throw an error
+        // @TODO search Document by persistentIdentity and retrieve the latest version
+        set(getHomespace() + "/" + getClassName(this->reference_type_uri) + "/" + uri + "/1.0.0");
+    }
+    else if (hasHomespace())
+    {
+        set(getHomespace() + "/" + uri);
+    }
+    else
+        set(uri);
 };
 
 // For compliant URIs
@@ -189,12 +198,6 @@ void ReferencedObject::addReference(const std::string uri_prefix, const std::str
     this->addReference(compliant_uri);
 };
 
-
-
-void ReferencedObject::setReference(const std::string uri)
-{
-    this->set(uri);
-};
 
 std::string ReferencedObject::operator[] (const int nIndex)
 {

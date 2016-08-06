@@ -163,9 +163,14 @@ namespace sbol
             else
             {
                 // found
-                std::string value = this->sbol_owner->properties[type].front();
-                value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
-                return value;
+                if (this->sbol_owner->properties[type].size() == 0)
+                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+                else
+                {
+                    std::string value = this->sbol_owner->properties[type].front();
+                    value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                    return value;
+                }
             }
         }	else
         {

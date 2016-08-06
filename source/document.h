@@ -77,6 +77,11 @@ namespace sbol {
         /// @tparam SBOLClass The type of SBOL object
 		template < class SBOLClass > void add(SBOLClass& sbol_obj);
         
+        /// Register an object in the Document
+        /// @param sbol_objects A list of pointers to the SBOL objects you want to serialize
+        /// @tparam SBOLClass The type of SBOL object
+        template < class SBOLClass > void add(std::vector < SBOLClass* > sbol_objects);
+        
         /// Retrieve an object from the Document
         /// @param uri The identity of the SBOL object you want to retrieve
         /// @tparam SBOLClass The type of SBOL object
@@ -131,6 +136,15 @@ namespace sbol {
         }
 	};
 
+    template < class SBOLClass > void Document::add(std::vector < SBOLClass* > sbol_objects)
+    {
+        for (auto i_obj = sbol_objects.begin(); i_obj != sbol_objects.end(); ++i_obj)
+        {
+            SBOLClass& obj = **i_obj;
+            add < SBOLClass > (obj);
+        }
+    };
+    
 	template <class SBOLClass > SBOLClass& Document::get(std::string uri)
 	{
 		return (SBOLClass &)*(this->SBOLObjects[uri]);
@@ -227,6 +241,7 @@ namespace sbol {
             }
         }
     };
+    
 }
 
 #endif

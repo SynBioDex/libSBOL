@@ -828,4 +828,45 @@ void Document::close(std::string uri)
     }
 };
 
+/// Creates another SBOL object derived from TopLevel and adds it to the Document
+/// @param uri In "open world" mode, this is a full URI and the same as the returned URI. If the default namespace for libSBOL has been configured, then this argument should simply be a local identifier. If SBOL-compliance is enabled, this argument should be the intended displayId of the new object. A full URI is automatically generated and returned.
+/// @return The full URI of the created object.
+std::string ReferencedObject::create(std::string uri)
+{
+    if (sbol_owner->doc == NULL)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ReferencedObject::create method requires that this object belongs to a Document");
+    Document& doc = *sbol_owner->doc;
+    Identified& parent_obj = (Identified&)*sbol_owner;
+    if (isSBOLCompliant())
+    {
+    
+        Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ reference_type_uri ]();  // Call constructor for the referenced object
+        new_obj.identity.set(getHomespace() + "/" + getClassName(reference_type_uri) + "/" + uri + "/" + parent_obj.version.get());
+        new_obj.persistentIdentity.set(getHomespace() + "/" + getClassName(reference_type_uri) + "/" + uri);
+        new_obj.displayId.set(uri);
+        new_obj.version.set(parent_obj.version.get());
+        doc.add<SBOLObject>(new_obj);
+        set(new_obj.identity.get());
+        return new_obj.identity.get();
+    }
+    else
+    {
+        std::string new_id;
+        if (hasHomespace())
+        {
+            new_id = getHomespace() + "/" + uri;
+        }
+        else
+            new_id = uri;
+        
+        Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ reference_type_uri ]();  // Call constructor for the referenced object
+        new_obj.identity.set(new_id);
+        new_obj.persistentIdentity.set(new_id);
+        new_obj.version.set(parent_obj.version.get());
+        doc.add<SBOLObject>(new_obj);
+        set(new_obj.identity.get());
+        return new_obj.identity.get();
+    }
+};
+
 

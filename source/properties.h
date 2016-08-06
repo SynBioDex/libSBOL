@@ -154,7 +154,7 @@ namespace sbol
 		std::vector<SBOLObject*>::iterator python_iter;
 	};
     
-    
+    /// @TODO Deprecate this
     template <class SBOLClass>
     void OwnedObject<SBOLClass>::create(std::string uri_prefix, std::string display_id, std::string version)
     {

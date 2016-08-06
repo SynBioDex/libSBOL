@@ -41,7 +41,7 @@ namespace sbol
         {
             if(isSBOLCompliant())
             {
-                identity.set(getHomespace() + "/" + uri + "/" + version);
+                identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
                 persistentIdentity.set(getHomespace() + "/" + uri);
             }
             else if (hasHomespace())
