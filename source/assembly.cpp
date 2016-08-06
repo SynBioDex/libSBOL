@@ -268,6 +268,7 @@ std::string Sequence::assemble(std::string composite_sequence)
             Sequence& seq = doc->get < Sequence > (cdef.sequence.get());
             composite_sequence = composite_sequence + seq.assemble(composite_sequence);
         }
+        elements.set(composite_sequence);
         return composite_sequence;
     }
     else
