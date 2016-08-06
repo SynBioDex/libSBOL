@@ -14,28 +14,25 @@
 /// * [git](https://git-scm.com/) for downloading the source code
 /// * [CMake](https://cmake.org/download/) for generating platform-specific build instructions
 /// * a C++ compiler, such as MSVC, g++, clang, or [MinGW](http://www.mingw.org/wiki/InstallationHOWTOforMinGW)
-/// * OPTIONAL: Doxygen for creating autodocumentation
-/// * OPTIONAL: SWIG for generating Python wrappers
+/// * OPTIONAL: [Doxygen](http://www.stack.nl/~dimitri/doxygen/) for creating documentation
+/// * OPTIONAL: [SWIG](http://www.swig.org/) for generating Python wrappers
 /// 
-/// All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake is also be able to generate projects for Eclipse, Visual Studio, XCode, etc. 
+/// All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake can be used to generate projects for Eclipse, Visual Studio, XCode, etc. 
 ///
 /// Windows
 /// -------
-/// First, download the developer utilities from the links above. These instructions are for Minimalist GNU for Windows or VisualStudio.
-///
-/// Then, clone the repository:
+/// Clone the repository by typing:
 /// ```
-/// git clone git://github.com/SynBioDex/libSBOL.git
+/// git clone https://github.com/SynBioDex/libSBOL.git
 /// ```
-/// This will create a libSBOL directory with the code. 
+/// in the command console or download the source code directly from github page. 
 ///
-/// Next, run the CMake (cmake-qt-gui on linux) GUI application. For "Where is the source code" enter the path to your libSBOL folder. "Where to build the binaries" can technically be anywhere, but it's only been tested with libSBOL/build.
+/// Run CMake. In the first box saying "Where is the source code", put the path to libSBOL folder. In the second box saying "Where to build the binaries" put the path for the output e.g. libSBOL/build.
 /// 
-/// Click Configure, and choose what type of compiler you want to generate instructions for (eg, Visual Studio 2013). 
+/// Click Configure at the bottom, and choose the compiler to use(e.g. Visual Studio 12 2013). Change the settings if you wish. For example, change CMAKE_INSTALL_PREFIX to specify the output path, or check SBOL_BUILD_EXAMPLES to build examples. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path. Once it's all set, click Generate.
 /// 
-/// The first time you click Configure CMake will list variables, like CMAKE_BUILD_TYPE and LIBXML2_INCLUDE_DIR, in red. That means they've been updated. To build the main SBOL library, just click Configure again until the red goes away. This is also where you set up the optional targets: examples, tests, manual, and Python wrapper. To add them check the appropriate boxes (SBOL_BUILD_EXAMPLES, for example) and then Configure again to adjust the settings. A lot of other options might be visibile too; checking Grouped at the top makes things more managable. Once it's all set, click Generate to create the compiler instructions.
-/// 
-/// The last step is to cd into the libSBOL/build folder and run the compiler.
+/// The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose.
+/// When using minGW, first go to 'build' folder and run the compiler by using
 /// ```
 /// mingw32-make
 /// ```
@@ -43,7 +40,10 @@
 /// ```
 /// mingw32-make install
 /// ```
-/// Binaries will be generated in the libSBOL/release folder and installed in the standard library path for your OS.  You will need administrator privileges for a make install.
+/// You will need administrator privileges for a make install.
+///
+/// When using Visual Studio, open 'SBOL.sln' under 'build' folder. Right click INSTALL under Solution Explorer on the right and press Build.
+/// Binaries will be generated in the folder specified before (CMAKE_INSTALL_PREFIX).
 ///
 /// Mac
 /// ---
