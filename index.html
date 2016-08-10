@@ -91,17 +91,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><a href="https://git-scm.com/">git</a> for downloading the source code</li>
 <li><a href="https://cmake.org/download/">CMake</a> for generating platform-specific build instructions</li>
 <li>a C++ compiler, such as MSVC, g++, clang, or <a href="http://www.mingw.org/wiki/InstallationHOWTOforMinGW">MinGW</a></li>
-<li>OPTIONAL: Doxygen for creating autodocumentation</li>
-<li>OPTIONAL: SWIG for generating Python wrappers</li>
+<li>OPTIONAL: <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> for creating documentation</li>
+<li>OPTIONAL: <a href="http://www.swig.org/">SWIG</a> for generating Python wrappers</li>
 </ul>
-<p>All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake is also be able to generate projects for Eclipse, Visual Studio, XCode, etc.</p>
+<p>All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake can be used to generate projects for Eclipse, Visual Studio, XCode, etc.</p>
 <h2>Windows </h2>
-<p>First, download the developer utilities from the links above. These instructions are for Minimalist GNU for Windows or VisualStudio.</p>
-<p>Then, clone the repository: </p><div class="fragment"><div class="line">git clone git:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --><p> This will create a libSBOL directory with the code.</p>
-<p>Next, run the CMake (cmake-qt-gui on linux) GUI application. For "Where is the source code" enter the path to your libSBOL folder. "Where to build the binaries" can technically be anywhere, but it's only been tested with libSBOL/build.</p>
-<p>Click Configure, and choose what type of compiler you want to generate instructions for (eg, Visual Studio 2013).</p>
-<p>The first time you click Configure CMake will list variables, like CMAKE_BUILD_TYPE and LIBXML2_INCLUDE_DIR, in red. That means they've been updated. To build the main SBOL library, just click Configure again until the red goes away. This is also where you set up the optional targets: examples, tests, manual, and Python wrapper. To add them check the appropriate boxes (SBOL_BUILD_EXAMPLES, for example) and then Configure again to adjust the settings. A lot of other options might be visibile too; checking Grouped at the top makes things more managable. Once it's all set, click Generate to create the compiler instructions.</p>
-<p>The last step is to cd into the libSBOL/build folder and run the compiler. </p><div class="fragment"><div class="line">mingw32-make</div></div><!-- fragment --><p> or </p><div class="fragment"><div class="line">mingw32-make install</div></div><!-- fragment --><p> Binaries will be generated in the libSBOL/release folder and installed in the standard library path for your OS. You will need administrator privileges for a make install.</p>
+<p>Clone the repository by typing: </p><div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --><p> in the command console or download the source code directly from github page.</p>
+<p>Run CMake. In the first box saying "Where is the source code", put the path to libSBOL folder. In the second box saying "Where to build the binaries" put the path for the output e.g. libSBOL/build.</p>
+<p>Click Configure at the bottom, and choose the compiler to use(e.g. Visual Studio 12 2013). Change the settings if you wish. For example, change CMAKE_INSTALL_PREFIX to specify the output path, or check SBOL_BUILD_EXAMPLES to build examples. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path. Once it's all set, click Generate.</p>
+<p>The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose. When using minGW, first go to 'build' folder and run the compiler by using </p><div class="fragment"><div class="line">mingw32-make</div></div><!-- fragment --><p> or </p><div class="fragment"><div class="line">mingw32-make install</div></div><!-- fragment --><p> You will need administrator privileges for a make install.</p>
+<p>When using Visual Studio, open 'SBOL.sln' under 'build' folder. Right click INSTALL under Solution Explorer on the right and press Build. Binaries will be generated in the folder specified before (CMAKE_INSTALL_PREFIX).</p>
 <h2>Mac </h2>
 <p>You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. </p><div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --><p> Proceed with configuration and generation steps as described in the Windows installation.</p>
 <p>The last step is to cd into the libSBOL/build folder and run the compiler. </p><div class="fragment"><div class="line">make </div></div><!-- fragment --><p> or </p><div class="fragment"><div class="line">make install</div></div><!-- fragment --><h2>Debian/Ubuntu </h2>
@@ -127,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 9 2016 17:58:48 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 9 2016 18:04:55 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
