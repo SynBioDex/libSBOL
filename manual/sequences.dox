@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /// @page sequences
-/// @section sequence_hierarchies Designing Hierarchical Sequence Structures
+/// @section sequences Sequence Assembly
 ///
 /// LibSBOL also includes methods for high-level design for synthetic biology. The most important advantage of SBOL over GenBank for DNA representation is the ability to represent hierarchical sequences. DNA sequences and biological structures in general exhibit hierarchical organization, from the genome, to operons, to genes, to lower level genetic operators. The following code example generates a hierarchical description of a gene which contains a promoter, coding sequence (CDS), ribosome binding site (RBS), and transcriptional terminator as subcomponents. Note that these objects must be added to a Document prior to assembly or else an error will occur.
 /// ```

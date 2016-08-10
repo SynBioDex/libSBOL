@@ -116,7 +116,7 @@
 ///
 /// EXAMPLE CODE
 /// ============
-/// The example code below can be used to construct the biological design in the figure.  See @ref getting_started for a tutorial that walks the user through this example.
+/// The example code below can be used to construct the biological design in the figure.  See the @ref getting_started, @ref sequences, and @ref modular_design tutorials to learn more about how libSBOL enables high-level design for synthetic biology.
 /// ![](gene_cassette.png)
 /// 
 /// **A diagram of a gene cassette, consisting of a promoter, ribosome binding site (RBS), coding sequence (CDS), and transcriptional terminator, expressed in SBOLVisual symbols. The design was programmatically generated with the code below, and then visualized with the SBOLDesigner tool.**
