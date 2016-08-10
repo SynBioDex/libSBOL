@@ -5,12 +5,14 @@
     <tab type="mainpage" visible="yes" title="Introduction"/>
     <tab type="pages" visible="no" title="" intro=""/>
     <tab type="user" visible="yes" url="@ref getting_started" title="Getting Started"/>
+    <tab type="user" visible="yes" url="@ref sequences" title="Sequence Assembly"/>
+    <tab type="user" visible="yes" url= "@ref modular_design" title="Biosystem Design"/>
     <tab type="modules" visible="yes" title="" intro=""/>
     <tab type="namespaces" visible="yes" title="">
     <tab type="namespacelist" visible="yes" title="" intro=""/>
     <tab type="namespacemembers" visible="yes" title="" intro=""/>
     </tab>
-    <tab type="classes" visible="yes" title="">
+    <tab type="classes" visible="yes" url="@ref classes" title="">
       <tab type="classlist" visible="yes" title="" intro=""/>
       <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/> 
       <tab type="hierarchy" visible="yes" title="" intro=""/>
