@@ -3,6 +3,7 @@
 /// @section sequences Sequence Assembly
 ///
 /// LibSBOL also includes methods for high-level design for synthetic biology. The most important advantage of SBOL over GenBank for DNA representation is the ability to represent hierarchical sequences. DNA sequences and biological structures in general exhibit hierarchical organization, from the genome, to operons, to genes, to lower level genetic operators. The following code example generates a hierarchical description of a gene which contains a promoter, coding sequence (CDS), ribosome binding site (RBS), and transcriptional terminator as subcomponents. Note that these objects must be added to a Document prior to assembly or else an error will occur.
+/// ![](gene_cassette.png)
 /// ```
 /// ComponentDefinition& gene = *new ComponentDefinition("BB0001");
 /// ComponentDefinition& promoter = *new ComponentDefinition("R0010");
@@ -15,7 +16,6 @@
 /// terminator.roles.set(SO_TERMINATOR);
 /// gene.assemble({ &promoter, &RBS, &CDS, &terminator});
 /// ```
-/// ![](gene_cassette.png)
 /// @section partial_design Partial versus Complete Designs
 /// Performing an assembly operation on a ComponentDefinition results in a partial design. A partial design contains a component whose general function is known (represented by a Sequence Ontology type) while its sequence is currently either unknown or unspecified.  The ability to represent partial designs is another advantage of SBOL over GenBank, because it allows the synthetic biologist to design the functional characteristics of a biological system independently of its structural characteristics. This approach is partly inspired by computer-aided design (CAD) of printed circuit boards.
 ///
