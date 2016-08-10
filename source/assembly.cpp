@@ -9,7 +9,7 @@ using namespace sbol;
 int ComponentDefinition::hasUpstreamComponent(Component& current_component)
 {
     ComponentDefinition& cd_root = *this;
-    if (cd_root.sequenceConstraints.size() < 0)
+    if (cd_root.sequenceConstraints.size() < 1)
         throw;
     else if (cd_root.doc == NULL)
         throw;
@@ -29,7 +29,7 @@ int ComponentDefinition::hasUpstreamComponent(Component& current_component)
 int ComponentDefinition::hasDownstreamComponent(Component& current_component)
 {
     ComponentDefinition& cd_root = *this;
-    if (cd_root.sequenceConstraints.size() < 0)
+    if (cd_root.sequenceConstraints.size() < 1)
         throw;
     else if (cd_root.doc == NULL)
         throw;
@@ -49,7 +49,7 @@ int ComponentDefinition::hasDownstreamComponent(Component& current_component)
 Component& ComponentDefinition::getUpstreamComponent(Component& current_component)
 {
     ComponentDefinition& cd_root = *this;
-    if (cd_root.sequenceConstraints.size() < 0)
+    if (cd_root.sequenceConstraints.size() < 1)
         throw;
     else if (cd_root.doc == NULL)
         throw;
@@ -64,7 +64,7 @@ Component& ComponentDefinition::getUpstreamComponent(Component& current_componen
             if (sc.object.get() == current_component.identity.get() && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
                  upstream_component_id = sc.subject.get();
         }
-        Component& upstream_component = cd_root.doc->get<Component>(upstream_component_id);
+        Component& upstream_component = components[upstream_component_id];
         return upstream_component;
     }
 }
@@ -72,7 +72,7 @@ Component& ComponentDefinition::getUpstreamComponent(Component& current_componen
 Component& ComponentDefinition::getDownstreamComponent(Component& current_component)
 {
     ComponentDefinition& cd_root = *this;
-    if (cd_root.sequenceConstraints.size() < 0)
+    if (cd_root.sequenceConstraints.size() < 1)
         throw;
     else if (cd_root.doc == NULL)
         throw;
@@ -87,7 +87,7 @@ Component& ComponentDefinition::getDownstreamComponent(Component& current_compon
             if (sc.subject.get() == current_component.identity.get() && sc.restriction.get() == SBOL_RESTRICTION_PRECEDES)
                 downstream_component_id = sc.object.get();
         }
-        Component& downstream_component = cd_root.doc->get<Component>(downstream_component_id);
+        Component& downstream_component = components[downstream_component_id];
         return downstream_component;
     }
 }
@@ -95,7 +95,7 @@ Component& ComponentDefinition::getDownstreamComponent(Component& current_compon
 Component& ComponentDefinition::getFirstComponent()
 {
     ComponentDefinition& cd_root = *this;
-    if (cd_root.components.size() < 0)
+    if (cd_root.components.size() < 1)
         throw;
     else if (cd_root.doc == NULL)
         throw;
@@ -114,7 +114,7 @@ Component& ComponentDefinition::getFirstComponent()
 Component& ComponentDefinition::getLastComponent()
 {
     ComponentDefinition& cd_root = *this;
-    if (cd_root.components.size() < 0)
+    if (cd_root.components.size() < 1)
         throw;
     else if (cd_root.doc == NULL)
         throw;
@@ -122,8 +122,8 @@ Component& ComponentDefinition::getLastComponent()
     {
 
         Component& arbitrary_component = cd_root.components[0];
-        Component* iterator_component = &arbitrary_component;
-
+//        Component* iterator_component = &arbitrary_component;
+        Component* iterator_component = &cd_root.components[0];
         while (cd_root.hasDownstreamComponent(*iterator_component))
         {
             iterator_component = &cd_root.getDownstreamComponent(*iterator_component);
@@ -133,7 +133,7 @@ Component& ComponentDefinition::getLastComponent()
     }
 }
 
-/// Get subcomponents in sequential order based on SequenceConstraints
+
 vector<Component*> ComponentDefinition::getInSequentialOrder()
 {
     ComponentDefinition& cd_root = *this;
@@ -180,6 +180,7 @@ std::string ComponentDefinition::updateSequence(std::string composite_sequence)
     }
 }
 
+/// @TODO update SequenceAnnotation starts and ends
 void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_components)
 {
     if (list_of_components.size() < 2)
@@ -195,8 +196,6 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
             for (auto i_com = 0; i_com != list_of_components.size(); i_com++)
             {
                 ComponentDefinition& cdef = *list_of_components[i_com];
-                //string temp_displayId = "ComponentDefinition/" + parent_component.displayId.get() + "/" + cdef.displayId.get();
-                //Component* component_instance = new Component(temp_displayId, cdef.identity.get(), SBOL_ACCESS_PRIVATE, cdef.version.get());
                 Component& c = parent_component.components.create(cdef.displayId.get());
                 c.definition.set(cdef.identity.get());
                 list_of_instances.push_back(&c);
@@ -208,24 +207,16 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
                 
                 Component& constraint_subject = *list_of_instances[i_com - 1];
                 Component& constraint_object = *list_of_instances[i_com];
-                
-//                string temp_displayId = "ComponentDefinition/" + parent_component.displayId.get() + "/constraint" + to_string(i_com);
-//                SequenceConstraint& joint = *new SequenceConstraint(temp_displayId, constraint_subject.identity.get(), constraint_object.identity.get(), SBOL_RESTRICTION_PRECEDES, constraint_subject.version.get());
-//                joint.displayId.set("constraint" + to_string(i_com));
 
-                // @TODO update SequenceAnnotation starts and ends
-//                parent_component.sequenceConstraints.add(joint);
-                
                 SequenceConstraint& sc = parent_component.sequenceConstraints.create("constraint" + to_string(i_com));
                 sc.subject.set(constraint_subject.identity.get());
                 sc.object.set(constraint_object.identity.get());
                 sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
+                
             }
-
         }
         else
             throw;
-        //@TODO update sequenceAnnotations
     }
 }
     
@@ -277,5 +268,289 @@ std::string Sequence::assemble(std::string composite_sequence)
         Sequence& seq = doc->get < Sequence >(parent_component.sequence.get());
         return seq.elements.get();
     }
-}
+};
+
+void ModuleDefinition::assemble(std::vector < ModuleDefinition* > list_of_modules)
+{
+    if (list_of_modules.size() < 1)
+    {
+        throw;
+    }
+    if (!isSBOLCompliant())
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "This method only works when SBOL-compliance is enabled");
+    else
+    {
+        ModuleDefinition& parent_module = *this;
+        vector<Module*> list_of_instances = {};
+        for (auto i_m = 0; i_m != list_of_modules.size(); i_m++)
+        {
+            ModuleDefinition& mdef = *list_of_modules[i_m];
+            Module& m = parent_module.modules.create(mdef.displayId.get());
+            m.definition.set(mdef.identity.get());
+            list_of_instances.push_back(&m);
+        }
+    }
+};
+
+FunctionalComponent& ModuleDefinition::setOutput(ComponentDefinition& output)
+{
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+    }
+    string output_fc_id = persistentIdentity.get() + "/" + output.displayId.get() + "/" + version.get();
+    if (find(output_fc_id))
+    {
+        FunctionalComponent& output_fc = functionalComponents[output_fc_id];
+        output_fc.direction.set(SBOL_DIRECTION_OUT);
+        return output_fc;
+    }
+    else
+    {
+        FunctionalComponent& output_fc = functionalComponents.create(output.displayId.get());
+        output_fc.definition.set(output.identity.get());
+        output_fc.direction.set(SBOL_DIRECTION_OUT);
+        return output_fc;
+    }
+};
+
+FunctionalComponent& ModuleDefinition::setInput(ComponentDefinition& input)
+{
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+    }
+    string input_fc_id = persistentIdentity.get() + "/" + input.displayId.get() + "/" + version.get();
+    if (find(input_fc_id))
+    {
+        FunctionalComponent& input_fc = functionalComponents[input_fc_id];
+        input_fc.direction.set(SBOL_DIRECTION_IN);
+        return input_fc;
+    }
+    else
+    {
+        FunctionalComponent& input_fc = functionalComponents.create(input.displayId.get());
+        input_fc.definition.set(input.identity.get());
+        input_fc.direction.set(SBOL_DIRECTION_IN);
+        return input_fc;
+    }
+};
+
+//FunctionalComponent& ModuleDefinition::setOutput(ComponentDefinition& output)
+//{
+//    if (doc == NULL)
+//    {
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+//    }
+//    
+//    // Search for parent ModuleDefinition that contains this ModuleDefinition as a submodule.  Throw an error if the parent ModuleDefinition can't be found
+//    ModuleDefinition* parent_mdef = NULL;
+//    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+//    {
+//        SBOLObject* obj = i_obj->second;
+//        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+//        {
+//            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+//            for (auto i_m = mdef->modules.begin(); i_m != mdef->modules.end(); ++i_m)
+//            {
+//                Module& m = *i_m;
+//                if (m.definition.get() == identity.get())
+//                    parent_mdef = mdef;
+//            }
+//        }
+//    }
+//    if (parent_mdef == NULL)
+//        throw SBOLError(NOT_FOUND_ERROR, "Missing parent ModuleDefinition");
+//
+//    FunctionalComponent& fc = functionalComponents.create(output.displayId.get());
+//    fc.definition.set(output.identity.get());
+//    fc.direction.set(SBOL_DIRECTION_OUT);
+//    return fc;
+//};
+//
+//FunctionalComponent& ModuleDefinition::setInput(ComponentDefinition& input)
+//{
+//    if (doc == NULL)
+//    {
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+//    }
+//    
+//    // Search for parent ModuleDefinition that contains this ModuleDefinition as a submodule.  Throw an error if the parent ModuleDefinition can't be found
+//    ModuleDefinition* parent_mdef = NULL;
+//    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+//    {
+//        SBOLObject* obj = i_obj->second;
+//        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+//        {
+//            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+//            cout << "Searching " << mdef->identity.get() << endl;
+//            for (auto i_m = mdef->modules.begin(); i_m != mdef->modules.end(); ++i_m)
+//            {
+//                Module& m = *i_m;
+//                cout << identity.get() << "\t" << m.definition.get() << endl;
+//                if (m.definition.get() == identity.get())
+//                    parent_mdef = mdef;
+//            }
+//        }
+//    }
+//    if (parent_mdef == NULL)
+//        throw SBOLError(NOT_FOUND_ERROR, "Missing parent ModuleDefinition");
+//
+//    FunctionalComponent& fc = functionalComponents.create(input.displayId.get());
+//    fc.definition.set(input.identity.get());
+//    fc.direction.set(SBOL_DIRECTION_IN);
+//    return fc;
+//};
+
+//void FunctionalComponent::connect(FunctionalComponent& interface_component)
+//{
+//    if (!isSBOLCompliant())
+//        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+//    
+//    // Throw an error if this Sequence is not attached to a Document
+//    if (doc == NULL)
+//    {
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+//    }
+//    
+//     // Search for parent ModuleDefinition that contains these FunctionalComponents
+//    ModuleDefinition* parent_mdef = NULL;
+//    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+//    {
+//        SBOLObject* obj = i_obj->second;
+//        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+//        {
+//            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+//            for (auto i_fc1 = mdef->modules.begin(); i_fc1 != mdef->modules.end(); ++i_fc1)
+//            {
+//                FunctionalComponent& subject_fc = *i_fc1;
+//                if (subject_fc.identity.get() == identity.get())
+//                {
+//                    for (auto i_fc2 = mdef->modules.begin(); i_fc2 != mdef->modules.end(); ++i_fc2)
+//                    {
+//                        FunctionalComponent& object_fc = *i_fc2;
+//                        if (object_fc.definition.get() == interface_component.identity.get())
+//                        {
+//                            parent_mdef = mdef;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    if (parent_mdef == NULL)
+//        throw SBOLError(NOT_FOUND_ERROR, "Cannot find Modules that these FunctionalComponents belong to");
+//    
+//    // Connect the modules
+//    MapsTo& connection = subject_module->mapsTos.create(displayId.get() + "test");
+//    connection.local.set(identity.get());
+//    connection.remote.set(interface_component.identity.get());
+//    connection.refinement.set(SBOL_REFINEMENT_USE_LOCAL);
+//};
+
+void FunctionalComponent::connect(FunctionalComponent& interface_component)
+{
+    if (!isSBOLCompliant())
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+   
+    // Throw an error if this Sequence is not attached to a Document
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+    }
+    
+    // Search for ModuleDefinition that this FunctionalComponent belongs to. Throw an error if the ModuleDefinition can't be found
+    ModuleDefinition* subject_mdef = NULL;
+    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+        {
+            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+            for (auto i_fc = mdef->functionalComponents.begin(); i_fc != mdef->functionalComponents.end(); ++i_fc)
+            {
+                FunctionalComponent& fc = *i_fc;
+                if (fc.identity.get() == identity.get())
+                    subject_mdef = mdef;
+            }
+        }
+    }
+    if (subject_mdef == NULL)
+        throw SBOLError(NOT_FOUND_ERROR, "FunctionalComponent must belong to a ModuleDefinition");
+
+    // The interface component must also belong to a ModuleDefinition. Throw an error if the ModuleDefinition can't be found
+    ModuleDefinition* object_mdef = NULL;
+    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+        {
+            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+            for (auto i_fc = mdef->functionalComponents.begin(); i_fc != mdef->functionalComponents.end(); ++i_fc)
+            {
+                FunctionalComponent& fc = *i_fc;
+                if (fc.identity.get() == interface_component.identity.get())
+                    object_mdef = mdef;
+            }
+        }
+    }
+    if (object_mdef == NULL)
+        throw SBOLError(NOT_FOUND_ERROR, "FunctionalComponent must belong to a ModuleDefinition");
+    
+    // Search for parent ModuleDefinition that contains the subject and object submodules
+    // The interface component MUST also belong to a ModuleDefinition. Throw an error if the parent ModuleDefinition can't be found
+    ModuleDefinition* parent_mdef = NULL;
+    Module* subject_module = NULL;
+    Module* object_module = NULL;
+    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+        {
+            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+            for (auto i_m = mdef->modules.begin(); i_m != mdef->modules.end(); ++i_m)
+            {
+                Module& m = *i_m;
+                if (m.definition.get() == subject_mdef->identity.get())
+                {
+                    for (auto i_n = mdef->modules.begin(); i_n != mdef->modules.end(); ++i_n)
+                    {
+                        Module& n = *i_n;
+                        if (n.definition.get() == object_mdef->identity.get())
+                        {
+                            parent_mdef = mdef;
+                            subject_module = &m;
+                            object_module = &n;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (parent_mdef == NULL)
+        throw SBOLError(NOT_FOUND_ERROR, "Cannot find Modules that these FunctionalComponents belong to");
+    
+    // Instantiate FunctionalComponent in parent ModuleDefinition
+    FunctionalComponent& bridge_fc = parent_mdef->functionalComponents.create(displayId.get());
+    bridge_fc.definition.set(definition.get());
+    
+    
+    // Link the modules through the bridge FunctionalComponent contained in the parent ModuleDefinition
+    MapsTo& half_connection1 = subject_module->mapsTos.create(displayId.get());
+    half_connection1.local.set(bridge_fc.identity.get());
+    half_connection1.remote.set(identity.get());
+    if (definition.get() == bridge_fc.definition.get())
+        half_connection1.refinement.set(SBOL_REFINEMENT_VERIFY_IDENTICAL);
+    else
+        half_connection1.refinement.set(SBOL_REFINEMENT_USE_LOCAL);
+    
+    MapsTo& half_connection2 = object_module->mapsTos.create(displayId.get());
+    half_connection2.local.set(bridge_fc.identity.get());
+    half_connection2.remote.set(interface_component.identity.get());
+    if (interface_component.definition.get() == bridge_fc.definition.get())
+        half_connection2.refinement.set(SBOL_REFINEMENT_VERIFY_IDENTICAL);
+    else
+        half_connection2.refinement.set(SBOL_REFINEMENT_USE_LOCAL);
+    
+};
 

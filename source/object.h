@@ -43,6 +43,7 @@ namespace sbol
         virtual sbol_type getTypeURI();
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);
         std::string nest(std::string& rdfxml_buffer);
+        int find(std::string uri);
         std::string getClassName(std::string type);
         virtual ~SBOLObject();
         void close();
@@ -115,6 +116,7 @@ namespace sbol
 
         //void add(SBOLClass& sbol_obj);
         void set(std::string uri);
+
         //void set(SBOLClass& sbol_obj);
         //SBOLClass& get(std::string object_id);
         std::string operator[] (const int nIndex);

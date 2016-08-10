@@ -31,14 +31,14 @@ SBOLObject::~SBOLObject()
 void SBOLObject::close()
 {
     delete this;
-}
+};
 
 sbol_type SBOLObject::getTypeURI() 
 {
 	return type;
-}
+};
 
-std::string SBOLObject::getClassName(std::string type)
+std::string SBOLObject::getClassName(string type)
 {
     std::size_t uri_subordinate_pos = type.find("#") + 1;
     if (uri_subordinate_pos != std::string::npos)
@@ -48,7 +48,24 @@ std::string SBOLObject::getClassName(std::string type)
     }
     else
         return type;
-}
+};
+
+int SBOLObject::find(string uri)
+{
+    if (identity.get() == uri)
+        return 1;
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        vector<SBOLObject*>& store = i_store->second;
+        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+        {
+            SBOLObject& obj = **i_obj;
+            if (obj.find(uri))
+                return 1;
+        }
+    }
+    return 0;
+};
 
 //SBOLObject& OwnedObjects::get(int index)
 //{

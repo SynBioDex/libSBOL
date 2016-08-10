@@ -1,3 +1,5 @@
+/// @file constants.h
+/// Users of libSBOL may find in this file useful and important symbols corresponding to commonly used ontological terms from the Sequence Ontology, Systems Biology Ontology, BioPAX, etc. A number of flags internal to the SBOL standard are also defined here.  Finally, for developers and maintains of libSBOL, this file contains important URIs in the SBOL namespace, some of which can be used to control the appearance of the RDF/XML serialization. 
 #ifndef CONSTANTS_INCLUDED
 #define CONSTANTS_INCLUDED
 
@@ -94,7 +96,7 @@
 #define SBOL_REVERSE_COMPLEMENT SBOL_URI "#reverseComplement"
 #define SBOL_REFINEMENT_USE_REMOTE SBOL_URI "#useRemote"
 #define SBOL_REFINEMENT_USE_LOCAL SBOL_URI "#useLocal"
-#define SBOL_REFINEMENT_VERIFY_IDENTICAL SBOL_URI "#verifyIndentical"
+#define SBOL_REFINEMENT_VERIFY_IDENTICAL SBOL_URI "#verifyIdentical"
 #define SBOL_REFINEMENT_MERGE SBOL_URI "#merge"
 
 /* Systems Biology Ontology */

@@ -102,6 +102,8 @@ namespace sbol {
         /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization.
         void validate(void *arg = NULL);
 
+        int find(std::string uri);
+
         static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
@@ -120,9 +122,18 @@ namespace sbol {
 		// Check if the uri is already assigned and delete the object, otherwise it will cause a memory leak!!!
 		//if (SBOLObjects[whatever]!=SBOLObjects.end()) {delete SBOLObjects[whatever]'}
         if (this->SBOLObjects.find(sbol_obj.identity.get()) != this->SBOLObjects.end())
-            SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained in the Document");
+            throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained in the Document");
         else
         {
+            // If TopLevel add the Document
+            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
+            if (check_top_level)
+            {
+                SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
+            }
+            sbol_obj.doc = this;
+            
+            // Recurse into child objects and set their back-pointer to this Document
             for (auto i_store = sbol_obj.owned_objects.begin(); i_store != sbol_obj.owned_objects.end(); ++i_store)
             {
                 std::vector<SBOLObject*>& object_store = i_store->second;
@@ -131,8 +142,6 @@ namespace sbol {
                     this->add<SBOLObject>(**i_obj);
                 }
             }
-            SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
-            sbol_obj.doc = this;
         }
 	};
 
@@ -152,14 +161,15 @@ namespace sbol {
     
     
 	std::string cut_sbol_resource(std::string& xml_string, const std::string resource_id);
-	void replace_reference_to_resource(std::string& xml_string, const std::string resource_id, std::string& replacement_text);
+    void replace_reference_to_resource(std::string& xml_string, const std::string property_name, const std::string resource_id, std::string& replacement_text);
 	void seek_element(std::istringstream& xml_buffer, std::string uri);
+    void seek_property_element(std::istringstream& xml_buffer, std::string property_name);
 	void seek_next_element(std::istringstream& xml_buffer);
 	void seek_new_line(std::istringstream& xml_buffer);
 	void seek_end_of_line(std::istringstream& xml_buffer);
 	void seek_end_of_element(std::istringstream& xml_buffer);
 	void seek_end_of_node(std::istringstream& xml_buffer, std::string uri);
-	void seek_resource(std::istringstream& xml_buffer, std::string uri);
+    void seek_resource(std::istringstream& xml_buffer, std::string property_name, std::string uri);
 	bool is_open_node(std::istringstream& xml_buffer);
 	void indent(std::string& text, int indentation); 
 	std::string get_qname(std::istringstream& xml_buffer);
@@ -181,19 +191,24 @@ namespace sbol {
     /// @param If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
     /// @return A reference to the child object
     /// Autoconstructs a child object and attaches it to the parent object.  If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
+    /// @TODO check uniqueness of URI in Document
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
     {
+        Identified* parent_obj = (Identified*)this->sbol_owner;
+        Document* parent_doc = parent_obj->doc;
+        
         if (isSBOLCompliant())
         {
-            Identified* parent_obj = (Identified*)this->sbol_owner;
-            Document* parent_doc = parent_obj->doc;
+            std::string child_persistent_id =  parent_obj->persistentIdentity.get() + "/" + uri;
+            std::string child_id = child_persistent_id + "/" + parent_obj->version.get();
+            if (parent_doc && parent_doc->find(child_id))
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
             
             // Construct an SBOLObject with emplacement
             void* mem = malloc(sizeof(SBOLClass));
             SBOLClass* child_obj = new (mem)SBOLClass;
-            std::string child_persistent_id =  parent_obj->persistentIdentity.get() + "/" + uri;
-            std::string child_id = child_persistent_id + "/" + parent_obj->version.get();
+
             
             child_obj->identity.set(child_id);
             child_obj->persistentIdentity.set(child_persistent_id);
@@ -201,12 +216,16 @@ namespace sbol {
             child_obj->version.set(parent_obj->version.get());
             this->add(*child_obj);
             
-            //parent_doc->add<SBOLClass>(*child_obj);
-
+            // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects and the returned object will not be registered
+            if (parent_doc)
+                child_obj->doc = parent_obj->doc;
             return *child_obj;
         }
         else
         {
+            if (parent_doc && parent_doc->find(uri))
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+            
             // Construct an SBOLObject with emplacement
             void* mem = malloc(sizeof(SBOLClass));
             SBOLClass* child_obj = new (mem)SBOLClass;
@@ -215,8 +234,9 @@ namespace sbol {
             child_obj->identity.set(uri);
             child_obj->persistentIdentity.set(uri);
             
-            
             this->add(*child_obj);
+            if (parent_obj->doc)
+                child_obj->doc = parent_obj->doc;
             return *child_obj;
         }
     };
@@ -230,13 +250,13 @@ namespace sbol {
         {
             std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
             if (std::find(object_store.begin(), object_store.end(), &sbol_obj) != object_store.end())
-                SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained by the property");
+                throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained by the property");
             else
             {
                 object_store.push_back((SBOLObject *)&sbol_obj);
                 if (this->sbol_owner->doc)
                 {
-                    this->sbol_owner->doc->template add<SBOLClass>(sbol_obj);
+                    sbol_obj.doc = this->sbol_owner->doc;
                 }
             }
         }

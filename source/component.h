@@ -43,7 +43,7 @@ namespace sbol
 	class Component : public ComponentInstance
 	{
 	public:
-        Component(std::string uri = DEFAULT_NS "/Component/example", std::string definition = "", std::string access = SBOL_ACCESS_PRIVATE, std::string version = "1.0.0") :
+        Component(std::string uri = DEFAULT_NS "/Component/example", std::string definition = "", std::string access = SBOL_ACCESS_PUBLIC, std::string version = "1.0.0") :
             Component(SBOL_COMPONENT, uri, definition, access, version) {};
         
 //        Component(std::string uri_prefix, std::string display_id, std::string version, std::string definition,std::string access) : Component(SBOL_COMPONENT, uri_prefix, display_id, version, definition, access) {};
@@ -63,15 +63,18 @@ namespace sbol
 	public:
 		URIProperty direction;
 
-        FunctionalComponent(std::string uri = DEFAULT_NS "/FunctionalComponent/example", std::string definition = "", std::string access = SBOL_ACCESS_PRIVATE, std::string direction = SBOL_DIRECTION_NONE) : FunctionalComponent(SBOL_FUNCTIONAL_COMPONENT, uri, definition, access, direction) {};
+        FunctionalComponent(std::string uri = DEFAULT_NS "/FunctionalComponent/example", std::string definition = "", std::string access = SBOL_ACCESS_PUBLIC, std::string direction = SBOL_DIRECTION_NONE, std::string version = "1.0.0") : FunctionalComponent(SBOL_FUNCTIONAL_COMPONENT, uri, definition, access, direction, version) {};
         
 //        FunctionalComponent(std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access, std::string direction) : FunctionalComponent(SBOL_FUNCTIONAL_COMPONENT, uri_prefix, display_id, version, definition, access, direction) {};
         
+        /// This method connects module inputs and outputs.
+        /// @param interface_component An input or output component from another ModuleDefinition that corresponds with this component.
+        void connect(FunctionalComponent& interface_component);
         virtual ~FunctionalComponent() {};
 
 	protected:
-        FunctionalComponent(sbol_type type, std::string uri, std::string definition, std::string access, std::string direction) :
-            ComponentInstance(type, uri, definition, access, ""),
+        FunctionalComponent(sbol_type type, std::string uri, std::string definition, std::string access, std::string direction, std::string version) :
+            ComponentInstance(type, uri, definition, access, version),
             direction(SBOL_DIRECTION, this, direction) {};
         
 //        FunctionalComponent(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access, std::string direction) :

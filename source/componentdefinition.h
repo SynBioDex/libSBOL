@@ -72,7 +72,7 @@ namespace sbol
         std::string updateSequence(std::string composite_sequence = "");
 
         /// Orders this ComponentDefinition's member Components into a linear arrangement based on Sequence Constraints.
-        /// @return The sequentially ordered Components
+        /// @return Primary sequence structure
         std::vector<Component*> getInSequentialOrder();
         
         /// Checks if the specified Component has a Component upstream in linear arrangement on the DNA strand. Checks that the appropriate SequenceConstraint exists.
