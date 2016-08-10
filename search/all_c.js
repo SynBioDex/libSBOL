@@ -1,9 +1,14 @@
 var searchData=
 [
-  ['range',['Range',['../classsbol_1_1_range.html',1,'sbol']]],
-  ['read',['read',['../classsbol_1_1_document.html#a9143ae31ea81f79a53f18fac75b62843',1,'sbol::Document']]],
-  ['referencedobject',['ReferencedObject',['../classsbol_1_1_referenced_object.html',1,'sbol']]],
-  ['referencedobject_3c_20sbol_3a_3ahost_20_3e',['ReferencedObject&lt; sbol::Host &gt;',['../classsbol_1_1_referenced_object.html',1,'sbol']]],
-  ['referencedobject_3c_20sbol_3a_3amoduledefinition_20_3e',['ReferencedObject&lt; sbol::ModuleDefinition &gt;',['../classsbol_1_1_referenced_object.html',1,'sbol']]],
-  ['roles',['roles',['../classsbol_1_1_component_definition.html#a9e41c934656c96b3561665622902bef3',1,'sbol::ComponentDefinition']]]
+  ['operator_5b_5d',['operator[]',['../classsbol_1_1_owned_object.html#a6d459511f3586418b35a9c077e216539',1,'sbol::OwnedObject::operator[](const int nIndex)'],['../classsbol_1_1_owned_object.html#a5654e74cd1bcac17a0135a1dcc11db96',1,'sbol::OwnedObject::operator[](const std::string uri)'],['../classsbol_1_1_property.html#a3f759a6148161a88c97375716a176b4d',1,'sbol::Property::operator[]()']]],
+  ['ownedobject',['OwnedObject',['../classsbol_1_1_owned_object.html',1,'sbol']]],
+  ['ownedobject_3c_20sbol_3a_3acomponent_20_3e',['OwnedObject&lt; sbol::Component &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
+  ['ownedobject_3c_20sbol_3a_3afunctionalcomponent_20_3e',['OwnedObject&lt; sbol::FunctionalComponent &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
+  ['ownedobject_3c_20sbol_3a_3ainteraction_20_3e',['OwnedObject&lt; sbol::Interaction &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
+  ['ownedobject_3c_20sbol_3a_3alocation_20_3e',['OwnedObject&lt; sbol::Location &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
+  ['ownedobject_3c_20sbol_3a_3amapsto_20_3e',['OwnedObject&lt; sbol::MapsTo &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
+  ['ownedobject_3c_20sbol_3a_3amodule_20_3e',['OwnedObject&lt; sbol::Module &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
+  ['ownedobject_3c_20sbol_3a_3aparticipation_20_3e',['OwnedObject&lt; sbol::Participation &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
+  ['ownedobject_3c_20sbol_3a_3asequenceannotation_20_3e',['OwnedObject&lt; sbol::SequenceAnnotation &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
+  ['ownedobject_3c_20sbol_3a_3asequenceconstraint_20_3e',['OwnedObject&lt; sbol::SequenceConstraint &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]]
 ];

@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['ownedobject',['OwnedObject',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3acomponent_20_3e',['OwnedObject&lt; sbol::Component &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3afunctionalcomponent_20_3e',['OwnedObject&lt; sbol::FunctionalComponent &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3ainteraction_20_3e',['OwnedObject&lt; sbol::Interaction &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3alocation_20_3e',['OwnedObject&lt; sbol::Location &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3amapsto_20_3e',['OwnedObject&lt; sbol::MapsTo &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3amodule_20_3e',['OwnedObject&lt; sbol::Module &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3aparticipation_20_3e',['OwnedObject&lt; sbol::Participation &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3asequenceannotation_20_3e',['OwnedObject&lt; sbol::SequenceAnnotation &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3asequenceconstraint_20_3e',['OwnedObject&lt; sbol::SequenceConstraint &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]]
+  ['major',['major',['../classsbol_1_1_version_property.html#acac7476b5a7a885093c61232bb0d7744',1,'sbol::VersionProperty']]],
+  ['mapsto',['MapsTo',['../classsbol_1_1_maps_to.html',1,'sbol']]],
+  ['minor',['minor',['../classsbol_1_1_version_property.html#ae9afee126d2152713e611047580a3ea0',1,'sbol::VersionProperty']]],
+  ['model',['Model',['../classsbol_1_1_model.html',1,'sbol']]],
+  ['module',['Module',['../classsbol_1_1_module.html',1,'sbol']]],
+  ['moduledefinition',['ModuleDefinition',['../classsbol_1_1_module_definition.html',1,'sbol']]]
 ];

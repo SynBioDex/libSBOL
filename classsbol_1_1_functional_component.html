@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: sbol::FunctionalComponent Class Reference</title>
+<title>libSBOL: FunctionalComponent Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -40,8 +40,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
       <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
+      <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -89,69 +92,57 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_functional_component-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">sbol::FunctionalComponent Class Reference</div>  </div>
+<div class="title">FunctionalComponent Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>The <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> class is used to specify the functional usage of a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> inside a <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a>. The <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> describes how the that describes how the <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> interacts with others and summarizes their aggregate function.  
- <a href="classsbol_1_1_functional_component.html#details">More...</a></p>
-
-<p><code>#include &lt;component.h&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for sbol::FunctionalComponent:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_functional_component__inherit__graph.png" border="0" usemap="#sbol_1_1_functional_component_inherit__map" alt="Inheritance graph"/></div>
-</div>
-<div class="dynheader">
-Collaboration diagram for sbol::FunctionalComponent:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_functional_component__coll__graph.png" border="0" usemap="#sbol_1_1_functional_component_coll__map" alt="Collaboration graph"/></div>
-<map name="sbol_1_1_functional_component_coll__map" id="sbol_1_1_functional_component_coll__map">
-<area shape="rect" id="node3" href="classsbol_1_1_u_r_i_property.html" title="{sbol::URIProperty\n||+ URIProperty()\l}" alt="" coords="170,99,296,172"/>
-<area shape="rect" id="node5" href="classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ properties\l+ list_properties\l+ owned_objects\l+ type\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="303,327,432,547"/>
-<area shape="rect" id="node4" href="classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="301,608,434,841"/>
-<area shape="rect" id="node6" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="320,5,477,265"/>
-<area shape="rect" id="node7" href="classsbol_1_1_property_1_1iterator.html" title="{sbol::Property\&lt; LiteralType\l \&gt;::iterator\n||+ iterator()\l}" alt="" coords="470,393,650,480"/>
-</map>
-</div>
-<table class="memberdecls">
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> class is used to specify the functional usage of a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> inside a <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a>. The <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> describes how the that describes how the <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> interacts with others and summarizes their aggregate function. </p>
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4073148ad7f06179e6dc0773aaac2b5d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4073148ad7f06179e6dc0773aaac2b5d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FunctionalComponent</b> (std::string uri=DEFAULT_NS&quot;/FunctionalComponent/example&quot;, std::string definition=&quot;&quot;, std::string access=SBOL_ACCESS_PRIVATE, std::string direction=SBOL_DIRECTION_NONE)</td></tr>
-<tr class="separator:a4073148ad7f06179e6dc0773aaac2b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff3f5f69c41a3f22c689eaabe0bb27bc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff3f5f69c41a3f22c689eaabe0bb27bc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FunctionalComponent</b> (std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access, std::string direction)</td></tr>
-<tr class="separator:aff3f5f69c41a3f22c689eaabe0bb27bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a29215966b0c8f4b01f156b523dd78fc3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29215966b0c8f4b01f156b523dd78fc3"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>direction</b></td></tr>
-<tr class="separator:a29215966b0c8f4b01f156b523dd78fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a28744c2dce0da3a1ff7f2ba03ca81109"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a28744c2dce0da3a1ff7f2ba03ca81109"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FunctionalComponent</b> (sbol_type type, std::string uri, std::string definition, std::string access, std::string direction)</td></tr>
-<tr class="separator:a28744c2dce0da3a1ff7f2ba03ca81109"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ab70bcbbb0f81a77ffa116c5fa481e2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ab70bcbbb0f81a77ffa116c5fa481e2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FunctionalComponent</b> (sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access, std::string direction)</td></tr>
-<tr class="separator:a9ab70bcbbb0f81a77ffa116c5fa481e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d2c1e546359392e22c620e06fa72cc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_functional_component.html#a5d2c1e546359392e22c620e06fa72cc8">connect</a> (<a class="el" href="classsbol_1_1_functional_component.html">FunctionalComponent</a> &amp;interface_component)</td></tr>
+<tr class="memdesc:a5d2c1e546359392e22c620e06fa72cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method connects module inputs and outputs.  <a href="#a5d2c1e546359392e22c620e06fa72cc8">More...</a><br /></td></tr>
+<tr class="separator:a5d2c1e546359392e22c620e06fa72cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> class is used to specify the functional usage of a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> inside a <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a>. The <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> describes how the that describes how the <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> interacts with others and summarizes their aggregate function. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a5d2c1e546359392e22c620e06fa72cc8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void connect </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsbol_1_1_functional_component.html">FunctionalComponent</a> &amp;&#160;</td>
+          <td class="paramname"><em>interface_component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method connects module inputs and outputs. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">interface_component</td><td>An input or output component from another <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> that corresponds with this component. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/component.h</li>
 </ul>
+<div class="dynheader">
+Inheritance diagram for FunctionalComponent:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_functional_component__inherit__graph.png" border="0" usemap="#_functional_component_inherit__map" alt="Inheritance graph"/></div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 15:25:14 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 9 2016 17:58:48 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

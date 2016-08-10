@@ -1,16 +1,12 @@
 var searchData=
 [
-  ['list',['List',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3acomponent_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::Component &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3afunctionalcomponent_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::FunctionalComponent &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3ainteraction_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::Interaction &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3alocation_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::Location &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3amapsto_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::MapsTo &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3amodule_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::Module &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3aparticipation_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::Participation &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3asequenceannotation_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::SequenceAnnotation &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3asequenceconstraint_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::SequenceConstraint &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3areferencedobject_3c_20sbol_3a_3amoduledefinition_20_3e_20_3e',['List&lt; sbol::ReferencedObject&lt; sbol::ModuleDefinition &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['list_3c_20sbol_3a_3auriproperty_20_3e',['List&lt; sbol::URIProperty &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
-  ['location',['Location',['../classsbol_1_1_location.html',1,'sbol']]]
+  ['identified',['Identified',['../classsbol_1_1_identified.html',1,'sbol']]],
+  ['incrementmajor',['incrementMajor',['../classsbol_1_1_version_property.html#a59bd74e005b10e51df0e9d9506565a79',1,'sbol::VersionProperty']]],
+  ['incrementminor',['incrementMinor',['../classsbol_1_1_version_property.html#a3bc5541cc1a9874ae4c7093dc7065d1a',1,'sbol::VersionProperty']]],
+  ['incrementpatch',['incrementPatch',['../classsbol_1_1_version_property.html#aaa0b04c29e2419e21e3d95a549b71761',1,'sbol::VersionProperty']]],
+  ['interaction',['Interaction',['../classsbol_1_1_interaction.html',1,'sbol']]],
+  ['intproperty',['IntProperty',['../classsbol_1_1_int_property.html',1,'sbol']]],
+  ['iterator',['iterator',['../classsbol_1_1_referenced_object_1_1iterator.html',1,'sbol::ReferencedObject']]],
+  ['iterator',['iterator',['../classsbol_1_1_property_1_1iterator.html',1,'sbol::Property']]],
+  ['iterator',['iterator',['../classsbol_1_1_owned_object_1_1iterator.html',1,'sbol::OwnedObject']]]
 ];

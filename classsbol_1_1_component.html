@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: sbol::Component Class Reference</title>
+<title>libSBOL: Component Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -40,8 +40,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
       <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
+      <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -88,56 +91,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_component-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">sbol::Component Class Reference</div>  </div>
+<div class="title">Component Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>The <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> class is used to compose <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> objects into a structural hierarchy. For example, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> of a gene could contain four <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects: a promoter, RBS, CDS, and terminator. In turn, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> of the promoter <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> could contain <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects defined as various operator sites.  
- <a href="classsbol_1_1_component.html#details">More...</a></p>
-
-<p><code>#include &lt;component.h&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for sbol::Component:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component__inherit__graph.png" border="0" usemap="#sbol_1_1_component_inherit__map" alt="Inheritance graph"/></div>
-</div>
-<div class="dynheader">
-Collaboration diagram for sbol::Component:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component__coll__graph.png" border="0" usemap="#sbol_1_1_component_coll__map" alt="Collaboration graph"/></div>
-</div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a0e9315cba8a12c54bb81825ebc942851"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0e9315cba8a12c54bb81825ebc942851"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Component</b> (std::string uri=DEFAULT_NS&quot;/Component/example&quot;, std::string definition=&quot;&quot;, std::string access=SBOL_ACCESS_PRIVATE)</td></tr>
-<tr class="separator:a0e9315cba8a12c54bb81825ebc942851"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac26c101f5222c287dfbe448384aba0a4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac26c101f5222c287dfbe448384aba0a4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Component</b> (std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access)</td></tr>
-<tr class="separator:ac26c101f5222c287dfbe448384aba0a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a0d5dbbe543fea33772c3650c42212465"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d5dbbe543fea33772c3650c42212465"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Component</b> (sbol_type type, std::string uri, std::string definition, std::string access)</td></tr>
-<tr class="separator:a0d5dbbe543fea33772c3650c42212465"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a882052cc107b47d84795703cb42d6939"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a882052cc107b47d84795703cb42d6939"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Component</b> (sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access)</td></tr>
-<tr class="separator:a882052cc107b47d84795703cb42d6939"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> class is used to compose <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> objects into a structural hierarchy. For example, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> of a gene could contain four <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects: a promoter, RBS, CDS, and terminator. In turn, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> of the promoter <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> could contain <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects defined as various operator sites. </p>
+<div class="textblock"><p>The <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> class is used to compose <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects into a structural hierarchy. For example, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of a gene could contain four <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects: a promoter, RBS, CDS, and terminator. In turn, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of the promoter <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> could contain <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects defined as various operator sites. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/component.h</li>
 </ul>
+<div class="dynheader">
+Inheritance diagram for Component:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component__inherit__graph.png" border="0" usemap="#_component_inherit__map" alt="Inheritance graph"/></div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 15:25:14 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 9 2016 17:58:48 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

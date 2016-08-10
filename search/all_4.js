@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['functionalcomponent',['FunctionalComponent',['../classsbol_1_1_functional_component.html',1,'sbol']]]
+  ['extension_20interface',['Extension Interface',['../group__extension__layer.html',1,'']]]
 ];

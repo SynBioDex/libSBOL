@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: sbol::SBOLObject Class Reference</title>
+<title>libSBOL: SBOLObject Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -40,8 +40,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
       <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
+      <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -88,115 +91,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="classsbol_1_1_s_b_o_l_object-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">sbol::SBOLObject Class Reference</div>  </div>
+<div class="title">SBOLObject Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Inheritance diagram for sbol::SBOLObject:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object__inherit__graph.png" border="0" usemap="#sbol_1_1_s_b_o_l_object_inherit__map" alt="Inheritance graph"/></div>
-<map name="sbol_1_1_s_b_o_l_object_inherit__map" id="sbol_1_1_s_b_o_l_object_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="446,300,579,480"/>
-<area shape="rect" id="node3" href="classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="5,535,121,675"/>
-<area shape="rect" id="node4" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="145,561,248,648"/>
-<area shape="rect" id="node6" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. " alt="" coords="272,528,372,681"/>
-<area shape="rect" id="node7" href="classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="396,535,493,675"/>
-<area shape="rect" id="node8" href="classsbol_1_1_participation.html" title="{sbol::Participation\n|+ roles\l+ participant\l|+ Participation()\l+ Participation()\l+ ~Participation()\l# Participation()\l# Participation()\l}" alt="" coords="517,535,644,675"/>
-<area shape="rect" id="node9" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="668,541,845,668"/>
-<area shape="rect" id="node11" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="869,528,1043,681"/>
-<area shape="rect" id="node12" href="classsbol_1_1_top_level.html" title="{sbol::TopLevel\n||+ TopLevel()\l+ TopLevel()\l+ addToDocument()\l# TopLevel()\l# TopLevel()\l}" alt="" coords="1114,541,1252,668"/>
-<area shape="rect" id="node5" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="150,756,243,896"/>
-<area shape="rect" id="node10" href="classsbol_1_1_sequence_annotation_ext.html" title="{sbol::SequenceAnnotationExt\n|+ roles\l|+ SequenceAnnotationExt()\l+ ~SequenceAnnotationExt()\l# SequenceAnnotationExt()\l}" alt="" coords="610,776,807,876"/>
-<area shape="rect" id="node13" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. " alt="" coords="830,729,1008,923"/>
-<area shape="rect" id="node15" href="classsbol_1_1_generic_top_level.html" title="{sbol::GenericTopLevel\n||+ GenericTopLevel()\l}" alt="" coords="1032,789,1185,863"/>
-<area shape="rect" id="node16" href="classsbol_1_1_model.html" title="{sbol::Model\n|+ source\l+ language\l+ framework\l|+ Model()\l+ Model()\l+ ~Model()\l# Model()\l# Model()\l}" alt="" coords="1209,749,1304,903"/>
-<area shape="rect" id="node17" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="1328,736,1494,916"/>
-<area shape="rect" id="node18" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="1518,756,1632,896"/>
-<area shape="rect" id="node14" href="classsbol_1_1_host.html" title="{sbol::Host\n|+ modules\l+ parents\l+ children\l+ generation\l+ medium\l+ vendorId\l|+ Host()\l+ ~Host()\l# Host()\l}" alt="" coords="1116,971,1212,1137"/>
-</map>
-</div>
-<div class="dynheader">
-Collaboration diagram for sbol::SBOLObject:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object__coll__graph.png" border="0" usemap="#sbol_1_1_s_b_o_l_object_coll__map" alt="Collaboration graph"/></div>
-<map name="sbol_1_1_s_b_o_l_object_coll__map" id="sbol_1_1_s_b_o_l_object_coll__map">
-<area shape="rect" id="node3" href="classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="121,608,254,841"/>
-<area shape="rect" id="node2" href="classsbol_1_1_u_r_i_property.html" title="{sbol::URIProperty\n||+ URIProperty()\l}" alt="" coords="202,891,328,964"/>
-<area shape="rect" id="node4" href="classsbol_1_1_property_1_1iterator.html" title="{sbol::Property\&lt; LiteralType\l \&gt;::iterator\n||+ iterator()\l}" alt="" coords="5,393,186,480"/>
-<area shape="rect" id="node6" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="209,5,366,265"/>
-</map>
-</div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a0318030da9c3e504120ac220f20ce849"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0318030da9c3e504120ac220f20ce849"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri=DEFAULT_NS&quot;/SBOLObject/example&quot;)</td></tr>
-<tr class="separator:a0318030da9c3e504120ac220f20ce849"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a946ab4b90ca7240713fdf1b09d5e815f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a946ab4b90ca7240713fdf1b09d5e815f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri_prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:a946ab4b90ca7240713fdf1b09d5e815f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ebeb47e6e84385e677797162fb02380"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ebeb47e6e84385e677797162fb02380"></a>
-virtual sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>getTypeURI</b> ()</td></tr>
-<tr class="separator:a4ebeb47e6e84385e677797162fb02380"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a309d5c49984210d52b1dbb9b0ec8a814"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a309d5c49984210d52b1dbb9b0ec8a814"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>serialize</b> (raptor_serializer *sbol_serializer, raptor_world *sbol_world=NULL)</td></tr>
-<tr class="separator:a309d5c49984210d52b1dbb9b0ec8a814"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d6a7ec0dd60d18609cab6da7108473c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d6a7ec0dd60d18609cab6da7108473c"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>nest</b> (std::string &amp;rdfxml_buffer)</td></tr>
-<tr class="separator:a5d6a7ec0dd60d18609cab6da7108473c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa22686b68fc779e021761cfdb8cc42b1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa22686b68fc779e021761cfdb8cc42b1"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getClassName</b> (std::string type)</td></tr>
-<tr class="separator:aa22686b68fc779e021761cfdb8cc42b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:aa1ad14a6466e0c2bd37cc92f3d66f8d8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1ad14a6466e0c2bd37cc92f3d66f8d8"></a>
-<a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>doc</b> = NULL</td></tr>
-<tr class="separator:aa1ad14a6466e0c2bd37cc92f3d66f8d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5b9f99c85f8e1713b38182d3d6dea68"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5b9f99c85f8e1713b38182d3d6dea68"></a>
-std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>properties</b></td></tr>
-<tr class="separator:ae5b9f99c85f8e1713b38182d3d6dea68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a412f3a98b004397de1a2d87af2a6b83e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a412f3a98b004397de1a2d87af2a6b83e"></a>
-std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>list_properties</b></td></tr>
-<tr class="separator:a412f3a98b004397de1a2d87af2a6b83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b57fcdb5a116837d99c4fc0d69ca732"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b57fcdb5a116837d99c4fc0d69ca732"></a>
-std::map&lt; sbol::sbol_type, std::vector&lt; <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a> * &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>owned_objects</b></td></tr>
-<tr class="separator:a4b57fcdb5a116837d99c4fc0d69ca732"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bb846d3814e125caa2a2504d9306ac0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bb846d3814e125caa2a2504d9306ac0"></a>
-sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
-<tr class="separator:a8bb846d3814e125caa2a2504d9306ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f837ccef79ed4923fbaf4e12e8412b5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f837ccef79ed4923fbaf4e12e8412b5"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>identity</b></td></tr>
-<tr class="separator:a9f837ccef79ed4923fbaf4e12e8412b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a3175a8bed6d61db88f681a72fced8c3f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3175a8bed6d61db88f681a72fced8c3f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri)</td></tr>
-<tr class="separator:a3175a8bed6d61db88f681a72fced8c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a321a8b8c49831e62e8d97cab2463610b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a321a8b8c49831e62e8d97cab2463610b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri_prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:a321a8b8c49831e62e8d97cab2463610b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a883538034e58fc5c0de7d4e4cab3cef7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a883538034e58fc5c0de7d4e4cab3cef7"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>Document</b></td></tr>
-<tr class="separator:a883538034e58fc5c0de7d4e4cab3cef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>An <a class="el" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s...">SBOLObject</a> converts a C++ class data structure into an RDF triple store and contains methods for serializing and parsing RDF triples. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/object.h</li>
 </ul>
+<div class="dynheader">
+Inheritance diagram for SBOLObject:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_s_b_o_l_object__inherit__graph.png" border="0" usemap="#_s_b_o_l_object_inherit__map" alt="Inheritance graph"/></div>
+<map name="_s_b_o_l_object_inherit__map" id="_s_b_o_l_object_inherit__map">
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="430,327,564,493"/>
+<area shape="rect" id="node3" href="classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="5,548,117,688"/>
+<area shape="rect" id="node4" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="141,568,240,668"/>
+<area shape="rect" id="node6" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. " alt="" coords="265,541,361,695"/>
+<area shape="rect" id="node7" href="classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="385,561,478,675"/>
+<area shape="rect" id="node8" href="classsbol_1_1_participation.html" title="Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction..." alt="" coords="502,548,625,688"/>
+<area shape="rect" id="node9" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="649,568,823,668"/>
+<area shape="rect" id="node10" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="847,555,1017,681"/>
+<area shape="rect" id="node11" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="1041,561,1180,675"/>
+<area shape="rect" id="node5" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="146,816,235,956"/>
+<area shape="rect" id="node12" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="755,743,962,1029"/>
+<area shape="rect" id="node13" href="classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="986,823,1081,949"/>
+<area shape="rect" id="node14" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="1105,789,1271,983"/>
+<area shape="rect" id="node15" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="1294,823,1404,949"/>
+</map>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 15:25:14 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 9 2016 17:58:48 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

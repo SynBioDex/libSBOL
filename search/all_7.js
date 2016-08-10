@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['identified',['Identified',['../classsbol_1_1_identified.html',1,'sbol']]],
-  ['interaction',['Interaction',['../classsbol_1_1_interaction.html',1,'sbol']]],
-  ['intproperty',['IntProperty',['../classsbol_1_1_int_property.html',1,'sbol']]],
-  ['iterator',['iterator',['../classsbol_1_1_referenced_object_1_1iterator.html',1,'sbol::ReferencedObject']]],
-  ['iterator',['iterator',['../classsbol_1_1_owned_object_1_1iterator.html',1,'sbol::OwnedObject']]],
-  ['iterator',['iterator',['../classsbol_1_1_property_1_1iterator.html',1,'sbol::Property']]]
+  ['hasdownstreamcomponent',['hasDownstreamComponent',['../classsbol_1_1_component_definition.html#a96a1b04568b582070aff16b0cdf29545',1,'sbol::ComponentDefinition']]],
+  ['hasupstreamcomponent',['hasUpstreamComponent',['../classsbol_1_1_component_definition.html#a27287e7d20ffe00b3a0b5070d3c9b052',1,'sbol::ComponentDefinition']]]
 ];

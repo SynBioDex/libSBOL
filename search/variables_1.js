@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sbolobjects',['SBOLObjects',['../classsbol_1_1_document.html#a55ad92c4490ba1985f01617911a016e1',1,'sbol::Document']]]
+  ['framework',['framework',['../classsbol_1_1_model.html#a4529f19272ff74b6624789f12787fd6b',1,'sbol::Model']]]
 ];

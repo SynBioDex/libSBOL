@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['validate',['validate',['../classsbol_1_1_document.html#a38f681e1b1e8dda67f4f3150f880a60f',1,'sbol::Document']]]
+  ['hasdownstreamcomponent',['hasDownstreamComponent',['../classsbol_1_1_component_definition.html#a96a1b04568b582070aff16b0cdf29545',1,'sbol::ComponentDefinition']]],
+  ['hasupstreamcomponent',['hasUpstreamComponent',['../classsbol_1_1_component_definition.html#a27287e7d20ffe00b3a0b5070d3c9b052',1,'sbol::ComponentDefinition']]]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: sbol::ComponentDefinition Class Reference</title>
+<title>libSBOL: ComponentDefinition Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -40,8 +40,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
       <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
+      <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -88,204 +91,471 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classsbol_1_1_component_definition-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">sbol::ComponentDefinition Class Reference</div>  </div>
+<div class="title">ComponentDefinition Class Reference<div class="ingroups"><a class="el" href="group__sbol__core__data__model.html">SBOL Core Data Model</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>The <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light.  
- <a href="classsbol_1_1_component_definition.html#details">More...</a></p>
-
-<p><code>#include &lt;componentdefinition.h&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for sbol::ComponentDefinition:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition__inherit__graph.png" border="0" usemap="#sbol_1_1_component_definition_inherit__map" alt="Inheritance graph"/></div>
-<map name="sbol_1_1_component_definition_inherit__map" id="sbol_1_1_component_definition_inherit__map">
-<area shape="rect" id="node5" href="classsbol_1_1_host.html" title="{sbol::Host\n|+ modules\l+ parents\l+ children\l+ generation\l+ medium\l+ vendorId\l|+ Host()\l+ ~Host()\l# Host()\l}" alt="" coords="46,944,142,1111"/>
-<area shape="rect" id="node2" href="classsbol_1_1_top_level.html" title="{sbol::TopLevel\n||+ TopLevel()\l+ TopLevel()\l+ addToDocument()\l# TopLevel()\l# TopLevel()\l}" alt="" coords="25,528,164,655"/>
-<area shape="rect" id="node3" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="27,300,161,480"/>
-<area shape="rect" id="node4" href="classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ doc\l+ properties\l+ list_properties\l+ owned_objects\l+ type\l+ identity\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="30,5,159,252"/>
-</map>
-</div>
-<div class="dynheader">
-Collaboration diagram for sbol::ComponentDefinition:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition__coll__graph.png" border="0" usemap="#sbol_1_1_component_definition_coll__map" alt="Collaboration graph"/></div>
-<map name="sbol_1_1_component_definition_coll__map" id="sbol_1_1_component_definition_coll__map">
-<area shape="rect" id="node2" href="classsbol_1_1_top_level.html" title="{sbol::TopLevel\n||+ TopLevel()\l+ TopLevel()\l+ addToDocument()\l# TopLevel()\l# TopLevel()\l}" alt="" coords="131,1659,269,1785"/>
-<area shape="rect" id="node3" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="98,1337,206,1451"/>
-<area shape="rect" id="node4" href="classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ properties\l+ list_properties\l+ owned_objects\l+ type\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="339,327,469,547"/>
-<area shape="rect" id="node6" href="classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="219,608,352,841"/>
-<area shape="rect" id="node13" href="classsbol_1_1_property.html" title="{sbol::Property\&lt; sbol\l::Component \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="925,608,1064,841"/>
-<area shape="rect" id="node19" href="classsbol_1_1_property.html" title="{sbol::Property\&lt; sbol\l::SequenceConstraint \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="551,608,712,841"/>
-<area shape="rect" id="node22" href="classsbol_1_1_property.html" title="{sbol::Property\&lt; sbol\l::SequenceAnnotation \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="737,608,901,841"/>
-<area shape="rect" id="node5" href="classsbol_1_1_u_r_i_property.html" title="{sbol::URIProperty\n||+ URIProperty()\l}" alt="" coords="221,1003,347,1076"/>
-<area shape="rect" id="node16" href="classsbol_1_1_list.html" title="{sbol::List\&lt; sbol::URIProperty \&gt;\n||+ List()\l+ remove()\l}" alt="" coords="232,1541,434,1628"/>
-<area shape="rect" id="node23" href="classsbol_1_1_referenced_object.html" title="{sbol::ReferencedObject\n|# reference_type_uri\l|+ ReferencedObject()\l+ ReferencedObject()\l+ set()\l+ operator[]()\l+ addReference()\l+ addReference()\l+ addReference()\l+ setReference()\l+ setReference()\l+ setReference()\l+ begin()\l+ end()\l+ size()\l}" alt="" coords="372,1277,532,1511"/>
-<area shape="rect" id="node10" href="classsbol_1_1_text_property.html" title="{sbol::TextProperty\n||+ TextProperty()\l}" alt="" coords="57,1003,185,1076"/>
-<area shape="rect" id="node7" href="classsbol_1_1_property_1_1iterator.html" title="{sbol::Property\&lt; LiteralType\l \&gt;::iterator\n||+ iterator()\l}" alt="" coords="566,393,746,480"/>
-<area shape="rect" id="node9" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="325,5,483,265"/>
-<area shape="rect" id="node11" href="classsbol_1_1_list.html" title="{sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::Component \&gt; \&gt;\n||+ List()\l+ remove()\l}" alt="" coords="934,1535,1132,1635"/>
-<area shape="rect" id="node12" href="classsbol_1_1_owned_object.html" title="{sbol::OwnedObject\&lt;\l sbol::Component \&gt;\n||+ OwnedObject()\l+ OwnedObject()\l+ add()\l+ add()\l+ set()\l+ get()\l+ get()\l+ copy()\l+ create()\l+ create()\l+ operator[]()\l+ operator[]()\l+ begin()\l+ end()\l+ size()\l}" alt="" coords="985,903,1127,1176"/>
-<area shape="rect" id="node14" href="classsbol_1_1_owned_object_1_1iterator.html" title="{sbol::OwnedObject\&lt;\l SBOLClass \&gt;::iterator\n||+ iterator()\l+ operator*()\l}" alt="" coords="1088,675,1242,775"/>
-<area shape="rect" id="node18" href="classsbol_1_1_owned_object.html" title="{sbol::OwnedObject\&lt;\l sbol::SequenceConstraint \&gt;\n||+ OwnedObject()\l+ OwnedObject()\l+ add()\l+ add()\l+ set()\l+ get()\l+ get()\l+ copy()\l+ create()\l+ create()\l+ operator[]()\l+ operator[]()\l+ begin()\l+ end()\l+ size()\l}" alt="" coords="556,903,745,1176"/>
-<area shape="rect" id="node21" href="classsbol_1_1_owned_object.html" title="{sbol::OwnedObject\&lt;\l sbol::SequenceAnnotation \&gt;\n||+ OwnedObject()\l+ OwnedObject()\l+ add()\l+ add()\l+ set()\l+ get()\l+ get()\l+ copy()\l+ create()\l+ create()\l+ operator[]()\l+ operator[]()\l+ begin()\l+ end()\l+ size()\l}" alt="" coords="769,903,961,1176"/>
-<area shape="rect" id="node17" href="classsbol_1_1_list.html" title="{sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::SequenceConstraint \&gt; \&gt;\n||+ List()\l+ remove()\l}" alt="" coords="548,1672,756,1772"/>
-<area shape="rect" id="node20" href="classsbol_1_1_list.html" title="{sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::SequenceAnnotation \&gt; \&gt;\n||+ List()\l+ remove()\l}" alt="" coords="706,1535,918,1635"/>
-<area shape="rect" id="node24" href="classsbol_1_1_referenced_object_1_1iterator.html" title="{sbol::ReferencedObject\l::iterator\n||+ iterator()\l}" alt="" coords="372,996,532,1083"/>
-</map>
-</div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a2a352baab18200ecd00ebc266a222686"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a352baab18200ecd00ebc266a222686"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ComponentDefinition</b> (std::string uri=DEFAULT_NS&quot;/ComponentDefinition/example&quot;, std::string type=BIOPAX_DNA)</td></tr>
-<tr class="separator:a2a352baab18200ecd00ebc266a222686"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac57a803c48a32a8403b347dd77ac87cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac57a803c48a32a8403b347dd77ac87cb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ComponentDefinition</b> (std::string uri_prefix, std::string display_id, std::string version, std::string type)</td></tr>
-<tr class="separator:ac57a803c48a32a8403b347dd77ac87cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classsbol_1_1_top_level"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsbol_1_1_top_level')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classsbol_1_1_top_level.html">sbol::TopLevel</a></td></tr>
-<tr class="memitem:a473c84a51f1c23cfbd6cd98a853129f8 inherit pub_methods_classsbol_1_1_top_level"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a473c84a51f1c23cfbd6cd98a853129f8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TopLevel</b> (std::string uri=DEFAULT_NS&quot;/TopLevel/example&quot;)</td></tr>
-<tr class="separator:a473c84a51f1c23cfbd6cd98a853129f8 inherit pub_methods_classsbol_1_1_top_level"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe4b90e57832ea6919aa21d1a9f8eb29 inherit pub_methods_classsbol_1_1_top_level"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afe4b90e57832ea6919aa21d1a9f8eb29"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TopLevel</b> (std::string uri_prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:afe4b90e57832ea6919aa21d1a9f8eb29 inherit pub_methods_classsbol_1_1_top_level"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47087291f6bae35f0020eea4c96ba2f3 inherit pub_methods_classsbol_1_1_top_level"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47087291f6bae35f0020eea4c96ba2f3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addToDocument</b> (<a class="el" href="classsbol_1_1_document.html">sbol::Document</a> &amp;)</td></tr>
-<tr class="separator:a47087291f6bae35f0020eea4c96ba2f3 inherit pub_methods_classsbol_1_1_top_level"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classsbol_1_1_identified"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsbol_1_1_identified')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classsbol_1_1_identified.html">sbol::Identified</a></td></tr>
-<tr class="memitem:a4ea67ab760893785b4c49c738a5f1c42 inherit pub_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ea67ab760893785b4c49c738a5f1c42"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (std::string uri=DEFAULT_NS&quot;/Identified/example&quot;)</td></tr>
-<tr class="separator:a4ea67ab760893785b4c49c738a5f1c42 inherit pub_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54678f03ec03a1e4d27023fa3dd4eaee inherit pub_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54678f03ec03a1e4d27023fa3dd4eaee"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (std::string prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:a54678f03ec03a1e4d27023fa3dd4eaee inherit pub_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
-<tr class="memitem:a0318030da9c3e504120ac220f20ce849 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0318030da9c3e504120ac220f20ce849"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri=DEFAULT_NS&quot;/SBOLObject/example&quot;)</td></tr>
-<tr class="separator:a0318030da9c3e504120ac220f20ce849 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a946ab4b90ca7240713fdf1b09d5e815f inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a946ab4b90ca7240713fdf1b09d5e815f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri_prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:a946ab4b90ca7240713fdf1b09d5e815f inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ebeb47e6e84385e677797162fb02380 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ebeb47e6e84385e677797162fb02380"></a>
-virtual sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>getTypeURI</b> ()</td></tr>
-<tr class="separator:a4ebeb47e6e84385e677797162fb02380 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a309d5c49984210d52b1dbb9b0ec8a814 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a309d5c49984210d52b1dbb9b0ec8a814"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>serialize</b> (raptor_serializer *sbol_serializer, raptor_world *sbol_world=NULL)</td></tr>
-<tr class="separator:a309d5c49984210d52b1dbb9b0ec8a814 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d6a7ec0dd60d18609cab6da7108473c inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d6a7ec0dd60d18609cab6da7108473c"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>nest</b> (std::string &amp;rdfxml_buffer)</td></tr>
-<tr class="separator:a5d6a7ec0dd60d18609cab6da7108473c inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa22686b68fc779e021761cfdb8cc42b1 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa22686b68fc779e021761cfdb8cc42b1"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getClassName</b> (std::string type)</td></tr>
-<tr class="separator:aa22686b68fc779e021761cfdb8cc42b1 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> class represents the structural entities of a biological design. </p>
+<p>The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, proteins, and complexes </p>
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a8c3abcc2dcb9f24336b3ca60d57093ce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c3abcc2dcb9f24336b3ca60d57093ce"></a>
-<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a8c3abcc2dcb9f24336b3ca60d57093ce">types</a></td></tr>
-<tr class="memdesc:a8c3abcc2dcb9f24336b3ca60d57093ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">The types property is a REQUIRED set of URIs that specifies the category of biochemical or physical entity (for example DNA, protein, or small molecule) that a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> object abstracts for the purpose of engineering design. The types property of every <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> MUST contain one or more URIs that MUST identify terms from appropriate ontologies, such as the BioPAX ontology or the ontology of Chemical Entities of Biological Interest. Examples are #BIOPAX_DNA, #BIOPAX_RNA, #BIOPAX_PROTEIN. <br /></td></tr>
-<tr class="separator:a8c3abcc2dcb9f24336b3ca60d57093ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e41c934656c96b3561665622902bef3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e41c934656c96b3561665622902bef3"></a>
-<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a9e41c934656c96b3561665622902bef3">roles</a></td></tr>
-<tr class="memdesc:a9e41c934656c96b3561665622902bef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The roles property is an OPTIONAL set of URIs that clarifies the potential function of the entity represented by a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> in a biochemical or physical context. The roles property of a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> MAY contain one or more URIs that MUST identify terms from ontologies that are consistent with the types property of the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a>. For example, the roles property of a DNA or RNA <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> could contain URIs identifying terms from the <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> Ontology (SO). <br /></td></tr>
-<tr class="separator:a9e41c934656c96b3561665622902bef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4a44c1fc4284c323ec982795593506b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa4a44c1fc4284c323ec982795593506b"></a>
-<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_component.html">Component</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>components</b></td></tr>
-<tr class="separator:aa4a44c1fc4284c323ec982795593506b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac43f035e5403dc255fcc10aa1485ee56"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac43f035e5403dc255fcc10aa1485ee56"></a>
-<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><b>sequence</b></td></tr>
-<tr class="separator:ac43f035e5403dc255fcc10aa1485ee56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c776673eda54e481b318a9cb4d22914"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7c776673eda54e481b318a9cb4d22914"></a>
-<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_sequence_annotation.html">SequenceAnnotation</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sequenceAnnotations</b></td></tr>
-<tr class="separator:a7c776673eda54e481b318a9cb4d22914"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b5f435a7d96cfcc2e347ec047585945"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8b5f435a7d96cfcc2e347ec047585945"></a>
-<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_sequence_constraint.html">SequenceConstraint</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sequenceConstraints</b></td></tr>
-<tr class="separator:a8b5f435a7d96cfcc2e347ec047585945"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classsbol_1_1_identified"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsbol_1_1_identified')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classsbol_1_1_identified.html">sbol::Identified</a></td></tr>
-<tr class="memitem:a12edc730fbaee12d2385527299dbb71f inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12edc730fbaee12d2385527299dbb71f"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>persistentIdentity</b></td></tr>
-<tr class="separator:a12edc730fbaee12d2385527299dbb71f inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0930562e288a9b060d493436cf6a9722 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0930562e288a9b060d493436cf6a9722"></a>
-<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>displayId</b></td></tr>
-<tr class="separator:a0930562e288a9b060d493436cf6a9722 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e24c7627b548aa1f4edeebb1ec49046 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7e24c7627b548aa1f4edeebb1ec49046"></a>
-<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>version</b></td></tr>
-<tr class="separator:a7e24c7627b548aa1f4edeebb1ec49046 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13a57a7e9749a84cec8e6d8ec6d86b3e inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13a57a7e9749a84cec8e6d8ec6d86b3e"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>wasDerivedFrom</b></td></tr>
-<tr class="separator:a13a57a7e9749a84cec8e6d8ec6d86b3e inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cfbf52b4e6ca68258fc3b4f77875254 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8cfbf52b4e6ca68258fc3b4f77875254"></a>
-<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
-<tr class="separator:a8cfbf52b4e6ca68258fc3b4f77875254 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac33cb2db15ddd6c56d91601ea29f1551 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac33cb2db15ddd6c56d91601ea29f1551"></a>
-<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>description</b></td></tr>
-<tr class="separator:ac33cb2db15ddd6c56d91601ea29f1551 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
-<tr class="memitem:aa1ad14a6466e0c2bd37cc92f3d66f8d8 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1ad14a6466e0c2bd37cc92f3d66f8d8"></a>
-<a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>doc</b> = NULL</td></tr>
-<tr class="separator:aa1ad14a6466e0c2bd37cc92f3d66f8d8 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5b9f99c85f8e1713b38182d3d6dea68 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5b9f99c85f8e1713b38182d3d6dea68"></a>
-std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>properties</b></td></tr>
-<tr class="separator:ae5b9f99c85f8e1713b38182d3d6dea68 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a412f3a98b004397de1a2d87af2a6b83e inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a412f3a98b004397de1a2d87af2a6b83e"></a>
-std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>list_properties</b></td></tr>
-<tr class="separator:a412f3a98b004397de1a2d87af2a6b83e inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b57fcdb5a116837d99c4fc0d69ca732 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b57fcdb5a116837d99c4fc0d69ca732"></a>
-std::map&lt; sbol::sbol_type, std::vector&lt; <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a> * &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>owned_objects</b></td></tr>
-<tr class="separator:a4b57fcdb5a116837d99c4fc0d69ca732 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bb846d3814e125caa2a2504d9306ac0 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bb846d3814e125caa2a2504d9306ac0"></a>
-sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
-<tr class="separator:a8bb846d3814e125caa2a2504d9306ac0 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f837ccef79ed4923fbaf4e12e8412b5 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f837ccef79ed4923fbaf4e12e8412b5"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>identity</b></td></tr>
-<tr class="separator:a9f837ccef79ed4923fbaf4e12e8412b5 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab563237ddc0363ecbd245b5f791f2900"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#ab563237ddc0363ecbd245b5f791f2900">types</a></td></tr>
+<tr class="memdesc:ab563237ddc0363ecbd245b5f791f2900"><td class="mdescLeft">&#160;</td><td class="mdescRight">The types property is a REQUIRED set of URIs that specifies the category of biochemical or physical entity (for example DNA, protein, or small molecule) that a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> object abstracts for the purpose of engineering design.  <a href="#ab563237ddc0363ecbd245b5f791f2900">More...</a><br /></td></tr>
+<tr class="separator:ab563237ddc0363ecbd245b5f791f2900"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a554ef7c2d135daea2b27c8328d04469f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a554ef7c2d135daea2b27c8328d04469f">roles</a></td></tr>
+<tr class="memdesc:a554ef7c2d135daea2b27c8328d04469f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The roles property is an OPTIONAL set of URIs that clarifies the potential function of the entity represented by a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> in a biochemical or physical context.  <a href="#a554ef7c2d135daea2b27c8328d04469f">More...</a><br /></td></tr>
+<tr class="separator:a554ef7c2d135daea2b27c8328d04469f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ba130a49d9f50e5c3be54a417ea3512"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ba130a49d9f50e5c3be54a417ea3512"></a>
+<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_component.html">Component</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a9ba130a49d9f50e5c3be54a417ea3512">components</a></td></tr>
+<tr class="memdesc:a9ba130a49d9f50e5c3be54a417ea3512"><td class="mdescLeft">&#160;</td><td class="mdescRight">The components property is OPTIONAL and MAY specify a set of <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects that are contained by the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. The components properties of <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects can be used to construct a hierarchy of <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> and <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects. If a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> in such a hierarchy refers to one or more <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> objects, and there exist <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects lower in the hierarchy that refer to <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> objects with the same encoding, then the elements properties of these <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> objects SHOULD be consistent with each other, such that well-defined mappings exist from the “lower level” elements to the “higher level” elements. This mapping is also subject to any restrictions on the positions of the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects in the hierarchy that are imposed by the <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> or <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a> objects contained by the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects in the hierarchy. The set of relations between <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> and <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects is strictly acyclic. <br /></td></tr>
+<tr class="separator:a9ba130a49d9f50e5c3be54a417ea3512"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f0f244e0a16cb2c9e95b681494180f5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f0f244e0a16cb2c9e95b681494180f5"></a>
+<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a9f0f244e0a16cb2c9e95b681494180f5">sequence</a></td></tr>
+<tr class="memdesc:a9f0f244e0a16cb2c9e95b681494180f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sequences property is OPTIONAL and MAY include a URI that refer to a <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> object. The referenced object defines the primary structure of the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. <br /></td></tr>
+<tr class="separator:a9f0f244e0a16cb2c9e95b681494180f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6370970075dac494920780d3b6a72e61"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6370970075dac494920780d3b6a72e61"></a>
+<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_sequence_annotation.html">SequenceAnnotation</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a6370970075dac494920780d3b6a72e61">sequenceAnnotations</a></td></tr>
+<tr class="memdesc:a6370970075dac494920780d3b6a72e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sequenceAnnotations property is OPTIONAL and MAY contain a set of <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> objects. Each <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> specifies and describes a potentially discontiguous region on the <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> objects referred to by the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. <br /></td></tr>
+<tr class="separator:a6370970075dac494920780d3b6a72e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf7117785844b3ae127ed1e9de48591a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf7117785844b3ae127ed1e9de48591a"></a>
+<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_sequence_constraint.html">SequenceConstraint</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#aaf7117785844b3ae127ed1e9de48591a">sequenceConstraints</a></td></tr>
+<tr class="memdesc:aaf7117785844b3ae127ed1e9de48591a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sequenceConstraints property is OPTIONAL and MAY contain a set of <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a> objects. These objects describe any restrictions on the relative, sequence-based positions and/or orientations of the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects contained by the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. For example, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of a gene might specify that the position of its promoter <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> precedes that of its CDS <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>. This is particularly useful when a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> lacks a <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> and therefore cannot specify the precise, sequence-based positions of its <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects using <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> objects. <br /></td></tr>
+<tr class="separator:aaf7117785844b3ae127ed1e9de48591a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a90d42a084c0123168a10cfd35354f5df"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90d42a084c0123168a10cfd35354f5df"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ComponentDefinition</b> (sbol_type type, std::string uri, std::string component_type)</td></tr>
-<tr class="separator:a90d42a084c0123168a10cfd35354f5df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6c383fb82007109e199daaa532c0a7e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6c383fb82007109e199daaa532c0a7e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ComponentDefinition</b> (sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string component_type)</td></tr>
-<tr class="separator:af6c383fb82007109e199daaa532c0a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classsbol_1_1_top_level"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsbol_1_1_top_level')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classsbol_1_1_top_level.html">sbol::TopLevel</a></td></tr>
-<tr class="memitem:acf3566f6c1b453fc6a844de998485021 inherit pro_methods_classsbol_1_1_top_level"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf3566f6c1b453fc6a844de998485021"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TopLevel</b> (sbol_type type_uri, std::string uri)</td></tr>
-<tr class="separator:acf3566f6c1b453fc6a844de998485021 inherit pro_methods_classsbol_1_1_top_level"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81dad24f33d147e853e026de0640f609 inherit pro_methods_classsbol_1_1_top_level"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81dad24f33d147e853e026de0640f609"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TopLevel</b> (sbol_type type_uri, std::string uri_prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:a81dad24f33d147e853e026de0640f609 inherit pro_methods_classsbol_1_1_top_level"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classsbol_1_1_identified"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsbol_1_1_identified')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classsbol_1_1_identified.html">sbol::Identified</a></td></tr>
-<tr class="memitem:ae247f9570f97eafdddfe607c1e703f67 inherit pro_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae247f9570f97eafdddfe607c1e703f67"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (sbol_type type_uri, std::string uri)</td></tr>
-<tr class="separator:ae247f9570f97eafdddfe607c1e703f67 inherit pro_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04b54e247ce4cd5a51d3dc9aedb64d81 inherit pro_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a04b54e247ce4cd5a51d3dc9aedb64d81"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (sbol_type type_uri, std::string prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:a04b54e247ce4cd5a51d3dc9aedb64d81 inherit pro_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
-<tr class="memitem:a3175a8bed6d61db88f681a72fced8c3f inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3175a8bed6d61db88f681a72fced8c3f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri)</td></tr>
-<tr class="separator:a3175a8bed6d61db88f681a72fced8c3f inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a321a8b8c49831e62e8d97cab2463610b inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a321a8b8c49831e62e8d97cab2463610b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri_prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:a321a8b8c49831e62e8d97cab2463610b inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a16766787aa7a6bb53bf539307c1e1a0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c">ComponentDefinition</a> (std::string uri=DEFAULT_NS&quot;/ComponentDefinition/example&quot;, std::string type=<a class="el" href="constants_8h.html#aa08e807e9ad29c17c56e3b17f088f6cc">BIOPAX_DNA</a>, std::string version=&quot;1.0.0&quot;)</td></tr>
+<tr class="memdesc:a16766787aa7a6bb53bf539307c1e1a0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>.  <a href="#a16766787aa7a6bb53bf539307c1e1a0c">More...</a><br /></td></tr>
+<tr class="separator:a16766787aa7a6bb53bf539307c1e1a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27161b83d63eab567db7ed752fd1b432"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a27161b83d63eab567db7ed752fd1b432">assemble</a> (std::vector&lt; <a class="el" href="classsbol_1_1_component_definition.html">ComponentDefinition</a> * &gt; list_of_components)</td></tr>
+<tr class="memdesc:a27161b83d63eab567db7ed752fd1b432"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assembles the provided vector of Components into a structural hierarchy.  <a href="#a27161b83d63eab567db7ed752fd1b432">More...</a><br /></td></tr>
+<tr class="separator:a27161b83d63eab567db7ed752fd1b432"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76657e5a4086d5166a25270375d8fae0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classsbol_1_1_component.html">Component</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a76657e5a4086d5166a25270375d8fae0">getInSequentialOrder</a> ()</td></tr>
+<tr class="memdesc:a76657e5a4086d5166a25270375d8fae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Orders this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>'s member Components into a linear arrangement based on <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> Constraints.  <a href="#a76657e5a4086d5166a25270375d8fae0">More...</a><br /></td></tr>
+<tr class="separator:a76657e5a4086d5166a25270375d8fae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27287e7d20ffe00b3a0b5070d3c9b052"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a27287e7d20ffe00b3a0b5070d3c9b052">hasUpstreamComponent</a> (<a class="el" href="classsbol_1_1_component.html">Component</a> &amp;current_component)</td></tr>
+<tr class="memdesc:a27287e7d20ffe00b3a0b5070d3c9b052"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the specified <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> has a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> upstream in linear arrangement on the DNA strand.  <a href="#a27287e7d20ffe00b3a0b5070d3c9b052">More...</a><br /></td></tr>
+<tr class="separator:a27287e7d20ffe00b3a0b5070d3c9b052"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66233f0c26f7ae50ccb5d1f8deb8c4e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_component.html">Component</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a66233f0c26f7ae50ccb5d1f8deb8c4e2">getUpstreamComponent</a> (<a class="el" href="classsbol_1_1_component.html">Component</a> &amp;current_component)</td></tr>
+<tr class="memdesc:a66233f0c26f7ae50ccb5d1f8deb8c4e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the upstream <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>.  <a href="#a66233f0c26f7ae50ccb5d1f8deb8c4e2">More...</a><br /></td></tr>
+<tr class="separator:a66233f0c26f7ae50ccb5d1f8deb8c4e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96a1b04568b582070aff16b0cdf29545"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a96a1b04568b582070aff16b0cdf29545">hasDownstreamComponent</a> (<a class="el" href="classsbol_1_1_component.html">Component</a> &amp;current_component)</td></tr>
+<tr class="memdesc:a96a1b04568b582070aff16b0cdf29545"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the specified <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> has a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> downstream in linear arrangement on the DNA strand.  <a href="#a96a1b04568b582070aff16b0cdf29545">More...</a><br /></td></tr>
+<tr class="separator:a96a1b04568b582070aff16b0cdf29545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae2563b113d2696053a568ed0fbb6da2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_component.html">Component</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#aae2563b113d2696053a568ed0fbb6da2">getDownstreamComponent</a> (<a class="el" href="classsbol_1_1_component.html">Component</a> &amp;current_component)</td></tr>
+<tr class="memdesc:aae2563b113d2696053a568ed0fbb6da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the downstream <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>.  <a href="#aae2563b113d2696053a568ed0fbb6da2">More...</a><br /></td></tr>
+<tr class="separator:aae2563b113d2696053a568ed0fbb6da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e0ce320c711098d8819e76eb542cd81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_component.html">Component</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a8e0ce320c711098d8819e76eb542cd81">getFirstComponent</a> ()</td></tr>
+<tr class="memdesc:a8e0ce320c711098d8819e76eb542cd81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the first <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in a linear sequence.  <a href="#a8e0ce320c711098d8819e76eb542cd81">More...</a><br /></td></tr>
+<tr class="separator:a8e0ce320c711098d8819e76eb542cd81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee9dc515cc9f2718f8dce5ea3dfc823b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_component.html">Component</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#aee9dc515cc9f2718f8dce5ea3dfc823b">getLastComponent</a> ()</td></tr>
+<tr class="memdesc:aee9dc515cc9f2718f8dce5ea3dfc823b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the last <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in a linear sequence.  <a href="#aee9dc515cc9f2718f8dce5ea3dfc823b">More...</a><br /></td></tr>
+<tr class="separator:aee9dc515cc9f2718f8dce5ea3dfc823b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. ">ComponentDefinition</a> class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a16766787aa7a6bb53bf539307c1e1a0c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_component_definition.html">ComponentDefinition</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>uri</em> = <code>DEFAULT_NS&#160;&quot;/ComponentDefinition/example&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>type</em> = <code><a class="el" href="constants_8h.html#aa08e807e9ad29c17c56e3b17f088f6cc">BIOPAX_DNA</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>version</em> = <code>&quot;1.0.0&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uri</td><td>A full URI including a scheme, namespace, and identifier. If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed. </td></tr>
+    <tr><td class="paramname">type</td><td>A BioPAX ontology term that indicates whether the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> is DNA, RNA, protein, or some other molecule type. </td></tr>
+    <tr><td class="paramname">version</td><td>An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch". </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition_a16766787aa7a6bb53bf539307c1e1a0c_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a16766787aa7a6bb53bf539307c1e1a0c_cgraph" alt=""/></div>
+<map name="classsbol_1_1_component_definition_a16766787aa7a6bb53bf539307c1e1a0c_cgraph" id="classsbol_1_1_component_definition_a16766787aa7a6bb53bf539307c1e1a0c_cgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a27161b83d63eab567db7ed752fd1b432" title="Assembles the provided vector of Components into a structural hierarchy. " alt="" coords="253,5,332,31"/>
+<area shape="rect" id="node3" href="classsbol_1_1_component_definition.html#a76657e5a4086d5166a25270375d8fae0" title="Orders this ComponentDefinition&#39;s member Components into a linear arrangement based on Sequence Const..." alt="" coords="218,55,367,80"/>
+<area shape="rect" id="node4" href="classsbol_1_1_component_definition.html#a27287e7d20ffe00b3a0b5070d3c9b052" title="Checks if the specified Component has a Component upstream in linear arrangement on the DNA strand..." alt="" coords="208,104,377,129"/>
+<area shape="rect" id="node5" href="classsbol_1_1_component_definition.html#a66233f0c26f7ae50ccb5d1f8deb8c4e2" title="Get the upstream Component. " alt="" coords="209,153,376,179"/>
+<area shape="rect" id="node6" href="classsbol_1_1_component_definition.html#a96a1b04568b582070aff16b0cdf29545" title="Checks if the specified Component has a Component downstream in linear arrangement on the DNA strand..." alt="" coords="199,203,386,228"/>
+<area shape="rect" id="node7" href="classsbol_1_1_component_definition.html#aae2563b113d2696053a568ed0fbb6da2" title="Get the downstream Component. " alt="" coords="201,252,384,277"/>
+<area shape="rect" id="node8" href="classsbol_1_1_component_definition.html#a8e0ce320c711098d8819e76eb542cd81" title="Gets the first Component in a linear sequence. " alt="" coords="225,301,360,327"/>
+<area shape="rect" id="node9" href="classsbol_1_1_component_definition.html#aee9dc515cc9f2718f8dce5ea3dfc823b" title="Gets the last Component in a linear sequence. " alt="" coords="225,351,359,376"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a27161b83d63eab567db7ed752fd1b432"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void assemble </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classsbol_1_1_component_definition.html">ComponentDefinition</a> * &gt;&#160;</td>
+          <td class="paramname"><em>list_of_components</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Assembles the provided vector of Components into a structural hierarchy. </p>
+<p>Autoconstructs the required Components and SequenceConstraints. The resulting data structure is a partial design, still lacking a specific DNA (or other) sequence. To fully realize a design, use Sequence::assemble(). </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">list_of_components</td><td>A list of subcomponents that will compose this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_icgraph" alt=""/></div>
+<map name="classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_icgraph" id="classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="132,5,278,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aae2563b113d2696053a568ed0fbb6da2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_component.html">Component</a>&amp; getDownstreamComponent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsbol_1_1_component.html">Component</a> &amp;&#160;</td>
+          <td class="paramname"><em>current_component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the downstream <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The downstream component </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition_aae2563b113d2696053a568ed0fbb6da2_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_aae2563b113d2696053a568ed0fbb6da2_icgraph" alt=""/></div>
+<map name="classsbol_1_1_component_definition_aae2563b113d2696053a568ed0fbb6da2_icgraph" id="classsbol_1_1_component_definition_aae2563b113d2696053a568ed0fbb6da2_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="237,5,383,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a8e0ce320c711098d8819e76eb542cd81"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_component.html">Component</a>&amp; getFirstComponent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the first <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in a linear sequence. </p>
+<dl class="section return"><dt>Returns</dt><dd>The first component in sequential order </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition_a8e0ce320c711098d8819e76eb542cd81_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a8e0ce320c711098d8819e76eb542cd81_icgraph" alt=""/></div>
+<map name="classsbol_1_1_component_definition_a8e0ce320c711098d8819e76eb542cd81_icgraph" id="classsbol_1_1_component_definition_a8e0ce320c711098d8819e76eb542cd81_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="188,5,334,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a76657e5a4086d5166a25270375d8fae0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classsbol_1_1_component.html">Component</a>*&gt; getInSequentialOrder </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Orders this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>'s member Components into a linear arrangement based on <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> Constraints. </p>
+<dl class="section return"><dt>Returns</dt><dd>Primary sequence structure </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition_a76657e5a4086d5166a25270375d8fae0_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a76657e5a4086d5166a25270375d8fae0_icgraph" alt=""/></div>
+<map name="classsbol_1_1_component_definition_a76657e5a4086d5166a25270375d8fae0_icgraph" id="classsbol_1_1_component_definition_a76657e5a4086d5166a25270375d8fae0_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="201,5,347,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aee9dc515cc9f2718f8dce5ea3dfc823b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_component.html">Component</a>&amp; getLastComponent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the last <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in a linear sequence. </p>
+<dl class="section return"><dt>Returns</dt><dd>The last component in sequential order </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition_aee9dc515cc9f2718f8dce5ea3dfc823b_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_aee9dc515cc9f2718f8dce5ea3dfc823b_icgraph" alt=""/></div>
+<map name="classsbol_1_1_component_definition_aee9dc515cc9f2718f8dce5ea3dfc823b_icgraph" id="classsbol_1_1_component_definition_aee9dc515cc9f2718f8dce5ea3dfc823b_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="187,5,333,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a66233f0c26f7ae50ccb5d1f8deb8c4e2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_component.html">Component</a>&amp; getUpstreamComponent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsbol_1_1_component.html">Component</a> &amp;&#160;</td>
+          <td class="paramname"><em>current_component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the upstream <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The upstream component </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition_a66233f0c26f7ae50ccb5d1f8deb8c4e2_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a66233f0c26f7ae50ccb5d1f8deb8c4e2_icgraph" alt=""/></div>
+<map name="classsbol_1_1_component_definition_a66233f0c26f7ae50ccb5d1f8deb8c4e2_icgraph" id="classsbol_1_1_component_definition_a66233f0c26f7ae50ccb5d1f8deb8c4e2_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="220,5,366,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a96a1b04568b582070aff16b0cdf29545"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hasDownstreamComponent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsbol_1_1_component.html">Component</a> &amp;&#160;</td>
+          <td class="paramname"><em>current_component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if the specified <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> has a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> downstream in linear arrangement on the DNA strand. </p>
+<p>Checks that the appropriate <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a> exists. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current_component</td><td>A <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if found, 0 if not </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_icgraph" alt=""/></div>
+<map name="classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_icgraph" id="classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="240,5,386,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a27287e7d20ffe00b3a0b5070d3c9b052"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hasUpstreamComponent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsbol_1_1_component.html">Component</a> &amp;&#160;</td>
+          <td class="paramname"><em>current_component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if the specified <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> has a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> upstream in linear arrangement on the DNA strand. </p>
+<p>Checks that the appropriate <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a> exists. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current_component</td><td>A <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if found, 0 if not </dd></dl>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_icgraph" alt=""/></div>
+<map name="classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_icgraph" id="classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="223,5,369,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a554ef7c2d135daea2b27c8328d04469f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_list.html">List</a>&lt;<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&gt; roles</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The roles property is an OPTIONAL set of URIs that clarifies the potential function of the entity represented by a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> in a biochemical or physical context. </p>
+<p>The roles property of a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> MAY contain one or more URIs that MUST identify terms from ontologies that are consistent with the types property of the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. For example, the roles property of a DNA or RNA <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> could contain URIs identifying terms from the <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> Ontology (SO). See the table below for common examples </p><table class="doxtable">
+<tr>
+<th align="left">Role </th><th align="left">URI for <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> Ontology Term </th><th align="left">LibSBOL symbol  </th></tr>
+<tr>
+<td align="left">Miscellaneous </td><td align="left"><a href="http://identifiers.org/so/SO:0000001">http://identifiers.org/so/SO:0000001</a> </td><td align="left">SO_MISC </td></tr>
+<tr>
+<td align="left">Promoter </td><td align="left"><a href="http://identifiers.org/so/SO:0000167">http://identifiers.org/so/SO:0000167</a> </td><td align="left">SO_PROMOTER </td></tr>
+<tr>
+<td align="left">RBS </td><td align="left"><a href="http://identifiers.org/so/SO:0000139">http://identifiers.org/so/SO:0000139</a> </td><td align="left">SO_RBS </td></tr>
+<tr>
+<td align="left">CDS </td><td align="left"><a href="http://identifiers.org/so/SO:0000316">http://identifiers.org/so/SO:0000316</a> </td><td align="left">SO_CDS </td></tr>
+<tr>
+<td align="left">Terminator </td><td align="left"><a href="http://identifiers.org/so/SO:0000141">http://identifiers.org/so/SO:0000141</a> </td><td align="left">SO_TERMINATOR </td></tr>
+<tr>
+<td align="left">Gene </td><td align="left"><a href="http://identifiers.org/so/SO:0000704">http://identifiers.org/so/SO:0000704</a> </td><td align="left"></td></tr>
+<tr>
+<td align="left">Operator </td><td align="left"><a href="http://identifiers.org/so/SO:0000057">http://identifiers.org/so/SO:0000057</a> </td><td align="left"></td></tr>
+<tr>
+<td align="left">Engineered Gene </td><td align="left"><a href="http://identifiers.org/so/SO:0000280">http://identifiers.org/so/SO:0000280</a> </td><td align="left"></td></tr>
+<tr>
+<td align="left">mRNA </td><td align="left"><a href="http://identifiers.org/so/SO:0000234">http://identifiers.org/so/SO:0000234</a> </td><td align="left"></td></tr>
+<tr>
+<td align="left">Effector </td><td align="left"><a href="http://identifiers.org/chebi/CHEBI:35224">http://identifiers.org/chebi/CHEBI:35224</a> </td><td align="left"></td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="ab563237ddc0363ecbd245b5f791f2900"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_list.html">List</a>&lt;<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&gt; types</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The types property is a REQUIRED set of URIs that specifies the category of biochemical or physical entity (for example DNA, protein, or small molecule) that a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> object abstracts for the purpose of engineering design. </p>
+<p>The types property of every <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> MUST contain one or more URIs that MUST identify terms from appropriate ontologies, such as the BioPAX ontology or the ontology of Chemical Entities of Biological Interest. See the table below for examples. </p><table class="doxtable">
+<tr>
+<th align="left">Type </th><th align="left">URI for BioPAX Term </th><th align="left">LibSBOL symbol  </th></tr>
+<tr>
+<td align="left">DNA </td><td align="left"><a href="http://www.biopax.org/release/biopax-level3.owl#DnaRegion">http://www.biopax.org/release/biopax-level3.owl#DnaRegion</a> </td><td align="left">BIOPAX_DNA </td></tr>
+<tr>
+<td align="left">RNA </td><td align="left"><a href="http://www.biopax.org/release/biopax-level3.owl#RnaRegion">http://www.biopax.org/release/biopax-level3.owl#RnaRegion</a> </td><td align="left">BIOPAX_RNA </td></tr>
+<tr>
+<td align="left">Protein </td><td align="left"><a href="http://www.biopax.org/release/biopax-level3.owl#Protein">http://www.biopax.org/release/biopax-level3.owl#Protein</a> </td><td align="left">BIOPAX_PROTEIN </td></tr>
+<tr>
+<td align="left">Small Molecule </td><td align="left"><a href="http://www.biopax.org/release/biopax-level3.owl#SmallMolecule">http://www.biopax.org/release/biopax-level3.owl#SmallMolecule</a> </td><td align="left">BIOPAX_SMALL_MOLECULE </td></tr>
+<tr>
+<td align="left">Complex </td><td align="left"><a href="http://www.biopax.org/release/biopax-level3.owl#Complex">http://www.biopax.org/release/biopax-level3.owl#Complex</a> </td><td align="left">BIOPAX_COMPLEX </td></tr>
+</table>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/componentdefinition.h</li>
 </ul>
+<div class="dynheader">
+Inheritance diagram for ComponentDefinition:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_component_definition__inherit__graph.png" border="0" usemap="#_component_definition_inherit__map" alt="Inheritance graph"/></div>
+<map name="_component_definition_inherit__map" id="_component_definition_inherit__map">
+<area shape="rect" id="node2" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="39,541,178,655"/>
+<area shape="rect" id="node3" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="42,327,176,493"/>
+<area shape="rect" id="node4" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="44,5,173,279"/>
+</map>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 28 2016 15:25:14 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 9 2016 17:58:48 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

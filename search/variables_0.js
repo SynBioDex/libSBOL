@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['roles',['roles',['../classsbol_1_1_component_definition.html#a9e41c934656c96b3561665622902bef3',1,'sbol::ComponentDefinition']]]
+  ['components',['components',['../classsbol_1_1_component_definition.html#a9ba130a49d9f50e5c3be54a417ea3512',1,'sbol::ComponentDefinition']]]
 ];

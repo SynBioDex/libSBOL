@@ -1,17 +1,7 @@
 var searchData=
 [
-  ['participation',['Participation',['../classsbol_1_1_participation.html',1,'sbol']]],
-  ['property',['Property',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20int_20_3e',['Property&lt; int &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbol_3a_3acomponent_20_3e',['Property&lt; sbol::Component &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbol_3a_3afunctionalcomponent_20_3e',['Property&lt; sbol::FunctionalComponent &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbol_3a_3ainteraction_20_3e',['Property&lt; sbol::Interaction &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbol_3a_3alocation_20_3e',['Property&lt; sbol::Location &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbol_3a_3amapsto_20_3e',['Property&lt; sbol::MapsTo &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbol_3a_3amodule_20_3e',['Property&lt; sbol::Module &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbol_3a_3aparticipation_20_3e',['Property&lt; sbol::Participation &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbol_3a_3asequenceannotation_20_3e',['Property&lt; sbol::SequenceAnnotation &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbol_3a_3asequenceconstraint_20_3e',['Property&lt; sbol::SequenceConstraint &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20sbolclass_20_3e',['Property&lt; SBOLClass &gt;',['../classsbol_1_1_property.html',1,'sbol']]],
-  ['property_3c_20std_3a_3astring_20_3e',['Property&lt; std::string &gt;',['../classsbol_1_1_property.html',1,'sbol']]]
+  ['sbolobject',['SBOLObject',['../classsbol_1_1_s_b_o_l_object.html',1,'sbol']]],
+  ['sequence',['Sequence',['../classsbol_1_1_sequence.html',1,'sbol']]],
+  ['sequenceannotation',['SequenceAnnotation',['../classsbol_1_1_sequence_annotation.html',1,'sbol']]],
+  ['sequenceconstraint',['SequenceConstraint',['../classsbol_1_1_sequence_constraint.html',1,'sbol']]]
 ];
