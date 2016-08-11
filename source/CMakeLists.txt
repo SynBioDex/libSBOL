@@ -10,7 +10,8 @@ INCLUDE_DIRECTORIES( ${RAPTOR_HEADER_DIR})
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES
     constants.h
-	sbolerror.h
+    sbolerror.h
+
     config.h
     validation.h
 	property.h

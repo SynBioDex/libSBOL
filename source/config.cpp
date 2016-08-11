@@ -121,6 +121,28 @@ int sbol::isSBOLCompliant()
     return config.isSBOLCompliant();
 };
 
+void sbol::toggleExceptions()
+{
+    config.toggleExceptions();
+};
+
+void Config::toggleExceptions()
+{
+    if (catch_exceptions)
+        catch_exceptions = 0;
+    else
+        catch_exceptions = 1;
+};
+
+int sbol::exceptionsEnabled()
+{
+    return config.exceptionsEnabled();
+}
+
+int Config::exceptionsEnabled()
+{
+    return catch_exceptions;
+}
 
 void Config::setHomespace(std::string ns)
 {

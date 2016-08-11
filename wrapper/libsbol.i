@@ -3,10 +3,10 @@
     #define SWIG_FILE_WITH_INIT
 
     //  Headers are listed in strict order of dependency
-    #include "config.h"
     #include "constants.h"
-    #include "validation.h"
     #include "sbolerror.h"
+    #include "config.h"
+    #include "validation.h"
     #include "property.h"
     #include "properties.h"
     #include "object.h"
@@ -86,6 +86,19 @@ namespace std {
 
 //typedef const void(*sbol::ValidationRule)(void *, void *);
 // %template(_ValidationRules) std::vector<sbol::ValidationRule>;
+
+%exception {
+    try {
+        $function
+    } catch(...) {
+    }
+}
+
+%include "config.h"
+
+%init %{
+    toggleExceptions();
+%}
 
 // Instantiate libSBOL templates
 %include "constants.h"
@@ -251,6 +264,8 @@ namespace sbol
     }
 };
 
+
+
 //%pythoncode
 //%{
 //    import sys
@@ -367,6 +382,19 @@ namespace sbol
     $result  = list;
 }
 
+/* Convert C++ vector of ComponentDefinitions --> Python list */
+%typemap(out) std::vector<sbol::Interaction*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::ComponentDefinition*), 0 |  0 );
+        PyList_Append(list, elem);
+    }
+    $result  = list;
+}
+
+
 
 %include "identified.h"
 
@@ -408,8 +436,11 @@ namespace sbol
 %template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
 %template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
 %template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
+%template(_VectorOfComponents) std::vector<sbol::Component>;
+%template(componentsProperty) sbol::Property<sbol::Component>;
+%template(ownedComponents) sbol::OwnedObject<sbol::Component>;
+%template(listOfOwnedComponents) sbol::List<sbol::OwnedObject<sbol::Component>>;
 %include "componentdefinition.h"
-
 %include "sequence.h"
 
 %template(listOfURIs) sbol::List<sbol::URIProperty>;
@@ -444,6 +475,46 @@ namespace sbol
 %template(getSequence) sbol::Document::get<Sequence>;
 %template(getModel) sbol::Document::get<Model>;
 %template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
+
+
+%extend sbol::ComponentDefinition
+{
+    void assemble(PyObject *list)
+    {
+        std::vector<sbol::ComponentDefinition*> list_of_cdefs = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::ComponentDefinition* cd;
+                if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) throw;
+                list_of_cdefs.push_back(cd);
+            }
+            $self->assemble(list_of_cdefs);
+        };
+    }
+}
+
+%extend sbol::ModuleDefinition
+{
+    void assemble(PyObject *list)
+    {
+        std::vector<sbol::ModuleDefinition*> list_of_mdefs = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::ModuleDefinition* md;
+                if ((SWIG_ConvertPtr(obj,(void **) &md, $descriptor(sbol::ModuleDefinition*),1)) == -1) throw;
+                list_of_mdefs.push_back(md);
+            }
+            $self->assemble(list_of_mdefs);
+        };
+    }
+}
+
 
 
 //// The following code was experimented with for mapping C++ class structure to Python class structure

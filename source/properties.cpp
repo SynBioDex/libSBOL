@@ -174,29 +174,29 @@ void ReferencedObject::setReference(const std::string uri)
         set(uri);
 };
 
-// For compliant URIs
-void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
-{
-    std::string sbol_class_name = getClassName(this->reference_type_uri);
-    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
-    this->set(compliant_uri);
-};
-
-// For compliant URIs
-void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id)
-{
-    std::string sbol_class_name = getClassName(this->reference_type_uri);
-    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, "1.0.0");
-    this->addReference(compliant_uri);
-};
-
-// For compliant URI's
-void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
-{
-    std::string sbol_class_name = getClassName(this->reference_type_uri);
-    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
-    this->addReference(compliant_uri);
-};
+//// For compliant URIs
+//void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+//{
+//    std::string sbol_class_name = getClassName(this->reference_type_uri);
+//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
+//    this->set(compliant_uri);
+//};
+//
+//// For compliant URIs
+//void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id)
+//{
+//    std::string sbol_class_name = getClassName(this->reference_type_uri);
+//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, "1.0.0");
+//    this->addReference(compliant_uri);
+//};
+//
+//// For compliant URI's
+//void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+//{
+//    std::string sbol_class_name = getClassName(this->reference_type_uri);
+//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
+//    this->addReference(compliant_uri);
+//};
 
 
 std::string ReferencedObject::operator[] (const int nIndex)

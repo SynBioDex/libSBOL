@@ -121,11 +121,11 @@ namespace sbol
         //SBOLClass& get(std::string object_id);
         std::string operator[] (const int nIndex);
         void addReference(const std::string uri);
-        void addReference(const std::string uri_prefix, const std::string display_id);
-        void addReference(const std::string uri_prefix, const std::string display_id, const std::string version);
+//        void addReference(const std::string uri_prefix, const std::string display_id);
+//        void addReference(const std::string uri_prefix, const std::string display_id, const std::string version);
         void setReference(const std::string uri);
-        void setReference(const std::string uri_prefix, const std::string display_id);
-        void setReference(const std::string uri_prefix, const std::string display_id, const std::string version);
+//        void setReference(const std::string uri_prefix, const std::string display_id);
+//        void setReference(const std::string uri_prefix, const std::string display_id, const std::string version);
         
         /// Provides iterator functionality for SBOL properties that contain multiple references
         class iterator : public std::vector<std::string>::iterator

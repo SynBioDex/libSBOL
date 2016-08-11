@@ -10,6 +10,6 @@ namespace sbol
 	{
 		// @todo: make error_code an enumerated type
 		std::cerr << "SBOL error " << error_code << ":" << message << std::endl;
-		return error_code;
+        return error_code;
 	};
 }

@@ -183,40 +183,37 @@ std::string ComponentDefinition::updateSequence(std::string composite_sequence)
 /// @TODO update SequenceAnnotation starts and ends
 void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_components)
 {
+    if (!isSBOLCompliant())
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "Assemble methods require SBOL-compliance enabled");
     if (list_of_components.size() < 2)
     {
-        throw;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Assemble method expects at least two ComponentDefinitions");
     }
     else
     {
         ComponentDefinition& parent_component = *this;
-        if (isSBOLCompliant())
-        {
-            vector<Component*> list_of_instances = {};
-            for (auto i_com = 0; i_com != list_of_components.size(); i_com++)
-            {
-                ComponentDefinition& cdef = *list_of_components[i_com];
-                Component& c = parent_component.components.create(cdef.displayId.get());
-                c.definition.set(cdef.identity.get());
-                list_of_instances.push_back(&c);
-            }
-            for (auto i_com = 1; i_com != list_of_components.size(); i_com++)
-            {
-                ComponentDefinition& cd_upstream = *list_of_components[i_com - 1];
-                ComponentDefinition& cd_downstream = *list_of_components[i_com];
-                
-                Component& constraint_subject = *list_of_instances[i_com - 1];
-                Component& constraint_object = *list_of_instances[i_com];
 
-                SequenceConstraint& sc = parent_component.sequenceConstraints.create("constraint" + to_string(i_com));
-                sc.subject.set(constraint_subject.identity.get());
-                sc.object.set(constraint_object.identity.get());
-                sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
-                
-            }
+        vector<Component*> list_of_instances = {};
+        for (auto i_com = 0; i_com != list_of_components.size(); i_com++)
+        {
+            ComponentDefinition& cdef = *list_of_components[i_com];
+            Component& c = parent_component.components.create(cdef.displayId.get());
+            c.definition.set(cdef.identity.get());
+            list_of_instances.push_back(&c);
         }
-        else
-            throw;
+        for (auto i_com = 1; i_com != list_of_components.size(); i_com++)
+        {
+            ComponentDefinition& cd_upstream = *list_of_components[i_com - 1];
+            ComponentDefinition& cd_downstream = *list_of_components[i_com];
+            
+            Component& constraint_subject = *list_of_instances[i_com - 1];
+            Component& constraint_object = *list_of_instances[i_com];
+        
+            SequenceConstraint& sc = parent_component.sequenceConstraints.create("constraint" + to_string(i_com));
+            sc.subject.set(constraint_subject.identity.get());
+            sc.object.set(constraint_object.identity.get());
+            sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
+        }
     }
 }
     
@@ -274,7 +271,7 @@ void ModuleDefinition::assemble(std::vector < ModuleDefinition* > list_of_module
 {
     if (list_of_modules.size() < 1)
     {
-        throw;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Assemble method expects at least one ModuleDefinition");
     }
     if (!isSBOLCompliant())
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "This method only works when SBOL-compliance is enabled");
