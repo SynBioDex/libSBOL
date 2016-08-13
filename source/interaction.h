@@ -16,7 +16,7 @@ namespace sbol
 		
         Interaction(std::string uri = DEFAULT_NS "/Interaction/example", std::string interaction_type = SBO_INTERACTION) : Interaction(SBOL_INTERACTION, uri, interaction_type) {};
         
-        Interaction(std::string uri_prefix, std::string display_id, std::string version, std::string interaction_type) : Interaction(SBOL_INTERACTION, uri_prefix, display_id, version, interaction_type) {};
+//        Interaction(std::string uri_prefix, std::string display_id, std::string version, std::string interaction_type) : Interaction(SBOL_INTERACTION, uri_prefix, display_id, version, interaction_type) {};
         
         virtual ~Interaction() {};
         
@@ -27,12 +27,12 @@ namespace sbol
             participations(SBOL_PARTICIPATIONS, this)
             {
             };
-        Interaction(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string interaction_type) :
-			Identified(type, uri_prefix, display_id, version),
-			types(SBOL_TYPES, this, interaction_type),
-			participations(SBOL_PARTICIPATIONS, this)
-			{
-            };
+//        Interaction(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string interaction_type) :
+//			Identified(type, uri_prefix, display_id, version),
+//			types(SBOL_TYPES, this, interaction_type),
+//			participations(SBOL_PARTICIPATIONS, this)
+//			{
+//            };
 	};
 }
 

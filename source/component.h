@@ -19,7 +19,7 @@ namespace sbol
 		URIProperty access;
 		List<OwnedObject<MapsTo>> mapsTos;
         ReferencedObject definition;
-        
+
         virtual ~ComponentInstance() {};
 	protected:
         ComponentInstance(sbol_type type, std::string uri, std::string definition, std::string access, std::string version) :
@@ -36,9 +36,11 @@ namespace sbol
 //            mapsTos(SBOL_MAPS_TOS, this)
 //            {
 //            };
+        
 	};
     /// @endcond
 
+    
     /// The Component class is used to compose ComponentDefinition objects into a structural hierarchy. For example, the ComponentDefinition of a gene could contain four Component objects: a promoter, RBS, CDS, and terminator. In turn, the ComponentDefinition of the promoter Component could contain Component objects defined as various operator sites.
 	class Component : public ComponentInstance
 	{
@@ -47,7 +49,7 @@ namespace sbol
             Component(SBOL_COMPONENT, uri, definition, access, version) {};
         
 //        Component(std::string uri_prefix, std::string display_id, std::string version, std::string definition,std::string access) : Component(SBOL_COMPONENT, uri_prefix, display_id, version, definition, access) {};
-        
+
         virtual ~Component() {};
 
 	protected:
@@ -70,6 +72,8 @@ namespace sbol
         /// This method connects module inputs and outputs.
         /// @param interface_component An input or output component from another ModuleDefinition that corresponds with this component.
         void connect(FunctionalComponent& interface_component);
+        void mask(FunctionalComponent& masked_component);
+        int isMasked();
         virtual ~FunctionalComponent() {};
 
 	protected:

@@ -31,25 +31,32 @@ namespace sbol
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param participant A reference to the participating FunctionalComponent in the parent Interaction
-        Participation(std::string uri = DEFAULT_NS "/Participation/example", std::string participant = "") : Participation(SBOL_PARTICIPATION, uri, participant) {};
+        Participation(std::string uri = DEFAULT_NS "/Participation/example", std::string participant = "", std::string version = "1.0.0") : Participation(SBOL_PARTICIPATION, uri, participant, version) {};
 
-        Participation(std::string uri_prefix, std::string display_id, std::string version, std::string participant) : Participation(SBOL_PARTICIPATION, uri_prefix, display_id, version, participant) {};
+        Participation(std::string uri, ComponentDefinition& species, std::string version = "1.0.0") :
+            Participation(SBOL_PARTICIPATION, uri, "", version)
+            {
+            };
+        
+        void define(ComponentDefinition& species, std::string role = "");
+        
+//        Participation(std::string uri_prefix, std::string display_id, std::string version, std::string participant) : Participation(SBOL_PARTICIPATION, uri_prefix, display_id, version, participant) {};
         
         virtual ~Participation(){};
 	protected:
-        Participation(sbol_type type, std::string uri, std::string participant) :
-            Identified(type, uri),
+        Participation(sbol_type type, std::string uri, std::string participant, std::string version) :
+            Identified(type, uri, version),
             roles(SBOL_ROLES, this),
             participant(SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, this, participant)
             {
             };
         
-        Participation(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string participant) :
-			Identified(type, uri_prefix, display_id, version),
-			roles(SBOL_ROLES, this),
-			participant(SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, this, participant)
-            {
-            };
+//        Participation(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string participant) :
+//			Identified(type, uri_prefix, display_id, version),
+//			roles(SBOL_ROLES, this),
+//			participant(SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, this, participant)
+//            {
+//            };
 	};
 }
 

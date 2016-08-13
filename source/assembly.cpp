@@ -533,14 +533,14 @@ void FunctionalComponent::connect(FunctionalComponent& interface_component)
     
     
     // Link the modules through the bridge FunctionalComponent contained in the parent ModuleDefinition
+    // This FunctionalComponent is assumed to override the object component
     MapsTo& half_connection1 = subject_module->mapsTos.create(displayId.get());
     half_connection1.local.set(bridge_fc.identity.get());
     half_connection1.remote.set(identity.get());
     if (definition.get() == bridge_fc.definition.get())
         half_connection1.refinement.set(SBOL_REFINEMENT_VERIFY_IDENTICAL);
     else
-        half_connection1.refinement.set(SBOL_REFINEMENT_USE_LOCAL);
-    
+        half_connection1.refinement.set(SBOL_REFINEMENT_USE_REMOTE);
     MapsTo& half_connection2 = object_module->mapsTos.create(displayId.get());
     half_connection2.local.set(bridge_fc.identity.get());
     half_connection2.remote.set(interface_component.identity.get());
@@ -551,3 +551,208 @@ void FunctionalComponent::connect(FunctionalComponent& interface_component)
     
 };
 
+void Participation::define(ComponentDefinition& species, string role)
+{
+    if (!isSBOLCompliant())
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+    }
+    // Search for parent ModuleDefinition and parent Interaction
+    // The interface component MUST also belong to a ModuleDefinition. Throw an error if the parent ModuleDefinition can't be found
+    ModuleDefinition* parent_mdef = NULL;
+    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+        {
+            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+            for (auto i_x = mdef->interactions.begin(); i_x != mdef->interactions.end(); ++i_x)
+            {
+                Interaction& x = *i_x;
+                for (auto i_p = x.participations.begin(); i_p != x.participations.end(); ++i_p)
+                {
+                    Participation& p = *i_p;
+                    if (p.identity.get() == identity.get())
+                        parent_mdef = mdef;
+                }
+            }
+        }
+    }
+    if (parent_mdef == NULL)
+        throw SBOLError(NOT_FOUND_ERROR, "Cannot find parent ModuleDefinition for this Participation");
+    
+
+    string species_fc_id = parent_mdef->persistentIdentity.get() + "/" + species.displayId.get() + "/" + species.version.get();
+    if (parent_mdef->find(species_fc_id))
+    {
+        FunctionalComponent& species_fc = parent_mdef->functionalComponents[species_fc_id];
+    }
+    else
+    {
+        FunctionalComponent& species_fc = parent_mdef->functionalComponents.create(species.displayId.get());
+        species_fc.definition.set(species.identity.get());
+        species_fc.direction.set(SBOL_DIRECTION_NONE);
+    }
+    participant.set(species_fc_id);
+    if (role != "")
+        roles.add(role);
+};
+
+void ComponentDefinition::participate(Participation& species)
+{
+    species.define(*this);
+};
+
+void FunctionalComponent::mask(FunctionalComponent& masked_component)
+{
+    if (!isSBOLCompliant())
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+    }
+    
+    // Search for ModuleDefinition that this FunctionalComponent belongs to. Throw an error if the ModuleDefinition can't be found
+    ModuleDefinition* subject_mdef = NULL;
+    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+        {
+            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+            for (auto i_fc = mdef->functionalComponents.begin(); i_fc != mdef->functionalComponents.end(); ++i_fc)
+            {
+                FunctionalComponent& fc = *i_fc;
+                if (fc.identity.get() == identity.get())
+                {
+                    subject_mdef = mdef;
+                    cout << "Found " << fc.identity.get() << " in " << subject_mdef->identity.get() << endl;
+                }
+
+            }
+        }
+    }
+    if (subject_mdef == NULL)
+        throw SBOLError(NOT_FOUND_ERROR, "FunctionalComponent must belong to a ModuleDefinition");
+    // The masked component must also belong to a ModuleDefinition. Throw an error if the ModuleDefinition can't be found
+    ModuleDefinition* object_mdef = NULL;
+    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+        {
+            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+            for (auto i_fc = mdef->functionalComponents.begin(); i_fc != mdef->functionalComponents.end(); ++i_fc)
+            {
+                FunctionalComponent& fc = *i_fc;
+                if (fc.identity.get() == masked_component.identity.get())
+                {
+                    object_mdef = mdef;
+                    cout << "Found " << fc.identity.get() << " in " << object_mdef->identity.get() << endl;
+                }
+            }
+        }
+    }
+    if (object_mdef == NULL)
+        throw SBOLError(NOT_FOUND_ERROR, "FunctionalComponent must belong to a ModuleDefinition");
+
+    // Determine the relationship of the parent modules.  Are they hierarchically nested? Are they different parts of the tree?
+    int IS_LOCAL = -1;
+    Module* parent_m = NULL;
+    for (auto i_m = subject_mdef->modules.begin(); i_m != subject_mdef->modules.end(); ++i_m)
+    {
+        Module& m = *i_m;
+        if (m.definition.get() == object_mdef->identity.get())
+        {
+            IS_LOCAL = 1;
+            parent_m = &m;
+        }
+    }
+    for (auto i_m = object_mdef->modules.begin(); i_m != object_mdef->modules.end(); ++i_m)
+    {
+        Module& m = *i_m;
+        if (m.definition.get() == subject_mdef->identity.get())
+        {
+            IS_LOCAL = 0;
+            parent_m = &m;
+        }
+    }
+    if (parent_m == NULL)
+        throw SBOLError(NOT_FOUND_ERROR, "These FunctionalComponents are located in unrelated Modules. Perform assembly.");
+    
+    // Search for a MapsTo connecting these components. If it doesn't exist, create one.
+    MapsTo* override_map = NULL;
+    for (auto i_map = parent_m->mapsTos.begin(); i_map != parent_m->mapsTos.end(); ++i_map)
+    {
+        MapsTo& maps_to = *i_map;
+        if (IS_LOCAL == 1 && maps_to.local.get() == identity.get())  // If this component is local, set override flag to LOCAL
+        {
+            cout << "Setting refinement to LOCAL" << endl;
+            maps_to.refinement.set(SBOL_REFINEMENT_USE_LOCAL);
+        }
+        if (IS_LOCAL == -1 && maps_to.remote.get() == identity.get())  // If this component is remote, set override flag to REMOTE
+        {
+            cout << "Setting refinement to REMOTE" << endl;
+            maps_to.refinement.set(SBOL_REFINEMENT_USE_REMOTE);
+        }
+    }
+    if (override_map == NULL)
+    {
+        override_map = &parent_m->mapsTos.create(identity.get());
+        if (IS_LOCAL == 1)
+        {
+            cout << "Creating refinement to LOCAL" << endl;
+
+            override_map->local.set(identity.get());
+            override_map->remote.set(masked_component.identity.get());
+            override_map->refinement.set(SBOL_REFINEMENT_USE_LOCAL);
+        }
+        if (IS_LOCAL == 0)
+        {
+            cout << "Setting refinement to REMOTE" << endl;
+
+            override_map->local.set(masked_component.identity.get());
+            override_map->remote.set(identity.get());
+            override_map->refinement.set(SBOL_REFINEMENT_USE_REMOTE);
+        }
+    }
+};
+
+int FunctionalComponent::isMasked()
+{
+    if (!isSBOLCompliant())
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+    }
+    // Search for parent ModuleDefinition and parent Interaction
+    // The interface component MUST also belong to a ModuleDefinition. Throw an error if the parent ModuleDefinition can't be found
+    ModuleDefinition* parent_mdef = NULL;
+    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+        {
+            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+            for (auto i_m = mdef->modules.begin(); i_m != mdef->modules.end(); ++i_m)
+            {
+                Module& m = *i_m;
+                for (auto i_map = m.mapsTos.begin(); i_map != m.mapsTos.end(); ++i_map)
+                {
+                    MapsTo& maps_to = *i_map;
+                    cout << identity.get() << maps_to.local.get() << "\t" << maps_to.remote.get() << "\t" << maps_to.refinement.get() << endl << endl;
+
+                    if (maps_to.local.get() == identity.get() && maps_to.refinement.get() == SBOL_REFINEMENT_USE_REMOTE)
+                        return 1;
+                    if (maps_to.remote.get() == identity.get() && maps_to.refinement.get() == SBOL_REFINEMENT_USE_LOCAL)
+                        return 1;
+                }
+            }
+        }
+    }
+    
+    return 0;
+};

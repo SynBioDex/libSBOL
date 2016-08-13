@@ -1,5 +1,5 @@
 /// @file constants.h
-/// Users of libSBOL may find in this file useful and important symbols corresponding to commonly used ontological terms from the Sequence Ontology, Systems Biology Ontology, BioPAX, etc. A number of flags internal to the SBOL standard are also defined here.  Finally, for developers and maintains of libSBOL, this file contains important URIs in the SBOL namespace, some of which can be used to control the appearance of the RDF/XML serialization. 
+/// Users of libSBOL may find in this file useful and important symbols corresponding to commonly used ontological terms from the Sequence Ontology, Systems Biology Ontology, BioPAX, etc. A number of flags internal to the SBOL standard are also defined here.  Finally, for developers and maintains of libSBOL, this file contains important URIs in the SBOL namespace, some of which can be used to control the appearance of the RDF/XML serialization.
 #ifndef CONSTANTS_INCLUDED
 #define CONSTANTS_INCLUDED
 
@@ -103,19 +103,21 @@
 /* Interaction.types */
 #define SBO "http://identifiers.org/biomodels.sbo/SBO:"
 #define SBO_INTERACTION SBO "0000343"
-#define SBO_INHIBITION SBO "0000169"
+#define SBO_INHIBITION SBO "0000589"
 #define SBO_GENETIC_PRODUCTION SBO "0000170"
 #define SBO_STIMULATION SBO "0000589"
 #define SBO_NONCOVALENT_BINDING SBO "0000177"
-#define SBO_PROMOTER SBO "0000598"
 
 /* Participant.roles */
+#define SBO_PROMOTER SBO "0000598"
+#define SBO_GENE SBO "0000243"
 #define SBO_INHIBITOR SBO "0000020"
 #define SBO_STIMULATOR SBO "0000459"
 #define SBO_REACTANT SBO "0000010"
 #define SBO_PRODUCT SBO "0000011"
 #define SBO_LIGAND SBO "0000280"
-#define SBOL_NONCOVALENT_COMPLEX SBO "0000253"
+#define SBO_NONCOVALENT_COMPLEX SBO "0000253"
+#define SBO_BINDING_SITE "0000494"
 
 /* URIs for common Sequence Ontology terms */
 #define SO "http://identifiers.org/so/SO:"
