@@ -42,7 +42,7 @@
 /// ```
 /// ComponentDefinition& Cas9 = *new ComponentDefinition("Cas9", BIOPAX_PROTEIN);
 /// ```
-/// Notice the type is specified using a predefined constant. The ComponentDefinition::type property is one of many SBOL properties that use standard ontology terms as property values.  The ComponentDefinition::type property uses the Sequence Ontology to be specific.  Many commonly used ontological terms are provided by libSBOL as predefined constants in the @file constants.h header.  See the help page for the @ref ComponentDefinition class or other specific class to find a table that lists the available terms.
+/// Notice the type is specified using a predefined constant. The ComponentDefinition::type property is one of many SBOL properties that use standard ontology terms as property values.  The ComponentDefinition::type property uses the Sequence Ontology to be specific.  Many commonly used ontological terms are provided by libSBOL as predefined constants in the @ref constants.h header.  See the help page for the @ref ComponentDefinition class or other specific class to find a table that lists the available terms.
 ///
 /// @section adding_objects Adding Objects to a Document
 ///
@@ -50,7 +50,8 @@
 /// ```
 /// doc.add<ModuleDefinition>(CRISPRTemplate);
 /// doc.add<ComponentDefinition>(Cas9);
-/// ``` 
+/// ```
+/// Only TopLevel objects need to be added to a Document. These top level objects include ComponentDefinitions, ModuleDefinitions, Sequences, Models. Child objects are automatically associated with the parent object's Document.
 /// @section optional_fields Getting, Setting, and Editing Optional Fields
 ///
 /// Objects may also include optional fields.  These are indicated in UML as properties having a cardinality of 0 or more.  Except for the molecular type field, all properties of a ComponentDefinition are optional.  Optional properties can only be set after the object is created. The following code creates a DNA component which is designated as a promoter:
