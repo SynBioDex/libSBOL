@@ -628,7 +628,6 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
                 if (fc.identity.get() == identity.get())
                 {
                     subject_mdef = mdef;
-                    cout << "Found " << fc.identity.get() << " in " << subject_mdef->identity.get() << endl;
                 }
 
             }
@@ -650,7 +649,6 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
                 if (fc.identity.get() == masked_component.identity.get())
                 {
                     object_mdef = mdef;
-                    cout << "Found " << fc.identity.get() << " in " << object_mdef->identity.get() << endl;
                 }
             }
         }
@@ -689,12 +687,10 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
         MapsTo& maps_to = *i_map;
         if (IS_LOCAL == 1 && maps_to.local.get() == identity.get())  // If this component is local, set override flag to LOCAL
         {
-            cout << "Setting refinement to LOCAL" << endl;
             maps_to.refinement.set(SBOL_REFINEMENT_USE_LOCAL);
         }
         if (IS_LOCAL == -1 && maps_to.remote.get() == identity.get())  // If this component is remote, set override flag to REMOTE
         {
-            cout << "Setting refinement to REMOTE" << endl;
             maps_to.refinement.set(SBOL_REFINEMENT_USE_REMOTE);
         }
     }
@@ -703,7 +699,6 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
         override_map = &parent_m->mapsTos.create(identity.get());
         if (IS_LOCAL == 1)
         {
-            cout << "Creating refinement to LOCAL" << endl;
 
             override_map->local.set(identity.get());
             override_map->remote.set(masked_component.identity.get());
@@ -711,7 +706,6 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
         }
         if (IS_LOCAL == 0)
         {
-            cout << "Setting refinement to REMOTE" << endl;
 
             override_map->local.set(masked_component.identity.get());
             override_map->remote.set(identity.get());
@@ -743,7 +737,6 @@ int FunctionalComponent::isMasked()
                 for (auto i_map = m.mapsTos.begin(); i_map != m.mapsTos.end(); ++i_map)
                 {
                     MapsTo& maps_to = *i_map;
-                    cout << identity.get() << maps_to.local.get() << "\t" << maps_to.remote.get() << "\t" << maps_to.refinement.get() << endl << endl;
 
                     if (maps_to.local.get() == identity.get() && maps_to.refinement.get() == SBOL_REFINEMENT_USE_REMOTE)
                         return 1;

@@ -47,6 +47,10 @@
 ///
 /// Mac
 /// ---
+/// LibSBOL depends on the RaptorRDF library. Install Raptor:
+/// ```
+/// brew install raptor
+/// ```
 /// You can use the cmake utility on Mac as well.  One important difference about CMake on Mac versus Windows is that there is no GUI application.  However, there is an interactive utility that runs in a terminal window.
 /// ```
 /// ccmake .

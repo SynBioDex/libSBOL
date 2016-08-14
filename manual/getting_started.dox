@@ -56,7 +56,7 @@
 ///
 /// Objects may also include optional fields.  These are indicated in UML as properties having a cardinality of 0 or more.  Except for the molecular type field, all properties of a ComponentDefinition are optional.  Optional properties can only be set after the object is created. The following code creates a DNA component which is designated as a promoter:
 /// ```
-/// ComponentDefinition& TargetPromoter = *new ComponentDefinition("sys-bio.org", "TargetPromoter", "1.0.0", BIOPAX_DNA);
+/// ComponentDefinition& TargetPromoter = *new ComponentDefinition("TargetPromoter", BIOPAX_DNA, "1.0.0");
 /// TargetPromoter.roles.set(SO_PROMOTER)
 /// ```
 ///
