@@ -62,7 +62,7 @@ Binaries will be generated in the libSBOL/release folder.
 
 EXAMPLE CODE
 ============
-The example code below can be used to construct the biological design in the figure.  See the @ref getting_started, @ref sequences, and @ref modular_design tutorials to learn more about how libSBOL enables high-level design for synthetic biology.
+The example code below can be used to construct the biological design in the figure.  See the [Sequence Assembly tutorial here](http://synbiodex.github.io/libSBOL/sequences.html) to learn more about how libSBOL enables high-level design for synthetic biology.
 
 ![](gene_cassette.png)
  
