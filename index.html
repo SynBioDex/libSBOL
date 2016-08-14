@@ -102,7 +102,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose. When using minGW, first go to 'build' folder and run the compiler by using </p><div class="fragment"><div class="line">mingw32-make</div></div><!-- fragment --><p> or </p><div class="fragment"><div class="line">mingw32-make install</div></div><!-- fragment --><p> You will need administrator privileges for a make install.</p>
 <p>When using Visual Studio, open 'SBOL.sln' under 'build' folder. Right click INSTALL under Solution Explorer on the right and press Build. Binaries will be generated in the folder specified before (CMAKE_INSTALL_PREFIX).</p>
 <h2>Mac </h2>
-<p>You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. </p><div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --><p> Proceed with configuration and generation steps as described in the Windows installation.</p>
+<p>LibSBOL depends on the RaptorRDF library. Install Raptor: </p><div class="fragment"><div class="line">brew install raptor</div></div><!-- fragment --><p> You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. </p><div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --><p> Proceed with configuration and generation steps as described in the Windows installation.</p>
 <p>The last step is to cd into the libSBOL/build folder and run the compiler. </p><div class="fragment"><div class="line">make </div></div><!-- fragment --><p> or </p><div class="fragment"><div class="line">make install</div></div><!-- fragment --><h2>Debian/Ubuntu </h2>
 <p>Or if you're on Debian/Ubuntu this command should install everything: </p><div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install git cmake-qt-gui build-essential libxml2-dev</div></div><!-- fragment --><p>If you want to update the documentation you also need Doxygen, and to generate the Python wrapper you need SWIG. To install them on Debian/Ubuntu:</p>
 <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install doxygen-gui swig</div></div><!-- fragment --><p>Then, clone the repository:</p>
@@ -126,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Aug 12 2016 17:25:55 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Aug 14 2016 13:12:00 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
