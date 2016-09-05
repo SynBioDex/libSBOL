@@ -6,6 +6,10 @@
 ///
 /// The libSBOL repository contains example Xcode and Visual Studio project files.  You can open these project files in your preferred IDE. The projects assume that you have already run `make install` (see @ref mainpage for build instructions) and that libSBOL has been installed to your system's standard library path. 
 ///
+/// * In Xcode under Build Settings add a Header Search Path: /usr/local/include/sbol/
+/// * Change MacOS target if needed (eg, from 10.11 to 10.10)
+/// * Fix path to the example file necessary.
+///
 /// If you have installed libSBOL to a custom location and you would like to configure your Xcode project to link your local build, then you will have to configure the Build Settings.  Under Search Paths specify the Library and Header Search Paths to your local build.  Under Linking, Other Linker Flags, specify "-lsbol -lraptor2 -lxml2 -liconv -lz"
 ///
 /// @section document Creating an SBOL Document
