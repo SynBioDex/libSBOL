@@ -103,9 +103,9 @@
 /* Interaction.types */
 #define SBO "http://identifiers.org/biomodels.sbo/SBO:"
 #define SBO_INTERACTION SBO "0000343"
-#define SBO_INHIBITION SBO "0000589"
-#define SBO_GENETIC_PRODUCTION SBO "0000170"
-#define SBO_STIMULATION SBO "0000589"
+#define SBO_INHIBITION SBO "0000169"
+#define SBO_GENETIC_PRODUCTION SBO "0000589"
+#define SBO_STIMULATION SBO "0000170"
 #define SBO_NONCOVALENT_BINDING SBO "0000177"
 
 /* Participant.roles */
