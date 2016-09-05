@@ -466,6 +466,41 @@ namespace sbol
 
 %include "moduledefinition.h"
 
+%pythonappend sbol::Document::write(std::string filename) %{
+import json
+import urllib2
+
+sbol = open(filename, 'r')
+data = {"validationOptions": {"output" : "FASTA",
+        "diff": False,
+        "noncompliantUrisAllowed": False,
+        "incompleteDocumentsAllowed": False,
+        "bestPracticesCheck": False,
+        "failOnFirstError": False,
+        "displayFullErrorStackTrace": False,
+        "topLevelToConvert": "",
+        "uriPrefix": "",
+        "version": ""},
+        "wantFileBack": True,
+        "mainFile": sbol.read()
+    }
+sbol.close()
+data = json.dumps(data)
+url = 'http://www.async.ece.utah.edu/sbol-validator/endpoint.php'
+headers = {'content-type': 'application/json'}
+    
+req = urllib2.Request(url, data, {'Content-Type': 'application/json'})
+f = urllib2.urlopen(req)
+response = json.loads(f.read(), strict=False)
+if not response['result'] == '':
+    print (response['result'])
+else:
+    print ('Validation successful. No errors found')
+f.close()
+    
+%}
+
+
 %include "document.h"
 %template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
 %template(addSequence) sbol::Document::add<Sequence>;
