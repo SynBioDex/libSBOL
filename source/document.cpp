@@ -560,6 +560,8 @@ void Document::append(std::string filename)
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
     
 	FILE* fh = fopen(filename.c_str(), "rb");
+    if (!fh)
+        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File not found");
 	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
@@ -770,7 +772,6 @@ void Document::addNamespace(std::string ns, std::string prefix, raptor_serialize
 
 void Document::write(std::string filename)
 {
-
 	// Initialize raptor serializer
 	FILE* fh = fopen(filename.c_str(), "wb");
 	raptor_world* world = getWorld();
