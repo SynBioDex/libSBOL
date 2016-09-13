@@ -44,13 +44,20 @@ IF( SWIG_FOUND )
 #
 	# set up some SWIG stuff
     INCLUDE( ${SWIG_USE_FILE} )
-    FIND_PACKAGE( PythonLibs REQUIRED )
+    IF (SBOL_GENERATE_PYTHON2)
+        FIND_PACKAGE( PythonLibs 2 )
+    ENDIF()
+    IF (SBOL_GENERATE_PYTHON3)
+        FIND_PACKAGE(PythonLibs 3)
+    ENDIF()
+
     IF(NOT PYTHONLIBS_FOUND)
       MESSAGE( "Python libraries not found; unable to generate Python bindings" )
     ENDIF()
     INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
     SET( CMAKE_SWIG_FLAGS "-c++" )
     SET_SOURCE_FILES_PROPERTIES(libsbol.i PROPERTIES CPLUSPLUS ON)
+
     SET( CMAKE_SWIG_OUTDIR ${SBOL_RELEASE_DIR} )
 
 	# build the SWIG wrapper
@@ -75,7 +82,7 @@ IF( SWIG_FOUND )
           sbol
       )
     ENDIF()
-
+MESSAGE(${PYTHON_LIBRARIES})
     INSTALL(TARGETS _libsbol DESTINATION lib)
 
 ELSE()

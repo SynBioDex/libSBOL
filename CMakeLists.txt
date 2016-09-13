@@ -29,9 +29,11 @@ OPTION( SBOL_BUILD_COMBINED  "Build libxml2 and libSBOL combined" FALSE )
 OPTION( SBOL_DEBUG_STATEMENTS "Add some print statements for debugging"   FALSE )
 OPTION( SBOL_BUILD_EXAMPLES   "Build the example programs"                FALSE )
 OPTION( SBOL_BUILD_TESTS      "Build the unit tests and example tests"    FALSE )
-OPTION( SBOL_GENERATE_PYTHON  "Generate Python wrapper using SWIG"        FALSE )
+OPTION( SBOL_GENERATE_PYTHON2  "Generate Python version 2 wrapper using SWIG" FALSE )
+OPTION( SBOL_GENERATE_PYTHON3  "Generate Python version 3 wrapper using SWIG" FALSE )
 OPTION( SBOL_GENERATE_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
 OPTION( SBOL_BUILD_REST  "Generate RESTful API" FALSE )
+set(CMAKE_CXX_FLAGS -m32)
 
 # build libSBOLc
 #ADD_SUBDIRECTORY( schema )
@@ -56,7 +58,7 @@ IF( SBOL_BUILD_REST )
     ADD_SUBDIRECTORY( restbed )
 ENDIF()
 
-IF( SBOL_GENERATE_PYTHON )
+IF( SBOL_GENERATE_PYTHON2 OR SBOL_GENERATE_PYTHON3 )
     ADD_SUBDIRECTORY( wrapper )
 ENDIF()
 
