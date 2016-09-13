@@ -12,11 +12,10 @@
 namespace sbol
 {
     /// @cond
-    class Host : public ModuleDefinition, public ComponentDefinition
+    class Host : public ModuleDefinition
     {
         
     public:
-        List < ReferencedObject < ModuleDefinition > > modules;
         ReferencedObject < Host > parents;
         ReferencedObject < Host > children;
         IntProperty generation;
@@ -25,7 +24,7 @@ namespace sbol
         
         // This public constructor is exposed to the user.  By convention all constructors take the object's identity (URI) as the first argument
         
-        Host(std::string uri = EXTENSION_NS "example") : Host(EXTENSION_NS EXTENSION_CLASS, uri) {};
+        Host(std::string uri) : Host(EXTENSION_NS "#" EXTENSION_CLASS, uri) {};
         ~Host() {};  // Destructor
    
     protected:

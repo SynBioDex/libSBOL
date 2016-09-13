@@ -19,8 +19,8 @@ namespace sbol
     class URIProperty : public Property<std::string>
 	{
 	public:
-		URIProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, std::string initial_value = "") :
-			Property(type_uri, property_owner, "<" + initial_value + ">")
+        URIProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, std::string initial_value = "", ValidationRules validation_rules = {}) :
+			Property(type_uri, property_owner, "<" + initial_value + ">", validation_rules)
 		{
 		}
 	};

@@ -75,7 +75,6 @@ namespace std {
     %template(_MapVector) map<string, string >;
     %template(_MapOfStringVector) map<string, vector<string> >;
     %template(_MapOfSBOLObject) map<string, vector< sbol::SBOLObject* > >;
-
 }
 
 //%include "std_function.i"
