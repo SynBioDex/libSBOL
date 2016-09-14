@@ -70,7 +70,7 @@
 /// -------------
 /// Or if you're on Debian/Ubuntu this command should install everything:
 /// ```
-/// sudo apt-get install git cmake-qt-gui build-essential libxml2-dev
+/// sudo apt-get install git cmake-qt-gui build-essential libxml2-dev gcc-multilib g++-multilib python-dev
 /// ```
 /// 
 /// If you want to update the documentation you also need Doxygen, and to generate the Python wrapper you need SWIG. To install them on Debian/Ubuntu:
@@ -86,7 +86,7 @@
 /// ```
 /// This will create a libSBOL directory with the code. 
 ///
-/// Next, run CMake (cmake-qt-gui on linux). For "Where is the source code" enter the path to your libSBOL folder. "Where to build the binaries" can technically be anywhere, but it's only been tested with libSBOL/build.
+/// Next, run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". A good path to try will be libSBOL/build.
 /// 
 /// Click Configure, and choose what type of compiler you want to generate instructions for. 
 /// 
