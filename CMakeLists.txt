@@ -33,7 +33,15 @@ OPTION( SBOL_GENERATE_PYTHON2  "Generate Python version 2 wrapper using SWIG" FA
 OPTION( SBOL_GENERATE_PYTHON3  "Generate Python version 3 wrapper using SWIG" FALSE )
 OPTION( SBOL_GENERATE_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
 OPTION( SBOL_BUILD_REST  "Generate RESTful API" FALSE )
-set(CMAKE_CXX_FLAGS -m32)
+
+# -fPIC from boost Python 
+IF (UNIX) # Just to make sure it does not break in other environments
+    IF (CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+    ENDIF()
+ELSE ()
+    set(CMAKE_CXX_FLAGS -m32) # Not sure why this is enforced
+ENDIF()
 
 # build libSBOLc
 #ADD_SUBDIRECTORY( schema )

@@ -9,7 +9,7 @@ IF( SWIG_FOUND )
 	# gather headers
 	INCLUDE_DIRECTORIES(
 	    ${XML2_HEADER_DIR}
-        ${RAPTOR_HEADER_DIR}
+            ${RAPTOR_HEADER_DIR}
 	    ${SBOL_SOURCE_DIR}
 	)
 	
