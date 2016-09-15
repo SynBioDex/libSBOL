@@ -35,10 +35,8 @@ OPTION( SBOL_GENERATE_MANUAL  "Generate SBOL documentation using Doxygen" FALSE 
 OPTION( SBOL_BUILD_REST  "Generate RESTful API" FALSE )
 
 # -fPIC from boost Python 
-IF (UNIX) # Just to make sure it does not break in other environments
-    IF (CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
-    ENDIF()
+IF (UNIX AND CMAKE_SIZEOF_VOID_P EQUAL 8) # Just to make sure it does not break in other environments
+    set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 ELSE ()
     set(CMAKE_CXX_FLAGS -m32) # Not sure why this is enforced
 ENDIF()
