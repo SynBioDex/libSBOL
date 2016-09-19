@@ -37,7 +37,7 @@ sudo apt-get install doxygen-gui swig
 Then, clone the repository:
 
 ```
-git clone git://github.com/SynBioDex/libSBOLc.git
+git clone git://github.com/SynBioDex/libSBOL.git
 ```
 
 This will create a libSBOLc directory with the code. Next, run CMake (cmake-qt-gui on linux). For "Where is the source code" enter the path to your libSBOLc folder. "Where to build the binaries" can technically be anywhere, but it's only been tested with libSBOLc/build.
