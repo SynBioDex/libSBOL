@@ -25,13 +25,13 @@ To compile libSBOL, you will need:
 First, download them from the links above. Or if you're on Debian/Ubuntu this command should install /// everything:
 
 ```
-sudo apt-get install git cmake-qt-gui build-essential libxml2-dev gcc-multilib g++-multilib python-dev
+sudo apt-get install git cmake-qt-gui build-essential libxml2-dev gcc-multilib g++-multilib
 ```
 
 If you want to update the documentation you also need Doxygen, and to generate the Python wrapper you need SWIG. To install them on Debian/Ubuntu:
 
 ```
-sudo apt-get install doxygen-gui swig
+sudo apt-get install doxygen-gui swig python-dev
 ```
 
 Then, clone the repository:
