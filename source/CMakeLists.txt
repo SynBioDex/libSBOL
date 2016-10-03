@@ -1,3 +1,4 @@
+set(CMAKE_CXX_FLAGS -m32)
 
 ADD_SUBDIRECTORY( libxml2 )
 ADD_SUBDIRECTORY( raptor )
@@ -71,28 +72,50 @@ ENDIF()
 
 # link against raptor
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 SET_TARGET_PROPERTIES(sbol PROPERTIES LINKER_LANGUAGE CXX)
 ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC)
 
 
 
-IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    TARGET_LINK_LIBRARIES( sbol
-        ${raptor2}
-        ${xml2}
-        ${zlib}
-        ${iconv}
-        Ws2_32.lib )
-	INSTALL(TARGETS sbol DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
-	INSTALL(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX})  
-ELSE ()
-    TARGET_LINK_LIBRARIES( sbol
-        ${raptor2}
-        ${xml2}
-        ${zlib}
-        ${iconv} )
-	INSTALL(TARGETS sbol DESTINATION lib)  # Installs to /usr/local/lib 
-	INSTALL(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)  
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    if(SBOL_GENERATE_32)
+        target_link_libraries( sbol
+            ${raptor2}
+            ${xml2}
+            ${zlib}
+            ${iconv}
+            Ws2_32.lib )
+        install(TARGETS sbol DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
+        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX})
+    endif()
+    if(SBOL_GENERATE_64)
+    endif()
+else ()
+    if(SBOL_GENERATE_32)
+        message("Configuring for x86")
+        set(CMAKE_OSX_ARCHITECTURES "i386")
+        set(CMAKE_CXX_FLAGS -m32)
+        target_link_libraries( sbol
+            ${raptor2}
+            ${xml2}
+            ${zlib}
+            ${iconv} )
+        install(TARGETS sbol DESTINATION lib)  # Installs to /usr/local/lib
+        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+    endif()
+    if(SBOL_GENERATE_64)
+        message("Configuring for x64")
+        set(CMAKE_OSX_ARCHITECTURES "x86_64")
+        set(CMAKE_CXX_FLAGS -m64)
+        target_link_libraries( sbol
+            ${raptor2}
+            ${xml2}
+            ${zlib}
+            ${iconv} )
+        install(TARGETS sbol DESTINATION lib)  # Installs to /usr/local/lib
+        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+    endif()
 ENDIF ()
 
 

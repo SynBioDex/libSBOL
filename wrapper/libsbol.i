@@ -382,12 +382,12 @@ namespace sbol
 }
 
 /* Convert C++ vector of ComponentDefinitions --> Python list */
-%typemap(out) std::vector<sbol::Interaction*> {
+%typemap(out) std::vector<sbol::Sequence*> {
     int len = $1.size();
     PyObject* list = PyList_New(0);
     for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
     {
-        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::ComponentDefinition*), 0 |  0 );
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::Sequence*), 0 |  0 );
         PyList_Append(list, elem);
     }
     $result  = list;
