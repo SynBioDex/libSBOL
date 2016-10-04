@@ -27,6 +27,7 @@ ELSE ()
     FIND_LIBRARY (xml2 xml2)
     FIND_LIBRARY (zlib z)
     FIND_LIBRARY (iconv iconv)
+
 ENDIF ()
 
 # Copy the Raptor library headers over

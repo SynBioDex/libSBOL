@@ -1,6 +1,5 @@
-set(CMAKE_CXX_FLAGS -m32)
 
-ADD_SUBDIRECTORY( libxml2 )
+#ADD_SUBDIRECTORY( libxml2 )
 ADD_SUBDIRECTORY( raptor )
 
 # gather headers
@@ -52,11 +51,7 @@ FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )
 
 
 #ADD_EXECUTABLE(sbol ${SBOL_SOURCE_FILES})
-ADD_LIBRARY( sbol
-		STATIC
-		${SBOL_HEADER_FILES}
-		${SBOL_SOURCE_FILES}
-	)
+
 
 
 # build static library for release
@@ -71,10 +66,7 @@ IF(CMAKE_COMPILER_IS_GNUCC)
 ENDIF()
 
 # link against raptor
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-SET_TARGET_PROPERTIES(sbol PROPERTIES LINKER_LANGUAGE CXX)
-ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC)
 
 
 
@@ -94,26 +86,54 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 else ()
     if(SBOL_GENERATE_32)
         message("Configuring for x86")
+
         set(CMAKE_OSX_ARCHITECTURES "i386")
-        set(CMAKE_CXX_FLAGS -m32)
-        target_link_libraries( sbol
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
+        if(SBOL_BUILD_STATIC)
+            add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC)
+            add_library( sbol32
+                STATIC
+                ${SBOL_HEADER_FILES}
+                ${SBOL_SOURCE_FILES})
+        elseif(SBOL_BUILD_SHARED)
+            add_library( sbol32
+                SHARED
+                ${SBOL_HEADER_FILES}
+                ${SBOL_SOURCE_FILES})
+        endif()
+        set_target_properties(sbol32 PROPERTIES LINKER_LANGUAGE CXX)
+        target_link_libraries( sbol32
             ${raptor2}
             ${xml2}
             ${zlib}
-            ${iconv} )
-        install(TARGETS sbol DESTINATION lib)  # Installs to /usr/local/lib
+            ${iconv})
+        install(TARGETS sbol32 DESTINATION lib)  # Installs to /usr/local/lib
         install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
     endif()
     if(SBOL_GENERATE_64)
         message("Configuring for x64")
         set(CMAKE_OSX_ARCHITECTURES "x86_64")
-        set(CMAKE_CXX_FLAGS -m64)
-        target_link_libraries( sbol
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
+        if(SBOL_BUILD_STATIC)
+            add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC)
+            add_library( sbol64
+                STATIC
+                ${SBOL_HEADER_FILES}
+                ${SBOL_SOURCE_FILES})
+        elseif(SBOL_BUILD_SHARED)
+            add_library( sbol64
+                STATIC
+                ${SBOL_HEADER_FILES}
+                ${SBOL_SOURCE_FILES})
+        endif()
+        set_target_properties(sbol64 PROPERTIES LINKER_LANGUAGE CXX)
+        target_link_libraries( sbol64
             ${raptor2}
             ${xml2}
             ${zlib}
             ${iconv} )
-        install(TARGETS sbol DESTINATION lib)  # Installs to /usr/local/lib
+        install(TARGETS sbol64 DESTINATION lib)  # Installs to /usr/local/lib
+        install(TARGETS sbol64 DESTINATION lib)  # Installs to /usr/local/lib
         install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
     endif()
 ENDIF ()
