@@ -7,39 +7,38 @@ IF( SWIG_FOUND )
 	SET( LIBRARY_OUTPUT_PATH    ${SBOL_RELEASE_DIR}         )
     set( CMAKE_SWIG_OUTDIR ${SBOL_RELEASE_DIR} )
 
-	# gather headers
-	INCLUDE_DIRECTORIES(
-	    ${XML2_HEADER_DIR}
-        ${RAPTOR_HEADER_DIR}
-	    ${SBOL_SOURCE_DIR}
-	)
-	
+    # set up some SWIG stuff
+    include( ${SWIG_USE_FILE} )
+    set( CMAKE_SWIG_FLAGS "-c++" )
+    set_source_files_properties(libsbol.i PROPERTIES CPLUSPLUS ON)
+    if(SBOL_BUILD_STATIC)
+        add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC)
+    endif()
+
+    include_directories(
+        ${SBOL_SOURCE_DIR}
+        ${RAPTOR_INCLUDE_DIR}
+        ${CURL_INCLUDE_DIR}
+        ${LIBXSLT_INCLUDE_DIR}
+        ${LIBXML2_INCLUDE_DIR}
+        ${LIBZ_INCLUDE_DIR}
+        ${LIBXSLT_EXSLT_INCLUDE_DIR}
+        ${LIBICONV_INCLUDE_DIR}
+        ${LDAP_INCLUDE_DIR}
+)
+
+get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+foreach(dir ${dirs})
+message(STATUS "dir='${dir}'")
+endforeach()
+
 	# gather source files
 	FILE( GLOB SBOL_SOURCE_FILES
 		${SBOL_SOURCE_DIR}/*.h
-		${SBOL_SOURCE_DIR}/*.cpp
-    )
+		${SBOL_SOURCE_DIR}/*.cpp )
 
-    ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC)
-
-
-
-	# set up some SWIG stuff
-INCLUDE( ${SWIG_USE_FILE} )
-#    IF (SBOL_GENERATE_PYTHON2)
-#        FIND_PACKAGE( PythonLibs 2 )
-#    ENDIF()
-#    IF (SBOL_GENERATE_PYTHON3)
-#        FIND_PACKAGE( PythonLibs 3 )
-#    ENDIF()
-
-#    IF(NOT PYTHONLIBS_FOUND)
-#      MESSAGE( "Python libraries not found; unable to generate Python bindings" )
-#    ENDIF()
-#    INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
-    SET( CMAKE_SWIG_FLAGS "-c++" )
-    SET_SOURCE_FILES_PROPERTIES(libsbol.i PROPERTIES CPLUSPLUS ON)
-
+get_directory_property( DirDefs COMPILE_DEFINITIONS )
+message( "COMPILE_DEFINITIONS = ${DirDefs}" )
 
 IF (SBOL_GENERATE_PYTHON3)
     find_package( PythonLibs 3 EXACT)
@@ -57,8 +56,8 @@ IF (SBOL_GENERATE_PYTHON3)
             # Do not link in the Python libraries on MacOSX....
             swig_link_libraries( libsbol32_3
                 sbol32
-                ${raptor2}
-                ${xml2}
+                ${RAPTOR_LIBRARY}
+                ${LIBXML2_LIBRARIES}
                 ${zlib}
                 ${iconv} )
 
@@ -83,8 +82,8 @@ IF (SBOL_GENERATE_PYTHON3)
             # Do not link in the Python libraries on MacOSX....
             swig_link_libraries( libsbol64_3
                 sbol64
-                ${raptor2}
-                ${xml2}
+                ${RAPTOR_LIBRARY}
+                ${LIBXML2_LIBRARIES}
                 ${zlib}
                 ${iconv} )
 
@@ -111,12 +110,12 @@ IF (SBOL_GENERATE_PYTHON3)
     endif()
 endif()
 
-message(${PYTHONLIBS_FOUND})
-message(${PYTHON_INCLUDE_DIRS})
-message(${PYTHON_INCLUDE_DIR})
-message(${PYTHON_LIBRARIES})
-message(${PYTHONLIBS_VERSION_STRING})
-message(${PYTHON_INCLUDE_PATH})
+#message(${PYTHONLIBS_FOUND})
+#message(${PYTHON_INCLUDE_DIRS})
+#message(${PYTHON_INCLUDE_DIR})
+#message(${PYTHON_LIBRARIES})
+#message(${PYTHONLIBS_VERSION_STRING})
+#message(${PYTHON_INCLUDE_PATH})
 unset( PYTHON_LIBRARIES CACHE  )
 unset( PYTHONLIBS_FOUND CACHE  )
 unset(PYTHON_INCLUDE_DIRS CACHE  )
@@ -164,8 +163,8 @@ message(${PYTHON_INCLUDE_PATH})
             # Do not link in the Python libraries on MacOSX....
             swig_link_libraries( libsbol32_2
                 sbol32
-                ${raptor2}
-                ${xml2}
+                ${RAPTOR_LIBRARY}
+                ${LIBXML2_LIBRARIES}
                 ${zlib}
                 ${iconv} )
 
@@ -189,10 +188,16 @@ message(${PYTHON_INCLUDE_PATH})
             # Do not link in the Python libraries on MacOSX....
             swig_link_libraries( libsbol64_2
                 sbol64
-                ${raptor2}
-                ${xml2}
-                ${zlib}
-                ${iconv} )
+                ${RAPTOR_LIBRARY}
+                ${CURL_LIBRARY}
+#                ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
+                ${LIBXSLT_LIBRARIES}
+#                ${LIBXML2_LIBRARIES}
+#                ${zlib}
+#                ${iconv}
+)
+
+
 
             # ...rather, resolve Python symbols dynamically due to differing runtime env
             set_target_properties(_libsbol64_2 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -224,4 +229,3 @@ ELSE()
     MESSAGE( "SWIG not found; unable to generate Python bindings" )
 
 ENDIF()
-MESSAGE( ${PYTHON_INCLUDE_DIRS} )

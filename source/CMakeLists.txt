@@ -1,11 +1,26 @@
 
+
 #ADD_SUBDIRECTORY( libxml2 )
 ADD_SUBDIRECTORY( raptor )
 
 # gather headers
-INCLUDE_DIRECTORIES( ${HEADER_DIR} )
-INCLUDE_DIRECTORIES( ${XML2_HEADER_DIR})
-INCLUDE_DIRECTORIES( ${RAPTOR_HEADER_DIR})
+
+#include_directories( /Users/bryan/Dev/libSBOL/source )
+include_directories( ${RAPTOR_INCLUDE_DIR})
+#include_directories( ${CURL_INCLUDE_DIR})
+include_directories( ${LIBXSLT_INCLUDE_DIR})
+include_directories(         ${LIBZ_INCLUDE_DIR} )
+include_directories( ${LIBXSLT_EXSLT_INCLUDE_DIR})  # Not sure if necessary...
+include_directories( ${LIBXML2_INCLUDE_DIR})
+include_directories( ${LIBICONV_INCLUDE_DIR} )
+include_directories( ${ICONV_INCLUDE_DIR} )
+include_directories(         ${LDAP_INCLUDE_DIR})
+
+message( ${HEADER_DIR}
+${RAPTOR_INCLUDE_DIR}
+${CURL_INCLUDE_DIR}
+${LIBXSLT_INCLUDE_DIR})
+
 
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES
@@ -66,15 +81,19 @@ IF(CMAKE_COMPILER_IS_GNUCC)
 ENDIF()
 
 # link against raptor
+#ADD_DEFINITIONS( -DRAPTOR_STATIC -DLIBXML_STATIC)
+ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC)
 
+get_directory_property( DirDefs COMPILE_DEFINITIONS )
+message( "COMPILE_DEFINITIONS = ${DirDefs}" )
 
 
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     if(SBOL_GENERATE_32)
         target_link_libraries( sbol
-            ${raptor2}
-            ${xml2}
+            ${RAPTOR_LIBRARY}
+            ${LIBXML2_LIBRARIES}
             ${zlib}
             ${iconv}
             Ws2_32.lib )
@@ -103,8 +122,8 @@ else ()
         endif()
         set_target_properties(sbol32 PROPERTIES LINKER_LANGUAGE CXX)
         target_link_libraries( sbol32
-            ${raptor2}
-            ${xml2}
+            ${RAPTOR_LIBRARY}
+            ${LIBXML2_LIBRARIES}
             ${zlib}
             ${iconv})
         install(TARGETS sbol32 DESTINATION lib)  # Installs to /usr/local/lib
@@ -115,27 +134,48 @@ else ()
         set(CMAKE_OSX_ARCHITECTURES "x86_64")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
         if(SBOL_BUILD_STATIC)
-            add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC)
+            #add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC)
+            get_directory_property( DirDefs COMPILE_DEFINITIONS )
+            message( "COMPILE_DEFINITIONS = ${DirDefs}" )
             add_library( sbol64
                 STATIC
                 ${SBOL_HEADER_FILES}
                 ${SBOL_SOURCE_FILES})
+
+            #add_library( archive1 OBJECT ${RAPTOR_LIBRARY})
+            #add_library( archive2 OBJECT ${CURL_LIBRARY})
+            #add_library( archive3 OBJECT ${LIBXSLT_LIBRARY})
+            #add_library( archive4
+            #               OBJECT
+            #               ${SBOL_HEADER_FILES}
+            #               ${SBOL_SOURCE_FILES})
+            #           add_library( sbol64 STATIC $<TARGET_OBJECTS:archive1> $<TARGET_OBJECTS:archive2> $<TARGET_OBJECTS:archive3> $<TARGET_OBJECTS:archive4>)
+
         elseif(SBOL_BUILD_SHARED)
             add_library( sbol64
-                STATIC
+                SHARED
                 ${SBOL_HEADER_FILES}
                 ${SBOL_SOURCE_FILES})
         endif()
         set_target_properties(sbol64 PROPERTIES LINKER_LANGUAGE CXX)
         target_link_libraries( sbol64
-            ${raptor2}
-            ${xml2}
-            ${zlib}
-            ${iconv} )
-        install(TARGETS sbol64 DESTINATION lib)  # Installs to /usr/local/lib
+            ${RAPTOR_LIBRARY}
+            ${CURL_LIBRARY}
+            ${LIBXSLT_LIBRARIES}
+#            ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
+#            ${LIBXML2_LIBRARIES}
+#            ${zlib}
+#            ${iconv}
+)
+
+get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+foreach(dir ${dirs})
+message(STATUS "dir='${dir}'")
+endforeach()
+
         install(TARGETS sbol64 DESTINATION lib)  # Installs to /usr/local/lib
         install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-    endif()
+    endif(SBOL_GENERATE_64)
 ENDIF ()
 
 
