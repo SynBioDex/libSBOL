@@ -1,5 +1,7 @@
-PROJECT( SBOL )
+
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
+PROJECT( SBOL )
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9")
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
         MESSAGE(64)
     else()
@@ -25,15 +27,15 @@ ENDIF()
 
 # set build options
 OPTION( SBOL_BUILD_STATIC     "Build statically linked library"           TRUE )
-#OPTION( SBOL_BUILD_COMBINED  "Build libxml2 and libSBOL combined" FALSE )
+#OPTION( SBOL_BUILD_COMBINED  "Build libSBOL and Raptor RDF archives combined" FALSE )
 OPTION( SBOL_DEBUG_STATEMENTS "Add some print statements for debugging"   FALSE )
 OPTION( SBOL_BUILD_EXAMPLES   "Build the example programs"                FALSE )
 OPTION( SBOL_BUILD_TESTS      "Build the unit tests and example tests"    FALSE )
-OPTION( SBOL_GENERATE_32      "Build on x86 architecture" TRUE )
-OPTION( SBOL_GENERATE_64      "Build on x64 architecture" FALSE)
-OPTION( SBOL_GENERATE_PYTHON2  "Generate Python version 2 wrapper using SWIG" FALSE )
-OPTION( SBOL_GENERATE_PYTHON3  "Generate Python version 3 wrapper using SWIG" FALSE )
-OPTION( SBOL_GENERATE_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
+OPTION( SBOL_BUILD_32      "Build on x86 architecture" TRUE )
+OPTION( SBOL_BUILD_64      "Build on x64 architecture" FALSE)
+OPTION( SBOL_BUILD_PYTHON2  "Generate Python version 2 wrapper using SWIG" FALSE )
+OPTION( SBOL_BUILD_PYTHON3  "Generate Python version 3 wrapper using SWIG" FALSE )
+OPTION( SBOL_BUILD_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
 OPTION( SBOL_BUILD_REST  "Generate RESTful API" FALSE )
 
 # build libSBOLc
@@ -51,7 +53,7 @@ ADD_SUBDIRECTORY( source )
 #ENDIF()
 
 # generate documentation
-IF( SBOL_GENERATE_MANUAL )
+IF( SBOL_BUILD_MANUAL )
     ADD_SUBDIRECTORY( manual )
 ENDIF()
 
@@ -59,7 +61,7 @@ IF( SBOL_BUILD_REST )
     ADD_SUBDIRECTORY( restbed )
 ENDIF()
 
-IF( SBOL_GENERATE_PYTHON2 OR SBOL_GENERATE_PYTHON3 )
+IF( SBOL_BUILD_PYTHON2 OR SBOL_BUILD_PYTHON3 )
     ADD_SUBDIRECTORY( wrapper )
 ENDIF()
 

@@ -40,11 +40,11 @@ endforeach()
 get_directory_property( DirDefs COMPILE_DEFINITIONS )
 message( "COMPILE_DEFINITIONS = ${DirDefs}" )
 
-IF (SBOL_GENERATE_PYTHON3)
-    find_package( PythonLibs 3 EXACT)
+IF (SBOL_BUILD_PYTHON3)
+    find_package( PythonLibs 3 )
     INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-        if (SBOL_GENERATE_32)
+        if (SBOL_BUILD_32)
             set(PYSBOL_CONFIG "Mac_32_3")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
 
@@ -57,9 +57,13 @@ IF (SBOL_GENERATE_PYTHON3)
             swig_link_libraries( libsbol32_3
                 sbol32
                 ${RAPTOR_LIBRARY}
-                ${LIBXML2_LIBRARIES}
-                ${zlib}
-                ${iconv} )
+                ${CURL_LIBRARY}
+                ${LIBXSLT_LIBRARIES}
+#                ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
+#                ${LIBXML2_LIBRARIES}
+#                ${zlib}
+#                ${iconv}
+                )
 
             # ...rather, resolve Python symbols dynamically due to differing runtime env
             set_target_properties(_libsbol32_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -70,7 +74,7 @@ IF (SBOL_GENERATE_PYTHON3)
             set_target_properties(_libsbol32_3 PROPERTIES OUTPUT_NAME "${PYSBOL_CONFIG}/_libsbol")
             add_custom_command(TARGET _libsbol32_3 POST_BUILD COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
         endif()
-        if(SBOL_GENERATE_64)
+        if(SBOL_BUILD_64)
             set(PYSBOL_CONFIG "Mac_64_3")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
 
@@ -83,9 +87,13 @@ IF (SBOL_GENERATE_PYTHON3)
             swig_link_libraries( libsbol64_3
                 sbol64
                 ${RAPTOR_LIBRARY}
-                ${LIBXML2_LIBRARIES}
-                ${zlib}
-                ${iconv} )
+                ${CURL_LIBRARY}
+                ${LIBXSLT_LIBRARIES}
+#                ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
+#                ${LIBXML2_LIBRARIES}
+#                ${zlib}
+#                ${iconv}
+                )
 
             # ...rather, resolve Python symbols dynamically due to differing runtime env
             set_target_properties(_libsbol64_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -97,12 +105,12 @@ IF (SBOL_GENERATE_PYTHON3)
 
         endif()
     else()
-        if (SBOL_GENERATE_32)
+        if (SBOL_BUILD_32)
             swig_link_libraries( libsbol
                 ${PYTHON_LIBRARIES}
                 sbol32)
         endif()
-        if (SBOL_GENERATE_64)
+        if (SBOL_BUILD_64)
             swig_link_libraries( libsbol
                 ${PYTHON_LIBRARIES}
                 sbol64)
@@ -139,7 +147,7 @@ unset(PYTHON_INCLUDE_PATH )
 
 
 
-IF (SBOL_GENERATE_PYTHON2)
+IF (SBOL_BUILD_PYTHON2)
     find_package( PythonLibs 2 EXACT)
 
 message(${PYTHONLIBS_FOUND})
@@ -151,7 +159,7 @@ message(${PYTHON_INCLUDE_PATH})
     INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-        if (SBOL_GENERATE_32)
+        if (SBOL_BUILD_32)
             set(PYSBOL_CONFIG "Mac_32_2")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
 
@@ -164,9 +172,13 @@ message(${PYTHON_INCLUDE_PATH})
             swig_link_libraries( libsbol32_2
                 sbol32
                 ${RAPTOR_LIBRARY}
-                ${LIBXML2_LIBRARIES}
-                ${zlib}
-                ${iconv} )
+                ${CURL_LIBRARY}
+                ${LIBXSLT_LIBRARIES}
+#                ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
+#                ${LIBXML2_LIBRARIES}
+#                ${zlib}
+#                ${iconv}
+)
 
             # ...rather, resolve Python symbols dynamically due to differing runtime env
             set_target_properties(_libsbol32_2 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -176,7 +188,7 @@ message(${PYTHON_INCLUDE_PATH})
             set_target_properties(_libsbol32_2 PROPERTIES OUTPUT_NAME "${PYSBOL_CONFIG}/_libsbol")
             add_custom_command(TARGET _libsbol32_2 POST_BUILD COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
         endif()
-        if(SBOL_GENERATE_64)
+        if(SBOL_BUILD_64)
             set(PYSBOL_CONFIG "Mac_64_2")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
 
@@ -190,12 +202,12 @@ message(${PYTHON_INCLUDE_PATH})
                 sbol64
                 ${RAPTOR_LIBRARY}
                 ${CURL_LIBRARY}
-#                ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
                 ${LIBXSLT_LIBRARIES}
+#                ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
 #                ${LIBXML2_LIBRARIES}
 #                ${zlib}
 #                ${iconv}
-)
+                )
 
 
 
@@ -208,12 +220,12 @@ message(${PYTHON_INCLUDE_PATH})
                                COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
         endif()
     else()
-        if (SBOL_GENERATE_32)
+        if (SBOL_BUILD_32)
             swig_link_libraries( libsbol
                 ${PYTHON_LIBRARIES}
                 sbol32)
         endif()
-        if (SBOL_GENERATE_64)
+        if (SBOL_BUILD_64)
             swig_link_libraries( libsbol
                 ${PYTHON_LIBRARIES}
                 sbol64)
