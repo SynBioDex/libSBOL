@@ -394,7 +394,6 @@ namespace sbol
 }
 
 
-
 %include "identified.h"
 
 
@@ -501,6 +500,8 @@ f.close()
 
 
 %include "document.h"
+
+
 %template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
 %template(addSequence) sbol::Document::add<Sequence>;
 %template(addModel) sbol::Document::add<Model>;
@@ -510,7 +511,42 @@ f.close()
 %template(getModel) sbol::Document::get<Model>;
 %template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
 
-
+//%extend sbol::Document
+//{
+//    std::string __getitem__(const int nIndex)
+//    {
+//        return $self->operator[](nIndex);
+//    }
+//        
+//    ReferencedObject* __iter__()
+//    {
+//        $self->python_iter = Document::iterator($self->begin());
+//        return $self;
+//    }
+//        
+//    std::string next()
+//    {
+//        if ($self->python_iter != $self->end())
+//        {
+//            std::string ref = *$self->python_iter;
+//            $self->python_iter++;
+//            if ($self->python_iter == $self->end())
+//            {
+//                PyErr_SetNone(PyExc_StopIteration);
+//            }
+//            return ref;
+//        }
+//        throw (END_OF_LIST);
+//        return NULL;
+//    }
+//    
+//    int __len__()
+//    {
+//        return $self->size();
+//    }
+//};
+    
+    
 %extend sbol::ComponentDefinition
 {
     void assemble(PyObject *list)
@@ -530,6 +566,25 @@ f.close()
     }
 }
 
+%extend sbol::Document
+{
+    void addComponentDefinition(PyObject *list)
+    {
+        
+    }
+
+    void addSequence(PyObject *list)
+    {
+        
+    }
+    
+    void addModuleDefinition(PyObject *list)
+    {
+        
+    }
+}
+
+    
 %extend sbol::ModuleDefinition
 {
     void assemble(PyObject *list)
@@ -548,7 +603,6 @@ f.close()
         };
     }
 }
-
 
 
 //// The following code was experimented with for mapping C++ class structure to Python class structure
