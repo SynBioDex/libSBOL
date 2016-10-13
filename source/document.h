@@ -40,7 +40,8 @@ namespace sbol {
     void raptor_error_handler(void *user_data, raptor_log_message* message);
 	
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
-	class Document {
+    class Document : public SBOLObject
+    {
 	private:
         std::string home; ///< The authoritative namespace for the Document. Setting the home namespace is like signing a piece of paper.
         int SBOLCompliant; ///< Flag indicating whether to autoconstruct URI's consistent with SBOL's versioning scheme
@@ -51,24 +52,37 @@ namespace sbol {
 	public:
         /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
+            SBOLObject("Document", ""),
             home(""),
             SBOLCompliant(0),
             namespaces({}),
 			rdf_graph(raptor_new_world()),
-            validationRules({ sbolRule10101, sbolRule10102 })
+            validationRules({ sbolRule10101, sbolRule10102 }),
+            componentDefinitions(SBOL_COMPONENT_DEFINITION, this, ""),
+            moduleDefinitions(SBOL_MODULE_DEFINITION, this, ""),
+            models(SBOL_MODEL, this, ""),
+            sequences(SBOL_SEQUENCE, this, ""),
+            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, "")
 			{
 			};
         
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
         
+//		std::unordered_map<std::string, sbol::TopLevel*> componentDefinitions;
+//		std::unordered_map<std::string, sbol::TopLevel*> models;
+//		std::unordered_map<std::string, sbol::TopLevel*> moduleDefinitions;
+//		std::unordered_map<std::string, sbol::TopLevel*> sequences;
+
         /// @cond
-		std::unordered_map<std::string, sbol::TopLevel*> componentDefinitions;
-		std::unordered_map<std::string, sbol::TopLevel*> models;
-		std::unordered_map<std::string, sbol::TopLevel*> moduleDefinitions;
-		std::unordered_map<std::string, sbol::TopLevel*> sequences;
+        List<OwnedObject<ComponentDefinition>> componentDefinitions;
+        List<OwnedObject<ModuleDefinition>> moduleDefinitions;
+        List<OwnedObject<Model>> models;
+        List<OwnedObject<Sequence>> sequences;
+        List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
         /// @endcond
 
+        
 		TopLevel& getTopLevel(std::string);
 		raptor_world* getWorld();
         
@@ -86,6 +100,10 @@ namespace sbol {
         /// @param uri The identity of the SBOL object you want to retrieve
         /// @tparam SBOLClass The type of SBOL object
         template < class SBOLClass > SBOLClass& get(std::string uri);
+        
+        /// Retrieve a vector of objects from the Document
+        /// @tparam SBOLClass The type of SBOL objects
+        template < class SBOLClass > std::vector<SBOLClass*> getAll();
 
         /// Serialize all objects in this Document to an RDF/XML file
         /// @param filename The full name of the file you want to write (including file extension)
@@ -115,6 +133,37 @@ namespace sbol {
 		std::vector<SBOLObject*> flatten();
         /// Delete all objects in this Document and destroy the Document
         void close(std::string uri = "");
+        
+//        /// Iterates over SBOL objects in a Document
+//        class iterator : public std::unordered_map<std::string, sbol::SBOLObject*>::iterator
+//        {
+//        public:
+//            
+//            iterator(typename std::unordered_map<std::string, sbol::SBOLObject*>::iterator i_obj = std::unordered_map<std::string, sbol::SBOLObject*>::iterator()) : std::unordered_map<std::string, sbol::SBOLObject*>::iterator(i_obj)
+//            {
+//            }
+//        };
+//        
+//        iterator begin()
+//        {
+//            std::unordered_map<std::string, sbol::SBOLObject*> *object_store = &this->SBOLObjects;
+//            return iterator(object_store->begin());
+//        };
+//        
+//        iterator end()
+//        {
+//            std::unordered_map<std::string, sbol::SBOLObject*> *object_store = &this->SBOLObjects;
+//            return iterator(object_store->end());
+//        };
+//        
+//        int size()
+//        {
+//            std::size_t size = this->SBOLObjects.size();
+//            return (int)size;
+//        };
+//        
+//        std::vector<sbol::SBOLObject>::iterator python_iter;
+        
 	};
 
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
@@ -130,6 +179,8 @@ namespace sbol {
             if (check_top_level)
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
+                std::cout << "Adding " << sbol_obj.type << std::endl;
+                this->owned_objects[sbol_obj.type].push_back((SBOLClass*)&sbol_obj);
             }
             sbol_obj.doc = this;
             
@@ -145,6 +196,9 @@ namespace sbol {
         }
 	};
 
+
+
+    
     template < class SBOLClass > void Document::add(std::vector < SBOLClass* > sbol_objects)
     {
         for (auto i_obj = sbol_objects.begin(); i_obj != sbol_objects.end(); ++i_obj)
@@ -245,18 +299,26 @@ namespace sbol {
     template < class SBOLClass>
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {
-        
         if (this->sbol_owner)
         {
-            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
-            if (std::find(object_store.begin(), object_store.end(), &sbol_obj) != object_store.end())
-                throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained by the property");
+
+            if (this->sbol_owner->type.compare("Document") == 0)
+            {
+                Document& doc = (Document &)*this->sbol_owner;
+                doc.add<SBOLClass>(sbol_obj);
+            }
             else
             {
-                object_store.push_back((SBOLObject *)&sbol_obj);
-                if (this->sbol_owner->doc)
+                std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+                if (std::find(object_store.begin(), object_store.end(), &sbol_obj) != object_store.end())
+                    throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained by the property");
+                else
                 {
-                    sbol_obj.doc = this->sbol_owner->doc;
+                    object_store.push_back((SBOLObject *)&sbol_obj);
+                    if (this->sbol_owner->doc)
+                    {
+                        sbol_obj.doc = this->sbol_owner->doc;
+                    }
                 }
             }
         }

@@ -44,7 +44,8 @@ string sbol::randomIdentifier()
     for (auto i = 1; i <= 16; i++)
     {
         int r_digit = rand() % 10;
-        id = id + to_string(r_digit);
+        //id = id + to_string(r_digit);
+        id = r_digit;
         if (r_digit % 4 == 0 && r_digit != 16)
             id = id + "-";
     }

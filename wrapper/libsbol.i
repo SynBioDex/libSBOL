@@ -461,7 +461,6 @@ namespace sbol
 %template(functionalComponentProperty) sbol::Property<sbol::FunctionalComponent>;
 %template(ownedFunctionalComponent) sbol::OwnedObject<sbol::FunctionalComponent>;
 %template(listOfOwnedFunctionalComponents) sbol::List<sbol::OwnedObject<sbol::FunctionalComponent>>;
-
 %include "moduledefinition.h"
 
 %pythonappend sbol::Document::write(std::string filename) %{
@@ -498,7 +497,21 @@ f.close()
     
 %}
 
-
+%template(componentDefinitionProperty) sbol::Property<sbol::ComponentDefinition>;
+%template(ownedComponentDefinition) sbol::OwnedObject<sbol::ComponentDefinition>;
+%template(listOfOwnedComponentDefinitions) sbol::List<sbol::OwnedObject<sbol::ComponentDefinition>>;
+%template(moduleDefinitionProperty) sbol::Property<sbol::ModuleDefinition>;
+%template(ownedModuleDefinition) sbol::OwnedObject<sbol::ModuleDefinition>;
+%template(listOfOwnedModuleDefinitions) sbol::List<sbol::OwnedObject<sbol::ModuleDefinition>>;
+%template(sequenceProperty) sbol::Property<sbol::Sequence>;
+%template(ownedSequence) sbol::OwnedObject<sbol::Sequence>;
+%template(listOfOwnedSequences) sbol::List<sbol::OwnedObject<sbol::Sequence>>;
+%template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
+%template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
+%template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
+%template(modelProperty) sbol::Property<sbol::Model>;
+%template(ownedModel) sbol::OwnedObject<sbol::Model>;
+%template(listOfOwnedModels) sbol::List<sbol::OwnedObject<sbol::Model>>;
 %include "document.h"
 
 
