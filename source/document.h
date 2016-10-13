@@ -13,6 +13,7 @@
 #include <raptor2.h>
 #include <unordered_map>
 #include <istream>
+#include <algorithm>
 
 namespace sbol {
     

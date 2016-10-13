@@ -32,10 +32,10 @@ foreach(dir ${dirs})
 message(STATUS "dir='${dir}'")
 endforeach()
 
-	# gather source files
-	FILE( GLOB SBOL_SOURCE_FILES
-		${SBOL_SOURCE_DIR}/*.h
-		${SBOL_SOURCE_DIR}/*.cpp )
+# gather source files
+FILE( GLOB SBOL_SOURCE_FILES
+    ${SBOL_SOURCE_DIR}/*.h
+    ${SBOL_SOURCE_DIR}/*.cpp )
 
 get_directory_property( DirDefs COMPILE_DEFINITIONS )
 message( "COMPILE_DEFINITIONS = ${DirDefs}" )

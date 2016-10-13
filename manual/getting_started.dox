@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////
-/// @page getting_started
+/// @page getting_started Getting Started
 /// @section getting_started Getting Started
 ///
 /// This beginner’s guide will help you quickly set up a client project and introduces the basic principles of libSBOL for new users. This guide is not meant to be a comprehensive documentation of the library or the SBOL standard.  Refer to the [specification document](http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/) for a complete description of all SBOL data objects and their properties. In addition, refer to documentation about specific @ref classes for helpful explanatory text.
 ///
-/// The libSBOL repository contains example Xcode and Visual Studio project files.  You can open these project files in your preferred IDE. The projects assume that you have already run `make install` (see @ref mainpage for build instructions) and that libSBOL has been installed to your system's standard library path. 
+/// The libSBOL repository contains example Xcode and Visual Studio project files.  You can open these project files in your preferred IDE. The projects assume that you have already run `make install` (see @ref index "Introduction" for build instructions) and that libSBOL has been installed to your system's standard library path. 
 ///
 /// * In Xcode under Build Settings add a Header Search Path: /usr/local/include/sbol/
 /// * Change MacOS target if needed (eg, from 10.11 to 10.10)
@@ -46,7 +46,7 @@
 /// ```
 /// ComponentDefinition& Cas9 = *new ComponentDefinition("Cas9", BIOPAX_PROTEIN);
 /// ```
-/// Notice the type is specified using a predefined constant. The ComponentDefinition::type property is one of many SBOL properties that use standard ontology terms as property values.  The ComponentDefinition::type property uses the Sequence Ontology to be specific.  Many commonly used ontological terms are provided by libSBOL as predefined constants in the @ref constants.h header.  See the help page for the @ref ComponentDefinition class or other specific class to find a table that lists the available terms.
+/// Notice the type is specified using a predefined constant. The ComponentDefinition::type property is one of many SBOL properties that use standard ontology terms as property values.  The ComponentDefinition::type property uses the Sequence Ontology to be specific.  Many commonly used ontological terms are provided by libSBOL as predefined constants in the @ref constants.h header.  See the help page for the @ref sbol.ComponentDefinition class or other specific class to find a table that lists the available terms.
 ///
 /// @section adding_objects Adding Objects to a Document
 ///
@@ -117,7 +117,7 @@
 /// ```
 /// cout << Cas9ComplexFormation.participations[0].identity.get() << endl;
 /// ```
-/// This concludes the basic methods for manipulating SBOL data structures. Now that you're familiar with these basic methods, you are ready to learn about libSBOL's high-level design interface for synthetic biology. See @ref sequence_hierarchies.
+/// This concludes the basic methods for manipulating SBOL data structures. Now that you're familiar with these basic methods, you are ready to learn about libSBOL's high-level design interface for synthetic biology. See @ref sequences.
 ///
 /// @section idiomatic_cpp A Note on our Idiomatic Use of References
 ///
