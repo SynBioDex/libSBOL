@@ -7,7 +7,7 @@ var indexSectionsWithContent =
   4: "cflprst",
   5: "bn",
   6: "es",
-  7: "bs"
+  7: "bgs"
 };
 
 var indexSectionNames =

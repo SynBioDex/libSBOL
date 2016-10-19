@@ -104,10 +104,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h2>Mac </h2>
 <p>LibSBOL depends on the RaptorRDF library. Install Raptor: </p><div class="fragment"><div class="line">brew install raptor</div></div><!-- fragment --><p> You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. </p><div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --><p> Proceed with configuration and generation steps as described in the Windows installation.</p>
 <p>The last step is to cd into the libSBOL/build folder and run the compiler. </p><div class="fragment"><div class="line">make </div></div><!-- fragment --><p> or </p><div class="fragment"><div class="line">make install</div></div><!-- fragment --><h2>Debian/Ubuntu </h2>
-<p>Or if you're on Debian/Ubuntu this command should install everything: </p><div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install git cmake-qt-gui build-essential libxml2-dev</div></div><!-- fragment --><p>If you want to update the documentation you also need Doxygen, and to generate the Python wrapper you need SWIG. To install them on Debian/Ubuntu:</p>
-<div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install doxygen-gui swig</div></div><!-- fragment --><p>Then, clone the repository:</p>
+<p>Or if you're on Debian/Ubuntu this command should install everything: </p><div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install git cmake-qt-gui build-essential libxml2-dev gcc-multilib g++-multilib</div></div><!-- fragment --><p>If you want to update the documentation you also need Doxygen, and to generate the Python wrapper you need SWIG. To install them on Debian/Ubuntu:</p>
+<div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install doxygen-gui swig python-dev</div></div><!-- fragment --><p>Then, clone the repository:</p>
 <div class="fragment"><div class="line">git clone git:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --><p> This will create a libSBOL directory with the code.</p>
-<p>Next, run CMake (cmake-qt-gui on linux). For "Where is the source code" enter the path to your libSBOL folder. "Where to build the binaries" can technically be anywhere, but it's only been tested with libSBOL/build.</p>
+<p>Next, run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". A good path to try will be libSBOL/build.</p>
 <p>Click Configure, and choose what type of compiler you want to generate instructions for.</p>
 <p>The first time you click Configure CMake will list variables, like CMAKE_BUILD_TYPE and LIBXML2_INCLUDE_DIR, in red. That means they've been updated. To build the main SBOL library, just click Configure again until the red goes away. This is also where you set up the optional targets: examples, tests, manual, and Python wrapper. To add them check the appropriate boxes (SBOL_BUILD_EXAMPLES, for example) and then Configure again to adjust the settings. There's one other SBOL-specific option: SBOL_DEBUG_STATEMENTS will cause libSBOLc to be compiled with some extra debugging statements. A lot of other options might be visibile too; checking Grouped at the top makes things more managable. Once it's all set, click Generate to create the compiler instructions.</p>
 <p>The last step is to cd into the libSBOL/build folder and run the compiler.</p>
@@ -126,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Aug 14 2016 13:12:00 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Oct 18 2016 19:26:53 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

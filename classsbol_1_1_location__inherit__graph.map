@@ -1,5 +1,5 @@
-<map id="Location" name="Location">
-<area shape="rect" id="node4" href="$classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="28,689,117,829"/>
+<map id="sbol::Location" name="sbol::Location">
+<area shape="rect" id="node4" href="$classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="26,689,118,829"/>
 <area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="5,327,139,493"/>
 <area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="8,5,137,279"/>
 </map>

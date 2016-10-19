@@ -1,0 +1,5 @@
+<map id="sbol::Document::add" name="sbol::Document::add">
+<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html#a2023822ab7b5f303edf5a253e46c2f5a" title="Autoconstruct a child object and add it to a parent SBOL object. " alt="" coords="208,5,349,44"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_owned_object.html#acea6c6773582f5a712b8aa68154e1a65" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="197,68,361,93"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_owned_object.html#afd8b38671096e6aafce5bef3e02723cb" title="Retrieve a child object by numerical index. " alt="" coords="409,61,550,100"/>
+</map>

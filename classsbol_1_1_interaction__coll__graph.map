@@ -1,0 +1,15 @@
+<map id="sbol::Interaction" name="sbol::Interaction">
+<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="332,1421,440,1521"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="180,141,309,388"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ set()\l+ set()\l+ add()\land 6 more...\l}" alt="" coords="348,456,481,689"/>
+<area shape="rect" id="node8" href="$classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="61,449,218,696"/>
+<area shape="rect" id="node13" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; sbol\l::Participation \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ set()\l+ set()\l+ add()\land 6 more...\l}" alt="" coords="543,456,683,689"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_u_r_i_property.html" title="A URIProperty may contain a restricted type of string that conforms to the specification for a Unifor..." alt="" coords="203,857,329,931"/>
+<area shape="rect" id="node16" href="$classsbol_1_1_list.html" title="{sbol::List\&lt; sbol::URIProperty \&gt;\n||+ List()\l+ remove()\l}" alt="" coords="44,1304,246,1391"/>
+<area shape="rect" id="node10" href="$classsbol_1_1_text_property.html" title="TextProperty objects are used to contain string literals. " alt="" coords="362,857,490,931"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_property_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple values. ..." alt="" coords="476,221,656,308"/>
+<area shape="rect" id="node9" href="$classsbol_1_1_version_property.html" title="Contains a version number for an SBOL object. " alt="" coords="523,1080,671,1273"/>
+<area shape="rect" id="node11" href="$classsbol_1_1_list.html" title="{sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::Participation \&gt; \&gt;\n||+ List()\l+ remove()\l}" alt="" coords="590,1297,788,1397"/>
+<area shape="rect" id="node12" href="$classsbol_1_1_owned_object.html" title="{sbol::OwnedObject\&lt;\l sbol::Participation \&gt;\n||+ OwnedObject()\l+ OwnedObject()\l+ set()\l+ get()\l+ get()\l+ add()\l+ add()\l+ copy()\l+ create()\l+ create()\l+ operator[]()\l+ operator[]()\l+ begin()\l+ end()\l+ size()\l}" alt="" coords="638,757,780,1031"/>
+<area shape="rect" id="node14" href="$classsbol_1_1_owned_object_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple objects. " alt="" coords="706,523,861,623"/>
+</map>

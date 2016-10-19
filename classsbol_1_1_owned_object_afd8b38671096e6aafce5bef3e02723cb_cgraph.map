@@ -1,0 +1,4 @@
+<map id="sbol::OwnedObject::operator[]" name="sbol::OwnedObject::operator[]">
+<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html#acea6c6773582f5a712b8aa68154e1a65" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="195,12,358,37"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_document.html#a7a76565b2eec04fceaa218fcf01f8d3e" title="Register an object in the Document. " alt="" coords="406,12,550,37"/>
+</map>

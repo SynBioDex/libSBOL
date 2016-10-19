@@ -1,0 +1,13 @@
+<map id="sbol::Participation" name="sbol::Participation">
+<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="416,1208,523,1308"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="634,141,764,388"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ set()\l+ set()\l+ add()\land 6 more...\l}" alt="" coords="213,456,345,689"/>
+<area shape="rect" id="node8" href="$classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="736,449,894,696"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_u_r_i_property.html" title="A URIProperty may contain a restricted type of string that conforms to the specification for a Unifor..." alt="" coords="216,953,342,1027"/>
+<area shape="rect" id="node11" href="$classsbol_1_1_list.html" title="{sbol::List\&lt; sbol::URIProperty \&gt;\n||+ List()\l+ remove()\l}" alt="" coords="190,1215,392,1301"/>
+<area shape="rect" id="node12" href="$classsbol_1_1_referenced_object.html" title="A reference to another SBOL object Contains a Uniform Resource Identifier (URI) that refers to an an ..." alt="" coords="5,1161,166,1355"/>
+<area shape="rect" id="node10" href="$classsbol_1_1_text_property.html" title="TextProperty objects are used to contain string literals. " alt="" coords="420,764,548,837"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_property_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple values. ..." alt="" coords="86,221,266,308"/>
+<area shape="rect" id="node9" href="$classsbol_1_1_version_property.html" title="Contains a version number for an SBOL object. " alt="" coords="513,893,661,1087"/>
+<area shape="rect" id="node13" href="$classsbol_1_1_referenced_object_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple references. " alt="" coords="5,947,166,1033"/>
+</map>

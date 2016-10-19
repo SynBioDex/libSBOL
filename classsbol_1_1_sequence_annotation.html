@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: SequenceAnnotation Class Reference</title>
+<title>libSBOL: sbol::SequenceAnnotation Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -91,29 +91,128 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_sequence_annotation-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">SequenceAnnotation Class Reference</div>  </div>
+<div class="title">sbol::SequenceAnnotation Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> class describes one or more regions of interest on the <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> objects referred to by its parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. In addition, <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> objects can describe the substructure of their parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> through association with the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects contained by this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a5be3e910952fb08bc9079333322dedeb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5be3e910952fb08bc9079333322dedeb"></a>
+<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_location.html">Location</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>locations</b></td></tr>
+<tr class="separator:a5be3e910952fb08bc9079333322dedeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsbol_1_1_identified"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsbol_1_1_identified')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classsbol_1_1_identified.html">sbol::Identified</a></td></tr>
+<tr class="memitem:a12edc730fbaee12d2385527299dbb71f inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12edc730fbaee12d2385527299dbb71f"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>persistentIdentity</b></td></tr>
+<tr class="separator:a12edc730fbaee12d2385527299dbb71f inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0930562e288a9b060d493436cf6a9722 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0930562e288a9b060d493436cf6a9722"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>displayId</b></td></tr>
+<tr class="separator:a0930562e288a9b060d493436cf6a9722 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c61cd10229b036bf6b282a143b489be inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c61cd10229b036bf6b282a143b489be"></a>
+<a class="el" href="classsbol_1_1_version_property.html">VersionProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>version</b></td></tr>
+<tr class="separator:a1c61cd10229b036bf6b282a143b489be inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13a57a7e9749a84cec8e6d8ec6d86b3e inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13a57a7e9749a84cec8e6d8ec6d86b3e"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>wasDerivedFrom</b></td></tr>
+<tr class="separator:a13a57a7e9749a84cec8e6d8ec6d86b3e inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cfbf52b4e6ca68258fc3b4f77875254 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8cfbf52b4e6ca68258fc3b4f77875254"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
+<tr class="separator:a8cfbf52b4e6ca68258fc3b4f77875254 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac33cb2db15ddd6c56d91601ea29f1551 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac33cb2db15ddd6c56d91601ea29f1551"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>description</b></td></tr>
+<tr class="separator:ac33cb2db15ddd6c56d91601ea29f1551 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
+<tr class="memitem:aa1ad14a6466e0c2bd37cc92f3d66f8d8 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1ad14a6466e0c2bd37cc92f3d66f8d8"></a>
+<a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>doc</b> = NULL</td></tr>
+<tr class="separator:aa1ad14a6466e0c2bd37cc92f3d66f8d8 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5b9f99c85f8e1713b38182d3d6dea68 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5b9f99c85f8e1713b38182d3d6dea68"></a>
+std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>properties</b></td></tr>
+<tr class="separator:ae5b9f99c85f8e1713b38182d3d6dea68 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a412f3a98b004397de1a2d87af2a6b83e inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a412f3a98b004397de1a2d87af2a6b83e"></a>
+std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>list_properties</b></td></tr>
+<tr class="separator:a412f3a98b004397de1a2d87af2a6b83e inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b57fcdb5a116837d99c4fc0d69ca732 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b57fcdb5a116837d99c4fc0d69ca732"></a>
+std::map&lt; sbol::sbol_type, std::vector&lt; <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a> * &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>owned_objects</b></td></tr>
+<tr class="separator:a4b57fcdb5a116837d99c4fc0d69ca732 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bb846d3814e125caa2a2504d9306ac0 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bb846d3814e125caa2a2504d9306ac0"></a>
+sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
+<tr class="separator:a8bb846d3814e125caa2a2504d9306ac0 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f837ccef79ed4923fbaf4e12e8412b5 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f837ccef79ed4923fbaf4e12e8412b5"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>identity</b></td></tr>
+<tr class="separator:a9f837ccef79ed4923fbaf4e12e8412b5 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a3c1c570f381647d4a2ea53f1d2420c2c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3c1c570f381647d4a2ea53f1d2420c2c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SequenceAnnotation</b> (std::string uri=DEFAULT_NS&quot;/SequenceAnnotation/example&quot;, std::string version=&quot;1.0.0&quot;)</td></tr>
+<tr class="separator:a3c1c570f381647d4a2ea53f1d2420c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
+<tr class="memitem:a0318030da9c3e504120ac220f20ce849 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0318030da9c3e504120ac220f20ce849"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri=DEFAULT_NS&quot;/SBOLObject/example&quot;)</td></tr>
+<tr class="separator:a0318030da9c3e504120ac220f20ce849 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a946ab4b90ca7240713fdf1b09d5e815f inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a946ab4b90ca7240713fdf1b09d5e815f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri_prefix, std::string display_id, std::string version)</td></tr>
+<tr class="separator:a946ab4b90ca7240713fdf1b09d5e815f inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ebeb47e6e84385e677797162fb02380 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ebeb47e6e84385e677797162fb02380"></a>
+virtual sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>getTypeURI</b> ()</td></tr>
+<tr class="separator:a4ebeb47e6e84385e677797162fb02380 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a309d5c49984210d52b1dbb9b0ec8a814 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a309d5c49984210d52b1dbb9b0ec8a814"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>serialize</b> (raptor_serializer *sbol_serializer, raptor_world *sbol_world=NULL)</td></tr>
+<tr class="separator:a309d5c49984210d52b1dbb9b0ec8a814 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d6a7ec0dd60d18609cab6da7108473c inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d6a7ec0dd60d18609cab6da7108473c"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>nest</b> (std::string &amp;rdfxml_buffer)</td></tr>
+<tr class="separator:a5d6a7ec0dd60d18609cab6da7108473c inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab91ab93a5f15bbcf7b27967821b77185 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab91ab93a5f15bbcf7b27967821b77185"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (std::string uri)</td></tr>
+<tr class="separator:ab91ab93a5f15bbcf7b27967821b77185 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa22686b68fc779e021761cfdb8cc42b1 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa22686b68fc779e021761cfdb8cc42b1"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getClassName</b> (std::string type)</td></tr>
+<tr class="separator:aa22686b68fc779e021761cfdb8cc42b1 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6659083a99a13bbe2a1815a6bef04d52 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6659083a99a13bbe2a1815a6bef04d52"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>close</b> ()</td></tr>
+<tr class="separator:a6659083a99a13bbe2a1815a6bef04d52 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a66434ac1cb0b11f23fb52549ff796822"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a66434ac1cb0b11f23fb52549ff796822"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SequenceAnnotation</b> (sbol_type type, std::string uri, std::string version)</td></tr>
+<tr class="separator:a66434ac1cb0b11f23fb52549ff796822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classsbol_1_1_identified"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsbol_1_1_identified')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classsbol_1_1_identified.html">sbol::Identified</a></td></tr>
+<tr class="memitem:ac739fa877cfb2c1b459cc7ac61079fec inherit pro_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac739fa877cfb2c1b459cc7ac61079fec"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (sbol_type type_uri, std::string uri, std::string version=&quot;1.0.0&quot;)</td></tr>
+<tr class="separator:ac739fa877cfb2c1b459cc7ac61079fec inherit pro_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04b54e247ce4cd5a51d3dc9aedb64d81 inherit pro_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a04b54e247ce4cd5a51d3dc9aedb64d81"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (sbol_type type_uri, std::string prefix, std::string display_id, std::string version)</td></tr>
+<tr class="separator:a04b54e247ce4cd5a51d3dc9aedb64d81 inherit pro_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
+<tr class="memitem:a3175a8bed6d61db88f681a72fced8c3f inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3175a8bed6d61db88f681a72fced8c3f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri)</td></tr>
+<tr class="separator:a3175a8bed6d61db88f681a72fced8c3f inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a321a8b8c49831e62e8d97cab2463610b inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a321a8b8c49831e62e8d97cab2463610b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri_prefix, std::string display_id, std::string version)</td></tr>
+<tr class="separator:a321a8b8c49831e62e8d97cab2463610b inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/sequenceannotation.h</li>
 </ul>
 <div class="dynheader">
-Inheritance diagram for SequenceAnnotation:</div>
+Inheritance diagram for sbol::SequenceAnnotation:</div>
 <div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_sequence_annotation__inherit__graph.png" border="0" usemap="#_sequence_annotation_inherit__map" alt="Inheritance graph"/></div>
-<map name="_sequence_annotation_inherit__map" id="_sequence_annotation_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="25,327,159,493"/>
-<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="27,5,157,279"/>
+<div class="center"><img src="classsbol_1_1_sequence_annotation__inherit__graph.png" border="0" usemap="#sbol_1_1_sequence_annotation_inherit__map" alt="Inheritance graph"/></div>
+<map name="sbol_1_1_sequence_annotation_inherit__map" id="sbol_1_1_sequence_annotation_inherit__map">
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="27,327,161,493"/>
+<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="29,5,158,279"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Aug 14 2016 13:12:00 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Oct 18 2016 19:26:53 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

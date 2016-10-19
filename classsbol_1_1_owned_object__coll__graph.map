@@ -1,0 +1,9 @@
+<map id="sbol::OwnedObject&lt; SBOLClass &gt;" name="sbol::OwnedObject&lt; SBOLClass &gt;">
+<area shape="rect" id="node2" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; SBOLClass \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ set()\l+ set()\l+ add()\land 6 more...\l}" alt="" coords="183,463,379,683"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="607,141,736,388"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ set()\l+ set()\l+ add()\land 6 more...\l}" alt="" coords="436,456,569,689"/>
+<area shape="rect" id="node8" href="$classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="593,449,751,696"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_u_r_i_property.html" title="A URIProperty may contain a restricted type of string that conforms to the specification for a Unifor..." alt="" coords="661,857,787,931"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_property_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple values. ..." alt="" coords="236,221,417,308"/>
+<area shape="rect" id="node9" href="$classsbol_1_1_owned_object_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple objects. " alt="" coords="5,523,160,623"/>
+</map>
