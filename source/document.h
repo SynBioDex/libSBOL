@@ -180,7 +180,6 @@ namespace sbol {
             if (check_top_level)
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
-                std::cout << "Adding " << sbol_obj.type << std::endl;
                 this->owned_objects[sbol_obj.type].push_back((SBOLClass*)&sbol_obj);
             }
             sbol_obj.doc = this;
