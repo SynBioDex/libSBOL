@@ -114,7 +114,7 @@ typedef std::string sbol::sbol_type;
 
 %include "property.h"
 
-
+// Catch the signal from the Python interpreter indicating that iteration has reached end of list. For Python 2
 %exception next
 {
     try
@@ -124,6 +124,23 @@ typedef std::string sbol::sbol_type;
     catch(SBOLErrorCode exception)
     {
         PyErr_SetNone(PyExc_StopIteration);
+        return NULL;
+    }
+}
+
+// Catch the signal from the Python interpreter indicating that iteration has reached end of list. For Python 3
+%exception __next__
+{
+    try
+    {
+        $action
+    }
+    catch(SBOLErrorCode exception)
+    {
+        PyErr_SetNone(PyExc_StopIteration);
+
+//        PyErr_SetObject(PyExc_StopIteration, Py_None);
+        //PyErr_Clear()
         return NULL;
     }
 }
@@ -140,8 +157,26 @@ typedef std::string sbol::sbol_type;
         $self->python_iter = Property<LiteralType>::iterator($self->begin());
         return $self;
     }
-    
+
+    // Built-in iterator function for Python 2
     std::string next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw (END_OF_LIST);
+        return NULL;
+    }
+    
+    // Built-in iterator function for Python 3
+    std::string __next__()
     {
         if ($self->python_iter != $self->end())
         {
@@ -207,6 +242,25 @@ namespace sbol
 		return NULL;
 	}
 
+    SBOLClass* __next__()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            std::cout << "Checkpoint 1" << std::endl;
+
+            SBOLObject* obj = *$self->python_iter;
+            $self->python_iter++;
+            std::cout << obj->identity.get() << std::endl;
+            std::cout << "Checkpoint 2" << std::endl;
+
+            return (SBOLClass*)obj;
+        }
+        std::cout << "Checkpoint 3" << std::endl;
+
+        throw (END_OF_LIST);
+        return NULL;
+    }
+    
     int __len__()
     {
         return $self->size();
@@ -242,6 +296,22 @@ namespace sbol
     }
     
     std::string next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw (END_OF_LIST);
+        return NULL;
+    }
+    
+    std::string __next__()
     {
         if ($self->python_iter != $self->end())
         {
