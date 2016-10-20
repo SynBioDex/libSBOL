@@ -58,9 +58,7 @@ FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )
 # by default, GCC exports everything;
 # this tells it to stick to SBOLAPIEXPORTS functions
 IF(CMAKE_COMPILER_IS_GNUCC)
-	SET_TARGET_PROPERTIES( sbol
-		PROPERTIES COMPILE_FLAGS -fvisibility=hidden
-	)
+	SET_TARGET_PROPERTIES( PROPERTIES COMPILE_FLAGS -fvisibility=hidden)
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ENDIF()
 
@@ -91,7 +89,6 @@ else ()  # If Mac OSX or Linux
 
     if(SBOL_BUILD_32)
         message("Configuring for x86")
-
         set(CMAKE_OSX_ARCHITECTURES "i386")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
         if(SBOL_BUILD_STATIC)

@@ -24,26 +24,26 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	INSTALL(FILES ${LINK_DIR}/zlib.lib DESTINATION lib)
 	INSTALL(FILES ${LINK_DIR}/iconv_a.lib DESTINATION lib)
 
-ELSE ()  # If Mac OSX and Linux
+ELSE ()  # If Mac OSX or Linux
 
     set(CMAKE_MODULE_PATH "${SBOL_SOURCE_DIR}/raptor")
 
     # Search for raptor library.  It is non-native on Mac OSX and must be downloaded from a package installer like Homebrew
+    # Search for curl and libxslt dependencies.  These are native system libraries on Mac OSX and can be linked dynamically.
     if(SBOL_BUILD_STATIC)
         # Search for Raptor as a static library
-        set(CMAKE_FIND_LIBRARY_SUFFIXES .a .so)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
         add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC)
         find_package( RAPTOR )
-    else(SBOL_BUILD_STATIC)
+        find_package( CURL )
+        find_package( LibXslt )
+    else(NOT SBOL_BUILD_STATIC)
         # Search for Raptor as a dynamic dependency
-        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib )
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so )
         find_package( RAPTOR )
+    	find_package( CURL )
+	find_package( LibXslt )
     endif(SBOL_BUILD_STATIC)
-message(${CMAKE_FIND_LIBRARY_SUFFIXES})
-    # Search for curl and libxslt dependencies.  These are native system libraries on Mac OSX and can be linked dynamically.
-    set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib )
-    find_package( CURL )
-    find_package( LibXslt )
 
 ENDIF ()
 

@@ -31,7 +31,8 @@
 find_path(CURL_INCLUDE_DIR NAMES curl.h
     PATHS
     /usr/local/opt/curl/include/curl  # Homebrew
-    /Users/bryan/anaconda/include/curl  # Anaconda
+    /Users/bryan/anaconda/include/curl  # Anaconda #FIXIT: Not correct
+    /usr/include/curl  # Linux
     NO_DEFAULT_PATH )
 
 find_path(CURL_INCLUDE_DIR NAMES curl/curl.h)
@@ -49,8 +50,9 @@ find_library(CURL_LIBRARY NAMES
 
     PATHS
     /usr/local/opt/curl/lib # Homebrew path
-    /Users/bryan/anaconda/lib  # Anaconda
-
+    /Users/bryan/anaconda/lib  # Anaconda #FIXIT: Not correct
+    /usr/lib/i386-linux-gnu  #Linux 32
+    /usr/lib/x86_64-linux-gnu #Linux 64
     NO_DEFAULT_PATH )
 
 find_library(CURL_LIBRARY NAMES
