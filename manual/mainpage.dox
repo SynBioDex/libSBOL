@@ -10,7 +10,7 @@
 ///
 /// INSTALLATION
 /// ============
-/// To compile libSBOL, you will need:
+/// To compile libSBOL from source, you will need:
 /// * [git](https://git-scm.com/) for downloading the source code
 /// * [CMake](https://cmake.org/download/) for generating platform-specific build instructions
 /// * a C++ compiler, such as MSVC, g++, clang, or [MinGW](http://www.mingw.org/wiki/InstallationHOWTOforMinGW)
@@ -21,17 +21,22 @@
 ///
 /// Windows
 /// -------
-/// Clone the repository by typing:
+/// 1. [Install git for Windows](https://git-scm.com/)
+/// 
+/// 2. [Install CMake for Windows](https://cmake.org/download/)
+///
+/// 3. Clone the repository by running the following command in git application or command console:
 /// ```
 /// git clone https://github.com/SynBioDex/libSBOL.git
 /// ```
-/// in the command console or download the source code directly from github page. 
 ///
-/// Run CMake. In the first box saying "Where is the source code", put the path to libSBOL folder. In the second box saying "Where to build the binaries" put the path for the output e.g. libSBOL/build.
+/// 4. Run CMake. For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for (e.g. Visual Studio 14 2015).
+///
+/// 5. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.
 /// 
-/// Click Configure at the bottom, and choose the compiler to use(e.g. Visual Studio 12 2013). Change the settings if you wish. For example, change CMAKE_INSTALL_PREFIX to specify the output path, or check SBOL_BUILD_EXAMPLES to build examples. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path. Once it's all set, click Generate.
+/// 6. Once it's all set, click Generate to create the compiler instructions.
 /// 
-/// The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose.
+/// 7. The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose.
 /// When using minGW, first go to 'build' folder and run the compiler by using
 /// ```
 /// mingw32-make
@@ -41,23 +46,35 @@
 /// mingw32-make install
 /// ```
 /// You will need administrator privileges for a make install.
-///
 /// When using Visual Studio, open 'SBOL.sln' under 'build' folder. Right click INSTALL under Solution Explorer on the right and press Build.
 /// Binaries will be generated in the folder specified before (CMAKE_INSTALL_PREFIX).
 ///
 /// Mac
 /// ---
-/// LibSBOL depends on the RaptorRDF library. Install Raptor:
+/// 1. [Install git for Mac OSX](https://git-scm.com/)
+///
+/// 2. Clone the repository by running the following command in terminal:
+/// ```
+/// git clone https://github.com/SynBioDex/libSBOL.git
+/// ```
+///
+/// 3. LibSBOL depends on the RaptorRDF library. Install Raptor by running the following command in terminal:
 /// ```
 /// brew install raptor
 /// ```
-/// You can use the cmake utility on Mac as well.  One important difference about CMake on Mac versus Windows is that there is no GUI application.  However, there is an interactive utility that runs in a terminal window.
+///
+/// 4. You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application.  However, there is an interactive utility that runs in a terminal window.
 /// ```
 /// ccmake .
 /// ```
-/// Proceed with configuration and generation steps as described in the Windows installation. 
 ///
-/// The last step is to cd into the libSBOL/build folder and run the compiler.
+/// 5. For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. 
+/// 
+/// 6. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.
+///
+/// 7. Once it's all set, click Generate to create the compiler instructions.
+///
+/// 8. In terminal, go to the build directory and run:
 /// ```
 /// make 
 /// ```
@@ -65,46 +82,51 @@
 /// ```
 /// make install
 /// ```
+/// to compile.
 /// 
 /// Debian/Ubuntu
 /// -------------
-/// Or if you're on Debian/Ubuntu this command should install everything:
+/// 1. If you're on Debian/Ubuntu you can get git and cmake by running the following command in terminal.
 /// ```
-/// sudo apt-get install git cmake-qt-gui build-essential libxml2-dev gcc-multilib g++-multilib
+/// sudo apt-get install git cmake-qt-gui
+/// ```
+/// Running this command will require sudo privilege.
+/// All the other necessary libraries can be acquired by running the following command in terminal.
+/// ```
+/// sudo apt-get install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev
 /// ```
 /// 
-/// If you want to update the documentation you also need Doxygen, and to generate the Python wrapper you need SWIG. To install them on Debian/Ubuntu:
-/// 
+/// 2. (optional) If you want to generate Python wrapper you will need SWIG. To install run:
 /// ```
-/// sudo apt-get install doxygen-gui swig python-dev
+/// sudo apt-get install swig python-dev
 /// ```
-/// 
-/// Then, clone the repository:
-/// 
-/// ```
-/// git clone git://github.com/SynBioDex/libSBOL.git
-/// ```
-/// This will create a libSBOL directory with the code. 
 ///
-/// Next, run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". A good path to try will be libSBOL/build.
+/// 3. (optional) To update the documentation you will need Doxygen. To install run: 
+/// ```
+/// sudo apt-get install doxygen-gui
+/// ```
+///
+/// 4. Clone the repository by running the following command in terminal:
+/// ```
+/// git clone https://github.com/SynBioDex/libSBOL.git
+/// ```
+/// This will create a libSBOL directory with the source. 
+///
+/// 5. Run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. 
 /// 
-/// Click Configure, and choose what type of compiler you want to generate instructions for. 
+/// 6. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.
+///
+/// 7. Once it's all set, click Generate to create the compiler instructions.
 /// 
-/// The first time you click Configure CMake will list variables, like CMAKE_BUILD_TYPE and LIBXML2_INCLUDE_DIR, in red. That means they've been updated. To build the main SBOL library, just click Configure again until the red goes away. This is also where you set up the optional targets: examples, tests, manual, and Python wrapper. To add them check the appropriate boxes (SBOL_BUILD_EXAMPLES, for example) and then Configure again to adjust the settings. There's one other SBOL-specific option: SBOL_DEBUG_STATEMENTS will cause libSBOLc to be compiled with some extra debugging statements. A lot of other options might be visibile too; checking Grouped at the top makes things more managable. Once it's all set, click Generate to create the compiler instructions.
-/// 
-/// The last step is to cd into the libSBOL/build folder and run the compiler.
-/// 
+/// 8. In terminal, go to the build directory and run:
 /// ```
 /// make 
 /// ```
-/// 
 /// or
-/// 
 /// ```
 /// mingw32-make.exe
 /// ```
-/// 
-/// Binaries will be generated in the libSBOL/release folder.
+/// to compile.
 /// 
 /// DEPENDENCIES
 /// ============
@@ -113,7 +135,6 @@
 /// 
 /// Optionally, LibSBOL also depends on Restbed for web integration.  This is useful for features like querying biological parts in a repository or validating SBOL files.  This dependency also has subdependencies and is managed by Git's submodule feature.  After cloning the libSBOL project, you will also need to clone the submodules:
 /// ```
-/// cd libSBOL
 /// git submodule update --init --recursive
 /// ```
 /// A .gitmodules configuration file is included in the project root.  
