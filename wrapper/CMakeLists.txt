@@ -27,18 +27,18 @@ IF( SWIG_FOUND )
         ${LDAP_INCLUDE_DIR}
 )
 
-get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
-foreach(dir ${dirs})
-message(STATUS "dir='${dir}'")
-endforeach()
+#get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+#foreach(dir ${dirs})
+#message(STATUS "dir='${dir}'")
+#endforeach()
 
 # gather source files
 FILE( GLOB SBOL_SOURCE_FILES
     ${SBOL_SOURCE_DIR}/*.h
     ${SBOL_SOURCE_DIR}/*.cpp )
 
-get_directory_property( DirDefs COMPILE_DEFINITIONS )
-message( "COMPILE_DEFINITIONS = ${DirDefs}" )
+#get_directory_property( DirDefs COMPILE_DEFINITIONS )
+#message( "COMPILE_DEFINITIONS = ${DirDefs}" )
 
 IF (SBOL_BUILD_PYTHON3)
     find_package( PythonLibs 3 )
@@ -150,15 +150,15 @@ unset(PYTHON_INCLUDE_PATH )
 IF (SBOL_BUILD_PYTHON2)
     find_package( PythonLibs 2 EXACT)
 
-message(${PYTHONLIBS_FOUND})
-message(${PYTHON_INCLUDE_DIRS})
-message(${PYTHON_INCLUDE_DIR})
-message(${PYTHON_LIBRARIES})
-message(${PYTHONLIBS_VERSION_STRING})
-message(${PYTHON_INCLUDE_PATH})
+message( "FOUND PYTHON = ${PYTHONLIBS_FOUND} at ${PYTHON_LIBRARIES}")
+message( "PYTHON INCLUDE DIRS = ${PYTHON_INCLUDE_DIRS}")
+#message(${PYTHON_INCLUDE_DIR})
+#message(${PYTHON_LIBRARIES})
+message( "FOUND PYTHON VERSION ${PYTHONLIBS_VERSION_STRING}")
+#message(${PYTHON_INCLUDE_PATH})
     INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         if (SBOL_BUILD_32)
             set(PYSBOL_CONFIG "Mac_32_2")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
@@ -214,20 +214,56 @@ message(${PYTHON_INCLUDE_PATH})
             # ...rather, resolve Python symbols dynamically due to differing runtime env
             set_target_properties(_libsbol64_2 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 
+            # Move target to a new directory and rename it, so the SWIG libraries can be directly copied into the pySBOL project
             file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
             set_target_properties(_libsbol64_2 PROPERTIES OUTPUT_NAME "${PYSBOL_CONFIG}/_libsbol")
             add_custom_command(TARGET _libsbol64_2 POST_BUILD
                                COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
         endif()
+    elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+        if (SBOL_BUILD_32)
+            set(PYSBOL_CONFIG "python")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
+            swig_add_module( libsbol
+                python
+                libsbol.i )
+            swig_link_libraries( libsbol
+                ${PYTHON_LIBRARIES}
+                ${CURL_LIBRARY}
+                ${LIBXSLT_LIBRARIES}
+                sbol32)
+
+            file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
+            set_target_properties(_libsbol PROPERTIES OUTPUT_NAME "${PYSBOL_CONFIG}/_libsbol")
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
+        endif()
+        if (SBOL_BUILD_64)
+            set(PYSBOL_CONFIG "python")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
+            swig_add_module( libsbol
+                python
+                libsbol.i )
+            swig_link_libraries( libsbol
+                ${PYTHON_LIBRARIES}
+                ${CURL_LIBRARY}
+                ${LIBXSLT_LIBRARIES}
+                sbol64)
+
+            file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
+            set_target_properties(_libsbol PROPERTIES OUTPUT_NAME "${PYSBOL_CONFIG}/_libsbol")
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
+        endif()
     else()
         if (SBOL_BUILD_32)
             swig_link_libraries( libsbol
-                ${PYTHON_LIBRARIES}
+                ${LIBXSLT_LIBRARIES}
                 sbol32)
         endif()
         if (SBOL_BUILD_64)
             swig_link_libraries( libsbol
-                ${PYTHON_LIBRARIES}
+                ${LIBXSLT_LIBRARIES}
                 sbol64)
         endif()
     endif()

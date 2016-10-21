@@ -32,14 +32,14 @@ ELSE ()  # If Mac OSX or Linux
     # Search for curl and libxslt dependencies.  These are native system libraries on Mac OSX and can be linked dynamically.
     if(SBOL_BUILD_STATIC)
         # Search for Raptor as a static library
-        set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .so .a)
         add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC)
         find_package( RAPTOR )
         find_package( CURL )
         find_package( LibXslt )
     else(NOT SBOL_BUILD_STATIC)
         # Search for Raptor as a dynamic dependency
-        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so )
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib)
         find_package( RAPTOR )
     	find_package( CURL )
 	find_package( LibXslt )
