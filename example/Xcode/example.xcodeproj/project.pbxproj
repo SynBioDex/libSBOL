@@ -207,14 +207,15 @@
 		93BFADE41D1CC8350011A8C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = /usr/local/include;
-				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
+				HEADER_SEARCH_PATHS = /usr/local/include/sbol;
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/lib/**",
+					"/usr/lib/**",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-lsbol",
 					"-lraptor2",
-					"-lxml2",
-					"-liconv",
-					"-lz",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -223,14 +224,15 @@
 		93BFADE51D1CC8350011A8C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = /usr/local/include;
-				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
+				HEADER_SEARCH_PATHS = /usr/local/include/sbol;
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/lib/**",
+					"/usr/lib/**",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-lsbol",
 					"-lraptor2",
-					"-lxml2",
-					"-liconv",
-					"-lz",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -255,6 +257,7 @@
 				93BFADE51D1CC8350011A8C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
