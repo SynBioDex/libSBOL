@@ -38,10 +38,19 @@
 
 # search Homebrew directories first
 
-find_path(LIBXSLT_INCLUDE_DIR NAMES xslt.h HINTS /usr/local/opt/libxslt/include/libxslt /usr/include/libxslt )
+find_path(LIBXSLT_INCLUDE_DIR 
+          NAMES xslt.h 
+          PATHS /usr/local/opt/libxslt/include/libxslt 
+                /usr/include/libxslt # Linux
+                )
 #find_path(LIBXSLT_EXSLT_INCLUDE_DIR NAMES exslt.h HINTS /usr/local/opt/libxslt/include/libexslt)
 
-find_library(LIBXSLT_LIBRARIES NAMES xslt libxslt HINTS /usr/local/opt/libxslt/lib )
+find_library(LIBXSLT_LIBRARIES 
+             NAMES xslt libxslt 
+             PATHS /usr/local/opt/libxslt/lib
+                   /usr/lib/i386-linux-gnu
+                   /usr/lib/x86_64-linux-gnu
+                   )
 
 #find_library(LIBXSLT_EXSLT_LIBRARY NAMES exslt libexslt
 #HINTS

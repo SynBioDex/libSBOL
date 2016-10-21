@@ -45,6 +45,7 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
               /usr/freeware/include
               /usr/local/include/raptor2 # Homebrew
               /usr/local/opt/raptor/include/raptor2 # Homebrew
+              /usr/include/raptor2
              NO_DEFAULT_PATH)
 
     if (NOT RAPTOR_INCLUDE_DIR)
@@ -65,6 +66,8 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
               /usr/freeware/lib64
               /usr/local/lib # Homebrew
               /usr/local/opt/raptor/lib # Homebrew
+              /usr/lib/i386-linux-gnu
+              /usr/lib/x86_64-linux-gnu
              NO_DEFAULT_PATH)
 
     if (NOT RAPTOR_LIBRARY)
