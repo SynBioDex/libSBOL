@@ -86,8 +86,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><h1>libSBOL 2.0.1 </h1>
 <p><a href="https://github.com/SynBioDex/libSBOL">libSBOL</a> is a C++ library for reading, writing, and constructing genetic designs according to the standardized specification of the <a href="http://www.sbolstandard.org/">Synthetic Biology Open Language (SBOL) 2.0</a>. </p><h1>PLATFORMS </h1>
 <p>Tested on Mac OSX Version 10.9.5 and Windows 7 Enterprise.</p>
-<h1>INSTALLATION </h1>
-<p>To compile libSBOL, you will need:</p><ul>
+<h1>RELEASE DISTRIBUTIONS </h1>
+<p><a href="https://github.com/SynBioDex/libSBOL/releases">Windows binary installers are here.</a></p>
+<h1>BUILDING FROM SOURCE </h1>
+<p>To compile libSBOL from source, you will need:</p><ul>
 <li><a href="https://git-scm.com/">git</a> for downloading the source code</li>
 <li><a href="https://cmake.org/download/">CMake</a> for generating platform-specific build instructions</li>
 <li>a C++ compiler, such as MSVC, g++, clang, or <a href="http://www.mingw.org/wiki/InstallationHOWTOforMinGW">MinGW</a></li>
@@ -96,26 +98,40 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 <p>All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake can be used to generate projects for Eclipse, Visual Studio, XCode, etc.</p>
 <h2>Windows </h2>
-<p>Clone the repository by typing: </p><div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --><p> in the command console or download the source code directly from github page.</p>
-<p>Run CMake. In the first box saying "Where is the source code", put the path to libSBOL folder. In the second box saying "Where to build the binaries" put the path for the output e.g. libSBOL/build.</p>
-<p>Click Configure at the bottom, and choose the compiler to use(e.g. Visual Studio 12 2013). Change the settings if you wish. For example, change CMAKE_INSTALL_PREFIX to specify the output path, or check SBOL_BUILD_EXAMPLES to build examples. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path. Once it's all set, click Generate.</p>
-<p>The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose. When using minGW, first go to 'build' folder and run the compiler by using </p><div class="fragment"><div class="line">mingw32-make</div></div><!-- fragment --><p> or </p><div class="fragment"><div class="line">mingw32-make install</div></div><!-- fragment --><p> You will need administrator privileges for a make install.</p>
-<p>When using Visual Studio, open 'SBOL.sln' under 'build' folder. Right click INSTALL under Solution Explorer on the right and press Build. Binaries will be generated in the folder specified before (CMAKE_INSTALL_PREFIX).</p>
+<ol type="1">
+<li><a href="https://git-scm.com/">Install git for Windows</a></li>
+<li><a href="https://cmake.org/download/">Install CMake for Windows</a></li>
+<li>Clone the repository by running the following command in git application or command console: <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --></li>
+<li>Run CMake. For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for (e.g. Visual Studio 14 2015).</li>
+<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.</li>
+<li>Once it's all set, click Generate to create the compiler instructions.</li>
+<li>The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose. When using minGW, first go to 'build' folder and run the compiler by using <div class="fragment"><div class="line">mingw32-make</div></div><!-- fragment --> or <div class="fragment"><div class="line">mingw32-make install</div></div><!-- fragment --> You will need administrator privileges for a make install. When using Visual Studio, open 'SBOL.sln' under 'build' folder. Right click INSTALL under Solution Explorer on the right and press Build. Binaries will be generated in the folder specified before (CMAKE_INSTALL_PREFIX).</li>
+</ol>
 <h2>Mac </h2>
-<p>LibSBOL depends on the RaptorRDF library. Install Raptor: </p><div class="fragment"><div class="line">brew install raptor</div></div><!-- fragment --><p> You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. </p><div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --><p> Proceed with configuration and generation steps as described in the Windows installation.</p>
-<p>The last step is to cd into the libSBOL/build folder and run the compiler. </p><div class="fragment"><div class="line">make </div></div><!-- fragment --><p> or </p><div class="fragment"><div class="line">make install</div></div><!-- fragment --><h2>Debian/Ubuntu </h2>
-<p>Or if you're on Debian/Ubuntu this command should install everything: </p><div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install git cmake-qt-gui build-essential libxml2-dev gcc-multilib g++-multilib</div></div><!-- fragment --><p>If you want to update the documentation you also need Doxygen, and to generate the Python wrapper you need SWIG. To install them on Debian/Ubuntu:</p>
-<div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install doxygen-gui swig python-dev</div></div><!-- fragment --><p>Then, clone the repository:</p>
-<div class="fragment"><div class="line">git clone git:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --><p> This will create a libSBOL directory with the code.</p>
-<p>Next, run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". A good path to try will be libSBOL/build.</p>
-<p>Click Configure, and choose what type of compiler you want to generate instructions for.</p>
-<p>The first time you click Configure CMake will list variables, like CMAKE_BUILD_TYPE and LIBXML2_INCLUDE_DIR, in red. That means they've been updated. To build the main SBOL library, just click Configure again until the red goes away. This is also where you set up the optional targets: examples, tests, manual, and Python wrapper. To add them check the appropriate boxes (SBOL_BUILD_EXAMPLES, for example) and then Configure again to adjust the settings. There's one other SBOL-specific option: SBOL_DEBUG_STATEMENTS will cause libSBOLc to be compiled with some extra debugging statements. A lot of other options might be visibile too; checking Grouped at the top makes things more managable. Once it's all set, click Generate to create the compiler instructions.</p>
-<p>The last step is to cd into the libSBOL/build folder and run the compiler.</p>
-<div class="fragment"><div class="line">make </div></div><!-- fragment --><p>or</p>
-<div class="fragment"><div class="line">mingw32-make.exe</div></div><!-- fragment --><p>Binaries will be generated in the libSBOL/release folder.</p>
+<ol type="1">
+<li><a href="https://git-scm.com/">Install git for Mac OSX</a></li>
+<li>Clone the repository by running the following command in terminal: <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --></li>
+<li>LibSBOL depends on the RaptorRDF library. Install Raptor by running the following command in terminal: <div class="fragment"><div class="line">brew install raptor</div></div><!-- fragment --></li>
+<li>You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. <div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --></li>
+<li>For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for.</li>
+<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.</li>
+<li>Once it's all set, click Generate to create the compiler instructions.</li>
+<li>In terminal, go to the build directory and run: <div class="fragment"><div class="line">make </div></div><!-- fragment --> or <div class="fragment"><div class="line">make install</div></div><!-- fragment --> to compile.</li>
+</ol>
+<h2>Debian/Ubuntu </h2>
+<ol type="1">
+<li>If you're on Debian/Ubuntu you can get git and cmake by running the following command in terminal. <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install git cmake-qt-gui</div></div><!-- fragment --> Running this command will require sudo privilege. All the other necessary libraries can be acquired by running the following command in terminal. <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev</div></div><!-- fragment --></li>
+<li>(optional) If you want to generate Python wrapper you will need SWIG. To install run: <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install swig python-dev</div></div><!-- fragment --></li>
+<li>(optional) To update the documentation you will need Doxygen. To install run: <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install doxygen-gui</div></div><!-- fragment --></li>
+<li>Clone the repository by running the following command in terminal: <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --> This will create a libSBOL directory with the source.</li>
+<li>Run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for.</li>
+<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.</li>
+<li>Once it's all set, click Generate to create the compiler instructions.</li>
+<li>In terminal, go to the build directory and run: <div class="fragment"><div class="line">make </div></div><!-- fragment --> or <div class="fragment"><div class="line">mingw32-make.exe</div></div><!-- fragment --> to compile.</li>
+</ol>
 <h1>DEPENDENCIES </h1>
 <p>LibSBOL depends on libxml2 and raptor libraries for I/O in XML and RDF formats. Windows releases include precompiled binaries for these dependencies libSBOL On Mac, these libraries are typically installed by default.</p>
-<p>Optionally, LibSBOL also depends on Restbed for web integration. This is useful for features like querying biological parts in a repository or validating SBOL files. This dependency also has subdependencies and is managed by Git's submodule feature. After cloning the libSBOL project, you will also need to clone the submodules: </p><div class="fragment"><div class="line">cd libSBOL</div><div class="line">git submodule update --init --recursive</div></div><!-- fragment --><p> A .gitmodules configuration file is included in the project root.</p>
+<p>Optionally, LibSBOL also depends on Restbed for web integration. This is useful for features like querying biological parts in a repository or validating SBOL files. This dependency also has subdependencies and is managed by Git's submodule feature. After cloning the libSBOL project, you will also need to clone the submodules: </p><div class="fragment"><div class="line">git submodule update --init --recursive</div></div><!-- fragment --><p> A .gitmodules configuration file is included in the project root.</p>
 <h1>EXAMPLE CODE </h1>
 <p>The example code below can be used to construct the biological design in the figure. See the <a class="el" href="getting_started.html#getting_started">Getting Started</a>, <a class="el" href="sequences.html">Sequence Assembly</a>, and <a class="el" href="modular_design.html#modular_design">Connecting Module Inputs &amp; Outputs</a> tutorials to learn more about how libSBOL enables high-level design for synthetic biology. </p><div class="image">
 <img src="gene_cassette.png" alt="gene_cassette.png"/>
@@ -126,7 +142,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Oct 18 2016 19:26:53 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Oct 21 2016 22:28:19 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

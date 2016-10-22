@@ -1,6 +1,0 @@
-<map id="sbol::Property::get" name="sbol::Property::get">
-<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html#a2023822ab7b5f303edf5a253e46c2f5a" title="Autoconstruct a child object and add it to a parent SBOL object. " alt="" coords="196,5,338,44"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_owned_object.html#a46349c3ad227270cfb1eb01d66a979a0" title="Get the child object. " alt="" coords="187,68,347,93"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_owned_object.html#a8bd001fc9460a21c8857a082ad820818" title="Retrieve a child object by URI. " alt="" coords="196,117,338,156"/>
-<area shape="rect" id="node5" href="$classsbol_1_1_property.html#ae2b57be3d88adb6c3a9e16b3bccf5cf5" title="Retrieve the indexed value in a list container. " alt="" coords="183,180,351,205"/>
-</map>

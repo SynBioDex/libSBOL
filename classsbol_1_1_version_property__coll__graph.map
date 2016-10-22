@@ -1,8 +1,0 @@
-<map id="sbol::VersionProperty" name="sbol::VersionProperty">
-<area shape="rect" id="node2" href="$classsbol_1_1_text_property.html" title="TextProperty objects are used to contain string literals. " alt="" coords="15,572,143,645"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ set()\l+ set()\l+ add()\land 6 more...\l}" alt="" coords="164,289,296,523"/>
-<area shape="rect" id="node5" href="$classsbol_1_1_u_r_i_property.html" title="A URIProperty may contain a restricted type of string that conforms to the specification for a Unifor..." alt="" coords="167,572,293,645"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="227,707,356,953"/>
-<area shape="rect" id="node6" href="$classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="213,1015,370,1261"/>
-<area shape="rect" id="node7" href="$classsbol_1_1_property_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple values. ..." alt="" coords="140,141,320,228"/>
-</map>
