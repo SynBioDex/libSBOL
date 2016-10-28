@@ -4,6 +4,7 @@
   <navindex>
     <tab type="mainpage" visible="yes" title="Introduction"/>
     <tab type="pages" visible="no" title="" intro=""/>
+    <tab type="user" visible="yes" url="@ref installation" title="Installation"/>
     <tab type="user" visible="yes" url="@ref getting_started" title="Getting Started"/>
     <tab type="user" visible="yes" url="@ref sequences" title="Sequence Assembly"/>
     <tab type="user" visible="yes" url= "@ref modular_design" title="Biosystem Design"/>

@@ -109,6 +109,7 @@ else ()  # If Mac OSX or Linux
             ${LIBXSLT_LIBRARIES})
         install(TARGETS sbol32 DESTINATION lib)  # Installs to /usr/local/lib
         install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+        set_target_properties(sbol32 PROPERTIES OUTPUT_NAME "sbol")
     endif()
     if(SBOL_BUILD_64)
         message("Configuring for x64")
@@ -158,6 +159,7 @@ else ()  # If Mac OSX or Linux
             ${LIBXSLT_LIBRARIES})
         install(TARGETS sbol64 DESTINATION lib)  # Installs to /usr/local/lib
         install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+        set_target_properties(sbol64 PROPERTIES OUTPUT_NAME "sbol")
     endif(SBOL_BUILD_64)
 ENDIF ()
 

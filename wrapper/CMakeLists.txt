@@ -222,7 +222,7 @@ message( "FOUND PYTHON VERSION ${PYTHONLIBS_VERSION_STRING}")
         endif()
     elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         if (SBOL_BUILD_32)
-            set(PYSBOL_CONFIG "python")
+            set(PYSBOL_CONFIG "python/libsbol")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
             swig_add_module( libsbol
                 python
@@ -239,7 +239,7 @@ message( "FOUND PYTHON VERSION ${PYTHONLIBS_VERSION_STRING}")
                                COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_CONFIG})
         endif()
         if (SBOL_BUILD_64)
-            set(PYSBOL_CONFIG "python")
+            set(PYSBOL_CONFIG "python/libsbol")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
             swig_add_module( libsbol
                 python
