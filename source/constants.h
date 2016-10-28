@@ -78,6 +78,7 @@
 #define SBOL_RESTRICTION SBOL_URI "#restriction"
 #define SBOL_ORIENTATION SBOL_URI "#orientation"
 #define SBOL_LOCATIONS SBOL_URI "#location"
+#define SBOL_ROLE_INTEGRATION SBOL_URI "#roleIntegration"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"
@@ -98,6 +99,8 @@
 #define SBOL_REFINEMENT_USE_LOCAL SBOL_URI "#useLocal"
 #define SBOL_REFINEMENT_VERIFY_IDENTICAL SBOL_URI "#verifyIdentical"
 #define SBOL_REFINEMENT_MERGE SBOL_URI "#merge"
+#define SBOL_ROLE_INTEGRATION_MERGE SBOL_URI "#mergeRoles"
+#define SBOL_ROLE_INTEGRATION_OVERRIDE SBOL_URI "#overrideRoles"
 
 /* Systems Biology Ontology */
 /* Interaction.types */

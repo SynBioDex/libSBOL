@@ -19,6 +19,8 @@ namespace sbol
 		URIProperty access;
 		List<OwnedObject<MapsTo>> mapsTos;
         ReferencedObject definition;
+        List<URIProperty> roles;
+        URIProperty roleIntegration;
 
         virtual ~ComponentInstance() {};
 	protected:
@@ -26,7 +28,9 @@ namespace sbol
             Identified(type, uri, version),
             definition(SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, this, definition),
             access(SBOL_ACCESS, this, access),
-            mapsTos(SBOL_MAPS_TOS, this)
+            mapsTos(SBOL_MAPS_TOS, this),
+            roles(SBOL_ROLES, this),
+            roleIntegration(SBOL_ROLE_INTEGRATION, this, SBOL_ROLE_INTEGRATION_MERGE)
             {
             };
 //        ComponentInstance(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) :

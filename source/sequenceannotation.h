@@ -13,6 +13,8 @@ namespace sbol
 	{
 	public:
 		List<OwnedObject<Location>> locations;
+        List<URIProperty> roles;
+        URIProperty roleIntegration;
         
         SequenceAnnotation(std::string uri = DEFAULT_NS "/SequenceAnnotation/example", std::string version = "1.0.0") : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri, version) {};
 
@@ -25,7 +27,9 @@ namespace sbol
 		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
         SequenceAnnotation(sbol_type type, std::string uri, std::string version) :
             Identified(type, uri, version),
-            locations(SBOL_LOCATIONS, this)
+            locations(SBOL_LOCATIONS, this),
+            roles(SBOL_ROLES, this),
+            roleIntegration(SBOL_ROLE_INTEGRATION, this, SBOL_ROLE_INTEGRATION_MERGE)
             {
             };
         
