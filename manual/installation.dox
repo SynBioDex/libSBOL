@@ -1,5 +1,18 @@
 //////////////////////////////////////////////////////////////////////
 /// @page installation Installation
+///
+/// We provide two ways to install libSBOL: One is to use the binary installers and other is the build from the source.
+///
+/// @section binary_installers Download Binary Installers
+/// 
+/// [Get the latest binary installers](https://github.com/SynBioDex/libSBOL/releases/latest)
+///
+/// Installation through binary installers is the simplest way to obtain libSBOL.
+/// 
+/// Installer contains pre-compiled libSBOL library. Simply install it to whichever path you want and use it.
+/// Currently, we only distribute binary installers for Windows and Mac OSX.
+///
+///
 /// @section build_from_source Build from Source
 ///
 /// To build libSBOL from source, you will need:

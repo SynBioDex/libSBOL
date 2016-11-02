@@ -3,70 +3,16 @@
 /// libSBOL 2.0.1
 /// ======================================
 /// 
-/// [libSBOL](https://github.com/SynBioDex/libSBOL) is a C++ library for reading, writing, and constructing genetic designs according to the standardized specification of the [Synthetic Biology Open Language (SBOL) 2.0](http://www.sbolstandard.org/).  
+/// [libSBOL](https://github.com/SynBioDex/libSBOL) is a C++ library for reading, writing, and constructing genetic designs according to the standardized specification of the [Synthetic Biology Open Language (SBOL)](http://www.sbolstandard.org/).  
+///
 /// INSTALLATION
 /// ============
 /// To install, go to @ref installation page.
 ///
 /// PLATFORMS
 /// =========
-/// Tested on Mac OSX Version 10.9.5 and Windows 7 Enterprise.
+/// libSBOL is available for Windows, Mac OSX, and Linux. The library is tested on Windows 7+, Mac OSX 10.9+, and Ubuntu 14.04+.
 /// 
-/// EXAMPLE CODE
-/// ============
-/// The example code below can be used to construct the biological design in the figure.  See the @ref getting_started, @ref sequences, and @ref modular_design tutorials to learn more about how libSBOL enables high-level design for synthetic biology.
-/// ![](gene_cassette.png)
-/// 
-/// **A diagram of a gene cassette, consisting of a promoter, ribosome binding site (RBS), coding sequence (CDS), and transcriptional terminator, expressed in SBOLVisual symbols. The design was programmatically generated with the code below, and then visualized with the SBOLDesigner tool.**
-/// 
-/// ```c++
-/// setHomespace("http://sys-bio.org");
-/// Document& doc = *new Document();
-///
-/// ComponentDefinition& gene = *new ComponentDefinition("BB0001");
-/// ComponentDefinition& promoter = *new ComponentDefinition("R0010");
-/// ComponentDefinition& CDS = *new ComponentDefinition("B0032");
-/// ComponentDefinition& RBS = *new ComponentDefinition("E0040");
-/// ComponentDefinition& terminator = *new ComponentDefinition("B0012");
-///
-/// promoter.roles.set(SO_PROMOTER);
-/// CDS.roles.set(SO_CDS);
-/// RBS.roles.set(SO_RBS);
-/// terminator.roles.set(SO_TERMINATOR);
-///
-/// doc.add<ComponentDefinition>(gene);
-/// doc.add<ComponentDefinition>(promoter);
-/// doc.add<ComponentDefinition>(CDS);
-/// doc.add<ComponentDefinition>(RBS);
-/// doc.add<ComponentDefinition>(terminator);
-///
-/// gene.assemble({ &promoter, &RBS, &CDS, &terminator});
-///
-///
-/// Component& first = gene.getFirstComponent();
-/// cout << first.identity.get() << endl;
-/// Component& last = gene.getLastComponent();
-/// cout << last.identity.get() << endl;
-///
-/// Sequence& promoter_seq = *new Sequence("R0010", "ggctgca");
-/// Sequence& RBS_seq = *new Sequence("B0032", "aattatataaa");
-/// Sequence& CDS_seq = *new Sequence("E0040", "atgtaa");
-/// Sequence& terminator_seq = *new Sequence("B0012", "attcga");
-/// Sequence& gene_seq = *new Sequence("BB0001");
-///
-/// doc.add<Sequence>({&promoter_seq, &CDS_seq, &RBS_seq, &terminator_seq, &gene_seq});
-///
-/// promoter.sequence.set(promoter_seq.identity.get());
-/// CDS.sequence.set(CDS_seq.identity.get());
-/// RBS.sequence.set(RBS_seq.identity.get());
-/// terminator.sequence.set(terminator_seq.identity.get());
-/// gene.sequence.set(gene_seq.identity.get());
-///
-/// gene_seq.assemble();
-/// cout << gene_seq.elements.get() << endl;
-///
-/// doc.write("gene_cassette.xml");
-/// ```
 /// ACKNOWLEDGEMENTS
 /// ================
 ///
