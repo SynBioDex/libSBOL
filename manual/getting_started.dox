@@ -1,8 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /// @page getting_started Getting Started
 ///
-/// @section getting_started Getting Started
-///
 /// This beginner’s guide will help you quickly set up a client project and introduces the basic principles of libSBOL for new users. This guide is not meant to be a comprehensive documentation of the library or the SBOL standard.  Refer to the [specification document](http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/) for a complete description of all SBOL data objects and their properties. In addition, refer to documentation about specific @ref classes for helpful explanatory text.
 ///
 /// @section xcode Creating an XCode project on Mac OSX
@@ -19,7 +17,7 @@
 ///
 /// 1. RUN THE INSTALLER
 /// * Download and run the latest [installer](https://github.com/SynBioDex/libSBOL/releases)
-/// By default this installs to C:\Program Files (x86)\SBOL with administrator privileges. If you don't have admin privileges, the installer will let you specify a custom install path.
+/// By default this installs to "C:\Program Files (x86)\SBOL" with administrator privileges. If you don't have admin privileges, the installer will let you specify a custom install path.
 ///
 /// 2. CREATE A NEW PROJECT IN VISUAL STUDIO
 /// * Navigate to the File Menu and select New Project.  To jump there directly, hit Ctrl-Shift-N
