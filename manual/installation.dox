@@ -122,7 +122,7 @@
 /// ```
 /// to compile.
 ///
-/// 9. (optional) For Python bindings, you will want to add the path of Python bindings as part of PYTHONPATH environment. To do so, run:
+/// 9. (optional) For Python bindings, you might want to add the path of Python bindings as part of PYTHONPATH environment. To do so, run:
 /// ```
 /// export PYTHONPATH=$PYTHONPATH:/path-to-your-Python-bindings
 /// ```
