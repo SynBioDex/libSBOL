@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////////////////
 /// @page installation Installation
-/// @section compile_from_source Compile from Source
+/// @section build_from_source Build from Source
 ///
-/// To compile libSBOL from source, you will need:
+/// To build libSBOL from source, you will need:
 /// * [git](https://git-scm.com/) for downloading the source code
 /// * [CMake](https://cmake.org/download/) for generating platform-specific build instructions
 /// * a C++ compiler, such as MSVC, g++, clang, or [MinGW](http://www.mingw.org/wiki/InstallationHOWTOforMinGW)
@@ -122,7 +122,7 @@
 /// ```
 /// to compile.
 ///
-/// 9. (optional) For Python bindings, you will want to add the path of Python bindings as part of PYTHONPATH environment. To do so, run:
+/// 9. (optional) For Python bindings, you might want to add the path of Python bindings as part of PYTHONPATH environment. To do so, run:
 /// ```
 /// export PYTHONPATH=$PYTHONPATH:/path-to-your-Python-bindings
 /// ```
