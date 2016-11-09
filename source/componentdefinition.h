@@ -102,7 +102,8 @@ namespace sbol
         /// @return The last component in sequential order
         Component& getLastComponent();
         
-        
+        /// A convenience method that assigns a component to participate in a biochemical reaction.  Behind the scenes, it auto-constructs a FunctionalComponent for this ComponentDefinition and assigns it to a Participation
+        /// @param species A Participation object (ie, participant species in a biochemical Interaction).
         void participate(Participation& species);
         
         virtual ~ComponentDefinition() {  };
