@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sequence_20assembly',['Sequence Assembly',['../sequences.html',1,'']]]
+  ['installation',['Installation',['../installation.html',1,'']]]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: sbol::FunctionalComponent Class Reference</title>
+<title>libSBOL: FunctionalComponent Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,10 +39,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
-      <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="installation.html"><span>Installation</span></a></li>
+      <li><a href="getting_started.html"><span>Getting&#160;Started&#160;with&#160;SBOL</span></a></li>
       <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
       <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
-      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -93,10 +93,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_functional_component-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">sbol::FunctionalComponent Class Reference</div>  </div>
+<div class="title">FunctionalComponent Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -104,38 +103,94 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a29215966b0c8f4b01f156b523dd78fc3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29215966b0c8f4b01f156b523dd78fc3"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>direction</b></td></tr>
-<tr class="separator:a29215966b0c8f4b01f156b523dd78fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b94118859e9a837e27bfc8df1253c12"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_functional_component.html#a4b94118859e9a837e27bfc8df1253c12">direction</a></td></tr>
+<tr class="memdesc:a4b94118859e9a837e27bfc8df1253c12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Each <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> MUST specify via the direction property whether it serves as an input, output, both, or neither for its parent <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> object.  <a href="#a4b94118859e9a837e27bfc8df1253c12">More...</a><br /></td></tr>
+<tr class="separator:a4b94118859e9a837e27bfc8df1253c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>access</b></td></tr>
+<tr class="memdesc:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">The access property is a REQUIRED URI that indicates whether the ComponentInstance can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a>.  <a href="#a0fdb998a5ae0eda7a9ff3935859e5b88">More...</a><br /></td></tr>
+<tr class="separator:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac148e7be3ce67a54b73a376d0acf3b73"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac148e7be3ce67a54b73a376d0acf3b73"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FunctionalComponent</b> (std::string uri=DEFAULT_NS&quot;/FunctionalComponent/example&quot;, std::string definition=&quot;&quot;, std::string access=SBOL_ACCESS_PUBLIC, std::string direction=SBOL_DIRECTION_NONE, std::string version=&quot;1.0.0&quot;)</td></tr>
-<tr class="separator:ac148e7be3ce67a54b73a376d0acf3b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9ccd33a916833784fea1e0403cf9cf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_functional_component.html#ac9ccd33a916833784fea1e0403cf9cf8">connect</a> (<a class="el" href="classsbol_1_1_functional_component.html">FunctionalComponent</a> &amp;interface_component)</td></tr>
-<tr class="memdesc:ac9ccd33a916833784fea1e0403cf9cf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method connects module inputs and outputs.  <a href="#ac9ccd33a916833784fea1e0403cf9cf8">More...</a><br /></td></tr>
-<tr class="separator:ac9ccd33a916833784fea1e0403cf9cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedde4aebfa5920fa57ddc9aa69940867"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aedde4aebfa5920fa57ddc9aa69940867"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>mask</b> (<a class="el" href="classsbol_1_1_functional_component.html">FunctionalComponent</a> &amp;masked_component)</td></tr>
-<tr class="separator:aedde4aebfa5920fa57ddc9aa69940867"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4be7f9027afcff16b878f4fb41c9a1e3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4be7f9027afcff16b878f4fb41c9a1e3"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>isMasked</b> ()</td></tr>
-<tr class="separator:a4be7f9027afcff16b878f4fb41c9a1e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a8ef4edc1bcb7e0c03e20b31bda28ea4a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ef4edc1bcb7e0c03e20b31bda28ea4a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FunctionalComponent</b> (sbol_type type, std::string uri, std::string definition, std::string access, std::string direction, std::string version)</td></tr>
-<tr class="separator:a8ef4edc1bcb7e0c03e20b31bda28ea4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66ec5fd77aa8c6a64589f6d780f5ffb6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_functional_component.html#a66ec5fd77aa8c6a64589f6d780f5ffb6">FunctionalComponent</a> (std::string uri=DEFAULT_NS&quot;/FunctionalComponent/example&quot;, std::string definition=&quot;&quot;, std::string access=SBOL_ACCESS_PUBLIC, std::string <a class="el" href="classsbol_1_1_functional_component.html#a4b94118859e9a837e27bfc8df1253c12">direction</a>=SBOL_DIRECTION_NONE, std::string version=&quot;1.0.0&quot;)</td></tr>
+<tr class="memdesc:a66ec5fd77aa8c6a64589f6d780f5ffb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a>.  <a href="#a66ec5fd77aa8c6a64589f6d780f5ffb6">More...</a><br /></td></tr>
+<tr class="separator:a66ec5fd77aa8c6a64589f6d780f5ffb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d2c1e546359392e22c620e06fa72cc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_functional_component.html#a5d2c1e546359392e22c620e06fa72cc8">connect</a> (<a class="el" href="classsbol_1_1_functional_component.html">FunctionalComponent</a> &amp;interface_component)</td></tr>
+<tr class="memdesc:a5d2c1e546359392e22c620e06fa72cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method connects module inputs and outputs.  <a href="#a5d2c1e546359392e22c620e06fa72cc8">More...</a><br /></td></tr>
+<tr class="separator:a5d2c1e546359392e22c620e06fa72cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a66ec5fd77aa8c6a64589f6d780f5ffb6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_functional_component.html">FunctionalComponent</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>uri</em> = <code>DEFAULT_NS&#160;&quot;/FunctionalComponent/example&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>definition</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>access</em> = <code>SBOL_ACCESS_PUBLIC</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>direction</em> = <code>SBOL_DIRECTION_NONE</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>version</em> = <code>&quot;1.0.0&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>full URI including a scheme, namespace, and identifier. If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed. </td></tr>
+    <tr><td class="paramname">definition</td><td></td></tr>
+    <tr><td class="paramname">access</td><td></td></tr>
+    <tr><td class="paramname">direction</td><td>The direction property specifies whether a <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> serves as an input, output, both, or neither for its parent <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> object </td></tr>
+    <tr><td class="paramname">version</td><td>An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch". </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ac9ccd33a916833784fea1e0403cf9cf8"></a>
+<a class="anchor" id="a5d2c1e546359392e22c620e06fa72cc8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void sbol::FunctionalComponent::connect </td>
+          <td class="memname">void connect </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsbol_1_1_functional_component.html">FunctionalComponent</a> &amp;&#160;</td>
           <td class="paramname"><em>interface_component</em></td><td>)</td>
@@ -154,20 +209,72 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a0fdb998a5ae0eda7a9ff3935859e5b88"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> access</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The access property is a REQUIRED URI that indicates whether the ComponentInstance can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a>. </p>
+<p>The value of the access property MUST be one of the following URIs. </p><table class="doxtable">
+<tr>
+<th align="left">Access URI </th><th align="left">Description  </th></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#public">http://sbols.org/v2#public</a> </td><td align="left">The ComponentInstance MAY be referred to by remote <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects </td></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#private">http://sbols.org/v2#private</a> </td><td align="left">The ComponentInstance MAY be referred to by remote <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects </td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="a4b94118859e9a837e27bfc8df1253c12"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> direction</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Each <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> MUST specify via the direction property whether it serves as an input, output, both, or neither for its parent <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> object. </p>
+<p>The value for this property MUST be one of the URIs given in the table below. </p><table class="doxtable">
+<tr>
+<th align="left">Direction URI </th><th align="left">Description </th><th align="left">LibSBOL Symbol  </th></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#in">http://sbols.org/v2#in</a> </td><td align="left">Indicates that the <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> is an input. </td><td align="left">SBOL_DIRECTION_IN </td></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#out">http://sbols.org/v2#out</a> </td><td align="left">Indicates that the <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> is an output. </td><td align="left">SBOL_DIRECTION_OUT </td></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#inout">http://sbols.org/v2#inout</a> </td><td align="left">Indicates that the <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> is both an input and output </td><td align="left">SBOL_DIRECTION_IN_OUT </td></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#none">http://sbols.org/v2#none</a> </td><td align="left">Indicates that the <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> is neither an input or output. </td><td align="left">SBOL_DIRECTION_NONE </td></tr>
+</table>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/component.h</li>
 </ul>
-<div class="dynheader">
-Inheritance diagram for sbol::FunctionalComponent:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_functional_component__inherit__graph.png" border="0" usemap="#sbol_1_1_functional_component_inherit__map" alt="Inheritance graph"/></div>
-<map name="sbol_1_1_functional_component_inherit__map" id="sbol_1_1_functional_component_inherit__map">
-</map>
-</div>
+
+<p>Inherits ComponentInstance.</p>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 21 2016 22:28:19 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 8 2016 18:11:53 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

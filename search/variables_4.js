@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['roles',['roles',['../classsbol_1_1_component_definition.html#a9e41c934656c96b3561665622902bef3',1,'sbol::ComponentDefinition::roles()'],['../classsbol_1_1_participation.html#aad1a1b4e5367a1c56b946e68467ca301',1,'sbol::Participation::roles()']]]
+  ['participant',['participant',['../classsbol_1_1_participation.html#af8fb73aa6c7fb75538f3dae9ee21203a',1,'sbol::Participation']]],
+  ['participations',['participations',['../classsbol_1_1_interaction.html#a07accd52266fcd28e87dcf4a70644ed9',1,'sbol::Interaction']]]
 ];

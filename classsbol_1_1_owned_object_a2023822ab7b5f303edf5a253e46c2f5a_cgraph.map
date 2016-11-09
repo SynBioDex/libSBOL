@@ -1,5 +1,0 @@
-<map id="sbol::OwnedObject::create" name="sbol::OwnedObject::create">
-<area shape="rect" id="node2" href="$group__extension__layer.html#gad80d20995be0a8bde236997dd7dcbeff" title="Basic getter for all SBOL literal properties. " alt="" coords="202,5,331,31"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_document.html#a7a76565b2eec04fceaa218fcf01f8d3e" title="Register an object in the Document. " alt="" coords="195,55,338,80"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_property.html#a32f483f6c03ae38e0e338c7b4980c291" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="202,104,331,129"/>
-</map>

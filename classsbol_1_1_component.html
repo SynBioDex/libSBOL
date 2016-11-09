@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: sbol::Component Class Reference</title>
+<title>libSBOL: Component Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,10 +39,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
-      <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="installation.html"><span>Installation</span></a></li>
+      <li><a href="getting_started.html"><span>Getting&#160;Started&#160;with&#160;SBOL</span></a></li>
       <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
       <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
-      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -91,42 +91,61 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classsbol_1_1_component-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">sbol::Component Class Reference</div>  </div>
+<div class="title">Component Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> class is used to compose <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects into a structural hierarchy. For example, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of a gene could contain four <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects: a promoter, RBS, CDS, and terminator. In turn, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of the promoter <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> could contain <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects defined as various operator sites. </p>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a98d6c2f147768da1636290ac5f8057cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a98d6c2f147768da1636290ac5f8057cf"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Component</b> (std::string uri=DEFAULT_NS&quot;/Component/example&quot;, std::string definition=&quot;&quot;, std::string access=SBOL_ACCESS_PUBLIC, std::string version=&quot;1.0.0&quot;)</td></tr>
-<tr class="separator:a98d6c2f147768da1636290ac5f8057cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a4ef6a1c28b96e629b5e358b0761efe3d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ef6a1c28b96e629b5e358b0761efe3d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Component</b> (sbol_type type, std::string uri, std::string definition, std::string access, std::string version)</td></tr>
-<tr class="separator:a4ef6a1c28b96e629b5e358b0761efe3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>access</b></td></tr>
+<tr class="memdesc:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">The access property is a REQUIRED URI that indicates whether the ComponentInstance can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a>.  <a href="#a0fdb998a5ae0eda7a9ff3935859e5b88">More...</a><br /></td></tr>
+<tr class="separator:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a0fdb998a5ae0eda7a9ff3935859e5b88"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> access</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The access property is a REQUIRED URI that indicates whether the ComponentInstance can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a>. </p>
+<p>The value of the access property MUST be one of the following URIs. </p><table class="doxtable">
+<tr>
+<th align="left">Access URI </th><th align="left">Description  </th></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#public">http://sbols.org/v2#public</a> </td><td align="left">The ComponentInstance MAY be referred to by remote <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects </td></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#private">http://sbols.org/v2#private</a> </td><td align="left">The ComponentInstance MAY be referred to by remote <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects </td></tr>
+</table>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/component.h</li>
 </ul>
-<div class="dynheader">
-Inheritance diagram for sbol::Component:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component__inherit__graph.png" border="0" usemap="#sbol_1_1_component_inherit__map" alt="Inheritance graph"/></div>
-<map name="sbol_1_1_component_inherit__map" id="sbol_1_1_component_inherit__map">
-</map>
-</div>
+
+<p>Inherits ComponentInstance.</p>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 21 2016 22:28:19 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 8 2016 18:11:53 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

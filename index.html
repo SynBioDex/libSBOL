@@ -39,10 +39,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Introduction</span></a></li>
-      <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="installation.html"><span>Installation</span></a></li>
+      <li><a href="getting_started.html"><span>Getting&#160;Started&#160;with&#160;SBOL</span></a></li>
       <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
       <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
-      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -84,65 +84,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h1>libSBOL 2.0.1 </h1>
-<p><a href="https://github.com/SynBioDex/libSBOL">libSBOL</a> is a C++ library for reading, writing, and constructing genetic designs according to the standardized specification of the <a href="http://www.sbolstandard.org/">Synthetic Biology Open Language (SBOL) 2.0</a>. </p><h1>PLATFORMS </h1>
-<p>Tested on Mac OSX Version 10.9.5 and Windows 7 Enterprise.</p>
-<h1>RELEASE DISTRIBUTIONS </h1>
-<p><a href="https://github.com/SynBioDex/libSBOL/releases">Windows binary installers are here.</a></p>
-<h1>BUILDING FROM SOURCE </h1>
-<p>To compile libSBOL from source, you will need:</p><ul>
-<li><a href="https://git-scm.com/">git</a> for downloading the source code</li>
-<li><a href="https://cmake.org/download/">CMake</a> for generating platform-specific build instructions</li>
-<li>a C++ compiler, such as MSVC, g++, clang, or <a href="http://www.mingw.org/wiki/InstallationHOWTOforMinGW">MinGW</a></li>
-<li>OPTIONAL: <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> for creating documentation</li>
-<li>OPTIONAL: <a href="http://www.swig.org/">SWIG</a> for generating Python wrappers</li>
-</ul>
-<p>All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake can be used to generate projects for Eclipse, Visual Studio, XCode, etc.</p>
-<h2>Windows </h2>
-<ol type="1">
-<li><a href="https://git-scm.com/">Install git for Windows</a></li>
-<li><a href="https://cmake.org/download/">Install CMake for Windows</a></li>
-<li>Clone the repository by running the following command in git application or command console: <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --></li>
-<li>Run CMake. For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for (e.g. Visual Studio 14 2015).</li>
-<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.</li>
-<li>Once it's all set, click Generate to create the compiler instructions.</li>
-<li>The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose. When using minGW, first go to 'build' folder and run the compiler by using <div class="fragment"><div class="line">mingw32-make</div></div><!-- fragment --> or <div class="fragment"><div class="line">mingw32-make install</div></div><!-- fragment --> You will need administrator privileges for a make install. When using Visual Studio, open 'SBOL.sln' under 'build' folder. Right click INSTALL under Solution Explorer on the right and press Build. Binaries will be generated in the folder specified before (CMAKE_INSTALL_PREFIX).</li>
-</ol>
-<h2>Mac </h2>
-<ol type="1">
-<li><a href="https://git-scm.com/">Install git for Mac OSX</a></li>
-<li>Clone the repository by running the following command in terminal: <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --></li>
-<li>LibSBOL depends on the RaptorRDF library. Install Raptor by running the following command in terminal: <div class="fragment"><div class="line">brew install raptor</div></div><!-- fragment --></li>
-<li>You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. <div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --></li>
-<li>For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for.</li>
-<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.</li>
-<li>Once it's all set, click Generate to create the compiler instructions.</li>
-<li>In terminal, go to the build directory and run: <div class="fragment"><div class="line">make </div></div><!-- fragment --> or <div class="fragment"><div class="line">make install</div></div><!-- fragment --> to compile.</li>
-</ol>
-<h2>Debian/Ubuntu </h2>
-<ol type="1">
-<li>If you're on Debian/Ubuntu you can get git and cmake by running the following command in terminal. <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install git cmake-qt-gui</div></div><!-- fragment --> Running this command will require sudo privilege. All the other necessary libraries can be acquired by running the following command in terminal. <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev</div></div><!-- fragment --></li>
-<li>(optional) If you want to generate Python wrapper you will need SWIG. To install run: <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install swig python-dev</div></div><!-- fragment --></li>
-<li>(optional) To update the documentation you will need Doxygen. To install run: <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install doxygen-gui</div></div><!-- fragment --></li>
-<li>Clone the repository by running the following command in terminal: <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --> This will create a libSBOL directory with the source.</li>
-<li>Run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for.</li>
-<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.</li>
-<li>Once it's all set, click Generate to create the compiler instructions.</li>
-<li>In terminal, go to the build directory and run: <div class="fragment"><div class="line">make </div></div><!-- fragment --> or <div class="fragment"><div class="line">mingw32-make.exe</div></div><!-- fragment --> to compile.</li>
-</ol>
-<h1>DEPENDENCIES </h1>
-<p>LibSBOL depends on libxml2 and raptor libraries for I/O in XML and RDF formats. Windows releases include precompiled binaries for these dependencies libSBOL On Mac, these libraries are typically installed by default.</p>
-<p>Optionally, LibSBOL also depends on Restbed for web integration. This is useful for features like querying biological parts in a repository or validating SBOL files. This dependency also has subdependencies and is managed by Git's submodule feature. After cloning the libSBOL project, you will also need to clone the submodules: </p><div class="fragment"><div class="line">git submodule update --init --recursive</div></div><!-- fragment --><p> A .gitmodules configuration file is included in the project root.</p>
-<h1>EXAMPLE CODE </h1>
-<p>The example code below can be used to construct the biological design in the figure. See the <a class="el" href="getting_started.html#getting_started">Getting Started</a>, <a class="el" href="sequences.html">Sequence Assembly</a>, and <a class="el" href="modular_design.html#modular_design">Connecting Module Inputs &amp; Outputs</a> tutorials to learn more about how libSBOL enables high-level design for synthetic biology. </p><div class="image">
-<img src="gene_cassette.png" alt="gene_cassette.png"/>
-</div>
-<p><b>A diagram of a gene cassette, consisting of a promoter, ribosome binding site (RBS), coding sequence (CDS), and transcriptional terminator, expressed in SBOLVisual symbols. The design was programmatically generated with the code below, and then visualized with the SBOLDesigner tool.</b></p>
-<div class="fragment"><div class="line">{c++}</div><div class="line">setHomespace(<span class="stringliteral">&quot;http://sys-bio.org&quot;</span>);</div><div class="line">Document&amp; doc = *<span class="keyword">new</span> Document();</div><div class="line"></div><div class="line">ComponentDefinition&amp; gene = *<span class="keyword">new</span> ComponentDefinition(<span class="stringliteral">&quot;BB0001&quot;</span>);</div><div class="line">ComponentDefinition&amp; promoter = *<span class="keyword">new</span> ComponentDefinition(<span class="stringliteral">&quot;R0010&quot;</span>);</div><div class="line">ComponentDefinition&amp; CDS = *<span class="keyword">new</span> ComponentDefinition(<span class="stringliteral">&quot;B0032&quot;</span>);</div><div class="line">ComponentDefinition&amp; RBS = *<span class="keyword">new</span> ComponentDefinition(<span class="stringliteral">&quot;E0040&quot;</span>);</div><div class="line">ComponentDefinition&amp; terminator = *<span class="keyword">new</span> ComponentDefinition(<span class="stringliteral">&quot;B0012&quot;</span>);</div><div class="line"></div><div class="line">promoter.roles.set(SO_PROMOTER);</div><div class="line">CDS.roles.set(SO_CDS);</div><div class="line">RBS.roles.set(SO_RBS);</div><div class="line">terminator.roles.set(SO_TERMINATOR);</div><div class="line"></div><div class="line">doc.add&lt;ComponentDefinition&gt;(gene);</div><div class="line">doc.add&lt;ComponentDefinition&gt;(promoter);</div><div class="line">doc.add&lt;ComponentDefinition&gt;(CDS);</div><div class="line">doc.add&lt;ComponentDefinition&gt;(RBS);</div><div class="line">doc.add&lt;ComponentDefinition&gt;(terminator);</div><div class="line"></div><div class="line">gene.assemble({ &amp;promoter, &amp;RBS, &amp;CDS, &amp;terminator});</div><div class="line"></div><div class="line"></div><div class="line">Component&amp; first = gene.getFirstComponent();</div><div class="line">cout &lt;&lt; first.identity.get() &lt;&lt; endl;</div><div class="line">Component&amp; last = gene.getLastComponent();</div><div class="line">cout &lt;&lt; last.identity.get() &lt;&lt; endl;</div><div class="line"></div><div class="line">Sequence&amp; promoter_seq = *<span class="keyword">new</span> Sequence(<span class="stringliteral">&quot;R0010&quot;</span>, <span class="stringliteral">&quot;ggctgca&quot;</span>);</div><div class="line">Sequence&amp; RBS_seq = *<span class="keyword">new</span> Sequence(<span class="stringliteral">&quot;B0032&quot;</span>, <span class="stringliteral">&quot;aattatataaa&quot;</span>);</div><div class="line">Sequence&amp; CDS_seq = *<span class="keyword">new</span> Sequence(<span class="stringliteral">&quot;E0040&quot;</span>, <span class="stringliteral">&quot;atgtaa&quot;</span>);</div><div class="line">Sequence&amp; terminator_seq = *<span class="keyword">new</span> Sequence(<span class="stringliteral">&quot;B0012&quot;</span>, <span class="stringliteral">&quot;attcga&quot;</span>);</div><div class="line">Sequence&amp; gene_seq = *<span class="keyword">new</span> Sequence(<span class="stringliteral">&quot;BB0001&quot;</span>);</div><div class="line"></div><div class="line">doc.add&lt;Sequence&gt;({&amp;promoter_seq, &amp;CDS_seq, &amp;RBS_seq, &amp;terminator_seq, &amp;gene_seq});</div><div class="line"></div><div class="line">promoter.sequence.set(promoter_seq.identity.get());</div><div class="line">CDS.sequence.set(CDS_seq.identity.get());</div><div class="line">RBS.sequence.set(RBS_seq.identity.get());</div><div class="line">terminator.sequence.set(terminator_seq.identity.get());</div><div class="line">gene.sequence.set(gene_seq.identity.get());</div><div class="line"></div><div class="line">gene_seq.assemble();</div><div class="line">cout &lt;&lt; gene_seq.elements.get() &lt;&lt; endl;</div><div class="line"></div><div class="line">doc.write(<span class="stringliteral">&quot;gene_cassette.xml&quot;</span>);</div></div><!-- fragment --> <h1>ACKNOWLEDGEMENTS </h1>
+<p><a href="https://github.com/SynBioDex/libSBOL">libSBOL</a> is a C++ library for reading, writing, and constructing genetic designs according to the standardized specification of the <a href="http://www.sbolstandard.org/">Synthetic Biology Open Language (SBOL)</a>.</p>
+<h1>INSTALLATION </h1>
+<p>To install, go to <a class="el" href="installation.html">Installation</a> page.</p>
+<h1>PLATFORMS </h1>
+<p>libSBOL is available for Windows, Mac OSX, and Linux. The library is tested on Windows 7+, Mac OSX 10.9+, and Ubuntu 14.04+.</p>
+<h1>ACKNOWLEDGEMENTS </h1>
 <p>Current support for the development of libSBOL is generously provided by the NSF through the <a href="http://www.nsf.gov/awardsearch/showAward?AWD_ID=1355909">Synthetic Biology Open Language Resource</a> collaborative award. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 21 2016 22:28:19 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 8 2016 18:11:53 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

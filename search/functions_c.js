@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['write',['write',['../classsbol_1_1_document.html#a36174c935c257c519c1a165b5c730d0c',1,'sbol::Document']]]
+  ['validate',['validate',['../classsbol_1_1_document.html#af19ecb2e26889fcc5368c661b5fbdf98',1,'sbol::Document']]]
 ];

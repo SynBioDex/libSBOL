@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: sbol::Document Class Reference</title>
+<title>libSBOL: Document Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,10 +39,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
-      <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="installation.html"><span>Installation</span></a></li>
+      <li><a href="getting_started.html"><span>Getting&#160;Started&#160;with&#160;SBOL</span></a></li>
       <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
       <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
-      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -93,10 +93,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classsbol_1_1_document-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">sbol::Document Class Reference</div>  </div>
+<div class="title">Document Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -104,147 +103,58 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ae3b9787e28961c4fc22c8c56a7735b72"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae3b9787e28961c4fc22c8c56a7735b72"></a>
-std::unordered_map&lt; std::string, <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#ae3b9787e28961c4fc22c8c56a7735b72">SBOLObjects</a></td></tr>
-<tr class="memdesc:ae3b9787e28961c4fc22c8c56a7735b72"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>'s register of objects. <br /></td></tr>
-<tr class="separator:ae3b9787e28961c4fc22c8c56a7735b72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
-<tr class="memitem:aa1ad14a6466e0c2bd37cc92f3d66f8d8 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1ad14a6466e0c2bd37cc92f3d66f8d8"></a>
-<a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>doc</b> = NULL</td></tr>
-<tr class="separator:aa1ad14a6466e0c2bd37cc92f3d66f8d8 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5b9f99c85f8e1713b38182d3d6dea68 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5b9f99c85f8e1713b38182d3d6dea68"></a>
-std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>properties</b></td></tr>
-<tr class="separator:ae5b9f99c85f8e1713b38182d3d6dea68 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a412f3a98b004397de1a2d87af2a6b83e inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a412f3a98b004397de1a2d87af2a6b83e"></a>
-std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>list_properties</b></td></tr>
-<tr class="separator:a412f3a98b004397de1a2d87af2a6b83e inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b57fcdb5a116837d99c4fc0d69ca732 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b57fcdb5a116837d99c4fc0d69ca732"></a>
-std::map&lt; sbol::sbol_type, std::vector&lt; <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a> * &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>owned_objects</b></td></tr>
-<tr class="separator:a4b57fcdb5a116837d99c4fc0d69ca732 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bb846d3814e125caa2a2504d9306ac0 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bb846d3814e125caa2a2504d9306ac0"></a>
-sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
-<tr class="separator:a8bb846d3814e125caa2a2504d9306ac0 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f837ccef79ed4923fbaf4e12e8412b5 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f837ccef79ed4923fbaf4e12e8412b5"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>identity</b></td></tr>
-<tr class="separator:a9f837ccef79ed4923fbaf4e12e8412b5 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22f0f4a0f715f19666e4ee4287410988"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22f0f4a0f715f19666e4ee4287410988"></a>
+std::unordered_map&lt; std::string, <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a22f0f4a0f715f19666e4ee4287410988">SBOLObjects</a></td></tr>
+<tr class="memdesc:a22f0f4a0f715f19666e4ee4287410988"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>'s register of objects. <br /></td></tr>
+<tr class="separator:a22f0f4a0f715f19666e4ee4287410988"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9744d1dc4974259506274ff4446fc0cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9744d1dc4974259506274ff4446fc0cf"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a9744d1dc4974259506274ff4446fc0cf">Document</a> ()</td></tr>
-<tr class="memdesc:a9744d1dc4974259506274ff4446fc0cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. The <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> is a container for Components, Modules, and all other SBOLObjects. <br /></td></tr>
-<tr class="separator:a9744d1dc4974259506274ff4446fc0cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38794dd339f6675d545c9de4b7d87d03"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a38794dd339f6675d545c9de4b7d87d03"></a>
-<a class="el" href="classsbol_1_1_top_level.html">TopLevel</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getTopLevel</b> (std::string)</td></tr>
-<tr class="separator:a38794dd339f6675d545c9de4b7d87d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67ba9efee2f3c3e24bf8d849c29878ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67ba9efee2f3c3e24bf8d849c29878ac"></a>
-raptor_world *&#160;</td><td class="memItemRight" valign="bottom"><b>getWorld</b> ()</td></tr>
-<tr class="separator:a67ba9efee2f3c3e24bf8d849c29878ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a76565b2eec04fceaa218fcf01f8d3e"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
-<tr class="memitem:a7a76565b2eec04fceaa218fcf01f8d3e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a7a76565b2eec04fceaa218fcf01f8d3e">add</a> (SBOLClass &amp;sbol_obj)</td></tr>
-<tr class="memdesc:a7a76565b2eec04fceaa218fcf01f8d3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an object in the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a7a76565b2eec04fceaa218fcf01f8d3e">More...</a><br /></td></tr>
-<tr class="separator:a7a76565b2eec04fceaa218fcf01f8d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adca6a68467e7696cbe4e4a0961d53647"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
-<tr class="memitem:adca6a68467e7696cbe4e4a0961d53647"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#adca6a68467e7696cbe4e4a0961d53647">add</a> (std::vector&lt; SBOLClass * &gt; sbol_objects)</td></tr>
-<tr class="memdesc:adca6a68467e7696cbe4e4a0961d53647"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an object in the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#adca6a68467e7696cbe4e4a0961d53647">More...</a><br /></td></tr>
-<tr class="separator:adca6a68467e7696cbe4e4a0961d53647"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af63b9f8ccfc1ab4e54d886e5f5425b57"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
-<tr class="memitem:af63b9f8ccfc1ab4e54d886e5f5425b57"><td class="memTemplItemLeft" align="right" valign="top">SBOLClass &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#af63b9f8ccfc1ab4e54d886e5f5425b57">get</a> (std::string uri)</td></tr>
-<tr class="memdesc:af63b9f8ccfc1ab4e54d886e5f5425b57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve an object from the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#af63b9f8ccfc1ab4e54d886e5f5425b57">More...</a><br /></td></tr>
-<tr class="separator:af63b9f8ccfc1ab4e54d886e5f5425b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab650a369c7fb937a166603ef3c47bfd9"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
-<tr class="memitem:ab650a369c7fb937a166603ef3c47bfd9"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; SBOLClass * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#ab650a369c7fb937a166603ef3c47bfd9">getAll</a> ()</td></tr>
-<tr class="memdesc:ab650a369c7fb937a166603ef3c47bfd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a vector of objects from the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#ab650a369c7fb937a166603ef3c47bfd9">More...</a><br /></td></tr>
-<tr class="separator:ab650a369c7fb937a166603ef3c47bfd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36174c935c257c519c1a165b5c730d0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a36174c935c257c519c1a165b5c730d0c">write</a> (std::string filename)</td></tr>
-<tr class="memdesc:a36174c935c257c519c1a165b5c730d0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize all objects in this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> to an RDF/XML file.  <a href="#a36174c935c257c519c1a165b5c730d0c">More...</a><br /></td></tr>
-<tr class="separator:a36174c935c257c519c1a165b5c730d0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9143ae31ea81f79a53f18fac75b62843"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a9143ae31ea81f79a53f18fac75b62843">read</a> (std::string filename)</td></tr>
-<tr class="memdesc:a9143ae31ea81f79a53f18fac75b62843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read an RDF/XML file and attach the SBOL objects to this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a9143ae31ea81f79a53f18fac75b62843">More...</a><br /></td></tr>
-<tr class="separator:a9143ae31ea81f79a53f18fac75b62843"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebaa564ba0679ae29fbf7859ec398dc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#aebaa564ba0679ae29fbf7859ec398dc9">append</a> (std::string filename)</td></tr>
-<tr class="memdesc:aebaa564ba0679ae29fbf7859ec398dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read an RDF/XML file and attach the SBOL objects to this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#aebaa564ba0679ae29fbf7859ec398dc9">More...</a><br /></td></tr>
-<tr class="separator:aebaa564ba0679ae29fbf7859ec398dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38f681e1b1e8dda67f4f3150f880a60f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a38f681e1b1e8dda67f4f3150f880a60f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a38f681e1b1e8dda67f4f3150f880a60f">validate</a> (void *arg=NULL)</td></tr>
-<tr class="memdesc:a38f681e1b1e8dda67f4f3150f880a60f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run validation rules on this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. Validation rules are called automatically during parsing and serialization. <br /></td></tr>
-<tr class="separator:a38f681e1b1e8dda67f4f3150f880a60f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa512a64ac2138b531556fa9341e1dd6d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa512a64ac2138b531556fa9341e1dd6d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (std::string uri)</td></tr>
-<tr class="separator:aa512a64ac2138b531556fa9341e1dd6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d77d27a857cf315c7b0923d0e106c5e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d77d27a857cf315c7b0923d0e106c5e"></a>
-std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getNamespaces</b> ()</td></tr>
-<tr class="separator:a0d77d27a857cf315c7b0923d0e106c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab31fa070d3cfd8e6a5c3acdfe0e81731"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab31fa070d3cfd8e6a5c3acdfe0e81731"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addNamespace</b> (std::string ns, std::string prefix, raptor_serializer *sbol_serializer)</td></tr>
-<tr class="separator:ab31fa070d3cfd8e6a5c3acdfe0e81731"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe9dacf188670b4f43757eae73ad70e1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abe9dacf188670b4f43757eae73ad70e1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addNamespace</b> (std::string ns, std::string prefix)</td></tr>
-<tr class="separator:abe9dacf188670b4f43757eae73ad70e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea194694a3e3168199dc2765a38e7721"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aea194694a3e3168199dc2765a38e7721"></a>
-std::vector&lt; <a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>flatten</b> ()</td></tr>
-<tr class="separator:aea194694a3e3168199dc2765a38e7721"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa632c56e3a0b9f844718157e59ade139"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa632c56e3a0b9f844718157e59ade139"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#aa632c56e3a0b9f844718157e59ade139">close</a> (std::string uri=&quot;&quot;)</td></tr>
-<tr class="memdesc:aa632c56e3a0b9f844718157e59ade139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete all objects in this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> and destroy the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. <br /></td></tr>
-<tr class="separator:aa632c56e3a0b9f844718157e59ade139"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
-<tr class="memitem:a0318030da9c3e504120ac220f20ce849 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0318030da9c3e504120ac220f20ce849"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri=DEFAULT_NS&quot;/SBOLObject/example&quot;)</td></tr>
-<tr class="separator:a0318030da9c3e504120ac220f20ce849 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a946ab4b90ca7240713fdf1b09d5e815f inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a946ab4b90ca7240713fdf1b09d5e815f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri_prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:a946ab4b90ca7240713fdf1b09d5e815f inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ebeb47e6e84385e677797162fb02380 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ebeb47e6e84385e677797162fb02380"></a>
-virtual sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>getTypeURI</b> ()</td></tr>
-<tr class="separator:a4ebeb47e6e84385e677797162fb02380 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a309d5c49984210d52b1dbb9b0ec8a814 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a309d5c49984210d52b1dbb9b0ec8a814"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>serialize</b> (raptor_serializer *sbol_serializer, raptor_world *sbol_world=NULL)</td></tr>
-<tr class="separator:a309d5c49984210d52b1dbb9b0ec8a814 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d6a7ec0dd60d18609cab6da7108473c inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d6a7ec0dd60d18609cab6da7108473c"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>nest</b> (std::string &amp;rdfxml_buffer)</td></tr>
-<tr class="separator:a5d6a7ec0dd60d18609cab6da7108473c inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab91ab93a5f15bbcf7b27967821b77185 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab91ab93a5f15bbcf7b27967821b77185"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (std::string uri)</td></tr>
-<tr class="separator:ab91ab93a5f15bbcf7b27967821b77185 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa22686b68fc779e021761cfdb8cc42b1 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa22686b68fc779e021761cfdb8cc42b1"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getClassName</b> (std::string type)</td></tr>
-<tr class="separator:aa22686b68fc779e021761cfdb8cc42b1 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6659083a99a13bbe2a1815a6bef04d52 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6659083a99a13bbe2a1815a6bef04d52"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>close</b> ()</td></tr>
-<tr class="separator:a6659083a99a13bbe2a1815a6bef04d52 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad7db4f176ea11dc5ab000ad4af322648"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad7db4f176ea11dc5ab000ad4af322648"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>parse_objects</b> (void *user_data, raptor_statement *triple)</td></tr>
-<tr class="separator:ad7db4f176ea11dc5ab000ad4af322648"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac28d1aede4c17a38e4165fb2c447b320"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac28d1aede4c17a38e4165fb2c447b320"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>parse_properties</b> (void *user_data, raptor_statement *triple)</td></tr>
-<tr class="separator:ac28d1aede4c17a38e4165fb2c447b320"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc4f27415c536c2d5f17ff9aca9dd27e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afc4f27415c536c2d5f17ff9aca9dd27e"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>namespaceHandler</b> (void *user_data, raptor_namespace *nspace)</td></tr>
-<tr class="separator:afc4f27415c536c2d5f17ff9aca9dd27e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
-<tr class="memitem:a3175a8bed6d61db88f681a72fced8c3f inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3175a8bed6d61db88f681a72fced8c3f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri)</td></tr>
-<tr class="separator:a3175a8bed6d61db88f681a72fced8c3f inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a321a8b8c49831e62e8d97cab2463610b inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a321a8b8c49831e62e8d97cab2463610b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri_prefix, std::string display_id, std::string version)</td></tr>
-<tr class="separator:a321a8b8c49831e62e8d97cab2463610b inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48147d9cbb3319e79bf8df2bb07c51ea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a48147d9cbb3319e79bf8df2bb07c51ea"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a48147d9cbb3319e79bf8df2bb07c51ea">Document</a> ()</td></tr>
+<tr class="memdesc:a48147d9cbb3319e79bf8df2bb07c51ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. The <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> is a container for Components, Modules, and all other SBOLObjects. <br /></td></tr>
+<tr class="separator:a48147d9cbb3319e79bf8df2bb07c51ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98389f37410e7f03f251a079a0db8dec"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
+<tr class="memitem:a98389f37410e7f03f251a079a0db8dec"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a98389f37410e7f03f251a079a0db8dec">add</a> (SBOLClass &amp;sbol_obj)</td></tr>
+<tr class="memdesc:a98389f37410e7f03f251a079a0db8dec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an object in the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a98389f37410e7f03f251a079a0db8dec">More...</a><br /></td></tr>
+<tr class="separator:a98389f37410e7f03f251a079a0db8dec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d3f0e10bb9f0192b169ff0d636208e9"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
+<tr class="memitem:a3d3f0e10bb9f0192b169ff0d636208e9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a3d3f0e10bb9f0192b169ff0d636208e9">add</a> (std::vector&lt; SBOLClass * &gt; sbol_objects)</td></tr>
+<tr class="memdesc:a3d3f0e10bb9f0192b169ff0d636208e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an object in the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a3d3f0e10bb9f0192b169ff0d636208e9">More...</a><br /></td></tr>
+<tr class="separator:a3d3f0e10bb9f0192b169ff0d636208e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbe4804b63d9e7c4aa006ed0a85662a6"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
+<tr class="memitem:adbe4804b63d9e7c4aa006ed0a85662a6"><td class="memTemplItemLeft" align="right" valign="top">SBOLClass &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#adbe4804b63d9e7c4aa006ed0a85662a6">get</a> (std::string uri)</td></tr>
+<tr class="memdesc:adbe4804b63d9e7c4aa006ed0a85662a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve an object from the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#adbe4804b63d9e7c4aa006ed0a85662a6">More...</a><br /></td></tr>
+<tr class="separator:adbe4804b63d9e7c4aa006ed0a85662a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a011f796225e891fd78f0c54b79081db3"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
+<tr class="memitem:a011f796225e891fd78f0c54b79081db3"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; SBOLClass * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a011f796225e891fd78f0c54b79081db3">getAll</a> ()</td></tr>
+<tr class="memdesc:a011f796225e891fd78f0c54b79081db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a vector of objects from the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a011f796225e891fd78f0c54b79081db3">More...</a><br /></td></tr>
+<tr class="separator:a011f796225e891fd78f0c54b79081db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a368d75cabc4dfc01079fcbb0da4ed349"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a368d75cabc4dfc01079fcbb0da4ed349">write</a> (std::string filename)</td></tr>
+<tr class="memdesc:a368d75cabc4dfc01079fcbb0da4ed349"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize all objects in this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> to an RDF/XML file.  <a href="#a368d75cabc4dfc01079fcbb0da4ed349">More...</a><br /></td></tr>
+<tr class="separator:a368d75cabc4dfc01079fcbb0da4ed349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab474f7d789f798ce60cb0857d9e81236"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#ab474f7d789f798ce60cb0857d9e81236">read</a> (std::string filename)</td></tr>
+<tr class="memdesc:ab474f7d789f798ce60cb0857d9e81236"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read an RDF/XML file and attach the SBOL objects to this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#ab474f7d789f798ce60cb0857d9e81236">More...</a><br /></td></tr>
+<tr class="separator:ab474f7d789f798ce60cb0857d9e81236"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d7b3fb43d294ed790c23b5c5ab78257"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a7d7b3fb43d294ed790c23b5c5ab78257">append</a> (std::string filename)</td></tr>
+<tr class="memdesc:a7d7b3fb43d294ed790c23b5c5ab78257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read an RDF/XML file and attach the SBOL objects to this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a7d7b3fb43d294ed790c23b5c5ab78257">More...</a><br /></td></tr>
+<tr class="separator:a7d7b3fb43d294ed790c23b5c5ab78257"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af19ecb2e26889fcc5368c661b5fbdf98"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af19ecb2e26889fcc5368c661b5fbdf98"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#af19ecb2e26889fcc5368c661b5fbdf98">validate</a> (void *arg=NULL)</td></tr>
+<tr class="memdesc:af19ecb2e26889fcc5368c661b5fbdf98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run validation rules on this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. Validation rules are called automatically during parsing and serialization. <br /></td></tr>
+<tr class="separator:af19ecb2e26889fcc5368c661b5fbdf98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb864daeee6af83e4d1f63e04b5b655a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acb864daeee6af83e4d1f63e04b5b655a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a">close</a> (std::string uri=&quot;&quot;)</td></tr>
+<tr class="memdesc:acb864daeee6af83e4d1f63e04b5b655a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete all objects in this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> and destroy the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. <br /></td></tr>
+<tr class="separator:acb864daeee6af83e4d1f63e04b5b655a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a7a76565b2eec04fceaa218fcf01f8d3e"></a>
+<a class="anchor" id="a98389f37410e7f03f251a079a0db8dec"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;class SBOLClass &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void sbol::Document::add </td>
+          <td class="memname">void add </td>
           <td>(</td>
           <td class="paramtype">SBOLClass &amp;&#160;</td>
           <td class="paramname"><em>sbol_obj</em></td><td>)</td>
@@ -270,25 +180,23 @@ template&lt;class SBOLClass &gt; </div>
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_document_a7a76565b2eec04fceaa218fcf01f8d3e_icgraph.png" border="0" usemap="#classsbol_1_1_document_a7a76565b2eec04fceaa218fcf01f8d3e_icgraph" alt=""/></div>
-<map name="classsbol_1_1_document_a7a76565b2eec04fceaa218fcf01f8d3e_icgraph" id="classsbol_1_1_document_a7a76565b2eec04fceaa218fcf01f8d3e_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html#a2023822ab7b5f303edf5a253e46c2f5a" title="Autoconstruct a child object and add it to a parent SBOL object. " alt="" coords="208,5,349,44"/>
-<area shape="rect" id="node3" href="classsbol_1_1_owned_object.html#acea6c6773582f5a712b8aa68154e1a65" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="197,68,361,93"/>
-<area shape="rect" id="node4" href="classsbol_1_1_owned_object.html#afd8b38671096e6aafce5bef3e02723cb" title="Retrieve a child object by numerical index. " alt="" coords="409,61,550,100"/>
+<div class="center"><img src="classsbol_1_1_document_a98389f37410e7f03f251a079a0db8dec_icgraph.png" border="0" usemap="#classsbol_1_1_document_a98389f37410e7f03f251a079a0db8dec_icgraph" alt=""/></div>
+<map name="classsbol_1_1_document_a98389f37410e7f03f251a079a0db8dec_icgraph" id="classsbol_1_1_document_a98389f37410e7f03f251a079a0db8dec_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html#a93be311b8f4d80f6215bc6438710e28a" title="Autoconstruct a child object and add it to a parent SBOL object. " alt="" coords="108,5,249,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_owned_object.html#a181f5df78e9d0f4002144d9239145ef6" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="97,68,261,93"/>
+<area shape="rect" id="node4" href="classsbol_1_1_owned_object.html#a6d459511f3586418b35a9c077e216539" title="Retrieve a child object by numerical index. " alt="" coords="309,61,450,100"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="adca6a68467e7696cbe4e4a0961d53647"></a>
+<a class="anchor" id="a3d3f0e10bb9f0192b169ff0d636208e9"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;class SBOLClass &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void sbol::Document::add </td>
+          <td class="memname">void add </td>
           <td>(</td>
           <td class="paramtype">std::vector&lt; SBOLClass * &gt;&#160;</td>
           <td class="paramname"><em>sbol_objects</em></td><td>)</td>
@@ -313,12 +221,12 @@ template&lt;class SBOLClass &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aebaa564ba0679ae29fbf7859ec398dc9"></a>
+<a class="anchor" id="a7d7b3fb43d294ed790c23b5c5ab78257"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void sbol::Document::append </td>
+          <td class="memname">void append </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>filename</em></td><td>)</td>
@@ -337,14 +245,12 @@ template&lt;class SBOLClass &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="af63b9f8ccfc1ab4e54d886e5f5425b57"></a>
+<a class="anchor" id="adbe4804b63d9e7c4aa006ed0a85662a6"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;class SBOLClass &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">SBOLClass &amp; sbol::Document::get </td>
+          <td class="memname">SBOLClass &amp; get </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>uri</em></td><td>)</td>
@@ -369,14 +275,12 @@ template&lt;class SBOLClass &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ab650a369c7fb937a166603ef3c47bfd9"></a>
+<a class="anchor" id="a011f796225e891fd78f0c54b79081db3"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;class SBOLClass &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;SBOLClass*&gt; sbol::Document::getAll </td>
+          <td class="memname">std::vector&lt;SBOLClass*&gt; getAll </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -394,12 +298,12 @@ template&lt;class SBOLClass &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a9143ae31ea81f79a53f18fac75b62843"></a>
+<a class="anchor" id="ab474f7d789f798ce60cb0857d9e81236"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void sbol::Document::read </td>
+          <td class="memname">void read </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>filename</em></td><td>)</td>
@@ -418,12 +322,12 @@ template&lt;class SBOLClass &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a36174c935c257c519c1a165b5c730d0c"></a>
+<a class="anchor" id="a368d75cabc4dfc01079fcbb0da4ed349"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void sbol::Document::write </td>
+          <td class="memname">void write </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>filename</em></td><td>)</td>
@@ -446,17 +350,17 @@ template&lt;class SBOLClass &gt; </div>
 <li>/Users/bryan/Dev/libSBOL/source/document.h</li>
 </ul>
 <div class="dynheader">
-Inheritance diagram for sbol::Document:</div>
+Inheritance diagram for Document:</div>
 <div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_document__inherit__graph.png" border="0" usemap="#sbol_1_1_document_inherit__map" alt="Inheritance graph"/></div>
-<map name="sbol_1_1_document_inherit__map" id="sbol_1_1_document_inherit__map">
+<div class="center"><img src="classsbol_1_1_document__inherit__graph.png" border="0" usemap="#_document_inherit__map" alt="Inheritance graph"/></div>
+<map name="_document_inherit__map" id="_document_inherit__map">
 <area shape="rect" id="node2" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="19,5,149,279"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 21 2016 22:28:19 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 8 2016 18:11:53 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

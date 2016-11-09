@@ -3,11 +3,11 @@ var indexSectionsWithContent =
   0: "abcdefghilmnoprstuvw",
   1: "cdfilmoprstuv",
   2: "cs",
-  3: "acdghimoprsvw",
-  4: "cflprst",
+  3: "acdfghimoprsvw",
+  4: "cdflprst",
   5: "bn",
   6: "es",
-  7: "bgs"
+  7: "bgis"
 };
 
 var indexSectionNames =

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['incrementmajor',['incrementMajor',['../classsbol_1_1_version_property.html#a7994050cfa80cabd79312d053d16169e',1,'sbol::VersionProperty']]],
-  ['incrementminor',['incrementMinor',['../classsbol_1_1_version_property.html#ae4c9279c10259f5117dc655a3456aa64',1,'sbol::VersionProperty']]],
-  ['incrementpatch',['incrementPatch',['../classsbol_1_1_version_property.html#ab19e868e5489d6a70b170be6d3773526',1,'sbol::VersionProperty']]]
+  ['hasdownstreamcomponent',['hasDownstreamComponent',['../classsbol_1_1_component_definition.html#a96a1b04568b582070aff16b0cdf29545',1,'sbol::ComponentDefinition']]],
+  ['hasupstreamcomponent',['hasUpstreamComponent',['../classsbol_1_1_component_definition.html#a27287e7d20ffe00b3a0b5070d3c9b052',1,'sbol::ComponentDefinition']]]
 ];

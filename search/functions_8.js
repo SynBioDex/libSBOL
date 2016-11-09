@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['participation',['Participation',['../classsbol_1_1_participation.html#a6d8093963b415630aa59117807ae9281',1,'sbol::Participation']]],
-  ['patch',['patch',['../classsbol_1_1_version_property.html#ab3cf5f23a4a0152869e0a622a5676654',1,'sbol::VersionProperty']]],
-  ['property',['Property',['../classsbol_1_1_property.html#a35158250c29268842d42decf28e9e4fd',1,'sbol::Property']]]
+  ['operator_5b_5d',['operator[]',['../classsbol_1_1_owned_object.html#a6d459511f3586418b35a9c077e216539',1,'sbol::OwnedObject::operator[](const int nIndex)'],['../classsbol_1_1_owned_object.html#a5654e74cd1bcac17a0135a1dcc11db96',1,'sbol::OwnedObject::operator[](const std::string uri)'],['../classsbol_1_1_property.html#a3f759a6148161a88c97375716a176b4d',1,'sbol::Property::operator[]()']]]
 ];
