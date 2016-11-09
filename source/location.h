@@ -14,12 +14,12 @@ namespace sbol
 	// A public constructor is required so objects can be auto created by the SBOLObject.OwnedObjects.create(...) method
         Location(sbol_type type = SBOL_LOCATION, std::string uri = DEFAULT_NS "/Location/example") :
 			Identified(type, uri),
-			orientation(SBOL_ORIENTATION, this, SBOL_INLINE)
+			orientation(SBOL_ORIENTATION, this, SBOL_ORIENTATION_INLINE)
 			{
 			}
         Location(sbol_type, std::string uri_prefix, std::string display_id, std::string version) :
             Identified(type, uri_prefix, display_id, version),
-            orientation(SBOL_ORIENTATION, this, SBOL_INLINE)
+            orientation(SBOL_ORIENTATION, this, SBOL_ORIENTATION_INLINE)
             {
             }
         virtual ~Location() {};;
