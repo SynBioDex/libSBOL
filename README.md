@@ -10,7 +10,7 @@ To install libSBOL, go to [Installation](http://synbiodex.github.io/libSBOL/inst
 
 [An API reference and Getting Started tutorial can be found here](http://synbiodex.github.io/libSBOL/#doxygen).
 
-## Acknewledgements
+## Acknowledgements
 
 Current support for the development of libSBOL is generously provided by the NSF through the [Synthetic Biology Open Language Resource](http://www.nsf.gov/awardsearch/showAward?AWD_ID=1355909) collaborative award.
 
