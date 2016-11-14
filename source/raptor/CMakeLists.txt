@@ -18,7 +18,10 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 		NAME iconv_a.lib
 		PATHS ${LINK_DIR}
 		)
-	MESSAGE(${raptor2})
+    find_path(RAPTOR_INCLUDE_DIR raptor2.h
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2
+        )
+	#MESSAGE(${raptor2})
 	INSTALL(FILES ${LINK_DIR}/raptor2.lib DESTINATION lib)
 	INSTALL(FILES ${LINK_DIR}/libxml2_a.lib DESTINATION lib)
 	INSTALL(FILES ${LINK_DIR}/zlib.lib DESTINATION lib)
@@ -41,12 +44,15 @@ ELSE ()  # If Mac OSX or Linux
         # Search for Raptor as a dynamic dependency
         set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib)
         find_package( RAPTOR )
-    	find_package( CURL )
-	find_package( LibXslt )
+        find_package( CURL )
+        find_package( LibXslt )
     endif(SBOL_BUILD_STATIC)
 
 ENDIF ()
 
+if (NOT RAPTOR_INCLUDE_DIR)
+    SET( RAPTOR_INCLUDE_DIR		${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2)
+endif ()
 
 FILE(GLOB RAPTOR_HEADER_FILES
 	${RAPTOR_INCLUDE_DIR}/*.h )
