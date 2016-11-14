@@ -13,13 +13,13 @@
     <tab type="namespacelist" visible="yes" title="" intro=""/>
     <tab type="namespacemembers" visible="yes" title="" intro=""/>
     </tab>
-    <tab type="classes" visible="yes"  title="">
-      <tab type="classlist" visible="yes" url="@ref classes" title="" intro=""/>
+    <tab type="classes" type="user" url="@ref classes" visible="yes"  title="">
+      <tab type="classlist" visible="yes"  title="" intro=""/>
       <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/> 
       <tab type="hierarchy" visible="yes" title="" intro=""/>
       <tab type="classmembers" visible="yes" title="" intro=""/>
     </tab>
-    <tab type="files" visible="yes" title="">
+    <tab type="files" type="user" visible="yes" url="@ref files" title="">
       <tab type="filelist" visible="yes" title="" intro="These are the main headers a user (rather than a developer) might need to reference."/>
       <tab type="globals" visible="yes" title="" intro=""/>
     </tab>
