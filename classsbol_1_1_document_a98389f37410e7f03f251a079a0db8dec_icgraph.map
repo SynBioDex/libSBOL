@@ -1,5 +1,6 @@
 <map id="add" name="add">
-<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html#a93be311b8f4d80f6215bc6438710e28a" title="Autoconstruct a child object and add it to a parent SBOL object. " alt="" coords="108,5,249,44"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_owned_object.html#a181f5df78e9d0f4002144d9239145ef6" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="97,68,261,93"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_owned_object.html#a6d459511f3586418b35a9c077e216539" title="Retrieve a child object by numerical index. " alt="" coords="309,61,450,100"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_referenced_object.html#a19233c5aecb28652841ed13a2ffe8765" title="Creates another SBOL object derived from TopLevel and adds it to the Document. " alt="" coords="98,5,259,44"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_owned_object.html#a93be311b8f4d80f6215bc6438710e28a" title="Autoconstruct a child object and add it to a parent SBOL object. " alt="" coords="108,68,249,107"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_owned_object.html#a181f5df78e9d0f4002144d9239145ef6" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="97,131,261,156"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_owned_object.html#a6d459511f3586418b35a9c077e216539" title="Retrieve a child object by numerical index. " alt="" coords="309,124,450,163"/>
 </map>

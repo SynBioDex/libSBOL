@@ -91,6 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classsbol_1_1_sequence_annotation-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">SequenceAnnotation Class Reference</div>  </div>
@@ -98,7 +99,51 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> class describes one or more regions of interest on the <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> objects referred to by its parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. In addition, <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> objects can describe the substructure of their parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> through association with the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects contained by this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
+<tr class="memdesc:a5ae591df94fc66ccb85cbb6565368bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a5ae591df94fc66ccb85cbb6565368bca">More...</a><br /></td></tr>
+<tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a5ae591df94fc66ccb85cbb6565368bca"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. </p>
+<p>If the object does have a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>, instead use doc.close() with the object's URI identity as an argument.  Recurse through child objects and delete them. </p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" alt=""/></div>
+<map name="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" id="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,5,258,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/sequenceannotation.h</li>
 </ul>
 <div class="dynheader">
@@ -113,7 +158,7 @@ Inheritance diagram for SequenceAnnotation:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 8 2016 21:39:11 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 14 2016 00:04:25 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

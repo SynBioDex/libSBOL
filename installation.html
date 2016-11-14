@@ -106,7 +106,17 @@ Build from Source</h1>
 <li><a href="https://cmake.org/download/">Install CMake for Windows</a></li>
 <li>Clone the repository by running the following command in git application or command console: <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --></li>
 <li>Run CMake. For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for (e.g. Visual Studio 14 2015).</li>
-<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.</li>
+<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located (by default C:).</li>
+</ol>
+<ul>
+<li>SBOL_BUILD_STATIC: Builds static archive. Enabled by default on Windows</li>
+<li>SBOL_BUILD_SHARED: Currently unavailable on Windows</li>
+<li>SBOL_BUILD_32: Build for 32-bit architectures</li>
+<li>SBOL_BUILD_64: Build for 64-bit architectures. Currently unavailable on Windows.</li>
+<li>SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2</li>
+<li>SBOL_BUILD_PYTHON3: Build SWIG-Python wrappers for Python version 3 (not reverse compatible)</li>
+</ul>
+<ol type="1">
 <li>Once it's all set, click Generate to create the compiler instructions.</li>
 <li>The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose. When using minGW, first go to 'build' folder and run the compiler by using <div class="fragment"><div class="line">mingw32-make</div></div><!-- fragment --> or <div class="fragment"><div class="line">mingw32-make install</div></div><!-- fragment --> You will need administrator privileges for a make install. When using Visual Studio, open 'SBOL.sln' under 'build' folder. Right click INSTALL under Solution Explorer on the right and press Build.</li>
 <li>(optional) For Python bindings, copy and paste the sbol folder with Python bindings to your local Python site-packages folder.</li>
@@ -115,12 +125,22 @@ Build from Source</h1>
 <ol type="1">
 <li><a href="https://git-scm.com/">Install git for Mac OSX</a></li>
 <li>Clone the repository by running the following command in terminal: <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --></li>
-<li>LibSBOL depends on the RaptorRDF library. Install Raptor by running the following command in terminal: <div class="fragment"><div class="line">brew install raptor</div></div><!-- fragment --></li>
+<li>LibSBOL depends on the RaptorRDF library which can be obtained using the <a href="brew.sh">Homebrew</a> package manager. Install Raptor by running the following command in terminal: <div class="fragment"><div class="line">brew install raptor</div></div><!-- fragment --> Homebrew isn’t the only option. Other package installers are MacPorts and Fink.</li>
 <li>You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. <div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --></li>
 <li>For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for.</li>
-<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.</li>
+<li>(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. By default on Mac OSX, the library will be installed to /usr/local/lib</li>
+</ol>
+<ul>
+<li>SBOL_BUILD_STATIC: Builds static archive.</li>
+<li>SBOL_BUILD_SHARED: Builds a dynamically linked library</li>
+<li>SBOL_BUILD_32: Build for 32-bit architectures.</li>
+<li>SBOL_BUILD_64: Build for 64-bit architectures.</li>
+<li>SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2</li>
+<li>SBOL_BUILD_PYTHON3: Build SWIG-Python wrappers for Python version 3 (not reverse compatible)</li>
+</ul>
+<ol type="1">
 <li>Once it's all set, click Generate to create the compiler instructions.</li>
-<li>In terminal, go to the build directory and run: <div class="fragment"><div class="line">make </div></div><!-- fragment --> or <div class="fragment"><div class="line">make install</div></div><!-- fragment --> to compile.</li>
+<li>In terminal, go to the build directory and run: <div class="fragment"><div class="line">make </div></div><!-- fragment --> to compile locally in the release directory <div class="fragment"><div class="line">make install</div></div><!-- fragment --> to compile and install to /usr/local/lib.</li>
 </ol>
 <h2>Debian/Ubuntu </h2>
 <ol type="1">
@@ -171,7 +191,7 @@ Creating a Visual Studio project on Windows</h1>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="sbol_8h.html">sbol.h</a>&quot;</span></div><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespacesbol.html">sbol</a>;</div></div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 8 2016 21:39:11 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 14 2016 00:04:25 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

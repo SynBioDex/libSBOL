@@ -147,6 +147,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a">close</a> (std::string uri=&quot;&quot;)</td></tr>
 <tr class="memdesc:acb864daeee6af83e4d1f63e04b5b655a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete all objects in this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> and destroy the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. <br /></td></tr>
 <tr class="separator:acb864daeee6af83e4d1f63e04b5b655a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
+<tr class="memdesc:a5ae591df94fc66ccb85cbb6565368bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a5ae591df94fc66ccb85cbb6565368bca">More...</a><br /></td></tr>
+<tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a98389f37410e7f03f251a079a0db8dec"></a>
@@ -182,9 +185,10 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_document_a98389f37410e7f03f251a079a0db8dec_icgraph.png" border="0" usemap="#classsbol_1_1_document_a98389f37410e7f03f251a079a0db8dec_icgraph" alt=""/></div>
 <map name="classsbol_1_1_document_a98389f37410e7f03f251a079a0db8dec_icgraph" id="classsbol_1_1_document_a98389f37410e7f03f251a079a0db8dec_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html#a93be311b8f4d80f6215bc6438710e28a" title="Autoconstruct a child object and add it to a parent SBOL object. " alt="" coords="108,5,249,44"/>
-<area shape="rect" id="node3" href="classsbol_1_1_owned_object.html#a181f5df78e9d0f4002144d9239145ef6" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="97,68,261,93"/>
-<area shape="rect" id="node4" href="classsbol_1_1_owned_object.html#a6d459511f3586418b35a9c077e216539" title="Retrieve a child object by numerical index. " alt="" coords="309,61,450,100"/>
+<area shape="rect" id="node2" href="classsbol_1_1_referenced_object.html#a19233c5aecb28652841ed13a2ffe8765" title="Creates another SBOL object derived from TopLevel and adds it to the Document. " alt="" coords="98,5,259,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_owned_object.html#a93be311b8f4d80f6215bc6438710e28a" title="Autoconstruct a child object and add it to a parent SBOL object. " alt="" coords="108,68,249,107"/>
+<area shape="rect" id="node4" href="classsbol_1_1_owned_object.html#a181f5df78e9d0f4002144d9239145ef6" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="97,131,261,156"/>
+<area shape="rect" id="node5" href="classsbol_1_1_owned_object.html#a6d459511f3586418b35a9c077e216539" title="Retrieve a child object by numerical index. " alt="" coords="309,124,450,163"/>
 </map>
 </div>
 </p>
@@ -242,6 +246,52 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_document_a7d7b3fb43d294ed790c23b5c5ab78257_cgraph.png" border="0" usemap="#classsbol_1_1_document_a7d7b3fb43d294ed790c23b5c5ab78257_cgraph" alt=""/></div>
+<map name="classsbol_1_1_document_a7d7b3fb43d294ed790c23b5c5ab78257_cgraph" id="classsbol_1_1_document_a7d7b3fb43d294ed790c23b5c5ab78257_cgraph">
+<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="119,5,249,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a5ae591df94fc66ccb85cbb6565368bca"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. </p>
+<p>If the object does have a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>, instead use doc.close() with the object's URI identity as an argument.  Recurse through child objects and delete them. </p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" alt=""/></div>
+<map name="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" id="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,5,258,31"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -346,8 +396,9 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/document.h</li>
+<li>/Users/bryan/Dev/libSBOL/source/document.cpp</li>
 </ul>
 <div class="dynheader">
 Inheritance diagram for Document:</div>
@@ -360,7 +411,7 @@ Inheritance diagram for Document:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 8 2016 21:39:11 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 14 2016 00:04:25 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

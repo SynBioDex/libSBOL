@@ -1,0 +1,5 @@
+<map id="assemble" name="assemble">
+<area shape="rect" id="node2" href="$group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="328,25,457,50"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="141,25,270,50"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_component_definition.html#a2b8ecda127d02e42838e9d22808fb17c" title="Orders this ComponentDefinition&#39;s member Components into a linear arrangement based on Sequence Const..." alt="" coords="132,74,280,99"/>
+</map>

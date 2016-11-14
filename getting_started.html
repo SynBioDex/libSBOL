@@ -84,7 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>This beginner’s guide introduces the basic principles of libSBOL for new users.</p>
-<p>This guide is not meant to be a comprehensive documentation of the library or the SBOL standard. Refer to documentation about specific classes for detailed information about the API. In addition, refer to the <a href="http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/">specification document</a> for a complete description of the SBOL data standard. For help configuring a client project, see <a class="el" href="installation.html#visual_studio">Creating a Visual Studio project on Windows</a> or <a class="el" href="installation.html#xcode">Creating an XCode project on Mac OSX</a></p>
+<p>This guide is not meant to be a comprehensive documentation of the library or the SBOL standard. Refer to documentation about specific <a href="classes.html">Classes</a> for detailed information about the API. In addition, refer to the <a href="http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/">specification document</a> for a complete description of the SBOL data standard. For help configuring a client project, see <a class="el" href="installation.html#visual_studio">Creating a Visual Studio project on Windows</a> or <a class="el" href="installation.html#xcode">Creating an XCode project on Mac OSX</a>. For example files see <a href="files.html">Files</a>.</p>
 <h1><a class="anchor" id="document"></a>
 Creating an SBOL Document</h1>
 <p>An SBOLDocument object is a container for SBOL data objects. All file I/O operations are performed on the Document object. Usually the first step is to create an SBOLDocument in which to put your objects. This can be done by calling the SBOLDocument constructor. The read and write methods are used for reading and writing files in SBOL format. </p><div class="fragment"><div class="line">Document&amp; doc = *<span class="keyword">new</span> Document();</div><div class="line">doc.read(<span class="stringliteral">&quot;CRISPR_example.xml&quot;</span>);</div><div class="line">doc.write(<span class="stringliteral">&quot;CRISPR_example.xml&quot;</span>);</div></div><!-- fragment --><p> (Experienced C++ programmers may find that returning a reference from a new operator is an unusual idiomatic choice. See <a class="el" href="getting_started.html#idiomatic_cpp">A Note on our Idiomatic Use of References</a> for a discussion about this stylistic preference in this tutorial.) Reading a Document will wipe its contents clean before import. However, you can import objects from multiple files into a single Document object using `doc.append('file.xml')`. This can be advantageous when you want to integrate multiple ComponentDefinitions from multiple files into a single design.</p>
@@ -119,7 +119,7 @@ A Note on our Idiomatic Use of References</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 8 2016 21:39:11 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 14 2016 00:04:25 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

@@ -118,6 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5d2c1e546359392e22c620e06fa72cc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_functional_component.html#a5d2c1e546359392e22c620e06fa72cc8">connect</a> (<a class="el" href="classsbol_1_1_functional_component.html">FunctionalComponent</a> &amp;interface_component)</td></tr>
 <tr class="memdesc:a5d2c1e546359392e22c620e06fa72cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method connects module inputs and outputs.  <a href="#a5d2c1e546359392e22c620e06fa72cc8">More...</a><br /></td></tr>
 <tr class="separator:a5d2c1e546359392e22c620e06fa72cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
+<tr class="memdesc:a5ae591df94fc66ccb85cbb6565368bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a5ae591df94fc66ccb85cbb6565368bca">More...</a><br /></td></tr>
+<tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a66ec5fd77aa8c6a64589f6d780f5ffb6"></a>
@@ -185,6 +188,42 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a5ae591df94fc66ccb85cbb6565368bca"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. </p>
+<p>If the object does have a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>, instead use doc.close() with the object's URI identity as an argument.  Recurse through child objects and delete them. </p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" alt=""/></div>
+<map name="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" id="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,5,258,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
 <a class="anchor" id="a5d2c1e546359392e22c620e06fa72cc8"></a>
 <div class="memitem">
 <div class="memproto">
@@ -206,6 +245,17 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_functional_component_a5d2c1e546359392e22c620e06fa72cc8_cgraph.png" border="0" usemap="#classsbol_1_1_functional_component_a5d2c1e546359392e22c620e06fa72cc8_cgraph" alt=""/></div>
+<map name="classsbol_1_1_functional_component_a5d2c1e546359392e22c620e06fa72cc8_cgraph" id="classsbol_1_1_functional_component_a5d2c1e546359392e22c620e06fa72cc8_cgraph">
+<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="121,5,251,31"/>
+<area shape="rect" id="node3" href="classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="122,55,251,80"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -266,15 +316,16 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/component.h</li>
+<li>/Users/bryan/Dev/libSBOL/source/assembly.cpp</li>
 </ul>
 
 <p>Inherits ComponentInstance.</p>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 8 2016 21:39:11 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 14 2016 00:04:25 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

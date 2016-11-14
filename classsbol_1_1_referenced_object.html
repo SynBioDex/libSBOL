@@ -110,6 +110,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a19233c5aecb28652841ed13a2ffe8765"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_referenced_object.html#a19233c5aecb28652841ed13a2ffe8765">create</a> (std::string uri)</td></tr>
+<tr class="memdesc:a19233c5aecb28652841ed13a2ffe8765"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates another SBOL object derived from <a class="el" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO...">TopLevel</a> and adds it to the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a19233c5aecb28652841ed13a2ffe8765">More...</a><br /></td></tr>
+<tr class="separator:a19233c5aecb28652841ed13a2ffe8765"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4879b26a87a0b49f7d535c7a669620f6"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6">get</a> ()</td></tr>
 <tr class="memdesc:ga4879b26a87a0b49f7d535c7a669620f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic getter for all SBOL literal properties.  <a href="#ga4879b26a87a0b49f7d535c7a669620f6">More...</a><br /></td></tr>
 <tr class="separator:ga4879b26a87a0b49f7d535c7a669620f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,6 +153,43 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a19233c5aecb28652841ed13a2ffe8765"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string create </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>uri</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates another SBOL object derived from <a class="el" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO...">TopLevel</a> and adds it to the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uri</td><td>In "open world" mode, this is a full URI and the same as the returned URI. If the default namespace for libSBOL has been configured, then this argument should simply be a local identifier. If SBOL-compliance is enabled, this argument should be the intended displayId of the new object. A full URI is automatically generated and returned. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The full URI of the created object. </dd></dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_referenced_object_a19233c5aecb28652841ed13a2ffe8765_cgraph.png" border="0" usemap="#classsbol_1_1_referenced_object_a19233c5aecb28652841ed13a2ffe8765_cgraph" alt=""/></div>
+<map name="classsbol_1_1_referenced_object_a19233c5aecb28652841ed13a2ffe8765_cgraph" id="classsbol_1_1_referenced_object_a19233c5aecb28652841ed13a2ffe8765_cgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="119,5,248,31"/>
+<area shape="rect" id="node3" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="119,55,248,80"/>
+<area shape="rect" id="node4" href="classsbol_1_1_document.html#a98389f37410e7f03f251a079a0db8dec" title="Register an object in the Document. " alt="" coords="112,104,255,129"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -211,8 +251,10 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/object.h</li>
+<li>/Users/bryan/Dev/libSBOL/source/document.cpp</li>
+<li>/Users/bryan/Dev/libSBOL/source/properties.cpp</li>
 </ul>
 <div class="dynheader">
 Inheritance diagram for ReferencedObject:</div>
@@ -226,7 +268,7 @@ Inheritance diagram for ReferencedObject:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 8 2016 21:39:11 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 14 2016 00:04:25 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

@@ -1,0 +1,5 @@
+<map id="create" name="create">
+<area shape="rect" id="node2" href="$classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="119,5,248,31"/>
+<area shape="rect" id="node3" href="$group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="119,55,248,80"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_document.html#a98389f37410e7f03f251a079a0db8dec" title="Register an object in the Document. " alt="" coords="112,104,255,129"/>
+</map>
