@@ -333,6 +333,49 @@ namespace sbol {
         }
     };
     
+    /// @param object_id The URI of the child object
+    /// @return A reference to the child object
+    template <class SBOLClass>
+    SBOLClass& OwnedObject<SBOLClass>::get(const std::string object_id)
+    {
+        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+        {
+            SBOLObject* obj = *i_obj;
+            if (object_id.compare(obj->identity.get()) == 0)
+            {
+                return (SBOLClass&)*obj;
+            }
+        }
+        throw SBOLError(NOT_FOUND_ERROR, "Object " + object_id + " not found");
+    };
+    
+    /// @param uri The URI of the child object
+    /// @return A reference to the child object
+    template <class SBOLClass>
+    SBOLClass& OwnedObject<SBOLClass>::operator[] (std::string uri)
+    {
+        if (isSBOLCompliant())
+        {
+            // Form compliant URI for child object
+            Identified* parent_obj = (Identified*)this->sbol_owner;
+            std::string child_persistent_id =  parent_obj->persistentIdentity.get() + "/" + uri;
+            uri = child_persistent_id + "/" + parent_obj->version.get();
+        }
+        
+        // Search this property's object store for the uri
+        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+        {
+            SBOLObject* obj = *i_obj;
+            if (uri.compare(obj->identity.get()) == 0)
+            {
+                return (SBOLClass&)*obj;
+            }
+        }
+        throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
+    };
+    
 }
 
 #endif
