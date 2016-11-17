@@ -180,7 +180,7 @@ namespace sbol {
             if (check_top_level)
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
-                this->owned_objects[sbol_obj.type].push_back((SBOLClass*)&sbol_obj);
+                this->owned_objects[sbol_obj.type].push_back((SBOLClass*)&sbol_obj);  // Add the object to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc.
             }
             sbol_obj.doc = this;
             
@@ -299,9 +299,11 @@ namespace sbol {
     template < class SBOLClass>
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {
+//        if (isSBOLCompliant())
+//            throw SBOLError(SBOL_ERROR_COMPLIANCE, "This add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the create method instead");
         if (this->sbol_owner)
         {
-
+            // This is hack.  Should use dynamic casting to check if this object is TopLevel
             if (this->sbol_owner->type.compare("Document") == 0)
             {
                 Document& doc = (Document &)*this->sbol_owner;
