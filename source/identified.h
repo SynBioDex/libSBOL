@@ -35,9 +35,9 @@ namespace sbol
             persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, uri),
             displayId(SBOL_DISPLAY_ID, this, uri),
             version(SBOL_VERSION, this, version),
-            wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this, ""),
-            name(SBOL_NAME, this, ""),
-            description(SBOL_DESCRIPTION, this, "")
+            wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
+            name(SBOL_NAME, this),
+            description(SBOL_DESCRIPTION, this)
         {
             if(isSBOLCompliant())
             {
@@ -57,9 +57,9 @@ namespace sbol
 			persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, prefix + "/" + display_id),
 			displayId(SBOL_DISPLAY_ID, this, display_id),
 			version(SBOL_VERSION, this, version),
-			wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this, ""),
-			name(SBOL_NAME, this, ""),
-			description(SBOL_DESCRIPTION, this, "")
+			wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
+			name(SBOL_NAME, this),
+			description(SBOL_DESCRIPTION, this)
 		{
             identity.validate();
 		}
