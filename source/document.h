@@ -254,21 +254,28 @@ namespace sbol {
         
         if (isSBOLCompliant())
         {
+            // Form compliant URI for child object
             std::string child_persistent_id =  parent_obj->persistentIdentity.get() + "/" + uri;
             std::string child_id = child_persistent_id + "/" + parent_obj->version.get();
             if (parent_doc && parent_doc->find(child_id))
                 throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
             
-            // Construct an SBOLObject with emplacement
+            // Construct a new child object with emplacement
             void* mem = malloc(sizeof(SBOLClass));
             SBOLClass* child_obj = new (mem)SBOLClass;
 
-            
+            // Initialize SBOLCompliant properties
             child_obj->identity.set(child_id);
             child_obj->persistentIdentity.set(child_persistent_id);
             child_obj->displayId.set(uri);
             child_obj->version.set(parent_obj->version.get());
-            this->add(*child_obj);
+
+            // Add the new object to this OwnedObject property
+            // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
+            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+            if (std::find(object_store.begin(), object_store.end(), child_obj) != object_store.end())
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object " + child_id + " with that identity is already contained by the property");
+            object_store.push_back(child_obj);
             
             // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects and the returned object will not be registered
             if (parent_doc)
