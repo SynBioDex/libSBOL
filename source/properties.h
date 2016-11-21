@@ -116,7 +116,7 @@ namespace sbol
         SBOLClass& create(std::string uri);             ///< Autoconstruct a child object and add it to a parent SBOL object
         void create(std::string uri_prefix, std::string display_id, std::string version);
 		SBOLClass& operator[] (const int nIndex);       ///< Retrieve a child object by numerical index.
-        SBOLClass& operator[] (const std::string uri);  ///< Retrieve a child object by URI
+        SBOLClass& operator[] (std::string uri);  ///< Retrieve a child object by URI
 
         /// Provides iterator functionality for SBOL properties that contain multiple objects
         class iterator : public std::vector<SBOLObject*>::iterator
@@ -206,6 +206,7 @@ namespace sbol
 		std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
 		return (SBOLClass&)*object_store->at(nIndex);
 	};
+    
     
     template <class SBOLClass>
     template <class SBOLSubClass>

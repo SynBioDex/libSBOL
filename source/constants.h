@@ -16,6 +16,7 @@
 #define NODENAME_ABOUT    "rdf:about"
 #define NODENAME_RESOURCE "rdf:resource"
 
+#define VERSION_STRING "1.0.0"
 
 /* URIs for SBOL objects */
 #define SBOL_IDENTIFIED SBOL_URI "#Identified"
