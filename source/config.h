@@ -12,11 +12,13 @@ namespace sbol
     private:
         std::string home; ///< The authoritative namespace for the Document. Setting the home namespace is like     signing a piece of paper.
         int SBOLCompliant; ///< Flag indicating whether to autoconstruct URI's consistent with SBOL's versioning scheme
+        int SBOLCompliantTypes; ///< Flag indicating whether an object's type is included in SBOL-compliant URIs
         int catch_exceptions = 0;
     public:
         Config() :
         home(""),
-        SBOLCompliant(1)
+        SBOLCompliant(1),
+        SBOLCompliantTypes(1)
             {
             };
         void setHomespace(std::string ns);
@@ -24,6 +26,8 @@ namespace sbol
         int hasHomespace();
         void toggleSBOLCompliance();
         int isSBOLCompliant();
+        void toggleSBOLCompliantTypes();
+        int compliantTypesEnabled();
         void toggleExceptions();
         int exceptionsEnabled();
 
@@ -35,6 +39,8 @@ namespace sbol
     int hasHomespace();                ///< Checks if a valid default namespace has been defined
     void toggleSBOLCompliance();       ///< Enables SBOLCompliance, which simplifies creation of URIs in constructor calls
     int isSBOLCompliant();             ///< Checks if SBOLCompliance is enabled
+    void toggleSBOLCompliantTypes();   ///< Turns option to include types in SBOL-compliant URIs on or off
+    int compliantTypesEnabled();       ///< Checks if an object's type is included in SBOL-compliant URIs
     void toggleExceptions();
     int exceptionsEnabled();
     

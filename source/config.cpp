@@ -122,6 +122,17 @@ int sbol::isSBOLCompliant()
     return config.isSBOLCompliant();
 };
 
+void sbol::toggleSBOLCompliantTypes()
+{
+    config.toggleSBOLCompliantTypes();
+};
+
+int sbol::compliantTypesEnabled()
+{
+    return config.compliantTypesEnabled();
+};
+
+
 void sbol::toggleExceptions()
 {
     config.toggleExceptions();
@@ -175,4 +186,19 @@ int Config::isSBOLCompliant()
 {
     return this->SBOLCompliant;
 };
+
+void Config::toggleSBOLCompliantTypes()
+{
+    if (this->SBOLCompliantTypes == 0)
+        this->SBOLCompliantTypes = 1;
+    else
+        this->SBOLCompliantTypes = 0;
+};
+
+int Config::compliantTypesEnabled()
+{
+    return this->SBOLCompliantTypes;
+};
+
+
 
