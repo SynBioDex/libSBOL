@@ -106,13 +106,21 @@ IF (SBOL_BUILD_PYTHON3)
         endif()
     else()
         if (SBOL_BUILD_32)
+            swig_add_module( libsbol
+                python
+                libsbol.i )		
             swig_link_libraries( libsbol
                 ${PYTHON_LIBRARIES}
+                ${LIBXSLT_LIBRARIES}
                 sbol32)
         endif()
         if (SBOL_BUILD_64)
+            swig_add_module( libsbol
+                python
+                libsbol.i )	
             swig_link_libraries( libsbol
                 ${PYTHON_LIBRARIES}
+                ${LIBXSLT_LIBRARIES}
                 sbol64)
         endif()
     endif()
@@ -150,12 +158,12 @@ unset(PYTHON_INCLUDE_PATH )
 IF (SBOL_BUILD_PYTHON2)
     find_package( PythonLibs 2 EXACT)
 
-message( "FOUND PYTHON = ${PYTHONLIBS_FOUND} at ${PYTHON_LIBRARIES}")
-message( "PYTHON INCLUDE DIRS = ${PYTHON_INCLUDE_DIRS}")
-#message(${PYTHON_INCLUDE_DIR})
-#message(${PYTHON_LIBRARIES})
-message( "FOUND PYTHON VERSION ${PYTHONLIBS_VERSION_STRING}")
-#message(${PYTHON_INCLUDE_PATH})
+    message( "FOUND PYTHON = ${PYTHONLIBS_FOUND} at ${PYTHON_LIBRARIES}")
+    message( "PYTHON INCLUDE DIRS = ${PYTHON_INCLUDE_DIRS}")
+    #message(${PYTHON_INCLUDE_DIR})
+    #message(${PYTHON_LIBRARIES})
+    message( "FOUND PYTHON VERSION ${PYTHONLIBS_VERSION_STRING}")
+    #message(${PYTHON_INCLUDE_PATH})
     INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -257,12 +265,20 @@ message( "FOUND PYTHON VERSION ${PYTHONLIBS_VERSION_STRING}")
         endif()
     else()
         if (SBOL_BUILD_32)
+            swig_add_module( libsbol
+                python
+                libsbol.i )
             swig_link_libraries( libsbol
+                ${PYTHON_LIBRARIES}
                 ${LIBXSLT_LIBRARIES}
                 sbol32)
         endif()
         if (SBOL_BUILD_64)
+            swig_add_module( libsbol
+                python
+                libsbol.i )
             swig_link_libraries( libsbol
+                ${PYTHON_LIBRARIES}
                 ${LIBXSLT_LIBRARIES}
                 sbol64)
         endif()
