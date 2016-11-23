@@ -386,6 +386,18 @@ namespace sbol {
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::operator[] (std::string uri)
     {
+        // Search this property's object store for the uri
+        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+        {
+            SBOLObject* obj = *i_obj;
+            if (uri.compare(obj->identity.get()) == 0)
+            {
+                return (SBOLClass&)*obj;
+            }
+        }
+        
+        // In SBOLCompliant mode, the user may retrieve an object by displayId as well
         if (isSBOLCompliant())
         {
             // Form compliant URI for child object
@@ -412,19 +424,14 @@ namespace sbol {
             }
             uri = persistentIdentity + "/" + uri + "/" + version;
 
-//            Identified* parent_obj = (Identified*)this->sbol_owner;
-//            std::string child_persistent_id =  parent_obj->persistentIdentity.get() + "/" + uri;
-//            uri = child_persistent_id + "/" + parent_obj->version.get();
-        }
-        
-        // Search this property's object store for the uri
-        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
-        {
-            SBOLObject* obj = *i_obj;
-            if (uri.compare(obj->identity.get()) == 0)
+            // Search this property's object store for the uri
+            for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
             {
-                return (SBOLClass&)*obj;
+                SBOLObject* obj = *i_obj;
+                if (uri.compare(obj->identity.get()) == 0)
+                {
+                    return (SBOLClass&)*obj;
+                }
             }
         }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
