@@ -1,7 +1,7 @@
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11")
 
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
 PROJECT( SBOL )
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9")
 
 # set up folder structure
 SET( SBOL_ROOT_DIR          ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -22,10 +22,11 @@ ENDIF()
 
 # set build options
 OPTION( SBOL_BUILD_STATIC     "Build statically linked library"           TRUE )
+OPTION( SBOL_BUILD_SHARED     "Build dynamically linked library"           FALSE )
 #OPTION( SBOL_BUILD_COMBINED  "Build libSBOL and Raptor RDF archives combined" FALSE )
-OPTION( SBOL_DEBUG_STATEMENTS "Add some print statements for debugging"   FALSE )
-OPTION( SBOL_BUILD_EXAMPLES   "Build the example programs"                FALSE )
-OPTION( SBOL_BUILD_TESTS      "Build the unit tests and example tests"    FALSE )
+#OPTION( SBOL_DEBUG_STATEMENTS "Add some print statements for debugging"   FALSE )
+#OPTION( SBOL_BUILD_EXAMPLES   "Build the example programs"                FALSE )
+#OPTION( SBOL_BUILD_TESTS      "Build the unit tests and example tests"    FALSE )
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	OPTION( SBOL_BUILD_32      "Build on x86 architecture" FALSE )
 	OPTION( SBOL_BUILD_64      "Build on x64 architecture" TRUE)
@@ -36,7 +37,7 @@ endif()
 OPTION( SBOL_BUILD_PYTHON2  "Generate Python version 2 wrapper using SWIG" FALSE )
 OPTION( SBOL_BUILD_PYTHON3  "Generate Python version 3 wrapper using SWIG" FALSE )
 OPTION( SBOL_BUILD_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
-OPTION( SBOL_BUILD_REST  "Generate RESTful API" FALSE )
+#OPTION( SBOL_BUILD_REST  "Generate RESTful API" FALSE )
 
 # -fPIC from boost Python 
 set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)

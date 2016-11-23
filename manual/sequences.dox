@@ -1,5 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /// @page sequences Sequence Assembly
+/// See [Files](files.html) for full example files.
 /// @section template_design Template Designs
 /// One advantage of the SBOL standard over GenBank is the ability to represent DNA as components without knowing their exact sequence. A template design contains a component whose general function is known (represented by a Sequence Ontology type) while its sequence is currently either unknown or unspecified.  This feature of SBOL allows the synthetic biologist to design the functional characteristics of a biological system independently of its structural characteristics. This enables a computer-aided design (CAD) approach similar to electronics, in which the functional or schematic representation of an electronic circuit can be represented separately from the physical dimensions of the electronic components.
 /// ![](gene_cassette.png)

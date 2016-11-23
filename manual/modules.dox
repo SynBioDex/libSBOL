@@ -1,5 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /// @page modular_design  Biosystem Design
+/// See @ref files for full example files.
 /// @section connecting_module Connecting Module Inputs & Outputs
 ///
 /// LibSBOL can help synthetic biologists design modular systems of biochemical interactions. Following is an example of such a circuit adapted from [Synthesizing AND gate genetic circuits based on CRISPR-Cas9 for identification of bladder cancer cells](http://www.nature.com/ncomms/2014/141106/ncomms6393/abs/ncomms6393.html). This circuit consists of a NAND gate coupled to a NOT gate. The NAND gate turns off in the presence of specific tumor markers and tissue markers, thus its behavior is targeted to specific tissue and tumor sites in the human body. When the NAND gate is shut off, the downstream NOT gate is turned on, thus the coupled effect of the two modules will activate the apoptotic (self-destruct) protein hBAX. Thus, the entire system behaves as a targeted tumor-killer.

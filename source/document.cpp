@@ -414,8 +414,15 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 			new_obj.identity.set(subject);
 
 			// All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
-			// Owned objects are kept in the object store as a temporary convenience and will be removed later.
-			doc->add<SBOLObject>(new_obj);
+			// Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
+			//doc->add<SBOLObject>(new_obj);
+            doc->SBOLObjects[new_obj.identity.get()] = &new_obj;
+            new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
+            
+            // If the new object is TopLevel, add to the Document's property store
+            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&new_obj);
+            if (check_top_level)
+                doc->owned_objects[new_obj.type].push_back(&new_obj);  // Adds objects to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc
 		}
 	}
 
@@ -435,9 +442,11 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 	string property_uri = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
 	//string property_value = object.substr(1, object.length() - 2);  // Removes flanking " from literal
 	string property_value = object;
-
-
-	std::size_t found = property_uri.find('#');
+    std::size_t found = property_uri.find_last_of('#');
+    if (found == std::string::npos)
+    {
+        found = property_uri.find_last_of('/');
+    }
 	if (found != std::string::npos)
 	{
 		string property_ns = property_uri.substr(0, found);
@@ -449,17 +458,21 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
 			{
 				SBOLObject *sbol_obj = doc->SBOLObjects[id];
+                
 				// Decide if this triple corresponds to a simple property, a list property, an owned property or a referenced property
 				if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
 				{
 					// TODO: double-check this, is there a memory-leak here?
-					// sbol_obj->properties[property_uri].clear();
+                    if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
+                        sbol_obj->properties[property_uri].clear();  //
 					sbol_obj->properties[property_uri].push_back(property_value);
 				}
 				// TODO: the list_properties member should be deprecated, use properties member instead
 				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
 				{
-					sbol_obj->list_properties[property_uri].push_back(property_value);
+                    if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
+                        sbol_obj->properties[property_uri].clear();
+                    sbol_obj->list_properties[property_uri].push_back(property_value);
 				}
 				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
 				{
@@ -474,6 +487,7 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 					SBOLObject *owned_obj = doc->SBOLObjects[owned_obj_id];
 					sbol_obj->owned_objects[property_uri].push_back(owned_obj);			
 					doc->SBOLObjects.erase(owned_obj_id);
+                    // doc->owned_objects.erase(owned_object->type);  // Remove temporary, non-toplevel objects from the Document's property store
 				}
 
 			}
@@ -483,22 +497,23 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 
 void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
 {
-//    cout << message->text << endl;
-//    if (message->level == RAPTOR_LOG_LEVEL_NONE) cout << "RAPTOR_LOG_LEVEL_NONE" << endl;
-//    if (message->level == RAPTOR_LOG_LEVEL_TRACE) cout << "RAPTOR_LOG_LEVEL_TRACE" << endl;
-//    if (message->level == RAPTOR_LOG_LEVEL_DEBUG) cout << "RAPTOR_LOG_LEVEL_DEBUG" << endl;
-//    if (message->level == RAPTOR_LOG_LEVEL_INFO) cout << "RAPTOR_LOG_LEVEL_INFO" << endl;
-//    if (message->level == RAPTOR_LOG_LEVEL_WARN) cout << "RAPTOR_LOG_LEVEL_WARN" << endl;
-//    if (message->level == RAPTOR_LOG_LEVEL_ERROR) cout << "RAPTOR_LOG_LEVEL_ERROR" << endl;
-//    if (message->level == RAPTOR_LOG_LEVEL_FATAL) cout << "RAPTOR_LOG_LEVEL_FATAL" << endl;
-//    if (message->level == RAPTOR_LOG_LEVEL_LAST) cout << "RAPTOR_LOG_LEVEL_LAST" << endl;
-//    
-//    if (message->locator != NULL)
-//        {
-//        cout << message->locator->line << ", " << message->locator->column << endl;
-//        if (message->locator->file) cout << message->locator->file;
-//        if (message->locator->uri) cout << raptor_uri_as_string(message->locator->uri) << endl;
-//        }
+    cout << "Serialization error:" << endl;
+    cout << message->text << endl;
+    if (message->level == RAPTOR_LOG_LEVEL_NONE) cout << "RAPTOR_LOG_LEVEL_NONE" << endl;
+    if (message->level == RAPTOR_LOG_LEVEL_TRACE) cout << "RAPTOR_LOG_LEVEL_TRACE" << endl;
+    if (message->level == RAPTOR_LOG_LEVEL_DEBUG) cout << "RAPTOR_LOG_LEVEL_DEBUG" << endl;
+    if (message->level == RAPTOR_LOG_LEVEL_INFO) cout << "RAPTOR_LOG_LEVEL_INFO" << endl;
+    if (message->level == RAPTOR_LOG_LEVEL_WARN) cout << "RAPTOR_LOG_LEVEL_WARN" << endl;
+    if (message->level == RAPTOR_LOG_LEVEL_ERROR) cout << "RAPTOR_LOG_LEVEL_ERROR" << endl;
+    if (message->level == RAPTOR_LOG_LEVEL_FATAL) cout << "RAPTOR_LOG_LEVEL_FATAL" << endl;
+    if (message->level == RAPTOR_LOG_LEVEL_LAST) cout << "RAPTOR_LOG_LEVEL_LAST" << endl;
+    
+    if (message->locator != NULL)
+        {
+        cout << message->locator->line << ", " << message->locator->column << endl;
+        if (message->locator->file) cout << message->locator->file;
+        if (message->locator->uri) cout << raptor_uri_as_string(message->locator->uri) << endl;
+        }
 }
 
 void Document::validate(void *arg)
@@ -546,10 +561,21 @@ void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
 
 void Document::read(std::string filename)
 {
-    // Wipe existing contents of this Document
+    // Wipe existing contents of this Document first. This should
     raptor_free_world(this->rdf_graph);  //  Probably need to free other objects as well...
     SBOLObjects.clear();
+    properties.clear();
+    list_properties.clear();
+    for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+    {
+        // Destroy all TopLevel objects. Child objects should be destroyed recursively.
+        SBOLObject& obj = *i_obj->second;
+        obj.close();
+    }
+    owned_objects.clear();
     namespaces.clear();
+    
+    // Create new RDF graph
     this->rdf_graph = raptor_new_world();
     this->append(filename);
 };
@@ -607,7 +633,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 	}
 	if (sbol_world)
 	{
-				
 		// This RDF triple makes the following statement:
 		// "This instance of an SBOL object belongs to class X"
 		raptor_statement *triple = raptor_new_statement(sbol_world);
@@ -679,7 +704,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 				// TODO:  this triple appears to be unneccessary and creates an extra 
 				// xml node in serialization <rdf:type rdf:resource="someSBOLProperty">
 				// Double check this conclusion and remove code as necessary
-
+                
 				// This RDF triple makes the following statement:
 				// "This instance of an SBOL object has property called X"
 				raptor_statement *triple2 = raptor_new_statement(sbol_world);
@@ -707,8 +732,9 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 					// "This instance of an SBOL object owns another SBOL object"
 					raptor_statement *triple = raptor_new_statement(sbol_world);
 					std::string subject = identity.get();
-					std::string predicate = property_name;
+                    std::string predicate = property_name;
 					std::string object = obj->identity.get();
+
 
 					//std::string subject = property_name;
 					//std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#_" + std::to_string(i_o);
@@ -732,7 +758,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			}  // if
 
 		} // for
-		// End serialization 
+		// End serialization
 	} // if
 };
 
@@ -780,7 +806,7 @@ void Document::write(std::string filename)
 	// Add default namespaces to Document
 	//raptor_iostream* ios = raptor_new_iostream_to_file_handle(world, fh);
 	raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
-	raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI "#");
+	raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
 	raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
 
 	const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
@@ -797,7 +823,8 @@ void Document::write(std::string filename)
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
 	//raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
 
-	char * sbol_buffer = "";
+	//char * sbol_buffer = "";
+    char * sbol_buffer;
 	size_t sbol_buffer_len;
 
     raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
