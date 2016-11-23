@@ -53,14 +53,14 @@ extern "C" {
  *
  * Format: major * 10000 + minor * 100 + release
  */
-#define RAPTOR_VERSION 20016
+#define RAPTOR_VERSION 20015
 
 /**
  * RAPTOR_VERSION_STRING:
  *
  * Raptor library version string
  */
-#define RAPTOR_VERSION_STRING "2.0.16"
+#define RAPTOR_VERSION_STRING "2.0.15"
 
 /**
  * RAPTOR_VERSION_MAJOR:
@@ -81,7 +81,7 @@ extern "C" {
  *
  * Raptor library release
  */
-#define RAPTOR_VERSION_RELEASE 16
+#define RAPTOR_VERSION_RELEASE 15
 
 /**
  * RAPTOR_API:
@@ -2176,7 +2176,6 @@ RAPTOR_API
 void* raptor_avltree_iterator_get(raptor_avltree_iterator* iterator);
 
 /* utility methods */
-RAPTOR_API
 void raptor_sort_r(void *base, size_t nel, size_t width, raptor_data_compare_arg_handler compar, void *user_data);
 
 

@@ -110,7 +110,10 @@ IF (SBOL_BUILD_PYTHON3)
                 python
                 libsbol.i )		
             swig_link_libraries( libsbol
+                ${raptor2}
                 ${PYTHON_LIBRARIES}
+                ${CURL_LIBRARY}
+                ${xml2}
                 ${LIBXSLT_LIBRARIES}
                 sbol32)
         endif()
@@ -119,7 +122,10 @@ IF (SBOL_BUILD_PYTHON3)
                 python
                 libsbol.i )	
             swig_link_libraries( libsbol
+                ${raptor2}
                 ${PYTHON_LIBRARIES}
+                ${CURL_LIBRARY}
+                ${xml2}
                 ${LIBXSLT_LIBRARIES}
                 sbol64)
         endif()
@@ -269,7 +275,10 @@ IF (SBOL_BUILD_PYTHON2)
                 python
                 libsbol.i )
             swig_link_libraries( libsbol
+                ${raptor2}
                 ${PYTHON_LIBRARIES}
+                ${CURL_LIBRARY}
+                ${xml2}
                 ${LIBXSLT_LIBRARIES}
                 sbol32)
         endif()
@@ -278,7 +287,10 @@ IF (SBOL_BUILD_PYTHON2)
                 python
                 libsbol.i )
             swig_link_libraries( libsbol
+                ${raptor2}
                 ${PYTHON_LIBRARIES}
+                ${CURL_LIBRARY}
+                ${xml2}
                 ${LIBXSLT_LIBRARIES}
                 sbol64)
         endif()
