@@ -2,10 +2,17 @@
 set( LINK_DIR				${CMAKE_CURRENT_SOURCE_DIR}/lib )
 set( BUILD_SHARED_LIBS OFF )
 IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    FIND_LIBRARY(raptor2
-        NAME raptor2.lib
-        PATHS ${LINK_DIR}
-        )
+    IF(SBOL_BUILD_32)
+        FIND_LIBRARY(raptor2
+            NAME raptor2.lib
+            PATHS ${LINK_DIR}
+            )
+    ELSEIF(SBOL_BUILD_64)
+        FIND_LIBRARY(raptor2
+            NAME raptor2_64.lib
+            PATHS ${LINK_DIR}
+            )
+    ENDIF()
 	FIND_LIBRARY(xml2
 		NAME libxml2_a.lib
 		PATHS ${LINK_DIR}

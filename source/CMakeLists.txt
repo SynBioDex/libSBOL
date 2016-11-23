@@ -1,5 +1,4 @@
 
-
 #ADD_SUBDIRECTORY( libxml2 )
 ADD_SUBDIRECTORY( raptor )
 
@@ -115,7 +114,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
             ${LIBXML2_LIBRARIES}
             ${zlib}
             ${iconv}
-            Ws2_64.lib )
+            Ws2_32.lib )
         install(TARGETS sbol64 DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
         install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
         set_target_properties(sbol64 PROPERTIES OUTPUT_NAME "sbol")
@@ -181,7 +180,7 @@ else ()  # If Mac OSX or Linux
                 merge_static_libs(sbol64 _sbol64 _raptor)
             endif(SBOL_BUILD_COMBINED)
 
-        elseif(NOT SBOL_BUILD_STATIC)
+        elseif(SBOL_BUILD_SHARED)
             add_library( sbol64
                 SHARED
                 ${SBOL_HEADER_FILES}
