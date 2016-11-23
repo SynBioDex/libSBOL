@@ -1,4 +1,4 @@
-# libSBOL 2.0.1
+# libSBOL 2.1.0
 
 [libSBOL](https://github.com/SynBioDex/libSBOL) is a C++ library for reading, writing, and constructing genetic designs according to the standardized specifications of the [Synthetic Biology Open Language (SBOL)](http://www.sbolstandard.org/).  
 
