@@ -1,5 +1,4 @@
 
-
 #ADD_SUBDIRECTORY( libxml2 )
 ADD_SUBDIRECTORY( raptor )
 
@@ -73,20 +72,55 @@ get_directory_property( DirDefs COMPILE_DEFINITIONS )
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     if(SBOL_BUILD_32)
-        target_link_libraries( sbol
+        message("Configuring for x86")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+        if(SBOL_BUILD_STATIC)
+            add_library( sbol32
+                STATIC
+                ${SBOL_HEADER_FILES}
+                ${SBOL_SOURCE_FILES})
+        elseif(SBOL_BUILD_SHARED)
+            add_library( sbol32
+                SHARED
+                ${SBOL_HEADER_FILES}
+                ${SBOL_SOURCE_FILES})
+        endif()
+        target_link_libraries( sbol32
             ${RAPTOR_LIBRARY}
             ${LIBXML2_LIBRARIES}
             ${zlib}
             ${iconv}
             Ws2_32.lib )
-        install(TARGETS sbol DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
-        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX})
+        install(TARGETS sbol32 DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
+        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+        set_target_properties(sbol32 PROPERTIES OUTPUT_NAME "sbol")
     endif()
     if(SBOL_BUILD_64)
+        message("Configuring for x64")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+        if(SBOL_BUILD_STATIC)
+            add_library( sbol64
+                STATIC
+                ${SBOL_HEADER_FILES}
+                ${SBOL_SOURCE_FILES})
+        elseif(SBOL_BUILD_SHARED)
+            add_library( sbol64
+                SHARED
+                ${SBOL_HEADER_FILES}
+                ${SBOL_SOURCE_FILES})
+        endif()
+        target_link_libraries( sbol64
+            ${RAPTOR_LIBRARY}
+            ${LIBXML2_LIBRARIES}
+            ${zlib}
+            ${iconv}
+            Ws2_32.lib )
+        install(TARGETS sbol64 DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
+        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+        set_target_properties(sbol64 PROPERTIES OUTPUT_NAME "sbol")
     endif()
 
 else ()  # If Mac OSX or Linux
-
     if(SBOL_BUILD_32)
         message("Configuring for x86")
         set(CMAKE_OSX_ARCHITECTURES "i386")
@@ -146,7 +180,7 @@ else ()  # If Mac OSX or Linux
                 merge_static_libs(sbol64 _sbol64 _raptor)
             endif(SBOL_BUILD_COMBINED)
 
-        elseif(NOT SBOL_BUILD_STATIC)
+        elseif(SBOL_BUILD_SHARED)
             add_library( sbol64
                 SHARED
                 ${SBOL_HEADER_FILES}

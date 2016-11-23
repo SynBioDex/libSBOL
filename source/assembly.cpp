@@ -10,9 +10,9 @@ int ComponentDefinition::hasUpstreamComponent(Component& current_component)
 {
     ComponentDefinition& cd_root = *this;
     if (cd_root.sequenceConstraints.size() < 1)
-        throw;
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "This component has no sequenceConstrints");
     else if (cd_root.doc == NULL)
-        throw;
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "The ComponentDefinition must belong to a Document in order to use this method");
     else
     {
         int hasUpstreamComponent = 0;
@@ -30,9 +30,9 @@ int ComponentDefinition::hasDownstreamComponent(Component& current_component)
 {
     ComponentDefinition& cd_root = *this;
     if (cd_root.sequenceConstraints.size() < 1)
-        throw;
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "This component has no sequenceConstraints");
     else if (cd_root.doc == NULL)
-        throw;
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "The ComponentDefinition must belong to a Document in order to use this method");
     else
     {
         int hasDownstreamComponent = 0;
@@ -50,11 +50,11 @@ Component& ComponentDefinition::getUpstreamComponent(Component& current_componen
 {
     ComponentDefinition& cd_root = *this;
     if (cd_root.sequenceConstraints.size() < 1)
-        throw;
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "This component has sequenceConstraints");
     else if (cd_root.doc == NULL)
-        throw;
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "The ComponentDefinition must belong to a Document in order to use this method");
     else if (!cd_root.hasUpstreamComponent(current_component))
-        throw;
+        throw SBOLError(SBOL_ERROR_END_OF_LIST, "This component has no upstream component. Use hasUpstreamComponent to catch this error");
     else
     {
         string upstream_component_id;
@@ -73,11 +73,11 @@ Component& ComponentDefinition::getDownstreamComponent(Component& current_compon
 {
     ComponentDefinition& cd_root = *this;
     if (cd_root.sequenceConstraints.size() < 1)
-        throw;
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "This component has no sequenceConstraints");
     else if (cd_root.doc == NULL)
-        throw;
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "The ComponentDefinition must belong to a Document in order to use this method");
     else if (!cd_root.hasDownstreamComponent(current_component))
-        throw;
+        throw SBOLError(SBOL_ERROR_END_OF_LIST, "This component has no downstream component. Use hasDownstreamComponent to catch this error");
     else
     {
         string downstream_component_id;
@@ -96,9 +96,9 @@ Component& ComponentDefinition::getFirstComponent()
 {
     ComponentDefinition& cd_root = *this;
     if (cd_root.components.size() < 1)
-        throw;
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "This ComponentDefinition has no components");
     else if (cd_root.doc == NULL)
-        throw;
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "The ComponentDefinition must belong to a Document in order to use this method");
     else
     {
         Component& arbitrary_component = cd_root.components[0];
@@ -115,9 +115,9 @@ Component& ComponentDefinition::getLastComponent()
 {
     ComponentDefinition& cd_root = *this;
     if (cd_root.components.size() < 1)
-        throw;
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "This ComponentDefinition has no components");
     else if (cd_root.doc == NULL)
-        throw;
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "The ComponentDefinition must belong to a Document in order to use this method");
     else
     {
 
@@ -137,8 +137,8 @@ Component& ComponentDefinition::getLastComponent()
 vector<Component*> ComponentDefinition::getInSequentialOrder()
 {
     ComponentDefinition& cd_root = *this;
-    if (cd_root.sequenceConstraints.size() < 0)
-        throw;
+    if (cd_root.sequenceConstraints.size() < 1)
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "This component has no sequenceConstraints");
     else
     {
         Component* first = &getFirstComponent();

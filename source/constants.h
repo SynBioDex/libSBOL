@@ -16,6 +16,7 @@
 #define NODENAME_ABOUT    "rdf:about"
 #define NODENAME_RESOURCE "rdf:resource"
 
+#define VERSION_STRING "1.0.0"
 
 /* URIs for SBOL objects */
 #define SBOL_IDENTIFIED SBOL_URI "#Identified"
@@ -44,13 +45,14 @@
 #define SBOL_PERSISTENT_IDENTITY SBOL_URI "#persistentIdentity"
 #define SBOL_VERSION SBOL_URI "#version"
 #define SBOL_DISPLAY_ID  SBOL_URI "#displayId"
-#define SBOL_NAME PURL_URI "#title"
-#define SBOL_DESCRIPTION PURL_URI "#description"
+#define SBOL_NAME PURL_URI "title"
+#define SBOL_DESCRIPTION PURL_URI "description"
 #define SBOL_TYPES SBOL_URI "#type"
 #define SBOL_START SBOL_URI "#start"
 #define SBOL_END SBOL_URI "#end"
 #define SBOL_SEQUENCE_ANNOTATIONS SBOL_URI "#sequenceAnnotation"
 #define SBOL_COMPONENTS SBOL_URI "#component"
+#define SBOL_COMPONENT_PROPERTY SBOL_URI "#component"
 #define SBOL_ROLES SBOL_URI "#role"
 #define SBOL_ELEMENTS SBOL_URI "#elements"
 #define SBOL_ENCODING SBOL_URI "#encoding"

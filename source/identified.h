@@ -35,14 +35,22 @@ namespace sbol
             persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, uri),
             displayId(SBOL_DISPLAY_ID, this, uri),
             version(SBOL_VERSION, this, version),
-            wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this, ""),
-            name(SBOL_NAME, this, ""),
-            description(SBOL_DESCRIPTION, this, "")
+            wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
+            name(SBOL_NAME, this),
+            description(SBOL_DESCRIPTION, this)
         {
             if(isSBOLCompliant())
             {
-                identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
-                persistentIdentity.set(getHomespace() + "/" + uri);
+                if (compliantTypesEnabled())
+                {
+                    identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
+                    persistentIdentity.set(getHomespace() + "/" + uri);
+                }
+                else
+                {
+                    identity.set(getHomespace() + "/" + uri + "/" + version);
+                    persistentIdentity.set(getHomespace() + "/" + uri);
+                }
             }
             else if (hasHomespace())
             {
@@ -57,9 +65,9 @@ namespace sbol
 			persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, prefix + "/" + display_id),
 			displayId(SBOL_DISPLAY_ID, this, display_id),
 			version(SBOL_VERSION, this, version),
-			wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this, ""),
-			name(SBOL_NAME, this, ""),
-			description(SBOL_DESCRIPTION, this, "")
+			wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
+			name(SBOL_NAME, this),
+			description(SBOL_DESCRIPTION, this)
 		{
             identity.validate();
 		}

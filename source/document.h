@@ -180,7 +180,7 @@ namespace sbol {
             if (check_top_level)
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
-                this->owned_objects[sbol_obj.type].push_back((SBOLClass*)&sbol_obj);
+                this->owned_objects[sbol_obj.type].push_back((SBOLClass*)&sbol_obj);  // Add the object to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc.
             }
             sbol_obj.doc = this;
             
@@ -249,30 +249,68 @@ namespace sbol {
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
     {
-        Identified* parent_obj = (Identified*)this->sbol_owner;
-        Document* parent_doc = parent_obj->doc;
-        
+        // This is a roundabout way of checking if SBOLClass is TopLevel in the Document
+        int CHECK_TOP_LEVEL = 0;
+        Document* parent_doc = dynamic_cast<Document*>(this->sbol_owner);
+        if (!parent_doc)
+        {
+            parent_doc = this->sbol_owner->doc;
+            CHECK_TOP_LEVEL = 1;
+        }
+        SBOLObject* parent_obj = this->sbol_owner;
+
         if (isSBOLCompliant())
         {
-            std::string child_persistent_id =  parent_obj->persistentIdentity.get() + "/" + uri;
-            std::string child_id = child_persistent_id + "/" + parent_obj->version.get();
+            // Form compliant URI for child object
+            std::string persistent_id;
+            std::string version;
+            if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+            {
+                persistent_id = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+                persistent_id = persistent_id.substr(1, persistent_id.length() - 2);  // Removes flanking < and > from the uri
+            }
+            else
+            {
+                persistent_id = getHomespace();
+            }
+            if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
+            {
+                version = parent_obj->properties[SBOL_VERSION].front();
+                version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+            }
+            else
+            {
+                version = VERSION_STRING;
+            }
+            std::string child_persistent_id =  persistent_id + "/" + uri;
+            std::string child_id = child_persistent_id + "/" + version;
+            
+            // Check for uniqueness of URI in the Document
             if (parent_doc && parent_doc->find(child_id))
                 throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
             
-            // Construct an SBOLObject with emplacement
+            // Construct a new child object with emplacement
             void* mem = malloc(sizeof(SBOLClass));
             SBOLClass* child_obj = new (mem)SBOLClass;
 
-            
+            // Initialize SBOLCompliant properties
             child_obj->identity.set(child_id);
             child_obj->persistentIdentity.set(child_persistent_id);
             child_obj->displayId.set(uri);
-            child_obj->version.set(parent_obj->version.get());
-            this->add(*child_obj);
+            child_obj->version.set(version);
+
+            // Add the new object to this OwnedObject property
+            // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
+            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+            //if (std::find(object_store.begin(), object_store.end(), child_obj) != object_store.end())
+            //    throw SBOLError(DUPLICATE_URI_ERROR, "An object " + child_id + " with that identity is already contained by the property");
+            object_store.push_back(child_obj);
             
-            // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects and the returned object will not be registered
+            // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects, otherwise the returned object will not be registered
             if (parent_doc)
-                child_obj->doc = parent_obj->doc;
+                child_obj->doc = parent_doc;
+            if (CHECK_TOP_LEVEL)
+                parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
             return *child_obj;
         }
         else
@@ -299,9 +337,11 @@ namespace sbol {
     template < class SBOLClass>
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {
+        if (isSBOLCompliant())
+            throw SBOLError(SBOL_ERROR_COMPLIANCE, "This add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the create method instead");
         if (this->sbol_owner)
         {
-
+            // The type for Document is currently hard-coded. Should replace it with a preprocessor symbol
             if (this->sbol_owner->type.compare("Document") == 0)
             {
                 Document& doc = (Document &)*this->sbol_owner;
@@ -322,6 +362,79 @@ namespace sbol {
                 }
             }
         }
+    };
+    
+    /// @param object_id The URI of the child object
+    /// @return A reference to the child object
+    template <class SBOLClass>
+    SBOLClass& OwnedObject<SBOLClass>::get(const std::string object_id)
+    {
+        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+        {
+            SBOLObject* obj = *i_obj;
+            if (object_id.compare(obj->identity.get()) == 0)
+            {
+                return (SBOLClass&)*obj;
+            }
+        }
+        throw SBOLError(NOT_FOUND_ERROR, "Object " + object_id + " not found");
+    };
+    
+    /// @param uri The URI of the child object
+    /// @return A reference to the child object
+    template <class SBOLClass>
+    SBOLClass& OwnedObject<SBOLClass>::operator[] (std::string uri)
+    {
+        // Search this property's object store for the uri
+        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+        {
+            SBOLObject* obj = *i_obj;
+            if (uri.compare(obj->identity.get()) == 0)
+            {
+                return (SBOLClass&)*obj;
+            }
+        }
+        
+        // In SBOLCompliant mode, the user may retrieve an object by displayId as well
+        if (isSBOLCompliant())
+        {
+            // Form compliant URI for child object
+            SBOLObject* parent_obj = this->sbol_owner;
+            std::string persistentIdentity;
+            std::string version;
+            if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+            {
+                persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+                persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+            }
+            else
+            {
+                persistentIdentity = getHomespace();
+            }
+            if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
+            {
+                version = parent_obj->properties[SBOL_VERSION].front();
+                version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+            }
+            else
+            {
+                version = VERSION_STRING;
+            }
+            uri = persistentIdentity + "/" + uri + "/" + version;
+
+            // Search this property's object store for the uri
+            for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+            {
+                SBOLObject* obj = *i_obj;
+                if (uri.compare(obj->identity.get()) == 0)
+                {
+                    return (SBOLClass&)*obj;
+                }
+            }
+        }
+        throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };
     
 }

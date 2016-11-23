@@ -3,6 +3,8 @@
 #include <stdexcept>      // std::invalid_argument
 
 #include <vector>
+#include <utility>
+#include <regex>
 
 using namespace sbol;
 using namespace std;
@@ -10,27 +12,86 @@ using namespace std;
 /// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMinor()
 {
-    int minor_version = this->minor();
-    minor_version++;
-    string new_version = to_string(this->major()) + "." + to_string(minor_version) + "." + to_string(this->patch());
+    pair< vector<string>, vector<string> > v = this->split();
+    vector< string > v_tokens = v.first;
+    vector< string > v_delimiters = v.second;
+    
+    if (v_tokens.size() < 2)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Maven version string does not have a minor version");
+    
+    // Increment minor version
+    regex d("([0-9]+)");
+    smatch m;
+    regex_search(v_tokens[1], m, d);
+    string minor_version = to_string(stoi(v_tokens[1]) + 1) + m.suffix().str();
+    v_tokens[1] = minor_version;
+    
+    // Concatenate new version string
+    string new_version;
+    int i_v = 0;
+    do
+    {
+        new_version += v_tokens[i_v] + v_delimiters[i_v];
+        ++i_v;
+    } while (i_v < v_tokens.size() - 1);
+    new_version += v_tokens[i_v];
     this->set(new_version);
 };
 
 /// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMajor()
 {
-    int major_version = this->major();
-    major_version++;
-    string new_version = to_string(major_version) + "." + to_string(this->minor()) + "." + to_string(this->patch());
+    pair< vector<string>, vector<string> > v = this->split();
+    vector< string > v_tokens = v.first;
+    vector< string > v_delimiters = v.second;
+    
+    if (v_tokens.size() < 1)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Maven version string does not have a minor version");
+    
+    // Increment major version
+    regex d("([0-9]+)");
+    smatch m;
+    regex_search(v_tokens[0], m, d);
+    string major_version = to_string(stoi(v_tokens[0]) + 1) + m.suffix().str();
+    v_tokens[0] = major_version;
+    
+    // Concatenate new version string
+    string new_version;
+    int i_v = 0;
+    do
+    {
+        new_version += v_tokens[i_v] + v_delimiters[i_v];
+        ++i_v;
+    } while (i_v < v_tokens.size() - 1);
+    new_version += v_tokens[i_v];
     this->set(new_version);
 };
 
 /// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementPatch()
 {
-    int patch_version = this->patch();
-    patch_version++;
-    string new_version = to_string(this->major()) + "." + to_string(this->minor()) + "." + to_string(patch_version);
+    pair< vector<string>, vector<string> > v = this->split();
+    vector< string > v_tokens = v.first;
+    vector< string > v_delimiters = v.second;
+    
+    // Increment patch version
+    if (v_tokens.size() < 3)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Maven version string does not have a minor version");
+    regex d("([0-9]+)");
+    smatch m;
+    regex_search(v_tokens[2], m, d);
+    string patch_version = to_string(stoi(v_tokens[2]) + 1) + m.suffix().str();
+    v_tokens[2] = patch_version;
+    
+    // Concatenate new version string
+    string new_version;
+    int i_v = 0;
+    do
+    {
+        new_version += v_tokens[i_v] + v_delimiters[i_v];
+        ++i_v;
+    } while (i_v < v_tokens.size() - 1);
+    new_version += v_tokens[i_v];
     this->set(new_version);
 };
 
@@ -50,8 +111,10 @@ void VersionProperty::decrementPatch()
 /// Splits the version string by a delimiter and returns the major version number
 int VersionProperty::major()
 {
-    vector<string> v = this->split('.');
-    int major_version = stoi(v[0]);
+    pair< vector<string>, vector<string> > v = this->split();
+    vector< string > v_tokens = v.first;
+    vector< string > v_delimiters = v.second;
+    int major_version = stoi(v_tokens[0]);
     return major_version;
 };
 
@@ -59,17 +122,20 @@ int VersionProperty::major()
 /// Splits the version string by a delimiter and returns the minor version number
 int VersionProperty::minor()
 {
-    vector<string> v = this->split('.');
+    pair< vector<string>, vector<string> > v = this->split();
+    vector< string > v_tokens = v.first;
+    vector< string > v_delimiters = v.second;
+    
     int minor_version;
     try
     {
         // bitset constructor throws an invalid_argument if initialized
         // with a string containing characters other than 0 and 1
-        minor_version = stoi(v[1]);
+        minor_version = stoi(v_tokens[1]);
     }
     catch (const std::invalid_argument& ia)
     {
-        std::cerr << "Invalid minor version: " << ia.what() << "\nMinor version must be an int";
+        std::cerr << "Invalid minor version: " << ia.what() << "\nMinor version must begin with an int";
     }
     return minor_version;
 };
@@ -78,17 +144,20 @@ int VersionProperty::minor()
 /// Splits the version string by a delimiter and returns the patch version
 int VersionProperty::patch()
 {
-    vector<string> v = this->split('.');
+    pair< vector<string>, vector<string> > v = this->split();
+    vector< string > v_tokens = v.first;
+    vector< string > v_delimiters = v.second;
+    
     int patch_version;
     try
     {
         // bitset constructor throws an invalid_argument if initialized
         // with a string containing characters other than 0 and 1
-        patch_version = stoi(v[2]);
+        patch_version = stoi(v_tokens[2]);
     }
     catch (const std::invalid_argument& ia)
     {
-        std::cerr << "Invalid patch version: " << ia.what() << "\nPatch number must be an int";
+        std::cerr << "Invalid patch version: " << ia.what() << "\nPatch number must begin with an int";
     }
     return patch_version;
 };
@@ -123,6 +192,32 @@ vector<string> VersionProperty::split(const char c)
             v.push_back(s.substr(i, s.length()));
     }
     return v;
+}
+
+pair < vector<string>, vector<string> > VersionProperty::split()
+{
+    // Adapted from C++ cookbook
+    const string& s = this->get();
+    vector<string> tokens;
+    vector<string> delimiters;
+    
+    std::regex rgx("[-|.|\\\\|_]");
+    std::sregex_token_iterator i_token(s.begin(), s.end(), rgx, -1);
+    std::sregex_token_iterator end;
+    while (i_token != end)
+    {
+        tokens.push_back(*i_token);
+        ++i_token;
+    }
+    
+    std::sregex_token_iterator i_delimiter(s.begin(), s.end(), rgx);
+    while (i_delimiter != end)
+    {
+        delimiters.push_back(*i_delimiter);
+        ++i_delimiter;
+    }
+    
+    return make_pair(tokens, delimiters);
 }
 
 ReferencedObject::ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :

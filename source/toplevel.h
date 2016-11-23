@@ -23,9 +23,17 @@ namespace sbol
             {
                 if  (isSBOLCompliant())
                 {
-                    this->displayId.set(uri);
-                    this->identity.set(getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get() + "/" + this->version.get());
-                    this->persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + this->displayId.get());
+                    displayId.set(uri);
+                    if (compliantTypesEnabled())
+                    {
+                        identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get() + "/" + version);
+                        persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
+                    }
+                    else
+                    {
+                        identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
+                        persistentIdentity.set(getHomespace() + "/" + displayId.get());
+                    }
                 }
             };
         TopLevel(sbol_type type_uri, std::string uri_prefix, std::string display_id, std::string version) :
