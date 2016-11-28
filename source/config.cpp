@@ -1,5 +1,6 @@
 #include "config.h"
 
+#include <string>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 
@@ -7,6 +8,8 @@ using namespace sbol;
 using namespace std;
 
 extern Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
+//Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
+
 
 // @TODO move sbol_type TYPEDEF declaration to this file and use sbol_type instead of string for 2nd argument
 std::string sbol::constructCompliantURI(std::string sbol_type, std::string display_id, std::string version)
@@ -156,6 +159,16 @@ int Config::exceptionsEnabled()
     return catch_exceptions;
 }
 
+void sbol::setFileFormat(std::string file_format)
+{
+    config.setFileFormat(file_format);
+};
+
+std::string sbol::getFileFormat()
+{
+    return config.getFileFormat();
+};
+
 void Config::setHomespace(std::string ns)
 {
     this->home = ns;
@@ -200,5 +213,15 @@ int Config::compliantTypesEnabled()
     return this->SBOLCompliantTypes;
 };
 
+void Config::setFileFormat(std::string file_format)
+{
+    if (file_format.compare("json") == 0)
+        this->format = "json";
+    else
+        this->format = "rdfxml";
+};
 
-
+std::string Config::getFileFormat()
+{
+    return format;
+};

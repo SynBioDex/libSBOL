@@ -11,6 +11,7 @@ namespace sbol
                          SBOL_ERROR_NOT_FOUND,
                          END_OF_LIST,
                          SBOL_ERROR_END_OF_LIST,
+                         SBOL_ERROR_SERIALIZATION,
                          SBOL_ERROR_PARSE,
                          SBOL_ERROR_MISSING_NAMESPACE,
                          SBOL_ERROR_NONCOMPLIANT_VERSION,

@@ -186,6 +186,15 @@ namespace sbol
         /// @TODO This could cause a memory leak if the overwritten object is not freed!
         this->sbol_owner->owned_objects[this->type][0] = ((SBOLObject *)&sbol_obj);
     };
+
+    template <class SBOLClass>
+    template <class SBOLSubClass>
+    void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
+    {
+        // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
+        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
+    };
+
     
     /// @param nIndex A numerical index
     /// @return A reference to the child object
@@ -197,13 +206,6 @@ namespace sbol
 	};
     
     
-    template <class SBOLClass>
-    template <class SBOLSubClass>
-    void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
-    {
-        // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
-        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
-    };
 
     template <class SBOLClass>
     template <class SBOLSubClass>

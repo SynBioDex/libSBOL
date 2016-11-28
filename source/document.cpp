@@ -368,8 +368,15 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
                 //cout << "Nesting " << id << " in " << property_name << endl;
 
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
-				replace_reference_to_resource(rdfxml_string, property_name, id, cut_text);
-
+                try
+                {
+                    replace_reference_to_resource(rdfxml_string, property_name, id, cut_text);
+                }
+                catch(...)
+                {
+                    SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + getClassName(property_name) + " property of " + id);
+            
+                }
             }
 		}
 	}
@@ -588,7 +595,9 @@ void Document::append(std::string filename)
 	FILE* fh = fopen(filename.c_str(), "rb");
     if (!fh)
         throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File not found");
-	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
+	//raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
+    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, getFileFormat().c_str());
+
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
 	unsigned char *uri_string;
@@ -801,7 +810,11 @@ void Document::write(std::string filename)
 	// Initialize raptor serializer
 	FILE* fh = fopen(filename.c_str(), "wb");
 	raptor_world* world = getWorld();
-	raptor_serializer* sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
+    raptor_serializer* sbol_serializer;
+    if (getFileFormat().compare("rdfxml") == 0)
+        sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
+    else
+        sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
 
 	// Add default namespaces to Document
 	//raptor_iostream* ios = raptor_new_iostream_to_file_handle(world, fh);
@@ -855,19 +868,24 @@ void Document::write(std::string filename)
 
 	std::string sbol_buffer_string = std::string((char*)sbol_buffer);
 	const int size = (const int)sbol_buffer_len;
-	if (sbol_buffer)
-	{
-		// Iterate through objects in document and nest them
-		for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
-		{
-			sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
-		}
-		fputs(sbol_buffer_string.c_str(), fh);
-	}
-	else
-	{
-		cout << "Serialization failed" << endl;
-	}
+    if (getFileFormat().compare("json") == 0)
+        fputs(sbol_buffer_string.c_str(), fh);
+    else
+    {
+        if (sbol_buffer)
+        {
+            // Iterate through objects in document and nest them
+            for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+            {
+                sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
+            }
+            fputs(sbol_buffer_string.c_str(), fh);
+        }
+        else
+        {
+            cout << "Serialization failed" << endl;
+        }
+    }
 	raptor_free_iostream(ios);
     raptor_free_uri(base_uri);
 	fclose(fh);
