@@ -86,6 +86,8 @@ void sbol::seek_end_of_element(std::istringstream& xml_buffer)
 string sbol::get_qname(istringstream& xml_buffer)
 {
 	vector<string> subtokens = parse_element(xml_buffer);
+    if (subtokens.size() == 0)
+        throw SBOL_ERROR_SERIALIZATION;
 	return subtokens.front();
 };
 
@@ -304,7 +306,14 @@ void sbol::replace_reference_to_resource(std::string& xml_string, const std::str
 	node_start = xml_buffer.tellg();
     seek_new_line(xml_buffer);
     repl_start = xml_buffer.tellg();
-    qname = get_qname(xml_buffer);
+    try
+    {
+        qname = get_qname(xml_buffer);
+    }
+    catch(...)
+    {
+        throw SBOL_ERROR_SERIALIZATION;
+    }
     seek_end_of_line(xml_buffer);
     repl_end = xml_buffer.tellg();
     repl_length = repl_end - repl_start;
@@ -365,8 +374,6 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 				SBOLObject* obj = *o;
                 rdfxml_string = obj->nest(rdfxml_string);  // Recurse, start nesting with leaf objects
                 string id = obj->identity.get();
-                //cout << "Nesting " << id << " in " << property_name << endl;
-
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
                 try
                 {
@@ -374,8 +381,7 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
                 }
                 catch(...)
                 {
-                    SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + getClassName(property_name) + " property of " + id);
-            
+                    throw SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + getClassName(property_name) + " property of " + id);
                 }
             }
 		}

@@ -103,6 +103,8 @@ namespace sbol
         template < class SBOLSubClass > SBOLSubClass& get();
         std::vector<SBOLClass*> copy();
         SBOLClass& create(std::string uri);             ///< Autoconstruct a child object and add it to a parent SBOL object
+        template < class SBOLSubClass > SBOLSubClass& create(std::string uri);
+
         void create(std::string uri_prefix, std::string display_id, std::string version);
 		SBOLClass& operator[] (const int nIndex);       ///< Retrieve a child object by numerical index.
         SBOLClass& operator[] (std::string uri);  ///< Retrieve a child object by URI
@@ -159,6 +161,8 @@ namespace sbol
         owned_obj->version.set(version);
         add(*owned_obj);
     };
+    
+
 
 	template <class SBOLClass >
     OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :

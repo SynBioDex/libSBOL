@@ -250,12 +250,14 @@ namespace sbol {
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
     {
         // This is a roundabout way of checking if SBOLClass is TopLevel in the Document
-        int CHECK_TOP_LEVEL = 0;
+        int CHECK_TOP_LEVEL;
         Document* parent_doc = dynamic_cast<Document*>(this->sbol_owner);
-        if (!parent_doc)
-        {
-            parent_doc = this->sbol_owner->doc;
+        if (parent_doc)
             CHECK_TOP_LEVEL = 1;
+        else
+        {
+            CHECK_TOP_LEVEL = 0;
+            parent_doc = this->sbol_owner->doc;
         }
         SBOLObject* parent_obj = this->sbol_owner;
 
@@ -289,9 +291,8 @@ namespace sbol {
             if (parent_doc && parent_doc->find(child_id))
                 throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
             
-            // Construct a new child object with emplacement
-            void* mem = malloc(sizeof(SBOLClass));
-            SBOLClass* child_obj = new (mem)SBOLClass;
+            // Construct a new child object
+            SBOLClass* child_obj = new SBOLClass(uri);
 
             // Initialize SBOLCompliant properties
             child_obj->identity.set(child_id);
@@ -302,8 +303,92 @@ namespace sbol {
             // Add the new object to this OwnedObject property
             // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
             std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
-            //if (std::find(object_store.begin(), object_store.end(), child_obj) != object_store.end())
-            //    throw SBOLError(DUPLICATE_URI_ERROR, "An object " + child_id + " with that identity is already contained by the property");
+            object_store.push_back((SBOLObject*)child_obj);
+
+            // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects, otherwise the returned object will not be registered
+            if (parent_doc)
+                child_obj->doc = parent_doc;
+            if (CHECK_TOP_LEVEL)
+                parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
+            return *child_obj;
+        }
+        else
+        {
+            if (parent_doc && parent_doc->find(uri))
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+            
+            // Construct a new child object
+            SBOLClass* child_obj = new SBOLClass(uri);
+            Identified* parent_obj = (Identified*)this->sbol_owner;
+            
+            child_obj->identity.set(uri);
+            child_obj->persistentIdentity.set(uri);
+            
+            this->add(*child_obj);
+            if (parent_obj->doc)
+                child_obj->doc = parent_obj->doc;
+            return *child_obj;
+        }
+    };
+
+    template < class SBOLClass>
+    template < class SBOLSubClass >
+    SBOLSubClass& OwnedObject<SBOLClass>::create(std::string uri)
+    {
+        // This is a roundabout way of checking if SBOLClass is TopLevel in the Document
+        int CHECK_TOP_LEVEL;
+        Document* parent_doc = dynamic_cast<Document*>(this->sbol_owner);
+        if (parent_doc)
+            CHECK_TOP_LEVEL = 1;
+        else
+        {
+            CHECK_TOP_LEVEL = 0;
+            parent_doc = this->sbol_owner->doc;
+        }
+        SBOLObject* parent_obj = this->sbol_owner;
+        
+        if (isSBOLCompliant())
+        {
+            // Form compliant URI for child object
+            std::string persistent_id;
+            std::string version;
+            if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+            {
+                persistent_id = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+                persistent_id = persistent_id.substr(1, persistent_id.length() - 2);  // Removes flanking < and > from the uri
+            }
+            else
+            {
+                persistent_id = getHomespace();
+            }
+            if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
+            {
+                version = parent_obj->properties[SBOL_VERSION].front();
+                version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+            }
+            else
+            {
+                version = VERSION_STRING;
+            }
+            std::string child_persistent_id =  persistent_id + "/" + uri;
+            std::string child_id = child_persistent_id + "/" + version;
+            
+            // Check for uniqueness of URI in the Document
+            if (parent_doc && parent_doc->find(child_id))
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+            
+            // Construct a new child object
+            SBOLSubClass* child_obj = new SBOLSubClass(child_id);
+            
+            // Initialize SBOLCompliant properties
+            child_obj->identity.set(child_id);
+            child_obj->persistentIdentity.set(child_persistent_id);
+            child_obj->displayId.set(uri);
+            child_obj->version.set(version);
+            
+            // Add the new object to this OwnedObject property
+            // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
+            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
             object_store.push_back(child_obj);
             
             // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects, otherwise the returned object will not be registered
@@ -319,8 +404,7 @@ namespace sbol {
                 throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
             
             // Construct an SBOLObject with emplacement
-            void* mem = malloc(sizeof(SBOLClass));
-            SBOLClass* child_obj = new (mem)SBOLClass;
+            SBOLSubClass* child_obj = new SBOLSubClass(uri);
             Identified* parent_obj = (Identified*)this->sbol_owner;
             
             child_obj->identity.set(uri);
