@@ -30,21 +30,6 @@ namespace sbol
         
         /// The mapsTos property is OPTIONAL and MAY contain a set of MapsTo objects that refer to and link together ComponentInstance objects (both Component objects and FunctionalComponent objects) within a larger design.
 		List<OwnedObject<MapsTo>> mapsTos;
-        
-        /// The expected purpose and function of a genetic part are described by the roles property of ComponentDefinition. However, the same building block might be used for a different purpose in an actual design. In other words, purpose and function are sometimes determined by context.
-        /// The roles property comprises an OPTIONAL set of zero or more role URIs describing the purpose or potential function of this Component’s included sub-ComponentDefinition in the context of its parent ComponentDefinition. If provided, these role URIs MUST identify terms from appropriate ontologies. Roles are not restricted to describing biological function; they may annotate a Component’s function in any domain for which an ontology exists.
-        /// It is RECOMMENDED that these role URIs identify terms that are compatible with the type properties of both this Component’s parent ComponentDefinition and its included sub-ComponentDefinition. For example, a role of a Component which belongs to a ComponentDefinition of type DNA and includes a sub-ComponentDefinition of type DNA might refer to terms from the Sequence Ontology. See documentation for ComponentDefinition for a table of recommended ontology terms for roles.
-        List<URIProperty> roles;
-        
-        /// A roleIntegration specifies the relationship between a Component instance’s own set of roles and the set of roles on the included sub-ComponentDefinition.
-        /// The roleIntegration property has a data type of URI. A Component instance with zero roles MAY OPTIONALLY specify a roleIntegration. A Component instance with one or more roles MUST specify a roleIntegration from the table below If zero Component roles are given and no Component roleIntegration is given, then http://sbols.org/v2#mergeRoles is assumed. It is RECOMMENDED to specify a set of Component roles only if the integrated result set of roles would differ from the set of roles belonging to this Component’s included sub-ComponentDefinition.
-        /// | roleIntegration URI                | Description                                                                                        |
-        /// | :----------------------------------| :------------------------------------------------------------------------------------------------- |
-        /// | http://sbols.org/v2#overrideRoles  | In the context of this Component, ignore any roles given for the included sub-ComponentDefinition. |
-        /// |                                    | Instead use only the set of zero or more roles given for this Component.                           |
-        /// | http://sbols.org/v2#mergeRoles     | Use the union of the two sets: both the set of zero or more roles given for this Component as well |
-        /// |                                    | as the set of zero or more roles given for the included sub-ComponentDefinition.                   |
-        URIProperty roleIntegration;
 
         virtual ~ComponentInstance() {};
 	protected:
@@ -52,9 +37,7 @@ namespace sbol
             Identified(type, uri, version),
             definition(SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, this, definition),
             access(SBOL_ACCESS, this, access),
-            mapsTos(SBOL_MAPS_TOS, this),
-            roles(SBOL_ROLES, this),
-            roleIntegration(SBOL_ROLE_INTEGRATION, this, SBOL_ROLE_INTEGRATION_MERGE)
+            mapsTos(SBOL_MAPS_TOS, this)
             {
             };
 //        ComponentInstance(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) :
@@ -72,6 +55,21 @@ namespace sbol
 	class Component : public ComponentInstance
 	{
 	public:
+        /// The expected purpose and function of a genetic part are described by the roles property of ComponentDefinition. However, the same building block might be used for a different purpose in an actual design. In other words, purpose and function are sometimes determined by context.
+        /// The roles property comprises an OPTIONAL set of zero or more role URIs describing the purpose or potential function of this Component’s included sub-ComponentDefinition in the context of its parent ComponentDefinition. If provided, these role URIs MUST identify terms from appropriate ontologies. Roles are not restricted to describing biological function; they may annotate a Component’s function in any domain for which an ontology exists.
+        /// It is RECOMMENDED that these role URIs identify terms that are compatible with the type properties of both this Component’s parent ComponentDefinition and its included sub-ComponentDefinition. For example, a role of a Component which belongs to a ComponentDefinition of type DNA and includes a sub-ComponentDefinition of type DNA might refer to terms from the Sequence Ontology. See documentation for ComponentDefinition for a table of recommended ontology terms for roles.
+        List<URIProperty> roles;
+        
+        /// A roleIntegration specifies the relationship between a Component instance’s own set of roles and the set of roles on the included sub-ComponentDefinition.
+        /// The roleIntegration property has a data type of URI. A Component instance with zero roles MAY OPTIONALLY specify a roleIntegration. A Component instance with one or more roles MUST specify a roleIntegration from the table below If zero Component roles are given and no Component roleIntegration is given, then http://sbols.org/v2#mergeRoles is assumed. It is RECOMMENDED to specify a set of Component roles only if the integrated result set of roles would differ from the set of roles belonging to this Component’s included sub-ComponentDefinition.
+        /// | roleIntegration URI                | Description                                                                                        |
+        /// | :----------------------------------| :------------------------------------------------------------------------------------------------- |
+        /// | http://sbols.org/v2#overrideRoles  | In the context of this Component, ignore any roles given for the included sub-ComponentDefinition. |
+        /// |                                    | Instead use only the set of zero or more roles given for this Component.                           |
+        /// | http://sbols.org/v2#mergeRoles     | Use the union of the two sets: both the set of zero or more roles given for this Component as well |
+        /// |                                    | as the set of zero or more roles given for the included sub-ComponentDefinition.                   |
+        URIProperty roleIntegration;
+        
         Component(std::string uri = DEFAULT_NS "/Component/example", std::string definition = "", std::string access = SBOL_ACCESS_PUBLIC, std::string version = "1.0.0") :
             Component(SBOL_COMPONENT, uri, definition, access, version) {};
         
@@ -80,8 +78,16 @@ namespace sbol
         virtual ~Component() {};
 
 	protected:
+        /// Construct a Component. If operating in SBOL-compliant mode, use ComponentDefinition::components::create instead.
+        /// @param A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param definition A URI referring to the ComponentDefinition that defines this instance
+        /// @param access Flag indicating whether the Component can be referred to remotely by a MapsTo
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Component(sbol_type type, std::string uri, std::string definition, std::string access, std::string version) :
-            ComponentInstance(type, uri, definition, access, version) {};
+            ComponentInstance(type, uri, definition, access, version),
+            roles(SBOL_ROLES, this),
+            roleIntegration(SBOL_ROLE_INTEGRATION, this)
+            {};
         
 //        Component(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) : ComponentInstance(type, uri_prefix, display_id, version, definition, access) {};
 	};
@@ -99,10 +105,10 @@ namespace sbol
         /// | http://sbols.org/v2#none  | Indicates that the FunctionalComponent is neither an input or output. | SBOL_DIRECTION_NONE   |
         URIProperty direction;
 
-        /// Construct a FunctionalComponent
+        /// Construct a FunctionalComponent. If operating in SBOL-compliant mode, use ModuleDefinition::functionalComponents::create instead.
         /// @param A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        /// @param definition
-        /// @param access
+        /// @param definition A URI referring to the ComponentDefinition that defines this instance
+        /// @param access Flag indicating whether the FunctionalComponent can be referred to remotely by a MapsTo
         /// @param direction The direction property specifies whether a FunctionalComponent serves as an input, output, both, or neither for its parent ModuleDefinition object
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         FunctionalComponent(std::string uri = DEFAULT_NS "/FunctionalComponent/example", std::string definition = "", std::string access = SBOL_ACCESS_PUBLIC, std::string direction = SBOL_DIRECTION_NONE, std::string version = "1.0.0") : FunctionalComponent(SBOL_FUNCTIONAL_COMPONENT, uri, definition, access, direction, version) {};
