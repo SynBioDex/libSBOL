@@ -1,5 +1,3 @@
-/// @file BiosystemDesignExample.cpp
-/// An example file demonstrating how to define and connect synthetic modules
 #include "sbol.h"
 
 #include <iostream>

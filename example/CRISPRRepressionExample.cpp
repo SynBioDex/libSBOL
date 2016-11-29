@@ -1,5 +1,3 @@
-/// @file CRISPRRepressionExample.cpp
-/// A file demonstrating how to assemble a CRISPR circuit
 
 #include "sbol.h"
 
