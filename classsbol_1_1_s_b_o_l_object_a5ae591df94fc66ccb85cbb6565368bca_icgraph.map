@@ -1,3 +1,4 @@
 <map id="close" name="close">
-<area shape="rect" id="node2" href="$classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,5,258,31"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_document.html#ab474f7d789f798ce60cb0857d9e81236" title="Read an RDF/XML file and attach the SBOL objects to this Document. " alt="" coords="108,5,256,31"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,55,258,80"/>
 </map>

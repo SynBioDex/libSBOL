@@ -93,6 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_component-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Component Class Reference</div>  </div>
@@ -103,16 +104,99 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a554ef7c2d135daea2b27c8328d04469f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component.html#a554ef7c2d135daea2b27c8328d04469f">roles</a></td></tr>
+<tr class="memdesc:a554ef7c2d135daea2b27c8328d04469f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The expected purpose and function of a genetic part are described by the roles property of <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>.  <a href="#a554ef7c2d135daea2b27c8328d04469f">More...</a><br /></td></tr>
+<tr class="separator:a554ef7c2d135daea2b27c8328d04469f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afac08ff71a2764131cdf9a58205477a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component.html#afac08ff71a2764131cdf9a58205477a8">roleIntegration</a></td></tr>
+<tr class="memdesc:afac08ff71a2764131cdf9a58205477a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">A roleIntegration specifies the relationship between a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> instance’s own set of roles and the set of roles on the included sub-ComponentDefinition.  <a href="#afac08ff71a2764131cdf9a58205477a8">More...</a><br /></td></tr>
+<tr class="separator:afac08ff71a2764131cdf9a58205477a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefb304fbd925689d2be4874a7c4fcb27"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><b>definition</b></td></tr>
+<tr class="memdesc:aefb304fbd925689d2be4874a7c4fcb27"><td class="mdescLeft">&#160;</td><td class="mdescRight">The definition property is a REQUIRED URI that refers to the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of the ComponentInstance.  <a href="#aefb304fbd925689d2be4874a7c4fcb27">More...</a><br /></td></tr>
+<tr class="separator:aefb304fbd925689d2be4874a7c4fcb27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>access</b></td></tr>
 <tr class="memdesc:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">The access property is a REQUIRED URI that indicates whether the ComponentInstance can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a>.  <a href="#a0fdb998a5ae0eda7a9ff3935859e5b88">More...</a><br /></td></tr>
 <tr class="separator:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4502cd9ed66367f0a2228569f6384374"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4502cd9ed66367f0a2228569f6384374"></a>
+<a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_maps_to.html">MapsTo</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mapsTos</b></td></tr>
+<tr class="memdesc:a4502cd9ed66367f0a2228569f6384374"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mapsTos property is OPTIONAL and MAY contain a set of <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects that refer to and link together ComponentInstance objects (both <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects and <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> objects) within a larger design. <br /></td></tr>
+<tr class="separator:a4502cd9ed66367f0a2228569f6384374"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
 <tr class="memdesc:a5ae591df94fc66ccb85cbb6565368bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a5ae591df94fc66ccb85cbb6565368bca">More...</a><br /></td></tr>
 <tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:af76b1b0e7c954fc6e8063d815a6f5a3b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component.html#af76b1b0e7c954fc6e8063d815a6f5a3b">Component</a> (sbol_type type, std::string uri, std::string definition, std::string access, std::string version)</td></tr>
+<tr class="memdesc:af76b1b0e7c954fc6e8063d815a6f5a3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>.  <a href="#af76b1b0e7c954fc6e8063d815a6f5a3b">More...</a><br /></td></tr>
+<tr class="separator:af76b1b0e7c954fc6e8063d815a6f5a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="af76b1b0e7c954fc6e8063d815a6f5a3b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_component.html">Component</a> </td>
+          <td>(</td>
+          <td class="paramtype">sbol_type&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>uri</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>definition</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>access</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>. </p>
+<p>If operating in SBOL-compliant mode, use ComponentDefinition::components::create instead. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>full URI including a scheme, namespace, and identifier. If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed. </td></tr>
+    <tr><td class="paramname">definition</td><td>A URI referring to the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> that defines this instance </td></tr>
+    <tr><td class="paramname">access</td><td>Flag indicating whether the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> </td></tr>
+    <tr><td class="paramname">version</td><td>An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch". </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a5ae591df94fc66ccb85cbb6565368bca"></a>
 <div class="memitem">
@@ -143,7 +227,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" alt=""/></div>
 <map name="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" id="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,5,258,31"/>
+<area shape="rect" id="node2" href="classsbol_1_1_document.html#ab474f7d789f798ce60cb0857d9e81236" title="Read an RDF/XML file and attach the SBOL objects to this Document. " alt="" coords="108,5,256,31"/>
+<area shape="rect" id="node3" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,55,258,80"/>
 </map>
 </div>
 </p>
@@ -181,6 +266,70 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="aefb304fbd925689d2be4874a7c4fcb27"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a> definition</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The definition property is a REQUIRED URI that refers to the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of the ComponentInstance. </p>
+<p>As described in the previous section, this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> effectively provides information about the types and roles of the ComponentInstance. The definition property MUST NOT refer to the same <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> as the one that contains the ComponentInstance. Furthermore, ComponentInstance objects MUST NOT form a cyclical chain of references via their definition properties and the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects that contain them. For example, consider the ComponentInstance objects A and B and the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects X and Y . The reference chain “X contains A, A isdefinedby Y, Y contains B, and B isdefinedby X” iscyclical. </p>
+
+</div>
+</div>
+<a class="anchor" id="afac08ff71a2764131cdf9a58205477a8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> roleIntegration</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A roleIntegration specifies the relationship between a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> instance’s own set of roles and the set of roles on the included sub-ComponentDefinition. </p>
+<p>The roleIntegration property has a data type of URI. A <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> instance with zero roles MAY OPTIONALLY specify a roleIntegration. A <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> instance with one or more roles MUST specify a roleIntegration from the table below If zero <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> roles are given and no <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> roleIntegration is given, then <a href="http://sbols.org/v2#mergeRoles">http://sbols.org/v2#mergeRoles</a> is assumed. It is RECOMMENDED to specify a set of <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> roles only if the integrated result set of roles would differ from the set of roles belonging to this Component’s included sub-ComponentDefinition. </p><table class="doxtable">
+<tr>
+<th align="left">roleIntegration URI </th><th align="left">Description  </th></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#overrideRoles">http://sbols.org/v2#overrideRoles</a> </td><td align="left">In the context of this <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>, ignore any roles given for the included sub-ComponentDefinition. </td></tr>
+<tr>
+<td align="left"></td><td align="left">Instead use only the set of zero or more roles given for this <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>. </td></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#mergeRoles">http://sbols.org/v2#mergeRoles</a> </td><td align="left">Use the union of the two sets: both the set of zero or more roles given for this <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> as well </td></tr>
+<tr>
+<td align="left"></td><td align="left">as the set of zero or more roles given for the included sub-ComponentDefinition. </td></tr>
+</table>
+
+</div>
+</div>
+<a class="anchor" id="a554ef7c2d135daea2b27c8328d04469f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_list.html">List</a>&lt;<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&gt; roles</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The expected purpose and function of a genetic part are described by the roles property of <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. </p>
+<p>However, the same building block might be used for a different purpose in an actual design. In other words, purpose and function are sometimes determined by context. The roles property comprises an OPTIONAL set of zero or more role URIs describing the purpose or potential function of this Component’s included sub-ComponentDefinition in the context of its parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. If provided, these role URIs MUST identify terms from appropriate ontologies. Roles are not restricted to describing biological function; they may annotate a Component’s function in any domain for which an ontology exists. It is RECOMMENDED that these role URIs identify terms that are compatible with the type properties of both this Component’s parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> and its included sub-ComponentDefinition. For example, a role of a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> which belongs to a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of type DNA and includes a sub-ComponentDefinition of type DNA might refer to terms from the <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> Ontology. See documentation for <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> for a table of recommended ontology terms for roles. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/component.h</li>
 </ul>
@@ -189,7 +338,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 14 2016 00:04:25 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 29 2016 00:32:38 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

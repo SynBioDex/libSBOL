@@ -91,6 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classsbol_1_1_sequence_annotation-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -100,6 +101,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> class describes one or more regions of interest on the <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> objects referred to by its parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. In addition, <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> objects can describe the substructure of their parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> through association with the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects contained by this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. </p>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ae04477e9cb54bddc7cda25a05e4b5538"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae04477e9cb54bddc7cda25a05e4b5538"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_sequence_annotation.html#ae04477e9cb54bddc7cda25a05e4b5538">component</a></td></tr>
+<tr class="memdesc:ae04477e9cb54bddc7cda25a05e4b5538"><td class="mdescLeft">&#160;</td><td class="mdescRight">The component property is OPTIONAL and has a data type of URI. This URI MUST refer to a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> that is contained by the same parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> that contains the <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a>. In this way, the properties of the <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a>, such as its description and locations, are associated with part of the substructure of its parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. <br /></td></tr>
+<tr class="separator:ae04477e9cb54bddc7cda25a05e4b5538"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba53258105e51532bb065df362b80112"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_location.html">Location</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_sequence_annotation.html#aba53258105e51532bb065df362b80112">locations</a></td></tr>
+<tr class="memdesc:aba53258105e51532bb065df362b80112"><td class="mdescLeft">&#160;</td><td class="mdescRight">The locations property is a REQUIRED set of one or more <a class="el" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the...">Location</a> objects that indicate which elements of a <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> are described by the <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a>.  <a href="#aba53258105e51532bb065df362b80112">More...</a><br /></td></tr>
+<tr class="separator:aba53258105e51532bb065df362b80112"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a554ef7c2d135daea2b27c8328d04469f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_sequence_annotation.html#a554ef7c2d135daea2b27c8328d04469f">roles</a></td></tr>
+<tr class="memdesc:a554ef7c2d135daea2b27c8328d04469f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alternatively to describing substructure, a <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> can be utilized to identify a feature, such as a GenBank feature, of a specified <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a>.  <a href="#a554ef7c2d135daea2b27c8328d04469f">More...</a><br /></td></tr>
+<tr class="separator:a554ef7c2d135daea2b27c8328d04469f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
@@ -136,10 +150,42 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" alt=""/></div>
 <map name="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" id="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,5,258,31"/>
+<area shape="rect" id="node2" href="classsbol_1_1_document.html#ab474f7d789f798ce60cb0857d9e81236" title="Read an RDF/XML file and attach the SBOL objects to this Document. " alt="" coords="108,5,256,31"/>
+<area shape="rect" id="node3" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,55,258,80"/>
 </map>
 </div>
 </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="aba53258105e51532bb065df362b80112"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_list.html">List</a>&lt;<a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt;<a class="el" href="classsbol_1_1_location.html">Location</a>&gt; &gt; locations</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The locations property is a REQUIRED set of one or more <a class="el" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the...">Location</a> objects that indicate which elements of a <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> are described by the <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a>. </p>
+<p>Allowing multiple <a class="el" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the...">Location</a> objects on a single <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> is intended to enable representation of discontinuous regions (for example, a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> encoded across a set of exons with interspersed introns). As such, the <a class="el" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the...">Location</a> objects of a single <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> SHOULD NOT specify overlapping regions, since it is not clear what this would mean. There is no such concern with different <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> objects, however, which can freely overlap in <a class="el" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the...">Location</a> (for example, specifying overlapping linkers for sequence assembly). </p>
+
+</div>
+</div>
+<a class="anchor" id="a554ef7c2d135daea2b27c8328d04469f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_list.html">List</a>&lt;<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&gt; roles</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alternatively to describing substructure, a <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> can be utilized to identify a feature, such as a GenBank feature, of a specified <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a>. </p>
+<p>In this use case, the <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> MUST NOT have a component property, but instead it would have a roles property. The roles property comprises an OPTIONAL set of zero or more URIs describing the specified sequence feature being annotated. If provided, these role URIs MUST identify terms from appropriate ontologies. Roles are not restricted to describing biological function; they may annotate Sequences’ function in any domain for which an ontology exists. It is RECOMMENDED that these role URIs identify terms that are compatible with the type properties of this SequenceAnnotation’s parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. For example, a role of a <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> which belongs to a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of type DNA might refer to terms from the <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> Ontology. See documentation for <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> for a table of recommended ontology terms. </p>
 
 </div>
 </div>
@@ -158,7 +204,7 @@ Inheritance diagram for SequenceAnnotation:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 14 2016 00:04:25 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 29 2016 00:32:38 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['base_5furi',['BASE_URI',['../_sequence_assembly_example_8cpp.html#afe097db28701d89a9efda506f54c98bf',1,'SequenceAssemblyExample.cpp']]],
   ['biopax_5fcomplex',['BIOPAX_COMPLEX',['../constants_8h.html#abcdfbca32134be773472d9af0f825e44',1,'constants.h']]],
   ['biopax_5fdna',['BIOPAX_DNA',['../constants_8h.html#aa08e807e9ad29c17c56e3b17f088f6cc',1,'constants.h']]],
   ['biopax_5fprotein',['BIOPAX_PROTEIN',['../constants_8h.html#a5eeedc63b5c9afebba2dd9e197a1851b',1,'constants.h']]],

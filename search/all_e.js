@@ -49,7 +49,6 @@ var searchData=
   ['sequence',['sequence',['../classsbol_1_1_component_definition.html#a9f0f244e0a16cb2c9e95b681494180f5',1,'sbol::ComponentDefinition']]],
   ['sequenceannotation',['SequenceAnnotation',['../classsbol_1_1_sequence_annotation.html',1,'sbol']]],
   ['sequenceannotations',['sequenceAnnotations',['../classsbol_1_1_component_definition.html#a6370970075dac494920780d3b6a72e61',1,'sbol::ComponentDefinition']]],
-  ['sequenceassemblyexample_2ecpp',['SequenceAssemblyExample.cpp',['../_sequence_assembly_example_8cpp.html',1,'']]],
   ['sequenceconstraint',['SequenceConstraint',['../classsbol_1_1_sequence_constraint.html',1,'sbol']]],
   ['sequenceconstraints',['sequenceConstraints',['../classsbol_1_1_component_definition.html#aaf7117785844b3ae127ed1e9de48591a',1,'sbol::ComponentDefinition']]],
   ['sequence_20assembly',['Sequence Assembly',['../sequences.html',1,'']]],

@@ -4,7 +4,7 @@
 <area shape="rect" id="node6" href="$classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. " alt="" coords="265,541,361,695"/>
 <area shape="rect" id="node7" href="$classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="385,561,478,675"/>
 <area shape="rect" id="node8" href="$classsbol_1_1_participation.html" title="Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction..." alt="" coords="502,548,625,688"/>
-<area shape="rect" id="node9" href="$classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="649,555,823,681"/>
+<area shape="rect" id="node9" href="$classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="649,548,823,688"/>
 <area shape="rect" id="node10" href="$classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="847,555,1017,681"/>
 <area shape="rect" id="node11" href="$classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="1041,561,1180,675"/>
 <area shape="rect" id="node2" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="433,5,562,279"/>
