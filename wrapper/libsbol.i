@@ -473,6 +473,8 @@ namespace sbol
 
 %template(addRange) sbol::OwnedObject::add<Range>;
 %template(getRange) sbol::OwnedObject::get<Range>;
+%template(createRange) sbol::OwnedObject::create<Range>;
+
 %include "location.h"
 %template(locationProperty) sbol::Property<sbol::Location>;
 %template(_VectorOfLocations) std::vector<sbol::Location>;

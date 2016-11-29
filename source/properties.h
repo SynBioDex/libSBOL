@@ -100,7 +100,7 @@ namespace sbol
         SBOLClass& get(const std::string object_id);    ///< Get the child object
 		void add(SBOLClass& sbol_obj);                  ///< Push another child object to the list, if the property allows multiple values
         template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);
-        template < class SBOLSubClass > SBOLSubClass& get();
+        template < class SBOLSubClass > SBOLSubClass& get(std::string uri = "");
         std::vector<SBOLClass*> copy();
         SBOLClass& create(std::string uri);             ///< Autoconstruct a child object and add it to a parent SBOL object
         template < class SBOLSubClass > SBOLSubClass& create(std::string uri);
@@ -209,16 +209,6 @@ namespace sbol
 		return (SBOLClass&)*object_store->at(nIndex);
 	};
     
-    
-
-    template <class SBOLClass>
-    template <class SBOLSubClass>
-    SBOLSubClass& OwnedObject< SBOLClass >::get()
-    {
-        // This should use dynamic_cast instead of implicit casting
-        SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
-        return (SBOLSubClass&)*obj;
-    };
 
     /// Provides interface for an SBOL container Property that is allowed to have more than one object or value
     /// @tparam PropertyType The type of SBOL Property, eg, Text, Int, OwnedObject, etc

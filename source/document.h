@@ -465,6 +465,23 @@ namespace sbol {
         throw SBOLError(NOT_FOUND_ERROR, "Object " + object_id + " not found");
     };
     
+    template <class SBOLClass>
+    template <class SBOLSubClass>
+    SBOLSubClass& OwnedObject< SBOLClass >::get(std::string uri)
+    {
+        if (uri.compare("") == 0)
+        {
+            // This should use dynamic_cast instead of implicit casting
+            SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
+            return (SBOLSubClass&)*obj;
+        }
+        else
+        {
+            SBOLClass* obj = &this->operator[](uri);
+            return (SBOLSubClass&)*obj;
+        }
+    };
+    
     /// @param uri The URI of the child object
     /// @return A reference to the child object
     template <class SBOLClass>
