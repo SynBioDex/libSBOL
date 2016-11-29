@@ -928,7 +928,7 @@ void Document::close(std::string uri)
 std::string ReferencedObject::create(std::string uri)
 {
     if (sbol_owner->doc == NULL)
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ReferencedObject::create method requires that this object belongs to a Document");
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, getClassName(this->sbol_owner->type) + "::" + getClassName(this->type) + "::create method of " + this->sbol_owner->identity.get() + " requires that this object belongs to a Document");
     Document& doc = *sbol_owner->doc;
     Identified& parent_obj = (Identified&)*sbol_owner;
     if (isSBOLCompliant())

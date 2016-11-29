@@ -172,7 +172,7 @@ namespace sbol {
 		// Check if the uri is already assigned and delete the object, otherwise it will cause a memory leak!!!
 		//if (SBOLObjects[whatever]!=SBOLObjects.end()) {delete SBOLObjects[whatever]'}
         if (this->SBOLObjects.find(sbol_obj.identity.get()) != this->SBOLObjects.end())
-            throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained in the Document");
+            throw SBOLError(DUPLICATE_URI_ERROR, "Cannot create " + sbol_obj.identity.get() + ". An object with this identity is already contained in the Document");
         else
         {
             // If TopLevel add the Document
@@ -422,7 +422,7 @@ namespace sbol {
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {
         if (isSBOLCompliant())
-            throw SBOLError(SBOL_ERROR_COMPLIANCE, "This add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the create method instead");
+            throw SBOLError(SBOL_ERROR_COMPLIANCE, "Cannot add " + sbol_obj.identity.get() + " to " + this->sbol_owner->identity.get() + ". The " + getClassName(this->sbol_owner->type) + "::" + getClassName(this->type) + "::add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the " + getClassName(this->sbol_owner->type) + "::" + getClassName(this->type) + "::create method instead or use toggleSBOLCompliance to enter open-world mode");
         if (this->sbol_owner)
         {
             // The type for Document is currently hard-coded. Should replace it with a preprocessor symbol
