@@ -38,7 +38,7 @@
     
 %}
 
-//%include "python_docs.i"
+%include "python_docs.i"
 
 
 #ifdef SWIGWIN
@@ -538,7 +538,7 @@ import json
 import urllib2
 
 sbol = open(filename, 'r')
-data = {"validationOptions": {"output" : "FASTA",
+data = {"validationOptions": {"output" : "SBOL2",
         "diff": False,
         "noncompliantUrisAllowed": False,
         "incompleteDocumentsAllowed": False,
@@ -548,7 +548,7 @@ data = {"validationOptions": {"output" : "FASTA",
         "topLevelToConvert": "",
         "uriPrefix": "",
         "version": ""},
-        "wantFileBack": True,
+        "wantFileBack": False,
         "mainFile": sbol.read()
     }
 sbol.close()
