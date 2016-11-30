@@ -19,11 +19,11 @@ namespace sbol
         ReferencedObject object;
         
         /// The restriction property is REQUIRED and has a data type of URI. This property MUST indicate the type of structural restriction on the relative, sequence-based positions or orientations of the subject and object Component objects. The URI value of this property SHOULD come from the RECOMMENDED URIs in the following table.
-        /// | Restriction URI                           | Description                                                                      |
+        /// | libSBOL Symbol                            | Description                                                                      |
         /// | :---------------------------------------- | -------------------------------------------------------------------------------- |
-        /// | http://sbols.org/v2#precedes              | The position of the subject Component MUST precede that of the object Component.<br> If each one is associated with a SequenceAnnotation, then the SequenceAnnotation<br>associated with the subject Component MUST specify a region that starts before<br>the region specified by the SequenceAnnotation associated with the object<br> Component. |
-        /// | http://sbols.org/v2#sameOrientationAs     | The subject and object Component objects MUST have the same orientation. If each<br>one is associated with a SequenceAnnotation, then the orientation URIs of the<br>Location objects of the first SequenceAnnotation MUST be among those of the<br>second SequenceAnnotation, and vice versa. |
-        /// | http://sbols.org/v2#oppositeOrientationAs | The subject and object Component objects MUST have opposite orientations. If<br>each one is associated with a SequenceAnnotation, then the orientation URIs of<br>the Location objects of one SequenceAnnotation MUST NOT be among those of the<br>other SequenceAnnotation. |
+        /// | SBOL_RESTRICTION_PRECEDES                 | The position of the subject Component MUST precede that of the object Component.<br> If each one is associated with a SequenceAnnotation, then the SequenceAnnotation<br>associated with the subject Component MUST specify a region that starts before<br>the region specified by the SequenceAnnotation associated with the object<br> Component. |
+        /// | SBOL_RESTRICTION_SAME_ORIENTATION_AS      | The subject and object Component objects MUST have the same orientation. If each<br>one is associated with a SequenceAnnotation, then the orientation URIs of the<br>Location objects of the first SequenceAnnotation MUST be among those of the<br>second SequenceAnnotation, and vice versa. |
+        /// | SBOL_RESTRICTION_OPPOSITE_ORIENTATION_AS  | The subject and object Component objects MUST have opposite orientations. If<br>each one is associated with a SequenceAnnotation, then the orientation URIs of<br>the Location objects of one SequenceAnnotation MUST NOT be among those of the<br>other SequenceAnnotation. |
         URIProperty restriction;
         
         /// Construct a SequenceConstraint. If operating in SBOL-compliant mode, use ComponentDefinition::sequenceConstraints::create instead.

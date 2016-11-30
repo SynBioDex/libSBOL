@@ -81,6 +81,7 @@
 #define SBOL_ORIENTATION SBOL_URI "#orientation"
 #define SBOL_LOCATIONS SBOL_URI "#location"
 #define SBOL_ROLE_INTEGRATION SBOL_URI "#roleIntegration"
+#define SBOL_AT SBOL_URI "#at"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property
