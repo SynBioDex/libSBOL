@@ -88,7 +88,7 @@ namespace sbol
         
         int size()
         {
-            std::size_t size = this->sbol_owner->owned_objects[this->type].size();
+            std::size_t size = this->sbol_owner->properties[this->type].size();
             return (int)size;
         };
         
