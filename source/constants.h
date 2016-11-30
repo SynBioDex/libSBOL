@@ -130,7 +130,7 @@
 
 /* URIs for common Sequence Ontology terms */
 #define SO "http://identifiers.org/so/SO:" ///< Namespace for Sequence Ontology (SO) terms
-#define SO_MISC "0000001"                  ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_MISC SO "0000001"                  ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_PROMOTER SO "0000167"           ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_CDS SO "0000316"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_RBS SO "0000139"                ///< An SO term and possible value for ComponentDefinition::role property
