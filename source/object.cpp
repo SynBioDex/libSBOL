@@ -67,6 +67,7 @@ int SBOLObject::find(string uri)
     return 0;
 };
 
+
 //SBOLObject& OwnedObjects::get(int index)
 //{
 //	sbol_owner->owned_objects[index].front();

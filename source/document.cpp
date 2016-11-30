@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 #include <unordered_map>
+#include <regex>
+
 
 using namespace sbol;
 using namespace std;
@@ -962,5 +964,72 @@ std::string ReferencedObject::create(std::string uri)
         return new_obj.identity.get();
     }
 };
+
+Identified& Identified::copy(Document* new_doc, string ns, string version)
+{
+    // Call constructor for the copy
+    Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ this->type ]();
+    
+    // Assign the new object to a Document
+    if (new_doc)
+        new_obj.doc = new_doc;
+    else
+        new_obj.doc = this->doc;
+    new_obj.type = this->type;
+    
+    // Set version
+    if (version.compare("") == 0)
+        this->version.incrementMajor();
+    else
+        this->version.set(version);
+    
+    // Copy properties
+    for (auto i_store = properties.begin(); i_store != properties.end(); ++i_store)
+    {
+        string store_uri = i_store->first;
+        vector < string > property_store = i_store->second;
+        vector < string > property_store_copy = property_store;   // Copy properties
+        
+        // Replace namespace in URIs
+        if (ns.compare("") != 0)
+        {
+            string old_ns = getHomespace();
+            for (int i_property_val = 0; i_property_val < property_store_copy.size(); ++i_property_val)
+            {
+                string property_val = property_store_copy[i_property_val];
+                size_t pos = 0;
+                pos = property_val.find(old_ns, pos);
+                if (pos != std::string::npos)
+                {
+                    property_val.erase(pos, old_ns.size());
+                    property_val.insert(pos, ns);
+                }
+                property_store_copy[i_property_val] = property_val;
+            }
+        }
+        new_obj.properties[store_uri] = property_store_copy;
+    }
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        string store_uri = i_store->first;
+        vector < SBOLObject* >& object_store = i_store->second;
+        for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
+        {
+            Identified& child_obj = (Identified&)**i_obj;
+            
+            // Recurse into child objects and copy.  This should be after all other object properties are set, to ensure proper generation of new URIs with updated namespace and version
+            Identified& child_obj_copy = child_obj.copy();
+            new_obj.owned_objects[store_uri].push_back((SBOLObject*)&child_obj_copy);  // Copy child object
+        }
+    }
+   
+    // Register in Document, either this one or the new one
+    Document& parent_doc = *this->doc;
+    // register in SBOLObjects
+    // register in owned_objects
+    return new_obj;
+};
+
+
 
 

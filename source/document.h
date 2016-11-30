@@ -537,7 +537,9 @@ namespace sbol {
         }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };
-    
+
 }
+
+
 
 #endif

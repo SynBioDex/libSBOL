@@ -45,6 +45,7 @@ namespace sbol
         std::string nest(std::string& rdfxml_buffer);
         int find(std::string uri);
         std::string getClassName(std::string type);
+
         virtual ~SBOLObject();
         void close();
         
@@ -65,8 +66,6 @@ namespace sbol
         {
         };
     };
-    
-
 
     /// @ingroup extension_layer
     /// @brief A reference to another SBOL object
