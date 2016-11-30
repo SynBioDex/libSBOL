@@ -219,6 +219,8 @@ namespace sbol
 
 	public:
         List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value = "");
+        List(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value = "");
+
 		//std::string get(int index);
 		//SBOLClass& get(std::string object_id);
 		void remove(int index);
@@ -236,7 +238,11 @@ namespace sbol
     {
     };
     
-
+    template <class ReferencedObject>
+    List<ReferencedObject>::List(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :
+        ReferencedObject(type_uri, reference_type_uri, property_owner, initial_value)
+    {
+    };
 
 	//template <class PropertyType>
 	//template <class SBOLClass>

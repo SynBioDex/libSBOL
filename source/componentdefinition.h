@@ -50,7 +50,7 @@ namespace sbol
         List<OwnedObject<Component>> components;
         
         /// The sequences property is OPTIONAL and MAY include a URI that refer to a Sequence object. The referenced object defines the primary structure of the ComponentDefinition.
-        ReferencedObject sequence;
+        List<ReferencedObject> sequences;
         
         /// The sequenceAnnotations property is OPTIONAL and MAY contain a set of SequenceAnnotation objects. Each SequenceAnnotation specifies and describes a potentially discontiguous region on the Sequence objects referred to by the ComponentDefinition.
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
@@ -113,7 +113,7 @@ namespace sbol
             TopLevel(type, uri, version),
             types(SBOL_TYPES, this, component_type),
             roles(SBOL_ROLES, this),
-            sequence(SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, this),
+            sequences(SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, this),
             sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this),
             components(SBOL_COMPONENTS, this),
             sequenceConstraints(SBOL_SEQUENCE_CONSTRAINTS, this)

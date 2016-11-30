@@ -167,15 +167,15 @@ std::string ComponentDefinition::updateSequence(std::string composite_sequence)
         {
             Component& c = **i_c;
             ComponentDefinition& cdef = doc->get < ComponentDefinition > (c.definition.get());
-            Sequence& seq = doc->get < Sequence > (cdef.sequence.get());
+            Sequence& seq = doc->get < Sequence > (cdef.sequences.get());
             composite_sequence = composite_sequence + cdef.updateSequence(composite_sequence);
         }
         return composite_sequence;
     }
     else
     {
-        std::string parent_component_seq = parent_component.sequence.get();
-        Sequence& seq = doc->get < Sequence >(parent_component.sequence.get());
+        std::string parent_component_seq = parent_component.sequences.get();
+        Sequence& seq = doc->get < Sequence >(parent_component.sequences.get());
         return seq.elements.get();
     }
 }
@@ -232,7 +232,7 @@ std::string Sequence::assemble(std::string composite_sequence)
         if (obj->getTypeURI() == SBOL_COMPONENT_DEFINITION)
         {
             ComponentDefinition* cdef = (ComponentDefinition*)obj;
-            if (cdef->sequence.get() == identity.get())
+            if (cdef->sequences.get() == identity.get())
             {
                 parent_cdef = cdef;
             }
@@ -253,7 +253,7 @@ std::string Sequence::assemble(std::string composite_sequence)
         {
             Component& c = **i_c;
             ComponentDefinition& cdef = doc->get < ComponentDefinition > (c.definition.get());
-            Sequence& seq = doc->get < Sequence > (cdef.sequence.get());
+            Sequence& seq = doc->get < Sequence > (cdef.sequences.get());
             composite_sequence = composite_sequence + seq.assemble(composite_sequence);
         }
         elements.set(composite_sequence);
@@ -261,8 +261,8 @@ std::string Sequence::assemble(std::string composite_sequence)
     }
     else
     {
-        std::string parent_component_seq = parent_component.sequence.get();
-        Sequence& seq = doc->get < Sequence >(parent_component.sequence.get());
+        std::string parent_component_seq = parent_component.sequences.get();
+        Sequence& seq = doc->get < Sequence >(parent_component.sequences.get());
         return seq.elements.get();
     }
 };
