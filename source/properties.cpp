@@ -9,7 +9,6 @@
 using namespace sbol;
 using namespace std;
 
-/// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMinor()
 {
     pair< vector<string>, vector<string> > v = this->split();
@@ -36,9 +35,21 @@ void VersionProperty::incrementMinor()
     } while (i_v < v_tokens.size() - 1);
     new_version += v_tokens[i_v];
     this->set(new_version);
+    
+    /// Update the identity if SBOLCompliant
+    if (isSBOLCompliant())
+    {
+        SBOLObject* parent_obj = this->sbol_owner;
+        std::string persistentIdentity;
+        if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+        {
+            persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+            persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+        }
+        parent_obj->identity.set(persistentIdentity + "/" + new_version);
+    }
 };
 
-/// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMajor()
 {
     pair< vector<string>, vector<string> > v = this->split();
@@ -65,9 +76,21 @@ void VersionProperty::incrementMajor()
     } while (i_v < v_tokens.size() - 1);
     new_version += v_tokens[i_v];
     this->set(new_version);
+    
+    /// Update the identity if SBOLCompliant
+    if (isSBOLCompliant())
+    {
+        SBOLObject* parent_obj = this->sbol_owner;
+        std::string persistentIdentity;
+        if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+        {
+            persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+            persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+        }
+        parent_obj->identity.set(persistentIdentity + "/" + new_version);
+    }
 };
 
-/// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementPatch()
 {
     pair< vector<string>, vector<string> > v = this->split();
@@ -93,6 +116,19 @@ void VersionProperty::incrementPatch()
     } while (i_v < v_tokens.size() - 1);
     new_version += v_tokens[i_v];
     this->set(new_version);
+    
+    /// Update the identity if SBOLCompliant
+    if (isSBOLCompliant())
+    {
+        SBOLObject* parent_obj = this->sbol_owner;
+        std::string persistentIdentity;
+        if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+        {
+            persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+            persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+        }
+        parent_obj->identity.set(persistentIdentity + "/" + new_version);
+    }
 };
 
 void VersionProperty::decrementMinor()
