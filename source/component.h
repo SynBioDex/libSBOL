@@ -70,6 +70,11 @@ namespace sbol
         /// |                                    | as the set of zero or more roles given for the included sub-ComponentDefinition.                   |
         URIProperty roleIntegration;
         
+        /// Construct a Component. If operating in SBOL-compliant mode, use ComponentDefinition::components::create instead.
+        /// @param A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param definition A URI referring to the ComponentDefinition that defines this instance
+        /// @param access Flag indicating whether the Component can be referred to remotely by a MapsTo
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Component(std::string uri = DEFAULT_NS "/Component/example", std::string definition = "", std::string access = SBOL_ACCESS_PUBLIC, std::string version = "1.0.0") :
             Component(SBOL_COMPONENT, uri, definition, access, version) {};
         
@@ -78,11 +83,6 @@ namespace sbol
         virtual ~Component() {};
 
 	protected:
-        /// Construct a Component. If operating in SBOL-compliant mode, use ComponentDefinition::components::create instead.
-        /// @param A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        /// @param definition A URI referring to the ComponentDefinition that defines this instance
-        /// @param access Flag indicating whether the Component can be referred to remotely by a MapsTo
-        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Component(sbol_type type, std::string uri, std::string definition, std::string access, std::string version) :
             ComponentInstance(type, uri, definition, access, version),
             roles(SBOL_ROLES, this),
