@@ -123,9 +123,29 @@ namespace sbol
         
         std::vector<std::string>::iterator python_iter;
     };
-    
-}
 
+    template <class PropertyType>
+    void List<PropertyType>::remove(std::string uri)
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+            {
+                std::vector<SBOLObject*>& object_store = this->sbol_owner->owned_objects[this->type];
+                int i_obj = 0;
+                for (; i_obj <= object_store.size(); ++i_obj)
+                {
+                    SBOLObject& obj = *object_store[i_obj];
+                    if (uri.compare(obj.identity.get()) == 0)
+                        break;
+                }
+                if (i_obj < object_store.size())
+                    this->remove(i_obj);
+            }
+        }
+    };
+
+}
 
 //// This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
 //template <class SBOLClass>

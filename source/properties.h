@@ -227,7 +227,7 @@ namespace sbol
 		//SBOLClass& get(std::string object_id);
 
 		//std::vector<PropertyType> copy();
-		//void remove(std::string uri);
+		void remove(std::string uri);
 	};
 
     template <class PropertyType>
@@ -285,16 +285,26 @@ namespace sbol
 //		return vector_copy;
 //	};
 
-
-
 	template <class PropertyType>
 	void List<PropertyType>::remove(int index)
 	{
 		if (this->sbol_owner)
 		{
-			this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index - 1);
+            if (this->sbol_owner->properties.find(this->type) != this->sbol_owner->properties.end())
+            {
+                if (index >= this->sbol_owner->properties[this->type].size())
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+                this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index);
+            }
+            else if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+            {
+                if (index >= this->sbol_owner->owned_objects[this->type].size())
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+                this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
+            }
 		}
 	};
+    
 }
 
 #endif
