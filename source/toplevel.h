@@ -17,6 +17,8 @@ namespace sbol
 //        TopLevel(std::string uri_prefix, std::string display_id, std::string version) : TopLevel(SBOL_TOP_LEVEL, uri_prefix, display_id, version) {};
         void addToDocument(sbol::Document&);
         virtual ~TopLevel() {};
+        template < class SBOLClass > SBOLClass& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "");
+
     protected:
         TopLevel(sbol_type type_uri, std::string uri, std::string version) :
             Identified(type_uri, uri, version)
@@ -41,6 +43,8 @@ namespace sbol
             {
             };
     };
+    
+
 }
 
 

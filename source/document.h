@@ -538,6 +538,27 @@ namespace sbol {
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };
 
+    /// Copy an object and automatically increment its version. If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs.
+    /// @tparam SBOLClass The type of SBOL object being copied
+    /// @param new_doc The new copies will be attached to this Document.  NULL by default.
+    /// @param ns This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs.
+    /// @param version A new version
+    /// @return The full URI of the created object.
+    template <class SBOLClass>
+    SBOLClass& TopLevel::copy(Document* target_doc, std::string ns, std::string version)
+    {
+        // Register in Document, either this one or the new one
+        //Document& parent_doc = *this->doc;
+        // register in SBOLObjects
+        // register in owned_objects
+        if (!target_doc)
+            target_doc = this->doc;
+        Identified& obj_copy = Identified::copy(target_doc, ns, version);
+        SBOLClass& new_obj = (SBOLClass&)obj_copy;
+        if (target_doc)
+            target_doc->add < SBOLClass > (new_obj);
+        return new_obj;
+    };
 }
 
 

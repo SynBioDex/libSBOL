@@ -29,10 +29,11 @@ namespace sbol
 
 	// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI
         virtual ~Identified() {};
-        Identified& copy(Document* new_doc = NULL, std::string ns = "", std::string version = "");
+        template < class SBOLClass > SBOLClass& copy(std::string ns = "", std::string version = "");
 
     protected:
-        template < class SBOLClass > SBOLClass& copy(Document* new_doc = NULL, std::string ns = "", std::string version = "");
+        Identified& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "");
+
         
         Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
             SBOLObject(type_uri, uri),
@@ -96,9 +97,9 @@ namespace sbol
     /// @param version A new version
     /// @return The full URI of the created object.
     template <class SBOLClass>
-    SBOLClass& Identified::copy(Document* new_doc, std::string ns, std::string version)
+    SBOLClass& Identified::copy(std::string ns, std::string version)
     {
-        return (SBOLClass&)this->copy(new_doc, ns);
+        return (SBOLClass&)this->copy(NULL, ns, version);
     };
   
 //    ///

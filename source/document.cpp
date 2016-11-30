@@ -965,19 +965,19 @@ std::string ReferencedObject::create(std::string uri)
     }
 };
 
-Identified& Identified::copy(Document* new_doc, string ns, string version)
+Identified& Identified::copy(Document* target_doc, string ns, string version)
 {
     // Call constructor for the copy
     Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ this->type ]();
     
-    // Assign the new object to a Document
-    if (new_doc)
-        new_obj.doc = new_doc;
-    else
-        new_obj.doc = this->doc;
+    // Assign the new object to the target Document (null for non-TopLevel objects)
+    if (target_doc)
+        new_obj.doc = target_doc;
+
     new_obj.type = this->type;
     
     // Set version
+    this->wasDerivedFrom.set(identity.get());
     if (version.compare("") == 0)
         this->version.incrementMajor();
     else
@@ -990,8 +990,9 @@ Identified& Identified::copy(Document* new_doc, string ns, string version)
         vector < string > property_store = i_store->second;
         vector < string > property_store_copy = property_store;   // Copy properties
         
-        // Replace namespace in URIs
-        if (ns.compare("") != 0)
+        // If caller specified a namespace argument, then replace namespace in URIs
+        // Don't overwrite namespaces for the wasDerivedFrom field, which points back to the original object
+        if (ns.compare("") != 0 && store_uri.compare(SBOL_WAS_DERIVED_FROM) != 0)
         {
             string old_ns = getHomespace();
             for (int i_property_val = 0; i_property_val < property_store_copy.size(); ++i_property_val)
@@ -1018,15 +1019,10 @@ Identified& Identified::copy(Document* new_doc, string ns, string version)
             Identified& child_obj = (Identified&)**i_obj;
             
             // Recurse into child objects and copy.  This should be after all other object properties are set, to ensure proper generation of new URIs with updated namespace and version
-            Identified& child_obj_copy = child_obj.copy();
+            Identified& child_obj_copy = child_obj.copy(target_doc, ns, version);
             new_obj.owned_objects[store_uri].push_back((SBOLObject*)&child_obj_copy);  // Copy child object
         }
     }
-   
-    // Register in Document, either this one or the new one
-    Document& parent_doc = *this->doc;
-    // register in SBOLObjects
-    // register in owned_objects
     return new_obj;
 };
 
