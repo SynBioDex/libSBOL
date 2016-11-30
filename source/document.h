@@ -180,6 +180,7 @@ namespace sbol {
             if (check_top_level)
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
+                sbol_obj.parent = this;  // Set back-pointer to parent object
                 this->owned_objects[sbol_obj.type].push_back((SBOLClass*)&sbol_obj);  // Add the object to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc.
             }
             sbol_obj.doc = this;
@@ -302,6 +303,7 @@ namespace sbol {
 
             // Add the new object to this OwnedObject property
             // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
+            child_obj->parent = parent_obj;  // Set back-pointer to parent object
             std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
             object_store.push_back((SBOLObject*)child_obj);
 
@@ -320,6 +322,7 @@ namespace sbol {
             // Construct a new child object
             SBOLClass* child_obj = new SBOLClass(uri);
             Identified* parent_obj = (Identified*)this->sbol_owner;
+            child_obj->parent = parent_obj;  // Set back-pointer to parent object
             
             child_obj->identity.set(uri);
             child_obj->persistentIdentity.set(uri);
@@ -438,6 +441,7 @@ namespace sbol {
                     throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained by the property");
                 else
                 {
+                    sbol_obj.parent = this->sbol_owner;  // Set back-pointer to parent object
                     object_store.push_back((SBOLObject *)&sbol_obj);
                     if (this->sbol_owner->doc)
                     {

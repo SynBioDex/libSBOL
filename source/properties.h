@@ -188,6 +188,7 @@ namespace sbol
     void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
     {
         /// @TODO This could cause a memory leak if the overwritten object is not freed!
+        sbol_obj->parent = this->sbol_owner;
         this->sbol_owner->owned_objects[this->type][0] = ((SBOLObject *)&sbol_obj);
     };
 
@@ -196,6 +197,7 @@ namespace sbol
     void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
     {
         // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
+        sbol_obj->parent = this->sbol_owner;
         this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
     };
 

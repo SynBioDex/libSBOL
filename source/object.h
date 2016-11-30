@@ -38,6 +38,7 @@ namespace sbol
         SBOLObject(std::string uri_prefix, std::string display_id, std::string version) : SBOLObject(UNDEFINED, uri_prefix, display_id, version) {};
         
         sbol_type type;
+        SBOLObject* parent;
         URIProperty identity;
     
         virtual sbol_type getTypeURI();

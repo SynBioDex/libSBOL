@@ -500,7 +500,8 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 					// TopLevel object.  The owned object is then removed from its temporary location in the Document's object store
 					// and is now associated only with it's parent TopLevel object.
 					SBOLObject *owned_obj = doc->SBOLObjects[owned_obj_id];
-					sbol_obj->owned_objects[property_uri].push_back(owned_obj);			
+					sbol_obj->owned_objects[property_uri].push_back(owned_obj);
+                    owned_obj->parent = sbol_obj;
 					doc->SBOLObjects.erase(owned_obj_id);
                     // doc->owned_objects.erase(owned_object->type);  // Remove temporary, non-toplevel objects from the Document's property store
 				}
