@@ -1,8 +1,8 @@
 <map id="TopLevel" name="TopLevel">
-<area shape="rect" id="node4" href="$classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="5,703,212,1003"/>
-<area shape="rect" id="node5" href="$classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="236,789,331,916"/>
-<area shape="rect" id="node6" href="$classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="355,756,521,949"/>
-<area shape="rect" id="node7" href="$classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="545,789,654,916"/>
-<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="294,327,428,493"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="5,729,212,1029"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="236,816,331,943"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="355,783,521,976"/>
+<area shape="rect" id="node7" href="$classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="545,816,654,943"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="294,327,428,520"/>
 <area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="296,5,425,279"/>
 </map>

@@ -4,7 +4,7 @@
 <area shape="rect" id="node3" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="152,179,228,204"/>
 <area shape="rect" id="node4" href="$classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="310,5,393,31"/>
 <area shape="rect" id="node5" href="$classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="316,55,387,80"/>
-<area shape="rect" id="node7" href="$classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. " alt="" coords="317,104,385,129"/>
+<area shape="rect" id="node7" href="$classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance..." alt="" coords="317,104,385,129"/>
 <area shape="rect" id="node8" href="$classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="319,153,384,179"/>
 <area shape="rect" id="node9" href="$classsbol_1_1_participation.html" title="Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction..." alt="" coords="304,203,399,228"/>
 <area shape="rect" id="node10" href="$classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="279,252,424,277"/>

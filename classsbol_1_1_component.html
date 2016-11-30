@@ -114,27 +114,31 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:aefb304fbd925689d2be4874a7c4fcb27"><td class="mdescLeft">&#160;</td><td class="mdescRight">The definition property is a REQUIRED URI that refers to the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of the ComponentInstance.  <a href="#aefb304fbd925689d2be4874a7c4fcb27">More...</a><br /></td></tr>
 <tr class="separator:aefb304fbd925689d2be4874a7c4fcb27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>access</b></td></tr>
-<tr class="memdesc:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">The access property is a REQUIRED URI that indicates whether the ComponentInstance can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a>.  <a href="#a0fdb998a5ae0eda7a9ff3935859e5b88">More...</a><br /></td></tr>
+<tr class="memdesc:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">The access property is a REQUIRED URI that indicates whether the ComponentInstance can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a>.  <a href="#a0fdb998a5ae0eda7a9ff3935859e5b88">More...</a><br /></td></tr>
 <tr class="separator:a0fdb998a5ae0eda7a9ff3935859e5b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4502cd9ed66367f0a2228569f6384374"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4502cd9ed66367f0a2228569f6384374"></a>
 <a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_maps_to.html">MapsTo</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mapsTos</b></td></tr>
-<tr class="memdesc:a4502cd9ed66367f0a2228569f6384374"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mapsTos property is OPTIONAL and MAY contain a set of <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects that refer to and link together ComponentInstance objects (both <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects and <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> objects) within a larger design. <br /></td></tr>
+<tr class="memdesc:a4502cd9ed66367f0a2228569f6384374"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mapsTos property is OPTIONAL and MAY contain a set of <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a> objects that refer to and link together ComponentInstance objects (both <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects and <a class="el" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside...">FunctionalComponent</a> objects) within a larger design. <br /></td></tr>
 <tr class="separator:a4502cd9ed66367f0a2228569f6384374"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a49b0992209a9d19b6677916917eedaac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component.html#a49b0992209a9d19b6677916917eedaac">Component</a> (std::string uri=DEFAULT_NS&quot;/Component/example&quot;, std::string definition=&quot;&quot;, std::string access=<a class="el" href="constants_8h.html#a16dbac4860d7b52909f21f70569f6135">SBOL_ACCESS_PUBLIC</a>, std::string version=&quot;1.0.0&quot;)</td></tr>
+<tr class="memdesc:a49b0992209a9d19b6677916917eedaac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>.  <a href="#a49b0992209a9d19b6677916917eedaac">More...</a><br /></td></tr>
+<tr class="separator:a49b0992209a9d19b6677916917eedaac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
 <tr class="memdesc:a5ae591df94fc66ccb85cbb6565368bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a5ae591df94fc66ccb85cbb6565368bca">More...</a><br /></td></tr>
 <tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:af76b1b0e7c954fc6e8063d815a6f5a3b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component.html#af76b1b0e7c954fc6e8063d815a6f5a3b">Component</a> (sbol_type type, std::string uri, std::string definition, std::string access, std::string version)</td></tr>
-<tr class="memdesc:af76b1b0e7c954fc6e8063d815a6f5a3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>.  <a href="#af76b1b0e7c954fc6e8063d815a6f5a3b">More...</a><br /></td></tr>
-<tr class="separator:af76b1b0e7c954fc6e8063d815a6f5a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
+<tr class="memitem:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memTemplItemLeft" align="right" valign="top">SBOLClass &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a03d8e4510807e05f8e0ae170fa23c85b">copy</a> (<a class="el" href="classsbol_1_1_document.html">Document</a> *new_doc=NULL, std::string ns=&quot;&quot;, std::string version=&quot;&quot;)</td></tr>
+<tr class="memdesc:a03d8e4510807e05f8e0ae170fa23c85b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy an object and automatically increment its version.  <a href="#a03d8e4510807e05f8e0ae170fa23c85b">More...</a><br /></td></tr>
+<tr class="separator:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="af76b1b0e7c954fc6e8063d815a6f5a3b"></a>
+<a class="anchor" id="a49b0992209a9d19b6677916917eedaac"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -144,32 +148,26 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="classsbol_1_1_component.html">Component</a> </td>
           <td>(</td>
-          <td class="paramtype">sbol_type&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>uri</em> = <code>DEFAULT_NS&#160;&quot;/Component/example&quot;</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>uri</em>, </td>
+          <td class="paramname"><em>definition</em> = <code>&quot;&quot;</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>definition</em>, </td>
+          <td class="paramname"><em>access</em> = <code><a class="el" href="constants_8h.html#a16dbac4860d7b52909f21f70569f6135">SBOL_ACCESS_PUBLIC</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>access</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>version</em>&#160;</td>
+          <td class="paramname"><em>version</em> = <code>&quot;1.0.0&quot;</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -179,7 +177,7 @@ Protected Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -189,7 +187,7 @@ Protected Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">A</td><td>full URI including a scheme, namespace, and identifier. If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed. </td></tr>
     <tr><td class="paramname">definition</td><td>A URI referring to the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> that defines this instance </td></tr>
-    <tr><td class="paramname">access</td><td>Flag indicating whether the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> </td></tr>
+    <tr><td class="paramname">access</td><td>Flag indicating whether the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a> </td></tr>
     <tr><td class="paramname">version</td><td>An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch". </td></tr>
   </table>
   </dd>
@@ -235,6 +233,63 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a03d8e4510807e05f8e0ae170fa23c85b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SBOLClass &amp; copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td>
+          <td class="paramname"><em>new_doc</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>ns</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>version</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copy an object and automatically increment its version. </p>
+<p>If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">SBOLClass</td><td>The type of SBOL object being copied </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">new_doc</td><td>The new copies will be attached to this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. NULL by default. </td></tr>
+    <tr><td class="paramname">ns</td><td>This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs. </td></tr>
+    <tr><td class="paramname">version</td><td>A new version </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The full URI of the created object. </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a0fdb998a5ae0eda7a9ff3935859e5b88"></a>
 <div class="memitem">
@@ -254,14 +309,14 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>The access property is a REQUIRED URI that indicates whether the ComponentInstance can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a>. </p>
+<p>The access property is a REQUIRED URI that indicates whether the ComponentInstance can be referred to remotely by a <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a>. </p>
 <p>The value of the access property MUST be one of the following URIs. </p><table class="doxtable">
 <tr>
 <th align="left">Access URI </th><th align="left">Description  </th></tr>
 <tr>
-<td align="left"><a href="http://sbols.org/v2#public">http://sbols.org/v2#public</a> </td><td align="left">The ComponentInstance MAY be referred to by remote <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects </td></tr>
+<td align="left"><a href="http://sbols.org/v2#public">http://sbols.org/v2#public</a> </td><td align="left">The ComponentInstance MAY be referred to by remote <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a> objects </td></tr>
 <tr>
-<td align="left"><a href="http://sbols.org/v2#private">http://sbols.org/v2#private</a> </td><td align="left">The ComponentInstance MAY be referred to by remote <a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects </td></tr>
+<td align="left"><a href="http://sbols.org/v2#private">http://sbols.org/v2#private</a> </td><td align="left">The ComponentInstance MAY be referred to by remote <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a> objects </td></tr>
 </table>
 
 </div>
@@ -338,7 +393,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 29 2016 00:32:38 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 29 2016 20:59:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

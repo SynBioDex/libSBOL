@@ -91,7 +91,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_sequence_constraint-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">SequenceConstraint Class Reference</div>  </div>
@@ -100,12 +102,100 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a> class can be used to assert restrictions on the relative, sequence-based positions of pairs of <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects contained by the same parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. The primary purpose of this class is to enable the specification of partially designed <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> objects, for which the precise positions or orientations of their contained <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects are not yet fully determined. </p>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ad2598e9b9a230439bfb47e2539f2559c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad2598e9b9a230439bfb47e2539f2559c"></a>
+<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_sequence_constraint.html#ad2598e9b9a230439bfb47e2539f2559c">subject</a></td></tr>
+<tr class="memdesc:ad2598e9b9a230439bfb47e2539f2559c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The subject property is REQUIRED and MUST contain a URI that refers to a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> contained by the same parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> that contains the <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a>. <br /></td></tr>
+<tr class="separator:ad2598e9b9a230439bfb47e2539f2559c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2038ddf6657ed96ad88b6cf770bdd27b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2038ddf6657ed96ad88b6cf770bdd27b"></a>
+<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_sequence_constraint.html#a2038ddf6657ed96ad88b6cf770bdd27b">object</a></td></tr>
+<tr class="memdesc:a2038ddf6657ed96ad88b6cf770bdd27b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The object property is REQUIRED and MUST contain a URI that refers to a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> contained by the same parent <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> that contains the <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a>. This <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> MUST NOT be the same <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> that the <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a> refers to via its subject property. <br /></td></tr>
+<tr class="separator:a2038ddf6657ed96ad88b6cf770bdd27b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f5cad6762dd2c22cd7339fdb6f4ae17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_sequence_constraint.html#a6f5cad6762dd2c22cd7339fdb6f4ae17">restriction</a></td></tr>
+<tr class="memdesc:a6f5cad6762dd2c22cd7339fdb6f4ae17"><td class="mdescLeft">&#160;</td><td class="mdescRight">The restriction property is REQUIRED and has a data type of URI.  <a href="#a6f5cad6762dd2c22cd7339fdb6f4ae17">More...</a><br /></td></tr>
+<tr class="separator:a6f5cad6762dd2c22cd7339fdb6f4ae17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ade56837119ac3235002813b0781838c9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_sequence_constraint.html#ade56837119ac3235002813b0781838c9">SequenceConstraint</a> (std::string uri=DEFAULT_NS&quot;/SequenceConstraint/example&quot;, std::string <a class="el" href="classsbol_1_1_sequence_constraint.html#ad2598e9b9a230439bfb47e2539f2559c">subject</a>=&quot;&quot;, std::string <a class="el" href="classsbol_1_1_sequence_constraint.html#a2038ddf6657ed96ad88b6cf770bdd27b">object</a>=&quot;&quot;, std::string <a class="el" href="classsbol_1_1_sequence_constraint.html#a6f5cad6762dd2c22cd7339fdb6f4ae17">restriction</a>=<a class="el" href="constants_8h.html#a782de6271b720ebd24a7c0b1f7308ba3">SBOL_RESTRICTION_PRECEDES</a>, std::string version=&quot;1.0.0&quot;)</td></tr>
+<tr class="memdesc:ade56837119ac3235002813b0781838c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a>.  <a href="#ade56837119ac3235002813b0781838c9">More...</a><br /></td></tr>
+<tr class="separator:ade56837119ac3235002813b0781838c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
 <tr class="memdesc:a5ae591df94fc66ccb85cbb6565368bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a5ae591df94fc66ccb85cbb6565368bca">More...</a><br /></td></tr>
 <tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
+<tr class="memitem:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memTemplItemLeft" align="right" valign="top">SBOLClass &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a03d8e4510807e05f8e0ae170fa23c85b">copy</a> (<a class="el" href="classsbol_1_1_document.html">Document</a> *new_doc=NULL, std::string ns=&quot;&quot;, std::string version=&quot;&quot;)</td></tr>
+<tr class="memdesc:a03d8e4510807e05f8e0ae170fa23c85b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy an object and automatically increment its version.  <a href="#a03d8e4510807e05f8e0ae170fa23c85b">More...</a><br /></td></tr>
+<tr class="separator:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ade56837119ac3235002813b0781838c9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_sequence_constraint.html">SequenceConstraint</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>uri</em> = <code>DEFAULT_NS&#160;&quot;/SequenceConstraint/example&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>subject</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>object</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>restriction</em> = <code><a class="el" href="constants_8h.html#a782de6271b720ebd24a7c0b1f7308ba3">SBOL_RESTRICTION_PRECEDES</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>version</em> = <code>&quot;1.0.0&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a>. </p>
+<p>If operating in SBOL-compliant mode, use ComponentDefinition::sequenceConstraints::create instead. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uri</td><td>If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier. If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed. </td></tr>
+    <tr><td class="paramname">subject</td><td>Identity of the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> with this structural constraint </td></tr>
+    <tr><td class="paramname">object</td><td>Identity of the other <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> with this structural constraint </td></tr>
+    <tr><td class="paramname">restriction</td><td>Flag indicating the type of structual constraint between the subject and object Components. By default, this is set to SBOL_RESTRICTION_PRECEDES </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a5ae591df94fc66ccb85cbb6565368bca"></a>
 <div class="memitem">
@@ -144,6 +234,98 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a03d8e4510807e05f8e0ae170fa23c85b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SBOLClass &amp; copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td>
+          <td class="paramname"><em>new_doc</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>ns</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>version</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copy an object and automatically increment its version. </p>
+<p>If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">SBOLClass</td><td>The type of SBOL object being copied </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">new_doc</td><td>The new copies will be attached to this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. NULL by default. </td></tr>
+    <tr><td class="paramname">ns</td><td>This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs. </td></tr>
+    <tr><td class="paramname">version</td><td>A new version </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The full URI of the created object. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a6f5cad6762dd2c22cd7339fdb6f4ae17"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> restriction</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The restriction property is REQUIRED and has a data type of URI. </p>
+<p>This property MUST indicate the type of structural restriction on the relative, sequence-based positions or orientations of the subject and object <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects. The URI value of this property SHOULD come from the RECOMMENDED URIs in the following table. </p><table class="doxtable">
+<tr>
+<th align="left">Restriction URI </th><th>Description  </th></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#precedes">http://sbols.org/v2#precedes</a> </td><td>The position of the subject <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> MUST precede that of the object <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>.<br />
+ If each one is associated with a <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a>, then the <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a><br />
+associated with the subject <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> MUST specify a region that starts before<br />
+the region specified by the <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> associated with the object<br />
+ <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>. </td></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#sameOrientationAs">http://sbols.org/v2#sameOrientationAs</a> </td><td>The subject and object <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects MUST have the same orientation. If each<br />
+one is associated with a <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a>, then the orientation URIs of the<br />
+<a class="el" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the...">Location</a> objects of the first <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> MUST be among those of the<br />
+second <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a>, and vice versa. </td></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#oppositeOrientationAs">http://sbols.org/v2#oppositeOrientationAs</a> </td><td>The subject and object <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects MUST have opposite orientations. If<br />
+each one is associated with a <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a>, then the orientation URIs of<br />
+the <a class="el" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the...">Location</a> objects of one <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> MUST NOT be among those of the<br />
+other <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a>. </td></tr>
+</table>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/sequenceconstraint.h</li>
 </ul>
@@ -152,14 +334,14 @@ Inheritance diagram for SequenceConstraint:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_sequence_constraint__inherit__graph.png" border="0" usemap="#_sequence_constraint_inherit__map" alt="Inheritance graph"/></div>
 <map name="_sequence_constraint_inherit__map" id="_sequence_constraint_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="24,327,157,493"/>
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="24,327,157,520"/>
 <area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="26,5,155,279"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 29 2016 00:32:38 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 29 2016 20:59:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

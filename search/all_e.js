@@ -45,11 +45,13 @@ var searchData=
   ['sbol_5furi',['SBOL_URI',['../constants_8h.html#a7903e05384695850fc071ef9507589b4',1,'constants.h']]],
   ['sbolobject',['SBOLObject',['../classsbol_1_1_s_b_o_l_object.html',1,'sbol']]],
   ['sbolobjects',['SBOLObjects',['../classsbol_1_1_document.html#a22f0f4a0f715f19666e4ee4287410988',1,'sbol::Document']]],
-  ['sequence',['Sequence',['../classsbol_1_1_sequence.html',1,'sbol']]],
   ['sequence',['sequence',['../classsbol_1_1_component_definition.html#a9f0f244e0a16cb2c9e95b681494180f5',1,'sbol::ComponentDefinition']]],
+  ['sequence',['Sequence',['../classsbol_1_1_sequence.html',1,'sbol']]],
   ['sequenceannotation',['SequenceAnnotation',['../classsbol_1_1_sequence_annotation.html',1,'sbol']]],
+  ['sequenceannotation',['SequenceAnnotation',['../classsbol_1_1_sequence_annotation.html#ae3ed02d9000da15f55f3326b34165e15',1,'sbol::SequenceAnnotation']]],
   ['sequenceannotations',['sequenceAnnotations',['../classsbol_1_1_component_definition.html#a6370970075dac494920780d3b6a72e61',1,'sbol::ComponentDefinition']]],
   ['sequenceconstraint',['SequenceConstraint',['../classsbol_1_1_sequence_constraint.html',1,'sbol']]],
+  ['sequenceconstraint',['SequenceConstraint',['../classsbol_1_1_sequence_constraint.html#ade56837119ac3235002813b0781838c9',1,'sbol::SequenceConstraint']]],
   ['sequenceconstraints',['sequenceConstraints',['../classsbol_1_1_component_definition.html#aaf7117785844b3ae127ed1e9de48591a',1,'sbol::ComponentDefinition']]],
   ['sequence_20assembly',['Sequence Assembly',['../sequences.html',1,'']]],
   ['set',['set',['../classsbol_1_1_owned_object.html#a6fdb4549d20177fb0cb00862ca1764bc',1,'sbol::OwnedObject::set()'],['../classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872',1,'sbol::Property::set(std::string new_value)'],['../classsbol_1_1_property.html#a60d0f67ccdc9630d89f8bb041cc0f122',1,'sbol::Property::set(int new_value)']]],
@@ -59,5 +61,6 @@ var searchData=
   ['so_5fpromoter',['SO_PROMOTER',['../constants_8h.html#a70c6bc61e1f72aeaa7ddae9a2596f97c',1,'constants.h']]],
   ['so_5frbs',['SO_RBS',['../constants_8h.html#a51d5ac228bf38c474fab6899abc60476',1,'constants.h']]],
   ['so_5fterminator',['SO_TERMINATOR',['../constants_8h.html#a052791878fe863620703899b4632cee5',1,'constants.h']]],
-  ['source',['source',['../classsbol_1_1_model.html#a6b0910e43b7df2d1ba2609d28b6ffe68',1,'sbol::Model']]]
+  ['source',['source',['../classsbol_1_1_model.html#a6b0910e43b7df2d1ba2609d28b6ffe68',1,'sbol::Model']]],
+  ['subject',['subject',['../classsbol_1_1_sequence_constraint.html#ad2598e9b9a230439bfb47e2539f2559c',1,'sbol::SequenceConstraint']]]
 ];

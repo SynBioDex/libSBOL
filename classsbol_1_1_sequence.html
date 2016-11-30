@@ -92,6 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_sequence-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Sequence Class Reference</div>  </div>
@@ -105,6 +106,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
 <tr class="memdesc:a5ae591df94fc66ccb85cbb6565368bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a5ae591df94fc66ccb85cbb6565368bca">More...</a><br /></td></tr>
 <tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
+<tr class="memitem:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memTemplItemLeft" align="right" valign="top">SBOLClass &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a03d8e4510807e05f8e0ae170fa23c85b">copy</a> (<a class="el" href="classsbol_1_1_document.html">Document</a> *new_doc=NULL, std::string ns=&quot;&quot;, std::string version=&quot;&quot;)</td></tr>
+<tr class="memdesc:a03d8e4510807e05f8e0ae170fa23c85b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy an object and automatically increment its version.  <a href="#a03d8e4510807e05f8e0ae170fa23c85b">More...</a><br /></td></tr>
+<tr class="separator:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a5ae591df94fc66ccb85cbb6565368bca"></a>
@@ -144,6 +152,63 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a03d8e4510807e05f8e0ae170fa23c85b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SBOLClass &amp; copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td>
+          <td class="paramname"><em>new_doc</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>ns</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>version</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copy an object and automatically increment its version. </p>
+<p>If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">SBOLClass</td><td>The type of SBOL object being copied </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">new_doc</td><td>The new copies will be attached to this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. NULL by default. </td></tr>
+    <tr><td class="paramname">ns</td><td>This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs. </td></tr>
+    <tr><td class="paramname">version</td><td>A new version </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The full URI of the created object. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/sequence.h</li>
 <li>/Users/bryan/Dev/libSBOL/source/assembly.cpp</li>
@@ -153,15 +218,15 @@ Inheritance diagram for Sequence:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_sequence__inherit__graph.png" border="0" usemap="#_sequence_inherit__map" alt="Inheritance graph"/></div>
 <map name="_sequence_inherit__map" id="_sequence_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="5,541,144,655"/>
-<area shape="rect" id="node3" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="8,327,142,493"/>
+<area shape="rect" id="node2" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="5,568,144,681"/>
+<area shape="rect" id="node3" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="8,327,142,520"/>
 <area shape="rect" id="node4" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="10,5,139,279"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 29 2016 00:32:38 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 29 2016 20:59:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
