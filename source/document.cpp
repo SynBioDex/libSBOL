@@ -977,13 +977,6 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
 
     new_obj.type = this->type;
     
-    // Set version
-    this->wasDerivedFrom.set(identity.get());
-    if (version.compare("") == 0)
-        this->version.incrementMajor();
-    else
-        this->version.set(version);
-    
     // Copy properties
     for (auto i_store = properties.begin(); i_store != properties.end(); ++i_store)
     {
@@ -1011,6 +1004,14 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         }
         new_obj.properties[store_uri] = property_store_copy;
     }
+    
+    // Set version
+    new_obj.wasDerivedFrom.set(this->identity.get());
+    if (version.compare("") == 0)
+        new_obj.version.incrementMajor();
+    else
+        new_obj.version.set(version);
+    
     for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
     {
         string store_uri = i_store->first;
