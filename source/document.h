@@ -211,7 +211,34 @@ namespace sbol {
     
 	template <class SBOLClass > SBOLClass& Document::get(std::string uri)
 	{
-		return (SBOLClass &)*(this->SBOLObjects[uri]);
+        // Search the Document's object store for the uri
+        if (SBOLObjects.find(uri) != SBOLObjects.end())
+            return (SBOLClass &)*(SBOLObjects[uri]);
+        
+        // In SBOLCompliant mode, the user may retrieve an object by persistentIdentity as well
+        if (isSBOLCompliant())
+        {
+            // Assume the uri argument is a persistentIdentity
+            std::string persistent_id = uri;
+            std::vector < std::string > ids;
+            
+            // Search the Document's object map for  property's object store for all URIs prefixed with the persistentIdentity
+            for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+            {
+                std::string obj_id = i_obj->first;
+                if (obj_id.find(persistent_id) != std::string::npos)
+                    ids.push_back(obj_id);
+            }
+            
+            // Get the latest version
+            std::sort(ids.begin(), ids.end());
+            if (ids.size() > 0)
+            {
+                uri = ids.back();
+                return (SBOLClass &)*(SBOLObjects[uri]);
+            }
+        }
+        throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
 	};
     
     
@@ -243,9 +270,10 @@ namespace sbol {
     		return vector_copy;
     	};
     
+    /// @tparam The type of SBOL object that will be created
     /// @param If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
     /// @return A reference to the child object
-    /// Autoconstructs a child object and attaches it to the parent object.  If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
+    /// Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
     /// @TODO check uniqueness of URI in Document
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
@@ -452,21 +480,33 @@ namespace sbol {
         }
     };
     
+    /// @tparam SBOLClass The type of the child object
     /// @param object_id The URI of the child object
     /// @return A reference to the child object
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::get(const std::string object_id)
     {
-        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+        if (object_id.compare("") == 0)
         {
-            SBOLObject* obj = *i_obj;
-            if (object_id.compare(obj->identity.get()) == 0)
-            {
-                return (SBOLClass&)*obj;
-            }
+            // This should use dynamic_cast instead of implicit casting
+            SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
+            return (SBOLClass&)*obj;
         }
-        throw SBOLError(NOT_FOUND_ERROR, "Object " + object_id + " not found");
+        else
+        {
+            SBOLClass& obj = this->operator[](object_id);
+            return obj;
+        }
+//        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+//        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+//        {
+//            SBOLObject* obj = *i_obj;
+//            if (object_id.compare(obj->identity.get()) == 0)
+//            {
+//                return (SBOLClass&)*obj;
+//            }
+//        }
+//        throw SBOLError(NOT_FOUND_ERROR, "Object " + object_id + " not found");
     };
     
     template <class SBOLClass>
@@ -538,6 +578,7 @@ namespace sbol {
                     return (SBOLClass&)*obj;
                 }
             }
+            
         }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };
