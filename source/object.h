@@ -46,7 +46,20 @@ namespace sbol
         std::string nest(std::string& rdfxml_buffer);
         int find(std::string uri);
         std::string getClassName(std::string type);
-
+        
+        /// Get the value of a custom annotation property by its URI
+        /// @param property_uri The URI for the property
+        /// @return The value of the property or SBOL_ERROR_NOT_FOUND
+        std::string getPropertyValue(std::string property_uri);
+        
+        /// Get all values of a custom annotation property by its URI
+        /// @param property_uri The URI for the property
+        /// @return A vector of property values or SBOL_ERROR_NOT_FOUND
+        std::vector < std::string > getPropertyValues(std::string property_uri);
+        
+        /// Gets URIs for all properties contained by this object. This includes SBOL core properties as well as custom annotations. Use this to find custom extension data in an SBOL file.
+        /// @return A vector of URIs that identify the properties contained in this object
+        std::vector < std::string > getProperties();
         virtual ~SBOLObject();
         void close();
         

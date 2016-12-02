@@ -72,30 +72,63 @@ std::string sbol::getCompliantURI(std::string uri_prefix, std::string sbol_class
     
 };
 
-std::string sbol::getClassName(std::string type)
+/// Parse a class name from a URI
+/// @param uri A URI
+std::string sbol::getClassName(std::string uri)
 {
-    std::size_t uri_subordinate_pos = type.find("#") + 1;
+    std::size_t uri_subordinate_pos = uri.find("#") + 1;
     if (uri_subordinate_pos != std::string::npos)
     {
-        std::string sbol_class = type.substr(uri_subordinate_pos, type.size() - uri_subordinate_pos);
+        std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
+        return sbol_class;
+    }
+    uri_subordinate_pos = uri.find("/") + 1;
+    if (uri_subordinate_pos != std::string::npos)
+    {
+        std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
         return sbol_class;
     }
     else
-        return type;
+        throw;
 };
 
-std::string sbol::getNameSpace(std::string type)
+std::string sbol::getNamespace(std::string uri)
 {
-    std::size_t uri_subordinate_pos = type.find("#") + 1;
+    std::size_t uri_subordinate_pos = uri.find("#") + 1;
     if (uri_subordinate_pos != std::string::npos)
     {
-        std::string ns = type.substr(0, uri_subordinate_pos);
-        cout << ns << endl;
+        std::string ns = uri.substr(0, uri_subordinate_pos);
+        return ns;
+    }
+    uri_subordinate_pos = uri.find("/") + 1;
+    if (uri_subordinate_pos != std::string::npos)
+    {
+        std::string ns = uri.substr(0, uri_subordinate_pos);
         return ns;
     }
     else
-        return type;
+        throw;
 };
+
+std::string sbol::getPropertyName(std::string uri)
+{
+    std::size_t uri_subordinate_pos = uri.find("#") + 1;
+    if (uri_subordinate_pos != std::string::npos)
+    {
+        std::string ns = uri.substr(0, uri_subordinate_pos);
+        return ns;
+    }
+    uri_subordinate_pos = uri.find("/") + 1;
+    if (uri_subordinate_pos != std::string::npos)
+    {
+        std::string ns = uri.substr(0, uri_subordinate_pos);
+        return ns;
+    }
+    else
+        throw;
+};
+
+
 
 void sbol::setHomespace(std::string ns)
 {

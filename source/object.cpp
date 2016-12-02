@@ -68,6 +68,34 @@ int SBOLObject::find(string uri)
 };
 
 
+std::string SBOLObject::getPropertyValue(std::string property_uri)
+{
+    if (properties.find(property_uri) != properties.end())
+    {
+        return properties[property_uri][0];
+    }
+    else throw SBOLError(SBOL_ERROR_NOT_FOUND, property_uri + " not contained in this object.");
+};
+
+
+std::vector < std::string > SBOLObject::getPropertyValues(std::string property_uri)
+{
+    if (properties.find(property_uri) != properties.end())
+    {
+        return properties[property_uri];
+    }
+    else throw SBOLError(SBOL_ERROR_NOT_FOUND, property_uri + " not contained in this object.");
+};
+
+
+std::vector < std::string > SBOLObject::getProperties()
+{
+    std::vector < std::string > property_uris;
+    for (auto i_p = properties.begin(); i_p != properties.end(); ++i_p)
+        property_uris.push_back(i_p->first);
+    return property_uris;
+};
+
 //SBOLObject& OwnedObjects::get(int index)
 //{
 //	sbol_owner->owned_objects[index].front();

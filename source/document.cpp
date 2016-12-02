@@ -479,16 +479,16 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 				{
 					// TODO: double-check this, is there a memory-leak here?
                     if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
-                        sbol_obj->properties[property_uri].clear();  //
+                        sbol_obj->properties[property_uri].clear();  // Clear an empty property
 					sbol_obj->properties[property_uri].push_back(property_value);
 				}
 				// TODO: the list_properties member should be deprecated, use properties member instead
-				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
-				{
-                    if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
-                        sbol_obj->properties[property_uri].clear();
-                    sbol_obj->list_properties[property_uri].push_back(property_value);
-				}
+//				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
+//				{
+//                    if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
+//                        sbol_obj->properties[property_uri].clear();
+//                    sbol_obj->list_properties[property_uri].push_back(property_value);
+//				}
 				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
 				{
 					// Strip off the angle brackets from the URI value.  Note that a Document's object_store
@@ -505,6 +505,9 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 					doc->SBOLObjects.erase(owned_obj_id);
                     // doc->owned_objects.erase(owned_object->type);  // Remove temporary, non-toplevel objects from the Document's property store
 				}
+                // Extension data
+                else
+                    sbol_obj->properties[property_uri].push_back(property_value);
 
 			}
 		}
@@ -572,6 +575,7 @@ void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
     Document* doc = (Document *)user_data;
     string ns = string((const char *)raptor_uri_as_string(raptor_namespace_get_uri(nspace)));
     string prefix = string((const char *)raptor_namespace_get_prefix(nspace));
+    cout << "Adding namespace " << prefix << " : " << ns << endl;
     doc->namespaces[prefix] = ns;
 }
 
@@ -826,7 +830,6 @@ void Document::write(std::string filename)
         sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
 
 	// Add default namespaces to Document
-	//raptor_iostream* ios = raptor_new_iostream_to_file_handle(world, fh);
 	raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
 	raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
 	raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
@@ -843,8 +846,19 @@ void Document::write(std::string filename)
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
 	raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
-	//raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
+    
+    // Serialize extension namespaces
+    for (auto i_ns = this->namespaces.begin(); i_ns != this->namespaces.end(); ++i_ns)
+    {
+        const unsigned char *prefix = (const unsigned char *)i_ns->first.c_str();
+        const unsigned char *ns = (const unsigned char *)i_ns->second.c_str();
+        raptor_uri *ns_uri = raptor_new_uri(world, ns);
 
+        cout << "Serializing namespace " << prefix << " : " << ns << endl;
+        raptor_namespace *extension_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prefix, ns_uri, 1);
+        raptor_serializer_set_namespace_from_namespace(sbol_serializer, extension_namespace);
+    }
+    
 	//char * sbol_buffer = "";
     char * sbol_buffer;
 	size_t sbol_buffer_len;

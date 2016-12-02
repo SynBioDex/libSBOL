@@ -38,6 +38,15 @@ namespace sbol {
         // TODO: register ns_prefix in SBOLObject
 	};
 
+    template <class SBOLClass>
+    void register_extension(std::string ns, std::string ns_prefix, std::string class_name)
+    {
+        std::string uri = ns + "#" + class_name;
+        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
+        
+        // TODO: register ns_prefix in SBOLObject
+    };
+    
     void raptor_error_handler(void *user_data, raptor_log_message* message);
 	
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
