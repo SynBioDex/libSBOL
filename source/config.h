@@ -53,9 +53,9 @@ namespace sbol
     std::string constructCompliantURI(std::string sbol_type, std::string display_id, std::string version);
     std::string constructCompliantURI(std::string parent_type, std::string child_type, std::string display_id, std::string version);
     std::string getCompliantURI(std::string uri_prefix, std::string sbol_class_name, std::string display_id, std::string version);
-    std::string getClassName(std::string uri);
-    std::string getPropertyName(std::string uri);
-    std::string getNamespace(std::string uri);
+    std::string parseClassName(std::string uri);
+    std::string parsePropertyName(std::string uri);
+    std::string parseNamespace(std::string uri);
 }
 
 #endif /* CONFIG_INCLUDED */

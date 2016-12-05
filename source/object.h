@@ -21,8 +21,15 @@ namespace sbol
     /// An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for serializing and parsing RDF triples
     class SBOLObject
     {
-    friend class Document;
-    
+        friend class Document;
+        
+        template < class LiteralType >
+        friend class Property;
+        
+    protected:
+        std::unordered_map<std::string, std::string> namespaces;  ///< A namespace prefix serves as the hash key for the full namespace URI
+        template < class SBOLClass > void register_extension_class(std::string ns, std::string ns_prefix, std::string class_name);  ///< Register an extension class
+
     public:
         Document *doc = NULL;
     
@@ -67,6 +74,7 @@ namespace sbol
         // Open-world constructor
         SBOLObject(sbol_type type, std::string uri) :
             type(type),
+            namespaces({}),
             identity(SBOL_IDENTITY, this, uri, { sbol_rule_10202 })
         {
             if (hasHomespace())
@@ -76,11 +84,19 @@ namespace sbol
         // Conforms to SBOL compliant URIs
         SBOLObject(sbol_type type, std::string uri_prefix, std::string display_id, std::string version) :
             type(type),
+            namespaces({}),
             identity(SBOL_IDENTITY, this, uri_prefix + "/" + getClassName(type) + "/" + display_id + "/" + version)
         {
         };
     };
 
+    template <class LiteralType>
+    void Property<LiteralType>::initializeNamespace(std::string ns)
+    {
+        
+    };
+
+    
     /// @ingroup extension_layer
     /// @brief A reference to another SBOL object
     /// Contains a Uniform Resource Identifier (URI) that refers to an an associated object.  The object it points to may be another resource in this Document or an external reference, for example to an object in an external repository.  In the SBOL specification, association by reference is indicated in class diagrams by arrows with open (white) diamonds.

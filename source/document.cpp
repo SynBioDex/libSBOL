@@ -32,6 +32,7 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>)
 };
 
+
 void sbol::seek_element(std::istringstream& xml_buffer, std::string uri)
 {
 	string SEARCH_TOKEN = NODENAME_ABOUT "=\"" + uri + "\"";
@@ -269,7 +270,7 @@ std::string sbol::cut_sbol_resource(std::string& xml_string, const std::string r
 
 void sbol::seek_property_element(istringstream& xml_buffer, string property_name)
 {
-//    string SEARCH_TOKEN = getClassName(property_name);
+//    string SEARCH_TOKEN = parseClassName(property_name);
 //    cout << SEARCH_TOKEN << endl;
 //    seek_next_element(xml_buffer);
 //    while (xml_buffer)
@@ -383,7 +384,7 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
                 }
                 catch(...)
                 {
-                    throw SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + getClassName(property_name) + " property of " + id);
+                    throw SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + parseClassName(property_name) + " property of " + id);
                 }
             }
 		}
@@ -575,7 +576,6 @@ void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
     Document* doc = (Document *)user_data;
     string ns = string((const char *)raptor_uri_as_string(raptor_namespace_get_uri(nspace)));
     string prefix = string((const char *)raptor_namespace_get_prefix(nspace));
-    cout << "Adding namespace " << prefix << " : " << ns << endl;
     doc->namespaces[prefix] = ns;
 }
 
@@ -655,24 +655,23 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 	}
 	if (sbol_world)
 	{
-		// This RDF triple makes the following statement:
+		// Serializing this RDF triple makes the following statement:
 		// "This instance of an SBOL object belongs to class X"
 		raptor_statement *triple = raptor_new_statement(sbol_world);
 		std::string subject = identity.get();
 		std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 		std::string object = type;
 
-        // Add missing namespace to the Document
-        //doc->addNameSpace(getNameSpace(type), "", sbol_serializer);
 		triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 		triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
 		triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
-		// Write the triples
 		raptor_serializer_serialize_statement(sbol_serializer, triple);
-
-		// Delete the triple 
 		raptor_free_statement(triple);
 
+        // Add missing namespace to the Document
+        for (auto i_ns = namespaces.begin(); i_ns != namespaces.end(); ++i_ns)
+            doc->namespaces[i_ns->first] = i_ns->second;
+        
 		for (auto it = properties.begin(); it != properties.end(); ++it)
 		{
 
@@ -681,6 +680,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
 
 			std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
+            
 			// Serialize each of the values in a List property as an RDF triple
 			vector<std::string> property_values = it->second;
 			for (auto i_val = property_values.begin(); i_val != property_values.end(); ++i_val)
@@ -829,36 +829,6 @@ void Document::write(std::string filename)
     else
         sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
 
-	// Add default namespaces to Document
-	raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
-	raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
-	raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
-
-	const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
-	const unsigned char *purl_prefix = (const unsigned char *)"dcterms";
-	const unsigned char *prov_prefix = (const unsigned char *)"prov";
-
-	raptor_namespace_stack *sbol_namespaces = raptor_new_namespaces(world, 0);
-	raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
-	raptor_namespace *purl_namespace = raptor_new_namespace_from_uri(sbol_namespaces, purl_prefix, purl_uri, 1);
-	raptor_namespace *prov_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prov_prefix, prov_uri, 1);
-
-	raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
-	raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
-	raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
-    
-    // Serialize extension namespaces
-    for (auto i_ns = this->namespaces.begin(); i_ns != this->namespaces.end(); ++i_ns)
-    {
-        const unsigned char *prefix = (const unsigned char *)i_ns->first.c_str();
-        const unsigned char *ns = (const unsigned char *)i_ns->second.c_str();
-        raptor_uri *ns_uri = raptor_new_uri(world, ns);
-
-        cout << "Serializing namespace " << prefix << " : " << ns << endl;
-        raptor_namespace *extension_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prefix, ns_uri, 1);
-        raptor_serializer_set_namespace_from_namespace(sbol_serializer, extension_namespace);
-    }
-    
 	//char * sbol_buffer = "";
     char * sbol_buffer;
 	size_t sbol_buffer_len;
@@ -878,13 +848,40 @@ void Document::write(std::string filename)
 	err = raptor_serializer_start_to_string(sbol_serializer, base_uri, (void **)&sbol_buffer, &sbol_buffer_len);
 	if (err) cout << "Error " << err << "starting string" << endl;
 
-
+    // Add core SBOL namespaces to Document
+    raptor_namespace_stack *sbol_namespaces = raptor_new_namespaces(world, 0);
+    raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
+    raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
+    raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
+    
+    const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
+    const unsigned char *purl_prefix = (const unsigned char *)"dcterms";
+    const unsigned char *prov_prefix = (const unsigned char *)"prov";
+    
+    raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
+    raptor_namespace *purl_namespace = raptor_new_namespace_from_uri(sbol_namespaces, purl_prefix, purl_uri, 1);
+    raptor_namespace *prov_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prov_prefix, prov_uri, 1);
+    
+    raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
+    raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
+    raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
+    
 	// Iterate through objects in document and serialize them
 	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
 	{
 		obj_i->second->serialize(sbol_serializer);
 	}
-
+    
+    // Add extension namespaces. This must come after the call to serialize in which extension namespaces are propagated up to the Document level.
+    for (auto i_ns = this->namespaces.begin(); i_ns != this->namespaces.end(); ++i_ns)
+    {
+        std::string prefix = i_ns->first;
+        std::string ns = i_ns->second;
+        raptor_uri *ns_uri = raptor_new_uri(world, (const unsigned char *)ns.c_str());
+        raptor_namespace *extension_namespace = raptor_new_namespace_from_uri(sbol_namespaces, (const unsigned char *)prefix.c_str(), ns_uri, 1);
+        raptor_serializer_set_namespace_from_namespace(sbol_serializer, extension_namespace);
+    }
+    
 	// Finalize serialization
 	raptor_serializer_serialize_end(sbol_serializer);
 	raptor_free_serializer(sbol_serializer);
@@ -945,15 +942,15 @@ void Document::close(std::string uri)
 std::string ReferencedObject::create(std::string uri)
 {
     if (sbol_owner->doc == NULL)
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, getClassName(this->sbol_owner->type) + "::" + getClassName(this->type) + "::create method of " + this->sbol_owner->identity.get() + " requires that this object belongs to a Document");
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::create method of " + this->sbol_owner->identity.get() + " requires that this object belongs to a Document");
     Document& doc = *sbol_owner->doc;
     Identified& parent_obj = (Identified&)*sbol_owner;
     if (isSBOLCompliant())
     {
     
         Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ reference_type_uri ]();  // Call constructor for the referenced object
-        new_obj.identity.set(getHomespace() + "/" + getClassName(reference_type_uri) + "/" + uri + "/" + parent_obj.version.get());
-        new_obj.persistentIdentity.set(getHomespace() + "/" + getClassName(reference_type_uri) + "/" + uri);
+        new_obj.identity.set(getHomespace() + "/" + parseClassName(reference_type_uri) + "/" + uri + "/" + parent_obj.version.get());
+        new_obj.persistentIdentity.set(getHomespace() + "/" + parseClassName(reference_type_uri) + "/" + uri);
         new_obj.displayId.set(uri);
         new_obj.version.set(parent_obj.version.get());
         doc.add<SBOLObject>(new_obj);

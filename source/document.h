@@ -21,7 +21,7 @@ namespace sbol {
     extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
     
     // This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
-    template <class SBOLClass>
+    template < class SBOLClass >
     sbol::SBOLObject& create()
     {
         // Construct an SBOLObject with emplacement
@@ -30,42 +30,41 @@ namespace sbol {
         return (sbol::SBOLObject&)*a;
     };
 
+    template < class SBOLClass >
+    void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)
+    {
+        std::string uri = ns + class_name;
+        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
+        namespaces[ns_prefix] = ns;  // Register extension namespace
+    };
     
+    /// @TODO Deprecate this
     template <class SBOLClass>
     void register_extension(std::string ns_prefix, std::string uri)
 	{
 		SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
         // TODO: register ns_prefix in SBOLObject
 	};
-
-    template <class SBOLClass>
-    void register_extension(std::string ns, std::string ns_prefix, std::string class_name)
-    {
-        std::string uri = ns + "#" + class_name;
-        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
-        
-        // TODO: register ns_prefix in SBOLObject
-    };
     
     void raptor_error_handler(void *user_data, raptor_log_message* message);
 	
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
     class Document : public SBOLObject
     {
+        friend class SBOLObject;
+        
 	private:
         std::string home; ///< The authoritative namespace for the Document. Setting the home namespace is like signing a piece of paper.
         int SBOLCompliant; ///< Flag indicating whether to autoconstruct URI's consistent with SBOL's versioning scheme
-        std::unordered_map<std::string, std::string> namespaces;  ///< A namespace prefix serves as the hash key for the full namespace URI
         ValidationRules validationRules;  ///< A list of validation functions to run on the Document prior to serialization
         raptor_world *rdf_graph;  ///< RDF triple store that holds SBOL objects and properties
-
+        
 	public:
         /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
             SBOLObject("Document", ""),
             home(""),
             SBOLCompliant(0),
-            namespaces({}),
 			rdf_graph(raptor_new_world()),
             validationRules({ sbolRule10101, sbolRule10102 }),
             componentDefinitions(SBOL_COMPONENT_DEFINITION, this, ""),
@@ -462,7 +461,7 @@ namespace sbol {
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {
         if (isSBOLCompliant())
-            throw SBOLError(SBOL_ERROR_COMPLIANCE, "Cannot add " + sbol_obj.identity.get() + " to " + this->sbol_owner->identity.get() + ". The " + getClassName(this->sbol_owner->type) + "::" + getClassName(this->type) + "::add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the " + getClassName(this->sbol_owner->type) + "::" + getClassName(this->type) + "::create method instead or use toggleSBOLCompliance to enter open-world mode");
+            throw SBOLError(SBOL_ERROR_COMPLIANCE, "Cannot add " + sbol_obj.identity.get() + " to " + this->sbol_owner->identity.get() + ". The " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::create method instead or use toggleSBOLCompliance to enter open-world mode");
         if (this->sbol_owner)
         {
             // The type for Document is currently hard-coded. Should replace it with a preprocessor symbol
@@ -495,12 +494,14 @@ namespace sbol {
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::get(const std::string object_id)
     {
+        // By default, get the first object in the object store...
         if (object_id.compare("") == 0)
         {
             // This should use dynamic_cast instead of implicit casting
             SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
             return (SBOLClass&)*obj;
         }
+        // ...else search the object store for an object matching the id
         else
         {
             SBOLClass& obj = this->operator[](object_id);
@@ -558,10 +559,18 @@ namespace sbol {
             SBOLObject* parent_obj = this->sbol_owner;
             std::string persistentIdentity;
             std::string version;
+            
+            // Check to see if the parent object has a persistent identity
             if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
             {
                 persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
                 persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+            }
+            // If the parent object doesn't have a persistent identity then it is TopLevel
+            else if (compliantTypesEnabled())
+            {
+                SBOLClass obj = SBOLClass();  // This is unfortunately a necessary hack in order to infer what the compliant URI should be
+                persistentIdentity = getHomespace() + "/" + parseClassName(obj.getTypeURI());
             }
             else
             {

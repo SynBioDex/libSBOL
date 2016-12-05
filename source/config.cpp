@@ -15,7 +15,7 @@ extern Config& config = * new sbol::Config();  ///<  Global configuration object
 std::string sbol::constructCompliantURI(std::string sbol_type, std::string display_id, std::string version)
 {
     if (isSBOLCompliant())
-        return getHomespace() + "/" + getClassName(sbol_type) + "/" + display_id + "/" + version;
+        return getHomespace() + "/" + parseClassName(sbol_type) + "/" + display_id + "/" + version;
     else
         return "";
 };
@@ -23,7 +23,7 @@ std::string sbol::constructCompliantURI(std::string sbol_type, std::string displ
 std::string sbol::constructCompliantURI(std::string parent_type, std::string child_type, std::string display_id, std::string version)
 {
     if (isSBOLCompliant())
-        return getHomespace() + "/" + getClassName(parent_type) + "/" + getClassName(child_type) + "/" + display_id + "/" + version;
+        return getHomespace() + "/" + parseClassName(parent_type) + "/" + parseClassName(child_type) + "/" + display_id + "/" + version;
     else
         return "";
 };
@@ -74,7 +74,7 @@ std::string sbol::getCompliantURI(std::string uri_prefix, std::string sbol_class
 
 /// Parse a class name from a URI
 /// @param uri A URI
-std::string sbol::getClassName(std::string uri)
+std::string sbol::parseClassName(std::string uri)
 {
     std::size_t uri_subordinate_pos = uri.find("#") + 1;
     if (uri_subordinate_pos != std::string::npos)
@@ -92,7 +92,7 @@ std::string sbol::getClassName(std::string uri)
         throw;
 };
 
-std::string sbol::getNamespace(std::string uri)
+std::string sbol::parseNamespace(std::string uri)
 {
     std::size_t uri_subordinate_pos = uri.find("#") + 1;
     if (uri_subordinate_pos != std::string::npos)
@@ -110,7 +110,7 @@ std::string sbol::getNamespace(std::string uri)
         throw;
 };
 
-std::string sbol::getPropertyName(std::string uri)
+std::string sbol::parsePropertyName(std::string uri)
 {
     std::size_t uri_subordinate_pos = uri.find("#") + 1;
     if (uri_subordinate_pos != std::string::npos)
