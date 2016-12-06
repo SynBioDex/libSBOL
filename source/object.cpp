@@ -50,6 +50,71 @@ std::string SBOLObject::getClassName(string type)
         return type;
 };
 
+
+int SBOLObject::isEqual(SBOLObject* obj)
+{
+    int IS_EQUAL = 1;
+    if (type.compare(obj->type) != 0)
+    {
+        std::cout << identity.get() << " does not match type of " << obj->type << endl;
+        return 0;
+    };
+
+    std::string l_id;
+    std::string r_id;
+    std::map < std::string, std::vector<std::string> >::iterator i_lp;  // iterator for left-hand side
+    std::map < std::string, std::vector<std::string> >::iterator i_rp;  // iterator for right-hand side
+    std::map < std::string, std::vector<std::string> >::iterator i_end;  // stop iteration
+
+    // The longer property store is assigned to left-hand side for side-by-side comparison
+    if (properties.size() >= obj->properties.size())
+    {
+        l_id = identity.get();
+        r_id = obj->identity.get();
+        i_lp = properties.begin();
+        i_rp = obj->properties.begin();
+        i_end = properties.end();
+    }
+    else
+    {
+        l_id = obj->identity.get();
+        r_id = identity.get();
+        i_lp = obj->properties.begin();
+        i_rp = properties.begin();
+        i_end = obj->properties.end();
+
+    }
+    while (i_lp != i_end )
+    {
+        std::string l_key = i_lp->first;
+        std::string r_key = i_rp->first;
+        // In case one object has a property (ie, extension annotation) that another object does not
+        if(l_key.compare(r_key) != 0)
+        {
+            cout << r_id << "::" << parsePropertyName(r_key) << " not found in " << l_id << endl;
+            ++i_lp;
+            IS_EQUAL = 0;
+        }
+        // If the property's match, then iterate through property values and compare them
+        else
+        {
+            // Copy and sort the property store, so we can compare them side by side
+            std::vector < std::string > l_store(i_lp->second);
+            std::vector < std::string > r_store(i_rp->second);
+            std::sort(l_store.begin(), l_store.end());
+            std::sort(r_store.begin(), r_store.end());
+            if (!std::equal(l_store.begin(), l_store.end(), r_store.begin()))
+            {
+                cout << "Values " << " in " << l_id << "::" << parsePropertyName(l_key) << " not equal to values in " << r_id << "::" << parsePropertyName(r_key) << endl;
+                IS_EQUAL = 0;
+            }
+            ++i_lp;
+            ++i_rp;
+        }
+    }
+    return IS_EQUAL;
+};
+
 int SBOLObject::find(string uri)
 {
     if (identity.get() == uri)

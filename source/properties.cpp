@@ -199,16 +199,16 @@ int VersionProperty::patch()
 };
 
 
-ReferencedObject::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
-URIProperty(type_uri, property_owner, initial_value)
-{
-    // Register Property in owner Object
-    if (this->sbol_owner != NULL)
-    {
-        std::vector<std::string> property_store;
-        this->sbol_owner->properties.insert({ type_uri, property_store });
-    }
-};
+//ReferencedObject::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
+//URIProperty(type_uri, property_owner, initial_value)
+//{
+//    // Register Property in owner Object
+//    if (this->sbol_owner != NULL)
+//    {
+//        std::vector<std::string> property_store;
+//        this->sbol_owner->properties.insert({ type_uri, property_store });
+//    }
+//};
 
 vector<string> VersionProperty::split(const char c)
 {

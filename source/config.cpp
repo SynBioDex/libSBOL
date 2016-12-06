@@ -82,7 +82,7 @@ std::string sbol::parseClassName(std::string uri)
         std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
         return sbol_class;
     }
-    uri_subordinate_pos = uri.find("/") + 1;
+    uri_subordinate_pos = uri.find("/", 0) + 1;
     if (uri_subordinate_pos != std::string::npos)
     {
         std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
@@ -100,7 +100,7 @@ std::string sbol::parseNamespace(std::string uri)
         std::string ns = uri.substr(0, uri_subordinate_pos);
         return ns;
     }
-    uri_subordinate_pos = uri.find("/") + 1;
+    uri_subordinate_pos = uri.find("/", 0) + 1;
     if (uri_subordinate_pos != std::string::npos)
     {
         std::string ns = uri.substr(0, uri_subordinate_pos);
@@ -112,20 +112,21 @@ std::string sbol::parseNamespace(std::string uri)
 
 std::string sbol::parsePropertyName(std::string uri)
 {
-    std::size_t uri_subordinate_pos = uri.find("#") + 1;
-    if (uri_subordinate_pos != std::string::npos)
-    {
-        std::string ns = uri.substr(0, uri_subordinate_pos);
-        return ns;
-    }
-    uri_subordinate_pos = uri.find("/") + 1;
-    if (uri_subordinate_pos != std::string::npos)
-    {
-        std::string ns = uri.substr(0, uri_subordinate_pos);
-        return ns;
-    }
-    else
-        throw;
+//    std::size_t uri_subordinate_pos = uri.find("#") + 1;
+//    if (uri_subordinate_pos != std::string::npos)
+//    {
+//        std::string ns = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
+//        return ns;
+//    }
+//    uri_subordinate_pos = uri.find("/", 0) + 1;
+//    if (uri_subordinate_pos != std::string::npos)
+//    {
+//        std::string ns = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
+//        return ns;
+//    }
+//    else
+//        throw;
+    return parseClassName(uri);
 };
 
 

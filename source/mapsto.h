@@ -39,8 +39,8 @@ namespace sbol
         MapsTo(sbol_type type, std::string uri, std::string local, std::string remote, std::string refinement) :
             Identified(type, uri),
             refinement(SBOL_REFINEMENT, this, refinement),
-            local(SBOL_LOCAL, this, local),
-            remote(SBOL_REMOTE, this, remote)
+            local(SBOL_LOCAL, SBOL_COMPONENT, this, local),
+            remote(SBOL_REMOTE,  SBOL_COMPONENT, this, remote)
             {
             }
 
