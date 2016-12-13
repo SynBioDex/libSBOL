@@ -99,7 +99,7 @@ namespace sbol
         void set(SBOLClass& sbol_obj);                  ///< Attach a child SBOL object to a parent SBOL object
         SBOLClass& get(const std::string object_id);    ///< Get the child object
 		void add(SBOLClass& sbol_obj);                  ///< Push another child object to the list, if the property allows multiple values
-        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);
+        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);  ///< Push an object of derived class to the list, eg, add a Range to a list of Locations
         template < class SBOLSubClass > SBOLSubClass& get(std::string uri = "");
         std::vector<SBOLClass*> copy();
         SBOLClass& create(std::string uri);             ///< Autoconstruct a child object and add it to a parent SBOL object
@@ -196,6 +196,8 @@ namespace sbol
     template <class SBOLSubClass>
     void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
     {
+        if (!dynamic_cast<SBOLClass*>(&sbol_obj))
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Object of type " + parseClassName(sbol_obj.type) + " is invalid for " + parsePropertyName(this->type) + " property");
         // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
         sbol_obj.parent = this->sbol_owner;
         this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);

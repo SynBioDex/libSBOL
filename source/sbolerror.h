@@ -19,7 +19,8 @@ namespace sbol
                          SBOL_ERROR_MISSING_DOCUMENT,
                          SBOL_ERROR_INVALID_ARGUMENT,
                          SBOL_ERROR_FILE_NOT_FOUND,
-                         SBOL_ERROR_ORPHAN_OBJECT
+                         SBOL_ERROR_ORPHAN_OBJECT,
+                         SBOL_ERROR_TYPE_MISMATCH
                         };
 
 	SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);
