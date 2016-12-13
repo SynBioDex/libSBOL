@@ -66,7 +66,7 @@ namespace sbol {
             home(""),
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
-            validationRules({ sbolRule10101, sbolRule10102 }),
+            validationRules({ }),
             componentDefinitions(SBOL_COMPONENT_DEFINITION, this, ""),
             moduleDefinitions(SBOL_MODULE_DEFINITION, this, ""),
             models(SBOL_MODEL, this, ""),
