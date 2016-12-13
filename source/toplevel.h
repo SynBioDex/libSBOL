@@ -13,34 +13,33 @@ namespace sbol
 
 	// The public constructor delegates to this protected constructor in order to initialize the object with an SBOL type URI 
     public:
+        TopLevel(sbol_type type_uri = "", std::string uri = "", std::string version = "1.0.0") :
+            Identified(type_uri, uri, version)
+        {
+            if  (isSBOLCompliant())
+            {
+                displayId.set(uri);
+                if (compliantTypesEnabled())
+                {
+                    identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get() + "/" + version);
+                    persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
+                }
+                else
+                {
+                    identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
+                    persistentIdentity.set(getHomespace() + "/" + displayId.get());
+                }
+            }
+        };
 //        TopLevel(std::string uri = DEFAULT_NS "/TopLevel/example") : TopLevel(SBOL_TOP_LEVEL, uri) {};
 //        TopLevel(std::string uri_prefix, std::string display_id, std::string version) : TopLevel(SBOL_TOP_LEVEL, uri_prefix, display_id, version) {};
         void addToDocument(sbol::Document&);
         virtual ~TopLevel() {};
-    protected:
-        TopLevel(sbol_type type_uri, std::string uri, std::string version) :
-            Identified(type_uri, uri, version)
-            {
-                if  (isSBOLCompliant())
-                {
-                    displayId.set(uri);
-                    if (compliantTypesEnabled())
-                    {
-                        identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get() + "/" + version);
-                        persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
-                    }
-                    else
-                    {
-                        identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
-                        persistentIdentity.set(getHomespace() + "/" + displayId.get());
-                    }
-                }
-            };
-        TopLevel(sbol_type type_uri, std::string uri_prefix, std::string display_id, std::string version) :
-			Identified(type_uri, uri_prefix, display_id, version)
-            {
-            };
+        template < class SBOLClass > SBOLClass& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "");
+
     };
+    
+
 }
 
 

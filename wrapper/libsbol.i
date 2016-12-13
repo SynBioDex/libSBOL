@@ -38,7 +38,7 @@
     
 %}
 
-//%include "python_docs.i"
+%include "python_docs.i"
 
 
 #ifdef SWIGWIN
@@ -473,6 +473,8 @@ namespace sbol
 
 %template(addRange) sbol::OwnedObject::add<Range>;
 %template(getRange) sbol::OwnedObject::get<Range>;
+%template(createRange) sbol::OwnedObject::create<Range>;
+
 %include "location.h"
 %template(locationProperty) sbol::Property<sbol::Location>;
 %template(_VectorOfLocations) std::vector<sbol::Location>;
@@ -538,7 +540,7 @@ import json
 import urllib2
 
 sbol = open(filename, 'r')
-data = {"validationOptions": {"output" : "FASTA",
+data = {"validationOptions": {"output" : "SBOL2",
         "diff": False,
         "noncompliantUrisAllowed": False,
         "incompleteDocumentsAllowed": False,
@@ -548,7 +550,7 @@ data = {"validationOptions": {"output" : "FASTA",
         "topLevelToConvert": "",
         "uriPrefix": "",
         "version": ""},
-        "wantFileBack": True,
+        "wantFileBack": False,
         "mainFile": sbol.read()
     }
 sbol.close()

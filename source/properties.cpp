@@ -9,7 +9,6 @@
 using namespace sbol;
 using namespace std;
 
-/// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMinor()
 {
     pair< vector<string>, vector<string> > v = this->split();
@@ -36,9 +35,21 @@ void VersionProperty::incrementMinor()
     } while (i_v < v_tokens.size() - 1);
     new_version += v_tokens[i_v];
     this->set(new_version);
+    
+    /// Update the identity if SBOLCompliant
+    if (isSBOLCompliant())
+    {
+        SBOLObject* parent_obj = this->sbol_owner;
+        std::string persistentIdentity;
+        if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+        {
+            persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+            persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+        }
+        parent_obj->identity.set(persistentIdentity + "/" + new_version);
+    }
 };
 
-/// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementMajor()
 {
     pair< vector<string>, vector<string> > v = this->split();
@@ -65,9 +76,21 @@ void VersionProperty::incrementMajor()
     } while (i_v < v_tokens.size() - 1);
     new_version += v_tokens[i_v];
     this->set(new_version);
+    
+    /// Update the identity if SBOLCompliant
+    if (isSBOLCompliant())
+    {
+        SBOLObject* parent_obj = this->sbol_owner;
+        std::string persistentIdentity;
+        if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+        {
+            persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+            persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+        }
+        parent_obj->identity.set(persistentIdentity + "/" + new_version);
+    }
 };
 
-/// @TODO if the object is SBOL Compliant, update the identity
 void VersionProperty::incrementPatch()
 {
     pair< vector<string>, vector<string> > v = this->split();
@@ -93,6 +116,19 @@ void VersionProperty::incrementPatch()
     } while (i_v < v_tokens.size() - 1);
     new_version += v_tokens[i_v];
     this->set(new_version);
+    
+    /// Update the identity if SBOLCompliant
+    if (isSBOLCompliant())
+    {
+        SBOLObject* parent_obj = this->sbol_owner;
+        std::string persistentIdentity;
+        if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+        {
+            persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+            persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+        }
+        parent_obj->identity.set(persistentIdentity + "/" + new_version);
+    }
 };
 
 void VersionProperty::decrementMinor()
@@ -163,16 +199,16 @@ int VersionProperty::patch()
 };
 
 
-ReferencedObject::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
-URIProperty(type_uri, property_owner, initial_value)
-{
-    // Register Property in owner Object
-    if (this->sbol_owner != NULL)
-    {
-        std::vector<std::string> property_store;
-        this->sbol_owner->properties.insert({ type_uri, property_store });
-    }
-};
+//ReferencedObject::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
+//URIProperty(type_uri, property_owner, initial_value)
+//{
+//    // Register Property in owner Object
+//    if (this->sbol_owner != NULL)
+//    {
+//        std::vector<std::string> property_store;
+//        this->sbol_owner->properties.insert({ type_uri, property_store });
+//    }
+//};
 
 vector<string> VersionProperty::split(const char c)
 {
@@ -259,7 +295,7 @@ void ReferencedObject::setReference(const std::string uri)
     {
         // if not TopLevel throw an error
         // @TODO search Document by persistentIdentity and retrieve the latest version
-        set(getHomespace() + "/" + getClassName(this->reference_type_uri) + "/" + uri + "/1.0.0");
+        set(getHomespace() + "/" + parseClassName(this->reference_type_uri) + "/" + uri + "/1.0.0");
     }
     else if (hasHomespace())
     {
@@ -272,7 +308,7 @@ void ReferencedObject::setReference(const std::string uri)
 //// For compliant URIs
 //void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
 //{
-//    std::string sbol_class_name = getClassName(this->reference_type_uri);
+//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
 //    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
 //    this->set(compliant_uri);
 //};
@@ -280,7 +316,7 @@ void ReferencedObject::setReference(const std::string uri)
 //// For compliant URIs
 //void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id)
 //{
-//    std::string sbol_class_name = getClassName(this->reference_type_uri);
+//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
 //    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, "1.0.0");
 //    this->addReference(compliant_uri);
 //};
@@ -288,7 +324,7 @@ void ReferencedObject::setReference(const std::string uri)
 //// For compliant URI's
 //void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
 //{
-//    std::string sbol_class_name = getClassName(this->reference_type_uri);
+//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
 //    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
 //    this->addReference(compliant_uri);
 //};

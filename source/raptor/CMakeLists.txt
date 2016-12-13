@@ -7,32 +7,48 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
             NAME raptor2.lib
             PATHS ${LINK_DIR}
             )
+        FIND_LIBRARY(xml2
+            NAME libxml2-static.lib
+            PATHS ${LINK_DIR}
+            )
+        FIND_LIBRARY(zlib
+            NAME libz-static.lib
+            PATHS ${LINK_DIR}
+            )
+        FIND_LIBRARY(iconv
+            NAME libiconv-static.lib
+            PATHS ${LINK_DIR}
+            )
+        INSTALL(FILES ${LINK_DIR}/raptor2.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/libxml2-static.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/libz-static.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/libiconv-static.lib DESTINATION lib)
     ELSEIF(SBOL_BUILD_64)
         FIND_LIBRARY(raptor2
             NAME raptor2_64.lib
             PATHS ${LINK_DIR}
             )
+        FIND_LIBRARY(xml2
+            NAME libxml2-static_64.lib
+            PATHS ${LINK_DIR}
+            )
+        FIND_LIBRARY(zlib
+            NAME libz-static_64.lib
+            PATHS ${LINK_DIR}
+            )
+        FIND_LIBRARY(iconv
+            NAME libiconv-static_64.lib
+            PATHS ${LINK_DIR}
+            )
+        INSTALL(FILES ${LINK_DIR}/raptor2_64.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/libxml2-static_64.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/libz-static_64.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/libiconv-static_64.lib DESTINATION lib)
     ENDIF()
-	FIND_LIBRARY(xml2
-		NAME libxml2_a.lib
-		PATHS ${LINK_DIR}
-		)
-	FIND_LIBRARY(zlib
-		NAME zlib.lib
-		PATHS ${LINK_DIR}
-		)
-	FIND_LIBRARY(iconv
-		NAME iconv_a.lib
-		PATHS ${LINK_DIR}
-		)
     find_path(RAPTOR_INCLUDE_DIR raptor2.h
         PATHS ${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2
         )
-	#MESSAGE(${raptor2})
-	INSTALL(FILES ${LINK_DIR}/raptor2.lib DESTINATION lib)
-	INSTALL(FILES ${LINK_DIR}/libxml2_a.lib DESTINATION lib)
-	INSTALL(FILES ${LINK_DIR}/zlib.lib DESTINATION lib)
-	INSTALL(FILES ${LINK_DIR}/iconv_a.lib DESTINATION lib)
+    #MESSAGE(${raptor2})
 
 ELSE ()  # If Mac OSX or Linux
 
@@ -56,6 +72,8 @@ ELSE ()  # If Mac OSX or Linux
     endif(SBOL_BUILD_STATIC)
 
 ENDIF ()
+
+MESSAGE("Found raptor2 library at ${raptor2}")
 
 if (NOT RAPTOR_INCLUDE_DIR)
     SET( RAPTOR_INCLUDE_DIR		${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2)

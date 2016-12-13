@@ -1,5 +1,3 @@
-/// @file BiosystemDesignExample.cpp
-/// An example file demonstrating how to define and connect synthetic modules
 #include "sbol.h"
 
 #include <iostream>
@@ -41,7 +39,6 @@ int main()
     FunctionalComponent& not_output = NandGate.setOutput(HBax);
 
     nand_output.connect(not_input);
-
     
     // Define internal components in the NAND gate
     ComponentDefinition& Cas9 = *new ComponentDefinition("Cas9", BIOPAX_PROTEIN);
@@ -49,7 +46,9 @@ int main()
     ComponentDefinition& Cas9GuideRNAComplex = *new ComponentDefinition("Cas9GuideRNAComplex", BIOPAX_COMPLEX);
     ComponentDefinition& TargetPromoter = *new ComponentDefinition("TargetPromoter", BIOPAX_DNA);
     ComponentDefinition& TargetGene = *new ComponentDefinition("TargetGene", BIOPAX_DNA);
-    ComponentDefinition& TargetProtein = *new ComponentDefinition("TargetProtein", BIOPAX_PROTEIN)
+    ComponentDefinition& TargetProtein = *new ComponentDefinition("TargetProtein", BIOPAX_PROTEIN);
+    doc.add< ComponentDefinition > ({ &Cas9, &GuideRNA, &Cas9GuideRNAComplex, &TargetPromoter, &TargetGene,
+        &TargetProtein });
     
     Interaction& complex_formation = NandGate.interactions.create("complex_formation");
     Interaction& gene_repression = NandGate.interactions.create("gene_repression");
@@ -88,4 +87,5 @@ int main()
     TargetGene.participate(gene);
     TargetProtein.participate(gene_product);
 
+    doc.write("module_example.xml");
 }

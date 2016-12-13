@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 /// @page getting_started Getting Started with SBOL
 ///
-/// This beginner’s guide introduces the basic principles of libSBOL for new users. This guide is not meant to be a comprehensive documentation of the library or the SBOL standard.  Refer to documentation about specific [Classes](classes.html) for detailed information about the API.  In addition, refer to the [specification document](http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/) for a complete description of the SBOL data standard. For help configuring a client project, see @ref visual_studio or @ref xcode. For example files see [Files](files.html).
+/// This beginner’s guide introduces the basic principles of libSBOL for new users. This guide is not meant to be a comprehensive documentation of the library or the SBOL standard.  Refer to documentation about specific [Classes](classes.html) for detailed information about the API.  In addition, refer to the [specification document](http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/) for a complete description of the SBOL data standard. For help configuring a client project, see @ref visual_studio or @ref xcode. For example code see the @ref sequences and @ref modular_design tutorials or the example directory of the project source.
 ///
 /// @section document Creating an SBOL Document
 ///

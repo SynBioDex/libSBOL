@@ -14,6 +14,7 @@ namespace sbol
         int SBOLCompliant; ///< Flag indicating whether to autoconstruct URI's consistent with SBOL's versioning scheme
         int SBOLCompliantTypes; ///< Flag indicating whether an object's type is included in SBOL-compliant URIs
         int catch_exceptions = 0;
+        std::string format = "rdfxml";
     public:
         Config() :
         home(""),
@@ -30,8 +31,8 @@ namespace sbol
         int compliantTypesEnabled();
         void toggleExceptions();
         int exceptionsEnabled();
-
-
+        void setFileFormat(std::string file_format);
+        std::string getFileFormat();
     };
 
     void setHomespace(std::string ns); ///< Set the default namespace for autocreation of URIs when a new SBOL object is created
@@ -41,6 +42,8 @@ namespace sbol
     int isSBOLCompliant();             ///< Checks if SBOLCompliance is enabled
     void toggleSBOLCompliantTypes();   ///< Turns option to include types in SBOL-compliant URIs on or off
     int compliantTypesEnabled();       ///< Checks if an object's type is included in SBOL-compliant URIs
+    void setFileFormat(std::string file_format);
+    std::string getFileFormat();
     void toggleExceptions();
     int exceptionsEnabled();
     
@@ -50,8 +53,9 @@ namespace sbol
     std::string constructCompliantURI(std::string sbol_type, std::string display_id, std::string version);
     std::string constructCompliantURI(std::string parent_type, std::string child_type, std::string display_id, std::string version);
     std::string getCompliantURI(std::string uri_prefix, std::string sbol_class_name, std::string display_id, std::string version);
-    std::string getClassName(std::string type);
-    std::string getNameSpace(std::string type);
+    std::string parseClassName(std::string uri);
+    std::string parsePropertyName(std::string uri);
+    std::string parseNamespace(std::string uri);
 }
 
 #endif /* CONFIG_INCLUDED */

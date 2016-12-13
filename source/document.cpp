@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 #include <unordered_map>
+#include <regex>
+
 
 using namespace sbol;
 using namespace std;
@@ -27,8 +29,11 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_PARTICIPATION, (SBOLObject&(*)()) &create<Participation>),
     make_pair(SBOL_MODEL, (SBOLObject&(*)()) &create<Model>),
     make_pair(SBOL_SEQUENCE_CONSTRAINT, (SBOLObject&(*)()) &create<SequenceConstraint>),
-    make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>)
+    make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>),
+    make_pair(SBOL_MAPS_TO, (SBOLObject&(*)()) &create<MapsTo>)
+
 };
+
 
 void sbol::seek_element(std::istringstream& xml_buffer, std::string uri)
 {
@@ -86,6 +91,8 @@ void sbol::seek_end_of_element(std::istringstream& xml_buffer)
 string sbol::get_qname(istringstream& xml_buffer)
 {
 	vector<string> subtokens = parse_element(xml_buffer);
+    if (subtokens.size() == 0)
+        throw SBOL_ERROR_SERIALIZATION;
 	return subtokens.front();
 };
 
@@ -265,7 +272,7 @@ std::string sbol::cut_sbol_resource(std::string& xml_string, const std::string r
 
 void sbol::seek_property_element(istringstream& xml_buffer, string property_name)
 {
-//    string SEARCH_TOKEN = getClassName(property_name);
+//    string SEARCH_TOKEN = parseClassName(property_name);
 //    cout << SEARCH_TOKEN << endl;
 //    seek_next_element(xml_buffer);
 //    while (xml_buffer)
@@ -304,7 +311,14 @@ void sbol::replace_reference_to_resource(std::string& xml_string, const std::str
 	node_start = xml_buffer.tellg();
     seek_new_line(xml_buffer);
     repl_start = xml_buffer.tellg();
-    qname = get_qname(xml_buffer);
+    try
+    {
+        qname = get_qname(xml_buffer);
+    }
+    catch(...)
+    {
+        throw SBOL_ERROR_SERIALIZATION;
+    }
     seek_end_of_line(xml_buffer);
     repl_end = xml_buffer.tellg();
     repl_length = repl_end - repl_start;
@@ -365,11 +379,15 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 				SBOLObject* obj = *o;
                 rdfxml_string = obj->nest(rdfxml_string);  // Recurse, start nesting with leaf objects
                 string id = obj->identity.get();
-                //cout << "Nesting " << id << " in " << property_name << endl;
-
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
-				replace_reference_to_resource(rdfxml_string, property_name, id, cut_text);
-
+                try
+                {
+                    replace_reference_to_resource(rdfxml_string, property_name, id, cut_text);
+                }
+                catch(...)
+                {
+                    throw SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + parseClassName(property_name) + " property of " + id);
+                }
             }
 		}
 	}
@@ -464,16 +482,16 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 				{
 					// TODO: double-check this, is there a memory-leak here?
                     if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
-                        sbol_obj->properties[property_uri].clear();  //
+                        sbol_obj->properties[property_uri].clear();  // Clear an empty property
 					sbol_obj->properties[property_uri].push_back(property_value);
 				}
 				// TODO: the list_properties member should be deprecated, use properties member instead
-				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
-				{
-                    if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
-                        sbol_obj->properties[property_uri].clear();
-                    sbol_obj->list_properties[property_uri].push_back(property_value);
-				}
+//				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
+//				{
+//                    if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
+//                        sbol_obj->properties[property_uri].clear();
+//                    sbol_obj->list_properties[property_uri].push_back(property_value);
+//				}
 				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
 				{
 					// Strip off the angle brackets from the URI value.  Note that a Document's object_store
@@ -485,10 +503,14 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 					// TopLevel object.  The owned object is then removed from its temporary location in the Document's object store
 					// and is now associated only with it's parent TopLevel object.
 					SBOLObject *owned_obj = doc->SBOLObjects[owned_obj_id];
-					sbol_obj->owned_objects[property_uri].push_back(owned_obj);			
+					sbol_obj->owned_objects[property_uri].push_back(owned_obj);
+                    owned_obj->parent = sbol_obj;
 					doc->SBOLObjects.erase(owned_obj_id);
                     // doc->owned_objects.erase(owned_object->type);  // Remove temporary, non-toplevel objects from the Document's property store
 				}
+                // Extension data
+                else
+                    sbol_obj->properties[property_uri].push_back(property_value);
 
 			}
 		}
@@ -588,7 +610,9 @@ void Document::append(std::string filename)
 	FILE* fh = fopen(filename.c_str(), "rb");
     if (!fh)
         throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File not found");
-	raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
+	//raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
+    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, getFileFormat().c_str());
+
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
 	unsigned char *uri_string;
@@ -633,24 +657,23 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 	}
 	if (sbol_world)
 	{
-		// This RDF triple makes the following statement:
+		// Serializing this RDF triple makes the following statement:
 		// "This instance of an SBOL object belongs to class X"
 		raptor_statement *triple = raptor_new_statement(sbol_world);
 		std::string subject = identity.get();
 		std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 		std::string object = type;
 
-        // Add missing namespace to the Document
-        //doc->addNameSpace(getNameSpace(type), "", sbol_serializer);
 		triple->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 		triple->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)predicate.c_str());
 		triple->object = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)object.c_str());
-		// Write the triples
 		raptor_serializer_serialize_statement(sbol_serializer, triple);
-
-		// Delete the triple 
 		raptor_free_statement(triple);
 
+        // Add missing namespace to the Document
+        for (auto i_ns = namespaces.begin(); i_ns != namespaces.end(); ++i_ns)
+            doc->namespaces[i_ns->first] = i_ns->second;
+        
 		for (auto it = properties.begin(); it != properties.end(); ++it)
 		{
 
@@ -659,6 +682,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
 
 			std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
+            
 			// Serialize each of the values in a List property as an RDF triple
 			vector<std::string> property_values = it->second;
 			for (auto i_val = property_values.begin(); i_val != property_values.end(); ++i_val)
@@ -801,27 +825,11 @@ void Document::write(std::string filename)
 	// Initialize raptor serializer
 	FILE* fh = fopen(filename.c_str(), "wb");
 	raptor_world* world = getWorld();
-	raptor_serializer* sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
-
-	// Add default namespaces to Document
-	//raptor_iostream* ios = raptor_new_iostream_to_file_handle(world, fh);
-	raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
-	raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
-	raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
-
-	const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
-	const unsigned char *purl_prefix = (const unsigned char *)"dcterms";
-	const unsigned char *prov_prefix = (const unsigned char *)"prov";
-
-	raptor_namespace_stack *sbol_namespaces = raptor_new_namespaces(world, 0);
-	raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
-	raptor_namespace *purl_namespace = raptor_new_namespace_from_uri(sbol_namespaces, purl_prefix, purl_uri, 1);
-	raptor_namespace *prov_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prov_prefix, prov_uri, 1);
-
-	raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
-	raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
-	raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
-	//raptor_serializer_start_to_file_handle(sbol_serializer, NULL, fh);
+    raptor_serializer* sbol_serializer;
+    if (getFileFormat().compare("rdfxml") == 0)
+        sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
+    else
+        sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
 
 	//char * sbol_buffer = "";
     char * sbol_buffer;
@@ -842,32 +850,64 @@ void Document::write(std::string filename)
 	err = raptor_serializer_start_to_string(sbol_serializer, base_uri, (void **)&sbol_buffer, &sbol_buffer_len);
 	if (err) cout << "Error " << err << "starting string" << endl;
 
-
+    // Add core SBOL namespaces to Document
+    raptor_namespace_stack *sbol_namespaces = raptor_new_namespaces(world, 0);
+//    raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
+//    raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
+//    raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
+//    
+//    const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
+//    const unsigned char *purl_prefix = (const unsigned char *)"dcterms";
+//    const unsigned char *prov_prefix = (const unsigned char *)"prov";
+//    
+//    raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
+//    raptor_namespace *purl_namespace = raptor_new_namespace_from_uri(sbol_namespaces, purl_prefix, purl_uri, 1);
+//    raptor_namespace *prov_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prov_prefix, prov_uri, 1);
+//    
+//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
+//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
+//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
+    
 	// Iterate through objects in document and serialize them
 	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
 	{
 		obj_i->second->serialize(sbol_serializer);
 	}
-
+    
+    // Add extension namespaces. This must come after the call to serialize in which extension namespaces are propagated up to the Document level.
+    for (auto i_ns = this->namespaces.begin(); i_ns != this->namespaces.end(); ++i_ns)
+    {
+        std::string prefix = i_ns->first;
+        std::string ns = i_ns->second;
+        raptor_uri *ns_uri = raptor_new_uri(world, (const unsigned char *)ns.c_str());
+        raptor_namespace *extension_namespace = raptor_new_namespace_from_uri(sbol_namespaces, (const unsigned char *)prefix.c_str(), ns_uri, 1);
+        raptor_serializer_set_namespace_from_namespace(sbol_serializer, extension_namespace);
+    }
+    
 	// Finalize serialization
 	raptor_serializer_serialize_end(sbol_serializer);
 	raptor_free_serializer(sbol_serializer);
 
 	std::string sbol_buffer_string = std::string((char*)sbol_buffer);
 	const int size = (const int)sbol_buffer_len;
-	if (sbol_buffer)
-	{
-		// Iterate through objects in document and nest them
-		for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
-		{
-			sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
-		}
-		fputs(sbol_buffer_string.c_str(), fh);
-	}
-	else
-	{
-		cout << "Serialization failed" << endl;
-	}
+    if (getFileFormat().compare("json") == 0)
+        fputs(sbol_buffer_string.c_str(), fh);
+    else
+    {
+        if (sbol_buffer)
+        {
+            // Iterate through objects in document and nest them
+            for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+            {
+                sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
+            }
+            fputs(sbol_buffer_string.c_str(), fh);
+        }
+        else
+        {
+            cout << "Serialization failed" << endl;
+        }
+    }
 	raptor_free_iostream(ios);
     raptor_free_uri(base_uri);
 	fclose(fh);
@@ -904,15 +944,15 @@ void Document::close(std::string uri)
 std::string ReferencedObject::create(std::string uri)
 {
     if (sbol_owner->doc == NULL)
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ReferencedObject::create method requires that this object belongs to a Document");
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::create method of " + this->sbol_owner->identity.get() + " requires that this object belongs to a Document");
     Document& doc = *sbol_owner->doc;
     Identified& parent_obj = (Identified&)*sbol_owner;
     if (isSBOLCompliant())
     {
     
         Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ reference_type_uri ]();  // Call constructor for the referenced object
-        new_obj.identity.set(getHomespace() + "/" + getClassName(reference_type_uri) + "/" + uri + "/" + parent_obj.version.get());
-        new_obj.persistentIdentity.set(getHomespace() + "/" + getClassName(reference_type_uri) + "/" + uri);
+        new_obj.identity.set(getHomespace() + "/" + parseClassName(reference_type_uri) + "/" + uri + "/" + parent_obj.version.get());
+        new_obj.persistentIdentity.set(getHomespace() + "/" + parseClassName(reference_type_uri) + "/" + uri);
         new_obj.displayId.set(uri);
         new_obj.version.set(parent_obj.version.get());
         doc.add<SBOLObject>(new_obj);
@@ -938,5 +978,69 @@ std::string ReferencedObject::create(std::string uri)
         return new_obj.identity.get();
     }
 };
+
+Identified& Identified::copy(Document* target_doc, string ns, string version)
+{
+    // Call constructor for the copy
+    Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ this->type ]();
+    
+    // Assign the new object to the target Document (null for non-TopLevel objects)
+    if (target_doc)
+        new_obj.doc = target_doc;
+
+    new_obj.type = this->type;
+    
+    // Copy properties
+    for (auto i_store = properties.begin(); i_store != properties.end(); ++i_store)
+    {
+        string store_uri = i_store->first;
+        vector < string > property_store = i_store->second;
+        vector < string > property_store_copy = property_store;   // Copy properties
+        
+        // If caller specified a namespace argument, then replace namespace in URIs
+        // Don't overwrite namespaces for the wasDerivedFrom field, which points back to the original object
+        if (ns.compare("") != 0 && store_uri.compare(SBOL_WAS_DERIVED_FROM) != 0)
+        {
+            string old_ns = getHomespace();
+            for (int i_property_val = 0; i_property_val < property_store_copy.size(); ++i_property_val)
+            {
+                string property_val = property_store_copy[i_property_val];
+                size_t pos = 0;
+                pos = property_val.find(old_ns, pos);
+                if (pos != std::string::npos)
+                {
+                    property_val.erase(pos, old_ns.size());
+                    property_val.insert(pos, ns);
+                }
+                property_store_copy[i_property_val] = property_val;
+            }
+        }
+        new_obj.properties[store_uri] = property_store_copy;
+    }
+    
+    // Set version
+    new_obj.wasDerivedFrom.set(this->identity.get());
+    if (version.compare("") == 0)
+        new_obj.version.incrementMajor();
+    else
+        new_obj.version.set(version);
+    
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        string store_uri = i_store->first;
+        vector < SBOLObject* >& object_store = i_store->second;
+        for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
+        {
+            Identified& child_obj = (Identified&)**i_obj;
+            
+            // Recurse into child objects and copy.  This should be after all other object properties are set, to ensure proper generation of new URIs with updated namespace and version
+            Identified& child_obj_copy = child_obj.copy(target_doc, ns, version);
+            new_obj.owned_objects[store_uri].push_back((SBOLObject*)&child_obj_copy);  // Copy child object
+        }
+    }
+    return new_obj;
+};
+
+
 
 

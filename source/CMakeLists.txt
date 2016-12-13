@@ -9,7 +9,6 @@ include_directories( ${RAPTOR_INCLUDE_DIR})
 FILE(GLOB SBOL_HEADER_FILES
     constants.h
     sbolerror.h
-
     config.h
     validation.h
 	property.h

@@ -81,6 +81,7 @@
 #define SBOL_ORIENTATION SBOL_URI "#orientation"
 #define SBOL_LOCATIONS SBOL_URI "#location"
 #define SBOL_ROLE_INTEGRATION SBOL_URI "#roleIntegration"
+#define SBOL_AT SBOL_URI "#at"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property
@@ -92,9 +93,9 @@
 #define SBOL_RESTRICTION_PRECEDES SBOL_URI "#precedes"                     ///< Option for SequenceConstraint::restriction property
 #define SBOL_RESTRICTION_SAME_ORIENTATION_AS "#sameOrientationAs"          ///< Option for SequenceConstraint::restriction property
 #define SBOL_RESTRICTION_OPPOSITE_ORIENTATION_AS "#oppositeOrientationAs"  ///< Option for SequenceConstraint::restriction property
-#define SBOL_ENCODING_IUPAC "www.chem.qmul.ac.uk/iubmb/misc/naseq.html"    ///< Option for Sequence::encoding property
-#define SBOL_ENCODING_IUPAC_PROTEIN "www.chem.qmul.ac.uk/iupac/AminoAcid/" ///< Option for Sequence::encoding property
-#define SBOL_ENCODING_SMILES "www.opensmiles.org/opensmiles.html"          ///< Option for Sequence::encoding property
+#define SBOL_ENCODING_IUPAC "http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"    ///< Option for Sequence::encoding property
+#define SBOL_ENCODING_IUPAC_PROTEIN "http://www.chem.qmul.ac.uk/iupac/AminoAcid/" ///< Option for Sequence::encoding property
+#define SBOL_ENCODING_SMILES "http://www.opensmiles.org/opensmiles.html"          ///< Option for Sequence::encoding property
 #define SBOL_ORIENTATION_INLINE SBOL_URI "#inline"                        ///< Option for Location::orientation property
 #define SBOL_ORIENTATION_REVERSE_COMPLEMENT SBOL_URI "#reverseComplement" ///< Option for Location::orientation property
 #define SBOL_REFINEMENT_USE_REMOTE SBOL_URI "#useRemote" ///< Option for FunctionalComponent::refinement property
@@ -129,11 +130,12 @@
 
 /* URIs for common Sequence Ontology terms */
 #define SO "http://identifiers.org/so/SO:" ///< Namespace for Sequence Ontology (SO) terms
-#define SO_MISC "0000001"                  ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_MISC SO "0000001"                  ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_PROMOTER SO "0000167"           ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_CDS SO "0000316"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_RBS SO "0000139"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_TERMINATOR SO "0000141"         ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_SGRNA SO "0001998"
 
 /* BioPAX is used to indicate macromolecular and molecular types */
 /// DNA

@@ -1,5 +1,3 @@
-/// @file
-/// An example file showing how to assemble hierachical genetic constructs
 
 /// @code
 #define BASE_URI "http://sys-bio.org"

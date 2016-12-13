@@ -30,12 +30,11 @@ namespace sbol
 	template <class LiteralType>
 	class Property
 	{
-
 	protected:
 		sbol_type type;
 		SBOLObject *sbol_owner;  // back pointer to the SBOLObject to which this Property belongs
 		ValidationRules validationRules;
-
+        void initializeNamespace(std::string ns);  // Adds extension namespaces to the owner SBOLObject
 	public:
         Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules = {});
 
@@ -57,7 +56,6 @@ namespace sbol
 
 		virtual void write();
 		void validate(void * arg = NULL);
-        
         std::string operator[] (const int nIndex);  ///< Retrieve the indexed value in a list container
 
 
@@ -88,7 +86,7 @@ namespace sbol
         
         int size()
         {
-            std::size_t size = this->sbol_owner->owned_objects[this->type].size();
+            std::size_t size = this->sbol_owner->properties[this->type].size();
             return (int)size;
         };
         
@@ -108,8 +106,9 @@ namespace sbol
 		{
 			std::vector<std::string> property_store;
 			property_store.push_back(initial_value);
-			this->sbol_owner->properties.insert({ type_uri, property_store });
-		}
+//			this->sbol_owner->properties.insert({ type_uri, property_store });
+            this->sbol_owner->properties.insert({ type, property_store });
+        }
 	}
 
 	/* Constructor for int Property */

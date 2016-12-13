@@ -99,10 +99,12 @@ namespace sbol
         void set(SBOLClass& sbol_obj);                  ///< Attach a child SBOL object to a parent SBOL object
         SBOLClass& get(const std::string object_id);    ///< Get the child object
 		void add(SBOLClass& sbol_obj);                  ///< Push another child object to the list, if the property allows multiple values
-        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);
-        template < class SBOLSubClass > SBOLSubClass& get();
+        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);  ///< Push an object of derived class to the list, eg, add a Range to a list of Locations
+        template < class SBOLSubClass > SBOLSubClass& get(std::string uri = "");
         std::vector<SBOLClass*> copy();
         SBOLClass& create(std::string uri);             ///< Autoconstruct a child object and add it to a parent SBOL object
+        template < class SBOLSubClass > SBOLSubClass& create(std::string uri);
+
         void create(std::string uri_prefix, std::string display_id, std::string version);
 		SBOLClass& operator[] (const int nIndex);       ///< Retrieve a child object by numerical index.
         SBOLClass& operator[] (std::string uri);  ///< Retrieve a child object by URI
@@ -159,6 +161,8 @@ namespace sbol
         owned_obj->version.set(version);
         add(*owned_obj);
     };
+    
+
 
 	template <class SBOLClass >
     OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :
@@ -184,8 +188,21 @@ namespace sbol
     void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
     {
         /// @TODO This could cause a memory leak if the overwritten object is not freed!
+        sbol_obj.parent = this->sbol_owner;
         this->sbol_owner->owned_objects[this->type][0] = ((SBOLObject *)&sbol_obj);
     };
+
+    template <class SBOLClass>
+    template <class SBOLSubClass>
+    void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
+    {
+        if (!dynamic_cast<SBOLClass*>(&sbol_obj))
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Object of type " + parseClassName(sbol_obj.type) + " is invalid for " + parsePropertyName(this->type) + " property");
+        // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
+        sbol_obj.parent = this->sbol_owner;
+        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
+    };
+
     
     /// @param nIndex A numerical index
     /// @return A reference to the child object
@@ -196,23 +213,6 @@ namespace sbol
 		return (SBOLClass&)*object_store->at(nIndex);
 	};
     
-    
-    template <class SBOLClass>
-    template <class SBOLSubClass>
-    void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
-    {
-        // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
-        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
-    };
-
-    template <class SBOLClass>
-    template <class SBOLSubClass>
-    SBOLSubClass& OwnedObject< SBOLClass >::get()
-    {
-        // This should use dynamic_cast instead of implicit casting
-        SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
-        return (SBOLSubClass&)*obj;
-    };
 
     /// Provides interface for an SBOL container Property that is allowed to have more than one object or value
     /// @tparam PropertyType The type of SBOL Property, eg, Text, Int, OwnedObject, etc
@@ -223,6 +223,8 @@ namespace sbol
 
 	public:
         List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value = "");
+//        List(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value = "");
+
 		//std::string get(int index);
 		//SBOLClass& get(std::string object_id);
 		void remove(int index);
@@ -231,17 +233,24 @@ namespace sbol
 		//SBOLClass& get(std::string object_id);
 
 		//std::vector<PropertyType> copy();
-		//void remove(std::string uri);
+		void remove(std::string uri);
 	};
+
+
+    
+//    template <class ReferencedObject>
+//    List<ReferencedObject>::List(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :
+//        ReferencedObject(type_uri, reference_type_uri, property_owner, initial_value)
+//    {
+//    };
 
     template <class PropertyType>
     List<PropertyType>::List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
-        PropertyType(type_uri, property_owner, initial_value)
+    PropertyType(type_uri, property_owner, initial_value)
     {
     };
     
-
-
+    
 	//template <class PropertyType>
 	//template <class SBOLClass>
 	//SBOLClass& List<PropertyType>::get(std::string object_id)
@@ -289,16 +298,26 @@ namespace sbol
 //		return vector_copy;
 //	};
 
-
-
 	template <class PropertyType>
 	void List<PropertyType>::remove(int index)
 	{
 		if (this->sbol_owner)
 		{
-			this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index - 1);
+            if (this->sbol_owner->properties.find(this->type) != this->sbol_owner->properties.end())
+            {
+                if (index >= this->sbol_owner->properties[this->type].size())
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+                this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index);
+            }
+            else if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+            {
+                if (index >= this->sbol_owner->owned_objects[this->type].size())
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+                this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
+            }
 		}
 	};
+    
 }
 
 #endif

@@ -1,20 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @bbartley
- Watch 97
-  Star 1,064
- Fork 582 Kitware/CMake
- Code  Pull requests 0  Projects 0  Pulse  Graphs
-Branch: master Find file Copy pathCMake/Modules/FindPythonLibs.cmake
-86578ec  13 days ago
-@bradking bradking Simplify CMake per-source license notices
-16 contributors @bradking @neundorf @cryos @DerDakon @dgobbi @sebastienbarre @thewtex @billhoffman @kwrobot @martinken @mathstuf @zackgalbreath @dlrdave @tgamblin @yan12125 @berkgeveci
-RawBlameHistory     
-345 lines (300 sloc)  12.7 KB
 # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
 # file Copyright.txt or https://cmake.org/licensing for details.
 

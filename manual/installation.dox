@@ -21,11 +21,24 @@
 /// * [git](https://git-scm.com/) for downloading the source code
 /// * [CMake](https://cmake.org/download/) for generating platform-specific build instructions
 /// * a C++ compiler, such as MSVC, g++, clang, or [MinGW](http://www.mingw.org/wiki/InstallationHOWTOforMinGW)
+/// * If building on Mac or Linux, you will need to obtain Raptor RDF from a 3rd party distribution service such as Homebrew or APT (see platform-specific instructions)
 /// * OPTIONAL: [Doxygen](http://www.stack.nl/~dimitri/doxygen/) for creating documentation
 /// * OPTIONAL: [SWIG](http://www.swig.org/) for generating Python wrappers
 /// 
 /// All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake can be used to generate projects for Eclipse, Visual Studio, XCode, etc. 
 ///
+/// If you don't want to use CMake to generate make files, following is an example command line for building the library on Mac:
+/// ```
+/// $ mkdir release
+/// $ cd release
+/// $ g++ -c ../source/*.cpp -I../source -I/usr/local/include/raptor2 -std=c++11
+/// $ ar rcs libsbol.a *.o
+/// ```
+/// Now link and run your client application:
+/// ```
+/// $ g++ -std=c++11 -I../source -I/usr/local/include/raptor2 -L/usr/local/lib -lraptor2 -lsbol client_app.cpp -o client_app
+/// $ ./client_app
+/// ```
 /// Windows
 /// -------
 /// 1. [Install git for Windows](https://git-scm.com/)

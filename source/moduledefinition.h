@@ -36,7 +36,7 @@ namespace sbol
         ModuleDefinition(sbol_type sbol_type_uri, std::string uri, std::string version) :
             TopLevel(sbol_type_uri, uri, version),
             roles(SBOL_ROLES, this),
-            models(SBOL_MODELS, this),
+            models(SBOL_MODELS, SBOL_MODEL, this),
             functionalComponents(SBOL_FUNCTIONAL_COMPONENTS, this),
             modules(SBOL_MODULES, this),
             interactions(SBOL_INTERACTIONS, this)

@@ -1,5 +1,6 @@
 #include "config.h"
 
+#include <string>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 
@@ -7,12 +8,14 @@ using namespace sbol;
 using namespace std;
 
 extern Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
+//Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
+
 
 // @TODO move sbol_type TYPEDEF declaration to this file and use sbol_type instead of string for 2nd argument
 std::string sbol::constructCompliantURI(std::string sbol_type, std::string display_id, std::string version)
 {
     if (isSBOLCompliant())
-        return getHomespace() + "/" + getClassName(sbol_type) + "/" + display_id + "/" + version;
+        return getHomespace() + "/" + parseClassName(sbol_type) + "/" + display_id + "/" + version;
     else
         return "";
 };
@@ -20,7 +23,7 @@ std::string sbol::constructCompliantURI(std::string sbol_type, std::string displ
 std::string sbol::constructCompliantURI(std::string parent_type, std::string child_type, std::string display_id, std::string version)
 {
     if (isSBOLCompliant())
-        return getHomespace() + "/" + getClassName(parent_type) + "/" + getClassName(child_type) + "/" + display_id + "/" + version;
+        return getHomespace() + "/" + parseClassName(parent_type) + "/" + parseClassName(child_type) + "/" + display_id + "/" + version;
     else
         return "";
 };
@@ -69,30 +72,64 @@ std::string sbol::getCompliantURI(std::string uri_prefix, std::string sbol_class
     
 };
 
-std::string sbol::getClassName(std::string type)
+/// Parse a class name from a URI
+/// @param uri A URI
+std::string sbol::parseClassName(std::string uri)
 {
-    std::size_t uri_subordinate_pos = type.find("#") + 1;
+    std::size_t uri_subordinate_pos = uri.find("#") + 1;
     if (uri_subordinate_pos != std::string::npos)
     {
-        std::string sbol_class = type.substr(uri_subordinate_pos, type.size() - uri_subordinate_pos);
+        std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
+        return sbol_class;
+    }
+    uri_subordinate_pos = uri.find("/", 0) + 1;
+    if (uri_subordinate_pos != std::string::npos)
+    {
+        std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
         return sbol_class;
     }
     else
-        return type;
+        throw;
 };
 
-std::string sbol::getNameSpace(std::string type)
+std::string sbol::parseNamespace(std::string uri)
 {
-    std::size_t uri_subordinate_pos = type.find("#") + 1;
+    std::size_t uri_subordinate_pos = uri.find("#") + 1;
     if (uri_subordinate_pos != std::string::npos)
     {
-        std::string ns = type.substr(0, uri_subordinate_pos);
-        cout << ns << endl;
+        std::string ns = uri.substr(0, uri_subordinate_pos);
+        return ns;
+    }
+    uri_subordinate_pos = uri.find("/", 0) + 1;
+    if (uri_subordinate_pos != std::string::npos)
+    {
+        std::string ns = uri.substr(0, uri_subordinate_pos);
         return ns;
     }
     else
-        return type;
+        throw;
 };
+
+std::string sbol::parsePropertyName(std::string uri)
+{
+//    std::size_t uri_subordinate_pos = uri.find("#") + 1;
+//    if (uri_subordinate_pos != std::string::npos)
+//    {
+//        std::string ns = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
+//        return ns;
+//    }
+//    uri_subordinate_pos = uri.find("/", 0) + 1;
+//    if (uri_subordinate_pos != std::string::npos)
+//    {
+//        std::string ns = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
+//        return ns;
+//    }
+//    else
+//        throw;
+    return parseClassName(uri);
+};
+
+
 
 void sbol::setHomespace(std::string ns)
 {
@@ -156,6 +193,16 @@ int Config::exceptionsEnabled()
     return catch_exceptions;
 }
 
+void sbol::setFileFormat(std::string file_format)
+{
+    config.setFileFormat(file_format);
+};
+
+std::string sbol::getFileFormat()
+{
+    return config.getFileFormat();
+};
+
 void Config::setHomespace(std::string ns)
 {
     this->home = ns;
@@ -200,5 +247,15 @@ int Config::compliantTypesEnabled()
     return this->SBOLCompliantTypes;
 };
 
+void Config::setFileFormat(std::string file_format)
+{
+    if (file_format.compare("json") == 0)
+        this->format = "json";
+    else
+        this->format = "rdfxml";
+};
 
-
+std::string Config::getFileFormat()
+{
+    return format;
+};
