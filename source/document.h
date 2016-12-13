@@ -73,6 +73,9 @@ namespace sbol {
             sequences(SBOL_SEQUENCE, this, ""),
             sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, "")
 			{
+                namespaces["sbol"] = SBOL_URI "#";
+                namespaces["dcterms"] = PURL_URI;
+                namespaces["prov"] = PROV_URI "#";
 			};
         
         /// The Document's register of objects

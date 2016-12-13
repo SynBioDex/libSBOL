@@ -852,21 +852,21 @@ void Document::write(std::string filename)
 
     // Add core SBOL namespaces to Document
     raptor_namespace_stack *sbol_namespaces = raptor_new_namespaces(world, 0);
-    raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
-    raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
-    raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
-    
-    const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
-    const unsigned char *purl_prefix = (const unsigned char *)"dcterms";
-    const unsigned char *prov_prefix = (const unsigned char *)"prov";
-    
-    raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
-    raptor_namespace *purl_namespace = raptor_new_namespace_from_uri(sbol_namespaces, purl_prefix, purl_uri, 1);
-    raptor_namespace *prov_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prov_prefix, prov_uri, 1);
-    
-    raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
-    raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
-    raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
+//    raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
+//    raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
+//    raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
+//    
+//    const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
+//    const unsigned char *purl_prefix = (const unsigned char *)"dcterms";
+//    const unsigned char *prov_prefix = (const unsigned char *)"prov";
+//    
+//    raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
+//    raptor_namespace *purl_namespace = raptor_new_namespace_from_uri(sbol_namespaces, purl_prefix, purl_uri, 1);
+//    raptor_namespace *prov_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prov_prefix, prov_uri, 1);
+//    
+//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
+//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
+//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
     
 	// Iterate through objects in document and serialize them
 	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
