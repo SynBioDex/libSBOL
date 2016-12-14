@@ -47,23 +47,18 @@ class TestRoundTrip(unittest.TestCase):
         print("Setting up")
 
         self.doc = Document()   # Document for read and write
+        self.doc.read('test.xml')
+        self.doc.write('test_out.xml')
+
         self.doc2 = Document()  # Document to compare for equality
+        self.doc2.read('test_out.xml')
 
 
     def tearDown(self):
         pass
 
-    def test_parse(self):
-        try:
-            self.doc.read('combinatorial.xml')
-        except AssertionError:
-            pass
-
-    def test_write(self):
-        try:
-            self.doc.write('out.xml')
-        except AttributeError:
-            pass
+    def test_round_trip(self):
+        self.assertEqual(self.doc.compare(self.doc2), 1)
 
 
 #class TestSBOLObject(unittest.TestCase):
