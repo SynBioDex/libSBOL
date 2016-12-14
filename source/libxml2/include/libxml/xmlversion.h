@@ -29,21 +29,21 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * the version string like "1.2.3"
  */
-#define LIBXML_DOTTED_VERSION "2.7.6"
+#define LIBXML_DOTTED_VERSION "2.9.4"
 
 /**
  * LIBXML_VERSION:
  *
  * the version number: 1.2.3 value is 10203
  */
-#define LIBXML_VERSION 20706
+#define LIBXML_VERSION 20904
 
 /**
  * LIBXML_VERSION_STRING:
  *
  * the version number string, 1.2.3 value is "10203"
  */
-#define LIBXML_VERSION_STRING "20706"
+#define LIBXML_VERSION_STRING "20904"
 
 /**
  * LIBXML_VERSION_EXTRA:
@@ -58,7 +58,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  * Macro to check that the libxml version in use is compatible with
  * the version the software has been compiled against
  */
-#define LIBXML_TEST_VERSION xmlCheckVersion(20706);
+#define LIBXML_TEST_VERSION xmlCheckVersion(20904);
 
 #ifndef VMS
 #if 0
@@ -95,6 +95,15 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
     (defined(_POSIX_C_SOURCE) && (_POSIX_C_SOURCE - 0 >= 199506L))
 #define LIBXML_THREAD_ENABLED
 #endif
+#endif
+
+/**
+ * LIBXML_THREAD_ALLOC_ENABLED:
+ *
+ * Whether the allocation hooks are per-thread
+ */
+#if 0
+#define LIBXML_THREAD_ALLOC_ENABLED
 #endif
 
 /**
@@ -264,8 +273,17 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether iconv support is available
  */
-#if 0
+#if 1
 #define LIBXML_ICONV_ENABLED
+#endif
+
+/**
+ * LIBXML_ICU_ENABLED:
+ *
+ * Whether icu support is available
+ */
+#if 0
+#define LIBXML_ICU_ENABLED
 #endif
 
 /**
@@ -378,8 +396,17 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the Zlib support is compiled in
  */
-#if 0
+#if 1
 #define LIBXML_ZLIB_ENABLED
+#endif
+
+/**
+ * LIBXML_LZMA_ENABLED:
+ *
+ * Whether the Lzma support is compiled in
+ */
+#if 0
+#define LIBXML_LZMA_ENABLED
 #endif
 
 #ifdef __GNUC__
@@ -394,7 +421,11 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  */
 
 #ifndef ATTRIBUTE_UNUSED
-#define ATTRIBUTE_UNUSED __attribute__((unused))
+# if ((__GNUC__ > 2) || ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 7)))
+#  define ATTRIBUTE_UNUSED __attribute__((unused))
+# else
+#  define ATTRIBUTE_UNUSED
+# endif
 #endif
 
 /**
@@ -404,7 +435,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  */
 
 #ifndef LIBXML_ATTR_ALLOC_SIZE
-# if ((__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 3)))
+# if (!defined(__clang__) && ((__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 3))))
 #  define LIBXML_ATTR_ALLOC_SIZE(x) __attribute__((alloc_size(x)))
 # else
 #  define LIBXML_ATTR_ALLOC_SIZE(x)
