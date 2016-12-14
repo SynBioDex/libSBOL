@@ -8,26 +8,12 @@
 using namespace std;
 using namespace sbol;
 
-//template <class LiteralType>
-//Property<LiteralType>::~Property()
-//{
-//};
-
-//void URIProperty::set(std::string new_value)
-//{
-//	if (sbol_owner && !new_value.empty())
-//	{
-//		sbol_owner->properties[type][0] = "<" + new_value + ">";
-//	}
-//	validate((void *)&new_value);
-//};
 
 SBOLObject::~SBOLObject()
 {
 }
 
-/// Use this method to destroy an SBOL object that is not contained by a parent Document.  If the object does have a parent Document, instead use doc.close() with the object's URI identity as an argument.
-/// @TODO Recurse through child objects and delete them.
+
 void SBOLObject::close()
 {
     delete this;
@@ -51,12 +37,12 @@ std::string SBOLObject::getClassName(string type)
 };
 
 
-int SBOLObject::isEqual(SBOLObject* obj)
+int SBOLObject::compare(SBOLObject* comparand)
 {
     int IS_EQUAL = 1;
-    if (type.compare(obj->type) != 0)
+    if (type.compare(comparand->type) != 0)
     {
-        std::cout << identity.get() << " does not match type of " << obj->type << endl;
+        std::cout << identity.get() << " does not match type of " << comparand->type << endl;
         return 0;
     };
 
@@ -66,22 +52,22 @@ int SBOLObject::isEqual(SBOLObject* obj)
     std::map < std::string, std::vector<std::string> >::iterator i_rp;  // iterator for right-hand side
     std::map < std::string, std::vector<std::string> >::iterator i_end;  // stop iteration
 
-    // The longer property store is assigned to left-hand side for side-by-side comparison
-    if (properties.size() >= obj->properties.size())
+    // The longer property store is assigned to left-hand side for side-by-side comparison. Property keys are assumed alphabetically sorted since they are based on std::map
+    if (properties.size() >= comparand->properties.size())
     {
         l_id = identity.get();
-        r_id = obj->identity.get();
+        r_id = comparand->identity.get();
         i_lp = properties.begin();
-        i_rp = obj->properties.begin();
+        i_rp = comparand->properties.begin();
         i_end = properties.end();
     }
     else
     {
-        l_id = obj->identity.get();
+        l_id = comparand->identity.get();
         r_id = identity.get();
-        i_lp = obj->properties.begin();
+        i_lp = comparand->properties.begin();
         i_rp = properties.begin();
-        i_end = obj->properties.end();
+        i_end = comparand->properties.end();
 
     }
     while (i_lp != i_end )
@@ -112,7 +98,67 @@ int SBOLObject::isEqual(SBOLObject* obj)
             ++i_rp;
         }
     }
-    return IS_EQUAL;
+
+    /// @TODO this may fail if there are extension properties resulting in owned_objects of differing lengths in the comparand objects
+    for (auto i_p = owned_objects.begin(); i_p != owned_objects.end(); ++i_p)
+    {
+        string p = i_p->first;
+        
+        SBOLObject* l;
+        SBOLObject* r;
+        if (this->owned_objects[p].size() >= comparand->owned_objects[p].size())
+        {
+            l = this;
+            r = (SBOLObject*)comparand;
+        }
+        else
+        {
+            l = (SBOLObject*)comparand;
+            r = this;
+        }
+
+        vector<SBOLObject*>& l_object_store = l->owned_objects[p];
+        vector<SBOLObject*>& r_object_store = r->owned_objects[p];
+        
+        map<string, SBOLObject*> l_store_map;
+        map<string, SBOLObject*> r_store_map;
+        for (auto i_obj = l_object_store.begin(); i_obj != l_object_store.end(); ++i_obj)
+        {
+            SBOLObject* obj = *i_obj;
+            l_store_map[obj->identity.get()] = obj;
+        }
+        for (auto i_obj = r_object_store.begin(); i_obj != r_object_store.end(); ++i_obj)
+        {
+            SBOLObject* obj = *i_obj;
+            r_store_map[obj->identity.get()] = obj;
+        }
+        map<string, SBOLObject*>::iterator l_p = l_store_map.begin();
+        map<string, SBOLObject*>::iterator r_p = r_store_map.begin();
+        while (l_p != l_store_map.end())
+        {
+            string l_id = l_p->first;
+            string r_id = r_p->first;
+            if (l_id.compare(r_id) == 0)
+            {
+                SBOLObject* l_obj = l_store_map[l_id];
+                SBOLObject* r_obj = r_store_map[r_id];
+                if (!l_obj->compare(r_obj))  // Recurse into child objects and compare
+                    IS_EQUAL = 0;
+                ++l_p;
+                ++r_p;
+            }
+            else
+            {
+                cout << "Child object " << l_id << " not in " << parsePropertyName(p) << " property of " << r->identity.get() << endl;
+                IS_EQUAL = 0;
+                ++l_p;
+            }
+        }
+    }
+    if (IS_EQUAL)
+        return 1;
+    else
+        return 0;
 };
 
 int SBOLObject::find(string uri)

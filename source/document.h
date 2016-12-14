@@ -30,11 +30,11 @@ namespace sbol {
         return (sbol::SBOLObject&)*a;
     };
 
-    template < class SBOLClass >
+    template < class ExtensionClass >
     void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)
     {
         std::string uri = ns + class_name;
-        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
+        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<ExtensionClass>));
         namespaces[ns_prefix] = ns;  // Register extension namespace
     };
     
@@ -62,7 +62,7 @@ namespace sbol {
 	public:
         /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
-            SBOLObject("Document", ""),
+            SBOLObject(SBOL_DOCUMENT, ""),
             home(""),
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
@@ -131,7 +131,7 @@ namespace sbol {
         
         /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization.
         void validate(void *arg = NULL);
-
+        
         int find(std::string uri);
 
         static void parse_objects(void* user_data, raptor_statement* triple);
@@ -467,8 +467,7 @@ namespace sbol {
             throw SBOLError(SBOL_ERROR_COMPLIANCE, "Cannot add " + sbol_obj.identity.get() + " to " + this->sbol_owner->identity.get() + ". The " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::create method instead or use toggleSBOLCompliance to enter open-world mode");
         if (this->sbol_owner)
         {
-            // The type for Document is currently hard-coded. Should replace it with a preprocessor symbol
-            if (this->sbol_owner->type.compare("Document") == 0)
+            if (this->sbol_owner->type.compare(SBOL_DOCUMENT) == 0)
             {
                 Document& doc = (Document &)*this->sbol_owner;
                 doc.add<SBOLClass>(sbol_obj);

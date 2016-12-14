@@ -32,6 +32,12 @@ namespace sbol
         template < class SBOLClass > SBOLClass& copy(std::string ns = "", std::string version = "");
 
     protected:
+        /// Copy an object and automatically increment its version. If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs.
+        /// @tparam SBOLClass The type of SBOL object being copied
+        /// @param new_doc The new copies will be attached to this Document.  NULL by default.
+        /// @param ns This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs.
+        /// @param version A new version
+        /// @return The full URI of the created object.
         Identified& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "");
 
         
@@ -90,12 +96,6 @@ namespace sbol
 //        }
 	};
   
-    /// Copy an object and automatically increment its version. If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs.
-    /// @tparam SBOLClass The type of SBOL object being copied
-    /// @param new_doc The new copies will be attached to this Document.  NULL by default.
-    /// @param ns This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs.
-    /// @param version A new version
-    /// @return The full URI of the created object.
     template <class SBOLClass>
     SBOLClass& Identified::copy(std::string ns, std::string version)
     {

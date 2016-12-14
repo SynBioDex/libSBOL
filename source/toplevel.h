@@ -35,6 +35,8 @@ namespace sbol
 //        TopLevel(std::string uri_prefix, std::string display_id, std::string version) : TopLevel(SBOL_TOP_LEVEL, uri_prefix, display_id, version) {};
         void addToDocument(sbol::Document&);
         virtual ~TopLevel() {};
+        
+        /// @TODO this should be a virtual function instead of template
         template < class SBOLClass > SBOLClass& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "");
 
     };
