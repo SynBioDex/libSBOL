@@ -40,6 +40,8 @@
 
 %include "python_docs.i"
 
+%ignore Document::close
+%ignore
 
 #ifdef SWIGWIN
     %include <windows.i>
@@ -259,16 +261,12 @@ namespace sbol
     {
         if ($self->python_iter != $self->end())
         {
-            std::cout << "Checkpoint 1" << std::endl;
 
             SBOLObject* obj = *$self->python_iter;
             $self->python_iter++;
-            std::cout << obj->identity.get() << std::endl;
-            std::cout << "Checkpoint 2" << std::endl;
 
             return (SBOLClass*)obj;
         }
-        std::cout << "Checkpoint 3" << std::endl;
 
         throw SBOLError(END_OF_LIST, "");;
         return NULL;
@@ -568,7 +566,6 @@ data = {"validationOptions": {"output" : "SBOL2",
     }
 sbol.close()
 data = json.dumps(data)
-print(data)
 url = 'http://www.async.ece.utah.edu/sbol-validator/endpoint.php'
 headers = {'content-type': 'application/json'}
     
