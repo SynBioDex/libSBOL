@@ -23,7 +23,21 @@ namespace sbol
                          SBOL_ERROR_TYPE_MISMATCH
                         };
 
-	SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);
+	//SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);
+    
+    class SBOLError: public std::exception {
+    private:
+        std::string message_;
+        SBOLErrorCode err_;
+    public:
+        explicit SBOLError(SBOLErrorCode error_code, std::string message) :
+        message_(message)
+        {};
+        virtual const char* what() const throw() {
+            return message_.c_str();
+        }
+    };
+    
 };
 
 #endif

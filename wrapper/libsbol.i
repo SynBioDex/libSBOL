@@ -91,9 +91,14 @@ namespace std {
     {
         $function
     }
-    catch(SBOLErrorCode e)
+//    catch(SBOLErrorCode e)
+//    {
+//        PyErr_SetObject(PyExc_RuntimeError, PyInt_FromLong(e));
+//        return NULL;
+//    }
+    catch(SBOLError e)
     {
-        PyErr_SetObject(PyExc_RuntimeError, PyInt_FromLong(e));
+        PyErr_SetString(PyExc_RuntimeError, e.what());
         return NULL;
     }
     catch(...)
@@ -129,7 +134,7 @@ typedef std::string sbol::sbol_type;
     {
         $action
     }
-    catch(SBOLErrorCode exception)
+    catch(SBOLError e)
     {
         PyErr_SetNone(PyExc_StopIteration);
         return NULL;
@@ -143,7 +148,7 @@ typedef std::string sbol::sbol_type;
     {
         $action
     }
-    catch(SBOLErrorCode exception)
+    catch(SBOLError e)
     {
         PyErr_SetNone(PyExc_StopIteration);
 
@@ -179,7 +184,7 @@ typedef std::string sbol::sbol_type;
             }
             return ref;
         }
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");
         return NULL;
     }
     
@@ -196,7 +201,7 @@ typedef std::string sbol::sbol_type;
             }
             return ref;
         }
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");
         return NULL;
     }
     
@@ -246,7 +251,7 @@ namespace sbol
 			}
 			return (SBOLClass*)obj;
 		}
-		throw (END_OF_LIST);
+		throw SBOLError(END_OF_LIST, "");
 		return NULL;
 	}
 
@@ -265,7 +270,7 @@ namespace sbol
         }
         std::cout << "Checkpoint 3" << std::endl;
 
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");;
         return NULL;
     }
     
@@ -315,7 +320,7 @@ namespace sbol
             }
             return ref;
         }
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");
         return NULL;
     }
     
@@ -331,7 +336,7 @@ namespace sbol
             }
             return ref;
         }
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");
         return NULL;
     }
     
@@ -563,6 +568,7 @@ data = {"validationOptions": {"output" : "SBOL2",
     }
 sbol.close()
 data = json.dumps(data)
+print(data)
 url = 'http://www.async.ece.utah.edu/sbol-validator/endpoint.php'
 headers = {'content-type': 'application/json'}
     
