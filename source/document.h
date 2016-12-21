@@ -30,11 +30,11 @@ namespace sbol {
         return (sbol::SBOLObject&)*a;
     };
 
-    template < class SBOLClass >
+    template < class ExtensionClass >
     void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)
     {
         std::string uri = ns + class_name;
-        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
+        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<ExtensionClass>));
         namespaces[ns_prefix] = ns;  // Register extension namespace
     };
     
@@ -62,7 +62,7 @@ namespace sbol {
 	public:
         /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
-            SBOLObject("Document", ""),
+            SBOLObject(SBOL_DOCUMENT, ""),
             home(""),
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
@@ -131,7 +131,7 @@ namespace sbol {
         
         /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization.
         void validate(void *arg = NULL);
-
+        
         int find(std::string uri);
 
         static void parse_objects(void* user_data, raptor_statement* triple);
@@ -270,16 +270,16 @@ namespace sbol {
 	std::string get_prefix(std::string qname);
 	std::vector<std::string> parse_element(std::istringstream& xml_buffer);
 
-    	template < class SBOLClass >
-    	std::vector<SBOLClass*> OwnedObject<SBOLClass>::copy()
-    	{
-    		std::vector<SBOLClass*> vector_copy;
-    		for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
-    		{
-    			vector_copy.push_back((SBOLClass*)*o);
-    		}
-    		return vector_copy;
-    	};
+    template < class SBOLClass >
+    std::vector<SBOLClass*> OwnedObject<SBOLClass>::getObjects()
+    {
+        std::vector<SBOLClass*> vector_copy;
+        for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
+        {
+            vector_copy.push_back((SBOLClass*)*o);
+        }
+        return vector_copy;
+    };
     
     /// @tparam The type of SBOL object that will be created
     /// @param If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
@@ -467,8 +467,7 @@ namespace sbol {
             throw SBOLError(SBOL_ERROR_COMPLIANCE, "Cannot add " + sbol_obj.identity.get() + " to " + this->sbol_owner->identity.get() + ". The " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::create method instead or use toggleSBOLCompliance to enter open-world mode");
         if (this->sbol_owner)
         {
-            // The type for Document is currently hard-coded. Should replace it with a preprocessor symbol
-            if (this->sbol_owner->type.compare("Document") == 0)
+            if (this->sbol_owner->type.compare(SBOL_DOCUMENT) == 0)
             {
                 Document& doc = (Document &)*this->sbol_owner;
                 doc.add<SBOLClass>(sbol_obj);
@@ -491,9 +490,7 @@ namespace sbol {
         }
     };
     
-    /// @tparam SBOLClass The type of the child object
-    /// @param object_id The URI of the child object
-    /// @return A reference to the child object
+
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::get(const std::string object_id)
     {
@@ -604,12 +601,62 @@ namespace sbol {
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };
 
-    /// Copy an object and automatically increment its version. If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs.
-    /// @tparam SBOLClass The type of SBOL object being copied
-    /// @param new_doc The new copies will be attached to this Document.  NULL by default.
-    /// @param ns This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs.
-    /// @param version A new version
-    /// @return The full URI of the created object.
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::remove(int index)
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+            {
+                if (index >= this->sbol_owner->owned_objects[this->type].size())
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+                this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
+            }
+        }
+    };
+    
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::remove(std::string uri)
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+            {
+                std::vector<SBOLObject*>& object_store = this->sbol_owner->owned_objects[this->type];
+                int i_obj = 0;
+                for (; i_obj < object_store.size(); ++i_obj)
+                {
+                    SBOLObject& obj = *object_store[i_obj];
+                    if (uri.compare(obj.identity.get()) == 0)
+                    {
+                        this->remove(i_obj);
+                        break;
+                    }
+                }
+//                if (i_obj < object_store.size())
+//                    this->remove(i_obj);
+            }
+        }
+    };
+    
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::clear()
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+            {
+                std::vector<SBOLObject*>& object_store = this->sbol_owner->owned_objects[this->type];
+                for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
+                {
+                    SBOLObject* obj = *i_obj;
+                    obj->close();
+                }
+                object_store.clear();
+            }
+        }
+    };
+    
     template <class SBOLClass>
     SBOLClass& TopLevel::copy(Document* target_doc, std::string ns, std::string version)
     {

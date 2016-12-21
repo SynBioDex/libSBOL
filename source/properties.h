@@ -97,12 +97,35 @@ namespace sbol
 		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
 
         void set(SBOLClass& sbol_obj);                  ///< Attach a child SBOL object to a parent SBOL object
-        SBOLClass& get(const std::string object_id);    ///< Get the child object
+        
+        /// Get the child object
+        /// @tparam SBOLClass The type of the child object
+        /// @param object_id The URI of the child object
+        /// @return A reference to the child object
+        SBOLClass& get(const std::string object_id);
+        
 		void add(SBOLClass& sbol_obj);                  ///< Push another child object to the list, if the property allows multiple values
         template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);  ///< Push an object of derived class to the list, eg, add a Range to a list of Locations
         template < class SBOLSubClass > SBOLSubClass& get(std::string uri = "");
-        std::vector<SBOLClass*> copy();
-        SBOLClass& create(std::string uri);             ///< Autoconstruct a child object and add it to a parent SBOL object
+        
+        /// Get all the objects contained in the property
+        /// @return A vector of pointers to the objects
+        std::vector<SBOLClass*> getObjects();
+        
+        /// Remove an object from the list of objects and destroy it.
+        /// @param uri The identity of the object to be destroyed. This can be a displayId of the object or a full URI may be provided.
+        void remove(std::string uri);
+        
+        /// Remove an object from the list of objects and destroy it.
+        /// @param index A numerical index for the object.
+        void remove(int index = 0) override;
+
+        /// Remove all children objects from the parent and destroy them.
+        void clear() override;
+        
+        /// Autoconstruct a child object with default values and add it to a parent SBOL object. The object will be intialized with default values as defined in the constructor call. After creating the object, default values can be changed using set.
+        /// @param uri The identity of the new object. If operating in SBOL-compliant mode, this should simply be a displayId for the new object. The full URI will be generated automatically. If operating in open-world mode, this should be a full URI including namespace.
+        SBOLClass& create(std::string uri);
         template < class SBOLSubClass > SBOLSubClass& create(std::string uri);
 
         void create(std::string uri_prefix, std::string display_id, std::string version);
@@ -213,6 +236,8 @@ namespace sbol
 		return (SBOLClass&)*object_store->at(nIndex);
 	};
     
+    
+
 
     /// Provides interface for an SBOL container Property that is allowed to have more than one object or value
     /// @tparam PropertyType The type of SBOL Property, eg, Text, Int, OwnedObject, etc
@@ -227,13 +252,12 @@ namespace sbol
 
 		//std::string get(int index);
 		//SBOLClass& get(std::string object_id);
-		void remove(int index);
+//		void remove(int index);
 
 		//template <class SBOLClass>
 		//SBOLClass& get(std::string object_id);
 
 		//std::vector<PropertyType> copy();
-		void remove(std::string uri);
 	};
 
 
@@ -298,25 +322,25 @@ namespace sbol
 //		return vector_copy;
 //	};
 
-	template <class PropertyType>
-	void List<PropertyType>::remove(int index)
-	{
-		if (this->sbol_owner)
-		{
-            if (this->sbol_owner->properties.find(this->type) != this->sbol_owner->properties.end())
-            {
-                if (index >= this->sbol_owner->properties[this->type].size())
-                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
-                this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index);
-            }
-            else if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
-            {
-                if (index >= this->sbol_owner->owned_objects[this->type].size())
-                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
-                this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
-            }
-		}
-	};
+//	template <class SBOLClass>
+//	void OwnedObject<SBOLClass>::remove(int index)
+//	{
+//		if (this->sbol_owner)
+//		{
+//            if (this->sbol_owner->properties.find(this->type) != this->sbol_owner->properties.end())
+//            {
+//                if (index >= this->sbol_owner->properties[this->type].size())
+//                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+//                this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index);
+//            }
+//            else if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+//            {
+//                if (index >= this->sbol_owner->owned_objects[this->type].size())
+//                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+//                this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
+//            }
+//		}
+//	};
     
 }
 

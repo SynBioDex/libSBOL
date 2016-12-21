@@ -585,15 +585,16 @@ void Document::read(std::string filename)
 {
     // Wipe existing contents of this Document first. This should
     raptor_free_world(this->rdf_graph);  //  Probably need to free other objects as well...
-    SBOLObjects.clear();
-    properties.clear();
-    list_properties.clear();
     for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
     {
         // Destroy all TopLevel objects. Child objects should be destroyed recursively.
         SBOLObject& obj = *i_obj->second;
         obj.close();
     }
+    SBOLObjects.clear();
+    properties.clear();  // This may cause problems later because the Document object will lose all properties of an SBOLObject
+    properties[SBOL_IDENTITY].push_back("<>");  // Re-initialize the identity property. The SBOLObject::compare method needs to get the Document's identity
+    list_properties.clear();
     owned_objects.clear();
     namespaces.clear();
     

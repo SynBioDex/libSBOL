@@ -19,6 +19,7 @@
 #define VERSION_STRING "1.0.0"
 
 /* URIs for SBOL objects */
+#define SBOL_DOCUMENT SBOL_URI "#Document"
 #define SBOL_IDENTIFIED SBOL_URI "#Identified"
 #define SBOL_DOCUMENTED SBOL_URI "#Documented"
 #define SBOL_TOP_LEVEL SBOL_URI "#TopLevel"

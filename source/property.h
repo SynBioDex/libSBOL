@@ -30,6 +30,8 @@ namespace sbol
 	template <class LiteralType>
 	class Property
 	{
+    friend class SBOLObject;
+        
 	protected:
 		sbol_type type;
 		SBOLObject *sbol_owner;  // back pointer to the SBOLObject to which this Property belongs
@@ -50,10 +52,12 @@ namespace sbol
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+        virtual std::vector<std::string> getAll();
         virtual void set(std::string new_value);    ///< Basic setter for SBOL TextProperty and URIProperty.
         virtual void set(int new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
 		void add(std::string new_value);            ///< Appends the new value to a list of values, for properties that allow it.
-
+        virtual void remove(int index = 0);
+        virtual void clear();
 		virtual void write();
 		void validate(void * arg = NULL);
         std::string operator[] (const int nIndex);  ///< Retrieve the indexed value in a list container
@@ -87,6 +91,12 @@ namespace sbol
         int size()
         {
             std::size_t size = this->sbol_owner->properties[this->type].size();
+            std::string current_value = this->sbol_owner->properties[this->type][0];
+            if (size == 1)
+            {
+                if (current_value.compare("<>") == 0 || current_value.compare("\"\"") == 0)  // Empty fields retain <> or "" to distinguish between URIs and literals
+                    return 0;
+            }
             return (int)size;
         };
         
@@ -177,6 +187,41 @@ namespace sbol
         }
     };
 
+    template <class LiteralType>
+    std::vector<std::string> Property<LiteralType>::getAll()
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+            {
+                // not found
+                throw;
+            }
+            else
+            {
+                // found
+                if (this->sbol_owner->properties[type].size() == 0)
+                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+                else
+                {
+                    std::vector<std::string> values;
+                    std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                    for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                    {
+                        std::string value = *i_val;
+                        value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                        values.push_back(value);
+                    }
+                    return values;
+                }
+            }
+        }	else
+        {
+            throw;
+        }
+    };
+    
+    
 //    template <class LiteralType>
 //    int Property<LiteralType>::get()
 //    {
@@ -242,6 +287,22 @@ namespace sbol
     };
     
     template <class LiteralType>
+    void Property<LiteralType>::clear()
+    {
+        std::string current_value = this->sbol_owner->properties[this->type][0];
+        std::cout << current_value << std::endl;
+        this->sbol_owner->properties[type].clear();
+        if (current_value[0] == '<')  //  this property is a uri
+        {
+            this->sbol_owner->properties[this->type].push_back("<>");
+        }
+        else if (current_value[0] == '"') // this property is a literal
+        {
+            this->sbol_owner->properties[this->type].push_back("\"\"");
+        }
+    }
+    
+    template <class LiteralType>
     void Property<LiteralType>::write()
     {
         std::string subject = (*this->sbol_owner).identity.get();
@@ -282,6 +343,22 @@ namespace sbol
         }
     };
     
+    template <class LiteralType>
+    void Property<LiteralType>::remove(int index)
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->properties.find(this->type) != this->sbol_owner->properties.end())
+            {
+                if (index >= this->sbol_owner->properties[this->type].size())
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+                if (this->sbol_owner->properties[this->type].size() == 1)
+                    this->clear();  // If this is the only value in the property, then clearing it will properly re-initialize the property
+                else
+                    this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index);
+            }
+        }
+    };
     
 }
 
