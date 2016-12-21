@@ -270,16 +270,16 @@ namespace sbol {
 	std::string get_prefix(std::string qname);
 	std::vector<std::string> parse_element(std::istringstream& xml_buffer);
 
-    	template < class SBOLClass >
-    	std::vector<SBOLClass*> OwnedObject<SBOLClass>::copy()
-    	{
-    		std::vector<SBOLClass*> vector_copy;
-    		for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
-    		{
-    			vector_copy.push_back((SBOLClass*)*o);
-    		}
-    		return vector_copy;
-    	};
+    template < class SBOLClass >
+    std::vector<SBOLClass*> OwnedObject<SBOLClass>::getObjects()
+    {
+        std::vector<SBOLClass*> vector_copy;
+        for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
+        {
+            vector_copy.push_back((SBOLClass*)*o);
+        }
+        return vector_copy;
+    };
     
     /// @tparam The type of SBOL object that will be created
     /// @param If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.

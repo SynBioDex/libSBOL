@@ -52,6 +52,7 @@ namespace sbol
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+        virtual std::vector<std::string> getAll();
         virtual void set(std::string new_value);    ///< Basic setter for SBOL TextProperty and URIProperty.
         virtual void set(int new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
 		void add(std::string new_value);            ///< Appends the new value to a list of values, for properties that allow it.
@@ -186,6 +187,41 @@ namespace sbol
         }
     };
 
+    template <class LiteralType>
+    std::vector<std::string> Property<LiteralType>::getAll()
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+            {
+                // not found
+                throw;
+            }
+            else
+            {
+                // found
+                if (this->sbol_owner->properties[type].size() == 0)
+                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+                else
+                {
+                    std::vector<std::string> values;
+                    std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                    for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                    {
+                        std::string value = *i_val;
+                        value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                        values.push_back(value);
+                    }
+                    return values;
+                }
+            }
+        }	else
+        {
+            throw;
+        }
+    };
+    
+    
 //    template <class LiteralType>
 //    int Property<LiteralType>::get()
 //    {

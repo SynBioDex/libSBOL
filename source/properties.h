@@ -107,7 +107,11 @@ namespace sbol
 		void add(SBOLClass& sbol_obj);                  ///< Push another child object to the list, if the property allows multiple values
         template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);  ///< Push an object of derived class to the list, eg, add a Range to a list of Locations
         template < class SBOLSubClass > SBOLSubClass& get(std::string uri = "");
-        std::vector<SBOLClass*> copy();
+        
+        /// Get all the objects contained in the property
+        /// @return A vector of pointers to the objects
+        std::vector<SBOLClass*> getObjects();
+        
         /// Remove an object from the list of objects and destroy it.
         /// @param uri The identity of the object to be destroyed. This can be a displayId of the object or a full URI may be provided.
         void remove(std::string uri);
