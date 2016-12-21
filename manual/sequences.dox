@@ -39,6 +39,21 @@
 /// gene_seq.assemble();
 /// cout << gene_seq.elements.get() << endl;
 /// ```
+/// @section sequence_annotations Sequence Annotations
+/// SequenceAnnotations describe regions of interest on Sequence objects. SequenceAnnotations are primarily used to describe sequence features that are not structural components of a design.  Examples of SequenceAnnotations include start and stop codons, mutations, or restriction enzyme cut sites.
+/// ```
+/// ComponentDefinition& biobrick_prefix = *new ComponentDefinition("biobrick_prefix", BIOPAX_DNA);
+/// SequenceAnnotation& ecori = biobrick_prefix.sequenceAnnotations.create("EcoRI");
+/// ecori.roles.set(SO "0001975");  // five prime sticky end restriction enzyme cleavage site
+///
+/// Range& range = ecori.locations.create<Range>("range");
+/// range.orientation.set(SBOL_ORIENTATION_INLINE);
+/// range.start.set(1);
+/// range.end.set(7);
+///
+/// Cut& cut = ecori.locations.create<Cut>("cut");
+/// cut.at.set(4);
+/// ```
 /// @section sequence_example_code Full Example Code
 /// ```
 /// #define BASE_URI "http://sys-bio.org"
