@@ -87,9 +87,17 @@ namespace std {
 // %template(_ValidationRules) std::vector<sbol::ValidationRule>;
 
 %exception {
-    try {
+    try
+    {
         $function
-    } catch(...) {
+    }
+    catch(SBOLErrorCode e)
+    {
+        PyErr_SetObject(PyExc_RuntimeError, PyInt_FromLong(e));
+        return NULL;
+    }
+    catch(...)
+    {
     }
 }
 
