@@ -40,15 +40,13 @@
 
 %include "python_docs.i"
 
-%ignore Document::close
-%ignore
 
 #ifdef SWIGWIN
     %include <windows.i>
 #endif
 
 // tell SWIG how to free strings
-%typemap(newfree) char* "free($1);";
+//%typemap(newfree) char* "free($1);";
 
 
 
@@ -278,6 +276,10 @@ namespace sbol
     }
 };
 
+%ignore sbol::SBOLObject::close;
+%ignore sbol::SBOLObject::properties;
+%ignore sbol::SBOLObject::list_properties;
+%ignore sbol::SBOLObject::owned_objects;
 %include "object.h"
 
 %extend sbol::SBOLObject
@@ -579,6 +581,15 @@ else:
 f.close()
     
 %}
+    
+%pythoncode
+%{
+    def testSBOL():
+       import unittest
+       import unit_tests
+       suite = unittest.TestLoader().loadTestsFromTestCase(unit_tests.TestRoundTrip)
+       unittest.TextTestRunner(verbosity=2).run(suite)
+%}
 
 %template(componentDefinitionProperty) sbol::Property<sbol::ComponentDefinition>;
 %template(ownedComponentDefinition) sbol::OwnedObject<sbol::ComponentDefinition>;
@@ -595,6 +606,14 @@ f.close()
 %template(modelProperty) sbol::Property<sbol::Model>;
 %template(ownedModel) sbol::OwnedObject<sbol::Model>;
 %template(listOfOwnedModels) sbol::List<sbol::OwnedObject<sbol::Model>>;
+    
+%ignore sbol::Document::parse_objects;
+%ignore sbol::Document::parse_properties;
+%ignore sbol::Document::namespaceHandler;
+%ignore sbol::Document::addNamespace;
+%ignore sbol::Document::flatten();
+%ignore sbol::Document::parse_objects;
+%ignore sbol::Document::close;
 %include "document.h"
 
 
