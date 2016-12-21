@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.0.1</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
   </td>
  </tr>
@@ -128,8 +128,26 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a181f5df78e9d0f4002144d9239145ef6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_owned_object.html#a181f5df78e9d0f4002144d9239145ef6">add</a> (SBOLClass &amp;sbol_obj)</td></tr>
 <tr class="memdesc:a181f5df78e9d0f4002144d9239145ef6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push another child object to the list, if the property allows multiple values.  <a href="#a181f5df78e9d0f4002144d9239145ef6">More...</a><br /></td></tr>
 <tr class="separator:a181f5df78e9d0f4002144d9239145ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ebe14bfc3773fac734fe2b4355bec48"><td class="memTemplParams" colspan="2"><a class="anchor" id="a1ebe14bfc3773fac734fe2b4355bec48"></a>
+template&lt;class SBOLSubClass &gt; </td></tr>
+<tr class="memitem:a1ebe14bfc3773fac734fe2b4355bec48"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_owned_object.html#a1ebe14bfc3773fac734fe2b4355bec48">add</a> (SBOLSubClass &amp;sbol_obj)</td></tr>
+<tr class="memdesc:a1ebe14bfc3773fac734fe2b4355bec48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push an object of derived class to the list, eg, add a <a class="el" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ...">Range</a> to a list of Locations. <br /></td></tr>
+<tr class="separator:a1ebe14bfc3773fac734fe2b4355bec48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af655a92abf05cc0e11ed454cbe77eaa2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; SBOLClass * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_owned_object.html#af655a92abf05cc0e11ed454cbe77eaa2">getObjects</a> ()</td></tr>
+<tr class="memdesc:af655a92abf05cc0e11ed454cbe77eaa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the objects contained in the property.  <a href="#af655a92abf05cc0e11ed454cbe77eaa2">More...</a><br /></td></tr>
+<tr class="separator:af655a92abf05cc0e11ed454cbe77eaa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9ca4bd667d1ba6c4373ba4225c97091"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_owned_object.html#ad9ca4bd667d1ba6c4373ba4225c97091">remove</a> (std::string uri)</td></tr>
+<tr class="memdesc:ad9ca4bd667d1ba6c4373ba4225c97091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an object from the list of objects and destroy it.  <a href="#ad9ca4bd667d1ba6c4373ba4225c97091">More...</a><br /></td></tr>
+<tr class="separator:ad9ca4bd667d1ba6c4373ba4225c97091"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a327eb5f38c67b9840719f2c1ed81f94e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_owned_object.html#a327eb5f38c67b9840719f2c1ed81f94e">remove</a> (int index=0) override</td></tr>
+<tr class="memdesc:a327eb5f38c67b9840719f2c1ed81f94e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an object from the list of objects and destroy it.  <a href="#a327eb5f38c67b9840719f2c1ed81f94e">More...</a><br /></td></tr>
+<tr class="separator:a327eb5f38c67b9840719f2c1ed81f94e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee7cb2065b88d21ac4ad05bc997ecf82"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee7cb2065b88d21ac4ad05bc997ecf82"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_owned_object.html#aee7cb2065b88d21ac4ad05bc997ecf82">clear</a> () override</td></tr>
+<tr class="memdesc:aee7cb2065b88d21ac4ad05bc997ecf82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all children objects from the parent and destroy them. <br /></td></tr>
+<tr class="separator:aee7cb2065b88d21ac4ad05bc997ecf82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3455e33e12f73daa5e166cbfcaf6a2e4"><td class="memItemLeft" align="right" valign="top">SBOLClass &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_owned_object.html#a3455e33e12f73daa5e166cbfcaf6a2e4">create</a> (std::string uri)</td></tr>
-<tr class="memdesc:a3455e33e12f73daa5e166cbfcaf6a2e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Autoconstruct a child object and add it to a parent SBOL object.  <a href="#a3455e33e12f73daa5e166cbfcaf6a2e4">More...</a><br /></td></tr>
+<tr class="memdesc:a3455e33e12f73daa5e166cbfcaf6a2e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Autoconstruct a child object with default values and add it to a parent SBOL object.  <a href="#a3455e33e12f73daa5e166cbfcaf6a2e4">More...</a><br /></td></tr>
 <tr class="separator:a3455e33e12f73daa5e166cbfcaf6a2e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae06e2c9cd2cc49b40b07e6d9527e7226"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae06e2c9cd2cc49b40b07e6d9527e7226"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_owned_object.html#ae06e2c9cd2cc49b40b07e6d9527e7226">create</a> (std::string uri_prefix, std::string display_id, std::string version)</td></tr>
@@ -219,16 +237,6 @@ Here is the call graph for this function:</div>
 </div>
 </p>
 
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_owned_object_a181f5df78e9d0f4002144d9239145ef6_icgraph.png" border="0" usemap="#classsbol_1_1_owned_object_a181f5df78e9d0f4002144d9239145ef6_icgraph" alt=""/></div>
-<map name="classsbol_1_1_owned_object_a181f5df78e9d0f4002144d9239145ef6_icgraph" id="classsbol_1_1_owned_object_a181f5df78e9d0f4002144d9239145ef6_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html#a6fdb4549d20177fb0cb00862ca1764bc" title="Attach a child SBOL object to a parent SBOL object. " alt="" coords="97,5,136,31"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a3455e33e12f73daa5e166cbfcaf6a2e4"></a>
@@ -245,22 +253,33 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Autoconstruct a child object and add it to a parent SBOL object. </p>
+<p>Autoconstruct a child object with default values and add it to a parent SBOL object. </p>
+<p>The object will be intialized with default values as defined in the constructor call. After creating the object, default values can be changed using set. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uri</td><td>The identity of the new object. If operating in SBOL-compliant mode, this should simply be a displayId for the new object. The full URI will be generated automatically. If operating in open-world mode, this should be a full URI including namespace.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">The</td><td>type of SBOL object that will be created </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">If</td><td>SBOLCompliance is enabled, this should be the displayId for the new child object. If not enabled, this should be a full raw URI. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A reference to the child object Autoconstructs a child object and attaches it to the parent object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument. Otherwise, the user should supply a full URI.  check uniqueness of URI in <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the child object Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument. Otherwise, the user should supply a full URI.  check uniqueness of URI in <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> </dd></dl>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_owned_object_a3455e33e12f73daa5e166cbfcaf6a2e4_cgraph.png" border="0" usemap="#classsbol_1_1_owned_object_a3455e33e12f73daa5e166cbfcaf6a2e4_cgraph" alt=""/></div>
 <map name="classsbol_1_1_owned_object_a3455e33e12f73daa5e166cbfcaf6a2e4_cgraph" id="classsbol_1_1_owned_object_a3455e33e12f73daa5e166cbfcaf6a2e4_cgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="119,5,248,31"/>
-<area shape="rect" id="node3" href="classsbol_1_1_document.html#a98389f37410e7f03f251a079a0db8dec" title="Register an object in the Document. " alt="" coords="112,55,255,80"/>
+<area shape="rect" id="node2" href="classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="112,5,241,31"/>
 </map>
 </div>
 </p>
@@ -308,6 +327,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Get the child object. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">SBOLClass</td><td>The type of the child object </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">object_id</td><td>The URI of the child object </td></tr>
@@ -321,10 +346,28 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_owned_object_a96211f9cd631cea90ef56e457425f520_cgraph.png" border="0" usemap="#classsbol_1_1_owned_object_a96211f9cd631cea90ef56e457425f520_cgraph" alt=""/></div>
 <map name="classsbol_1_1_owned_object_a96211f9cd631cea90ef56e457425f520_cgraph" id="classsbol_1_1_owned_object_a96211f9cd631cea90ef56e457425f520_cgraph">
-<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="93,5,223,31"/>
+<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="93,5,277,44"/>
 </map>
 </div>
 </p>
+
+</div>
+</div>
+<a class="anchor" id="af655a92abf05cc0e11ed454cbe77eaa2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; SBOLClass * &gt; getObjects </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get all the objects contained in the property. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of pointers to the objects </dd></dl>
 
 </div>
 </div>
@@ -385,6 +428,74 @@ Here is the call graph for this function:</div>
 </map>
 </div>
 </p>
+
+</div>
+</div>
+<a class="anchor" id="ad9ca4bd667d1ba6c4373ba4225c97091"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void remove </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>uri</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove an object from the list of objects and destroy it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uri</td><td>The identity of the object to be destroyed. This can be a displayId of the object or a full URI may be provided. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_owned_object_ad9ca4bd667d1ba6c4373ba4225c97091_cgraph.png" border="0" usemap="#classsbol_1_1_owned_object_ad9ca4bd667d1ba6c4373ba4225c97091_cgraph" alt=""/></div>
+<map name="classsbol_1_1_owned_object_ad9ca4bd667d1ba6c4373ba4225c97091_cgraph" id="classsbol_1_1_owned_object_ad9ca4bd667d1ba6c4373ba4225c97091_cgraph">
+<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="119,5,249,31"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a327eb5f38c67b9840719f2c1ed81f94e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void remove </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remove an object from the list of objects and destroy it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>A numerical index for the object. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="classsbol_1_1_property.html">Property&lt; SBOLClass &gt;</a>.</p>
 
 </div>
 </div>
@@ -474,17 +585,6 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_owned_object_a6fdb4549d20177fb0cb00862ca1764bc_cgraph.png" border="0" usemap="#classsbol_1_1_owned_object_a6fdb4549d20177fb0cb00862ca1764bc_cgraph" alt=""/></div>
-<map name="classsbol_1_1_owned_object_a6fdb4549d20177fb0cb00862ca1764bc_cgraph" id="classsbol_1_1_owned_object_a6fdb4549d20177fb0cb00862ca1764bc_cgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html#a181f5df78e9d0f4002144d9239145ef6" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="92,5,136,31"/>
-<area shape="rect" id="node3" href="classsbol_1_1_document.html#a98389f37410e7f03f251a079a0db8dec" title="Register an object in the Document. " alt="" coords="184,5,328,31"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
@@ -496,13 +596,13 @@ Inheritance diagram for OwnedObject&lt; SBOLClass &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_owned_object__inherit__graph.png" border="0" usemap="#_owned_object_3_01_s_b_o_l_class_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="_owned_object_3_01_s_b_o_l_class_01_4_inherit__map" id="_owned_object_3_01_s_b_o_l_class_01_4_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_property.html" title="{Property\&lt; SBOLClass \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ set()\l+ set()\l+ add()\land 6 more...\l}" alt="" coords="21,5,184,252"/>
+<area shape="rect" id="node2" href="classsbol_1_1_property.html" title="{Property\&lt; SBOLClass \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ getAll()\l+ set()\l+ set()\land 9 more...\l# initializeNamespace()\l}" alt="" coords="21,5,184,265"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 29 2016 20:59:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 20 2016 17:35:14 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

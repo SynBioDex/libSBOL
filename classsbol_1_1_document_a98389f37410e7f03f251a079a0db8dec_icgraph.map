@@ -1,5 +1,4 @@
 <map id="add" name="add">
-<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html#a3455e33e12f73daa5e166cbfcaf6a2e4" title="Autoconstruct a child object and add it to a parent SBOL object. " alt="" coords="108,5,249,44"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_owned_object.html#a181f5df78e9d0f4002144d9239145ef6" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="97,68,261,93"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_owned_object.html#a6fdb4549d20177fb0cb00862ca1764bc" title="Attach a child SBOL object to a parent SBOL object. " alt="" coords="309,68,468,93"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html#a181f5df78e9d0f4002144d9239145ef6" title="Push another child object to the list, if the property allows multiple values. " alt="" coords="97,5,261,31"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_top_level.html#ac9c905af9efe1c313a0b284a1bef25d7" title="Copy an object and automatically increment its version. " alt="" coords="108,55,250,80"/>
 </map>

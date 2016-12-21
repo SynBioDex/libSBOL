@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.0.1</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
   </td>
  </tr>
@@ -91,6 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_location-members.html">List of all members</a>  </div>
@@ -99,20 +100,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the...">Location</a> class specifies the strand orientation of a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> and can be further extended by the <a class="el" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ...">Range</a>, Cut, and GenericLocation classes. </p>
+<div class="textblock"><p>The <a class="el" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the...">Location</a> class specifies the strand orientation of a <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> and can be further extended by the <a class="el" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ...">Range</a>, <a class="el" href="classsbol_1_1_cut.html" title="The Cut class specifies a location between two coordinates of a Sequence&#39;s elements. class Cut : public Location. ">Cut</a>, and GenericLocation classes. </p>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:adb095291eeab74c6ab015ea611a8afbd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_location.html#adb095291eeab74c6ab015ea611a8afbd">orientation</a></td></tr>
+<tr class="memdesc:adb095291eeab74c6ab015ea611a8afbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The orientation indicates how a region of double-stranded DNA represented by the parent <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> and its associated <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> are oriented.  <a href="#adb095291eeab74c6ab015ea611a8afbd">More...</a><br /></td></tr>
+<tr class="separator:adb095291eeab74c6ab015ea611a8afbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a113b3822277bd4853962a60746c3111a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a113b3822277bd4853962a60746c3111a">find</a> (std::string uri)</td></tr>
+<tr class="memdesc:a113b3822277bd4853962a60746c3111a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search this object recursively to see if an object with the URI already exists.  <a href="#a113b3822277bd4853962a60746c3111a">More...</a><br /></td></tr>
+<tr class="separator:a113b3822277bd4853962a60746c3111a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad593fa86924521afaff0e888083da20d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ad593fa86924521afaff0e888083da20d">compare</a> (<a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *comparand)</td></tr>
+<tr class="memdesc:ad593fa86924521afaff0e888083da20d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two SBOL objects or Documents.  <a href="#ad593fa86924521afaff0e888083da20d">More...</a><br /></td></tr>
+<tr class="separator:ad593fa86924521afaff0e888083da20d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a473e3642b7aae350da342aed2aba8063"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a473e3642b7aae350da342aed2aba8063">getPropertyValue</a> (std::string property_uri)</td></tr>
+<tr class="memdesc:a473e3642b7aae350da342aed2aba8063"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a custom annotation property by its URI.  <a href="#a473e3642b7aae350da342aed2aba8063">More...</a><br /></td></tr>
+<tr class="separator:a473e3642b7aae350da342aed2aba8063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac77c72928e1e50863f519c049b1c05c4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ac77c72928e1e50863f519c049b1c05c4">getPropertyValues</a> (std::string property_uri)</td></tr>
+<tr class="memdesc:ac77c72928e1e50863f519c049b1c05c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all values of a custom annotation property by its URI.  <a href="#ac77c72928e1e50863f519c049b1c05c4">More...</a><br /></td></tr>
+<tr class="separator:ac77c72928e1e50863f519c049b1c05c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35bda67dde48ab7e2ad5444854c59115"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a35bda67dde48ab7e2ad5444854c59115">getProperties</a> ()</td></tr>
+<tr class="memdesc:a35bda67dde48ab7e2ad5444854c59115"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets URIs for all properties contained by this object.  <a href="#a35bda67dde48ab7e2ad5444854c59115">More...</a><br /></td></tr>
+<tr class="separator:a35bda67dde48ab7e2ad5444854c59115"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
 <tr class="memdesc:a5ae591df94fc66ccb85cbb6565368bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a5ae591df94fc66ccb85cbb6565368bca">More...</a><br /></td></tr>
 <tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
-<tr class="memitem:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memTemplItemLeft" align="right" valign="top">SBOLClass &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a03d8e4510807e05f8e0ae170fa23c85b">copy</a> (<a class="el" href="classsbol_1_1_document.html">Document</a> *new_doc=NULL, std::string ns=&quot;&quot;, std::string version=&quot;&quot;)</td></tr>
-<tr class="memdesc:a03d8e4510807e05f8e0ae170fa23c85b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy an object and automatically increment its version.  <a href="#a03d8e4510807e05f8e0ae170fa23c85b">More...</a><br /></td></tr>
-<tr class="separator:a03d8e4510807e05f8e0ae170fa23c85b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8988d8dfebd351ebbf2d323289d44b6f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_identified.html">Identified</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a8988d8dfebd351ebbf2d323289d44b6f">copy</a> (<a class="el" href="classsbol_1_1_document.html">Document</a> *target_doc=NULL, std::string ns=&quot;&quot;, std::string version=&quot;&quot;)</td></tr>
+<tr class="memdesc:a8988d8dfebd351ebbf2d323289d44b6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy an object and automatically increment its version.  <a href="#a8988d8dfebd351ebbf2d323289d44b6f">More...</a><br /></td></tr>
+<tr class="separator:a8988d8dfebd351ebbf2d323289d44b6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05b892a9ebcc8529df597d3578560ccf"><td class="memTemplParams" colspan="2">template&lt;class ExtensionClass &gt; </td></tr>
+<tr class="memitem:a05b892a9ebcc8529df597d3578560ccf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a05b892a9ebcc8529df597d3578560ccf">register_extension_class</a> (std::string ns, std::string ns_prefix, std::string class_name)</td></tr>
+<tr class="memdesc:a05b892a9ebcc8529df597d3578560ccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an extension class and its namespace, so custom data can be embedded into and read from SBOL files.  <a href="#a05b892a9ebcc8529df597d3578560ccf">More...</a><br /></td></tr>
+<tr class="separator:a05b892a9ebcc8529df597d3578560ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a5ae591df94fc66ccb85cbb6565368bca"></a>
@@ -152,7 +177,7 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a03d8e4510807e05f8e0ae170fa23c85b"></a>
+<a class="anchor" id="ad593fa86924521afaff0e888083da20d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -160,10 +185,60 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">SBOLClass &amp; copy </td>
+          <td class="memname">int compare </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *&#160;</td>
+          <td class="paramname"><em>comparand</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compare two SBOL objects or Documents. </p>
+<p>The behavior is currently undefined for objects with custom annotations or extension classes. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">comparand</td><td>A pointer to the object being compared to this one. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if the objects are identical, 0 if they are different </dd></dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph" alt=""/></div>
+<map name="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph" id="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph">
+<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="127,29,256,55"/>
+</map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_icgraph" alt=""/></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a8988d8dfebd351ebbf2d323289d44b6f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_identified.html">Identified</a>&amp; copy </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td>
-          <td class="paramname"><em>new_doc</em> = <code>NULL</code>, </td>
+          <td class="paramname"><em>target_doc</em> = <code>NULL</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -209,6 +284,227 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a113b3822277bd4853962a60746c3111a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int find </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>uri</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Search this object recursively to see if an object with the URI already exists. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uri</td><td>The URI to search for. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if an object with this URI exists, 0 if it doesn't </dd></dl>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_cgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_cgraph" alt=""/></div>
+</div>
+</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph" alt=""/></div>
+<map name="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph" id="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph">
+<area shape="rect" id="node2" href="classsbol_1_1_functional_component.html#a5d2c1e546359392e22c620e06fa72cc8" title="This method connects module inputs and outputs. " alt="" coords="105,5,289,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_document.html#af19ecb2e26889fcc5368c661b5fbdf98" title="Run validation rules on this Document. Validation rules are called automatically during parsing and s..." alt="" coords="113,68,280,93"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a35bda67dde48ab7e2ad5444854c59115"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; getProperties </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets URIs for all properties contained by this object. </p>
+<p>This includes SBOL core properties as well as custom annotations. Use this to find custom extension data in an SBOL file. </p><dl class="section return"><dt>Returns</dt><dd>A vector of URIs that identify the properties contained in this object </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a473e3642b7aae350da342aed2aba8063"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string getPropertyValue </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>property_uri</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the value of a custom annotation property by its URI. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">property_uri</td><td>The URI for the property </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value of the property or SBOL_ERROR_NOT_FOUND </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac77c72928e1e50863f519c049b1c05c4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; getPropertyValues </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>property_uri</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get all values of a custom annotation property by its URI. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">property_uri</td><td>The URI for the property </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of property values or SBOL_ERROR_NOT_FOUND </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a05b892a9ebcc8529df597d3578560ccf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void register_extension_class </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>ns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>ns_prefix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>class_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Register an extension class and its namespace, so custom data can be embedded into and read from SBOL files. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ExtensionClass</td><td>The new class </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ns</td><td>The extension namespace, eg, <a href="http://myhome.org/my_extension#">http://myhome.org/my_extension#</a>. It's important that the namespace ends in a forward-slash or hash </td></tr>
+    <tr><td class="paramname">ns_prefix</td><td>A shorthand symbol for the full namespace as it will appear in the output file, eg, my_extension </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="adb095291eeab74c6ab015ea611a8afbd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> orientation</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The orientation indicates how a region of double-stranded DNA represented by the parent <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> and its associated <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> are oriented. </p>
+<p>The orientation may be one of the following values. By default it is set to SBOL_ORIENTATION_INLINE. </p><table class="doxtable">
+<tr>
+<th align="left">Orientation URI </th><th align="left">libSBOL Symbol  </th></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#inline">http://sbols.org/v2#inline</a> </td><td align="left">SBOL_ORIENTATION_INLINE </td></tr>
+<tr>
+<td align="left"><a href="http://sbols.org/v2#reverseComplement">http://sbols.org/v2#reverseComplement</a> </td><td align="left">SBOL_ORIENTATION_REVERSE_COMPLEMENT </td></tr>
+</table>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/location.h</li>
 </ul>
@@ -217,15 +513,16 @@ Inheritance diagram for Location:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_location__inherit__graph.png" border="0" usemap="#_location_inherit__map" alt="Inheritance graph"/></div>
 <map name="_location_inherit__map" id="_location_inherit__map">
-<area shape="rect" id="node4" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="28,716,117,856"/>
-<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="5,327,139,520"/>
-<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="8,5,137,279"/>
+<area shape="rect" id="node4" href="classsbol_1_1_cut.html" title="The Cut class specifies a location between two coordinates of a Sequence&#39;s elements. class Cut : public Location. " alt="" coords="5,816,76,916"/>
+<area shape="rect" id="node5" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="100,809,189,923"/>
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="26,433,159,627"/>
+<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="17,5,168,385"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 29 2016 20:59:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 20 2016 17:35:14 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

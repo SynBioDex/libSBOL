@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['definition',['definition',['../classsbol_1_1_module.html#aefb304fbd925689d2be4874a7c4fcb27',1,'sbol::Module']]],
-  ['direction',['direction',['../classsbol_1_1_functional_component.html#a4b94118859e9a837e27bfc8df1253c12',1,'sbol::FunctionalComponent']]]
+  ['component',['component',['../classsbol_1_1_sequence_annotation.html#ae04477e9cb54bddc7cda25a05e4b5538',1,'sbol::SequenceAnnotation']]],
+  ['components',['components',['../classsbol_1_1_component_definition.html#a9ba130a49d9f50e5c3be54a417ea3512',1,'sbol::ComponentDefinition']]]
 ];

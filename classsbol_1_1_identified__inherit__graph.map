@@ -1,16 +1,17 @@
 <map id="Identified" name="Identified">
-<area shape="rect" id="node3" href="$classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="5,581,117,695"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="141,588,240,688"/>
-<area shape="rect" id="node6" href="$classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance..." alt="" coords="265,575,361,701"/>
-<area shape="rect" id="node7" href="$classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="385,581,478,695"/>
-<area shape="rect" id="node8" href="$classsbol_1_1_participation.html" title="Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction..." alt="" coords="502,568,625,708"/>
-<area shape="rect" id="node9" href="$classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="649,568,823,708"/>
-<area shape="rect" id="node10" href="$classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="847,575,1017,701"/>
-<area shape="rect" id="node11" href="$classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="1041,581,1180,695"/>
-<area shape="rect" id="node2" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="433,5,562,279"/>
-<area shape="rect" id="node5" href="$classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="146,836,235,976"/>
-<area shape="rect" id="node12" href="$classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="755,756,962,1056"/>
-<area shape="rect" id="node13" href="$classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="986,843,1081,969"/>
-<area shape="rect" id="node14" href="$classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="1105,809,1271,1003"/>
-<area shape="rect" id="node15" href="$classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="1294,843,1404,969"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="5,688,117,801"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="141,701,240,788"/>
+<area shape="rect" id="node7" href="$classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance..." alt="" coords="265,681,361,808"/>
+<area shape="rect" id="node8" href="$classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="385,688,478,801"/>
+<area shape="rect" id="node9" href="$classsbol_1_1_participation.html" title="Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction..." alt="" coords="502,675,625,815"/>
+<area shape="rect" id="node10" href="$classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="649,675,823,815"/>
+<area shape="rect" id="node11" href="$classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="847,681,1017,808"/>
+<area shape="rect" id="node12" href="$classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="1041,688,1180,801"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="422,5,572,385"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_cut.html" title="The Cut class specifies a location between two coordinates of a Sequence&#39;s elements. class Cut : public Location. " alt="" coords="103,963,174,1063"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="198,956,287,1069"/>
+<area shape="rect" id="node13" href="$classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="755,863,962,1163"/>
+<area shape="rect" id="node14" href="$classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="986,949,1081,1076"/>
+<area shape="rect" id="node15" href="$classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="1105,916,1271,1109"/>
+<area shape="rect" id="node16" href="$classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="1294,949,1404,1076"/>
 </map>

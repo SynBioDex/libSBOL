@@ -1,5 +1,5 @@
 <map id="ComponentDefinition" name="ComponentDefinition">
-<area shape="rect" id="node2" href="$classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="39,568,178,681"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="42,327,176,520"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="44,5,173,279"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="39,675,178,788"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="42,433,176,627"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="34,5,184,385"/>
 </map>
