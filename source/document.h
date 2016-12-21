@@ -490,9 +490,7 @@ namespace sbol {
         }
     };
     
-    /// @tparam SBOLClass The type of the child object
-    /// @param object_id The URI of the child object
-    /// @return A reference to the child object
+
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::get(const std::string object_id)
     {
@@ -603,12 +601,62 @@ namespace sbol {
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };
 
-    /// Copy an object and automatically increment its version. If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs.
-    /// @tparam SBOLClass The type of SBOL object being copied
-    /// @param new_doc The new copies will be attached to this Document.  NULL by default.
-    /// @param ns This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs.
-    /// @param version A new version
-    /// @return The full URI of the created object.
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::remove(int index)
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+            {
+                if (index >= this->sbol_owner->owned_objects[this->type].size())
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+                this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
+            }
+        }
+    };
+    
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::remove(std::string uri)
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+            {
+                std::vector<SBOLObject*>& object_store = this->sbol_owner->owned_objects[this->type];
+                int i_obj = 0;
+                for (; i_obj < object_store.size(); ++i_obj)
+                {
+                    SBOLObject& obj = *object_store[i_obj];
+                    if (uri.compare(obj.identity.get()) == 0)
+                    {
+                        this->remove(i_obj);
+                        break;
+                    }
+                }
+//                if (i_obj < object_store.size())
+//                    this->remove(i_obj);
+            }
+        }
+    };
+    
+    template <class SBOLClass>
+    void OwnedObject<SBOLClass>::clear()
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+            {
+                std::vector<SBOLObject*>& object_store = this->sbol_owner->owned_objects[this->type];
+                for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
+                {
+                    SBOLObject* obj = *i_obj;
+                    obj->close();
+                }
+                object_store.clear();
+            }
+        }
+    };
+    
     template <class SBOLClass>
     SBOLClass& TopLevel::copy(Document* target_doc, std::string ns, std::string version)
     {

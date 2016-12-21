@@ -21,11 +21,11 @@ namespace sbol
     /// An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for serializing and parsing RDF triples
     class SBOLObject
     {
-        friend class Document;
+        friend class Document;  // Probably can remove this, since Document is derived from SBOLObject
         
         template < class LiteralType >
         friend class Property;
-        
+
     protected:
         std::unordered_map<std::string, std::string> namespaces;
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);  // Convert an SBOL object into RDF triples
@@ -36,14 +36,16 @@ namespace sbol
         /// @param ns The extension namespace, eg, http://myhome.org/my_extension#. It's important that the namespace ends in a forward-slash or hash
         /// @param ns_prefix A shorthand symbol for the full namespace as it will appear in the output file, eg, my_extension
         template < class ExtensionClass > void register_extension_class(std::string ns, std::string ns_prefix, std::string class_name);
-
+        
     public:
         Document *doc = NULL;
     
         std::map<sbol::sbol_type, std::vector< std::string > > properties;
         std::map<sbol::sbol_type, std::vector< std::string > > list_properties;
         std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
-    
+
+        URIProperty identity;  // Uniform Resource Identifier for an SBOL object
+
         // Open-world constructor
         SBOLObject(std::string uri = DEFAULT_NS "/SBOLObject/example") : SBOLObject(UNDEFINED, uri) {};
 
@@ -54,7 +56,6 @@ namespace sbol
 
         sbol_type type;
         SBOLObject* parent;
-        URIProperty identity;
     
         virtual sbol_type getTypeURI();
         std::string getClassName(std::string type);
@@ -165,28 +166,7 @@ namespace sbol
         
         std::vector<std::string>::iterator python_iter;
     };
-
-    template <class PropertyType>
-    void List<PropertyType>::remove(std::string uri)
-    {
-        if (this->sbol_owner)
-        {
-            if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
-            {
-                std::vector<SBOLObject*>& object_store = this->sbol_owner->owned_objects[this->type];
-                int i_obj = 0;
-                for (; i_obj <= object_store.size(); ++i_obj)
-                {
-                    SBOLObject& obj = *object_store[i_obj];
-                    if (uri.compare(obj.identity.get()) == 0)
-                        break;
-                }
-                if (i_obj < object_store.size())
-                    this->remove(i_obj);
-            }
-        }
-    };
-
+    
 }
 
 //// This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)

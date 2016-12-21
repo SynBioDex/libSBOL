@@ -215,11 +215,4 @@ std::vector < std::string > SBOLObject::getProperties()
     return property_uris;
 };
 
-//SBOLObject& OwnedObjects::get(int index)
-//{
-//	sbol_owner->owned_objects[index].front();
-//};
 
-//void OwnedObject< class SBOLClass >::remove(std::string uri)
-//{
-//};
