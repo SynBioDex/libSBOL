@@ -46,7 +46,7 @@ IF (SBOL_BUILD_PYTHON3)
     message( "PYTHON INCLUDE DIRS = ${PYTHON_INCLUDE_DIRS}")
     message( "FOUND PYTHON VERSION ${PYTHONLIBS_VERSION_STRING}")
     INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         if (SBOL_BUILD_32)
             set(PYSBOL_TARGET_DIR "Mac_32_3")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
@@ -112,8 +112,75 @@ IF (SBOL_BUILD_PYTHON3)
                                COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
 
         endif()
+    elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+        if (SBOL_BUILD_32)
+            set(PYSBOL_TARGET_DIR "python/libsbol")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
+
+            # build the SWIG wrapper
+            swig_add_module( libsbol32_3
+                python
+                libsbol.i )
+
+            # Do not link in the Python libraries on Linux....
+            swig_link_libraries( libsbol32_3
+                sbol32
+                ${RAPTOR_LIBRARY}
+                ${CURL_LIBRARY}
+                ${LIBXSLT_LIBRARIES}
+#                ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
+#                ${LIBXML2_LIBRARIES}
+#                ${zlib}
+#                ${iconv}
+                )
+
+            # ...rather, resolve Python symbols dynamically due to differing runtime env
+            set_target_properties(_libsbol32_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+
+            # Move target to a new directory and rename it, so the SWIG libraries can be directly copied into the pySBOL project
+
+            file(MAKE_DIRECTORY "${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}")
+            set_target_properties(_libsbol32_3 PROPERTIES OUTPUT_NAME "${PYSBOL_TARGET_DIR}/sbol/_libsbol")
+            add_custom_command(TARGET _libsbol32_3 PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
+            add_custom_command(TARGET _libsbol32_3 POST_BUILD
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
+        endif()
+        if(SBOL_BUILD_64)
+            set(PYSBOL_TARGET_DIR "python/libsbol")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
+
+            # build the SWIG wrapper
+            swig_add_module( libsbol64_3
+                python
+                libsbol.i )
+
+            # Do not link in the Python libraries on Linux....
+            swig_link_libraries( libsbol64_3
+                sbol64
+                ${RAPTOR_LIBRARY}
+                ${CURL_LIBRARY}
+                ${LIBXSLT_LIBRARIES}
+#                ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
+#                ${LIBXML2_LIBRARIES}
+#                ${zlib}
+#                ${iconv}
+                )
+
+            # ...rather, resolve Python symbols dynamically due to differing runtime env
+            set_target_properties(_libsbol64_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+
+            file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
+            set_target_properties(_libsbol64_3 PROPERTIES OUTPUT_NAME "${PYSBOL_TARGET_DIR}/sbol/_libsbol")
+            add_custom_command(TARGET _libsbol64_3 PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
+            add_custom_command(TARGET _libsbol64_3 POST_BUILD
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
+        endif()
     else()
         if (SBOL_BUILD_32)
+            set(PYSBOL_TARGET_DIR "Win_32_3")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
             swig_add_module( libsbol
                 python
                 libsbol.i )		
@@ -124,8 +191,24 @@ IF (SBOL_BUILD_PYTHON3)
                 ${xml2}
                 ${LIBXSLT_LIBRARIES}
                 sbol32)
+            file(MAKE_DIRECTORY "${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}")
+            set_target_properties(_libsbol PROPERTIES OUTPUT_NAME "${PYSBOL_TARGET_DIR}/sbol/_libsbol")
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/__init__.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/sbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/sbol.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/CRISPR_example.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/unit_tests.py)
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/libsbol.py)
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/Release/_libsbol.pyd ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/_libsbol.pyd)
         endif()
         if (SBOL_BUILD_64)
+			set(PYSBOL_TARGET_DIR "Win_64_3")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
             swig_add_module( libsbol
                 python
                 libsbol.i )	
@@ -136,6 +219,20 @@ IF (SBOL_BUILD_PYTHON3)
                 ${xml2}
                 ${LIBXSLT_LIBRARIES}
                 sbol64)
+            file(MAKE_DIRECTORY "${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}")
+            set_target_properties(_libsbol PROPERTIES OUTPUT_NAME "${PYSBOL_TARGET_DIR}/sbol/_libsbol")
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/__init__.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/sbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/sbol.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/CRISPR_example.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/unit_tests.py)
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/libsbol.py)
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/Release/_libsbol.pyd ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/_libsbol.pyd)
         endif()
     endif()
 endif()
@@ -285,6 +382,8 @@ IF (SBOL_BUILD_PYTHON2)
         endif()
     else()
         if (SBOL_BUILD_32)
+            set(PYSBOL_TARGET_DIR "Win_32_2")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
             swig_add_module( libsbol
                 python
                 libsbol.i )
@@ -295,8 +394,23 @@ IF (SBOL_BUILD_PYTHON2)
                 ${xml2}
                 ${LIBXSLT_LIBRARIES}
                 sbol32)
+            file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/__init__.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/sbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/sbol.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/CRISPR_example.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/unit_tests.py)
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/libsbol.py)
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/Release/_libsbol.pyd ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/_libsbol.pyd)			
         endif()
         if (SBOL_BUILD_64)
+            set(PYSBOL_TARGET_DIR "Win_64_2")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
             swig_add_module( libsbol
                 python
                 libsbol.i )
@@ -307,6 +421,19 @@ IF (SBOL_BUILD_PYTHON2)
                 ${xml2}
                 ${LIBXSLT_LIBRARIES}
                 sbol64)
+            file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/__init__.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/sbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/sbol.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/CRISPR_example.py)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/unit_tests.py)
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/libsbol.py)
+            add_custom_command(TARGET _libsbol POST_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/Release/_libsbol.pyd ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol/_libsbol.pyd)
         endif()
     endif()
 endif()
