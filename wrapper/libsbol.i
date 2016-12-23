@@ -587,8 +587,9 @@ f.close()
     def testSBOL():
        import unittest
        import unit_tests
+	   import sys
        suite = unittest.TestLoader().loadTestsFromTestCase(unit_tests.TestRoundTrip)
-       unittest.TextTestRunner(verbosity=2).run(suite)
+       unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(suite)
 %}
 
 %template(componentDefinitionProperty) sbol::Property<sbol::ComponentDefinition>;
