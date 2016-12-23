@@ -37,7 +37,6 @@ endif()
 OPTION( SBOL_BUILD_PYTHON2  "Generate Python version 2 wrapper using SWIG" FALSE )
 OPTION( SBOL_BUILD_PYTHON3  "Generate Python version 3 wrapper using SWIG" FALSE )
 OPTION( SBOL_BUILD_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
-#OPTION( SBOL_BUILD_REST  "Generate RESTful API" FALSE )
 
 # -fPIC from boost Python 
 set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
@@ -45,6 +44,7 @@ set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 # build libSBOLc
 #ADD_SUBDIRECTORY( schema )
 ADD_SUBDIRECTORY( source )
+ADD_SUBDIRECTORY( jsoncpp )
 
 # build examples
 #IF( SBOL_BUILD_EXAMPLES )
@@ -59,10 +59,6 @@ ADD_SUBDIRECTORY( source )
 # generate documentation
 IF( SBOL_BUILD_MANUAL )
     ADD_SUBDIRECTORY( manual )
-ENDIF()
-
-IF( SBOL_BUILD_REST )
-    ADD_SUBDIRECTORY( restbed )
 ENDIF()
 
 IF( SBOL_BUILD_PYTHON2 OR SBOL_BUILD_PYTHON3 )
