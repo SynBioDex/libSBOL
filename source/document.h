@@ -119,7 +119,8 @@ namespace sbol {
 
         /// Serialize all objects in this Document to an RDF/XML file
         /// @param filename The full name of the file you want to write (including file extension)
-        void write(std::string filename);
+        /// @return A string with the validation results, or empty string if validation is disabled
+        std::string write(std::string filename);
 
         /// Read an RDF/XML file and attach the SBOL objects to this Document. Existing contents of the Document will be wiped.
         /// @param filename The full name of the file you want to read (including file extension)
@@ -129,7 +130,11 @@ namespace sbol {
         /// @param filename The full name of the file you want to read (including file extension)
         void append(std::string filename);
         
-        /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization.
+        /// Submit this Document to the online validator.
+        /// @return The validation results
+        std::string request_validation(std::string& sbol);
+
+        /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization. As of libSBOL 2.1.0, validation rules are not fully implemented. Use request_validation instead to access the online validator.
         void validate(void *arg = NULL);
         
         int find(std::string uri);

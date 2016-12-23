@@ -1,6 +1,9 @@
 #include "document.h"
 
 #include <raptor2.h>
+#include <json/json.h>
+#include <curl/curl.h>
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -8,7 +11,7 @@
 #include <vector>
 #include <unordered_map>
 #include <regex>
-
+#include <stdio.h>
 
 using namespace sbol;
 using namespace std;
@@ -821,7 +824,7 @@ void Document::addNamespace(std::string ns, std::string prefix, raptor_serialize
     raptor_serializer_set_namespace(sbol_serializer, ns_uri, ns_prefix);
 };
 
-void Document::write(std::string filename)
+std::string Document::write(std::string filename)
 {
 	// Initialize raptor serializer
 	FILE* fh = fopen(filename.c_str(), "wb");
@@ -885,10 +888,11 @@ void Document::write(std::string filename)
         raptor_serializer_set_namespace_from_namespace(sbol_serializer, extension_namespace);
     }
     
-	// Finalize serialization
+	// Finalize RDF/XML serialization
 	raptor_serializer_serialize_end(sbol_serializer);
 	raptor_free_serializer(sbol_serializer);
 
+    // Convert flat RDF/XML into nested SBOL
 	std::string sbol_buffer_string = std::string((char*)sbol_buffer);
 	const int size = (const int)sbol_buffer_len;
     if (getFileFormat().compare("json") == 0)
@@ -909,10 +913,17 @@ void Document::write(std::string filename)
             cout << "Serialization failed" << endl;
         }
     }
+    
+    // Validate SBOL
+    std::string response = "";
+    if (Config::getOption("validate").compare("True") == 0)
+        response = request_validation(sbol_buffer_string);
+
 	raptor_free_iostream(ios);
     raptor_free_uri(base_uri);
 	fclose(fh);
 
+    return response;
 };
 
 void Document::close(std::string uri)
@@ -1040,6 +1051,100 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         }
     }
     return new_obj;
+};
+
+/* This callback is necessary to get the HTTP response as a string */
+size_t CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_t nmemb, std::string *s)
+{
+    size_t newLength = size*nmemb;
+    size_t oldLength = s->size();
+    try
+    {
+        s->resize(oldLength + newLength);
+    }
+    catch(std::bad_alloc &e)
+    {
+        //handle memory problem
+        return 0;
+    }
+    
+    std::copy((char*)contents,(char*)contents+newLength,s->begin()+oldLength);
+    return size*nmemb;
+};
+
+std::string Document::request_validation(std::string& sbol)
+{
+    /* Form validation options in JSON */
+    Json::Value validationOptions;   // 'root' will contain the root value after parsing.
+
+    vector<string> opts = {"output", "diff", "noncompliantUrisAllowed", "incompleteDocumentsAllowed", "bestPracticesCheck", "failOnFirstError", "displayFullErrorStackTrace", "topLevelToConvert", "uriPrefix", "version"};
+    for (auto const& opt : opts)
+    {
+        if (Config::getOption(opt).compare("True") == 0)
+            validationOptions["validationOptions"][opt] = true;
+        else if (Config::getOption(opt).compare("False") == 0)
+            validationOptions["validationOptions"][opt] = false;
+        else
+            validationOptions["validationOptions"][opt] = Config::getOption(opt);
+    }
+    if (Config::getOption("wantFileBack").compare("True") == 0)
+        validationOptions["wantFileBack"] = true;
+    else if (Config::getOption("wantFileBack").compare("False") == 0)
+        validationOptions["wantFileBack"] = false;
+    validationOptions["mainFile"] = sbol;
+    Json::StyledWriter writer;
+    string json = writer.write( validationOptions );
+    
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validatorURL").c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the POST data */
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+
+    Json::Value json_response;
+    Json::Reader reader;
+    bool parsed = reader.parse( response, json_response );     //parse process
+    if ( parsed )
+    {
+        response = json_response.get("result", response ).asString();
+    }
+    return response;
 };
 
 

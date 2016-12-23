@@ -20,7 +20,8 @@ namespace sbol
                          SBOL_ERROR_INVALID_ARGUMENT,
                          SBOL_ERROR_FILE_NOT_FOUND,
                          SBOL_ERROR_ORPHAN_OBJECT,
-                         SBOL_ERROR_TYPE_MISMATCH
+                         SBOL_ERROR_TYPE_MISMATCH,
+                         SBOL_ERROR_BAD_HTTP_REQUEST
                         };
 
 	//SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);
@@ -32,7 +33,8 @@ namespace sbol
     public:
         explicit SBOLError(SBOLErrorCode error_code, std::string message) :
         message_(message)
-        {};
+        {
+        };
         virtual const char* what() const throw() {
             return message_.c_str();
         }
