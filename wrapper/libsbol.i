@@ -587,7 +587,7 @@ f.close()
     def testSBOL():
        import unittest
        import unit_tests
-	   import sys
+       import sys
        suite = unittest.TestLoader().loadTestsFromTestCase(unit_tests.TestRoundTrip)
        unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(suite)
 %}
