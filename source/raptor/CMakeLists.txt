@@ -63,12 +63,14 @@ ELSE ()  # If Mac OSX or Linux
         find_package( RAPTOR )
         find_package( CURL )
         find_package( LibXslt )
+        find_package( JsonCpp )
     else(NOT SBOL_BUILD_STATIC)
         # Search for Raptor as a dynamic dependency
         set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib)
         find_package( RAPTOR )
         find_package( CURL )
         find_package( LibXslt )
+        find_package( JsonCpp )
     endif(SBOL_BUILD_STATIC)
 
 ENDIF ()
