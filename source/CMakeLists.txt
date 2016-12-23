@@ -62,7 +62,7 @@ ENDIF()
 
 # link against raptor
 #ADD_DEFINITIONS( -DRAPTOR_STATIC -DLIBXML_STATIC)
-ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC)
+ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC -DCURL_STATICLIB)
 
 get_directory_property( DirDefs COMPILE_DEFINITIONS )
 #message( "COMPILE_DEFINITIONS = ${DirDefs}" )
@@ -70,6 +70,8 @@ get_directory_property( DirDefs COMPILE_DEFINITIONS )
 
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    include_directories( ${JSONCPP_INCLUDE_DIR}/..)
+    include_directories( ${CURL_INCLUDE_DIR}/..)
     if(SBOL_BUILD_32)
         message("Configuring for x86")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
@@ -85,10 +87,12 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
                 ${SBOL_SOURCE_FILES})
         endif()
         target_link_libraries( sbol32
-            ${RAPTOR_LIBRARY}
-            ${LIBXML2_LIBRARIES}
+            ${raptor2}
+            ${xml2}
             ${zlib}
             ${iconv}
+            ${jsoncpp}
+            ${libcurl}
             Ws2_32.lib )
         install(TARGETS sbol32 DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
         install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
@@ -109,10 +113,12 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
                 ${SBOL_SOURCE_FILES})
         endif()
         target_link_libraries( sbol64
-            ${RAPTOR_LIBRARY}
-            ${LIBXML2_LIBRARIES}
+            ${raptor2}
+            ${xml2}
             ${zlib}
             ${iconv}
+            ${jsoncpp}
+            ${libcurl}
             Ws2_32.lib )
         install(TARGETS sbol64 DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
         install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
