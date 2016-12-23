@@ -77,6 +77,8 @@ IF (SBOL_BUILD_PYTHON3)
             set_target_properties(_libsbol32_3 PROPERTIES OUTPUT_NAME "${PYSBOL_TARGET_DIR}/sbol/_libsbol")
             add_custom_command(TARGET _libsbol32_3 PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
+            add_custom_command(TARGET _libsbol32_3 PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/test/* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/test)
             add_custom_command(TARGET _libsbol32_3 POST_BUILD
                                COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
         endif()
@@ -108,6 +110,8 @@ IF (SBOL_BUILD_PYTHON3)
             set_target_properties(_libsbol64_3 PROPERTIES OUTPUT_NAME "${PYSBOL_TARGET_DIR}/sbol/_libsbol")
             add_custom_command(TARGET _libsbol64_3 PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
+            add_custom_command(TARGET _libsbol64_3 PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/test/* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/test)
             add_custom_command(TARGET _libsbol64_3 POST_BUILD
                                COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
 
@@ -332,6 +336,8 @@ IF (SBOL_BUILD_PYTHON2)
             file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
             set_target_properties(_libsbol32_2 PROPERTIES OUTPUT_NAME "${PYSBOL_TARGET_DIR}/sbol/_libsbol")
             add_custom_command(TARGET _libsbol32_2 PRE_BUILD COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
+            add_custom_command(TARGET _libsbol32_2 PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/test/* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/test)
             add_custom_command(TARGET _libsbol32_2 POST_BUILD COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
         endif()
         if(SBOL_BUILD_64)
@@ -364,6 +370,8 @@ IF (SBOL_BUILD_PYTHON2)
             file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
             set_target_properties(_libsbol64_2 PROPERTIES OUTPUT_NAME "${PYSBOL_TARGET_DIR}/sbol/_libsbol")
             add_custom_command(TARGET _libsbol64_2 PRE_BUILD COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
+            add_custom_command(TARGET _libsbol64_2 PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/test/* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/test)
             add_custom_command(TARGET _libsbol64_2 POST_BUILD
                                COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/sbol)
         endif()
