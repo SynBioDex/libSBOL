@@ -2,6 +2,7 @@ import unittest
 from sbol import *
 import random
 import string
+import os
 
 #####################
 # utility functions
@@ -11,6 +12,7 @@ URIS_USED = set()
 RANDOM_CHARS = string.ascii_letters
 NUM_FAST_TESTS = 10000
 NUM_SLOW_TESTS =   100
+TEST_LOCATION = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'test')
 
 def random_string(limit=10):
     length = random.randint(0, limit)
@@ -47,11 +49,11 @@ class TestRoundTrip(unittest.TestCase):
         print("Setting up")
 
         self.doc = Document()   # Document for read and write
-        self.doc.read('test.xml')
-        self.doc.write('test_out.xml')
+        self.doc.read(os.path.join(TEST_LOCATION, 'roundTrip.xml'))
+        self.doc.write(os.path.join(TEST_LOCATION, 'roundTrip_out.xml'))
 
         self.doc2 = Document()  # Document to compare for equality
-        self.doc2.read('test_out.xml')
+        self.doc2.read(os.path.join(TEST_LOCATION, 'roundTrip_out.xml'))
 
 
     def tearDown(self):
