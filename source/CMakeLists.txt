@@ -4,6 +4,8 @@ ADD_SUBDIRECTORY( raptor )
 
 # gather headers
 include_directories( ${RAPTOR_INCLUDE_DIR})
+include_directories( ${JsonCpp_INCLUDE_DIR})
+include_directories( ${CURL_INCLUDE_DIR})
 
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES
@@ -67,7 +69,7 @@ ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC)
 get_directory_property( DirDefs COMPILE_DEFINITIONS )
 #message( "COMPILE_DEFINITIONS = ${DirDefs}" )
 
-
+message("${INCLUDE_DIRECTORIES}")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     if(SBOL_BUILD_32)
