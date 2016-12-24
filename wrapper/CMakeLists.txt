@@ -151,7 +151,7 @@ IF (SBOL_BUILD_PYTHON3)
                 )
 
             # ...rather, resolve Python symbols dynamically due to differing runtime env
-            set_target_properties(_libsbol32_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+            #set_target_properties(_libsbol32_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 
             # Move target to a new directory and rename it, so the SWIG libraries can be directly copied into the pySBOL project
 
@@ -192,7 +192,7 @@ IF (SBOL_BUILD_PYTHON3)
                 )
 
             # ...rather, resolve Python symbols dynamically due to differing runtime env
-            set_target_properties(_libsbol64_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+            #set_target_properties(_libsbol64_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 
             file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
             file(MAKE_DIRECTORY ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/test)

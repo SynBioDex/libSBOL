@@ -4,6 +4,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 #include <vector>
+#include <algorithm>
 
 using namespace sbol;
 using namespace std;
