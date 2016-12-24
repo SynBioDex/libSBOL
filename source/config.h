@@ -3,6 +3,8 @@
 
 #include "sbolerror.h"
 #include <string>
+#include <map>
+#include <vector>
 
 namespace sbol
 {
@@ -10,6 +12,8 @@ namespace sbol
     class Config
     {
     private:
+        static std::map<std::string, std::string> options;
+        static std::map<std::string, std::vector<std::string>> valid_options;
         std::string home; ///< The authoritative namespace for the Document. Setting the home namespace is like     signing a piece of paper.
         int SBOLCompliant; ///< Flag indicating whether to autoconstruct URI's consistent with SBOL's versioning scheme
         int SBOLCompliantTypes; ///< Flag indicating whether an object's type is included in SBOL-compliant URIs
@@ -33,6 +37,8 @@ namespace sbol
         int exceptionsEnabled();
         void setFileFormat(std::string file_format);
         std::string getFileFormat();
+        static void setOption(std::string option, std::string value);
+        static std::string getOption(std::string option);
     };
 
     void setHomespace(std::string ns); ///< Set the default namespace for autocreation of URIs when a new SBOL object is created

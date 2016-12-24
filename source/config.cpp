@@ -3,6 +3,8 @@
 #include <string>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
+#include <vector>
+#include <algorithm>
 
 using namespace sbol;
 using namespace std;
@@ -10,6 +12,75 @@ using namespace std;
 extern Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
 //Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
 
+std::map<std::string, std::string> sbol::Config::options {
+    {"validate", "True"},
+    {"validatorURL", "http://www.async.ece.utah.edu/sbol-validator/endpoint.php"},
+    {"output", "SBOL2"},
+    {"diff", "False"},
+    {"noncompliantUrisAllowed", "False"},
+    {"incompleteDocumentsAllowed", "False"},
+    {"bestPracticesCheck", "False"},
+    {"failOnFirstError", "False"},
+    {"displayFullErrorStackTrace", "False"},
+    {"topLevelToConvert", ""},
+    {"uriPrefix", ""},
+    {"version", ""},
+    {"wantFileBack", "False"}
+};
+std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
+    {"validate", { "True", "False" }},
+    {"output", { "SBOL2", "FASTA", "GenBank" }},
+    {"diff", { "True", "False" }},
+    {"noncompliantUrisAllowed", { "True", "False" }},
+    {"incompleteDocumentsAllowed", { "True", "False" }},
+    {"bestPracticesCheck", { "True", "False" }},
+    {"failOnFirstError", { "True", "False" }},
+    {"displayFullErrorStackTrace", { "True", "False" }},
+    {"topLevelToConvert", {"", "True", "False" }},
+    {"wantFileBack", {"True", "False"}}
+};
+
+void sbol::Config::setOption(std::string option, std::string value)
+{
+    if (options.find(option) != options.end())
+    {
+        // Check if this option has valid arguments to validate against
+        if (valid_options.find(option) != valid_options.end())
+        {
+            // Set the option if a valid argument is provided
+            if (std::find(valid_options[option].begin(), valid_options[option].end(), value) != valid_options[option].end())
+                options[option] = value;
+            else
+            {
+                // Format error message
+                std::string msg;
+                for (auto const& arg : valid_options[option]) { msg += arg + ", "; }
+                msg[msg.size()-2] = '.';  // Replace last , with a .
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, value + " not a valid value for this option. Valid options are " + msg);
+
+            }
+        }
+        else
+            // Any argument is valid, eg uriPrefix
+            options[option] = value;
+    }
+    else
+    {
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, option + " not a valid configuration option for libSBOL");
+    }
+};
+
+std::string sbol::Config::getOption(std::string option)
+{
+    if (options.find(option) != options.end())
+    {
+        return options[option];
+    }
+    else
+    {
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, option + " not a valid configuration option for libSBOL");
+    }
+};
 
 // @TODO move sbol_type TYPEDEF declaration to this file and use sbol_type instead of string for 2nd argument
 std::string sbol::constructCompliantURI(std::string sbol_type, std::string display_id, std::string version)

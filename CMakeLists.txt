@@ -1,4 +1,5 @@
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11")
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9")
+set(CMAKE_OSX_SYSROOT /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk)
 
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
 PROJECT( SBOL )
@@ -37,13 +38,17 @@ endif()
 OPTION( SBOL_BUILD_PYTHON2  "Generate Python version 2 wrapper using SWIG" FALSE )
 OPTION( SBOL_BUILD_PYTHON3  "Generate Python version 3 wrapper using SWIG" FALSE )
 OPTION( SBOL_BUILD_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
-#OPTION( SBOL_BUILD_REST  "Generate RESTful API" FALSE )
+OPTION( SBOL_BUILD_JSON  "Build JsonCpp library (for Linux users primarily)" FALSE)
 
-# -fPIC from boost Python 
+# -fPIC from boost Python
 set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
-# build libSBOLc
-#ADD_SUBDIRECTORY( schema )
+# build examples
+IF( SBOL_BUILD_JSON )
+    ADD_SUBDIRECTORY( jsoncpp )
+ENDIF()
+
+# build libSBOL
 ADD_SUBDIRECTORY( source )
 
 # build examples
@@ -59,10 +64,6 @@ ADD_SUBDIRECTORY( source )
 # generate documentation
 IF( SBOL_BUILD_MANUAL )
     ADD_SUBDIRECTORY( manual )
-ENDIF()
-
-IF( SBOL_BUILD_REST )
-    ADD_SUBDIRECTORY( restbed )
 ENDIF()
 
 IF( SBOL_BUILD_PYTHON2 OR SBOL_BUILD_PYTHON3 )

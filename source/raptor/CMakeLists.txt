@@ -19,10 +19,20 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
             NAME libiconv-static.lib
             PATHS ${LINK_DIR}
             )
+        FIND_LIBRARY(jsoncpp
+            NAME jsoncpp.lib
+            PATHS ${LINK_DIR}
+            )
+        FIND_LIBRARY(libcurl
+            NAME libcurl.lib
+            PATHS ${LINK_DIR}
+            )
         INSTALL(FILES ${LINK_DIR}/raptor2.lib DESTINATION lib)
         INSTALL(FILES ${LINK_DIR}/libxml2-static.lib DESTINATION lib)
         INSTALL(FILES ${LINK_DIR}/libz-static.lib DESTINATION lib)
         INSTALL(FILES ${LINK_DIR}/libiconv-static.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/jsoncpp.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/libcurl.lib DESTINATION lib)
     ELSEIF(SBOL_BUILD_64)
         FIND_LIBRARY(raptor2
             NAME raptor2_64.lib
@@ -40,13 +50,29 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
             NAME libiconv-static_64.lib
             PATHS ${LINK_DIR}
             )
+        FIND_LIBRARY(jsoncpp
+            NAME jsoncpp_64.lib
+            PATHS ${LINK_DIR}
+            )
+        FIND_LIBRARY(libcurl
+            NAME libcurl_64.lib
+            PATHS ${LINK_DIR}
+            )
         INSTALL(FILES ${LINK_DIR}/raptor2_64.lib DESTINATION lib)
         INSTALL(FILES ${LINK_DIR}/libxml2-static_64.lib DESTINATION lib)
         INSTALL(FILES ${LINK_DIR}/libz-static_64.lib DESTINATION lib)
         INSTALL(FILES ${LINK_DIR}/libiconv-static_64.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/jsoncpp_64.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR}/libcurl_64.lib DESTINATION lib)
     ENDIF()
     find_path(RAPTOR_INCLUDE_DIR raptor2.h
         PATHS ${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2
+        )
+    find_path(JSONCPP_INCLUDE_DIR json.h
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/include/json
+        )
+    find_path(CURL_INCLUDE_DIR curl.h
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/include/curl
         )
     #MESSAGE(${raptor2})
 
@@ -63,12 +89,14 @@ ELSE ()  # If Mac OSX or Linux
         find_package( RAPTOR )
         find_package( CURL )
         find_package( LibXslt )
+        find_package( JsonCpp )
     else(NOT SBOL_BUILD_STATIC)
         # Search for Raptor as a dynamic dependency
         set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib)
         find_package( RAPTOR )
         find_package( CURL )
         find_package( LibXslt )
+        find_package( JsonCpp )
     endif(SBOL_BUILD_STATIC)
 
 ENDIF ()
@@ -78,10 +106,22 @@ MESSAGE("Found raptor2 library at ${raptor2}")
 if (NOT RAPTOR_INCLUDE_DIR)
     SET( RAPTOR_INCLUDE_DIR		${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2)
 endif ()
+if (NOT JSONCPP_INCLUDE_DIR)
+    SET( JSONCPP_INCLUDE_DIR		${CMAKE_CURRENT_SOURCE_DIR}/include/json)
+endif ()
+if (NOT CURL_INCLUDE_DIR)
+    SET( CURL_INCLUDE_DIR		${CMAKE_CURRENT_SOURCE_DIR}/include/curl)
+endif ()
 
 FILE(GLOB RAPTOR_HEADER_FILES
 	${RAPTOR_INCLUDE_DIR}/*.h )
+FILE(GLOB JSONCPP_HEADER_FILES
+	${JSONCPP_INCLUDE_DIR}/*.h )
+FILE(GLOB CURL_HEADER_FILES
+	${CURL_INCLUDE_DIR}/*.h )    
 FILE(COPY ${RAPTOR_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )
+FILE(COPY ${JSONCPP_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH}/json )
+FILE(COPY ${CURL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH}/curl )
 MESSAGE("Copying ${RAPTOR_HEADER_FILES} to ${HEADER_OUTPUT_PATH}")
 
 

@@ -46,7 +46,7 @@
 #endif
 
 // tell SWIG how to free strings
-%typemap(newfree) char* "free($1);";
+//%typemap(newfree) char* "free($1);";
 
 
 
@@ -87,9 +87,22 @@ namespace std {
 // %template(_ValidationRules) std::vector<sbol::ValidationRule>;
 
 %exception {
-    try {
+    try
+    {
         $function
-    } catch(...) {
+    }
+//    catch(SBOLErrorCode e)
+//    {
+//        PyErr_SetObject(PyExc_RuntimeError, PyInt_FromLong(e));
+//        return NULL;
+//    }
+    catch(SBOLError e)
+    {
+        PyErr_SetString(PyExc_RuntimeError, e.what());
+        return NULL;
+    }
+    catch(...)
+    {
     }
 }
 
@@ -121,7 +134,7 @@ typedef std::string sbol::sbol_type;
     {
         $action
     }
-    catch(SBOLErrorCode exception)
+    catch(SBOLError e)
     {
         PyErr_SetNone(PyExc_StopIteration);
         return NULL;
@@ -135,7 +148,7 @@ typedef std::string sbol::sbol_type;
     {
         $action
     }
-    catch(SBOLErrorCode exception)
+    catch(SBOLError e)
     {
         PyErr_SetNone(PyExc_StopIteration);
 
@@ -171,7 +184,7 @@ typedef std::string sbol::sbol_type;
             }
             return ref;
         }
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");
         return NULL;
     }
     
@@ -188,7 +201,7 @@ typedef std::string sbol::sbol_type;
             }
             return ref;
         }
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");
         return NULL;
     }
     
@@ -238,7 +251,7 @@ namespace sbol
 			}
 			return (SBOLClass*)obj;
 		}
-		throw (END_OF_LIST);
+		throw SBOLError(END_OF_LIST, "");
 		return NULL;
 	}
 
@@ -246,18 +259,14 @@ namespace sbol
     {
         if ($self->python_iter != $self->end())
         {
-            std::cout << "Checkpoint 1" << std::endl;
 
             SBOLObject* obj = *$self->python_iter;
             $self->python_iter++;
-            std::cout << obj->identity.get() << std::endl;
-            std::cout << "Checkpoint 2" << std::endl;
 
             return (SBOLClass*)obj;
         }
-        std::cout << "Checkpoint 3" << std::endl;
 
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");;
         return NULL;
     }
     
@@ -267,6 +276,10 @@ namespace sbol
     }
 };
 
+%ignore sbol::SBOLObject::close;
+%ignore sbol::SBOLObject::properties;
+%ignore sbol::SBOLObject::list_properties;
+%ignore sbol::SBOLObject::owned_objects;
 %include "object.h"
 
 %extend sbol::SBOLObject
@@ -307,7 +320,7 @@ namespace sbol
             }
             return ref;
         }
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");
         return NULL;
     }
     
@@ -323,7 +336,7 @@ namespace sbol
             }
             return ref;
         }
-        throw (END_OF_LIST);
+        throw SBOLError(END_OF_LIST, "");
         return NULL;
     }
     
@@ -535,38 +548,48 @@ namespace sbol
 %template(listOfOwnedFunctionalComponents) sbol::List<sbol::OwnedObject<sbol::FunctionalComponent>>;
 %include "moduledefinition.h"
 
-%pythonappend sbol::Document::write(std::string filename) %{
-import json
-import urllib2
+//%pythonappend sbol::Document::write(std::string filename) %{
+//import json
+//import urllib2
+//
+//sbol = open(filename, 'r')
+//data = {"validationOptions": {"output" : "SBOL2",
+//        "diff": False,
+//        "noncompliantUrisAllowed": False,
+//        "incompleteDocumentsAllowed": False,
+//        "bestPracticesCheck": False,
+//        "failOnFirstError": False,
+//        "displayFullErrorStackTrace": False,
+//        "topLevelToConvert": "",
+//        "uriPrefix": "",
+//        "version": ""},
+//        "wantFileBack": False,
+//        "mainFile": sbol.read()
+//    }
+//sbol.close()
+//data = json.dumps(data)
+//url = 'http://www.async.ece.utah.edu/sbol-validator/endpoint.php'
+//headers = {'content-type': 'application/json'}
+//    
+//req = urllib2.Request(url, data, {'Content-Type': 'application/json'})
+//f = urllib2.urlopen(req)
+//response = json.loads(f.read(), strict=False)
+//if not response['result'] == '':
+//    print (response['result'])
+//else:
+//    print ('Validation successful. No errors found')
+//f.close()
+//    
+//%}
 
-sbol = open(filename, 'r')
-data = {"validationOptions": {"output" : "SBOL2",
-        "diff": False,
-        "noncompliantUrisAllowed": False,
-        "incompleteDocumentsAllowed": False,
-        "bestPracticesCheck": False,
-        "failOnFirstError": False,
-        "displayFullErrorStackTrace": False,
-        "topLevelToConvert": "",
-        "uriPrefix": "",
-        "version": ""},
-        "wantFileBack": False,
-        "mainFile": sbol.read()
-    }
-sbol.close()
-data = json.dumps(data)
-url = 'http://www.async.ece.utah.edu/sbol-validator/endpoint.php'
-headers = {'content-type': 'application/json'}
-    
-req = urllib2.Request(url, data, {'Content-Type': 'application/json'})
-f = urllib2.urlopen(req)
-response = json.loads(f.read(), strict=False)
-if not response['result'] == '':
-    print (response['result'])
-else:
-    print ('Validation successful. No errors found')
-f.close()
-    
+%pythoncode
+%{
+    def testSBOL():
+       import unittest
+       import unit_tests
+       import sys
+       suite = unittest.TestLoader().loadTestsFromTestCase(unit_tests.TestRoundTrip)
+       unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(suite)
 %}
 
 %template(componentDefinitionProperty) sbol::Property<sbol::ComponentDefinition>;
@@ -584,6 +607,14 @@ f.close()
 %template(modelProperty) sbol::Property<sbol::Model>;
 %template(ownedModel) sbol::OwnedObject<sbol::Model>;
 %template(listOfOwnedModels) sbol::List<sbol::OwnedObject<sbol::Model>>;
+    
+%ignore sbol::Document::parse_objects;
+%ignore sbol::Document::parse_properties;
+%ignore sbol::Document::namespaceHandler;
+%ignore sbol::Document::addNamespace;
+%ignore sbol::Document::flatten();
+%ignore sbol::Document::parse_objects;
+%ignore sbol::Document::close;
 %include "document.h"
 
 
