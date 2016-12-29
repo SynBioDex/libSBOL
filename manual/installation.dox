@@ -232,22 +232,27 @@
 /// ```
 ///
 /// @section visual_studio Creating a Visual Studio project on Windows
+/// 
+/// It is strongly recommended to use [Visual Studio 2015](https://www.visualstudio.com/downloads/)
 ///
 /// 1) RUN THE INSTALLER
 /// * Download and run the latest [installer](https://github.com/SynBioDex/libSBOL/releases)
 /// By default this installs to "C:\Program Files (x86)\SBOL" with administrator privileges. If you don't have admin privileges, the installer will let you specify a custom install path.
 ///
 /// 2) CREATE A NEW PROJECT IN VISUAL STUDIO
-/// * Navigate to the File Menu and select New Project.  To jump there directly, hit Ctrl-Shift-N
-/// * In the New Project window, navigate to > Installed > Templates > Visual C++ > Win32 and select Win32 Console Application.
+/// * Navigate to the 'File Menu' and select 'New Project'.  To jump there directly, hit Ctrl-Shift-N
+/// * In the New Project window, navigate to 'Installed > Templates > Visual C++ > Win32' and select 'Win32 Console Application'.
 /// * If you do not want to use defaults, specify a name and location for your client application.  Click OK.
-/// * In the Application Settings tab of the Win32 Application Wizard window, select Console Application for Application type.  Deselect Precompiled Header & SDL Checks.  Click Finish.
+/// * In the 'Application Settings' tab of the 'Win32 Application Wizard' window, select 'Console Application' for 'Application type'.  Deselect 'Precompiled Header' & 'SDL Checks'.  Click Finish.
 ///
 /// 3) SPECIFY DEPENDENCIES
 /// * Navigate to the Project Menu and select the project Properties. or hit Alt+F7 to jump there directly.
 /// * In the dropdown menu in the upper left of the Property Pages window, select Release configuration.
-/// * To specify link libraries, navigate to > Configuration Properties > Linker > Input.  Select the Additional Dependencies field and edit it.  Enter the libraries in this order:  sbol.lib; raptor2.lib; libxml2_a.lib; iconv_a.lib; zlib.lib; ws2_32.lib
-/// * To specify the path where the libraries and header files are located, navigate to > Configuration Properties > VC++ Directories. Edit the  Library Directories field and enter the install path from Step 1.  In addition, edit the Include Directories field and enter the same path.  Click Apply.
+/// * To specify link libraries, navigate to 'Configuration Properties > Linker > Input'.  Select the 'Additional Dependencies' field and edit it.  Enter the following libraries:
+///
+///   sbol.lib; raptor2.lib; libxml2-static.lib; libiconv-static.lib; libz-static.lib; jsoncpp.lib; libcurl.lib
+///
+/// * To specify the path where the libraries and header files are located, navigate to 'Configuration Properties > VC++ Directories'. Edit the  'Library Directories' field and enter the install path from Step 1.  In addition, edit the 'Include Directories' field and enter the same path.  Click Apply. (Make sure that all the libraries you listed above are located under the 'Library Directories'. If not, add addtional directory paths to cover all the libraries)
 ///
 /// 4) INCLUDE SBOL HEADER AND NAMESPACE IN THE CLIENT APP
 /// * Add these lines to your client application and build:
@@ -256,4 +261,8 @@
 /// #include "sbol.h"
 /// using namespace sbol;
 /// ```
+/// 5) If you want to build using 64 bit libraries, make sure you target 'x64' and follow the above steps. In step 3, you might want to change the libraries into:
+///
+///   sbol.lib; raptor2_64.lib; libxml2-static_64.lib; libiconv-static_64.lib; libz-static_64.lib; jsoncpp_64.lib; libcurl_64.lib
+///
 //////////////////////////////////////////////////////////////////////

@@ -31,11 +31,11 @@
 /// Sequence& CDS_seq = *new Sequence("E0040_seq", "atgtaa");
 /// Sequence& terminator_seq = *new Sequence("B0012_seq", "attcga");
 ///
-/// gene.sequence.set(gene_seq.identity.get());
-/// promoter.sequence.set(promoter_seq.identity.get());
-/// CDS.sequence.set(CDS_seq.identity.get());
-/// RBS.sequence.set(RBS_seq.identity.get());
-/// terminator.sequence.set(terminator_seq.identity.get());
+/// gene.sequences.set(gene_seq.identity.get());
+/// promoter.sequences.set(promoter_seq.identity.get());
+/// CDS.sequences.set(CDS_seq.identity.get());
+/// RBS.sequences.set(RBS_seq.identity.get());
+/// terminator.sequences.set(terminator_seq.identity.get());
 /// gene_seq.assemble();
 /// cout << gene_seq.elements.get() << endl;
 /// ```
@@ -103,11 +103,11 @@
 ///
 /// doc.add<Sequence>({&promoter_seq, &CDS_seq, &RBS_seq, &terminator_seq, &gene_seq});
 ///
-/// promoter.sequence.set(promoter_seq.identity.get());
-/// CDS.sequence.set(CDS_seq.identity.get());
-/// RBS.sequence.set(RBS_seq.identity.get());
-/// terminator.sequence.set(terminator_seq.identity.get());
-/// gene.sequence.set(gene_seq.identity.get());
+/// promoter.sequences.set(promoter_seq.identity.get());
+/// CDS.sequences.set(CDS_seq.identity.get());
+/// RBS.sequences.set(RBS_seq.identity.get());
+/// terminator.sequences.set(terminator_seq.identity.get());
+/// gene.sequences.set(gene_seq.identity.get());
 ///
 /// gene_seq.assemble();
 ///
