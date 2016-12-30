@@ -31,6 +31,7 @@
 find_path(CURL_INCLUDE_DIR NAMES curl.h
     PATHS
     /usr/local/opt/curl/include/curl  # Homebrew
+    ~/.linuxbrew/include/curl  # Linuxbrew
     /usr/include/curl  # Linux
     NO_DEFAULT_PATH )
 
@@ -49,6 +50,7 @@ find_library(CURL_LIBRARY NAMES
 
     PATHS
     /usr/local/opt/curl/lib # Homebrew path
+    ~/.linuxbrew/lib
     /usr/lib/i386-linux-gnu  #Linux 32
     /usr/lib/x86_64-linux-gnu #Linux 64
     NO_DEFAULT_PATH )

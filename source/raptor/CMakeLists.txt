@@ -84,24 +84,23 @@ ELSE ()  # If Mac OSX or Linux
     # Search for curl and libxslt dependencies.  These are native system libraries on Mac OSX and can be linked dynamically.
     if(SBOL_BUILD_STATIC)
         # Search for Raptor as a static library
-        set(CMAKE_FIND_LIBRARY_SUFFIXES .so .a)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
         add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC)
-        find_package( RAPTOR )
-        find_package( CURL )
-        find_package( LibXslt )
-        find_package( JsonCpp )
-    else(NOT SBOL_BUILD_STATIC)
-        # Search for Raptor as a dynamic dependency
-        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib)
-        find_package( RAPTOR )
+        find_package( RAPTOR)
         find_package( CURL )
         find_package( LibXslt )
         find_package( JsonCpp )
     endif(SBOL_BUILD_STATIC)
-
+    if(SBOL_BUILD_SHARED)
+        # Search for Raptor as a dynamic dependency
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
+        find_package( RAPTOR )
+        find_package( CURL )
+        find_package( LibXslt )
+        find_package( JsonCpp )
+    endif(SBOL_BUILD_SHARED)
 ENDIF ()
 
-MESSAGE("Found raptor2 library at ${raptor2}")
 
 if (NOT RAPTOR_INCLUDE_DIR)
     SET( RAPTOR_INCLUDE_DIR		${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2)
@@ -122,19 +121,4 @@ FILE(GLOB CURL_HEADER_FILES
 FILE(COPY ${RAPTOR_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )
 FILE(COPY ${JSONCPP_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH}/json )
 FILE(COPY ${CURL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH}/curl )
-MESSAGE("Copying ${RAPTOR_HEADER_FILES} to ${HEADER_OUTPUT_PATH}")
 
-
-
-# Copy the Raptor library headers over
-#SET( RAPTOR_HEADER_DIR		${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2 CACHE PATH "raptor path")
-#FILE(GLOB RAPTOR_HEADER_FILES
-#	${RAPTOR_HEADER_DIR}/*.h )
-#MESSAGE(${RAPTOR_HEADER_FILES})
-#FILE(COPY ${RAPTOR_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )
-#
-#SET( RAPTOR_INCLUDE_DIR		${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2 CACHE PATH "raptor path")
-#FILE(GLOB RAPTOR_HEADER_FILES
-#    ${RAPTOR_INCLUDE_DIR}/*.h )
-#MESSAGE(${RAPTOR_HEADER_FILES})
-#FILE(COPY ${RAPTOR_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )
