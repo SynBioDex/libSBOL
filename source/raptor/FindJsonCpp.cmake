@@ -9,12 +9,13 @@
 # JsonCpp_FOUND - if false the library was not found.
 
 find_path(JsonCpp_INCLUDE_DIR "json/json.h"
+  PATHS ~/.linuxbrew/include
   PATH_SUFFIXES "jsoncpp"
   DOC "Specify the JsonCpp include directory here")
 
 find_library(JsonCpp_LIBRARY
   NAMES jsoncpp
-  PATHS
+  PATHS ~/.linuxbrew/lib  # linuxbrew
   DOC "Specify the JsonCpp library here")
 set(JsonCpp_INCLUDE_DIRS ${JsonCpp_INCLUDE_DIR})
 set(JsonCpp_LIBRARIES "${JsonCpp_LIBRARY}")
