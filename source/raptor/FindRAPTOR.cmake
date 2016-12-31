@@ -75,10 +75,9 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
     find_library(RAPTOR_LIBRARY NAMES raptor2 libraptor2)
     endif ()
     message("Found Raptor at ${RAPTOR_LIBRARY}")
-
-    message("Found Raptor at ${RAPTOR_LIBRARY}")
-    message("$ENV{HOME}")
-    file(GLOB_RECURSE include_files LIST_DIRECTORIES true $ENV{HOME}/.linuxbrew/include/*)
+    message("home: $ENV{HOME}")
+    message("user: $ENV{USER}"
+    file(GLOB_RECURSE include_files LIST_DIRECTORIES true home/$ENV{USER}/.linuxbrew/include/*)
     message("${include_files}")
 
     if (NOT WIN32)
