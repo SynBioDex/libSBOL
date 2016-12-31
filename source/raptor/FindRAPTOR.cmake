@@ -43,8 +43,8 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
               /opt/csw/include   # Blastwave
               /opt/include
               /usr/freeware/include
-              /usr/local/include/raptor2 # Homebrew
-              /usr/local/opt/raptor/include/raptor2 # Homebrew
+              /usr/local/include/raptor2    # Homebrew
+              ~/.linuxbrew/include/raptor2  # linuxbrew
               /usr/include/raptor2
              NO_DEFAULT_PATH)
 
@@ -66,6 +66,7 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
               /usr/freeware/lib64
               /usr/local/lib # Homebrew
               /usr/local/opt/raptor/lib # Homebrew
+              ~/.linuxbrew/lib          # linuxbrew
               /usr/lib/i386-linux-gnu
               /usr/lib/x86_64-linux-gnu
              NO_DEFAULT_PATH)
@@ -73,6 +74,7 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
     if (NOT RAPTOR_LIBRARY)
     find_library(RAPTOR_LIBRARY NAMES raptor2 libraptor2)
     endif ()
+    message("Found Raptor at ${RAPTOR_LIBRARY}")
 
     if (NOT WIN32)
         find_package(PkgConfig)

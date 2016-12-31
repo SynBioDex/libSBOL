@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 /// @page installation Installation
 ///
-/// We provide two ways to install libSBOL: One is to use the binary installers and other is the build from the source.
+/// We provide two ways to install libSBOL: Using the binary installers or building from the source.
 ///
 /// For help configuring a client project, see @ref visual_studio or @ref xcode below.
 ///
@@ -45,20 +45,30 @@
 /// 
 /// 2. [Install CMake for Windows](https://cmake.org/download/)
 ///
-/// 3. Clone the repository by running the following command in git application or command console:
+/// 3. Clone the repository by running the following command in git application or command console or get the stable source [here](https://github.com/SynBioDex/libSBOL/releases/latest):
 /// ```
 /// git clone https://github.com/SynBioDex/libSBOL.git
 /// ```
+/// This will create a libSBOL directory with the source.
 ///
 /// 4. Run CMake. For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for (e.g. Visual Studio 14 2015).
 ///
-/// 5. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located (by default C:\SBOL).
-/// * SBOL_BUILD_STATIC: Builds static archive.  Enabled by default on Windows
-/// * SBOL_BUILD_SHARED: Currently unavailable on Windows
-/// * SBOL_BUILD_32: Build for 32-bit architectures
-/// * SBOL_BUILD_64: Build for 64-bit architectures. Currently unavailable on Windows.
-/// * SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2
-/// * SBOL_BUILD_PYTHON3: Build SWIG-Python wrappers for Python version 3 (not reverse compatible)
+/// 5. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again.
+///
+///   SBOL_BUILD_STATIC: Builds static archive.  Enabled by default on Windows
+///
+///   SBOL_BUILD_SHARED: Currently unavailable on Windows
+///
+///   SBOL_BUILD_32: Build for 32-bit architectures
+///
+///   SBOL_BUILD_64: Build for 64-bit architectures.
+///
+///   SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2
+///
+///   SBOL_BUILD_PYTHON3: Build SWIG-Python wrappers for Python version 3 (not reverse compatible)
+///
+///   If you want to try either 32 bit or 64 bit version of libSBOL, make sure you are using the right type of compiler. (Visual Studio 14 2015 vs Visual Studio 14 2015 Win64).
+///   For Python bindings, you need SWIG and Python libraries. CMake will try to look it up for you, but if it cannot, specify the path manually.
 ///
 /// 6. Once it's all set, click Generate to create the compiler instructions.
 /// 
@@ -72,7 +82,7 @@
 /// mingw32-make install
 /// ```
 /// You will need administrator privileges for a make install.
-/// When using Visual Studio, open 'SBOL.sln' under 'build' folder. Right click INSTALL under Solution Explorer on the right and press Build.
+/// When using Visual Studio, open 'SBOL.sln' under 'build' folder. On the Solution Explorer to the right, right click All_BUILD and press Build. The library will be located under 'release' folder.
 ///
 /// 8. (optional) For Python bindings, copy and paste the sbol folder with Python bindings to your local Python site-packages folder.
 ///
@@ -81,10 +91,11 @@
 /// ---
 /// 1. [Install git for Mac OSX](https://git-scm.com/)
 ///
-/// 2. Clone the repository by running the following command in terminal:
+/// 2. Clone the repository by running the following command in terminal or get the stable source [here](https://github.com/SynBioDex/libSBOL/releases/latest).
 /// ```
 /// git clone https://github.com/SynBioDex/libSBOL.git
 /// ```
+/// This will create a libSBOL directory with the source.
 ///
 /// 3. LibSBOL depends on the RaptorRDF library which can be obtained using the [Homebrew](brew.sh) package manager. Install Raptor by running the following command in terminal:
 /// ```
@@ -100,12 +111,20 @@
 /// 5. For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. 
 /// 
 /// 6. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. By default on Mac OSX, the library will be installed to /usr/local/lib
-/// * SBOL_BUILD_STATIC: Builds static archive.
-/// * SBOL_BUILD_SHARED: Builds a dynamically linked library
-/// * SBOL_BUILD_32: Build for 32-bit architectures.
-/// * SBOL_BUILD_64: Build for 64-bit architectures.
-/// * SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2
-/// * SBOL_BUILD_PYTHON3: Build SWIG-Python wrappers for Python version 3 (not reverse compatible)
+///
+///   SBOL_BUILD_STATIC: Builds static archive.
+///
+///   SBOL_BUILD_SHARED: Builds a dynamically linked library
+///
+///   SBOL_BUILD_32: Build for 32-bit architectures.
+///
+///   SBOL_BUILD_64: Build for 64-bit architectures.
+///
+///   SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2
+///
+///   SBOL_BUILD_PYTHON3: Build SWIG-Python wrappers for Python version 3 (not reverse compatible)
+///
+///   For Python bindings, you need SWIG and Python libraries. CMake will try to look it up for you, but if it cannot, specify the path manually.
 ///
 /// 7. Once it's all set, click Generate to create the compiler instructions.
 ///
@@ -119,6 +138,7 @@
 /// ```
 /// to compile and install to /usr/local/lib.
 /// 
+///
 /// Debian/Ubuntu
 /// -------------
 /// 1. If you're on Debian/Ubuntu you can get git and cmake by running the following command in terminal.
@@ -126,9 +146,9 @@
 /// sudo apt-get install git cmake-qt-gui
 /// ```
 /// Running this command will require sudo privilege.
-/// All the other necessary libraries can be acquired by running the following command in terminal.
+/// All the other necessary dependencies can be acquired by running the following command in terminal.
 /// ```
-/// sudo apt-get install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev
+/// sudo apt-get install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev libjsoncpp-dev
 /// ```
 /// 
 /// 2. (optional) If you want to generate Python wrapper you will need SWIG. To install run:
@@ -141,7 +161,7 @@
 /// sudo apt-get install doxygen-gui
 /// ```
 ///
-/// 4. Clone the repository by running the following command in terminal:
+/// 4. Clone the repository by running the following command in terminal or get the stable source [here](https://github.com/SynBioDex/libSBOL/releases/latest).
 /// ```
 /// git clone https://github.com/SynBioDex/libSBOL.git
 /// ```
@@ -149,7 +169,25 @@
 ///
 /// 5. Run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. 
 /// 
-/// 6. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. If you wish to create Python wrapper, check SBOL_GENERATE_PYTHON, press Configure, and specify SWIG path.
+/// 6. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. 
+///
+///   SBOL_BUILD_STATIC: Builds static archive.
+///
+///   SBOL_BUILD_SHARED: Builds a dynamically linked library
+///
+///   SBOL_BUILD_32: Build for 32-bit architectures.
+///
+///   SBOL_BUILD_64: Build for 64-bit architectures.
+///
+///   SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2
+///
+///   SBOL_BUILD_PYTHON3: Build SWIG-Python wrappers for Python version 3 (not reverse compatible)
+///
+///   For Python bindings, you need SWIG and Python libraries. CMake will try to look it up for you, but if it cannot, specify the path manually.
+///   If you want to build against Python 3.5, you will need to install it in you local machine first. To install run:
+///   ```
+///   sudo apt-get python3.5-dev
+///   ```
 ///
 /// 7. Once it's all set, click Generate to create the compiler instructions.
 /// 
@@ -161,7 +199,7 @@
 /// ```
 /// mingw32-make.exe
 /// ```
-/// to compile.
+/// to compile. The library will be located under 'release' folder.
 ///
 /// 9. (optional) For Python bindings, you might want to add the path of Python bindings as part of PYTHONPATH environment. To do so, run:
 /// ```
@@ -169,9 +207,9 @@
 /// ```
 /// 
 /// @section dependencies Dependencies
-/// LibSBOL depends on libxml2 and raptor libraries for I/O in XML and RDF formats. Windows releases include precompiled binaries for these dependencies libSBOL  On Mac, these libraries are typically installed by default.
+/// LibSBOL depends on libxml2 and raptor2 libraries for I/O in XML and RDF formats. Windows releases include precompiled binaries for these dependencies libSBOL.  On Mac, these libraries are typically installed by default.
 /// 
-/// Optionally, LibSBOL also depends on Restbed for web integration.  This is useful for features like querying biological parts in a repository or validating SBOL files.  This dependency also has subdependencies and is managed by Git's submodule feature.  After cloning the libSBOL project, you will also need to clone the submodules:
+/// Optionally, LibSBOL depends on libCurl and Jsoncpp for web integration. This is useful for features like querying biological parts in a repository or validating SBOL files.  This dependency is managed by Git's submodule feature.  After cloning the libSBOL project, you can clone the submodules if you wish to build it along with libSBOL:
 /// ```
 /// git submodule update --init --recursive
 /// ```
@@ -194,22 +232,27 @@
 /// ```
 ///
 /// @section visual_studio Creating a Visual Studio project on Windows
+/// 
+/// It is strongly recommended to use [Visual Studio 2015](https://www.visualstudio.com/downloads/)
 ///
 /// 1) RUN THE INSTALLER
 /// * Download and run the latest [installer](https://github.com/SynBioDex/libSBOL/releases)
 /// By default this installs to "C:\Program Files (x86)\SBOL" with administrator privileges. If you don't have admin privileges, the installer will let you specify a custom install path.
 ///
 /// 2) CREATE A NEW PROJECT IN VISUAL STUDIO
-/// * Navigate to the File Menu and select New Project.  To jump there directly, hit Ctrl-Shift-N
-/// * In the New Project window, navigate to > Installed > Templates > Visual C++ > Win32 and select Win32 Console Application.
+/// * Navigate to the 'File Menu' and select 'New Project'.  To jump there directly, hit Ctrl-Shift-N
+/// * In the New Project window, navigate to 'Installed > Templates > Visual C++ > Win32' and select 'Win32 Console Application'.
 /// * If you do not want to use defaults, specify a name and location for your client application.  Click OK.
-/// * In the Application Settings tab of the Win32 Application Wizard window, select Console Application for Application type.  Deselect Precompiled Header & SDL Checks.  Click Finish.
+/// * In the 'Application Settings' tab of the 'Win32 Application Wizard' window, select 'Console Application' for 'Application type'.  Deselect 'Precompiled Header' & 'SDL Checks'.  Click Finish.
 ///
 /// 3) SPECIFY DEPENDENCIES
 /// * Navigate to the Project Menu and select the project Properties. or hit Alt+F7 to jump there directly.
 /// * In the dropdown menu in the upper left of the Property Pages window, select Release configuration.
-/// * To specify link libraries, navigate to > Configuration Properties > Linker > Input.  Select the Additional Dependencies field and edit it.  Enter the libraries in this order:  sbol.lib; raptor2.lib; libxml2_a.lib; iconv_a.lib; zlib.lib; ws2_32.lib
-/// * To specify the path where the libraries and header files are located, navigate to > Configuration Properties > VC++ Directories. Edit the  Library Directories field and enter the install path from Step 1.  In addition, edit the Include Directories field and enter the same path.  Click Apply.
+/// * To specify link libraries, navigate to 'Configuration Properties > Linker > Input'.  Select the 'Additional Dependencies' field and edit it.  Enter the following libraries:
+///
+///   sbol.lib; raptor2.lib; libxml2-static.lib; libiconv-static.lib; libz-static.lib; jsoncpp.lib; libcurl.lib
+///
+/// * To specify the path where the libraries and header files are located, navigate to 'Configuration Properties > VC++ Directories'. Edit the  'Library Directories' field and enter the install path from Step 1.  In addition, edit the 'Include Directories' field and enter the same path.  Click Apply. (Make sure that all the libraries you listed above are located under the 'Library Directories'. If not, add addtional directory paths to cover all the libraries)
 ///
 /// 4) INCLUDE SBOL HEADER AND NAMESPACE IN THE CLIENT APP
 /// * Add these lines to your client application and build:
@@ -218,4 +261,8 @@
 /// #include "sbol.h"
 /// using namespace sbol;
 /// ```
+/// 5) If you want to build using 64 bit libraries, make sure you target 'x64' and follow the above steps. In step 3, you might want to change the libraries into:
+///
+///   sbol.lib; raptor2_64.lib; libxml2-static_64.lib; libiconv-static_64.lib; libz-static_64.lib; jsoncpp_64.lib; libcurl_64.lib
+///
 //////////////////////////////////////////////////////////////////////

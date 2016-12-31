@@ -96,7 +96,7 @@
 /// ``` 
 /// ComponentDefinition& EYFPGene = *new ComponentDefinition("EYFPGene", BIOPAX_DNA);
 /// Sequence& seq = *new Sequence("EYFPSequence", "atgnnntaa", SBOL_ENCODING_IUPAC);
-/// EYFPGene.sequence.set(seq.identity.get());
+/// EYFPGene.sequences.set(seq.identity.get());
 /// ```
 /// @section lists_of_objects Iterating and Indexing Lists
 /// Some properties can contain multiple values or objects. As mentioned under @ref optional_fields additional values can be specified with the add method.  In addition you may iterate over lists of objects or values.
