@@ -76,7 +76,7 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
     endif ()
     message("Found Raptor at ${RAPTOR_LIBRARY}")
     message("home: $ENV{HOME}")
-    message("user: $ENV{USER}"
+    message("user: $ENV{USER}")
     file(GLOB_RECURSE include_files LIST_DIRECTORIES true home/$ENV{USER}/.linuxbrew/include/*)
     message("${include_files}")
 
