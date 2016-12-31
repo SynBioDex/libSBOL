@@ -1,69 +1,70 @@
 # Get the binaries for the dependencies
-set( LINK_DIR				${CMAKE_CURRENT_SOURCE_DIR}/lib )
+set( LINK_DIR_x86				${CMAKE_CURRENT_SOURCE_DIR}/lib/x86 )
+set( LINK_DIR_x64				${CMAKE_CURRENT_SOURCE_DIR}/lib/x64 )
 set( BUILD_SHARED_LIBS OFF )
 IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     IF(SBOL_BUILD_32)
         FIND_LIBRARY(raptor2
             NAME raptor2.lib
-            PATHS ${LINK_DIR}
+            PATHS ${LINK_DIR_x86}
             )
         FIND_LIBRARY(xml2
-            NAME libxml2-static.lib
-            PATHS ${LINK_DIR}
+            NAME libxml2.lib
+            PATHS ${LINK_DIR_x86}
             )
         FIND_LIBRARY(zlib
-            NAME libz-static.lib
-            PATHS ${LINK_DIR}
+            NAME libz.lib
+            PATHS ${LINK_DIR_x86}
             )
         FIND_LIBRARY(iconv
-            NAME libiconv-static.lib
-            PATHS ${LINK_DIR}
+            NAME libiconv.lib
+            PATHS ${LINK_DIR_x86}
             )
         FIND_LIBRARY(jsoncpp
             NAME jsoncpp.lib
-            PATHS ${LINK_DIR}
+            PATHS ${LINK_DIR_x86}
             )
         FIND_LIBRARY(libcurl
             NAME libcurl.lib
-            PATHS ${LINK_DIR}
+            PATHS ${LINK_DIR_x86}
             )
-        INSTALL(FILES ${LINK_DIR}/raptor2.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/libxml2-static.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/libz-static.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/libiconv-static.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/jsoncpp.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/libcurl.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x86}/raptor2.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x86}/libxml2.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x86}/libz.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x86}/libiconv.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x86}/jsoncpp.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x86}/libcurl.lib DESTINATION lib)
     ELSEIF(SBOL_BUILD_64)
         FIND_LIBRARY(raptor2
-            NAME raptor2_64.lib
-            PATHS ${LINK_DIR}
+            NAME raptor2.lib
+            PATHS ${LINK_DIR_x64}
             )
         FIND_LIBRARY(xml2
-            NAME libxml2-static_64.lib
-            PATHS ${LINK_DIR}
+            NAME libxml2.lib
+            PATHS ${LINK_DIR_x64}
             )
         FIND_LIBRARY(zlib
-            NAME libz-static_64.lib
-            PATHS ${LINK_DIR}
+            NAME libz.lib
+            PATHS ${LINK_DIR_x64}
             )
         FIND_LIBRARY(iconv
-            NAME libiconv-static_64.lib
-            PATHS ${LINK_DIR}
+            NAME libiconv.lib
+            PATHS ${LINK_DIR_x64}
             )
         FIND_LIBRARY(jsoncpp
-            NAME jsoncpp_64.lib
-            PATHS ${LINK_DIR}
+            NAME jsoncpp.lib
+            PATHS ${LINK_DIR_x64}
             )
         FIND_LIBRARY(libcurl
-            NAME libcurl_64.lib
-            PATHS ${LINK_DIR}
+            NAME libcurl.lib
+            PATHS ${LINK_DIR_x64}
             )
-        INSTALL(FILES ${LINK_DIR}/raptor2_64.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/libxml2-static_64.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/libz-static_64.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/libiconv-static_64.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/jsoncpp_64.lib DESTINATION lib)
-        INSTALL(FILES ${LINK_DIR}/libcurl_64.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x64}/raptor2.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x64}/libxml2.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x64}/libz.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x64}/libiconv.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x64}/jsoncpp.lib DESTINATION lib)
+        INSTALL(FILES ${LINK_DIR_x64}/libcurl.lib DESTINATION lib)
     ENDIF()
     find_path(RAPTOR_INCLUDE_DIR raptor2.h
         PATHS ${CMAKE_CURRENT_SOURCE_DIR}/include/raptor2

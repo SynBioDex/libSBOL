@@ -74,6 +74,7 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
     if (NOT RAPTOR_LIBRARY)
     find_library(RAPTOR_LIBRARY NAMES raptor2 libraptor2)
     endif ()
+    message("Found Raptor at ${RAPTOR_LIBRARY}")
 
     message("Found Raptor at ${RAPTOR_LIBRARY}")
     message("$ENV{HOME}")
