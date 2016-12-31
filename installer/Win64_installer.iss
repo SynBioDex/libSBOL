@@ -37,7 +37,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 ; Specify the file paths!
 [Files]
 Source: ".\release_2_{#MyArchitecture}\library\Release\sbol.lib"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\source\raptor\lib\*"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\source\raptor\lib\x64\*"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\release_2_{#MyArchitecture}\library\include\*"; DestDir: "{app}\include"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
