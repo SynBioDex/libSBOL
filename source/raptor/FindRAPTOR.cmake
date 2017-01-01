@@ -45,6 +45,7 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
               /usr/freeware/include
               /usr/local/include/raptor2    # Homebrew
               $ENV{HOME}/.linuxbrew/include/raptor2  # linuxbrew
+              $ENV{LINUXBREW}/include/raptor2
               /usr/include/raptor2
              NO_DEFAULT_PATH)
 
@@ -75,7 +76,7 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
     message("Found Raptor at ${RAPTOR_LIBRARY}")
     message("home: $ENV{HOME}")
     message("user: $ENV{USER}")
-    file(GLOB_RECURSE include_files LIST_DIRECTORIES true home/$ENV{USER}/.linuxbrew/include/*)
+    file(GLOB_RECURSE include_files LIST_DIRECTORIES true $ENV{LINUXBREW}/include/*)
     message("${include_files}")
 
     if (NOT WIN32)
