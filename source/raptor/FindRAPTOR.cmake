@@ -48,9 +48,7 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
               /usr/include/raptor2
              NO_DEFAULT_PATH)
 
-    if (NOT RAPTOR_INCLUDE_DIR)
-        find_path(RAPTOR_INCLUDE_DIR raptor2.h)
-    endif ()
+    find_path(RAPTOR_INCLUDE_DIR raptor2.h)
 
     find_library(RAPTOR_LIBRARY 
         NAMES raptor2 libraptor2
