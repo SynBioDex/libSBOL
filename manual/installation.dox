@@ -51,9 +51,9 @@
 /// ```
 /// This will create a libSBOL directory with the source.
 ///
-/// 4. Run CMake. For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for (e.g. Visual Studio 14 2015).
+/// 4. Run CMake. For "Where is the source code" enter the path to your top libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for (e.g. Visual Studio 14 2015).
 ///
-/// 5. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again.
+/// 5. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. Building Python wrapper requires SWIG.
 ///
 ///   SBOL_BUILD_STATIC: Builds static archive.  Enabled by default on Windows
 ///
@@ -72,7 +72,7 @@
 ///
 /// 6. Once it's all set, click Generate to create the compiler instructions.
 /// 
-/// 7. The last step is to build the libraries. We recommend minGW or Visual Studio for this purpose.
+/// 7. The last step is to build the libraries. We recommend minGW or Visual Studio 2015 for this purpose.
 /// When using minGW, first go to 'build' folder and run the compiler by using
 /// ```
 /// mingw32-make
@@ -82,7 +82,7 @@
 /// mingw32-make install
 /// ```
 /// You will need administrator privileges for a make install.
-/// When using Visual Studio, open 'SBOL.sln' under 'build' folder. On the Solution Explorer to the right, right click All_BUILD and press Build. The library will be located under 'release' folder.
+/// When using Visual Studio, open 'SBOL.sln' under 'build' folder. On the Solution Explorer to the right, right click INSTALL and press Build. The library will be located under the folder you specified in CMAKE_INSTALL_PREFIX.
 ///
 /// 8. (optional) For Python bindings, copy and paste the sbol folder with Python bindings to your local Python site-packages folder.
 ///
@@ -108,9 +108,9 @@
 /// ccmake .
 /// ```
 ///
-/// 5. For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. 
+/// 5. For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. 
 /// 
-/// 6. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. By default on Mac OSX, the library will be installed to /usr/local/lib
+/// 6. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. By default on Mac OSX, the library will be installed to /usr/local/lib. Building Python wrapper requires SWIG.
 ///
 ///   SBOL_BUILD_STATIC: Builds static archive.
 ///
@@ -167,9 +167,9 @@
 /// ```
 /// This will create a libSBOL directory with the source. 
 ///
-/// 5. Run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder. Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. 
+/// 5. Run CMake (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. 
 /// 
-/// 6. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. 
+/// 6. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. Building Python wrapper requires SWIG.
 ///
 ///   SBOL_BUILD_STATIC: Builds static archive.
 ///
@@ -199,7 +199,7 @@
 /// ```
 /// mingw32-make.exe
 /// ```
-/// to compile. The library will be located under 'release' folder.
+/// to compile. The library will be located under the folder you specified in CMAKE_INSTALL_PREFIX.
 ///
 /// 9. (optional) For Python bindings, you might want to add the path of Python bindings as part of PYTHONPATH environment. To do so, run:
 /// ```
