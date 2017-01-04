@@ -51,7 +51,7 @@ find_library(LIBXSLT_LIBRARIES
                    /usr/lib/i386-linux-gnu
                    /usr/lib/x86_64-linux-gnu
                    )
-
+message("LIBXSLT_INCLUDE_DIR: ${LIBXSLT_INCLUDE_DIR}")
 #find_library(LIBXSLT_EXSLT_LIBRARY NAMES exslt libexslt
 #HINTS
 #${PC_LIBXSLT_LIBDIR}
