@@ -33,7 +33,8 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_MODEL, (SBOLObject&(*)()) &create<Model>),
     make_pair(SBOL_SEQUENCE_CONSTRAINT, (SBOLObject&(*)()) &create<SequenceConstraint>),
     make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>),
-    make_pair(SBOL_MAPS_TO, (SBOLObject&(*)()) &create<MapsTo>)
+    make_pair(SBOL_MAPS_TO, (SBOLObject&(*)()) &create<MapsTo>),
+    make_pair(SBOL_CUT, (SBOLObject&(*)()) &create<Cut>)
 
 };
 

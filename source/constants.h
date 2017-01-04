@@ -39,6 +39,7 @@
 #define SBOL_LOCATION SBOL_URI "#Location"
 #define SBOL_DOCUMENT SBOL_URI "#Document"
 #define SBOL_RANGE SBOL_URI "#Range"
+#define SBOL_CUT SBOL_URI "#Cut"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */
