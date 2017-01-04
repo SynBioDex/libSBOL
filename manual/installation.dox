@@ -99,7 +99,7 @@
 ///
 /// 3. LibSBOL depends on the RaptorRDF library which can be obtained using the [Homebrew](brew.sh) package manager. Install Raptor by running the following command in terminal:
 /// ```
-/// brew install raptor
+/// brew install raptor jsoncpp libxslt curl
 /// ```
 /// Homebrew isn’t the only option. Other package installers are MacPorts and Fink.
 ///
