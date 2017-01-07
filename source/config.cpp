@@ -147,38 +147,42 @@ std::string sbol::getCompliantURI(std::string uri_prefix, std::string sbol_class
 /// @param uri A URI
 std::string sbol::parseClassName(std::string uri)
 {
-    std::size_t uri_subordinate_pos = uri.find("#") + 1;
+    std::size_t uri_subordinate_pos = uri.find_last_of("#");
     if (uri_subordinate_pos != std::string::npos)
     {
+        uri_subordinate_pos += 1;
         std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
         return sbol_class;
     }
-    uri_subordinate_pos = uri.find("/", 0) + 1;
+    uri_subordinate_pos = uri.find_last_of("/", uri.size());
     if (uri_subordinate_pos != std::string::npos)
     {
+        uri_subordinate_pos += 1;
         std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
         return sbol_class;
     }
     else
-        throw;
+        return "";
 };
 
 std::string sbol::parseNamespace(std::string uri)
 {
-    std::size_t uri_subordinate_pos = uri.find("#") + 1;
+    std::size_t uri_subordinate_pos = uri.find_last_of("#");
     if (uri_subordinate_pos != std::string::npos)
     {
+        uri_subordinate_pos += 1;
         std::string ns = uri.substr(0, uri_subordinate_pos);
         return ns;
     }
-    uri_subordinate_pos = uri.find("/", 0) + 1;
+    uri_subordinate_pos = uri.find_last_of("/", uri.size());
     if (uri_subordinate_pos != std::string::npos)
     {
+        uri_subordinate_pos += 1;
         std::string ns = uri.substr(0, uri_subordinate_pos);
         return ns;
     }
     else
-        throw;
+        return "";
 };
 
 std::string sbol::parsePropertyName(std::string uri)
