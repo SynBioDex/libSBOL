@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <regex>
 #include <stdio.h>
+#include <ctype.h>
 
 using namespace sbol;
 using namespace std;
@@ -173,9 +174,9 @@ void sbol::seek_end_of_line(std::istringstream& xml_buffer)
 	return;
 };
 
-void sbol::seek_resource(std::istringstream& xml_buffer, std::string property_name, std::string uri)
+void sbol::seek_resource(std::istringstream& xml_buffer, std::string qname, std::string resource_uri)
 {
-	string SEARCH_TOKEN = NODENAME_RESOURCE "=\"" + uri + "\"";
+	string SEARCH_TOKEN = NODENAME_RESOURCE "=\"" + resource_uri + "\"";
 	seek_next_element(xml_buffer);
 	while (xml_buffer)
 	{
@@ -184,10 +185,10 @@ void sbol::seek_resource(std::istringstream& xml_buffer, std::string property_na
 		// This assumes xml elements have a certain form which is not generally true,
 		// so sometimes the parsed qname and resource_id will not make sense
 		vector<string> subtokens = parse_element(xml_buffer);
-        string qname = subtokens.front();
+        string qname_query = subtokens.front();
         string sbol_property_id = SBOL_URI "#" + get_local_part(qname);
-		string resource_id = subtokens.back();
-        if (resource_id.compare(SEARCH_TOKEN) == 0 && sbol_property_id.compare(property_name) == 0 && is_open_node(xml_buffer))
+		string resource_query = subtokens.back();
+        if (qname_query.compare(qname) == 0 && resource_query.compare(SEARCH_TOKEN) == 0 && is_open_node(xml_buffer))
 		{
 			xml_buffer.seekg(START_OF_ELEMENT);
 			return;
@@ -307,7 +308,6 @@ void sbol::replace_reference_to_resource(std::string& xml_string, const std::str
 {
 	int repl_start, repl_end, repl_length, node_start, indentation;
 	string qname;
-    
 	istringstream xml_buffer;
 	xml_buffer.str(xml_string);
     seek_property_element(xml_buffer, property_name);
@@ -375,7 +375,6 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 		// Recurse through each object in the object store that belongs to this property
 		std::string property_name = i->first;
 		vector<SBOLObject*> object_store = i->second;
-
 		if (object_store.size() > 0)
 		{
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
@@ -386,7 +385,7 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
                 try
                 {
-                    replace_reference_to_resource(rdfxml_string, property_name, id, cut_text);
+                    replace_reference_to_resource(rdfxml_string, doc->makeQName(property_name), id, cut_text);
                 }
                 catch(...)
                 {
@@ -414,9 +413,10 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
 		// Checks if the object has already been created and whether a constructor for this type of object exists
-		if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
+		//if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
+        if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{
-			SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();  // Call constructor for the appropriate SBOLObject
+            SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();  // Call constructor for the appropriate SBOLObject
 
 			// Wipe default property values passed from default constructor. New property values will be added as properties are parsed from the input file
 			for (auto it = new_obj.properties.begin(); it != new_obj.properties.end(); it++)
@@ -446,6 +446,18 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
             if (check_top_level)
                 doc->owned_objects[new_obj.type].push_back(&new_obj);  // Adds objects to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc
 		}
+        // Generic TopLevels
+        else if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 0))
+        {
+            std::cout << "Creating extension object " << subject << std::endl;
+            SBOLObject& new_obj = *new SBOLObject();  // Call constructor for the appropriate SBOLObject
+            new_obj.identity.set(subject);
+            new_obj.type = object;
+            // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
+            // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
+            doc->SBOLObjects[new_obj.identity.get()] = &new_obj;
+            new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
+        }
 	}
 
 }
@@ -457,8 +469,6 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 	string subject = reinterpret_cast<char*>(raptor_term_to_string(triple->subject));
 	string predicate = reinterpret_cast<char*>(raptor_term_to_string(triple->predicate));
 	string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
-
-
 
 	string id = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from the uri
 	string property_uri = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
@@ -474,7 +484,7 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 		string property_ns = property_uri.substr(0, found);
 		string property_name = property_uri.substr(found + 1, subject.length() - 1);
 		// If property name is something other than "type" than the triple matches the pattern for defining properties
-		if (property_uri.compare(RDF_URI "#type") != 0)
+		if (property_uri.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") != 0)
 		{
 			// Checks if the object to which this property belongs already exists
 			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
@@ -484,18 +494,12 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 				// Decide if this triple corresponds to a simple property, a list property, an owned property or a referenced property
 				if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
 				{
-					// TODO: double-check this, is there a memory-leak here?
+					// TODO: double-check this, is there a memory-leak here?`
+                    
                     if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
                         sbol_obj->properties[property_uri].clear();  // Clear an empty property
 					sbol_obj->properties[property_uri].push_back(property_value);
 				}
-				// TODO: the list_properties member should be deprecated, use properties member instead
-//				else if (sbol_obj->list_properties.find(property_uri) != sbol_obj->list_properties.end())
-//				{
-//                    if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
-//                        sbol_obj->properties[property_uri].clear();
-//                    sbol_obj->list_properties[property_uri].push_back(property_value);
-//				}
 				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
 				{
 					// Strip off the angle brackets from the URI value.  Note that a Document's object_store
@@ -514,8 +518,35 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 				}
                 // Extension data
                 else
-                    sbol_obj->properties[property_uri].push_back(property_value);
-
+                {
+                    // Determine if the property value refers to another object or is a literal. Start by searching the Document's object store if an object exists.
+                    // Strip off the angle brackets from the URI value.  Note that a Document's object_store
+                    // and correspondingly, an SBOLObject's property_store uses stripped URIs as keys,
+                    // while libSBOL uses as a convention angle brackets or quotes for Literal values
+                    string putative_obj_id = property_value.substr(1, property_value.length() - 2);
+                    if (doc->SBOLObjects.find(putative_obj_id) != doc->SBOLObjects.end())
+                    {
+                        SBOLObject *owned_obj = doc->SBOLObjects[putative_obj_id];
+                        // Confirm property is a nested child object, not a simple URI reference.
+                        string property_name = parsePropertyName(property_uri);
+                        property_name[0] = toupper(property_name[0]);
+                        string class_name = parseClassName(owned_obj->type);
+                        if (property_name.compare(class_name) == 0)
+                        {
+                            sbol_obj->owned_objects[property_uri].push_back(owned_obj);
+                            owned_obj->parent = sbol_obj;
+                            doc->SBOLObjects.erase(putative_obj_id);
+                        }
+                        else
+                        {
+                            sbol_obj->properties[property_uri].push_back(property_value);
+                        }
+                    }
+                    else
+                    {
+                        sbol_obj->properties[property_uri].push_back(property_value);
+                    }
+                }
 			}
 		}
 	}

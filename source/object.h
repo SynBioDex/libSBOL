@@ -30,7 +30,8 @@ namespace sbol
         std::unordered_map<std::string, std::string> namespaces;
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);  // Convert an SBOL object into RDF triples
         std::string nest(std::string& rdfxml_buffer);  // Pretty-writer that converts flat RDF/XML into nested RDF/XML (ie, SBOL)
-        
+        std::string makeQName(std::string uri);
+
         /// Register an extension class and its namespace, so custom data can be embedded into and read from SBOL files
         /// @tparam ExtensionClass The new class
         /// @param ns The extension namespace, eg, http://myhome.org/my_extension#. It's important that the namespace ends in a forward-slash or hash

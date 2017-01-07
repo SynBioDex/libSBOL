@@ -267,7 +267,7 @@ namespace sbol {
 	void seek_end_of_line(std::istringstream& xml_buffer);
 	void seek_end_of_element(std::istringstream& xml_buffer);
 	void seek_end_of_node(std::istringstream& xml_buffer, std::string uri);
-    void seek_resource(std::istringstream& xml_buffer, std::string property_name, std::string uri);
+    void seek_resource(std::istringstream& xml_buffer, std::string qname, std::string resource_uri);
 	bool is_open_node(std::istringstream& xml_buffer);
 	void indent(std::string& text, int indentation); 
 	std::string get_qname(std::istringstream& xml_buffer);

@@ -178,6 +178,19 @@ int SBOLObject::find(string uri)
     return 0;
 };
 
+string SBOLObject::makeQName(string uri)
+{
+    string ns = parseNamespace(uri);
+    string local_id = parsePropertyName(uri);
+    string qname = "";
+    for(auto const& i_ns : this->namespaces)
+    {
+        if (ns.compare(i_ns.second) == 0)
+            qname = i_ns.first + ":" + local_id;
+        cout << ns << "\t" << i_ns.second << std::endl;
+    }
+    return qname;
+};
 
 std::string SBOLObject::getPropertyValue(std::string property_uri)
 {
