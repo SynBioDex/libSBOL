@@ -35,8 +35,9 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_SEQUENCE_CONSTRAINT, (SBOLObject&(*)()) &create<SequenceConstraint>),
     make_pair(SBOL_RANGE, (SBOLObject&(*)()) &create<Range>),
     make_pair(SBOL_MAPS_TO, (SBOLObject&(*)()) &create<MapsTo>),
-    make_pair(SBOL_CUT, (SBOLObject&(*)()) &create<Cut>)
-
+    make_pair(SBOL_CUT, (SBOLObject&(*)()) &create<Cut>),
+    make_pair(SBOL_COLLECTION, (SBOLObject&(*)()) &create<Collection>),
+    make_pair(SBOL_GENERIC_LOCATION, (SBOLObject&(*)()) &create<GenericLocation>)
 };
 
 
@@ -380,9 +381,12 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
 			{
 				SBOLObject* obj = *o;
+                std::cout << rdfxml_string << std::endl;
                 rdfxml_string = obj->nest(rdfxml_string);  // Recurse, start nesting with leaf objects
                 string id = obj->identity.get();
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
+                std::cout << rdfxml_string << std::endl;
+                getchar();
                 try
                 {
                     replace_reference_to_resource(rdfxml_string, doc->makeQName(property_name), id, cut_text);
@@ -449,13 +453,13 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
         // Generic TopLevels
         else if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 0))
         {
-            std::cout << "Creating extension object " << subject << std::endl;
             SBOLObject& new_obj = *new SBOLObject();  // Call constructor for the appropriate SBOLObject
             new_obj.identity.set(subject);
             new_obj.type = object;
             // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
             // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
             doc->SBOLObjects[new_obj.identity.get()] = &new_obj;
+            std::cout << "Adding extension object " << new_obj.identity.get() << " : " << doc->SBOLObjects.count(subject) << std::endl;
             new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
         }
 	}
@@ -536,14 +540,17 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
                             sbol_obj->owned_objects[property_uri].push_back(owned_obj);
                             owned_obj->parent = sbol_obj;
                             doc->SBOLObjects.erase(putative_obj_id);
+                            cout << "Adding " << putative_obj_id << " to "<< property_uri << " of " << id << endl;
                         }
                         else
                         {
+                            cout << "Setting " << property_uri << " of " << id << " to " << property_value << endl;
                             sbol_obj->properties[property_uri].push_back(property_value);
                         }
                     }
                     else
                     {
+                        cout << "Setting " << property_uri << " of " << id << " to " << property_value << endl;
                         sbol_obj->properties[property_uri].push_back(property_value);
                     }
                 }
@@ -645,7 +652,7 @@ void Document::append(std::string filename)
     
 	FILE* fh = fopen(filename.c_str(), "rb");
     if (!fh)
-        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File not found");
+        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + filename + " not found");
 	//raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
     raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, getFileFormat().c_str());
 

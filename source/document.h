@@ -9,6 +9,7 @@
 #include "moduledefinition.h"
 #include "module.h"
 #include "model.h"
+#include "collection.h"
 
 #include <raptor2.h>
 #include <unordered_map>

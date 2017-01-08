@@ -187,7 +187,6 @@ string SBOLObject::makeQName(string uri)
     {
         if (ns.compare(i_ns.second) == 0)
             qname = i_ns.first + ":" + local_id;
-        cout << ns << "\t" << i_ns.second << std::endl;
     }
     return qname;
 };

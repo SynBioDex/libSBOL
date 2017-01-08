@@ -40,6 +40,8 @@
 #define SBOL_DOCUMENT SBOL_URI "#Document"
 #define SBOL_RANGE SBOL_URI "#Range"
 #define SBOL_CUT SBOL_URI "#Cut"
+#define SBOL_COLLECTION SBOL_URI "#Collection"
+#define SBOL_GENERIC_LOCATION SBOL_URI "#GenericLocation"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */
@@ -83,6 +85,7 @@
 #define SBOL_ORIENTATION SBOL_URI "#orientation"
 #define SBOL_LOCATIONS SBOL_URI "#location"
 #define SBOL_ROLE_INTEGRATION SBOL_URI "#roleIntegration"
+#define SBOL_MEMBERS SBOL_URI "#member"
 #define SBOL_AT SBOL_URI "#at"
 
 /* SBOL internal ontologies */
