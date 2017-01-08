@@ -65,7 +65,7 @@ namespace sbol
         /// Search this object recursively to see if an object with the URI already exists.
         /// @param uri The URI to search for.
         /// @return 1 if an object with this URI exists, 0 if it doesn't
-        int find(std::string uri);
+        SBOLObject* find(std::string uri);
         
         /// Compare two SBOL objects or Documents. The behavior is currently undefined for objects with custom annotations or extension classes.
         /// @param comparand A pointer to the object being compared to this one.

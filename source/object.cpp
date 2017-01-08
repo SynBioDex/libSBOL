@@ -161,10 +161,27 @@ int SBOLObject::compare(SBOLObject* comparand)
         return 0;
 };
 
-int SBOLObject::find(string uri)
+//int SBOLObject::find(string uri)
+//{
+//    if (identity.get() == uri)
+//        return 1;
+//    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+//    {
+//        vector<SBOLObject*>& store = i_store->second;
+//        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+//        {
+//            SBOLObject& obj = **i_obj;
+//            if (obj.find(uri))
+//                return 1;
+//        }
+//    }
+//    return 0;
+//};
+
+SBOLObject* SBOLObject::find(string uri)
 {
     if (identity.get() == uri)
-        return 1;
+        return this;
     for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
     {
         vector<SBOLObject*>& store = i_store->second;
@@ -172,10 +189,10 @@ int SBOLObject::find(string uri)
         {
             SBOLObject& obj = **i_obj;
             if (obj.find(uri))
-                return 1;
+                return this;
         }
     }
-    return 0;
+    return NULL;
 };
 
 string SBOLObject::makeQName(string uri)

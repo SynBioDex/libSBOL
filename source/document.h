@@ -138,12 +138,15 @@ namespace sbol {
         /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization. As of libSBOL 2.1.0, validation rules are not fully implemented. Use request_validation instead to access the online validator.
         void validate(void *arg = NULL);
         
-        int find(std::string uri);
+        SBOLObject* find(std::string uri);
 
+        // Handler-functions for the Raptor library's RDF parsers
         static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
+        void parse_annotation_objects();
 
+        
         std::vector<std::string> getNamespaces();
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
         void addNamespace(std::string ns, std::string prefix);

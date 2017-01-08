@@ -381,12 +381,12 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
 			{
 				SBOLObject* obj = *o;
-                std::cout << rdfxml_string << std::endl;
+//                std::cout << rdfxml_string << std::endl;
                 rdfxml_string = obj->nest(rdfxml_string);  // Recurse, start nesting with leaf objects
                 string id = obj->identity.get();
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
-                std::cout << rdfxml_string << std::endl;
-                getchar();
+//                std::cout << rdfxml_string << std::endl;
+//                getchar();
                 try
                 {
                     replace_reference_to_resource(rdfxml_string, doc->makeQName(property_name), id, cut_text);
@@ -523,41 +523,55 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
                 // Extension data
                 else
                 {
-                    // Determine if the property value refers to another object or is a literal. Start by searching the Document's object store if an object exists.
-                    // Strip off the angle brackets from the URI value.  Note that a Document's object_store
-                    // and correspondingly, an SBOLObject's property_store uses stripped URIs as keys,
-                    // while libSBOL uses as a convention angle brackets or quotes for Literal values
-                    string putative_obj_id = property_value.substr(1, property_value.length() - 2);
-                    if (doc->SBOLObjects.find(putative_obj_id) != doc->SBOLObjects.end())
-                    {
-                        SBOLObject *owned_obj = doc->SBOLObjects[putative_obj_id];
-                        // Confirm property is a nested child object, not a simple URI reference.
-                        string property_name = parsePropertyName(property_uri);
-                        property_name[0] = toupper(property_name[0]);
-                        string class_name = parseClassName(owned_obj->type);
-                        if (property_name.compare(class_name) == 0)
-                        {
-                            sbol_obj->owned_objects[property_uri].push_back(owned_obj);
-                            owned_obj->parent = sbol_obj;
-                            doc->SBOLObjects.erase(putative_obj_id);
-                            cout << "Adding " << putative_obj_id << " to "<< property_uri << " of " << id << endl;
-                        }
-                        else
-                        {
-                            cout << "Setting " << property_uri << " of " << id << " to " << property_value << endl;
-                            sbol_obj->properties[property_uri].push_back(property_value);
-                        }
-                    }
-                    else
-                    {
-                        cout << "Setting " << property_uri << " of " << id << " to " << property_value << endl;
-                        sbol_obj->properties[property_uri].push_back(property_value);
-                    }
+                    cout << "Setting " << property_uri << " of " << id << " to " << property_value << endl;
+                    sbol_obj->properties[property_uri].push_back(property_value);
                 }
 			}
 		}
 	}
+};
+
+void Document::parse_annotation_objects()
+{
+    for (auto &i_obj : this->SBOLObjects)
+    {
+        SBOLObject& obj = *i_obj.second;
+        bool IS_TOP_LEVEL;
+        cout << "Casting " << obj.identity.get() << " to TopLevel : ";
+        if (obj.properties.find(SBOL_PERSISTENT_IDENTITY) != obj.properties.end())
+            cout << "PASSED" << endl;
+        else
+            cout << "FAILED" << endl;
+        getchar();
+    }
+    // Determine if the property value refers to another object or is a literal. Start by searching the Document's object store if an object exists.
+    // Strip off the angle brackets from the URI value.  Note that a Document's object_store
+    // and correspondingly, an SBOLObject's property_store uses stripped URIs as keys,
+    // while libSBOL uses as a convention angle brackets or quotes for Literal values
+//    string putative_obj_id = property_value.substr(1, property_value.length() - 2);
+//    if (doc->SBOLObjects.find(putative_obj_id) != doc->SBOLObjects.end())
+//    {
+//        SBOLObject *owned_obj = doc->SBOLObjects[putative_obj_id];
+//        // Confirm property is a nested child object, not a simple URI reference.
+//        string property_name = parsePropertyName(property_uri);
+//        property_name[0] = toupper(property_name[0]);
+//        string class_name = parseClassName(owned_obj->type);
+//        if (property_name.compare(class_name) == 0)
+//        {
+//            sbol_obj->owned_objects[property_uri].push_back(owned_obj);
+//            owned_obj->parent = sbol_obj;
+//            doc->SBOLObjects.erase(putative_obj_id);
+//            cout << "Adding " << putative_obj_id << " to "<< property_uri << " of " << id << endl;
+//        }
+//        else
+//        {
+//            cout << "Setting " << property_uri << " of " << id << " to " << property_value << endl;
+//            sbol_obj->properties[property_uri].push_back(property_value);
+//        }
+//    }
 }
+
+
 
 void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
 {
@@ -602,15 +616,27 @@ std::vector<std::string> Document::getNamespaces()
     return ns_list;
 };
 
-int Document::find(std::string uri)
+//int Document::find(std::string uri)
+//{
+//    for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+//    {
+//        SBOLObject& obj = *i_obj->second;
+//        if (obj.find(uri) == 1)
+//            return 1;
+//    }
+//    return 0;
+//};
+
+SBOLObject* Document::find(std::string uri)
 {
     for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
     {
         SBOLObject& obj = *i_obj->second;
-        if (obj.find(uri) == 1)
-            return 1;
+        SBOLObject* match = obj.find(uri) ;
+        if (match)
+            return match;
     }
-    return 0;
+    return NULL;
 };
 
 
@@ -677,6 +703,8 @@ void Document::append(std::string filename)
 	raptor_free_uri(base_uri);
 	raptor_free_iostream(ios);
 	raptor_free_parser(rdf_parser);
+
+    parse_annotation_objects();
     
     this->validate();
 
