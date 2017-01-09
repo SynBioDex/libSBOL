@@ -51,7 +51,7 @@ namespace sbol
 		~Property();
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
-        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+//        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
         virtual std::vector<std::string> getAll();
         virtual void set(std::string new_value);    ///< Basic setter for SBOL TextProperty and URIProperty.
         virtual void set(int new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
@@ -157,35 +157,35 @@ namespace sbol
         return *sbol_owner;
     }
     
-    /// @ingroup extension_layer
-    /// @return All properties are initially read from an SBOL file as a raw string containing the property value.
-    template <class LiteralType>
-    std::string Property<LiteralType>::get()
-    {
-        if (this->sbol_owner)
-        {
-            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
-            {
-                // not found
-                throw;
-            }
-            else
-            {
-                // found
-                if (this->sbol_owner->properties[type].size() == 0)
-                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
-                else
-                {
-                    std::string value = this->sbol_owner->properties[type].front();
-                    value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
-                    return value;
-                }
-            }
-        }	else
-        {
-            throw;
-        }
-    };
+//    /// @ingroup extension_layer
+//    /// @return All properties are initially read from an SBOL file as a raw string containing the property value.
+//    template <class LiteralType>
+//    std::string Property<LiteralType>::get()
+//    {
+//        if (this->sbol_owner)
+//        {
+//            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+//            {
+//                // not found
+//                throw;
+//            }
+//            else
+//            {
+//                // found
+//                if (this->sbol_owner->properties[type].size() == 0)
+//                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+//                else
+//                {
+//                    std::string value = this->sbol_owner->properties[type].front();
+//                    value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+//                    return value;
+//                }
+//            }
+//        }	else
+//        {
+//            throw;
+//        }
+//    };
 
     template <class LiteralType>
     std::vector<std::string> Property<LiteralType>::getAll()

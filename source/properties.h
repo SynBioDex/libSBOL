@@ -21,6 +21,8 @@ namespace sbol
     class URIProperty : public Property<std::string>
 	{
 	public:
+        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+
         URIProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, std::string initial_value = "", ValidationRules validation_rules = {}) :
 			Property(type_uri, property_owner, "<" + initial_value + ">", validation_rules)
 		{
@@ -32,6 +34,8 @@ namespace sbol
 	class TextProperty : public Property<std::string>
 	{
 	public:
+        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+
 		TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
 			Property(type_uri, property_owner, "\"" + initial_value + "\"")
 		{
@@ -43,6 +47,8 @@ namespace sbol
 	class IntProperty : public Property<int>
 	{
 	public:
+        virtual int get();                  ///< Basic getter for all SBOL literal properties.
+
 		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0) :
 			Property(type_uri, property_owner, initial_value)
 		{
@@ -50,6 +56,8 @@ namespace sbol
 
 	};
 
+
+    
     /// @ingroup extension_layer
     /// @brief Contains a version number for an SBOL object.
     /// The VersionProperty follows Maven versioning semantics and includes a major, minor, and patch version number. Specifically, libSBOL currently only supports using '.' as a delimiter. Ex: v2.0.1.  If the user does not want to follow Maven versioning, they can specify an arbitrary version string using the set() method.

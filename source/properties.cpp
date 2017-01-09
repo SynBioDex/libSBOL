@@ -9,6 +9,90 @@
 using namespace sbol;
 using namespace std;
 
+/// @return A string literal
+std::string TextProperty::get()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw;
+        }
+        else
+        {
+            // found
+            if (this->sbol_owner->properties[type].size() == 0)
+                throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::string value = this->sbol_owner->properties[type].front();
+                value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                return value;
+            }
+        }
+    }	else
+    {
+        throw;
+    }
+};
+
+/// @return A string of characters used to identify a resource
+std::string URIProperty::get()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw;
+        }
+        else
+        {
+            // found
+            if (this->sbol_owner->properties[type].size() == 0)
+                throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::string value = this->sbol_owner->properties[type].front();
+                value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                return value;
+            }
+        }
+    }	else
+    {
+        throw;
+    }
+};
+
+/// @return An integer
+int IntProperty::get()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw;
+        }
+        else
+        {
+            // found
+            if (this->sbol_owner->properties[type].size() == 0)
+                throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::string value = this->sbol_owner->properties[type].front();
+                value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                return stoi(value);
+            }
+        }
+    }	else
+    {
+        throw;
+    }
+};
+
 void VersionProperty::incrementMinor()
 {
     pair< vector<string>, vector<string> > v = this->split();
