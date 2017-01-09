@@ -34,11 +34,7 @@
 /// $ g++ -c ../source/*.cpp -I../source -I/usr/local/include/raptor2 -std=c++11
 /// $ ar rcs libsbol.a *.o
 /// ```
-/// Now link and run your client application:
-/// ```
-/// $ g++ -std=c++11 -I../source -I/usr/local/include/raptor2 -L/usr/local/lib -lraptor2 -ljsoncpp -lcurl -lsbol client_app.cpp -o client_app 
-/// $ ./client_app
-/// ```
+/// For more details on running libSBOL on Mac, check @ref xcode.
 /// ![Screenshot of Cmake-gui in Windows](cmakescreen.png)
 ///
 /// Windows

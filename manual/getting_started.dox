@@ -135,11 +135,16 @@
 /// * In the Project Navigation pane, select the blue XCode icon next to your project name. This should expose the Build Settings in the main window.  Under Search Paths, specify the Header Search Path and Library Search Paths to point to your local build. You will also need to specify the library path to raptor, which should be in /usr/local/lib if you used a 3rd party package installer like Homebrew
 /// * Also under Build Settings under the Linking sections, specify Other Linker Flags as "-lsbol -lraptor2"
 /// * Fix path to the example file necessary.
-/// * Add these lines to your client application and build:
+/// * Add these lines to your client application:
 ///
 /// ```
 /// #include "sbol.h"
 /// using namespace sbol;
+/// ```
+/// Now link and run your client application:
+/// ```
+/// $ g++ -std=c++11 -I../source -I/usr/local/include/raptor2 -L/usr/local/lib -lraptor2 -ljsoncpp -lcurl -lsbol client_app.cpp -o client_app 
+/// $ ./client_app
 /// ```
 ///
 /// @section visual_studio Creating a Visual Studio project on Windows
