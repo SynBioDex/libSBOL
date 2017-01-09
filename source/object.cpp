@@ -46,6 +46,23 @@ int SBOLObject::compare(SBOLObject* comparand)
         return 0;
     };
 
+    if (type.compare(SBOL_DOCUMENT) == 0)
+    {
+        vector < string > ns_list = {};
+        vector < string > comparand_ns_list = {};
+        for (auto &i_ns : namespaces)
+            ns_list.push_back(i_ns.second);
+        for (auto &i_ns : comparand->namespaces)
+            comparand_ns_list.push_back(i_ns.second);
+        sort(ns_list.begin(), ns_list.end());
+        sort(comparand_ns_list.begin(), comparand_ns_list.end());
+        if (!equal(ns_list.begin(), ns_list.end(), comparand_ns_list.begin()))
+        {
+            cout << "Namespaces do not match" << endl;
+            int IS_EQUAL = 0;
+        }
+    }
+    
     std::string l_id;
     std::string r_id;
     std::map < std::string, std::vector<std::string> >::iterator i_lp;  // iterator for left-hand side

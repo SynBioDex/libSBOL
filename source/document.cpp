@@ -459,7 +459,7 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
             // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
             // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
             doc->SBOLObjects[new_obj.identity.get()] = &new_obj;
-            std::cout << "Adding extension object " << new_obj.identity.get() << " : " << doc->SBOLObjects.count(subject) << std::endl;
+//            std::cout << "Adding extension object " << new_obj.identity.get() << " : " << doc->SBOLObjects.count(subject) << std::endl;
             new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
         }
 	}
@@ -523,7 +523,7 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
                 // Extension data
                 else
                 {
-                    cout << "Setting " << property_uri << " of " << id << " to " << property_value << endl;
+//                    cout << "Setting " << property_uri << " of " << id << " to " << property_value << endl;
                     sbol_obj->properties[property_uri].push_back(property_value);
                 }
 			}
@@ -704,7 +704,7 @@ void Document::append(std::string filename)
 	raptor_free_iostream(ios);
 	raptor_free_parser(rdf_parser);
 
-    parse_annotation_objects();
+//    parse_annotation_objects();
     
     this->validate();
 
