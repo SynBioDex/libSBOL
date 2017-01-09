@@ -585,11 +585,11 @@ namespace sbol
 %pythoncode
 %{
     def testSBOL():
-       import unittest
-       import unit_tests
-       import sys
-       suite = unittest.TestLoader().loadTestsFromTestCase(unit_tests.TestRoundTrip)
-       unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(suite)
+        """
+        Function to run test suite for pySBOL
+        """
+        import unit_tests
+        unit_tests.runTests()
 %}
 
 %template(componentDefinitionProperty) sbol::Property<sbol::ComponentDefinition>;
