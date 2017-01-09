@@ -3,6 +3,7 @@ from sbol import *
 import random
 import string
 import os
+import sys
 
 #####################
 # utility functions
@@ -13,6 +14,7 @@ RANDOM_CHARS = string.ascii_letters
 NUM_FAST_TESTS = 10000
 NUM_SLOW_TESTS =   100
 TEST_LOCATION = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'test')
+TEST_FILES = os.listdir(TEST_LOCATION)
 
 def random_string(limit=10):
     length = random.randint(0, limit)
@@ -46,21 +48,32 @@ def random_invalid_position(limit=1000):
 
 class TestRoundTrip(unittest.TestCase):
     def setUp(self):
-        print("Setting up")
-
-        self.doc = Document()   # Document for read and write
-        self.doc.read(os.path.join(TEST_LOCATION, 'roundTrip.xml'))
-        self.doc.write(os.path.join(TEST_LOCATION, 'roundTrip_out.xml'))
-
-        self.doc2 = Document()  # Document to compare for equality
-        self.doc2.read(os.path.join(TEST_LOCATION, 'roundTrip_out.xml'))
-
+        pass
 
     def tearDown(self):
         pass
 
-    def test_round_trip(self):
+    def run_round_trip(self, test_file):
+        if test_file.endswith('xml'):
+            file_format = '.xml'
+        elif test_file.endswith('rdf'):
+            file_format = '.rdf'
+        self.doc = Document()   # Document for read and write
+        self.doc.read(os.path.join(TEST_LOCATION, os.path.splitext(test_file)[0] + file_format))
+        self.doc.write(os.path.join(TEST_LOCATION, os.path.splitext(test_file)[0] + '_out' + file_format))
+
+        self.doc2 = Document()  # Document to compare for equality
+        self.doc2.read(os.path.join(TEST_LOCATION, os.path.splitext(test_file)[0] + '_out' + file_format))
         self.assertEqual(self.doc.compare(self.doc2), 1)
+        os.remove(os.path.join(TEST_LOCATION, os.path.splitext(test_file)[0] + '_out' + file_format))
+    
+    def test_case00(self):
+        print(str(TEST_FILES[0]))
+        self.run_round_trip(str(TEST_FILES[0]))
+        
+    def test_case01(self):
+        print(str(TEST_FILES[1]))
+        self.run_round_trip(str(TEST_FILES[1]))
 
 
 #class TestSBOLObject(unittest.TestCase):
@@ -244,6 +257,20 @@ class TestRoundTrip(unittest.TestCase):
 #            col.components += com
 #            self.assertTrue(com in col.components)
 #            self.assertEqual(len(col.components), n+1)
+
+# List of tests
+test_list = [TestRoundTrip]
+
+def runTests():
+    print("Setting up")
+    suite_list = []
+    loader = unittest.TestLoader()
+    for test_class in test_list:
+        suite = loader.loadTestsFromTestCase(test_class)
+        suite_list.append(suite)
+   
+    full_test_suite = unittest.TestSuite(suite_list)
+    unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(full_test_suite)
 
 if __name__ == '__main__':
     unittest.main()

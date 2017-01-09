@@ -19,7 +19,7 @@ find_library(JsonCpp_LIBRARY
   DOC "Specify the JsonCpp library here")
 set(JsonCpp_INCLUDE_DIRS ${JsonCpp_INCLUDE_DIR})
 set(JsonCpp_LIBRARIES "${JsonCpp_LIBRARY}")
-
+message("JsonCpp_INCLUDE_DIR: ${JsonCpp_INCLUDE_DIR}")
 set(_JsonCpp_version_args)
 if (EXISTS "${JsonCpp_INCLUDE_DIR}/json/version.h")
   file(STRINGS "${JsonCpp_INCLUDE_DIR}/json/version.h" _JsonCpp_version_contents REGEX "JSONCPP_VERSION_[A-Z]+")
