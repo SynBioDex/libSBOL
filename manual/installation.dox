@@ -70,7 +70,7 @@
 ///
 /// 6. Once it's all set, click Generate to create the compiler instructions.
 /// 
-/// 7. The last step is to build the libraries. We recommend minGW or Visual Studio 2015 for this purpose.
+/// 7. The last step is to build the libraries. We recommend minGW or Visual Studio 2015 for this purpose. When building, make sure that you are building for 'release' target.
 /// When using minGW, first go to 'build' folder and run the compiler by using
 /// ```
 /// mingw32-make
