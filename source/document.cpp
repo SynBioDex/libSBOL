@@ -676,12 +676,12 @@ void Document::append(std::string filename)
 
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
     
-    if (not filename.empty() and filename[0] == '~') {
-        if (not filename[1] == '/'){
+    if (filename != "" && filename[0] == '~') {
+        if (filename[1] != '/'){
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Malformed input path. Potentially missing slash.");
         }
         char const* home = getenv("HOME");
-        if (home or (home = getenv("USERPROFILE"))) {
+        if (home || (home = getenv("USERPROFILE"))) {
             filename.replace(0, 1, home);
         }
     }
@@ -903,12 +903,12 @@ void Document::addNamespace(std::string ns, std::string prefix, raptor_serialize
 std::string Document::write(std::string filename)
 {
 	// Initialize raptor serializer
-    if (not filename.empty() and filename[0] == '~') {
-        if (not filename[1] == '/'){
+    if (filename != "" && filename[0] == '~') {
+        if (filename[1] != '/'){
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Malformed output path. Potentially missing slash.");
         }
         char const* home = getenv("HOME");
-        if (home or (home = getenv("USERPROFILE"))) {
+        if (home || (home = getenv("USERPROFILE"))) {
             filename.replace(0, 1, home);
         }
     }
