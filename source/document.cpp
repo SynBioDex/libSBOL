@@ -13,6 +13,7 @@
 #include <regex>
 #include <stdio.h>
 #include <ctype.h>
+#include <wordexp.h>
 
 using namespace sbol;
 using namespace std;
@@ -675,10 +676,11 @@ void Document::append(std::string filename)
 {
 
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
-    
-	FILE* fh = fopen(filename.c_str(), "rb");
+    wordexp_t exp_result;
+    wordexp(filename.c_str(), &exp_result, 0);
+    FILE* fh = fopen(exp_result.we_wordv[0], "rb");
     if (!fh)
-        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + filename + " not found");
+        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + exp_result.we_wordv[0] + " not found");
 	//raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
     raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, getFileFormat().c_str());
 
@@ -708,7 +710,8 @@ void Document::append(std::string filename)
     
     this->validate();
 
-	fclose(fh);
+    fclose(fh);
+    wordfree(&exp_result);
 }
 
 
@@ -894,8 +897,11 @@ void Document::addNamespace(std::string ns, std::string prefix, raptor_serialize
 std::string Document::write(std::string filename)
 {
 	// Initialize raptor serializer
-	FILE* fh = fopen(filename.c_str(), "wb");
-	raptor_world* world = getWorld();
+    wordexp_t exp_result;
+    wordexp(filename.c_str(), &exp_result, 0);
+    FILE* fh = fopen(exp_result.we_wordv[0], "wb");
+    wordfree(&exp_result);
+    raptor_world* world = getWorld();
     raptor_serializer* sbol_serializer;
     if (getFileFormat().compare("rdfxml") == 0)
         sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
