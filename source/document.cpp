@@ -353,6 +353,15 @@ void sbol::indent(std::string& text, int indentation)
 	}
 };
 
+string sbol::convert_ntriples_encoding_to_ascii(string s)
+{
+    s = regex_replace(s, regex("\\\\\""), "\"");
+    s = regex_replace(s, regex("\\\\\\\\"), "\\");
+//    s = regex_replace(s, regex("\\\""), "x");
+//    s = regex_replace(s, regex("\\\\"), "\\");
+    return s;
+};
+
 // Not finished!  A general recursive algorith which returns a flattened vector of all the objects in the document
 vector<SBOLObject *> Document::flatten()
 {
@@ -477,7 +486,7 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 	string id = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from the uri
 	string property_uri = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
 	//string property_value = object.substr(1, object.length() - 2);  // Removes flanking " from literal
-	string property_value = object;
+	string property_value = convert_ntriples_encoding_to_ascii(object);
     std::size_t found = property_uri.find_last_of('#');
     if (found == std::string::npos)
     {

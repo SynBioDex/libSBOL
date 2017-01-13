@@ -261,7 +261,8 @@ namespace sbol {
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
 	};
     
-    
+    // Convert ntriple encoding down to ascii, removing escape codes. See https://www.w3.org/TR/2004/REC-rdf-testcases-20040210/#ntrip_strings
+    std::string convert_ntriples_encoding_to_ascii(std::string s);
 	std::string cut_sbol_resource(std::string& xml_string, const std::string resource_id);
     void replace_reference_to_resource(std::string& xml_string, const std::string property_name, const std::string resource_id, std::string& replacement_text);
 	void seek_element(std::istringstream& xml_buffer, std::string uri);
