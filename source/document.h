@@ -238,15 +238,21 @@ namespace sbol {
         // In SBOLCompliant mode, the user may retrieve an object by persistentIdentity as well
         if (isSBOLCompliant())
         {
-            // Assume the uri argument is a persistentIdentity
-            std::string persistent_id = uri;
-            std::vector < std::string > ids;
+            std::vector < std::string > ids;  // Contains all URIs contaning the persistentIdentity
             
             // Search the Document's object map for  property's object store for all URIs prefixed with the persistentIdentity
             for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
             {
                 std::string obj_id = i_obj->first;
-                if (obj_id.find(persistent_id) != std::string::npos)
+                SBOLObject* obj = i_obj->second;
+                std::string persistent_id = "";
+
+                if (obj->properties.find(SBOL_PERSISTENT_IDENTITY) != obj->properties.end())
+                {
+                    persistent_id = obj->properties[SBOL_PERSISTENT_IDENTITY][0];
+                    persistent_id = persistent_id.substr(1, persistent_id.size() - 2);  // Removes flanking " from the version field
+                }
+                if (uri.compare(persistent_id) == 0)
                     ids.push_back(obj_id);
             }
             
