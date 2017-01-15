@@ -1,0 +1,8 @@
+<map id="ModuleDefinition" name="ModuleDefinition">
+<area shape="rect" id="node2" href="$classsbol_1_1_module_definition.html#a74f8d25b0121407dff31d299d682457a" title="Defines an output for a system module. " alt="" coords="174,55,253,80"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_module_definition.html#a22cea07a5abf85d2ed0d4b89096bf808" title="Defines an input for a system module. " alt="" coords="179,5,248,31"/>
+<area shape="rect" id="node7" href="$classsbol_1_1_module_definition.html#a83b72faf6b481cf82a076d78433631c2" title="Assemble a high&#45;level ModuleDefinition from lower&#45;level submodules. " alt="" coords="174,104,253,129"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_text_property.html#a4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="301,104,455,129"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="314,5,443,31"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_u_r_i_property.html#a4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="302,55,454,80"/>
+</map>

@@ -127,10 +127,38 @@ Public Attributes</h2></td></tr>
 <a class="el" href="classsbol_1_1_list.html">List</a>&lt; <a class="el" href="classsbol_1_1_owned_object.html">OwnedObject</a>&lt; <a class="el" href="classsbol_1_1_sequence_constraint.html">SequenceConstraint</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#aaf7117785844b3ae127ed1e9de48591a">sequenceConstraints</a></td></tr>
 <tr class="memdesc:aaf7117785844b3ae127ed1e9de48591a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sequenceConstraints property is OPTIONAL and MAY contain a set of <a class="el" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence-based posit...">SequenceConstraint</a> objects. These objects describe any restrictions on the relative, sequence-based positions and/or orientations of the <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects contained by the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. For example, the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> of a gene might specify that the position of its promoter <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> precedes that of its CDS <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>. This is particularly useful when a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> lacks a <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> and therefore cannot specify the precise, sequence-based positions of its <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> objects using <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> objects. <br /></td></tr>
 <tr class="separator:aaf7117785844b3ae127ed1e9de48591a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7931f7b2727acb83c549e08550707713"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7931f7b2727acb83c549e08550707713"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a7931f7b2727acb83c549e08550707713">persistentIdentity</a></td></tr>
+<tr class="memdesc:a7931f7b2727acb83c549e08550707713"><td class="mdescLeft">&#160;</td><td class="mdescRight">The persistentIdentity property is OPTIONAL and has a data type of URI. This URI serves to uniquely refer to a set of SBOL objects that are different versions of each other. An <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object MUST be referred to using either its identity URI or its persistentIdentity URI. <br /></td></tr>
+<tr class="separator:a7931f7b2727acb83c549e08550707713"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3190523b5224923d54bdd3a36fb944c3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3190523b5224923d54bdd3a36fb944c3"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a3190523b5224923d54bdd3a36fb944c3">displayId</a></td></tr>
+<tr class="memdesc:a3190523b5224923d54bdd3a36fb944c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The displayId property is an OPTIONAL identifier with a data type of String. This property is intended to be an intermediate between name and identity that is machine-readable, but more human-readable than the full URI of an identity. If the displayId property is used, then its String value SHOULD be locally unique (global uniqueness is not necessary) and MUST be composed of only alphanumeric or underscore characters and MUST NOT begin with a digit. <br /></td></tr>
+<tr class="separator:a3190523b5224923d54bdd3a36fb944c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5079b9e48247695504e3705983b06ab5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5079b9e48247695504e3705983b06ab5"></a>
+<a class="el" href="classsbol_1_1_version_property.html">VersionProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a5079b9e48247695504e3705983b06ab5">version</a></td></tr>
+<tr class="memdesc:a5079b9e48247695504e3705983b06ab5"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the version property is used, then it is RECOMMENDED that version numbering follow the conventions of <a href="http://semver.org/">semantic versioning</a>, particularly as implemented by <a href="http://maven.apache.org/">Maven</a>. This convention represents versions as sequences of numbers and qualifiers that are separated by the characters “.” and “-” and are compared in lexicographical order (for example, 1 &lt; 1.3.1 &lt; 2.0-beta). For a full explanation, see the linked resources. <br /></td></tr>
+<tr class="separator:a5079b9e48247695504e3705983b06ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc70a7be39e8fb18e4b82ec8069cefd7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc70a7be39e8fb18e4b82ec8069cefd7"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#acc70a7be39e8fb18e4b82ec8069cefd7">wasDerivedFrom</a></td></tr>
+<tr class="memdesc:acc70a7be39e8fb18e4b82ec8069cefd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The wasDerivedFrom property is OPTIONAL and has a data type of URI. An SBOL object with this property refers to another SBOL object or non-SBOL resource from which this object was derived. If the wasDerivedFrom property of an SBOL object A that refers to an SBOL object B has an identical persistentIdentity, and both A and B have a version, then the version of B MUST precede that of A. In addition, an SBOL object MUST NOT refer to itself via its own wasDerivedFrom property or form a cyclical chain of references via its wasDerivedFrom property and those of other SBOL objects. For example, the reference chain “ A was derived from B and B was derived from A” is cyclical. <br /></td></tr>
+<tr class="separator:acc70a7be39e8fb18e4b82ec8069cefd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47492e4ca2acc9db3be38b80b380ec43"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47492e4ca2acc9db3be38b80b380ec43"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a47492e4ca2acc9db3be38b80b380ec43">name</a></td></tr>
+<tr class="memdesc:a47492e4ca2acc9db3be38b80b380ec43"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name property is OPTIONAL and has a data type of String. This property is intended to be displayed to a human when visualizing an <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object. If an <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object lacks a name, then software tools SHOULD instead display the object’s displayId or identity. It is RECOMMENDED that software tools give users the ability to switch perspectives between name properties that are human-readable and displayId properties that are less human-readable, but are more likely to be unique. <br /></td></tr>
+<tr class="separator:a47492e4ca2acc9db3be38b80b380ec43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5429303f21e7bc531219954eddca1971"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5429303f21e7bc531219954eddca1971"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a5429303f21e7bc531219954eddca1971">description</a></td></tr>
+<tr class="memdesc:a5429303f21e7bc531219954eddca1971"><td class="mdescLeft">&#160;</td><td class="mdescRight">The description property is OPTIONAL and has a data type of String. This property is intended to contain a more thorough text description of an <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object. <br /></td></tr>
+<tr class="separator:a5429303f21e7bc531219954eddca1971"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff815c97277df80818d4f77c1eec9ac6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff815c97277df80818d4f77c1eec9ac6"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#aff815c97277df80818d4f77c1eec9ac6">identity</a></td></tr>
+<tr class="memdesc:aff815c97277df80818d4f77c1eec9ac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The identity property is REQUIRED by all <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> objects and has a data type of URI. A given <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object’s identity URI MUST be globally unique among all other identity URIs. The identity of a compliant SBOL object MUST begin with a URI prefix that maps to a domain over which the user has control. Namely, the user can guarantee uniqueness of identities within this domain. For other best practices regarding URIs see Section 11.2 of the <a href="http://sbolstandard.org/wp-content/uploads/2015/08/SBOLv2.0.1.pdf">SBOL specification doucment</a>. <br /></td></tr>
+<tr class="separator:aff815c97277df80818d4f77c1eec9ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a16766787aa7a6bb53bf539307c1e1a0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c">ComponentDefinition</a> (std::string uri=DEFAULT_NS&quot;/ComponentDefinition/example&quot;, std::string type=<a class="el" href="constants_8h.html#aa08e807e9ad29c17c56e3b17f088f6cc">BIOPAX_DNA</a>, std::string version=&quot;1.0.0&quot;)</td></tr>
+<tr class="memitem:a16766787aa7a6bb53bf539307c1e1a0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c">ComponentDefinition</a> (std::string uri=DEFAULT_NS&quot;/ComponentDefinition/example&quot;, std::string type=<a class="el" href="constants_8h.html#aa08e807e9ad29c17c56e3b17f088f6cc">BIOPAX_DNA</a>, std::string <a class="el" href="classsbol_1_1_identified.html#a5079b9e48247695504e3705983b06ab5">version</a>=&quot;1.0.0&quot;)</td></tr>
 <tr class="memdesc:a16766787aa7a6bb53bf539307c1e1a0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>.  <a href="#a16766787aa7a6bb53bf539307c1e1a0c">More...</a><br /></td></tr>
 <tr class="separator:a16766787aa7a6bb53bf539307c1e1a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27161b83d63eab567db7ed752fd1b432"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_component_definition.html#a27161b83d63eab567db7ed752fd1b432">assemble</a> (std::vector&lt; <a class="el" href="classsbol_1_1_component_definition.html">ComponentDefinition</a> * &gt; list_of_components)</td></tr>
@@ -161,12 +189,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab1954c9bd44750d212d4a068f3c30f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">A convenience method that assigns a component to participate in a biochemical reaction.  <a href="#ab1954c9bd44750d212d4a068f3c30f60">More...</a><br /></td></tr>
 <tr class="separator:ab1954c9bd44750d212d4a068f3c30f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9c905af9efe1c313a0b284a1bef25d7"><td class="memTemplParams" colspan="2">template&lt;class SBOLClass &gt; </td></tr>
-<tr class="memitem:ac9c905af9efe1c313a0b284a1bef25d7"><td class="memTemplItemLeft" align="right" valign="top">SBOLClass &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_top_level.html#ac9c905af9efe1c313a0b284a1bef25d7">copy</a> (<a class="el" href="classsbol_1_1_document.html">Document</a> *target_doc=NULL, std::string ns=&quot;&quot;, std::string version=&quot;&quot;)</td></tr>
+<tr class="memitem:ac9c905af9efe1c313a0b284a1bef25d7"><td class="memTemplItemLeft" align="right" valign="top">SBOLClass &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_top_level.html#ac9c905af9efe1c313a0b284a1bef25d7">copy</a> (<a class="el" href="classsbol_1_1_document.html">Document</a> *target_doc=NULL, std::string ns=&quot;&quot;, std::string <a class="el" href="classsbol_1_1_identified.html#a5079b9e48247695504e3705983b06ab5">version</a>=&quot;&quot;)</td></tr>
 <tr class="memdesc:ac9c905af9efe1c313a0b284a1bef25d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy an object and automatically increment its version.  <a href="#ac9c905af9efe1c313a0b284a1bef25d7">More...</a><br /></td></tr>
 <tr class="separator:ac9c905af9efe1c313a0b284a1bef25d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a113b3822277bd4853962a60746c3111a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a113b3822277bd4853962a60746c3111a">find</a> (std::string uri)</td></tr>
-<tr class="memdesc:a113b3822277bd4853962a60746c3111a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search this object recursively to see if an object with the URI already exists.  <a href="#a113b3822277bd4853962a60746c3111a">More...</a><br /></td></tr>
-<tr class="separator:a113b3822277bd4853962a60746c3111a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ad2b19c3408c3dd28816c2329d6ef7d07">find</a> (std::string uri)</td></tr>
+<tr class="memdesc:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search this object recursively to see if an object with the URI already exists.  <a href="#ad2b19c3408c3dd28816c2329d6ef7d07">More...</a><br /></td></tr>
+<tr class="separator:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad593fa86924521afaff0e888083da20d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ad593fa86924521afaff0e888083da20d">compare</a> (<a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *comparand)</td></tr>
 <tr class="memdesc:ad593fa86924521afaff0e888083da20d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two SBOL objects or Documents.  <a href="#ad593fa86924521afaff0e888083da20d">More...</a><br /></td></tr>
 <tr class="separator:ad593fa86924521afaff0e888083da20d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -239,26 +267,6 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a16766787aa7a6bb53bf539307c1e1a0c_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a16766787aa7a6bb53bf539307c1e1a0c_cgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a16766787aa7a6bb53bf539307c1e1a0c_cgraph" id="classsbol_1_1_component_definition_a16766787aa7a6bb53bf539307c1e1a0c_cgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a27161b83d63eab567db7ed752fd1b432" title="Assembles the provided vector of Components into a structural hierarchy. " alt="" coords="227,56,306,81"/>
-<area shape="rect" id="node5" href="classsbol_1_1_component_definition.html#a2b8ecda127d02e42838e9d22808fb17c" title="Orders this ComponentDefinition&#39;s member Components into a linear arrangement based on Sequence Const..." alt="" coords="400,107,548,132"/>
-<area shape="rect" id="node6" href="classsbol_1_1_component_definition.html#a27287e7d20ffe00b3a0b5070d3c9b052" title="Checks if the specified Component has a Component upstream in linear arrangement on the DNA strand..." alt="" coords="622,208,792,233"/>
-<area shape="rect" id="node7" href="classsbol_1_1_component_definition.html#aeaad1c8965a1eb32eb8df404dbc71627" title="Get the upstream Component. " alt="" coords="390,259,557,284"/>
-<area shape="rect" id="node8" href="classsbol_1_1_component_definition.html#a96a1b04568b582070aff16b0cdf29545" title="Checks if the specified Component has a Component downstream in linear arrangement on the DNA strand..." alt="" coords="614,335,800,360"/>
-<area shape="rect" id="node9" href="classsbol_1_1_component_definition.html#a24beb7eec4f540c77220218931525e9e" title="Get the downstream Component. " alt="" coords="382,411,566,436"/>
-<area shape="rect" id="node10" href="classsbol_1_1_component_definition.html#a43a587726be3af52752d8707f9799b32" title="Gets the first Component in a linear sequence. " alt="" coords="199,208,334,233"/>
-<area shape="rect" id="node11" href="classsbol_1_1_component_definition.html#a50cf12cd8946082a79d31887790a00f4" title="Gets the last Component in a linear sequence. " alt="" coords="200,360,334,385"/>
-<area shape="rect" id="node12" href="classsbol_1_1_component_definition.html#ab1954c9bd44750d212d4a068f3c30f60" title="A convenience method that assigns a component to participate in a biochemical reaction. " alt="" coords="225,461,308,487"/>
-<area shape="rect" id="node3" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="848,233,978,259"/>
-<area shape="rect" id="node4" href="classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="409,5,538,31"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -278,34 +286,12 @@ Here is the call graph for this function:</div>
 
 <p>Assembles the provided vector of Components into a structural hierarchy. </p>
 <p>update <a class="el" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr...">SequenceAnnotation</a> starts and ends</p>
-<p>Autoconstructs the required Components and SequenceConstraints. The resulting data structure is a partial design, still lacking a specific DNA (or other) sequence. To fully realize a design, use Sequence::assemble(). </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Autoconstructs the required Components and SequenceConstraints. The resulting data structure is a partial design, still lacking a specific DNA (or other) sequence. To fully realize a design, use <a class="el" href="classsbol_1_1_sequence.html#a7e7e46c2233496d813007261441efcff" title="Calculates the complete sequence of a high-level Component from the sequence of its subcomponents...">Sequence::assemble()</a>. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">list_of_components</td><td>A list of subcomponents that will compose this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> </td></tr>
   </table>
   </dd>
 </dl>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_cgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_cgraph" id="classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_cgraph">
-<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="328,25,457,50"/>
-<area shape="rect" id="node3" href="classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="141,25,270,50"/>
-<area shape="rect" id="node4" href="classsbol_1_1_component_definition.html#a2b8ecda127d02e42838e9d22808fb17c" title="Orders this ComponentDefinition&#39;s member Components into a linear arrangement based on Sequence Const..." alt="" coords="132,74,280,99"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_icgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_icgraph" id="classsbol_1_1_component_definition_a27161b83d63eab567db7ed752fd1b432_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="132,5,278,31"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>
@@ -332,17 +318,6 @@ Here is the caller graph for this function:</div>
 
 <p>Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. </p>
 <p>If the object does have a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>, instead use doc.close() with the object's URI identity as an argument.  Recurse through child objects and delete them. </p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" alt=""/></div>
-<map name="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" id="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_document.html#ab474f7d789f798ce60cb0857d9e81236" title="Read an RDF/XML file and attach the SBOL objects to this Document. " alt="" coords="108,5,256,31"/>
-<area shape="rect" id="node3" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,55,258,80"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>
@@ -376,23 +351,6 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>1 if the objects are identical, 0 if they are different </dd></dl>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph" alt=""/></div>
-<map name="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph" id="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph">
-<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="127,29,256,55"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_icgraph" alt=""/></div>
-</div>
-</p>
 
 </div>
 </div>
@@ -451,19 +409,9 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The full URI of the created object. </dd></dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_top_level_ac9c905af9efe1c313a0b284a1bef25d7_cgraph.png" border="0" usemap="#classsbol_1_1_top_level_ac9c905af9efe1c313a0b284a1bef25d7_cgraph" alt=""/></div>
-<map name="classsbol_1_1_top_level_ac9c905af9efe1c313a0b284a1bef25d7_cgraph" id="classsbol_1_1_top_level_ac9c905af9efe1c313a0b284a1bef25d7_cgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_document.html#a98389f37410e7f03f251a079a0db8dec" title="Register an object in the Document. " alt="" coords="103,5,246,31"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
-<a class="anchor" id="a113b3822277bd4853962a60746c3111a"></a>
+<a class="anchor" id="ad2b19c3408c3dd28816c2329d6ef7d07"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -471,7 +419,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int find </td>
+          <td class="memname"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> * find </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>uri</em></td><td>)</td>
@@ -494,24 +442,6 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>1 if an object with this URI exists, 0 if it doesn't </dd></dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_cgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_cgraph" alt=""/></div>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph" alt=""/></div>
-<map name="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph" id="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_functional_component.html#a5d2c1e546359392e22c620e06fa72cc8" title="This method connects module inputs and outputs. " alt="" coords="105,5,289,44"/>
-<area shape="rect" id="node3" href="classsbol_1_1_document.html#af19ecb2e26889fcc5368c661b5fbdf98" title="Run validation rules on this Document. Validation rules are called automatically during parsing and s..." alt="" coords="113,68,280,93"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a24beb7eec4f540c77220218931525e9e"></a>
@@ -531,28 +461,6 @@ Here is the caller graph for this function:</div>
 <p>Get the downstream <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The downstream component </dd></dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a24beb7eec4f540c77220218931525e9e_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a24beb7eec4f540c77220218931525e9e_cgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a24beb7eec4f540c77220218931525e9e_cgraph" id="classsbol_1_1_component_definition_a24beb7eec4f540c77220218931525e9e_cgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a96a1b04568b582070aff16b0cdf29545" title="Checks if the specified Component has a Component downstream in linear arrangement on the DNA strand..." alt="" coords="237,5,424,31"/>
-<area shape="rect" id="node3" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="472,31,601,56"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a24beb7eec4f540c77220218931525e9e_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a24beb7eec4f540c77220218931525e9e_icgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a24beb7eec4f540c77220218931525e9e_icgraph" id="classsbol_1_1_component_definition_a24beb7eec4f540c77220218931525e9e_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a50cf12cd8946082a79d31887790a00f4" title="Gets the last Component in a linear sequence. " alt="" coords="237,5,371,31"/>
-<area shape="rect" id="node3" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="419,31,565,56"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a43a587726be3af52752d8707f9799b32"></a>
@@ -570,28 +478,6 @@ Here is the caller graph for this function:</div>
 
 <p>Gets the first <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in a linear sequence. </p>
 <dl class="section return"><dt>Returns</dt><dd>The first component in sequential order </dd></dl>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a43a587726be3af52752d8707f9799b32_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a43a587726be3af52752d8707f9799b32_cgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a43a587726be3af52752d8707f9799b32_cgraph" id="classsbol_1_1_component_definition_a43a587726be3af52752d8707f9799b32_cgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a27287e7d20ffe00b3a0b5070d3c9b052" title="Checks if the specified Component has a Component upstream in linear arrangement on the DNA strand..." alt="" coords="403,5,572,31"/>
-<area shape="rect" id="node4" href="classsbol_1_1_component_definition.html#aeaad1c8965a1eb32eb8df404dbc71627" title="Get the upstream Component. " alt="" coords="188,56,355,81"/>
-<area shape="rect" id="node3" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="620,31,750,56"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a43a587726be3af52752d8707f9799b32_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a43a587726be3af52752d8707f9799b32_icgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a43a587726be3af52752d8707f9799b32_icgraph" id="classsbol_1_1_component_definition_a43a587726be3af52752d8707f9799b32_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="188,5,334,31"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>
@@ -611,27 +497,6 @@ Here is the caller graph for this function:</div>
 <p>Orders this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>'s member Components into a linear arrangement based on <a class="el" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object...">Sequence</a> Constraints. </p>
 <dl class="section return"><dt>Returns</dt><dd>Primary sequence structure </dd></dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a2b8ecda127d02e42838e9d22808fb17c_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a2b8ecda127d02e42838e9d22808fb17c_cgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a2b8ecda127d02e42838e9d22808fb17c_cgraph" id="classsbol_1_1_component_definition_a2b8ecda127d02e42838e9d22808fb17c_cgraph">
-<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="201,5,331,31"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a2b8ecda127d02e42838e9d22808fb17c_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a2b8ecda127d02e42838e9d22808fb17c_icgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a2b8ecda127d02e42838e9d22808fb17c_icgraph" id="classsbol_1_1_component_definition_a2b8ecda127d02e42838e9d22808fb17c_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a27161b83d63eab567db7ed752fd1b432" title="Assembles the provided vector of Components into a structural hierarchy. " alt="" coords="201,5,280,31"/>
-<area shape="rect" id="node3" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="328,31,474,56"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a50cf12cd8946082a79d31887790a00f4"></a>
@@ -649,28 +514,6 @@ Here is the caller graph for this function:</div>
 
 <p>Gets the last <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in a linear sequence. </p>
 <dl class="section return"><dt>Returns</dt><dd>The last component in sequential order </dd></dl>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a50cf12cd8946082a79d31887790a00f4_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a50cf12cd8946082a79d31887790a00f4_cgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a50cf12cd8946082a79d31887790a00f4_cgraph" id="classsbol_1_1_component_definition_a50cf12cd8946082a79d31887790a00f4_cgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a96a1b04568b582070aff16b0cdf29545" title="Checks if the specified Component has a Component downstream in linear arrangement on the DNA strand..." alt="" coords="419,5,606,31"/>
-<area shape="rect" id="node4" href="classsbol_1_1_component_definition.html#a24beb7eec4f540c77220218931525e9e" title="Get the downstream Component. " alt="" coords="187,56,371,81"/>
-<area shape="rect" id="node3" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="654,31,783,56"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a50cf12cd8946082a79d31887790a00f4_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a50cf12cd8946082a79d31887790a00f4_icgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a50cf12cd8946082a79d31887790a00f4_icgraph" id="classsbol_1_1_component_definition_a50cf12cd8946082a79d31887790a00f4_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="187,5,333,31"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>
@@ -783,28 +626,6 @@ Here is the caller graph for this function:</div>
 <p>Get the upstream <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The upstream component </dd></dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_aeaad1c8965a1eb32eb8df404dbc71627_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_aeaad1c8965a1eb32eb8df404dbc71627_cgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_aeaad1c8965a1eb32eb8df404dbc71627_cgraph" id="classsbol_1_1_component_definition_aeaad1c8965a1eb32eb8df404dbc71627_cgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a27287e7d20ffe00b3a0b5070d3c9b052" title="Checks if the specified Component has a Component upstream in linear arrangement on the DNA strand..." alt="" coords="220,5,389,31"/>
-<area shape="rect" id="node3" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="437,31,567,56"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_aeaad1c8965a1eb32eb8df404dbc71627_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_aeaad1c8965a1eb32eb8df404dbc71627_icgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_aeaad1c8965a1eb32eb8df404dbc71627_icgraph" id="classsbol_1_1_component_definition_aeaad1c8965a1eb32eb8df404dbc71627_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a43a587726be3af52752d8707f9799b32" title="Gets the first Component in a linear sequence. " alt="" coords="220,5,355,31"/>
-<area shape="rect" id="node3" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="403,31,548,56"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a96a1b04568b582070aff16b0cdf29545"></a>
@@ -829,28 +650,6 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>1 if found, 0 if not </dd></dl>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_cgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_cgraph" id="classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_cgraph">
-<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="240,5,369,31"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_icgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_icgraph" id="classsbol_1_1_component_definition_a96a1b04568b582070aff16b0cdf29545_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a24beb7eec4f540c77220218931525e9e" title="Get the downstream Component. " alt="" coords="240,56,424,81"/>
-<area shape="rect" id="node3" href="classsbol_1_1_component_definition.html#a50cf12cd8946082a79d31887790a00f4" title="Gets the last Component in a linear sequence. " alt="" coords="472,5,606,31"/>
-<area shape="rect" id="node4" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="654,56,799,81"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>
@@ -877,28 +676,6 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>1 if found, 0 if not </dd></dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_cgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_cgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_cgraph" id="classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_cgraph">
-<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="223,5,352,31"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_icgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_icgraph" id="classsbol_1_1_component_definition_a27287e7d20ffe00b3a0b5070d3c9b052_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#aeaad1c8965a1eb32eb8df404dbc71627" title="Get the upstream Component. " alt="" coords="223,56,389,81"/>
-<area shape="rect" id="node3" href="classsbol_1_1_component_definition.html#a43a587726be3af52752d8707f9799b32" title="Gets the first Component in a linear sequence. " alt="" coords="437,5,572,31"/>
-<area shape="rect" id="node4" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="620,56,766,81"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="ab1954c9bd44750d212d4a068f3c30f60"></a>
@@ -922,16 +699,6 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_component_definition_ab1954c9bd44750d212d4a068f3c30f60_icgraph.png" border="0" usemap="#classsbol_1_1_component_definition_ab1954c9bd44750d212d4a068f3c30f60_icgraph" alt=""/></div>
-<map name="classsbol_1_1_component_definition_ab1954c9bd44750d212d4a068f3c30f60_icgraph" id="classsbol_1_1_component_definition_ab1954c9bd44750d212d4a068f3c30f60_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="136,5,282,31"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>
@@ -1066,15 +833,15 @@ Inheritance diagram for ComponentDefinition:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_component_definition__inherit__graph.png" border="0" usemap="#_component_definition_inherit__map" alt="Inheritance graph"/></div>
 <map name="_component_definition_inherit__map" id="_component_definition_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="39,675,178,788"/>
-<area shape="rect" id="node3" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="42,433,176,627"/>
-<area shape="rect" id="node4" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="34,5,184,385"/>
+<area shape="rect" id="node2" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="39,688,178,801"/>
+<area shape="rect" id="node3" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="42,447,176,640"/>
+<area shape="rect" id="node4" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="34,5,184,399"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 20 2016 17:35:14 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 14 2017 16:41:22 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

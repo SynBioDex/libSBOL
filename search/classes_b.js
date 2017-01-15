@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['uriproperty',['URIProperty',['../classsbol_1_1_u_r_i_property.html',1,'sbol']]]
+  ['textproperty',['TextProperty',['../classsbol_1_1_text_property.html',1,'sbol']]],
+  ['toplevel',['TopLevel',['../classsbol_1_1_top_level.html',1,'sbol']]]
 ];

@@ -91,6 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_s_b_o_l_object-members.html">List of all members</a>  </div>
@@ -101,11 +102,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An <a class="el" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s...">SBOLObject</a> converts a C++ class data structure into an RDF triple store and contains methods for serializing and parsing RDF triples. </p>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:aff815c97277df80818d4f77c1eec9ac6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff815c97277df80818d4f77c1eec9ac6"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#aff815c97277df80818d4f77c1eec9ac6">identity</a></td></tr>
+<tr class="memdesc:aff815c97277df80818d4f77c1eec9ac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The identity property is REQUIRED by all <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> objects and has a data type of URI. A given <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object’s identity URI MUST be globally unique among all other identity URIs. The identity of a compliant SBOL object MUST begin with a URI prefix that maps to a domain over which the user has control. Namely, the user can guarantee uniqueness of identities within this domain. For other best practices regarding URIs see Section 11.2 of the <a href="http://sbolstandard.org/wp-content/uploads/2015/08/SBOLv2.0.1.pdf">SBOL specification doucment</a>. <br /></td></tr>
+<tr class="separator:aff815c97277df80818d4f77c1eec9ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a113b3822277bd4853962a60746c3111a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a113b3822277bd4853962a60746c3111a">find</a> (std::string uri)</td></tr>
-<tr class="memdesc:a113b3822277bd4853962a60746c3111a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search this object recursively to see if an object with the URI already exists.  <a href="#a113b3822277bd4853962a60746c3111a">More...</a><br /></td></tr>
-<tr class="separator:a113b3822277bd4853962a60746c3111a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ad2b19c3408c3dd28816c2329d6ef7d07">find</a> (std::string uri)</td></tr>
+<tr class="memdesc:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search this object recursively to see if an object with the URI already exists.  <a href="#ad2b19c3408c3dd28816c2329d6ef7d07">More...</a><br /></td></tr>
+<tr class="separator:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad593fa86924521afaff0e888083da20d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ad593fa86924521afaff0e888083da20d">compare</a> (<a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *comparand)</td></tr>
 <tr class="memdesc:ad593fa86924521afaff0e888083da20d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two SBOL objects or Documents.  <a href="#ad593fa86924521afaff0e888083da20d">More...</a><br /></td></tr>
 <tr class="separator:ad593fa86924521afaff0e888083da20d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,17 +154,6 @@ Protected Member Functions</h2></td></tr>
 <p>Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. </p>
 <p>If the object does have a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>, instead use doc.close() with the object's URI identity as an argument.  Recurse through child objects and delete them. </p>
 
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" alt=""/></div>
-<map name="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph" id="classsbol_1_1_s_b_o_l_object_a5ae591df94fc66ccb85cbb6565368bca_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_document.html#ab474f7d789f798ce60cb0857d9e81236" title="Read an RDF/XML file and attach the SBOL objects to this Document. " alt="" coords="108,5,256,31"/>
-<area shape="rect" id="node3" href="classsbol_1_1_document.html#acb864daeee6af83e4d1f63e04b5b655a" title="Delete all objects in this Document and destroy the Document. " alt="" coords="106,55,258,80"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="ad593fa86924521afaff0e888083da20d"></a>
@@ -182,31 +179,14 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>1 if the objects are identical, 0 if they are different </dd></dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph" alt=""/></div>
-<map name="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph" id="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_cgraph">
-<area shape="rect" id="node2" href="group__extension__layer.html#ga4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="127,29,256,55"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_ad593fa86924521afaff0e888083da20d_icgraph" alt=""/></div>
-</div>
-</p>
-
 </div>
 </div>
-<a class="anchor" id="a113b3822277bd4853962a60746c3111a"></a>
+<a class="anchor" id="ad2b19c3408c3dd28816c2329d6ef7d07"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int find </td>
+          <td class="memname"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> * find </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>uri</em></td><td>)</td>
@@ -223,24 +203,6 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>1 if an object with this URI exists, 0 if it doesn't </dd></dl>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_cgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_cgraph" alt=""/></div>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph.png" border="0" usemap="#classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph" alt=""/></div>
-<map name="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph" id="classsbol_1_1_s_b_o_l_object_a113b3822277bd4853962a60746c3111a_icgraph">
-<area shape="rect" id="node2" href="classsbol_1_1_functional_component.html#a5d2c1e546359392e22c620e06fa72cc8" title="This method connects module inputs and outputs. " alt="" coords="105,5,289,44"/>
-<area shape="rect" id="node3" href="classsbol_1_1_document.html#af19ecb2e26889fcc5368c661b5fbdf98" title="Run validation rules on this Document. Validation rules are called automatically during parsing and s..." alt="" coords="113,68,280,93"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>
@@ -378,28 +340,30 @@ Inheritance diagram for SBOLObject:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_s_b_o_l_object__inherit__graph.png" border="0" usemap="#_s_b_o_l_object_inherit__map" alt="Inheritance graph"/></div>
 <map name="_s_b_o_l_object_inherit__map" id="_s_b_o_l_object_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="251,433,408,680"/>
-<area shape="rect" id="node3" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="432,460,565,653"/>
-<area shape="rect" id="node4" href="classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="5,741,117,855"/>
-<area shape="rect" id="node5" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="141,755,240,841"/>
-<area shape="rect" id="node8" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance..." alt="" coords="265,735,361,861"/>
-<area shape="rect" id="node9" href="classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="385,741,478,855"/>
-<area shape="rect" id="node10" href="classsbol_1_1_participation.html" title="Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction..." alt="" coords="502,728,625,868"/>
-<area shape="rect" id="node11" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="649,728,823,868"/>
-<area shape="rect" id="node12" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="847,735,1017,861"/>
-<area shape="rect" id="node13" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="1041,741,1180,855"/>
-<area shape="rect" id="node6" href="classsbol_1_1_cut.html" title="The Cut class specifies a location between two coordinates of a Sequence&#39;s elements. class Cut : public Location. " alt="" coords="103,1016,174,1116"/>
-<area shape="rect" id="node7" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="198,1009,287,1123"/>
-<area shape="rect" id="node14" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="755,916,962,1216"/>
-<area shape="rect" id="node15" href="classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="986,1003,1081,1129"/>
-<area shape="rect" id="node16" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="1105,969,1271,1163"/>
-<area shape="rect" id="node17" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="1294,1003,1404,1129"/>
+<area shape="rect" id="node2" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="251,447,408,693"/>
+<area shape="rect" id="node3" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="432,473,565,667"/>
+<area shape="rect" id="node4" href="classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="5,755,117,868"/>
+<area shape="rect" id="node5" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="141,768,240,855"/>
+<area shape="rect" id="node9" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance..." alt="" coords="265,748,361,875"/>
+<area shape="rect" id="node10" href="classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="385,755,478,868"/>
+<area shape="rect" id="node11" href="classsbol_1_1_participation.html" title="Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction..." alt="" coords="502,741,625,881"/>
+<area shape="rect" id="node12" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="649,741,823,881"/>
+<area shape="rect" id="node13" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="847,748,1017,875"/>
+<area shape="rect" id="node14" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="1041,755,1180,868"/>
+<area shape="rect" id="node6" href="classsbol_1_1_cut.html" title="The Cut class specifies a location between two coordinates of a Sequence&#39;s elements. class Cut : public Location. " alt="" coords="23,1029,94,1129"/>
+<area shape="rect" id="node7" href="classsbol_1_1_generic_location.html" title="the GenericLocation class is included as a starting point for specifying regions on Sequence objects ..." alt="" coords="117,1029,264,1129"/>
+<area shape="rect" id="node8" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="287,1023,376,1136"/>
+<area shape="rect" id="node15" href="classsbol_1_1_collection.html" title="The Collection class is a class that groups together a set of TopLevel objects that have something in..." alt="" coords="701,1029,809,1129"/>
+<area shape="rect" id="node16" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="832,929,1039,1229"/>
+<area shape="rect" id="node17" href="classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="1063,1016,1158,1143"/>
+<area shape="rect" id="node18" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="1182,983,1348,1176"/>
+<area shape="rect" id="node19" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="1372,1016,1481,1143"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 20 2016 17:35:14 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 14 2017 16:41:22 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

@@ -1,4 +1,4 @@
 <map id="VersionProperty" name="VersionProperty">
-<area shape="rect" id="node2" href="$classsbol_1_1_text_property.html" title="TextProperty objects are used to contain string literals. " alt="" coords="27,313,143,387"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_property.html" title="{Property\&lt; std::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ getAll()\l+ set()\l+ set()\land 9 more...\l# initializeNamespace()\l}" alt="" coords="5,5,165,265"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_text_property.html" title="TextProperty objects are used to contain string literals. " alt="" coords="27,313,143,400"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_property.html" title="{Property\&lt; std::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ getAll()\l+ set()\l+ set()\l+ add()\land 8 more...\l# initializeNamespace()\l}" alt="" coords="5,5,165,265"/>
 </map>

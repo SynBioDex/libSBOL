@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['sbolobjects',['SBOLObjects',['../classsbol_1_1_document.html#a22f0f4a0f715f19666e4ee4287410988',1,'sbol::Document']]],
-  ['sequenceannotations',['sequenceAnnotations',['../classsbol_1_1_component_definition.html#a6370970075dac494920780d3b6a72e61',1,'sbol::ComponentDefinition']]],
-  ['sequenceconstraints',['sequenceConstraints',['../classsbol_1_1_component_definition.html#aaf7117785844b3ae127ed1e9de48591a',1,'sbol::ComponentDefinition']]],
-  ['sequences',['sequences',['../classsbol_1_1_component_definition.html#a5df8c4893ad6d7c46ab60b6a3c004dff',1,'sbol::ComponentDefinition']]],
-  ['source',['source',['../classsbol_1_1_model.html#a6b0910e43b7df2d1ba2609d28b6ffe68',1,'sbol::Model']]],
-  ['start',['start',['../classsbol_1_1_range.html#a7a40b8e83aedf1ac47852585476a3310',1,'sbol::Range']]],
-  ['subject',['subject',['../classsbol_1_1_sequence_constraint.html#ad2598e9b9a230439bfb47e2539f2559c',1,'sbol::SequenceConstraint']]]
+  ['participant',['participant',['../classsbol_1_1_participation.html#af8fb73aa6c7fb75538f3dae9ee21203a',1,'sbol::Participation']]],
+  ['participations',['participations',['../classsbol_1_1_interaction.html#a07accd52266fcd28e87dcf4a70644ed9',1,'sbol::Interaction']]],
+  ['persistentidentity',['persistentIdentity',['../classsbol_1_1_identified.html#a7931f7b2727acb83c549e08550707713',1,'sbol::Identified']]]
 ];

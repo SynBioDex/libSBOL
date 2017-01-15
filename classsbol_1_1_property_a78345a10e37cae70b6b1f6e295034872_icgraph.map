@@ -1,11 +1,14 @@
 <map id="set" name="set">
 <area shape="rect" id="node2" href="$classsbol_1_1_component_definition.html#a27161b83d63eab567db7ed752fd1b432" title="Assembles the provided vector of Components into a structural hierarchy. " alt="" coords="95,5,273,44"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_functional_component.html#a5d2c1e546359392e22c620e06fa72cc8" title="This method connects module inputs and outputs. " alt="" coords="92,68,276,107"/>
-<area shape="rect" id="node5" href="$classsbol_1_1_functional_component.html#ae3f1f46de2d7480f5b6660c36d62850b" title="This method is used to state that FunctionalComponents in separate ModuleDefinitions are functionally..." alt="" coords="92,131,276,169"/>
-<area shape="rect" id="node6" href="$classsbol_1_1_referenced_object.html#a19233c5aecb28652841ed13a2ffe8765" title="Creates another SBOL object derived from TopLevel and adds it to the Document. " alt="" coords="333,279,493,317"/>
-<area shape="rect" id="node7" href="$classsbol_1_1_owned_object.html#a3455e33e12f73daa5e166cbfcaf6a2e4" title="Autoconstruct a child object with default values and add it to a parent SBOL object. " alt="" coords="114,245,255,284"/>
-<area shape="rect" id="node8" href="$classsbol_1_1_version_property.html#a3bc5541cc1a9874ae4c7093dc7065d1a" title="Increment minor version. " alt="" coords="110,308,258,347"/>
-<area shape="rect" id="node9" href="$classsbol_1_1_version_property.html#a59bd74e005b10e51df0e9d9506565a79" title="Increment major version. " alt="" coords="110,371,258,409"/>
-<area shape="rect" id="node10" href="$classsbol_1_1_version_property.html#aaa0b04c29e2419e21e3d95a549b71761" title="Increment patch version. " alt="" coords="110,433,258,472"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_module_definition.html#a74f8d25b0121407dff31d299d682457a" title="Defines an output for a system module. " alt="" coords="108,68,261,107"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_module_definition.html#a22cea07a5abf85d2ed0d4b89096bf808" title="Defines an input for a system module. " alt="" coords="108,131,261,169"/>
+<area shape="rect" id="node7" href="$classsbol_1_1_functional_component.html#a5d2c1e546359392e22c620e06fa72cc8" title="This method connects module inputs and outputs. " alt="" coords="92,193,276,232"/>
+<area shape="rect" id="node8" href="$classsbol_1_1_functional_component.html#ae3f1f46de2d7480f5b6660c36d62850b" title="This method is used to state that FunctionalComponents in separate ModuleDefinitions are functionally..." alt="" coords="92,256,276,295"/>
+<area shape="rect" id="node9" href="$classsbol_1_1_referenced_object.html#a19233c5aecb28652841ed13a2ffe8765" title="Creates another SBOL object derived from TopLevel and adds it to the Document. " alt="" coords="333,404,493,443"/>
+<area shape="rect" id="node10" href="$classsbol_1_1_owned_object.html#a3455e33e12f73daa5e166cbfcaf6a2e4" title="Autoconstruct a child object with default values and add it to a parent SBOL object. " alt="" coords="114,371,255,409"/>
+<area shape="rect" id="node11" href="$classsbol_1_1_version_property.html#a3bc5541cc1a9874ae4c7093dc7065d1a" title="Increment minor version. " alt="" coords="110,433,258,472"/>
+<area shape="rect" id="node12" href="$classsbol_1_1_version_property.html#a59bd74e005b10e51df0e9d9506565a79" title="Increment major version. " alt="" coords="110,496,258,535"/>
+<area shape="rect" id="node13" href="$classsbol_1_1_version_property.html#aaa0b04c29e2419e21e3d95a549b71761" title="Increment patch version. " alt="" coords="110,559,258,597"/>
 <area shape="rect" id="node3" href="$classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c" title="Construct a ComponentDefinition. " alt="" coords="324,5,502,44"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_module_definition.html#a169818ec8c175a38e8178f6505d4d07a" title="Construct a ModuleDefinition. " alt="" coords="337,100,489,139"/>
 </map>

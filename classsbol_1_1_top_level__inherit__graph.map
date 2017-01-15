@@ -1,8 +1,9 @@
 <map id="TopLevel" name="TopLevel">
-<area shape="rect" id="node4" href="$classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="5,836,212,1136"/>
-<area shape="rect" id="node5" href="$classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="236,923,331,1049"/>
-<area shape="rect" id="node6" href="$classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="355,889,521,1083"/>
-<area shape="rect" id="node7" href="$classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="545,923,654,1049"/>
-<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="294,433,428,627"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="286,5,436,385"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_collection.html" title="The Collection class is a class that groups together a set of TopLevel objects that have something in..." alt="" coords="5,949,113,1049"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="137,849,344,1149"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="368,936,463,1063"/>
+<area shape="rect" id="node7" href="$classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="487,903,653,1096"/>
+<area shape="rect" id="node8" href="$classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="677,936,786,1063"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="349,447,482,640"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="340,5,491,399"/>
 </map>
