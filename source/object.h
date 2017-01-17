@@ -1,3 +1,29 @@
+/**
+ * @file    object.h
+ * @brief   SBOLObject class (a low-level, abstract class)
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
+
 #ifndef OBJECT_INCLUDED
 #define OBJECT_INCLUDED
 
@@ -45,7 +71,7 @@ namespace sbol
         std::map<sbol::sbol_type, std::vector< std::string > > list_properties;
         std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
 
-        /// The identity property is REQUIRED by all Identified objects and has a data type of URI. A given Identified object’s identity URI MUST be globally unique among all other identity URIs. The identity of a compliant SBOL object MUST begin with a URI prefix that maps to a domain over which the user has control. Namely, the user can guarantee uniqueness of identities within this domain.  For other best practices regarding URIs see Section 11.2 of the [SBOL specification doucment](http://sbolstandard.org/wp-content/uploads/2015/08/SBOLv2.0.1.pdf). 
+        /// The identity property is REQUIRED by all Identified objects and has a data type of URI. A given Identified object’s identity URI MUST be globally unique among all other identity URIs. The identity of a compliant SBOL object MUST begin with a URI prefix that maps to a domain over which the user has control. Namely, the user can guarantee uniqueness of identities within this domain.  For other best practices regarding URIs see Section 11.2 of the [SBOL specification doucment](http://sbolstandard.org/wp-content/uploads/2015/08/SBOLv2.0.1.pdf).
         URIProperty identity;
 
         // Open-world constructor

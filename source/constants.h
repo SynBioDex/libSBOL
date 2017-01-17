@@ -1,5 +1,28 @@
-/// @file constants.h
-/// Users of libSBOL may find in this file useful and important symbols corresponding to commonly used ontological terms from the Sequence Ontology, Systems Biology Ontology, BioPAX, etc. A number of flags internal to the SBOL standard are also defined here.  Finally, for developers and maintains of libSBOL, this file contains important URIs in the SBOL namespace, some of which can be used to control the appearance of the RDF/XML serialization.
+/**
+ * @file    constants.h
+ * @brief   Users of libSBOL may find in this file useful and important symbols corresponding to commonly used ontological terms from the Sequence Ontology, Systems Biology Ontology, BioPAX, etc. A number of flags internal to the SBOL standard are also defined here.  Finally, for developers and maintains of libSBOL, this file contains important URIs in the SBOL namespace, some of which can be used to control the appearance of the RDF/XML serialization.
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
 #ifndef CONSTANTS_INCLUDED
 #define CONSTANTS_INCLUDED
 

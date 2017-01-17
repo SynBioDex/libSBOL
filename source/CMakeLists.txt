@@ -42,7 +42,6 @@ FILE(GLOB SBOL_SOURCE_FILES
 	object.cpp
     identified.cpp
 	toplevel.cpp
-	componentdefinition.cpp
 	document.cpp
     assembly.cpp)
 	
