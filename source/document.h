@@ -1,3 +1,29 @@
+/**
+ * @file    document.h
+ * @brief   Document class, serialization method, and some low-level accessor methods
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
+
 #ifndef DOCUMENT_INCLUDED
 #define DOCUMENT_INCLUDED
 
@@ -9,6 +35,7 @@
 #include "moduledefinition.h"
 #include "module.h"
 #include "model.h"
+#include "collection.h"
 
 #include <raptor2.h>
 #include <unordered_map>
@@ -137,12 +164,15 @@ namespace sbol {
         /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization. As of libSBOL 2.1.0, validation rules are not fully implemented. Use request_validation instead to access the online validator.
         void validate(void *arg = NULL);
         
-        int find(std::string uri);
+        SBOLObject* find(std::string uri);
 
+        // Handler-functions for the Raptor library's RDF parsers
         static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
+        void parse_annotation_objects();
 
+        
         std::vector<std::string> getNamespaces();
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
         void addNamespace(std::string ns, std::string prefix);
@@ -234,15 +264,21 @@ namespace sbol {
         // In SBOLCompliant mode, the user may retrieve an object by persistentIdentity as well
         if (isSBOLCompliant())
         {
-            // Assume the uri argument is a persistentIdentity
-            std::string persistent_id = uri;
-            std::vector < std::string > ids;
+            std::vector < std::string > ids;  // Contains all URIs contaning the persistentIdentity
             
             // Search the Document's object map for  property's object store for all URIs prefixed with the persistentIdentity
             for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
             {
                 std::string obj_id = i_obj->first;
-                if (obj_id.find(persistent_id) != std::string::npos)
+                SBOLObject* obj = i_obj->second;
+                std::string persistent_id = "";
+
+                if (obj->properties.find(SBOL_PERSISTENT_IDENTITY) != obj->properties.end())
+                {
+                    persistent_id = obj->properties[SBOL_PERSISTENT_IDENTITY][0];
+                    persistent_id = persistent_id.substr(1, persistent_id.size() - 2);  // Removes flanking " from the version field
+                }
+                if (uri.compare(persistent_id) == 0)
                     ids.push_back(obj_id);
             }
             
@@ -257,7 +293,8 @@ namespace sbol {
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
 	};
     
-    
+    // Convert ntriple encoding down to ascii, removing escape codes. See https://www.w3.org/TR/2004/REC-rdf-testcases-20040210/#ntrip_strings
+    std::string convert_ntriples_encoding_to_ascii(std::string s);
 	std::string cut_sbol_resource(std::string& xml_string, const std::string resource_id);
     void replace_reference_to_resource(std::string& xml_string, const std::string property_name, const std::string resource_id, std::string& replacement_text);
 	void seek_element(std::istringstream& xml_buffer, std::string uri);
@@ -267,7 +304,7 @@ namespace sbol {
 	void seek_end_of_line(std::istringstream& xml_buffer);
 	void seek_end_of_element(std::istringstream& xml_buffer);
 	void seek_end_of_node(std::istringstream& xml_buffer, std::string uri);
-    void seek_resource(std::istringstream& xml_buffer, std::string property_name, std::string uri);
+    void seek_resource(std::istringstream& xml_buffer, std::string qname, std::string resource_uri);
 	bool is_open_node(std::istringstream& xml_buffer);
 	void indent(std::string& text, int indentation); 
 	std::string get_qname(std::istringstream& xml_buffer);

@@ -1,3 +1,28 @@
+/**
+ * @file    location.h
+ * @brief   Location, Cut, Range, and GenericLocation classes
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
 #ifndef LOCATION_INCLUDED
 #define LOCATION_INCLUDED
 
@@ -63,7 +88,7 @@ namespace sbol
         /// Construct a Cut. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < Cut > instead.
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param at An integer of 0 or greater
-        Cut(std::string uri = DEFAULT_NS "/Range/example", int at = 0) : Cut(SBOL_RANGE, uri, at) {};
+        Cut(std::string uri = DEFAULT_NS "/Cut/example", int at = 0) : Cut(SBOL_CUT, uri, at) {};
         
         virtual ~Cut() {};
         
@@ -75,6 +100,25 @@ namespace sbol
         };
 
     };
+
+    /// the GenericLocation class is included as a starting point for specifying regions on Sequence objects with encoding properties other than IUPAC and potentially nonlinear structure. This class can also be used to set the orientation of a SequenceAnnotation and any associated Component when their parent ComponentDefinition is a partial design that lacks a Sequence.
+    class GenericLocation : public Location
+    {
+    public:
+        /// Construct a GenericLocation. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < GenericLocation > instead.
+        /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        GenericLocation(std::string uri = DEFAULT_NS "/GenericLocation/example") : GenericLocation(SBOL_GENERIC_LOCATION, uri) {};
+        
+        virtual ~GenericLocation() {};
+        
+    protected:
+        GenericLocation(sbol_type type, std::string uri) :
+            Location(type, uri)
+        {
+        };
+        
+    };
+
 }
 
 

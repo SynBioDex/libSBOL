@@ -1,3 +1,28 @@
+/**
+ * @file    properties.h
+ * @brief   Property template classes (eg, TextProperty, URIProperty, IntProperty)
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
 #ifndef PROPERTIES_INCLUDED
 #define PROPERTIES_INCLUDED
 
@@ -21,6 +46,8 @@ namespace sbol
     class URIProperty : public Property<std::string>
 	{
 	public:
+        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+
         URIProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, std::string initial_value = "", ValidationRules validation_rules = {}) :
 			Property(type_uri, property_owner, "<" + initial_value + ">", validation_rules)
 		{
@@ -32,6 +59,8 @@ namespace sbol
 	class TextProperty : public Property<std::string>
 	{
 	public:
+        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+
 		TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
 			Property(type_uri, property_owner, "\"" + initial_value + "\"")
 		{
@@ -43,6 +72,8 @@ namespace sbol
 	class IntProperty : public Property<int>
 	{
 	public:
+        virtual int get();                  ///< Basic getter for all SBOL literal properties.
+
 		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0) :
 			Property(type_uri, property_owner, initial_value)
 		{
@@ -50,6 +81,8 @@ namespace sbol
 
 	};
 
+
+    
     /// @ingroup extension_layer
     /// @brief Contains a version number for an SBOL object.
     /// The VersionProperty follows Maven versioning semantics and includes a major, minor, and patch version number. Specifically, libSBOL currently only supports using '.' as a delimiter. Ex: v2.0.1.  If the user does not want to follow Maven versioning, they can specify an arbitrary version string using the set() method.

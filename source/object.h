@@ -1,3 +1,29 @@
+/**
+ * @file    object.h
+ * @brief   SBOLObject class (a low-level, abstract class)
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
+
 #ifndef OBJECT_INCLUDED
 #define OBJECT_INCLUDED
 
@@ -30,7 +56,8 @@ namespace sbol
         std::unordered_map<std::string, std::string> namespaces;
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);  // Convert an SBOL object into RDF triples
         std::string nest(std::string& rdfxml_buffer);  // Pretty-writer that converts flat RDF/XML into nested RDF/XML (ie, SBOL)
-        
+        std::string makeQName(std::string uri);
+
         /// Register an extension class and its namespace, so custom data can be embedded into and read from SBOL files
         /// @tparam ExtensionClass The new class
         /// @param ns The extension namespace, eg, http://myhome.org/my_extension#. It's important that the namespace ends in a forward-slash or hash
@@ -44,7 +71,8 @@ namespace sbol
         std::map<sbol::sbol_type, std::vector< std::string > > list_properties;
         std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
 
-        URIProperty identity;  // Uniform Resource Identifier for an SBOL object
+        /// The identity property is REQUIRED by all Identified objects and has a data type of URI. A given Identified object’s identity URI MUST be globally unique among all other identity URIs. The identity of a compliant SBOL object MUST begin with a URI prefix that maps to a domain over which the user has control. Namely, the user can guarantee uniqueness of identities within this domain.  For other best practices regarding URIs see Section 11.2 of the [SBOL specification doucment](http://sbolstandard.org/wp-content/uploads/2015/08/SBOLv2.0.1.pdf).
+        URIProperty identity;
 
         // Open-world constructor
         SBOLObject(std::string uri = DEFAULT_NS "/SBOLObject/example") : SBOLObject(UNDEFINED, uri) {};
@@ -64,7 +92,7 @@ namespace sbol
         /// Search this object recursively to see if an object with the URI already exists.
         /// @param uri The URI to search for.
         /// @return 1 if an object with this URI exists, 0 if it doesn't
-        int find(std::string uri);
+        SBOLObject* find(std::string uri);
         
         /// Compare two SBOL objects or Documents. The behavior is currently undefined for objects with custom annotations or extension classes.
         /// @param comparand A pointer to the object being compared to this one.

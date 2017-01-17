@@ -1,3 +1,28 @@
+/**
+ * @file    config.cpp
+ * @brief   Global library options and configuration methods
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
 #include "config.h"
 
 #include <string>
@@ -147,38 +172,42 @@ std::string sbol::getCompliantURI(std::string uri_prefix, std::string sbol_class
 /// @param uri A URI
 std::string sbol::parseClassName(std::string uri)
 {
-    std::size_t uri_subordinate_pos = uri.find("#") + 1;
+    std::size_t uri_subordinate_pos = uri.find_last_of("#");
     if (uri_subordinate_pos != std::string::npos)
     {
+        uri_subordinate_pos += 1;
         std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
         return sbol_class;
     }
-    uri_subordinate_pos = uri.find("/", 0) + 1;
+    uri_subordinate_pos = uri.find_last_of("/", uri.size());
     if (uri_subordinate_pos != std::string::npos)
     {
+        uri_subordinate_pos += 1;
         std::string sbol_class = uri.substr(uri_subordinate_pos, uri.size() - uri_subordinate_pos);
         return sbol_class;
     }
     else
-        throw;
+        return "";
 };
 
 std::string sbol::parseNamespace(std::string uri)
 {
-    std::size_t uri_subordinate_pos = uri.find("#") + 1;
+    std::size_t uri_subordinate_pos = uri.find_last_of("#");
     if (uri_subordinate_pos != std::string::npos)
     {
+        uri_subordinate_pos += 1;
         std::string ns = uri.substr(0, uri_subordinate_pos);
         return ns;
     }
-    uri_subordinate_pos = uri.find("/", 0) + 1;
+    uri_subordinate_pos = uri.find_last_of("/", uri.size());
     if (uri_subordinate_pos != std::string::npos)
     {
+        uri_subordinate_pos += 1;
         std::string ns = uri.substr(0, uri_subordinate_pos);
         return ns;
     }
     else
-        throw;
+        return "";
 };
 
 std::string sbol::parsePropertyName(std::string uri)

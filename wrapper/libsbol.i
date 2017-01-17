@@ -26,6 +26,7 @@
 
     #include "mapsto.h"
     #include "model.h"
+    #include "collection.h"
     #include "assembly.h"
     #include "sbol.h"
 
@@ -483,12 +484,17 @@ namespace sbol
 %include "toplevel.h"
 
 // Declare instances of the member templates first, then declare instances of the class templates.
-
 %template(addRange) sbol::OwnedObject::add<Range>;
 %template(getRange) sbol::OwnedObject::get<Range>;
 %template(createRange) sbol::OwnedObject::create<Range>;
-
+%template(addCut) sbol::OwnedObject::add<Cut>;
+%template(getCut) sbol::OwnedObject::get<Cut>;
+%template(createCut) sbol::OwnedObject::create<Cut>;
+%template(addGenericLocation) sbol::OwnedObject::add<GenericLocation>;
+%template(getGenericLocation) sbol::OwnedObject::get<GenericLocation>;
+%template(createGenericLocation) sbol::OwnedObject::create<GenericLocation>;
 %include "location.h"
+
 %template(locationProperty) sbol::Property<sbol::Location>;
 %template(_VectorOfLocations) std::vector<sbol::Location>;
 %template(_ownedLocation) sbol::OwnedObject<sbol::Location>;
@@ -536,6 +542,7 @@ namespace sbol
 
 %include "module.h"
 %include "model.h"
+%include "collection.h"
 
 %template(moduleProperty) sbol::Property<sbol::Module>;
 %template(ownedModule) sbol::OwnedObject<sbol::Module>;
@@ -585,11 +592,11 @@ namespace sbol
 %pythoncode
 %{
     def testSBOL():
-       import unittest
-       import unit_tests
-       import sys
-       suite = unittest.TestLoader().loadTestsFromTestCase(unit_tests.TestRoundTrip)
-       unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(suite)
+        """
+        Function to run test suite for pySBOL
+        """
+        import unit_tests
+        unit_tests.runTests()
 %}
 
 %template(componentDefinitionProperty) sbol::Property<sbol::ComponentDefinition>;

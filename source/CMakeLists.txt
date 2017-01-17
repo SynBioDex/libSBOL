@@ -31,6 +31,7 @@ FILE(GLOB SBOL_HEADER_FILES
 	module.h
 	mapsto.h
 	model.h
+    collection.h
     assembly.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
@@ -41,7 +42,6 @@ FILE(GLOB SBOL_SOURCE_FILES
 	object.cpp
     identified.cpp
 	toplevel.cpp
-	componentdefinition.cpp
 	document.cpp
     assembly.cpp)
 	

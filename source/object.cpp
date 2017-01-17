@@ -1,3 +1,28 @@
+/**
+ * @file    object.cpp
+ * @brief   SBOLObject class (a low-level, abstract class)
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
 #include "object.h"
 #include <raptor2.h>
 #include <string>
@@ -46,6 +71,23 @@ int SBOLObject::compare(SBOLObject* comparand)
         return 0;
     };
 
+    if (type.compare(SBOL_DOCUMENT) == 0)
+    {
+        vector < string > ns_list = {};
+        vector < string > comparand_ns_list = {};
+        for (auto &i_ns : namespaces)
+            ns_list.push_back(i_ns.second);
+        for (auto &i_ns : comparand->namespaces)
+            comparand_ns_list.push_back(i_ns.second);
+        sort(ns_list.begin(), ns_list.end());
+        sort(comparand_ns_list.begin(), comparand_ns_list.end());
+        if (!equal(ns_list.begin(), ns_list.end(), comparand_ns_list.begin()))
+        {
+            cout << "Namespaces do not match" << endl;
+            int IS_EQUAL = 0;
+        }
+    }
+    
     std::string l_id;
     std::string r_id;
     std::map < std::string, std::vector<std::string> >::iterator i_lp;  // iterator for left-hand side
@@ -161,10 +203,27 @@ int SBOLObject::compare(SBOLObject* comparand)
         return 0;
 };
 
-int SBOLObject::find(string uri)
+//int SBOLObject::find(string uri)
+//{
+//    if (identity.get() == uri)
+//        return 1;
+//    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+//    {
+//        vector<SBOLObject*>& store = i_store->second;
+//        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+//        {
+//            SBOLObject& obj = **i_obj;
+//            if (obj.find(uri))
+//                return 1;
+//        }
+//    }
+//    return 0;
+//};
+
+SBOLObject* SBOLObject::find(string uri)
 {
     if (identity.get() == uri)
-        return 1;
+        return this;
     for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
     {
         vector<SBOLObject*>& store = i_store->second;
@@ -172,12 +231,24 @@ int SBOLObject::find(string uri)
         {
             SBOLObject& obj = **i_obj;
             if (obj.find(uri))
-                return 1;
+                return this;
         }
     }
-    return 0;
+    return NULL;
 };
 
+string SBOLObject::makeQName(string uri)
+{
+    string ns = parseNamespace(uri);
+    string local_id = parsePropertyName(uri);
+    string qname = "";
+    for(auto const& i_ns : this->namespaces)
+    {
+        if (ns.compare(i_ns.second) == 0)
+            qname = i_ns.first + ":" + local_id;
+    }
+    return qname;
+};
 
 std::string SBOLObject::getPropertyValue(std::string property_uri)
 {
