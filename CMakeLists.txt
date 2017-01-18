@@ -1,5 +1,3 @@
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9")
-set(CMAKE_OSX_SYSROOT /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk)
 
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
 PROJECT( SBOL )
@@ -39,13 +37,20 @@ OPTION( SBOL_BUILD_PYTHON2  "Generate Python version 2 wrapper using SWIG" FALSE
 OPTION( SBOL_BUILD_PYTHON3  "Generate Python version 3 wrapper using SWIG" FALSE )
 OPTION( SBOL_BUILD_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
 OPTION( SBOL_BUILD_JSON  "Build JsonCpp library (for Linux users primarily)" FALSE)
+OPTION( SBOL_BUILD_OSX_DIST  "For pySBOL distributions on Mac, target frameworks back to OSX 10.9" FALSE)
 
 # -fPIC from boost Python
 set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
-# build examples
+# build json parser
 IF( SBOL_BUILD_JSON )
     ADD_SUBDIRECTORY( jsoncpp )
+ENDIF()
+
+# target old OSX frameworks
+IF( SBOL_BUILD_OSX_DIST )
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9")
+    set(CMAKE_OSX_SYSROOT /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk)
 ENDIF()
 
 # build libSBOL
