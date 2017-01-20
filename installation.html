@@ -83,13 +83,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Installation </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>We provide two ways to install libSBOL: Using the binary installers or building from the source.</p>
-<p>For help configuring a client project, see <a class="el" href="getting_started.html#visual_studio">Creating a Visual Studio project on Windows</a> or <a class="el" href="getting_started.html#xcode">Creating an XCode project on Mac OSX</a>.</p>
-<h1><a class="anchor" id="binary_installers"></a>
-Download Binary Installers</h1>
+<div class="textblock"><p>On Windows, installation through binary installers is the simplest way to obtain libSBOL.</p>
+<p>The installer contains pre-compiled libSBOL library. Simply install it to whichever path you want and use it.</p>
 <p><a href="https://github.com/SynBioDex/libSBOL/releases/latest">Get the latest binary installers</a></p>
-<p>Installation through binary installers is the simplest way to obtain libSBOL.</p>
-<p>Installer contains pre-compiled libSBOL library. Simply install it to whichever path you want and use it. Currently, we only distribute binary installers for Windows and Mac OSX.</p>
+<p>On MacOSX, installation via the <a href="http://brew.sh">Homebrew</a> package manager is easiest. Install libSBOL by running the following command in terminal: </p><div class="fragment"><div class="line">brew install homebrew/science/libsbol</div></div><!-- fragment --><p> For help configuring a client project, see <a class="el" href="getting_started.html#visual_studio">Creating a Visual Studio project on Windows</a> or <a class="el" href="getting_started.html#xcode">Creating an XCode project on Mac OSX</a>.</p>
+<p>Instructions for building from source are also provided below.</p>
 <h1><a class="anchor" id="build_from_source"></a>
 Build from Source</h1>
 <p>To build libSBOL from source, you will need:</p><ul>
@@ -128,7 +126,7 @@ Screenshot of Cmake-gui in Windows</div></div>
 <ol type="1">
 <li><a href="https://git-scm.com/">Install git for Mac OSX</a></li>
 <li>Clone the repository by running the following command in terminal or get the stable source <a href="https://github.com/SynBioDex/libSBOL/releases/latest">here</a>. <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --> This will create a libSBOL directory with the source.</li>
-<li>LibSBOL depends on the RaptorRDF library which can be obtained using the <a href="brew.sh">Homebrew</a> package manager. Install Raptor by running the following command in terminal: <div class="fragment"><div class="line">brew install raptor jsoncpp libxslt curl</div></div><!-- fragment --> Homebrew isn’t the only option. Other package installers are MacPorts and Fink.</li>
+<li>LibSBOL depends on the RaptorRDF library which can be obtained using the <a href="http://brew.sh">Homebrew</a> package manager. Install Raptor by running the following command in terminal: <div class="fragment"><div class="line">brew install raptor jsoncpp libxslt curl</div></div><!-- fragment --> Homebrew isn’t the only option. Other package installers are MacPorts and Fink.</li>
 <li>You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. <div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --></li>
 <li>For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for.</li>
 <li><p class="startli">(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. By default on Mac OSX, the library will be installed to /usr/local/lib. Building Python wrapper requires SWIG.</p>
@@ -169,7 +167,7 @@ Dependencies</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 14 2017 16:41:22 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 19 2017 16:04:03 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

@@ -1,0 +1,15 @@
+<map id="/Users/bryan/Dev/libSBOL/source/componentdefinition.h" name="/Users/bryan/Dev/libSBOL/source/componentdefinition.h">
+<area shape="rect" id="node2" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="1261,165,1339,191"/>
+<area shape="rect" id="node18" href="$component_8h.html" title="ComponentInstance, Component, and FunctionalComponent classes. " alt="" coords="1043,92,1141,117"/>
+<area shape="rect" id="node20" href="$sequenceannotation_8h.html" title="SequenceAnnotation class. " alt="" coords="1224,92,1376,117"/>
+<area shape="rect" id="node22" href="$sequenceconstraint_8h.html" title="SequenceConstraint class. " alt="" coords="854,92,1002,117"/>
+<area shape="rect" id="node3" href="$identified_8h.html" title="Identified class. " alt="" coords="1000,239,1086,264"/>
+<area shape="rect" id="node4" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="550,312,618,337"/>
+<area shape="rect" id="node5" href="$validation_8h.html" title="Validation rules. " alt="" coords="144,532,232,557"/>
+<area shape="rect" id="node10" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="538,385,630,411"/>
+<area shape="rect" id="node7" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="286,605,354,631"/>
+<area shape="rect" id="node11" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="453,459,534,484"/>
+<area shape="rect" id="node12" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="555,532,645,557"/>
+<area shape="rect" id="node19" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="1007,165,1083,191"/>
+<area shape="rect" id="node21" href="$location_8h.html" title="Location, Cut, Range, and GenericLocation classes. " alt="" coords="1158,165,1237,191"/>
+</map>

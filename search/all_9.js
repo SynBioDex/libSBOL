@@ -14,5 +14,6 @@ var searchData=
   ['list_3c_20sbol_3a_3auriproperty_20_3e',['List&lt; sbol::URIProperty &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
   ['local',['local',['../classsbol_1_1_maps_to.html#a7cd51e80d2720db8c50e97479e98f073',1,'sbol::MapsTo']]],
   ['location',['Location',['../classsbol_1_1_location.html',1,'sbol']]],
+  ['location_2eh',['location.h',['../location_8h.html',1,'']]],
   ['locations',['locations',['../classsbol_1_1_sequence_annotation.html#aba53258105e51532bb065df362b80112',1,'sbol::SequenceAnnotation']]]
 ];

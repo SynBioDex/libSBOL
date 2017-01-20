@@ -5,6 +5,7 @@ var searchData=
   ['getall',['getAll',['../classsbol_1_1_document.html#a011f796225e891fd78f0c54b79081db3',1,'sbol::Document']]],
   ['getdownstreamcomponent',['getDownstreamComponent',['../classsbol_1_1_component_definition.html#a24beb7eec4f540c77220218931525e9e',1,'sbol::ComponentDefinition']]],
   ['getfirstcomponent',['getFirstComponent',['../classsbol_1_1_component_definition.html#a43a587726be3af52752d8707f9799b32',1,'sbol::ComponentDefinition']]],
+  ['gethomespace',['getHomespace',['../config_8h.html#ad94379e0f2f62de9efe142612af7fdd9',1,'sbol']]],
   ['getinsequentialorder',['getInSequentialOrder',['../classsbol_1_1_component_definition.html#a2b8ecda127d02e42838e9d22808fb17c',1,'sbol::ComponentDefinition']]],
   ['getlastcomponent',['getLastComponent',['../classsbol_1_1_component_definition.html#a50cf12cd8946082a79d31887790a00f4',1,'sbol::ComponentDefinition']]],
   ['getobjects',['getObjects',['../classsbol_1_1_owned_object.html#af655a92abf05cc0e11ed454cbe77eaa2',1,'sbol::OwnedObject']]],

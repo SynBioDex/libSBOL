@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['validate',['validate',['../classsbol_1_1_document.html#af19ecb2e26889fcc5368c661b5fbdf98',1,'sbol::Document']]]
+  ['togglesbolcompliance',['toggleSBOLCompliance',['../config_8h.html#a676db817ef04a138484e4dcf5822766e',1,'sbol']]],
+  ['togglesbolcomplianttypes',['toggleSBOLCompliantTypes',['../config_8h.html#ab835c61350910d8f3a6882436fbea413',1,'sbol']]]
 ];

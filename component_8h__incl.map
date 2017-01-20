@@ -1,0 +1,10 @@
+<map id="/Users/bryan/Dev/libSBOL/source/component.h" name="/Users/bryan/Dev/libSBOL/source/component.h">
+<area shape="rect" id="node2" href="$identified_8h.html" title="Identified class. " alt="" coords="964,165,1050,191"/>
+<area shape="rect" id="node17" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="1009,92,1085,117"/>
+<area shape="rect" id="node3" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="591,239,659,264"/>
+<area shape="rect" id="node4" href="$validation_8h.html" title="Validation rules. " alt="" coords="232,459,320,484"/>
+<area shape="rect" id="node9" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="579,312,671,337"/>
+<area shape="rect" id="node6" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="566,532,634,557"/>
+<area shape="rect" id="node10" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="494,385,575,411"/>
+<area shape="rect" id="node11" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="494,459,583,484"/>
+</map>
