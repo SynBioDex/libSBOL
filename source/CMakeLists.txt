@@ -97,7 +97,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
             ${libcurl}
             Ws2_32.lib )
         install(TARGETS sbol32 DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
-        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX})
         set_target_properties(sbol32 PROPERTIES OUTPUT_NAME "sbol")
     endif()
     if(SBOL_BUILD_64)
@@ -123,7 +123,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
             ${libcurl}
             Ws2_32.lib )
         install(TARGETS sbol64 DESTINATION lib)   # Installs to C:\Program Files (x86)\SBOL\lib
-        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX})
         set_target_properties(sbol64 PROPERTIES OUTPUT_NAME "sbol")
     endif()
 
@@ -150,7 +150,7 @@ else ()  # If Mac OSX or Linux
             ${LIBXSLT_LIBRARIES}
             ${JsonCpp_LIBRARY})
         install(TARGETS sbol32 DESTINATION lib)  # Installs to /usr/local/lib
-        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX})
         set_target_properties(sbol32 PROPERTIES OUTPUT_NAME "sbol")
     endif()
     if(SBOL_BUILD_64)
@@ -202,7 +202,7 @@ else ()  # If Mac OSX or Linux
             ${LIBXSLT_LIBRARIES}
             ${JsonCpp_LIBRARY})
         install(TARGETS sbol64 DESTINATION lib)  # Installs to /usr/local/lib
-        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX})
         set_target_properties(sbol64 PROPERTIES OUTPUT_NAME "sbol")
     endif(SBOL_BUILD_64)
 ENDIF ()
