@@ -1,19 +1,17 @@
 //////////////////////////////////////////////////////////////////////
 /// @page installation Installation
 ///
-/// We provide two ways to install libSBOL: Using the binary installers or building from the source.
+/// On Windows, installation through binary installers is the simplest way to obtain libSBOL. The installer contains pre-compiled libSBOL library. Simply install it to whichever path you want and use it.
 ///
-/// For help configuring a client project, see @ref visual_studio or @ref xcode.
-///
-/// @section binary_installers Download Binary Installers
-/// 
 /// [Get the latest binary installers](https://github.com/SynBioDex/libSBOL/releases/latest)
 ///
-/// Installation through binary installers is the simplest way to obtain libSBOL.
-/// 
-/// Installer contains pre-compiled libSBOL library. Simply install it to whichever path you want and use it.
-/// Currently, we only distribute binary installers for Windows and Mac OSX.
+/// On MacOSX, installation via the [Homebrew](http://brew.sh) package manager is easiest. Install libSBOL by running the following command in terminal:
+/// ```
+/// brew install homebrew/science/libsbol
+/// ```
+/// For help configuring a client project, see @ref visual_studio or @ref xcode.
 ///
+/// Instructions for building from source are also provided below.
 ///
 /// @section build_from_source Build from Source
 ///
@@ -95,7 +93,7 @@
 /// ```
 /// This will create a libSBOL directory with the source.
 ///
-/// 3. LibSBOL depends on the RaptorRDF library which can be obtained using the [Homebrew](brew.sh) package manager. Install Raptor by running the following command in terminal:
+/// 3. LibSBOL depends on the RaptorRDF library which can be obtained using the [Homebrew](http://brew.sh) package manager. Install Raptor by running the following command in terminal:
 /// ```
 /// brew install raptor jsoncpp libxslt curl
 /// ```
