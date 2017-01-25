@@ -42,7 +42,7 @@ namespace sbol
     
     /// The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, proteins, and complexes
     /// @ingroup sbol_core_data_model
-    class ComponentDefinition : public TopLevel
+    class SBOL_DECLSPEC ComponentDefinition : public TopLevel
 	{
 
 	public:

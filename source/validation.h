@@ -35,12 +35,12 @@ typedef std::vector<ValidationRule> ValidationRules;
 namespace sbol
 {
     /* These validation rules are explicitly defined in the SBOL 2.0 specification document */
-    void sbolRule10101(void *sbol_obj, void *arg);
-    void sbolRule10102(void *sbol_obj, void *arg);
-	void sbol_rule_10202(void *sbol_obj, void *arg);
+	SBOL_DECLSPEC void sbolRule10101(void *sbol_obj, void *arg);
+	SBOL_DECLSPEC void sbolRule10102(void *sbol_obj, void *arg);
+	SBOL_DECLSPEC void sbol_rule_10202(void *sbol_obj, void *arg);
 
 	/* These validation rules are internal to libSBOL */
-	void libsbol_rule_1(void *sbol_obj, void *arg);
+	SBOL_DECLSPEC void libsbol_rule_1(void *sbol_obj, void *arg);
 
     //  The following class is an experimental wrapper class for a validation callback function
     //  See http://stackoverflow.com/questions/879408/c-function-wrapper-that-behaves-just-like-the-function-itself

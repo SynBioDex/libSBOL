@@ -23,7 +23,6 @@
  * limitations under the License.
  * ------------------------------------------------------------------------->*/
 
-
 #ifndef DOCUMENT_INCLUDED
 #define DOCUMENT_INCLUDED
 
@@ -43,7 +42,7 @@
 #include <algorithm>
 
 namespace sbol {
-    
+
     // This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
     extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
     
@@ -73,10 +72,10 @@ namespace sbol {
         // TODO: register ns_prefix in SBOLObject
 	};
     
-    void raptor_error_handler(void *user_data, raptor_log_message* message);
+    void SBOL_DECLSPEC raptor_error_handler(void *user_data, raptor_log_message* message);
 	
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
-    class Document : public SBOLObject
+    class SBOL_DECLSPEC Document : public SBOLObject
     {
         friend class SBOLObject;
         
@@ -294,23 +293,23 @@ namespace sbol {
 	};
     
     // Convert ntriple encoding down to ascii, removing escape codes. See https://www.w3.org/TR/2004/REC-rdf-testcases-20040210/#ntrip_strings
-    std::string convert_ntriples_encoding_to_ascii(std::string s);
-	std::string cut_sbol_resource(std::string& xml_string, const std::string resource_id);
-    void replace_reference_to_resource(std::string& xml_string, const std::string property_name, const std::string resource_id, std::string& replacement_text);
-	void seek_element(std::istringstream& xml_buffer, std::string uri);
-    void seek_property_element(std::istringstream& xml_buffer, std::string property_name);
-	void seek_next_element(std::istringstream& xml_buffer);
-	void seek_new_line(std::istringstream& xml_buffer);
-	void seek_end_of_line(std::istringstream& xml_buffer);
-	void seek_end_of_element(std::istringstream& xml_buffer);
-	void seek_end_of_node(std::istringstream& xml_buffer, std::string uri);
-    void seek_resource(std::istringstream& xml_buffer, std::string qname, std::string resource_uri);
-	bool is_open_node(std::istringstream& xml_buffer);
-	void indent(std::string& text, int indentation); 
-	std::string get_qname(std::istringstream& xml_buffer);
-	std::string get_local_part(std::string qname);
-	std::string get_prefix(std::string qname);
-	std::vector<std::string> parse_element(std::istringstream& xml_buffer);
+    std::string SBOL_DECLSPEC convert_ntriples_encoding_to_ascii(std::string s);
+	std::string SBOL_DECLSPEC cut_sbol_resource(std::string& xml_string, const std::string resource_id);
+	void SBOL_DECLSPEC replace_reference_to_resource(std::string& xml_string, const std::string property_name, const std::string resource_id, std::string& replacement_text);
+	void SBOL_DECLSPEC seek_element(std::istringstream& xml_buffer, std::string uri);
+	void SBOL_DECLSPEC seek_property_element(std::istringstream& xml_buffer, std::string property_name);
+	void SBOL_DECLSPEC seek_next_element(std::istringstream& xml_buffer);
+	void SBOL_DECLSPEC seek_new_line(std::istringstream& xml_buffer);
+	void SBOL_DECLSPEC seek_end_of_line(std::istringstream& xml_buffer);
+	void SBOL_DECLSPEC seek_end_of_element(std::istringstream& xml_buffer);
+	void SBOL_DECLSPEC seek_end_of_node(std::istringstream& xml_buffer, std::string uri);
+	void SBOL_DECLSPEC seek_resource(std::istringstream& xml_buffer, std::string qname, std::string resource_uri);
+	bool SBOL_DECLSPEC is_open_node(std::istringstream& xml_buffer);
+	void SBOL_DECLSPEC indent(std::string& text, int indentation);
+	std::string SBOL_DECLSPEC get_qname(std::istringstream& xml_buffer);
+	std::string SBOL_DECLSPEC get_local_part(std::string qname);
+	std::string SBOL_DECLSPEC get_prefix(std::string qname);
+	std::vector<std::string> SBOL_DECLSPEC parse_element(std::istringstream& xml_buffer);
 
     template < class SBOLClass >
     std::vector<SBOLClass*> OwnedObject<SBOLClass>::getObjects()

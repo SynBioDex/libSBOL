@@ -36,7 +36,7 @@ namespace sbol
     // Forward declaration necessary for ComponentInstance.definition
     class ComponentDefinition;
     
-    class ComponentInstance : public Identified
+    class SBOL_DECLSPEC ComponentInstance : public Identified
 	{
 
 	public:
@@ -77,7 +77,7 @@ namespace sbol
 
     
     /// The Component class is used to compose ComponentDefinition objects into a structural hierarchy. For example, the ComponentDefinition of a gene could contain four Component objects: a promoter, RBS, CDS, and terminator. In turn, the ComponentDefinition of the promoter Component could contain Component objects defined as various operator sites.
-	class Component : public ComponentInstance
+	class SBOL_DECLSPEC Component : public ComponentInstance
 	{
 	public:
         /// The expected purpose and function of a genetic part are described by the roles property of ComponentDefinition. However, the same building block might be used for a different purpose in an actual design. In other words, purpose and function are sometimes determined by context.
@@ -118,7 +118,7 @@ namespace sbol
 	};
  
     /// The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside a ModuleDefinition. The ModuleDefinition describes how the that describes how the FunctionalComponent interacts with others and summarizes their aggregate function.
-	class FunctionalComponent : public ComponentInstance
+	class SBOL_DECLSPEC FunctionalComponent : public ComponentInstance
 	{
 	public:
         /// Each FunctionalComponent MUST specify via the direction property whether it serves as an input, output, both, or neither for its parent ModuleDefinition object. The value for this property MUST be one of the URIs given in the table below.

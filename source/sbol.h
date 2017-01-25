@@ -23,7 +23,6 @@
  * limitations under the License.
  * ---------------------------------------------------------------------- -->*/
 
-
 #ifndef SBOL_INCLUDED
 #define SBOL_INCLUDED
 

@@ -27,6 +27,7 @@
 #ifndef SBOL_ERROR_INCLUDED
 #define SBOL_ERROR_INCLUDED
 
+#include "config.h"
 #include <string>
 #include <iostream>
 
@@ -52,7 +53,7 @@ namespace sbol
 
 	//SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);
     
-    class SBOLError: public std::exception {
+    class SBOL_DECLSPEC SBOLError: public std::exception {
     private:
         std::string message_;
         SBOLErrorCode err_;
