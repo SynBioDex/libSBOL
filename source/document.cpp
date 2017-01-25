@@ -388,19 +388,19 @@ string sbol::convert_ntriples_encoding_to_ascii(string s)
     return s;
 };
 
-// Not finished!  A general recursive algorith which returns a flattened vector of all the objects in the document
-vector<SBOLObject *> Document::flatten()
-{
-	vector<SBOLObject *> list_of_sbol_obj;
-	// Iterate through objects in document and serialize them
-	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
-	{
-		//obj_i->second->serialize(sbol_serializer);
-		list_of_sbol_obj.push_back(obj_i->second);
-		cout << obj_i->second->identity.get() << endl;
-	}
-	return list_of_sbol_obj;
-};
+//// Not finished!  A general recursive algorith which returns a flattened vector of all the objects in the document
+//vector<SBOLObject *> Document::flatten()
+//{
+//	vector<SBOLObject *> list_of_sbol_obj;
+//	// Iterate through objects in document and serialize them
+//	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+//	{
+//		//obj_i->second->serialize(sbol_serializer);
+//		list_of_sbol_obj.push_back(obj_i->second);
+//		cout << obj_i->second->identity.get() << endl;
+//	}
+//	return list_of_sbol_obj;
+//};
 
 std::string SBOLObject::nest(std::string& rdfxml_string)
 {

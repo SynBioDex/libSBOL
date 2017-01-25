@@ -43,37 +43,6 @@
 #include <algorithm>
 
 namespace sbol {
-    
-    // This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
-    extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
-    
-    // This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
-    template < class SBOLClass >
-    sbol::SBOLObject& create()
-    {
-        // Construct an SBOLObject with emplacement
-        void* mem = malloc(sizeof(SBOLClass));
-        SBOLClass* a = new (mem) SBOLClass;
-        return (sbol::SBOLObject&)*a;
-    };
-
-    template < class ExtensionClass >
-    void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)
-    {
-        std::string uri = ns + class_name;
-        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<ExtensionClass>));
-        namespaces[ns_prefix] = ns;  // Register extension namespace
-    };
-    
-    /// @TODO Deprecate this
-    template <class SBOLClass>
-    void register_extension(std::string ns_prefix, std::string uri)
-	{
-		SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
-        // TODO: register ns_prefix in SBOLObject
-	};
-    
-    void raptor_error_handler(void *user_data, raptor_log_message* message);
 	
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
     class Document : public SBOLObject
@@ -104,27 +73,21 @@ namespace sbol {
                 namespaces["dcterms"] = PURL_URI;
                 namespaces["prov"] = PROV_URI "#";
 			};
-        
+       
+        /// @cond
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
-        
-//		std::unordered_map<std::string, sbol::TopLevel*> componentDefinitions;
-//		std::unordered_map<std::string, sbol::TopLevel*> models;
-//		std::unordered_map<std::string, sbol::TopLevel*> moduleDefinitions;
-//		std::unordered_map<std::string, sbol::TopLevel*> sequences;
+        TopLevel& getTopLevel(std::string);
+        raptor_world* getWorld();
+        /// @endcond
 
-        /// @cond
         List<OwnedObject<ComponentDefinition>> componentDefinitions;
         List<OwnedObject<ModuleDefinition>> moduleDefinitions;
         List<OwnedObject<Model>> models;
         List<OwnedObject<Sequence>> sequences;
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
-        /// @endcond
 
-        
-		TopLevel& getTopLevel(std::string);
-		raptor_world* getWorld();
-        
+
         /// Register an object in the Document
         /// @param sbol_obj The SBOL object you want to serialize
         /// @tparam SBOLClass The type of SBOL object
@@ -164,20 +127,31 @@ namespace sbol {
         /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization. As of libSBOL 2.1.0, validation rules are not fully implemented. Use request_validation instead to access the online validator.
         void validate(void *arg = NULL);
         
+        /// Search recursively for an SBOLObject in this Document that matches the uri
+        /// @param uri The identity of the object to search for
+        /// @return A pointer to the SBOLObject, or NULL if an object with this identity doesn't exist
         SBOLObject* find(std::string uri);
 
+        /// @cond
         // Handler-functions for the Raptor library's RDF parsers
         static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
-        void parse_annotation_objects();
-
-        
-        std::vector<std::string> getNamespaces();
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
+        void parse_annotation_objects();
+        /// @endcond
+        
+        /// @return A vector of namespaces
+        /// Get namespaces contained in this Document
+        std::vector<std::string> getNamespaces();
+        
+        /// Add a new namespace to this Document
+        /// @param ns The namespace, eg. http://sbols.org/v2#
+        /// @param prefix The namespace prefix, eg. sbol
         void addNamespace(std::string ns, std::string prefix);
         
-		std::vector<SBOLObject*> flatten();
+//		std::vector<SBOLObject*> flatten();
+
         /// Delete all objects in this Document and destroy the Document
         void close(std::string uri = "");
         
@@ -293,8 +267,53 @@ namespace sbol {
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
 	};
     
-    // Convert ntriple encoding down to ascii, removing escape codes. See https://www.w3.org/TR/2004/REC-rdf-testcases-20040210/#ntrip_strings
-    std::string convert_ntriples_encoding_to_ascii(std::string s);
+    
+    /* <!--- Methods for SBOL extension classes ---> */
+    
+    /// @cond
+    // This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
+    extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
+    /// @endcond
+
+    
+    // This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
+    template < class SBOLClass >
+    sbol::SBOLObject& create()
+    {
+        // Construct an SBOLObject with emplacement
+        void* mem = malloc(sizeof(SBOLClass));
+        SBOLClass* a = new (mem) SBOLClass;
+        return (sbol::SBOLObject&)*a;
+    };
+    
+    template < class ExtensionClass >
+    void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)
+    {
+        std::string uri = ns + class_name;
+        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<ExtensionClass>));
+        namespaces[ns_prefix] = ns;  // Register extension namespace
+    };
+    
+
+    
+//    /// @TODO Deprecate this
+//    template <class SBOLClass>
+//    void register_extension(std::string ns_prefix, std::string uri)
+//    {
+//        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<SBOLClass>));
+//        // TODO: register ns_prefix in SBOLObject
+//    };
+    
+    /* <!--- Handler functions used by Raptor for parsing ---> */
+
+    /// @cond
+    void raptor_error_handler(void *user_data, raptor_log_message* message);
+    /// @endcond
+    
+    /* <!--- Utility methods for processing raw XML ---> */
+
+    /// @cond
+    std::string convert_ntriples_encoding_to_ascii(std::string s);     // Convert ntriple encoding down to ascii, removing escape codes. See https://www.w3.org/TR/2004/REC-rdf-testcases-20040210/#ntrip_strings
 	std::string cut_sbol_resource(std::string& xml_string, const std::string resource_id);
     void replace_reference_to_resource(std::string& xml_string, const std::string property_name, const std::string resource_id, std::string& replacement_text);
 	void seek_element(std::istringstream& xml_buffer, std::string uri);
@@ -311,6 +330,9 @@ namespace sbol {
 	std::string get_local_part(std::string qname);
 	std::string get_prefix(std::string qname);
 	std::vector<std::string> parse_element(std::istringstream& xml_buffer);
+    /// @endcond
+
+    /* <!--- Accessor functions for SBOL properties ---> */
 
     template < class SBOLClass >
     std::vector<SBOLClass*> OwnedObject<SBOLClass>::getObjects()
@@ -323,11 +345,6 @@ namespace sbol {
         return vector_copy;
     };
     
-    /// @tparam The type of SBOL object that will be created
-    /// @param If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
-    /// @return A reference to the child object
-    /// Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
-    /// @TODO check uniqueness of URI in Document
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
     {
@@ -501,8 +518,7 @@ namespace sbol {
         }
     };
     
-    /// @param sbol_obj The child object
-    template < class SBOLClass>
+    template <class SBOLClass>
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {
         if (isSBOLCompliant())
@@ -534,10 +550,10 @@ namespace sbol {
     
 
     template <class SBOLClass>
-    SBOLClass& OwnedObject<SBOLClass>::get(const std::string object_id)
+    SBOLClass& OwnedObject<SBOLClass>::get(const std::string uri)
     {
         // By default, get the first object in the object store...
-        if (object_id.compare("") == 0)
+        if (uri.compare("") == 0)
         {
             // This should use dynamic_cast instead of implicit casting
             SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
@@ -546,7 +562,7 @@ namespace sbol {
         // ...else search the object store for an object matching the id
         else
         {
-            SBOLClass& obj = this->operator[](object_id);
+            SBOLClass& obj = this->operator[](uri);
             return obj;
         }
 //        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
@@ -578,8 +594,6 @@ namespace sbol {
         }
     };
     
-    /// @param uri The URI of the child object
-    /// @return A reference to the child object
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::operator[] (std::string uri)
     {

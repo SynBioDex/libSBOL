@@ -95,6 +95,10 @@ namespace sbol
         /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is a partial design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
         void assemble(std::vector<ComponentDefinition*> list_of_components);
+
+        /// Assemble a parent ComponentDefinition's Sequence from its subcomponent Sequences
+        /// @param composite_sequence A recursive parameter, use default value
+        /// @return The assembled parent sequence
         std::string updateSequence(std::string composite_sequence = "");
 
         /// Orders this ComponentDefinition's member Components into a linear arrangement based on Sequence Constraints.
