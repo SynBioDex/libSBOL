@@ -160,8 +160,12 @@ namespace sbol {
         /// @return The validation results
         std::string request_validation(std::string& sbol);
 
-        /// Run validation rules on this Document.  Validation rules are called automatically during parsing and serialization. As of libSBOL 2.1.0, validation rules are not fully implemented. Use request_validation instead to access the online validator.
-        void validate(void *arg = NULL);
+		/// Generates rdf/xml
+        void generate(raptor_world** world, raptor_serializer** sbol_serializer, char** sbol_buffer, size_t* sbol_buffer_len, raptor_iostream** ios, raptor_uri** base_uri);
+
+        /// Run validation on this Document.
+        /// @return The validation results
+        std::string validate();
         
         SBOLObject* find(std::string uri);
 
