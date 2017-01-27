@@ -249,9 +249,9 @@ int sbol::hasHomespace()
         return 1;
 };
 
-void sbol::toggleSBOLCompliance()
+void sbol::toggleSBOLCompliance(bool is_toggled)
 {
-    config.toggleSBOLCompliance();
+    config.toggleSBOLCompliance(is_toggled);
 };
 
 int sbol::isSBOLCompliant()
@@ -259,9 +259,9 @@ int sbol::isSBOLCompliant()
     return config.isSBOLCompliant();
 };
 
-void sbol::toggleSBOLCompliantTypes()
+void sbol::toggleSBOLCompliantTypes(bool is_toggled)
 {
-    config.toggleSBOLCompliantTypes();
+    config.toggleSBOLCompliantTypes(is_toggled);
 };
 
 int sbol::compliantTypesEnabled()
@@ -270,17 +270,17 @@ int sbol::compliantTypesEnabled()
 };
 
 
-void sbol::toggleExceptions()
+void sbol::toggleExceptions(bool is_toggled)
 {
-    config.toggleExceptions();
+    config.toggleExceptions(is_toggled);
 };
 
-void Config::toggleExceptions()
+void Config::toggleExceptions(bool is_toggled)
 {
-    if (catch_exceptions)
-        catch_exceptions = 0;
-    else
+    if (is_toggled)
         catch_exceptions = 1;
+    else
+        catch_exceptions = 0;
 };
 
 int sbol::exceptionsEnabled()
@@ -321,9 +321,9 @@ int Config::hasHomespace()
         return 1;
 };
 
-void Config::toggleSBOLCompliance()
+void Config::toggleSBOLCompliance(bool is_toggled)
 {
-    if (this->SBOLCompliant == 0)
+    if (is_toggled)
         this->SBOLCompliant = 1;
     else
         this->SBOLCompliant = 0;
@@ -334,9 +334,9 @@ int Config::isSBOLCompliant()
     return this->SBOLCompliant;
 };
 
-void Config::toggleSBOLCompliantTypes()
+void Config::toggleSBOLCompliantTypes(bool is_toggled)
 {
-    if (this->SBOLCompliantTypes == 0)
+    if (is_toggled)
         this->SBOLCompliantTypes = 1;
     else
         this->SBOLCompliantTypes = 0;
