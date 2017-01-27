@@ -23,7 +23,6 @@
  * limitations under the License.
  * ------------------------------------------------------------------------->*/
 
-
 #ifndef SEQUENCE_INCLUDED
 #define SEQUENCE_INCLUDED
 
@@ -34,7 +33,7 @@
 namespace sbol
 {
     /// The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object
-	class Sequence : public TopLevel
+	class SBOL_DECLSPEC Sequence : public TopLevel
 	{
 	public:
         /// The elements property is a REQUIRED String of characters that represents the constituents of a biological or chemical molecule. For example, these characters could represent the nucleotide bases of a molecule of DNA, the amino acid residues of a protein, or the atoms and chemical bonds of a small molecule.

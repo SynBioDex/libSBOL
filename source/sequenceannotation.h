@@ -34,7 +34,7 @@
 namespace sbol 
 {
     /// The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referred to by its parent ComponentDefinition. In addition, SequenceAnnotation objects can describe the substructure of their parent ComponentDefinition through association with the Component objects contained by this ComponentDefinition.
-    class SequenceAnnotation : public Identified
+    class SBOL_DECLSPEC SequenceAnnotation : public Identified
 	{
 	public:
         /// The component property is OPTIONAL and has a data type of URI. This URI MUST refer to a Component that is contained by the same parent ComponentDefinition that contains the SequenceAnnotation. In this way, the properties of the SequenceAnnotation, such as its description and locations, are associated with part of the substructure of its parent ComponentDefinition.

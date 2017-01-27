@@ -32,7 +32,7 @@ namespace sbol
 {
     /// The purpose of the Model class is to serve as a placeholder for an external computational model and provide additional meta-data to enable better reasoning about the contents of this model. In this way, there is minimal duplication of standardization efforts and users of SBOL can formalize the function of a ModuleDefinition in the language of their choice.
     /// @ingroup sbol_core_data_model
-	class Model : public TopLevel
+	class SBOL_DECLSPEC Model : public TopLevel
 	{
 	public:
         /// The source property is REQUIRED and MUST contain a URI reference to the source file for a model.

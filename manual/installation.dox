@@ -23,16 +23,10 @@
 /// * OPTIONAL: [Doxygen](http://www.stack.nl/~dimitri/doxygen/) for creating documentation
 /// * OPTIONAL: [SWIG](http://www.swig.org/) for generating Python wrappers
 /// 
-/// All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake can be used to generate projects for Eclipse, Visual Studio, XCode, etc. 
+/// All the development has been done using "default native compilers" and Visual Studio on Windows or Unix makefiles on Mac/Linux. CMake can be used to generate projects for Eclipse, MinGW, XCode, etc. 
 ///
-/// If you don't want to use CMake to generate make files, following is an example command line for building the library on Mac:
-/// ```
-/// $ mkdir release
-/// $ cd release
-/// $ g++ -c ../source/*.cpp -I../source -I/usr/local/include/raptor2 -std=c++11
-/// $ ar rcs libsbol.a *.o
-/// ```
-/// For more details on running libSBOL on Mac, check @ref xcode.
+/// For more details on running libSBOL on Mac, check @ref xcode. For more details on running libSBOL on Windows using Visual Studio, check @ref visual_studio.
+///
 /// ![Screenshot of Cmake-gui in Windows](cmakescreen.png)
 ///
 /// Windows

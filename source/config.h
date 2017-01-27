@@ -23,6 +23,16 @@
  * limitations under the License.
  * ------------------------------------------------------------------------->*/
 
+#if defined(SBOL_WIN)
+#if defined(SBOL_SHAREDLIB)
+#    define SBOL_DECLSPEC  __declspec(dllexport)
+#else
+#    define SBOL_DECLSPEC
+#endif
+#else
+#    define SBOL_DECLSPEC
+#endif
+
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
@@ -34,7 +44,7 @@
 namespace sbol
 {
     /// A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the `config' object.
-    class Config
+    class SBOL_DECLSPEC Config
     {
     private:
         static std::map<std::string, std::string> options;
@@ -90,31 +100,30 @@ namespace sbol
         static std::string getOption(std::string option);
     };
 
-    void setHomespace(std::string ns); ///< Set the default namespace for autocreation of URIs when a new SBOL object is created
-    extern std::string getHomespace(); ///< Get the current default namespace for autocreation of URIs when a new SBOL object is created
-    int hasHomespace();                ///< Checks if a valid default namespace has been defined
-    void toggleSBOLCompliance();       ///< Enables SBOLCompliance, which simplifies creation of URIs in constructor calls
-    int isSBOLCompliant();             ///< Checks if SBOLCompliance is enabled
-    void toggleSBOLCompliantTypes();   ///< Turns option to include types in SBOL-compliant URIs on or off
-    int compliantTypesEnabled();       ///< Checks if an object's type is included in SBOL-compliant URIs
-    void setFileFormat(std::string file_format);
-    std::string getFileFormat();
-    void toggleExceptions();
-    int exceptionsEnabled();
+	SBOL_DECLSPEC void setHomespace(std::string ns); ///< Set the default namespace for autocreation of URIs when a new SBOL object is created
+	SBOL_DECLSPEC extern std::string getHomespace(); ///< Get the current default namespace for autocreation of URIs when a new SBOL object is created
+	SBOL_DECLSPEC int hasHomespace();                ///< Checks if a valid default namespace has been defined
+	SBOL_DECLSPEC void toggleSBOLCompliance();       ///< Enables SBOLCompliance, which simplifies creation of URIs in constructor calls
+	SBOL_DECLSPEC int isSBOLCompliant();             ///< Checks if SBOLCompliance is enabled
+	SBOL_DECLSPEC void toggleSBOLCompliantTypes();   ///< Turns option to include types in SBOL-compliant URIs on or off
+	SBOL_DECLSPEC int compliantTypesEnabled();       ///< Checks if an object's type is included in SBOL-compliant URIs
+	SBOL_DECLSPEC void setFileFormat(std::string file_format);
+    std::string SBOL_DECLSPEC getFileFormat();
+	SBOL_DECLSPEC void toggleExceptions();
+	SBOL_DECLSPEC int exceptionsEnabled();
     
     /// <!--------- Utility methods for parsing URIs ------\>
     /// @cond
-    std::string randomIdentifier();
-    std::string autoconstructURI();
-    std::string constructNonCompliantURI(std::string uri);
-    std::string constructCompliantURI(std::string sbol_type, std::string display_id, std::string version);
-    std::string constructCompliantURI(std::string parent_type, std::string child_type, std::string display_id, std::string version);
-    std::string getCompliantURI(std::string uri_prefix, std::string sbol_class_name, std::string display_id, std::string version);
-    std::string parseClassName(std::string uri);
-    std::string parsePropertyName(std::string uri);
-    std::string parseNamespace(std::string uri);
+    std::string SBOL_DECLSPEC randomIdentifier();
+    std::string SBOL_DECLSPEC autoconstructURI();
+    std::string SBOL_DECLSPEC constructNonCompliantURI(std::string uri);
+    std::string SBOL_DECLSPEC constructCompliantURI(std::string sbol_type, std::string display_id, std::string version);
+    std::string SBOL_DECLSPEC constructCompliantURI(std::string parent_type, std::string child_type, std::string display_id, std::string version);
+    std::string SBOL_DECLSPEC getCompliantURI(std::string uri_prefix, std::string sbol_class_name, std::string display_id, std::string version);
+    std::string SBOL_DECLSPEC parseClassName(std::string uri);
+    std::string SBOL_DECLSPEC parsePropertyName(std::string uri);
+    std::string SBOL_DECLSPEC parseNamespace(std::string uri);
     /// @endcond
-
 }
 
 #endif /* CONFIG_INCLUDED */

@@ -43,7 +43,7 @@ namespace sbol
     
     /// @ingroup extension_layer
     /// A URIProperty may contain a restricted type of string that conforms to the specification for a Uniform Resource Identifier (URI), typically consisting of a namespace authority followed by an identifier.  A URIProperty often contains a reference to an SBOL object or may contain an ontology term.
-    class URIProperty : public Property<std::string>
+    class SBOL_DECLSPEC URIProperty : public Property<std::string>
 	{
 	public:
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
@@ -56,7 +56,7 @@ namespace sbol
 
     /// @ingroup extension_layer
     /// TextProperty objects are used to contain string literals.  They can be used as member objects inside custom SBOL Extension classes.
-	class TextProperty : public Property<std::string>
+	class SBOL_DECLSPEC TextProperty : public Property<std::string>
 	{
 	public:
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
@@ -69,7 +69,7 @@ namespace sbol
 
     /// @ingroup extension_layer
     /// IntProperty objects are used to contain integers.  They can be used as member objects inside custom SBOL Extension classes.
-	class IntProperty : public Property<int>
+	class SBOL_DECLSPEC IntProperty : public Property<int>
 	{
 	public:
         virtual int get();                  ///< Basic getter for all SBOL literal properties.
@@ -86,7 +86,7 @@ namespace sbol
     /// @ingroup extension_layer
     /// @brief Contains a version number for an SBOL object.
     /// The VersionProperty follows Maven versioning semantics and includes a major, minor, and patch version number. Specifically, libSBOL currently only supports using '.' as a delimiter. Ex: v2.0.1.  If the user does not want to follow Maven versioning, they can specify an arbitrary version string using the set() method.
-    class VersionProperty : public TextProperty
+    class SBOL_DECLSPEC VersionProperty : public TextProperty
     {
     private:
         std::vector<std::string> split(const char c);

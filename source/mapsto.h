@@ -33,7 +33,7 @@ namespace sbol
     class ComponentInstance;  // Forward declaration necessary for ReferencedObject templates
     
     ///  The purpose of the MapsTo class is to make identity relationships between different ComponentInstances in functional and structural hierarchies more clear. For example, a MapsTo object may be used to connect outputs and inputs between different low-level ModuleDefinitions contained in a higher level Module Definition. A MapsTo object may also be used to override a generic Component in a low-level ModuleDefinition with an explicit Component in a high-level ModuleDefinition, for example mapping a generic gene to an explicit component with a name and sequence.
-    class MapsTo : public Identified
+    class SBOL_DECLSPEC MapsTo : public Identified
 	{
 	public:
         /// Each MapsTo object MUST specify the relationship between its local and remote ComponentInstance objects using one of the REQUIRED refinement URIs provided in the table below.

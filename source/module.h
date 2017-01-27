@@ -35,7 +35,7 @@ namespace sbol
     class ModuleDefinition;
     
     /// The Module class represents a submodule of a ModuleDefinition within a hierarchical design.
-    class Module : public Identified
+    class SBOL_DECLSPEC Module : public Identified
 	{
 	public:
         /// The definition property is a REQUIRED URI that refers to the ModuleDefinition for the Module.

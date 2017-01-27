@@ -23,7 +23,6 @@
  * limitations under the License.
  * ------------------------------------------------------------------------->*/
 
-
 #ifndef MODULE_DEFINITION_INCLUDED
 #define MODULE_DEFINITION_INCLUDED
 
@@ -40,7 +39,7 @@ namespace sbol
     class Model;
     
     /// The ModuleDefinition class represents a grouping of structural and functional entities in a biological design. The primary usage of this class is to assert the molecular interactions and abstract function of its child entities.
-    class ModuleDefinition : public TopLevel
+    class SBOL_DECLSPEC ModuleDefinition : public TopLevel
 	{
 
 	public:

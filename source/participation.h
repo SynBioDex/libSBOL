@@ -23,7 +23,6 @@
  * limitations under the License.
  * ------------------------------------------------------------------------->*/
 
-
 #ifndef PARTICIPATION_INCLUDED
 #define PARTICIPATION_INCLUDED
 
@@ -36,7 +35,7 @@ namespace sbol
     
     /// Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction.
     /// @ingroup sbol_core_data_model
-    class Participation : public Identified
+    class SBOL_DECLSPEC Participation : public Identified
 	{
 	public:
         /// The roles property is an OPTIONAL set of URIs that describes the behavior of a Participation (and by extension its referenced FunctionalComponent) in the context of its parent Interaction. The roles property MAY contain one or more URIs that MUST identify terms from appropriate ontologies. It is  RECOMMENDED that at least one of the URIs contained by the types property refer to a term from the participant role branch of the SBO. The table below provides a list of possible SBO terms for the roles property and their corresponding URIs.

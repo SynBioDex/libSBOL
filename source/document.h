@@ -23,7 +23,6 @@
  * limitations under the License.
  * ------------------------------------------------------------------------->*/
 
-
 #ifndef DOCUMENT_INCLUDED
 #define DOCUMENT_INCLUDED
 
@@ -43,9 +42,10 @@
 #include <algorithm>
 
 namespace sbol {
+
 	
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
-    class Document : public SBOLObject
+    class SBOL_DECLSPEC Document : public SBOLObject
     {
         friend class SBOLObject;
         
@@ -131,7 +131,7 @@ namespace sbol {
         /// @param uri The identity of the object to search for
         /// @return A pointer to the SBOLObject, or NULL if an object with this identity doesn't exist
         SBOLObject* find(std::string uri);
-
+        
         /// @cond
         // Handler-functions for the Raptor library's RDF parsers
         static void parse_objects(void* user_data, raptor_statement* triple);
@@ -139,6 +139,7 @@ namespace sbol {
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
         void parse_annotation_objects();
+        SBOLObject* find_property(std::string uri);
         /// @endcond
         
         /// @return A vector of namespaces
@@ -266,7 +267,6 @@ namespace sbol {
         }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
 	};
-    
     
     /* <!--- Methods for SBOL extension classes ---> */
     

@@ -23,7 +23,6 @@
  * limitations under the License.
  * ------------------------------------------------------------------------->*/
 
-
 #ifndef OBJECT_INCLUDED
 #define OBJECT_INCLUDED
 
@@ -45,7 +44,7 @@ namespace sbol
     class Document;
     
     /// An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for serializing and parsing RDF triples
-    class SBOLObject
+    class SBOL_DECLSPEC SBOLObject
     {
         friend class Document;  // Probably can remove this, since Document is derived from SBOLObject
         
@@ -150,7 +149,7 @@ namespace sbol
     /// @ingroup extension_layer
     /// @brief A reference to another SBOL object
     /// Contains a Uniform Resource Identifier (URI) that refers to an an associated object.  The object it points to may be another resource in this Document or an external reference, for example to an object in an external repository.  In the SBOL specification, association by reference is indicated in class diagrams by arrows with open (white) diamonds.
-    class ReferencedObject : public URIProperty
+    class SBOL_DECLSPEC ReferencedObject : public URIProperty
     {
     protected:
         sbol_type reference_type_uri;

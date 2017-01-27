@@ -146,6 +146,7 @@
 /// $ g++ -std=c++11 -I../source -I/usr/local/include/raptor2 -L/usr/local/lib -lraptor2 -ljsoncpp -lcurl -lsbol client_app.cpp -o client_app 
 /// $ ./client_app
 /// ```
+/// Here, -I flags specify paths to include folders with necessary header files. -L flag specifies path to the libSBOL library. -o flag specifies the file name of the output. Change the values according to your setup.
 ///
 /// @section visual_studio Creating a Visual Studio project on Windows
 /// 

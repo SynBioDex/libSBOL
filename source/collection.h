@@ -35,7 +35,7 @@ namespace sbol
     /// . Results of a query to find all ComponentDefinition objects in a repository that function as promoters
     /// . A set of ModuleDefinition objects representing a library of genetic logic gates.
     /// . A ModuleDefinition for a complexdesign, and all of the ModuleDefinition, ComponentDefinition, Sequence, and Model objects used to provide its full specification.
-    class Collection : public TopLevel
+    class SBOL_DECLSPEC Collection : public TopLevel
     {
     public:
         /// The members property of a Collection is OPTIONAL and MAY contain a set of URI references to zero or more TopLevel objects.
