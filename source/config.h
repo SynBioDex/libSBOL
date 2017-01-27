@@ -61,7 +61,8 @@ namespace sbol
         SBOLCompliantTypes(1)
             {
             };
-        void setHomespace(std::string ns);
+        /// @cond
+        void setHomespace(std::string ns);  
         std::string getHomespace();
         int hasHomespace();
         void toggleSBOLCompliance(bool is_toggled = false);
@@ -72,7 +73,30 @@ namespace sbol
         int exceptionsEnabled();
         void setFileFormat(std::string file_format);
         std::string getFileFormat();
+        /// @endcond
+        
+        /// Configure options for online validation and conversion
+        /// | Option                     | Description                                                              | Values          |
+        /// | :------------------------- | :----------------------------------------------------------------------- | :-------------- |
+        /// | validate                   | Enable validation and conversion requests through the online validator   | True or False
+        /// | validatorURL               | The http request endpoint for validation                                 | A valid URL, set to<br>http://www.async.ece.utah.edu/sbol-validator/endpoint.php by default |
+        /// | output                     | File format for conversion                                               | SBOL2, SBOL1, FASTA, GenBank |
+        /// | diff                       | Report differences between two files                                     | True or False |
+        /// | noncompliantUrisAllowed    | If set to false, URIs in the file will not be checked for compliance<br>with the SBOL specification | True or False |
+        /// | incompleteDocumentsAllowed | If set to false, not all referenced objects must be described within<br>the given main_file | True or False |
+        /// | bestPracticesCheck         | If set to true, the file is checked for the best practice rules set<br>in the SBOL specification | True or False |
+        /// | failOnFirstError           | If set to true, the validator will fail at the first error               | True or False |
+        /// | displayFullErrorStackTrace | If set to true (and failOnFirstError is true) the validator will<br>provide a stack trace for the first validation error | True or False |
+        /// | topLevelToConvert          |                                                                          | |
+        /// | uriPrefix                  | Required for conversion from FASTA and GenBank to SBOL1 or SBOL2,<br>used to generate URIs  | True or False |
+        /// | version                    | Adds the version to all URIs and to the document                         | A valid Maven version string |
+        /// | wantFileBack               | Whether or not to return the file contents as a string                   | True or False |
+        /// @param option The option key
+        /// @param value The option value
         static void setOption(std::string option, std::string value);
+        
+        /// Get current option value for online validation and conversion
+        /// @param option The option key
         static std::string getOption(std::string option);
     };
 
@@ -88,6 +112,8 @@ namespace sbol
 	SBOL_DECLSPEC void toggleExceptions(bool is_toggled = false);
 	SBOL_DECLSPEC int exceptionsEnabled();
     
+    /// <!--------- Utility methods for parsing URIs ------\>
+    /// @cond
     std::string SBOL_DECLSPEC randomIdentifier();
     std::string SBOL_DECLSPEC autoconstructURI();
     std::string SBOL_DECLSPEC constructNonCompliantURI(std::string uri);
@@ -97,6 +123,7 @@ namespace sbol
     std::string SBOL_DECLSPEC parseClassName(std::string uri);
     std::string SBOL_DECLSPEC parsePropertyName(std::string uri);
     std::string SBOL_DECLSPEC parseNamespace(std::string uri);
+    /// @endcond
 }
 
 #endif /* CONFIG_INCLUDED */

@@ -231,10 +231,53 @@ SBOLObject* SBOLObject::find(string uri)
         {
             SBOLObject& obj = **i_obj;
             if (obj.find(uri))
-                return this;
+                return obj.find(uri);
         }
     }
     return NULL;
+};
+
+SBOLObject* SBOLObject::find_property(string uri)
+{
+    if (owned_objects.find(uri) != owned_objects.end())
+        return this;
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        vector<SBOLObject*>& store = i_store->second;
+        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+        {
+            SBOLObject& obj = **i_obj;
+            if (obj.find_property(uri))
+                return obj.find_property(uri);
+        }
+    }
+    return NULL;
+};
+
+vector<SBOLObject*> SBOLObject::find_reference(string uri)
+{
+    vector<SBOLObject*> matches = {};
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        vector<SBOLObject*>& store = i_store->second;
+        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+        {
+            SBOLObject& obj = **i_obj;
+            matches = obj.find_reference(uri);
+        }
+    }
+    for (auto &i_p : properties)
+    {
+        string val = i_p.second.front();
+        if (val.compare("<" + uri + ">") == 0)
+        {
+            std::cout << "Found reference " << uri << " in " << identity.get() << endl;
+            matches.push_back(this);
+            break;
+        }
+    }
+
+    return matches;
 };
 
 string SBOLObject::makeQName(string uri)

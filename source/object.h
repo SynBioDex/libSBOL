@@ -64,12 +64,16 @@ namespace sbol
         template < class ExtensionClass > void register_extension_class(std::string ns, std::string ns_prefix, std::string class_name);
         
     public:
+        /// @cond
         Document *doc = NULL;
-    
+        sbol_type type;
+        SBOLObject* parent;
+        
         std::map<sbol::sbol_type, std::vector< std::string > > properties;
         std::map<sbol::sbol_type, std::vector< std::string > > list_properties;
         std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
-
+        /// @endcond
+        
         /// The identity property is REQUIRED by all Identified objects and has a data type of URI. A given Identified object’s identity URI MUST be globally unique among all other identity URIs. The identity of a compliant SBOL object MUST begin with a URI prefix that maps to a domain over which the user has control. Namely, the user can guarantee uniqueness of identities within this domain.  For other best practices regarding URIs see Section 11.2 of the [SBOL specification doucment](http://sbolstandard.org/wp-content/uploads/2015/08/SBOLv2.0.1.pdf).
         URIProperty identity;
 
@@ -80,18 +84,24 @@ namespace sbol
         SBOLObject(std::string uri_prefix, std::string display_id, std::string version) : SBOLObject(UNDEFINED, uri_prefix, display_id, version) {};
         
         virtual ~SBOLObject();
-
-        sbol_type type;
-        SBOLObject* parent;
     
+        /// @return The uniform resource identifier that describes the RDF-type of this SBOL Object
         virtual sbol_type getTypeURI();
+        
+        /// @return Parses a local class name from the RDF-type of this SBOL Object
         std::string getClassName(std::string type);
 
-        
         /// Search this object recursively to see if an object with the URI already exists.
         /// @param uri The URI to search for.
-        /// @return 1 if an object with this URI exists, 0 if it doesn't
+        /// @return A pointer to theobject with this URI if it exists, NULL otherwise
         SBOLObject* find(std::string uri);
+
+        /// Search this object recursively to see if it contains a member property with the given RDF type.
+        /// @param uri The RDF type of the property to search for.
+        /// @return A pointer to the object that contains a member property with the specified RDF type, NULL otherwise
+        SBOLObject* find_property(std::string uri);
+        
+        std::vector<SBOLObject*> find_reference(std::string uri);
         
         /// Compare two SBOL objects or Documents. The behavior is currently undefined for objects with custom annotations or extension classes.
         /// @param comparand A pointer to the object being compared to this one.

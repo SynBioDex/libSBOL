@@ -194,25 +194,25 @@ else ()  # If Mac OSX or Linux
                 ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin"
                 LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin"
                 RUNTIME_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin")
-            install(TARGETS sbol32-shared DESTINATION bin)  # Installs to /usr/local/bin
+            install(TARGETS sbol32-shared DESTINATION lib)  # Installs to /usr/local/bin
+            install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
             set_target_properties(sbol32-shared PROPERTIES OUTPUT_NAME "sbol")
-        endif()
-        set_target_properties(sbol32 PROPERTIES LINKER_LANGUAGE CXX)
-        add_library( sbol32
+        else()
+            add_library( sbol32
                 STATIC
                 ${SBOL_HEADER_FILES}
                 ${SBOL_SOURCE_FILES})        
-        target_link_libraries(sbol32
-            ${RAPTOR_LIBRARY}
-            ${CURL_LIBRARY}
-            ${LIBXSLT_LIBRARIES}
-            ${JsonCpp_LIBRARY})
-        set_target_properties(sbol32 PROPERTIES
-            ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}"
-            LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}"
-            RUNTIME_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}")
-        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX})
-        if(NOT SBOL_BUILD_SHARED)
+            set_target_properties(sbol32 PROPERTIES LINKER_LANGUAGE CXX)
+            target_link_libraries(sbol32
+                ${RAPTOR_LIBRARY}
+                ${CURL_LIBRARY}
+                ${LIBXSLT_LIBRARIES}
+                ${JsonCpp_LIBRARY})
+            set_target_properties(sbol32 PROPERTIES
+                ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin"
+                LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin"
+                RUNTIME_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin")
+            install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
             install(TARGETS sbol32 DESTINATION lib)  # Installs to /usr/local/lib
             set_target_properties(sbol32 PROPERTIES OUTPUT_NAME "sbol")
         endif()
@@ -238,26 +238,26 @@ else ()  # If Mac OSX or Linux
                 ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin"
                 LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin"
                 RUNTIME_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin")
-            install(TARGETS sbol64-shared DESTINATION bin)  # Installs to /usr/local/bin
+            install(TARGETS sbol64-shared DESTINATION lib)  # Installs to /usr/local/lib
+            install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
             set_target_properties(sbol64-shared PROPERTIES OUTPUT_NAME "sbol")
-        endif()
-        set_target_properties(sbol64 PROPERTIES LINKER_LANGUAGE CXX)
-        add_library( sbol64 
-            STATIC 
-            ${SBOL_HEADER_FILES} 
-            ${SBOL_SOURCE_FILES})        
-        target_link_libraries(sbol64
-            ${RAPTOR_LIBRARY}
-            ${CURL_LIBRARY}
-            ${LIBXSLT_LIBRARIES}
-            ${JsonCpp_LIBRARY})
-        set_target_properties(sbol64 PROPERTIES
-            ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}"
-            LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}"
-            RUNTIME_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}")
-        install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX})
-        if(NOT SBOL_BUILD_SHARED)
+        else()
+            add_library( sbol64
+                STATIC
+                ${SBOL_HEADER_FILES}
+                ${SBOL_SOURCE_FILES})
+            set_target_properties(sbol64 PROPERTIES LINKER_LANGUAGE CXX)
+            target_link_libraries(sbol64
+                ${RAPTOR_LIBRARY}
+                ${CURL_LIBRARY}
+                ${LIBXSLT_LIBRARIES}
+                ${JsonCpp_LIBRARY})
+            set_target_properties(sbol64 PROPERTIES
+                ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin"
+                LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin"
+                RUNTIME_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/bin")
             install(TARGETS sbol64 DESTINATION lib)  # Installs to /usr/local/lib
+            install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
             set_target_properties(sbol64 PROPERTIES OUTPUT_NAME "sbol")
         endif()
     endif(SBOL_BUILD_64)
