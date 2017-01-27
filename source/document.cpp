@@ -651,13 +651,36 @@ void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
         }
 }
 
-void Document::validate(void *arg)
+/**
+* @author KC
+*/
+std::string Document::validate()
 {
-    for (ValidationRules::iterator i_rule = this->validationRules.begin(); i_rule != this->validationRules.end(); ++i_rule)
-    {
-        ValidationRule& validate_fx = *i_rule;
-        validate_fx(this, NULL);
-    }
+	raptor_world* world = getWorld();
+	raptor_serializer* sbol_serializer;
+	if (getFileFormat().compare("rdfxml") == 0)
+		sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
+	else
+		sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
+
+	char* sbol_buffer;
+	size_t sbol_buffer_len;
+
+	raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
+	raptor_uri *base_uri = NULL;
+
+	generate(&world, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
+
+	std::string sbol_buffer_string = std::string((char*)sbol_buffer);
+
+	std::string response = "";
+	if (Config::getOption("validate").compare("True") == 0)
+		response = request_validation(sbol_buffer_string);
+
+	raptor_free_iostream(ios);
+	raptor_free_uri(base_uri);
+
+	return response;
 }
 
 std::vector<std::string> Document::getNamespaces()
@@ -796,8 +819,9 @@ void Document::append(std::string filename)
 
     // On the final pass, nested annotations not in the SBOL namespace are identified
 //    parse_annotation_objects();
-    
-    this->validate();
+
+//@TODO fix validation on read
+//    this->validate();
 
     fclose(fh);
 }
@@ -995,70 +1019,22 @@ std::string Document::write(std::string filename)
         }
     }
 
-    FILE* fh = fopen(filename.c_str(), "wb");
-    raptor_world* world = getWorld();
-    raptor_serializer* sbol_serializer;
-    if (getFileFormat().compare("rdfxml") == 0)
-        sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
-    else
-        sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
+	FILE* fh = fopen(filename.c_str(), "wb");
 
-	//char * sbol_buffer = "";
-    char * sbol_buffer;
+	raptor_world* world = getWorld();
+	raptor_serializer* sbol_serializer;
+	if (getFileFormat().compare("rdfxml") == 0)
+		sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
+	else
+		sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
+
+	char *sbol_buffer;
 	size_t sbol_buffer_len;
 
-    raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
-    raptor_uri *base_uri = NULL;
+	raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
+	raptor_uri *base_uri = NULL;
     
-    // Set the default authority for URIs
-//    if (hasHomespace())
-//    {
-//        cout << "Writing in Homespace " << getHomespace() << endl;
-//        base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());
-//    }
-
-	int err = raptor_serializer_start_to_iostream(sbol_serializer, base_uri, ios);
-	if (err) cout << "Error starting iostream" << endl;
-	err = raptor_serializer_start_to_string(sbol_serializer, base_uri, (void **)&sbol_buffer, &sbol_buffer_len);
-	if (err) cout << "Error " << err << "starting string" << endl;
-
-    // Add core SBOL namespaces to Document
-    raptor_namespace_stack *sbol_namespaces = raptor_new_namespaces(world, 0);
-//    raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
-//    raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
-//    raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
-//    
-//    const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
-//    const unsigned char *purl_prefix = (const unsigned char *)"dcterms";
-//    const unsigned char *prov_prefix = (const unsigned char *)"prov";
-//    
-//    raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
-//    raptor_namespace *purl_namespace = raptor_new_namespace_from_uri(sbol_namespaces, purl_prefix, purl_uri, 1);
-//    raptor_namespace *prov_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prov_prefix, prov_uri, 1);
-//    
-//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
-//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
-//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
-    
-	// Iterate through objects in document and serialize them
-	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
-	{
-		obj_i->second->serialize(sbol_serializer);
-	}
-    
-    // Add extension namespaces. This must come after the call to serialize in which extension namespaces are propagated up to the Document level.
-    for (auto i_ns = this->namespaces.begin(); i_ns != this->namespaces.end(); ++i_ns)
-    {
-        std::string prefix = i_ns->first;
-        std::string ns = i_ns->second;
-        raptor_uri *ns_uri = raptor_new_uri(world, (const unsigned char *)ns.c_str());
-        raptor_namespace *extension_namespace = raptor_new_namespace_from_uri(sbol_namespaces, (const unsigned char *)prefix.c_str(), ns_uri, 1);
-        raptor_serializer_set_namespace_from_namespace(sbol_serializer, extension_namespace);
-    }
-    
-	// Finalize RDF/XML serialization
-	raptor_serializer_serialize_end(sbol_serializer);
-	raptor_free_serializer(sbol_serializer);
+	generate(&world, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
 
     // Convert flat RDF/XML into nested SBOL
 	std::string sbol_buffer_string = std::string((char*)sbol_buffer);
@@ -1081,18 +1057,79 @@ std::string Document::write(std::string filename)
             cout << "Serialization failed" << endl;
         }
     }
-    
-    // Validate SBOL
-    std::string response = "";
-    if (Config::getOption("validate").compare("True") == 0)
-        response = request_validation(sbol_buffer_string);
 
 	raptor_free_iostream(ios);
     raptor_free_uri(base_uri);
+
+	// Validate SBOL
+	std::string response = validate();
+
 	fclose(fh);
 
     return response;
 };
+
+/**
+* @author KC
+* generates rdf/xml
+*/
+void Document::generate(raptor_world** world, raptor_serializer** sbol_serializer, char** sbol_buffer, size_t* sbol_buffer_len, raptor_iostream** ios, raptor_uri** base_uri)
+{
+
+	//char * sbol_buffer = "";
+
+	// Set the default authority for URIs
+	//    if (hasHomespace())
+	//    {
+	//        cout << "Writing in Homespace " << getHomespace() << endl;
+	//        base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());
+	//    }
+
+	int err = raptor_serializer_start_to_iostream(*sbol_serializer, *base_uri, *ios);
+	if (err) cout << "Error starting iostream" << endl;
+	err = raptor_serializer_start_to_string(*sbol_serializer, *base_uri, (void **)sbol_buffer, sbol_buffer_len);
+	if (err) cout << "Error " << err << "starting string" << endl;
+
+	// Add core SBOL namespaces to Document
+	raptor_namespace_stack *sbol_namespaces = raptor_new_namespaces(*world, 0);
+	//    raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
+	//    raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
+	//    raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
+	//    
+	//    const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
+	//    const unsigned char *purl_prefix = (const unsigned char *)"dcterms";
+	//    const unsigned char *prov_prefix = (const unsigned char *)"prov";
+	//    
+	//    raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
+	//    raptor_namespace *purl_namespace = raptor_new_namespace_from_uri(sbol_namespaces, purl_prefix, purl_uri, 1);
+	//    raptor_namespace *prov_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prov_prefix, prov_uri, 1);
+	//    
+	//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
+	//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
+	//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
+
+	// Iterate through objects in document and serialize them
+	for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+	{
+		obj_i->second->serialize(*sbol_serializer);
+	}
+
+	// Add extension namespaces. This must come after the call to serialize in which extension namespaces are propagated up to the Document level.
+	for (auto i_ns = this->namespaces.begin(); i_ns != this->namespaces.end(); ++i_ns)
+	{
+		std::string prefix = i_ns->first;
+		std::string ns = i_ns->second;
+		raptor_uri *ns_uri = raptor_new_uri(*world, (const unsigned char *)ns.c_str());
+		raptor_namespace *extension_namespace = raptor_new_namespace_from_uri(sbol_namespaces, (const unsigned char *)prefix.c_str(), ns_uri, 1);
+		raptor_serializer_set_namespace_from_namespace(*sbol_serializer, extension_namespace);
+	}
+
+	// Finalize RDF/XML serialization
+	raptor_serializer_serialize_end(*sbol_serializer);
+	raptor_free_serializer(*sbol_serializer);
+
+	return;
+}
 
 void Document::close(std::string uri)
 {
