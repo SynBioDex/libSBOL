@@ -93,8 +93,15 @@ namespace sbol
 
         /// Search this object recursively to see if an object with the URI already exists.
         /// @param uri The URI to search for.
-        /// @return 1 if an object with this URI exists, 0 if it doesn't
+        /// @return A pointer to theobject with this URI if it exists, NULL otherwise
         SBOLObject* find(std::string uri);
+
+        /// Search this object recursively to see if it contains a member property with the given RDF type.
+        /// @param uri The RDF type of the property to search for.
+        /// @return A pointer to the object that contains a member property with the specified RDF type, NULL otherwise
+        SBOLObject* find_property(std::string uri);
+        
+        std::vector<SBOLObject*> find_reference(std::string uri);
         
         /// Compare two SBOL objects or Documents. The behavior is currently undefined for objects with custom annotations or extension classes.
         /// @param comparand A pointer to the object being compared to this one.

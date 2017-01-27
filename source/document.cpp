@@ -708,16 +708,17 @@ SBOLObject* Document::find_property(std::string uri)
     return NULL;
 };
 
-vector<SBOLObject*> Document::find_reference(std::string uri)
-{
-    vector<SBOLObject*> matches = {};
-    for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
-    {
-        SBOLObject& obj = *i_obj->second;
-        matches = obj.find_reference(uri) ;
-    }
-    return matches;
-};
+//vector<SBOLObject*> Document::find_reference(string uri)
+//{
+//    vector<SBOLObject*> matches = {};
+//    for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+//    {
+//        SBOLObject& obj = *i_obj->second;
+//        // @TODO: Need to append matches vector
+//        matches = obj.find_reference(uri);
+//    }
+//    return matches;
+//};
 
 void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
 {
@@ -794,7 +795,7 @@ void Document::append(std::string filename)
 	raptor_free_parser(rdf_parser);
 
     // On the final pass, nested annotations not in the SBOL namespace are identified
-    parse_annotation_objects();
+//    parse_annotation_objects();
     
     this->validate();
 
