@@ -570,14 +570,36 @@ void Document::parse_annotation_objects()
 {
     for (auto &i_obj : this->SBOLObjects)
     {
-        SBOLObject& obj = *i_obj.second;
+        SBOLObject* obj = i_obj.second;
         bool IS_TOP_LEVEL;
-        cout << "Casting " << obj.identity.get() << " to TopLevel : ";
-        if (obj.properties.find(SBOL_PERSISTENT_IDENTITY) != obj.properties.end())
-            cout << "PASSED" << endl;
+        if (!dynamic_cast<TopLevel*>(obj))
+        {
+            if (obj->properties.find(SBOL_PERSISTENT_IDENTITY) != obj->properties.end())
+            {
+                TopLevel* tl = dynamic_cast<TopLevel*>(obj);
+                cout << tl->persistentIdentity.get() << endl;
+                // replace obj with tl
+                // @TODO free obj?
+                this->SBOLObjects[i_obj.first] = tl;
+                cout << "Casting " << obj->identity.get() << " to TopLevel : ";
+                cout << tl << "\t" << obj << endl;
+            }
+            else
+            {
+                string property_name = parsePropertyName(obj->type);
+                property_name[0] = tolower(property_name[0]);
+                cout << "Searching for parent object " << parseNamespace(obj->type) + "#" + property_name << endl;
+                // Need to remove trailing delimiter from namespace!!  find_property only returns the first object it finds with the property
+                SBOLObject* parent = find_property(parseNamespace(obj->type) + "#" + property_name);
+                if (parent)
+                    cout << "Found " << parent->identity.get() << endl;
+                // find property and nest
+            }
+        }
         else
-            cout << "FAILED" << endl;
-        getchar();
+        {
+            cout << obj->identity.get() << " already TopLevel" << endl;
+        }
     }
     // Determine if the property value refers to another object or is a literal. Start by searching the Document's object store if an object exists.
     // Strip off the angle brackets from the URI value.  Note that a Document's object_store
@@ -667,13 +689,35 @@ SBOLObject* Document::find(std::string uri)
     for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
     {
         SBOLObject& obj = *i_obj->second;
-        SBOLObject* match = obj.find(uri) ;
+        SBOLObject* match = obj.find(uri);
         if (match)
             return match;
     }
     return NULL;
 };
 
+SBOLObject* Document::find_property(std::string uri)
+{
+    for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject& obj = *i_obj->second;
+        SBOLObject* match = obj.find_property(uri) ;
+        if (match)
+            return match;
+    }
+    return NULL;
+};
+
+vector<SBOLObject*> Document::find_reference(std::string uri)
+{
+    vector<SBOLObject*> matches = {};
+    for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject& obj = *i_obj->second;
+        matches = obj.find_reference(uri) ;
+    }
+    return matches;
+};
 
 void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
 {
@@ -730,25 +774,27 @@ void Document::append(std::string filename)
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
 	unsigned char *uri_string;
 	raptor_uri *uri, *base_uri;
-	
-	void *user_data = this;
+    base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
+    void *user_data = this;
+
+    // Read the triple store. On the first pass through the triple store, new SBOLObjects are constructed by the parse_objects handler
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
 	//base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
-   	base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
-
     raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
+    raptor_free_iostream(ios);
 
-	raptor_free_iostream(ios);
+    // Read the triple store again. On the second pass through the triple store, property values are assigned to each SBOLObject's member properties by the parse_properties handler
 	rewind(fh);
 	ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_properties);
 	raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
-
-	raptor_free_uri(base_uri);
-	raptor_free_iostream(ios);
+    raptor_free_iostream(ios);
+    
+    raptor_free_uri(base_uri);
 	raptor_free_parser(rdf_parser);
 
-//    parse_annotation_objects();
+    // On the final pass, nested annotations not in the SBOL namespace are identified
+    parse_annotation_objects();
     
     this->validate();
 
