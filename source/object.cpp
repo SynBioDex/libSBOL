@@ -271,12 +271,10 @@ vector<SBOLObject*> SBOLObject::find_reference(string uri)
         string val = i_p.second.front();
         if (val.compare("<" + uri + ">") == 0)
         {
-            std::cout << "Found reference " << uri << " in " << identity.get() << endl;
             matches.push_back(this);
             break;
         }
     }
-
     return matches;
 };
 

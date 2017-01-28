@@ -144,7 +144,7 @@ namespace sbol {
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
         void parse_annotation_objects();
         SBOLObject* find_property(std::string uri);
-//        std::vector<SBOLObject*> find_reference(std::string uri);
+        std::vector<SBOLObject*> find_reference(std::string uri);
         /// @endcond
         
         /// @return A vector of namespaces
