@@ -1,12 +1,12 @@
 /**
  * @file    document.cpp
  * @brief   Document class, serialization method, and some low-level accessor methods
- * @author  Bryan Bartley
+ * @author  Bryan Bartley, Kiri Choi
  * @email   bartleyba@sbolstandard.org
  *
  * <!--------------------------------------------------------------------------
  * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
- * information about SBOL, and the latest version of libSBOL.
+ * information about SBOL and the latest version of libSBOL.
  *
  *  Copyright 2016 University of Washington, WA, USA
  *
@@ -1271,28 +1271,29 @@ size_t CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_t nmem
     return size*nmemb;
 };
 
+
 std::string Document::request_validation(std::string& sbol)
 {
     /* Form validation options in JSON */
-    Json::Value validationOptions;   // 'root' will contain the root value after parsing.
+    Json::Value request;   // 'root' will contain the root value after parsing.
 
-    vector<string> opts = {"output", "diff", "noncompliantUrisAllowed", "incompleteDocumentsAllowed", "bestPracticesCheck", "failOnFirstError", "displayFullErrorStackTrace", "topLevelToConvert", "uriPrefix", "version"};
+    vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
     for (auto const& opt : opts)
     {
         if (Config::getOption(opt).compare("True") == 0)
-            validationOptions["validationOptions"][opt] = true;
+            request["options"][opt] = true;
         else if (Config::getOption(opt).compare("False") == 0)
-            validationOptions["validationOptions"][opt] = false;
+            request["options"][opt] = false;
         else
-            validationOptions["validationOptions"][opt] = Config::getOption(opt);
+            request["options"][opt] = Config::getOption(opt);
     }
-    if (Config::getOption("wantFileBack").compare("True") == 0)
-        validationOptions["wantFileBack"] = true;
-    else if (Config::getOption("wantFileBack").compare("False") == 0)
-        validationOptions["wantFileBack"] = false;
-    validationOptions["mainFile"] = sbol;
+    if (Config::getOption("return_file").compare("True") == 0)
+        request["return_file"] = true;
+    else if (Config::getOption("return_file").compare("False") == 0)
+        request["return_file"] = false;
+    request["main_file"] = sbol;
     Json::StyledWriter writer;
-    string json = writer.write( validationOptions );
+    string json = writer.write( request );
     
     
     /* Perform HTTP request */
@@ -1314,7 +1315,7 @@ std::string Document::request_validation(std::string& sbol)
         /* First set the URL that is about to receive our POST. This URL can
          just as well be a https:// URL if that is what should receive the
          data. */
-        curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validatorURL").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */

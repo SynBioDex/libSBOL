@@ -37,32 +37,37 @@ using namespace std;
 extern Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
 //Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
 
+
 std::map<std::string, std::string> sbol::Config::options {
     {"validate", "True"},
-    {"validatorURL", "http://www.async.ece.utah.edu/sbol-validator/endpoint.php"},
-    {"output", "SBOL2"},
-    {"diff", "False"},
-    {"noncompliantUrisAllowed", "False"},
-    {"incompleteDocumentsAllowed", "False"},
-    {"bestPracticesCheck", "False"},
-    {"failOnFirstError", "False"},
-    {"displayFullErrorStackTrace", "False"},
-    {"topLevelToConvert", ""},
-    {"uriPrefix", ""},
+    {"validator_url", "http://www.async.ece.utah.edu/sbol-validator/endpoint.php"},
+    {"language", "SBOL2"},
+    {"test_equality", "False"},
+    {"check_uri_compliance", "False"},
+    {"check_completeness", "False"},
+    {"check_best_practices", "False"},
+    {"fail_on_first_error", "False"},
+    {"provide_detailed_stack_trace", "False"},
+    {"uri_prefix", ""},
+    {"subset_uri", ""},
     {"version", ""},
-    {"wantFileBack", "False"}
+    {"insert_type", "True"},
+    {"main_file_name", "main file"},
+    {"diff_file_name", "comparison file"},
+    {"return_file", "True"}
 };
+
 std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"validate", { "True", "False" }},
-    {"output", { "SBOL2", "FASTA", "GenBank" }},
-    {"diff", { "True", "False" }},
-    {"noncompliantUrisAllowed", { "True", "False" }},
-    {"incompleteDocumentsAllowed", { "True", "False" }},
-    {"bestPracticesCheck", { "True", "False" }},
-    {"failOnFirstError", { "True", "False" }},
-    {"displayFullErrorStackTrace", { "True", "False" }},
-    {"topLevelToConvert", {"", "True", "False" }},
-    {"wantFileBack", {"True", "False"}}
+    {"language", { "SBOL2", "FASTA", "GenBank" }},
+    {"test_equality", { "True", "False" }},
+    {"check_uri_compliance", { "True", "False" }},
+    {"check_completeness", { "True", "False" }},
+    {"check_best_practices", { "True", "False" }},
+    {"fail_on_first_error", { "True", "False" }},
+    {"provide_detailed_stack_trace", { "True", "False" }},
+    {"insert_type", { "True", "False" }},
+    {"return_file", { "True", "False" }}
 };
 
 void sbol::Config::setOption(std::string option, std::string value)
