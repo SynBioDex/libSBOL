@@ -136,7 +136,7 @@ namespace sbol
         void participate(Participation& species);
         
         virtual ~ComponentDefinition() {  };
-	protected:
+//	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri
         ComponentDefinition(sbol_type type, std::string uri, std::string component_type, std::string version) :
             TopLevel(type, uri, version),

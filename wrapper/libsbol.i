@@ -618,7 +618,6 @@ namespace sbol
 %ignore sbol::Document::parse_objects;
 %ignore sbol::Document::parse_properties;
 %ignore sbol::Document::namespaceHandler;
-%ignore sbol::Document::addNamespace;
 %ignore sbol::Document::flatten();
 %ignore sbol::Document::parse_objects;
 %ignore sbol::Document::close;
@@ -726,6 +725,23 @@ namespace sbol
         };
     }
 }
+
+%inline
+%{
+    // SBOLObject&(*constructor)()
+    PyObject* register_extension_class(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor )
+    {
+        std::string uri = ns + class_name;
+//        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())constructor));
+        //namespaces[ns_prefix] = ns;  // Register extension namespace
+        std::cout << "Registering " << uri << endl;
+        std::cout << "Constructing " << uri << endl;
+        PyObject* obj = PyObject_CallFunction(constructor, NULL);
+        std::cout << "Constructed " << uri << endl;
+        return obj;
+    };
+    
+%}
 
 
 //// The following code was experimented with for mapping C++ class structure to Python class structure

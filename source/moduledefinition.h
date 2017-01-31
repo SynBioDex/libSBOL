@@ -80,7 +80,7 @@ namespace sbol
         /// @param list_of_modules A list of pointers to the submodule ModuleDefinitions
         void assemble(std::vector < ModuleDefinition* > list_of_modules);
         
-	protected:
+//	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri
         ModuleDefinition(sbol_type sbol_type_uri, std::string uri, std::string version) :
             TopLevel(sbol_type_uri, uri, version),
