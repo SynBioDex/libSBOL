@@ -208,7 +208,7 @@ std::string ComponentDefinition::updateSequence(std::string composite_sequence)
 /// @TODO update SequenceAnnotation starts and ends
 void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_components)
 {
-    if (!isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "Assemble methods require SBOL-compliance enabled");
     if (list_of_components.size() < 2)
     {
@@ -298,7 +298,7 @@ void ModuleDefinition::assemble(std::vector < ModuleDefinition* > list_of_module
     {
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Assemble method expects at least one ModuleDefinition");
     }
-    if (!isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "This method only works when SBOL-compliance is enabled");
     else
     {
@@ -472,7 +472,7 @@ FunctionalComponent& ModuleDefinition::setInput(ComponentDefinition& input)
 
 void FunctionalComponent::connect(FunctionalComponent& interface_component)
 {
-    if (!isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
    
     // Throw an error if this Sequence is not attached to a Document
@@ -578,7 +578,7 @@ void FunctionalComponent::connect(FunctionalComponent& interface_component)
 
 void Participation::define(ComponentDefinition& species, string role)
 {
-    if (!isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
     if (doc == NULL)
     {
@@ -632,7 +632,7 @@ void ComponentDefinition::participate(Participation& species)
 
 void FunctionalComponent::mask(FunctionalComponent& masked_component)
 {
-    if (!isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
     if (doc == NULL)
     {
@@ -741,7 +741,7 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
 
 int FunctionalComponent::isMasked()
 {
-    if (!isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
     if (doc == NULL)
     {

@@ -111,7 +111,7 @@ namespace sbol
                 // @TODO move this error checking to validation rules to be run on VersionProperty::set() and VersionProperty()::VersionProperty()
                 // sbol-10207 The version property of an Identified object is OPTIONAL and MAY contain a String that MUST be composed of only alphanumeric characters, underscores, hyphens, or periods and MUST begin with a digit. 20 Reference: Section 7.4 on page 16 21
                 // sbol-10208 The version property of an Identified object SHOULD follow the conventions of semantic 22 versioning as implemented by Maven.
-                if (isSBOLCompliant())
+                if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
                 {
                     std::regex v_rgx("[0-9]+[a-zA-Z0-9_\\\\.-]*");
                     if (!std::regex_match(v.begin(), v.end(), v_rgx))

@@ -39,6 +39,10 @@ extern Config& config = * new sbol::Config();  ///<  Global configuration object
 
 
 std::map<std::string, std::string> sbol::Config::options {
+    {"homespace", "http://examples.org"},
+    {"sbol_compliant_uris", "True"},
+    {"sbol_typed_uris", "True"},
+    {"output_format", "rdfxml"},
     {"validate", "True"},
     {"validator_url", "http://www.async.ece.utah.edu/sbol-validator/endpoint.php"},
     {"language", "SBOL2"},
@@ -58,6 +62,9 @@ std::map<std::string, std::string> sbol::Config::options {
 };
 
 std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
+    {"sbol_compliant_uris", {"True", "False"}},
+    {"sbol_typed_uris", { "True", "False" }},
+    {"output_format", {"rdfxml", "json"}},
     {"validate", { "True", "False" }},
     {"language", { "SBOL2", "FASTA", "GenBank" }},
     {"test_equality", { "True", "False" }},
@@ -115,7 +122,7 @@ std::string sbol::Config::getOption(std::string option)
 // @TODO move sbol_type TYPEDEF declaration to this file and use sbol_type instead of string for 2nd argument
 std::string sbol::constructCompliantURI(std::string sbol_type, std::string display_id, std::string version)
 {
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         return getHomespace() + "/" + parseClassName(sbol_type) + "/" + display_id + "/" + version;
     else
         return "";
@@ -123,7 +130,7 @@ std::string sbol::constructCompliantURI(std::string sbol_type, std::string displ
 
 std::string sbol::constructCompliantURI(std::string parent_type, std::string child_type, std::string display_id, std::string version)
 {
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         return getHomespace() + "/" + parseClassName(parent_type) + "/" + parseClassName(child_type) + "/" + display_id + "/" + version;
     else
         return "";
@@ -132,9 +139,9 @@ std::string sbol::constructCompliantURI(std::string parent_type, std::string chi
 // This autoconstruct method constructs non-SBOL-compliant URIs
 std::string sbol::constructNonCompliantURI(std::string uri)
 {
-    if (!isSBOLCompliant() && hasHomespace())
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0 && hasHomespace())
         return getHomespace() + "/" + uri;
-    else if (!isSBOLCompliant() && !hasHomespace())
+    else if (Config::getOption("sbol_compliant_uris").compare("False") == 0 && !hasHomespace())
         return uri;
     else
         return "";
@@ -159,12 +166,12 @@ string sbol::randomIdentifier()
 // This autoconstruct method constructs non-SBOL-compliant URIs
 std::string sbol::autoconstructURI()
 {
-    if (!isSBOLCompliant() && hasHomespace())
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0 && hasHomespace())
         return getHomespace() + "/" + randomIdentifier();
-    else if (isSBOLCompliant() && !hasHomespace())
+    else if (Config::getOption("sbol_compliant_uris").compare("False") == 0 && !hasHomespace())
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "The autoconstructURI method requires a valid namespace authority. Use setHomespace().");
     else
-        throw SBOLError(SBOL_ERROR_COMPLIANCE, "The autoconstructURI method only works when SBOLCompliance flag is false. Use toggleSBOLCompliance().");
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "The autoconstructURI method only works when SBOLCompliance flag is false. Use setOption to disable SBOL-compliant URIs.");
 };
 
 std::string sbol::getCompliantURI(std::string uri_prefix, std::string sbol_class_name, std::string display_id, std::string version)
@@ -254,16 +261,6 @@ int sbol::hasHomespace()
         return 1;
 };
 
-void sbol::toggleSBOLCompliance()
-{
-    config.toggleSBOLCompliance();
-};
-
-int sbol::isSBOLCompliant()
-{
-    return config.isSBOLCompliant();
-};
-
 void sbol::toggleSBOLCompliantTypes()
 {
     config.toggleSBOLCompliantTypes();
@@ -326,18 +323,6 @@ int Config::hasHomespace()
         return 1;
 };
 
-void Config::toggleSBOLCompliance()
-{
-    if (this->SBOLCompliant == 0)
-        this->SBOLCompliant = 1;
-    else
-        this->SBOLCompliant = 0;
-};
-
-int Config::isSBOLCompliant()
-{
-    return this->SBOLCompliant;
-};
 
 void Config::toggleSBOLCompliantTypes()
 {

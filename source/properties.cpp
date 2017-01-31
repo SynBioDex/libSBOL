@@ -148,7 +148,7 @@ void VersionProperty::incrementMinor()
     this->set(new_version);
     
     /// Update the identity if SBOLCompliant
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
         SBOLObject* parent_obj = this->sbol_owner;
         std::string persistentIdentity;
@@ -189,7 +189,7 @@ void VersionProperty::incrementMajor()
     this->set(new_version);
     
     /// Update the identity if SBOLCompliant
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
         SBOLObject* parent_obj = this->sbol_owner;
         std::string persistentIdentity;
@@ -229,7 +229,7 @@ void VersionProperty::incrementPatch()
     this->set(new_version);
     
     /// Update the identity if SBOLCompliant
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
         SBOLObject* parent_obj = this->sbol_owner;
         std::string persistentIdentity;
@@ -402,7 +402,7 @@ void ReferencedObject::set(std::string uri)
 // For compliant URIs
 void ReferencedObject::setReference(const std::string uri)
 {
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
         // if not TopLevel throw an error
         // @TODO search Document by persistentIdentity and retrieve the latest version

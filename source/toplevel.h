@@ -41,7 +41,7 @@ namespace sbol
         TopLevel(sbol_type type_uri = "", std::string uri = "", std::string version = "1.0.0") :
             Identified(type_uri, uri, version)
         {
-            if  (isSBOLCompliant())
+            if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
                 displayId.set(uri);
                 if (compliantTypesEnabled())

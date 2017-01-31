@@ -80,7 +80,7 @@ namespace sbol
             name(SBOL_NAME, this),
             description(SBOL_DESCRIPTION, this)
         {
-            if(isSBOLCompliant())
+            if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
                 if (compliantTypesEnabled())
                 {

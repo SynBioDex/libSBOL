@@ -242,7 +242,7 @@ namespace sbol {
             return (SBOLClass &)*(SBOLObjects[uri]);
         
         // In SBOLCompliant mode, the user may retrieve an object by persistentIdentity as well
-        if (isSBOLCompliant())
+        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
             std::vector < std::string > ids;  // Contains all URIs contaning the persistentIdentity
             
@@ -365,7 +365,7 @@ namespace sbol {
         }
         SBOLObject* parent_obj = this->sbol_owner;
 
-        if (isSBOLCompliant())
+        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
             // Form compliant URI for child object
             std::string persistent_id;
@@ -453,7 +453,7 @@ namespace sbol {
         }
         SBOLObject* parent_obj = this->sbol_owner;
         
-        if (isSBOLCompliant())
+        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
             // Form compliant URI for child object
             std::string persistent_id;
@@ -526,7 +526,7 @@ namespace sbol {
     template <class SBOLClass>
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {
-        if (isSBOLCompliant())
+        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
             throw SBOLError(SBOL_ERROR_COMPLIANCE, "Cannot add " + sbol_obj.identity.get() + " to " + this->sbol_owner->identity.get() + ". The " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::create method instead or use toggleSBOLCompliance to enter open-world mode");
         if (this->sbol_owner)
         {
@@ -614,7 +614,7 @@ namespace sbol {
         }
         
         // In SBOLCompliant mode, the user may retrieve an object by displayId as well
-        if (isSBOLCompliant())
+        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
             // Form compliant URI for child object
             SBOLObject* parent_obj = this->sbol_owner;

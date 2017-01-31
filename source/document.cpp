@@ -1158,7 +1158,7 @@ std::string ReferencedObject::create(std::string uri)
         throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::create method of " + this->sbol_owner->identity.get() + " requires that this object belongs to a Document");
     Document& doc = *sbol_owner->doc;
     Identified& parent_obj = (Identified&)*sbol_owner;
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
     
         Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ reference_type_uri ]();  // Call constructor for the referenced object
