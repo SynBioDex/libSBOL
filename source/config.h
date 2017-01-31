@@ -50,14 +50,11 @@ namespace sbol
         static std::map<std::string, std::string> options;
         static std::map<std::string, std::vector<std::string>> valid_options;
         std::string home; ///< The authoritative namespace for the Document. Setting the home namespace is like     signing a piece of paper.
-        int SBOLCompliant; ///< Flag indicating whether to autoconstruct URI's consistent with SBOL's versioning scheme
         int SBOLCompliantTypes; ///< Flag indicating whether an object's type is included in SBOL-compliant URIs
         int catch_exceptions = 0;
         std::string format = "rdfxml";
     public:
         Config() :
-        home(""),
-        SBOLCompliant(1),
         SBOLCompliantTypes(1)
             {
             };

@@ -307,17 +307,17 @@ std::string sbol::getFileFormat()
 
 void Config::setHomespace(std::string ns)
 {
-    this->home = ns;
+    options["homespace"] = ns;
 };
 
 string Config::getHomespace()
 {
-    return this->home;
+    return options["homespace"];
 };
 
 int Config::hasHomespace()
 {
-    if (this->home.compare("") == 0)
+    if (options["homespace"].compare("") == 0)
         return 0;
     else
         return 1;
