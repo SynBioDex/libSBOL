@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['togglesbolcompliance',['toggleSBOLCompliance',['../config_8h.html#a676db817ef04a138484e4dcf5822766e',1,'sbol']]],
-  ['togglesbolcomplianttypes',['toggleSBOLCompliantTypes',['../config_8h.html#ab835c61350910d8f3a6882436fbea413',1,'sbol']]]
+  ['togglesbolcomplianttypes',['toggleSBOLCompliantTypes',['../config_8h.html#a11ca6c4d8f1587db24018cc268b34a58',1,'sbol']]]
 ];

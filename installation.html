@@ -98,20 +98,19 @@ Build from Source</h1>
 <li>OPTIONAL: <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> for creating documentation</li>
 <li>OPTIONAL: <a href="http://www.swig.org/">SWIG</a> for generating Python wrappers</li>
 </ul>
-<p>All the development has been done using "default native compilers" and MinGW on Windows or Unix makefiles on Mac/Linux. CMake can be used to generate projects for Eclipse, Visual Studio, XCode, etc.</p>
-<p>If you don't want to use CMake to generate make files, following is an example command line for building the library on Mac: </p><div class="fragment"><div class="line">$ mkdir release</div><div class="line">$ cd release</div><div class="line">$ g++ -c ../source<span class="comment">/*.cpp -I../source -I/usr/local/include/raptor2 -std=c++11</span></div><div class="line"><span class="comment">$ ar rcs libsbol.a *.o</span></div></div><!-- fragment --><p> For more details on running libSBOL on Mac, check <a class="el" href="getting_started.html#xcode">Creating an XCode project on Mac OSX</a>. </p><div class="image">
+<p>All the development has been done using "default native compilers" and Visual Studio on Windows or Unix makefiles on Mac/Linux. CMake can be used to generate projects for Eclipse, MinGW, XCode, etc.</p>
+<p>For more details on running libSBOL on Mac, check <a class="el" href="getting_started.html#xcode">Creating an XCode project on Mac OSX</a>. For more details on running libSBOL on Windows using Visual Studio, check <a class="el" href="getting_started.html#visual_studio">Creating a Visual Studio project on Windows</a>.</p>
+<div class="image">
 <img src="cmakescreen.png" alt="cmakescreen.png"/>
 <div class="caption">
 Screenshot of Cmake-gui in Windows</div></div>
  <h2>Windows </h2>
 <ol type="1">
-<li><a href="https://git-scm.com/">Install git for Windows</a></li>
-<li><a href="https://cmake.org/download/">Install CMake for Windows</a></li>
+<li><a href="https://git-scm.com/">Install git for Windows</a> and <a href="https://cmake.org/download/">CMake for Windows</a>.</li>
 <li>Clone the repository by running the following command in git application or command console or get the stable source <a href="https://github.com/SynBioDex/libSBOL/releases/latest">here</a>: <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --> This will create a libSBOL directory with the source.</li>
 <li>Run CMake-gui. For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for (e.g. Visual Studio 14 2015 for 32 bit and Visual Studio 14 2015 Win64 for 64 bit). See the screenshot above.</li>
 <li><p class="startli">(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. Building Python wrapper requires SWIG.</p>
-<p class="startli">SBOL_BUILD_STATIC: Builds static archive. Enabled by default on Windows</p>
-<p class="startli">SBOL_BUILD_SHARED: Currently unavailable on Windows</p>
+<p class="startli">SBOL_BUILD_SHARED: Builds a dynamically linked library. The default is static.</p>
 <p class="startli">SBOL_BUILD_32: Build for 32-bit architectures</p>
 <p class="startli">SBOL_BUILD_64: Build for 64-bit architectures.</p>
 <p class="startli">SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2</p>
@@ -119,7 +118,7 @@ Screenshot of Cmake-gui in Windows</div></div>
 <p class="startli">If you want to try either 32 bit or 64 bit version of libSBOL, make sure you are using the right type of compiler. (Visual Studio 14 2015 vs Visual Studio 14 2015 Win64). For Python bindings, you need SWIG and Python libraries. CMake will try to look it up for you, but if it cannot, specify the path manually.</p>
 </li>
 <li>Once it's all set, click Generate to create the compiler instructions.</li>
-<li>The last step is to build the libraries. We recommend minGW or Visual Studio 2015 for this purpose. When building, make sure that you are building for 'release' target. When using minGW, first go to 'build' folder and run the compiler by using <div class="fragment"><div class="line">mingw32-make</div></div><!-- fragment --> or <div class="fragment"><div class="line">mingw32-make install</div></div><!-- fragment --> You will need administrator privileges for a make install. When using Visual Studio, open 'SBOL.sln' under 'build' folder. On the Solution Explorer to the right, right click INSTALL and press Build. The library will be located under the folder you specified in CMAKE_INSTALL_PREFIX.</li>
+<li>The last step is to build the libraries. We recommend Visual Studio 2015 or minGW for this purpose. When building, make sure that you are building for 'release' target. When using Visual Studio, open 'SBOL.sln' under 'build' folder. On the Solution Explorer to the right, right click INSTALL and press Build. The library will be located under the folder you specified in CMAKE_INSTALL_PREFIX. When using minGW, first go to 'build' folder and run the compiler by using <div class="fragment"><div class="line">mingw32-make</div></div><!-- fragment --> or <div class="fragment"><div class="line">mingw32-make install</div></div><!-- fragment --> You will need administrator privileges for a make install.</li>
 <li>(optional) For Python bindings, copy and paste the sbol folder with Python bindings to your local Python site-packages folder.</li>
 </ol>
 <h2>Mac </h2>
@@ -127,11 +126,9 @@ Screenshot of Cmake-gui in Windows</div></div>
 <li><a href="https://git-scm.com/">Install git for Mac OSX</a></li>
 <li>Clone the repository by running the following command in terminal or get the stable source <a href="https://github.com/SynBioDex/libSBOL/releases/latest">here</a>. <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --> This will create a libSBOL directory with the source.</li>
 <li>LibSBOL depends on the RaptorRDF library which can be obtained using the <a href="http://brew.sh">Homebrew</a> package manager. Install Raptor by running the following command in terminal: <div class="fragment"><div class="line">brew install raptor jsoncpp libxslt curl</div></div><!-- fragment --> Homebrew isn’t the only option. Other package installers are MacPorts and Fink.</li>
-<li>You can use the cmake utility on Mac as well. One important difference about CMake on Mac versus Windows is that there is no GUI application. However, there is an interactive utility that runs in a terminal window. <div class="fragment"><div class="line">ccmake .</div></div><!-- fragment --></li>
-<li>For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for.</li>
+<li>Run CMake-gui (type cmake in terminal or run cmake app). For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for.</li>
 <li><p class="startli">(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. By default on Mac OSX, the library will be installed to /usr/local/lib. Building Python wrapper requires SWIG.</p>
-<p class="startli">SBOL_BUILD_STATIC: Builds static archive.</p>
-<p class="startli">SBOL_BUILD_SHARED: Builds a dynamically linked library</p>
+<p class="startli">SBOL_BUILD_SHARED: Builds a dynamically linked library. The default is static.</p>
 <p class="startli">SBOL_BUILD_32: Build for 32-bit architectures.</p>
 <p class="startli">SBOL_BUILD_64: Build for 64-bit architectures.</p>
 <p class="startli">SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2</p>
@@ -145,12 +142,10 @@ Screenshot of Cmake-gui in Windows</div></div>
 <ol type="1">
 <li>If you're on Debian/Ubuntu you can get git and cmake by running the following command in terminal. <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install git cmake-qt-gui</div></div><!-- fragment --> Running this command will require sudo privilege. All the other necessary dependencies can be acquired by running the following command in terminal. <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev libjsoncpp-dev</div></div><!-- fragment --></li>
 <li>(optional) If you want to generate Python wrapper you will need SWIG. To install run: <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install swig python-dev</div></div><!-- fragment --></li>
-<li>(optional) To update the documentation you will need Doxygen. To install run: <div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install doxygen-gui</div></div><!-- fragment --></li>
 <li>Clone the repository by running the following command in terminal or get the stable source <a href="https://github.com/SynBioDex/libSBOL/releases/latest">here</a>. <div class="fragment"><div class="line">git clone https:<span class="comment">//github.com/SynBioDex/libSBOL.git</span></div></div><!-- fragment --> This will create a libSBOL directory with the source.</li>
 <li>Run CMake-gui (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. See the screenshot above.</li>
 <li><p class="startli">(optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. Building Python wrapper requires SWIG.</p>
-<p class="startli">SBOL_BUILD_STATIC: Builds static archive.</p>
-<p class="startli">SBOL_BUILD_SHARED: Builds a dynamically linked library</p>
+<p class="startli">SBOL_BUILD_SHARED: Builds a dynamically linked library. The default is static.</p>
 <p class="startli">SBOL_BUILD_32: Build for 32-bit architectures.</p>
 <p class="startli">SBOL_BUILD_64: Build for 64-bit architectures.</p>
 <p class="startli">SBOL_BUILD_PYTHON2: Build SWIG-Python wrappers for Python version 2</p>
@@ -167,7 +162,7 @@ Dependencies</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 19 2017 16:04:03 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 31 2017 18:13:45 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

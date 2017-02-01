@@ -147,75 +147,39 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_config.html">Config</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the `config' object.  <a href="classsbol_1_1_config.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the Config::setOptions and Config::getOptions methods.  <a href="classsbol_1_1_config.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a86dfc8d38e1b3806a462e76b8bf3c9e3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86dfc8d38e1b3806a462e76b8bf3c9e3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a86dfc8d38e1b3806a462e76b8bf3c9e3">setHomespace</a> (std::string ns)</td></tr>
+SBOL_DECLSPEC void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a86dfc8d38e1b3806a462e76b8bf3c9e3">setHomespace</a> (std::string ns)</td></tr>
 <tr class="memdesc:a86dfc8d38e1b3806a462e76b8bf3c9e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the default namespace for autocreation of URIs when a new SBOL object is created. <br /></td></tr>
 <tr class="separator:a86dfc8d38e1b3806a462e76b8bf3c9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad94379e0f2f62de9efe142612af7fdd9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad94379e0f2f62de9efe142612af7fdd9"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#ad94379e0f2f62de9efe142612af7fdd9">getHomespace</a> ()</td></tr>
-<tr class="memdesc:ad94379e0f2f62de9efe142612af7fdd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current default namespace for autocreation of URIs when a new SBOL object is created. <br /></td></tr>
-<tr class="separator:ad94379e0f2f62de9efe142612af7fdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0989ebb5d39a3d419982e96bd2470c78"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0989ebb5d39a3d419982e96bd2470c78"></a>
+SBOL_DECLSPEC std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a0989ebb5d39a3d419982e96bd2470c78">getHomespace</a> ()</td></tr>
+<tr class="memdesc:a0989ebb5d39a3d419982e96bd2470c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current default namespace for autocreation of URIs when a new SBOL object is created. <br /></td></tr>
+<tr class="separator:a0989ebb5d39a3d419982e96bd2470c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ad1838a31bd698e590032e6eeb0731f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ad1838a31bd698e590032e6eeb0731f"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a1ad1838a31bd698e590032e6eeb0731f">hasHomespace</a> ()</td></tr>
+SBOL_DECLSPEC int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a1ad1838a31bd698e590032e6eeb0731f">hasHomespace</a> ()</td></tr>
 <tr class="memdesc:a1ad1838a31bd698e590032e6eeb0731f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a valid default namespace has been defined. <br /></td></tr>
 <tr class="separator:a1ad1838a31bd698e590032e6eeb0731f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a676db817ef04a138484e4dcf5822766e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a676db817ef04a138484e4dcf5822766e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a676db817ef04a138484e4dcf5822766e">toggleSBOLCompliance</a> ()</td></tr>
-<tr class="memdesc:a676db817ef04a138484e4dcf5822766e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables SBOLCompliance, which simplifies creation of URIs in constructor calls. <br /></td></tr>
-<tr class="separator:a676db817ef04a138484e4dcf5822766e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a792f9365249995a2785a8cfb968ac5c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a792f9365249995a2785a8cfb968ac5c1"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a792f9365249995a2785a8cfb968ac5c1">isSBOLCompliant</a> ()</td></tr>
-<tr class="memdesc:a792f9365249995a2785a8cfb968ac5c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if SBOLCompliance is enabled. <br /></td></tr>
-<tr class="separator:a792f9365249995a2785a8cfb968ac5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab835c61350910d8f3a6882436fbea413"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab835c61350910d8f3a6882436fbea413"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#ab835c61350910d8f3a6882436fbea413">toggleSBOLCompliantTypes</a> ()</td></tr>
-<tr class="memdesc:ab835c61350910d8f3a6882436fbea413"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns option to include types in SBOL-compliant URIs on or off. <br /></td></tr>
-<tr class="separator:ab835c61350910d8f3a6882436fbea413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11ca6c4d8f1587db24018cc268b34a58"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11ca6c4d8f1587db24018cc268b34a58"></a>
+SBOL_DECLSPEC void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a11ca6c4d8f1587db24018cc268b34a58">toggleSBOLCompliantTypes</a> (bool is_toggled=false)</td></tr>
+<tr class="memdesc:a11ca6c4d8f1587db24018cc268b34a58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns option to include types in SBOL-compliant URIs on or off. <br /></td></tr>
+<tr class="separator:a11ca6c4d8f1587db24018cc268b34a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d77997e18845631ed61557c158e39ef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d77997e18845631ed61557c158e39ef"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a4d77997e18845631ed61557c158e39ef">compliantTypesEnabled</a> ()</td></tr>
+SBOL_DECLSPEC int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#a4d77997e18845631ed61557c158e39ef">compliantTypesEnabled</a> ()</td></tr>
 <tr class="memdesc:a4d77997e18845631ed61557c158e39ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an object's type is included in SBOL-compliant URIs. <br /></td></tr>
 <tr class="separator:a4d77997e18845631ed61557c158e39ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9a15dda656e091995310ad4abcafce7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8h.html#ad9a15dda656e091995310ad4abcafce7">parseClassName</a> (std::string uri)</td></tr>
-<tr class="memdesc:ad9a15dda656e091995310ad4abcafce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a class name from a URI.  <a href="config_8h.html#ad9a15dda656e091995310ad4abcafce7">More...</a><br /></td></tr>
-<tr class="separator:ad9a15dda656e091995310ad4abcafce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Global library options and configuration methods. </p>
 <dl class="section author"><dt>Author</dt><dd>Bryan Bartley  <a href="#" onclick="location.href='mai'+'lto:'+'bar'+'tl'+'eyb'+'a@'+'sbo'+'ls'+'tan'+'da'+'rd.'+'or'+'g'; return false;">bartl<span style="display: none;">.nosp@m.</span>eyba<span style="display: none;">.nosp@m.</span>@sbol<span style="display: none;">.nosp@m.</span>stan<span style="display: none;">.nosp@m.</span>dard.<span style="display: none;">.nosp@m.</span>org</a> </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="file_ad9a15dda656e091995310ad4abcafce7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string parseClassName </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>uri</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Parse a class name from a URI. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">uri</td><td>A URI </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 19 2017 16:04:03 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 31 2017 18:13:45 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

@@ -6,5 +6,6 @@ var searchData=
   ['set',['set',['../classsbol_1_1_owned_object.html#a6fdb4549d20177fb0cb00862ca1764bc',1,'sbol::OwnedObject::set()'],['../classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872',1,'sbol::Property::set(std::string new_value)'],['../classsbol_1_1_property.html#a60d0f67ccdc9630d89f8bb041cc0f122',1,'sbol::Property::set(int new_value)']]],
   ['sethomespace',['setHomespace',['../config_8h.html#a86dfc8d38e1b3806a462e76b8bf3c9e3',1,'sbol']]],
   ['setinput',['setInput',['../classsbol_1_1_module_definition.html#a22cea07a5abf85d2ed0d4b89096bf808',1,'sbol::ModuleDefinition']]],
+  ['setoption',['setOption',['../classsbol_1_1_config.html#a178010d9582a8d351e5474ca64287497',1,'sbol::Config']]],
   ['setoutput',['setOutput',['../classsbol_1_1_module_definition.html#a74f8d25b0121407dff31d299d682457a',1,'sbol::ModuleDefinition']]]
 ];

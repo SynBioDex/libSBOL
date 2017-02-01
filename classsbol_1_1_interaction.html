@@ -145,9 +145,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a89523b3b07fd9525e3b6989615cc9a94"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_interaction.html#a89523b3b07fd9525e3b6989615cc9a94">Interaction</a> (std::string uri=DEFAULT_NS&quot;/Interaction/example&quot;, std::string interaction_type=<a class="el" href="constants_8h.html#a8dcd4e52a109b7c10a5c7d8f0a69f2cb">SBO_INTERACTION</a>)</td></tr>
 <tr class="memdesc:a89523b3b07fd9525e3b6989615cc9a94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <a class="el" href="classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ...">Interaction</a>.  <a href="#a89523b3b07fd9525e3b6989615cc9a94">More...</a><br /></td></tr>
 <tr class="separator:a89523b3b07fd9525e3b6989615cc9a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeae46cf11cccb87655dc22526bacf3e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="property_8h.html#addc3413015529a8d51e055f32748821f">sbol_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#aaeae46cf11cccb87655dc22526bacf3e">getTypeURI</a> ()</td></tr>
+<tr class="separator:aaeae46cf11cccb87655dc22526bacf3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31646e8a2306697fd0a183eeb7313271"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a31646e8a2306697fd0a183eeb7313271">getClassName</a> (std::string type)</td></tr>
+<tr class="separator:a31646e8a2306697fd0a183eeb7313271"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ad2b19c3408c3dd28816c2329d6ef7d07">find</a> (std::string uri)</td></tr>
 <tr class="memdesc:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search this object recursively to see if an object with the URI already exists.  <a href="#ad2b19c3408c3dd28816c2329d6ef7d07">More...</a><br /></td></tr>
 <tr class="separator:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae38856f1013ce2e9171c8f898833e0ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ae38856f1013ce2e9171c8f898833e0ab">find_property</a> (std::string uri)</td></tr>
+<tr class="memdesc:ae38856f1013ce2e9171c8f898833e0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search this object recursively to see if it contains a member property with the given RDF type.  <a href="#ae38856f1013ce2e9171c8f898833e0ab">More...</a><br /></td></tr>
+<tr class="separator:ae38856f1013ce2e9171c8f898833e0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad593fa86924521afaff0e888083da20d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ad593fa86924521afaff0e888083da20d">compare</a> (<a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *comparand)</td></tr>
 <tr class="memdesc:ad593fa86924521afaff0e888083da20d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two SBOL objects or Documents.  <a href="#ad593fa86924521afaff0e888083da20d">More...</a><br /></td></tr>
 <tr class="separator:ad593fa86924521afaff0e888083da20d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -364,7 +371,65 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if an object with this URI exists, 0 if it doesn't </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to theobject with this URI if it exists, NULL otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae38856f1013ce2e9171c8f898833e0ab"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> * find_property </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>uri</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Search this object recursively to see if it contains a member property with the given RDF type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uri</td><td>The RDF type of the property to search for. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the object that contains a member property with the specified RDF type, NULL otherwise </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a31646e8a2306697fd0a183eeb7313271"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string getClassName </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Parses a local class name from the RDF-type of this SBOL Object </dd></dl>
 
 </div>
 </div>
@@ -457,6 +522,30 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A vector of property values or SBOL_ERROR_NOT_FOUND </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aaeae46cf11cccb87655dc22526bacf3e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="property_8h.html#addc3413015529a8d51e055f32748821f">sbol_type</a> getTypeURI </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The uniform resource identifier that describes the RDF-type of this SBOL Object </dd></dl>
 
 </div>
 </div>
@@ -556,14 +645,14 @@ Inheritance diagram for Interaction:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_interaction__inherit__graph.png" border="0" usemap="#_interaction_inherit__map" alt="Inheritance graph"/></div>
 <map name="_interaction_inherit__map" id="_interaction_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="14,447,147,640"/>
-<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="5,5,156,399"/>
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="14,393,147,587"/>
+<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="5,5,156,345"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 19 2017 16:04:03 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 31 2017 18:13:45 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

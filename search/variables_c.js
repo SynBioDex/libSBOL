@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['sbolobjects',['SBOLObjects',['../classsbol_1_1_document.html#a22f0f4a0f715f19666e4ee4287410988',1,'sbol::Document']]],
   ['sequenceannotations',['sequenceAnnotations',['../classsbol_1_1_component_definition.html#a6370970075dac494920780d3b6a72e61',1,'sbol::ComponentDefinition']]],
   ['sequenceconstraints',['sequenceConstraints',['../classsbol_1_1_component_definition.html#aaf7117785844b3ae127ed1e9de48591a',1,'sbol::ComponentDefinition']]],
   ['sequences',['sequences',['../classsbol_1_1_component_definition.html#a5df8c4893ad6d7c46ab60b6a3c004dff',1,'sbol::ComponentDefinition']]],

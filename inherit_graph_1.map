@@ -1,3 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classsbol_1_1_config.html" title="A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the `config&#39; object. " alt="" coords="5,5,65,31"/>
+<area shape="rect" id="node1" href="$classsbol_1_1_config.html" title="A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the Config::setOptions and Config::getOptions methods. " alt="" coords="5,5,65,31"/>
 </map>

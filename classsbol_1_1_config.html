@@ -91,21 +91,150 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classsbol_1_1_config-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Config Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the `config' object. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the Config::setOptions and Config::getOptions methods. </p>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a178010d9582a8d351e5474ca64287497"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_config.html#a178010d9582a8d351e5474ca64287497">setOption</a> (std::string option, std::string value)</td></tr>
+<tr class="memdesc:a178010d9582a8d351e5474ca64287497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure options for libSBOL.  <a href="#a178010d9582a8d351e5474ca64287497">More...</a><br /></td></tr>
+<tr class="separator:a178010d9582a8d351e5474ca64287497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19ed24525bc957df9f4b521c3ed62ee2"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_config.html#a19ed24525bc957df9f4b521c3ed62ee2">getOption</a> (std::string option)</td></tr>
+<tr class="memdesc:a19ed24525bc957df9f4b521c3ed62ee2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current option value for online validation and conversion.  <a href="#a19ed24525bc957df9f4b521c3ed62ee2">More...</a><br /></td></tr>
+<tr class="separator:a19ed24525bc957df9f4b521c3ed62ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a19ed24525bc957df9f4b521c3ed62ee2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string getOption </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>option</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get current option value for online validation and conversion. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">option</td><td>The option key </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a178010d9582a8d351e5474ca64287497"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setOption </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>option</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Configure options for libSBOL. </p>
+<p>Access online validation and conversion. </p><table class="doxtable">
+<tr>
+<th align="left">Option </th><th align="left">Description </th><th align="left">Values  </th></tr>
+<tr>
+<td align="left">homespace </td><td align="left">Enable validation and conversion requests through the online validator </td><td align="left"><a href="http://examples.org">http://examples.org</a> </td></tr>
+<tr>
+<td align="left">sbol_compliant_uris </td><td align="left">Enables autoconstruction of SBOL-compliant URIs from displayIds </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">sbol_typed_uri </td><td align="left">Include the SBOL type in SBOL-compliant URIs </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">output_format </td><td align="left">File format for serialization </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">validate </td><td align="left">Enable validation and conversion requests through the online validator </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">validator_url </td><td align="left">The http request endpoint for validation </td><td align="left">A valid URL, set to<br />
+<a href="http://www.async.ece.utah.edu/sbol-validator/endpoint.php">http://www.async.ece.utah.edu/sbol-validator/endpoint.php</a> by default </td></tr>
+<tr>
+<td align="left">language </td><td align="left">File format for conversion </td><td align="left">SBOL2, SBOL1, FASTA, GenBank </td></tr>
+<tr>
+<td align="left">test_equality </td><td align="left">Report differences between two files </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">check_uri_compliance </td><td align="left">If set to false, URIs in the file will not be checked for compliance<br />
+with the SBOL specification </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">check_completeness </td><td align="left">If set to false, not all referenced objects must be described within<br />
+the given main_file </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">check_best_practices </td><td align="left">If set to true, the file is checked for the best practice rules set<br />
+in the SBOL specification </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">fail_on_first_error </td><td align="left">If set to true, the validator will fail at the first error </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">provide_detailed_stack_trace </td><td align="left">If set to true (and failOnFirstError is true) the validator will<br />
+provide a stack trace for the first validation error </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">uri_prefix </td><td align="left">Required for conversion from FASTA and GenBank to SBOL1 or SBOL2,<br />
+used to generate URIs </td><td align="left">True or False </td></tr>
+<tr>
+<td align="left">version </td><td align="left">Adds the version to all URIs and to the document </td><td align="left">A valid Maven version string </td></tr>
+<tr>
+<td align="left">return_file </td><td align="left">Whether or not to return the file contents as a string </td><td align="left">True or False </td></tr>
+</table>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">option</td><td>The option key </td></tr>
+    <tr><td class="paramname">value</td><td>The option value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/bryan/Dev/libSBOL/source/<a class="el" href="config_8h.html">config.h</a></li>
 <li>/Users/bryan/Dev/libSBOL/source/<a class="el" href="config_8cpp.html">config.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 19 2017 16:04:03 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 31 2017 18:13:45 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>
