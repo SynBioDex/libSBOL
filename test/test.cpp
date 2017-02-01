@@ -2,7 +2,7 @@
 
 #include "sbol.h"
 
-#include <dirent.h>
+#include "dirent.h"
 #include <iostream>
 #include <vector>
 
