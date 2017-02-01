@@ -1,1 +1,0 @@
-/Users/bryan/Dev/libSBOL/test/CMakeFiles/sbol_test.dir
