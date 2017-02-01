@@ -62,9 +62,9 @@ namespace sbol
         void setHomespace(std::string ns);  
         std::string getHomespace();
         int hasHomespace();
-        void toggleSBOLCompliantTypes();
+        void toggleSBOLCompliantTypes(bool is_toggled = false);
         int compliantTypesEnabled();
-        void toggleExceptions();
+        void toggleExceptions(bool is_toggled = false);
         int exceptionsEnabled();
         void setFileFormat(std::string file_format);
         std::string getFileFormat();
@@ -101,11 +101,11 @@ namespace sbol
 	SBOL_DECLSPEC void setHomespace(std::string ns); ///< Set the default namespace for autocreation of URIs when a new SBOL object is created
 	SBOL_DECLSPEC extern std::string getHomespace(); ///< Get the current default namespace for autocreation of URIs when a new SBOL object is created
 	SBOL_DECLSPEC int hasHomespace();                ///< Checks if a valid default namespace has been defined
-	SBOL_DECLSPEC void toggleSBOLCompliantTypes();   ///< Turns option to include types in SBOL-compliant URIs on or off
+	SBOL_DECLSPEC void toggleSBOLCompliantTypes(bool is_toggled = false);   ///< Turns option to include types in SBOL-compliant URIs on or off
 	SBOL_DECLSPEC int compliantTypesEnabled();       ///< Checks if an object's type is included in SBOL-compliant URIs
 	SBOL_DECLSPEC void setFileFormat(std::string file_format);
     std::string SBOL_DECLSPEC getFileFormat();
-	SBOL_DECLSPEC void toggleExceptions();
+	SBOL_DECLSPEC void toggleExceptions(bool is_toggled = false);
 	SBOL_DECLSPEC int exceptionsEnabled();
     
     /// <!--------- Utility methods for parsing URIs ------\>

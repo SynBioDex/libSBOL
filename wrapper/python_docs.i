@@ -697,6 +697,37 @@ Read and write SBOL using a Document class. The Document is a container for
 Components, Modules, and all other SBOLObjects.  
 ";
 
+%feature("docstring") sbol::Document::addComponentDefinition "
+Document.addComponentDefinition(componentDefinition)
+Adds a component definition or a list of component definitions to a sbol::Document object.
+
+Parameters
+----------
+* `componentDefinition` :  
+    ComponentDefinition object or a list of ComponentDefinition objects
+";
+
+%feature("docstring") sbol::Document::addSequence "
+Document.addSequence(sequence)
+Adds a sequence or a list of sequences to a sbol::Document object.
+
+Parameters
+----------
+* `sequence` :  
+    Sequence object or a list of Sequence objects
+";
+
+%feature("docstring") sbol::Document::addModuleDefinition "
+Document.addModuleDefinition(moduleDefinition)
+Adds a module definition or a list of module definitions to a sbol::Document object.
+
+Parameters
+----------
+* `moduleDefinition` :  
+    ModuleDefinition object or a list of ModuleDefinition objects
+";
+
+
 %feature("docstring") sbol::Document::nest "
 ";
 
@@ -787,8 +818,7 @@ A vector of URIs that identify the properties contained in this object
 
 %feature("docstring") sbol::Document::validate "
 
-Run validation rules on this Document. Validation rules are called automatically
-during parsing and serialization.  
+Run validation on this Document.
 ";
 
 %feature("docstring") sbol::Document::read "

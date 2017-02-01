@@ -261,9 +261,9 @@ int sbol::hasHomespace()
         return 1;
 };
 
-void sbol::toggleSBOLCompliantTypes()
+void sbol::toggleSBOLCompliantTypes(bool is_toggled)
 {
-    config.toggleSBOLCompliantTypes();
+    config.toggleSBOLCompliantTypes(is_toggled);
 };
 
 int sbol::compliantTypesEnabled()
@@ -272,17 +272,17 @@ int sbol::compliantTypesEnabled()
 };
 
 
-void sbol::toggleExceptions()
+void sbol::toggleExceptions(bool is_toggled)
 {
-    config.toggleExceptions();
+    config.toggleExceptions(is_toggled);
 };
 
-void Config::toggleExceptions()
+void Config::toggleExceptions(bool is_toggled)
 {
-    if (catch_exceptions)
-        catch_exceptions = 0;
-    else
+    if (is_toggled)
         catch_exceptions = 1;
+    else
+        catch_exceptions = 0;
 };
 
 int sbol::exceptionsEnabled()
@@ -324,9 +324,9 @@ int Config::hasHomespace()
 };
 
 
-void Config::toggleSBOLCompliantTypes()
+void Config::toggleSBOLCompliantTypes(bool is_toggled)
 {
-    if (this->SBOLCompliantTypes == 0)
+    if (is_toggled)
         this->SBOLCompliantTypes = 1;
     else
         this->SBOLCompliantTypes = 0;
