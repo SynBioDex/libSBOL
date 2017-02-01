@@ -28,8 +28,17 @@ int main()
             {
                 string path_to_test_file =  "./valid/" + string(file->d_name);
                 doc.read(path_to_test_file);
-                cout << "passed" << endl;
-                passed++;
+                string result = doc.validate();
+                if (result.find("Valid.") != std::string::npos)
+                {
+                    cout << "passed" << endl;
+                    passed++;
+                }
+                else
+                {
+                    cout << "FAILED" << endl;
+                    failed++;
+                }
             }
             catch (...) {
                 cout << "FAILED" << endl;
@@ -51,8 +60,17 @@ int main()
             {
                 string path_to_test_file =  "./invalid/" + string(file->d_name);
                 doc.read(path_to_test_file);
-                cout << "FAILED" << endl;
-                failed++;
+                string result = doc.validate();
+                if (result.find("Valid.") != std::string::npos)
+                {
+                    cout << "FAILED" << endl;
+                    failed++;
+                }
+                else
+                {
+                    cout << "passed" << endl;
+                    passed++;
+                }
             }
             catch (...) {
                 cout << "passed" << endl;

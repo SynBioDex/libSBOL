@@ -26,7 +26,6 @@ OPTION( SBOL_BUILD_SHARED     "Build dynamically linked library"           FALSE
 #OPTION( SBOL_BUILD_COMBINED  "Build libSBOL and Raptor RDF archives combined" FALSE )
 #OPTION( SBOL_DEBUG_STATEMENTS "Add some print statements for debugging"   FALSE )
 #OPTION( SBOL_BUILD_EXAMPLES   "Build the example programs"                FALSE )
-#OPTION( SBOL_BUILD_TESTS      "Build the unit tests and example tests"    FALSE )
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	OPTION( SBOL_BUILD_32      "Build on x86 architecture" FALSE )
 	OPTION( SBOL_BUILD_64      "Build on x64 architecture" TRUE)
@@ -39,6 +38,7 @@ OPTION( SBOL_BUILD_PYTHON3  "Generate Python version 3 wrapper using SWIG" FALSE
 OPTION( SBOL_BUILD_MANUAL  "Generate SBOL documentation using Doxygen" FALSE )
 OPTION( SBOL_BUILD_JSON  "Build JsonCpp library (for Linux users primarily)" FALSE)
 OPTION( SBOL_BUILD_OSX_DIST  "For pySBOL distributions on Mac, target frameworks back to OSX 10.9" FALSE)
+OPTION( SBOL_BUILD_TESTS      "Build the unit tests and example tests"    FALSE )
 
 # -fPIC from boost Python
 set (CMAKE_POSITION_INDEPENDENT_CODE TRUE)
@@ -63,9 +63,9 @@ ADD_SUBDIRECTORY( source )
 #ENDIF()
 
 # build tests
-#IF( SBOL_BUILD_TESTS )
-#    ADD_SUBDIRECTORY( tests )
-#ENDIF()
+IF( SBOL_BUILD_TESTS )
+    ADD_SUBDIRECTORY( test )
+ENDIF()
 
 # generate documentation
 IF( SBOL_BUILD_MANUAL )

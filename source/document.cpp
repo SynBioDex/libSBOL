@@ -625,7 +625,6 @@ void Document::parse_annotation_objects()
 
 void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
 {
-    cout << "Serialization error:" << endl;
     cout << message->text << endl;
     if (message->level == RAPTOR_LOG_LEVEL_NONE) cout << "RAPTOR_LOG_LEVEL_NONE" << endl;
     if (message->level == RAPTOR_LOG_LEVEL_TRACE) cout << "RAPTOR_LOG_LEVEL_TRACE" << endl;
@@ -642,6 +641,7 @@ void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
         if (message->locator->file) cout << message->locator->file;
         if (message->locator->uri) cout << raptor_uri_as_string(message->locator->uri) << endl;
         }
+    throw SBOLError(SBOL_ERROR_SERIALIZATION, "An error occurred while parsing or serializing. The file may not contain valid RDF/XML");
 }
 
 /**
@@ -1342,7 +1342,18 @@ std::string Document::request_validation(std::string& sbol)
     bool parsed = reader.parse( response, json_response );     //parse process
     if ( parsed )
     {
-        response = json_response.get("result", response ).asString();
+        //response = json_response.get("result", response ).asString();
+        //response = json_response.get("valid", response ).asString() << endl;
+        //response = json_response.get("output_file", response ).asString() << endl;
+        //response = json_response.get("valid", response ).asString();
+        if (json_response.get("valid", response ).asString().compare("true") == 0)
+            response = "Valid.";
+        else
+            response = "Invalid.";
+        for (auto itr : json_response["errors"])
+        {
+            response += " " + itr.asString();
+        }
     }
     return response;
 };

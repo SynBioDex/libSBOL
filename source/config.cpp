@@ -44,7 +44,7 @@ std::map<std::string, std::string> sbol::Config::options {
     {"sbol_typed_uris", "True"},
     {"output_format", "rdfxml"},
     {"validate", "True"},
-    {"validator_url", "http://www.async.ece.utah.edu/sbol-validator/endpoint.php"},
+    {"validator_url", "http://www.async.ece.utah.edu/validate/"},
     {"language", "SBOL2"},
     {"test_equality", "False"},
     {"check_uri_compliance", "False"},
@@ -55,10 +55,10 @@ std::map<std::string, std::string> sbol::Config::options {
     {"uri_prefix", ""},
     {"subset_uri", ""},
     {"version", ""},
-    {"insert_type", "True"},
+    {"insert_type", "False"},
     {"main_file_name", "main file"},
     {"diff_file_name", "comparison file"},
-    {"return_file", "True"}
+    {"return_file", "False"}
 };
 
 std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
