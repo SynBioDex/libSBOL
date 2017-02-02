@@ -27,7 +27,7 @@ IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
     add_executable( sbol_test ${APPLICATION_FILES} )
     set_target_properties(sbol_test PROPERTIES LINKER_LANGUAGE CXX)
     target_link_libraries( sbol_test
-        ${sbol}
+        sbol
         ${raptor2}
         ${xml2}
         ${zlib}
@@ -51,3 +51,4 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
         )
 ENDIF ()
 
+install(TARGETS sbol_test DESTINATION bin)
