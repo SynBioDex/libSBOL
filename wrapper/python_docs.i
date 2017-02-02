@@ -15,8 +15,6 @@ of ModuleDefinition objects representing a library of genetic logic gates. . A
 ModuleDefinition for a complexdesign, and all of the ModuleDefinition,
 ComponentDefinition, Sequence, and Model objects used to provide its full
 specification.  
-
-C++ includes: collection.h
 ";
 
 %feature("docstring") sbol::Collection::addToDocument "
@@ -193,8 +191,6 @@ structural hierarchy. For example, the ComponentDefinition of a gene could
 contain four Component objects: a promoter, RBS, CDS, and terminator. In turn,
 the ComponentDefinition of the promoter Component could contain Component
 objects defined as various operator sites.  
-
-C++ includes: component.h
 ";
 
 %feature("docstring") sbol::Component::find_reference "
@@ -351,9 +347,7 @@ design.
 The primary usage of this class is to represent structural entities with
 designed sequences, such as DNA, RNA, and proteins, but it can also be used to
 represent any other entity that is part of a design, such as small molecules,
-proteins, and complexes  
-
-C++ includes: componentdefinition.h
+proteins, and complexes
 ";
 
 %feature("docstring") sbol::ComponentDefinition::participate "
@@ -784,9 +778,7 @@ The uniform resource identifier that describes the RDF-type of this SBOL Object
 
 A class which contains global configuration variables for the libSBOL
 environment. Intended to be used like a static class, configuration variables
-are accessed through the `config' object.  
-
-C++ includes: config.h
+are accessed through the `Config' object.
 ";
 
 %feature("docstring") sbol::Config::setOption "
@@ -907,9 +899,7 @@ Parameters
 %feature("docstring") sbol::Cut "
 
 The Cut class specifies a location between two coordinates of a Sequence's
-elements. class Cut : public Location.  
-
-C++ includes: location.h
+elements. 
 ";
 
 %feature("docstring") sbol::Cut::compare "
@@ -1026,8 +1016,7 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 
 Construct a Cut.  
 
-If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create <
-Cut > instead.  
+If operating in SBOL-compliant mode, use SequenceAnnotation.locations.create instead.  
 
 Parameters
 ----------
@@ -1057,8 +1046,6 @@ them.
 
 Read and write SBOL using a Document class. The Document is a container for
 Components, Modules, and all other SBOLObjects.  
-
-C++ includes: document.h
 ";
 
 %feature("docstring") sbol::Document::addComponentDefinition "
@@ -1365,8 +1352,6 @@ The FunctionalComponent class is used to specify the functional usage of a
 ComponentDefinition inside a ModuleDefinition. The ModuleDefinition describes
 how the that describes how the FunctionalComponent interacts with others and
 summarizes their aggregate function.  
-
-C++ includes: component.h
 ";
 
 %feature("docstring") sbol::FunctionalComponent::isMasked "
@@ -1566,8 +1551,6 @@ on Sequence objects with encoding properties other than IUPAC and potentially
 nonlinear structure. This class can also be used to set the orientation of a
 SequenceAnnotation and any associated Component when their parent
 ComponentDefinition is a partial design that lacks a Sequence.  
-
-C++ includes: location.h
 ";
 
 %feature("docstring") sbol::GenericLocation::getClassName "
@@ -1675,8 +1658,7 @@ A pointer to theobject with this URI if it exists, NULL otherwise
 
 Construct a GenericLocation.  
 
-If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create <
-GenericLocation > instead.  
+If operating in SBOL-compliant mode, use SequenceAnnotation.locations.create instead.  
 
 Parameters
 ----------
@@ -1717,8 +1699,6 @@ abstract class.
 An Identified object is identified using a Uniform Resource Identifier (URI), a
 unique string that identifies and refers to a specific object in an SBOL
 document or in an online resource such as a DNA repository.  
-
-C++ includes: identified.h
 ";
 
 %feature("docstring") sbol::Identified::getPropertyValues "
@@ -1852,8 +1832,6 @@ be used to represent different forms of genetic regulation (e.g.,
 transcriptional activation or repression), processes from the central dogma of
 biology (e.g. transcription and translation), and other basic molecular
 interactions (e.g., non-covalent binding or enzymatic phosphorylation).  
-
-C++ includes: interaction.h
 ";
 
 %feature("docstring") sbol::Interaction::getClassName "
@@ -1998,8 +1976,6 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 IntProperty objects are used to contain integers.  
 
 They can be used as member objects inside custom SBOL Extension classes.  
-
-C++ includes: properties.h
 ";
 
 %feature("docstring") sbol::IntProperty::IntProperty "
@@ -2082,8 +2058,6 @@ Parameters
 
 Provides iterator functionality for SBOL properties that contain multiple
 references.  
-
-C++ includes: object.h
 ";
 
 %feature("docstring") sbol::ReferencedObject::iterator::iterator "
@@ -2096,8 +2070,6 @@ C++ includes: object.h
 
 Provides iterator functionality for SBOL properties that contain multiple
 objects.  
-
-C++ includes: properties.h
 ";
 
 %feature("docstring") sbol::OwnedObject::iterator::iterator "
@@ -2110,8 +2082,6 @@ C++ includes: properties.h
 
 Provides iterator functionality for SBOL properties that contain multiple
 values.  
-
-C++ includes: property.h
 ";
 
 %feature("docstring") sbol::Property::iterator::iterator "
@@ -2129,8 +2099,6 @@ templateparam
 -------------
 * `PropertyType` :  
     The type of SBOL Property, eg, Text, Int, OwnedObject, etc  
-
-C++ includes: properties.h
 ";
 
 %feature("docstring") sbol::List::List "
@@ -2143,8 +2111,6 @@ C++ includes: properties.h
 
 The Location class specifies the strand orientation of a Component and can be
 further extended by the Range, Cut, and GenericLocation classes.  
-
-C++ includes: location.h
 ";
 
 %feature("docstring") sbol::Location::copy "
@@ -2283,8 +2249,6 @@ Definition. A MapsTo object may also be used to override a generic Component in
 a low-level ModuleDefinition with an explicit Component in a high-level
 ModuleDefinition, for example mapping a generic gene to an explicit component
 with a name and sequence.  
-
-C++ includes: mapsto.h
 ";
 
 %feature("docstring") sbol::MapsTo::find_property "
@@ -2443,8 +2407,6 @@ about the contents of this model.
 In this way, there is minimal duplication of standardization efforts and users
 of SBOL can formalize the function of a ModuleDefinition in the language of
 their choice.  
-
-C++ includes: model.h
 ";
 
 %feature("docstring") sbol::Model::find "
@@ -2608,8 +2570,6 @@ The full URI of the created object.
 
 The Module class represents a submodule of a ModuleDefinition within a
 hierarchical design.  
-
-C++ includes: module.h
 ";
 
 %feature("docstring") sbol::Module::getPropertyValues "
@@ -2761,8 +2721,6 @@ type, NULL otherwise
 The ModuleDefinition class represents a grouping of structural and functional
 entities in a biological design. The primary usage of this class is to assert
 the molecular interactions and abstract function of its child entities.  
-
-C++ includes: moduledefinition.h
 ";
 
 %feature("docstring") sbol::ModuleDefinition::find_reference "
@@ -2992,8 +2950,6 @@ templateparam
 -------------
 * `SBOLClass` :  
     The type of child SBOL object contained by this Property  
-
-C++ includes: properties.h
 ";
 
 %feature("docstring") sbol::OwnedObject::validate "
@@ -3247,8 +3203,6 @@ Parameters
 
 Each Participation represents how a particular FunctionalComponent behaves in
 its parent Interaction.  
-
-C++ includes: participation.h
 ";
 
 %feature("docstring") sbol::Participation::close "
@@ -3407,8 +3361,6 @@ templateparam
 * `The` :  
     SBOL specification currently supports string, URI, and integer literal
     values.  
-
-C++ includes: property.h
 ";
 
 %feature("docstring") sbol::Property::clear "
@@ -3514,8 +3466,6 @@ A Range object specifies a region via discrete, inclusive start and end
 positions that correspond to indices for characters in the elements String of a
 Sequence. Note that the index of the first location is 1, as is typical practice
 in biology, rather than 0, as is typical practice in computer science.  
-
-C++ includes: location.h
 ";
 
 %feature("docstring") sbol::Range::find "
@@ -3623,8 +3573,7 @@ The uniform resource identifier that describes the RDF-type of this SBOL Object
 
 Construct a Range.  
 
-If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create <
-Range > instead.  
+If operating in SBOL-compliant mode, use SequenceAnnotation.locations.create instead.  
 
 Parameters
 ----------
@@ -3670,8 +3619,6 @@ The object it points to may be another resource in this Document or an external
 reference, for example to an object in an external repository. In the SBOL
 specification, association by reference is indicated in class diagrams by arrows
 with open (white) diamonds.  
-
-C++ includes: object.h
 ";
 
 %feature("docstring") sbol::ReferencedObject::create "
@@ -3781,10 +3728,8 @@ Parameters
 
 %feature("docstring") sbol::SBOLObject "
 
-An SBOLObject converts a C++ class data structure into an RDF triple store and
+An SBOLObject converts a class data structure into an RDF triple store and
 contains methods for serializing and parsing RDF triples.  
-
-C++ includes: object.h
 ";
 
 %feature("docstring") sbol::SBOLObject::getProperties "
@@ -3917,8 +3862,6 @@ A pointer to theobject with this URI if it exists, NULL otherwise
 
 The primary structure (eg, nucleotide or amino acid sequence) of a
 ComponentDefinition object.  
-
-C++ includes: sequence.h
 ";
 
 %feature("docstring") sbol::Sequence::find "
@@ -4120,8 +4063,6 @@ Sequence objects referred to by its parent ComponentDefinition. In addition,
 SequenceAnnotation objects can describe the substructure of their parent
 ComponentDefinition through association with the Component objects contained by
 this ComponentDefinition.  
-
-C++ includes: sequenceannotation.h
 ";
 
 %feature("docstring") sbol::SequenceAnnotation::getPropertyValues "
@@ -4270,8 +4211,6 @@ parent ComponentDefinition. The primary purpose of this class is to enable the
 specification of partially designed ComponentDefinition objects, for which the
 precise positions or orientations of their contained Component objects are not
 yet fully determined.  
-
-C++ includes: sequenceconstraint.h
 ";
 
 %feature("docstring") sbol::SequenceConstraint::SequenceConstraint "
@@ -4425,8 +4364,6 @@ Parses a local class name from the RDF-type of this SBOL Object
 TextProperty objects are used to contain string literals.  
 
 They can be used as member objects inside custom SBOL Extension classes.  
-
-C++ includes: properties.h
 ";
 
 %feature("docstring") sbol::TextProperty::set "
@@ -4509,8 +4446,6 @@ Parameters
 
 All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML
 document tree and SBOL files. An abstract class.  
-
-C++ includes: toplevel.h
 ";
 
 %feature("docstring") sbol::TopLevel::TopLevel "
@@ -4678,8 +4613,6 @@ namespace authority followed by an identifier.
 
 A URIProperty often contains a reference to an SBOL object or may contain an
 ontology term.  
-
-C++ includes: properties.h
 ";
 
 %feature("docstring") sbol::URIProperty::write "
@@ -4764,10 +4697,8 @@ Contains a version number for an SBOL object.
 
 The VersionProperty follows Maven versioning semantics and includes a major,
 minor, and patch version number. Specifically, libSBOL currently only supports
-using '.' as a delimiter. Ex: v2.0.1. If the user does not want to follow Maven
+using '.' as a delimiter (e.g.: v2.0.1). If the user does not want to follow Maven
 versioning, they can specify an arbitrary version string using the set() method.  
-
-C++ includes: properties.h
 ";
 
 %feature("docstring") sbol::VersionProperty::clear "
