@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "libSBOL"
-#define MyAppVersion "2.1.0"
+#define MyAppVersion "2.1.1"
 #define MyAppSubVersion ""
 #define MyPlatform "Win"
 #define MyArchitecture "x86"
@@ -22,7 +22,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\SBOL
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}{#MyAppSubVersion}-{#MyPlatform}-{#MyArchitecture}
-OutputDir = .\dist
+OutputDir = ..\dist
 DirExistsWarning=no
 DisableWelcomePage=no
 DisableProgramGroupPage=yes
@@ -36,8 +36,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 ; Specify the file paths!
 [Files]
-Source: ".\release_2_{#MyArchitecture}\library\Release\sbol.lib"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\source\raptor\lib\x86\*"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\release_2_{#MyArchitecture}\library\include\*"; DestDir: "{app}\include"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\install_2_{#MyArchitecture}\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion
+Source: "..\install_2_{#MyArchitecture}\include\*"; DestDir: "{app}\include"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
