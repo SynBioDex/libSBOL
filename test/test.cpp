@@ -2,7 +2,12 @@
 
 #include "sbol.h"
 
-#include "dirent.h"
+#ifdef _WIN32
+    #include "dirent.h"
+#else
+    #include <dirent.h>
+#endif
+
 #include <iostream>
 #include <vector>
 
@@ -15,70 +20,35 @@ int main()
     int failed = 0;
     
     Document& doc = *new Document();
-    
-    
-    DIR* valid = opendir("./valid");
+    Document& doc2 = *new Document();
+
+    string path = "roundtrip";
+    DIR* valid = opendir(path.c_str());
     struct dirent * file = readdir(valid);
     while (file)
     {
         if (file->d_name[0] != '.')
         {
-            cout << "Testing " << file->d_name << endl;
-            try
+            string filename = string(file->d_name);
+            std::cout << "Testing " << filename << std::endl;
+            doc.read(path + "/" + filename);
+            std::cout << "Writing " << filename << std::endl;
+            doc.write(path + "/" + "new_" + filename);
+            std::cout << "Reading " << filename << std::endl;
+            doc2.read(path + "/" + "new_" + filename);
+            int is_equal_to = doc.compare(&doc2);
+            if (is_equal_to)
             {
-                string path_to_test_file =  "./valid/" + string(file->d_name);
-                doc.read(path_to_test_file);
-                string result = doc.validate();
-                if (result.find("Valid.") != std::string::npos)
-                {
-                    cout << "passed" << endl;
-                    passed++;
-                }
-                else
-                {
-                    cout << "FAILED" << endl;
-                    failed++;
-                }
+                std::cout << "=== " << filename << " passed ===" << std::endl;
+                ++passed;
             }
-            catch (...) {
-                cout << "FAILED" << endl;
-                failed++;
+            else
+            {
+                std::cout << "XXX " << filename << " failed XXX" << std::endl;
+                ++failed;
             }
         }
         file = readdir(valid);
-    }
-    
-    DIR* invalid = opendir("./invalid");
-    opendir("./invalid");
-    file = readdir(invalid);
-    while (file)
-    {
-        if (file->d_name[0] != '.')
-        {
-            cout << "Testing " << file->d_name << endl;
-            try
-            {
-                string path_to_test_file =  "./invalid/" + string(file->d_name);
-                doc.read(path_to_test_file);
-                string result = doc.validate();
-                if (result.find("Valid.") != std::string::npos)
-                {
-                    cout << "FAILED" << endl;
-                    failed++;
-                }
-                else
-                {
-                    cout << "passed" << endl;
-                    passed++;
-                }
-            }
-            catch (...) {
-                cout << "passed" << endl;
-                passed++;
-            }
-        }
-
-        file = readdir(invalid);
     }
     cout << "Passed: " << passed << endl;
     cout << "FAILED: " << failed << endl;

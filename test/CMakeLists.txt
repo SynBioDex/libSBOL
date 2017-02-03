@@ -20,6 +20,7 @@ elseif(TARGET sbol64-shared)
     add_library(sbol ALIAS sbol64-shared)
 endif()
 
+
 IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
     # build test executable
     file( GLOB DIRENT_FILES "dirent.h" "dirent.c" )  # dirent is not default system header on Windows
@@ -36,12 +37,13 @@ IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
         ${libcurl}
         Ws2_32.lib
         )
+    file(MAKE_DIRECTORY "${CMAKE_INSTALL_PREFIX}/test")
+    add_custom_command(TARGET sbol_test PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/roundtrip ${CMAKE_INSTALL_PREFIX}/test/roundtrip)
+    set_target_properties(sbol_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${SBOL_RELEASE_DIR}/test")
 ELSE ()
     # build test executable
     add_executable( sbol_test ${APPLICATION_FILES} )
     set_target_properties(sbol_test PROPERTIES LINKER_LANGUAGE CXX)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
-
     target_link_libraries( sbol_test
         sbol
         ${RAPTOR_LIBRARY}
@@ -49,6 +51,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
         ${LIBXSLT_LIBRARIES}
         ${JsonCpp_LIBRARY}
         )
+    file(MAKE_DIRECTORY "${SBOL_RELEASE_DIR}/test")
+    add_custom_command(TARGET sbol_test PRE_BUILD COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/roundtrip ${SBOL_RELEASE_DIR}/test/roundtrip)
+    set_target_properties(sbol_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${SBOL_RELEASE_DIR}/test")
 ENDIF ()
 
-install(TARGETS sbol_test DESTINATION bin)
