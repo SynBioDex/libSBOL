@@ -7,12 +7,16 @@
     Rights:  See end of file.
 
 */
-
-#include <dirent.h>
+#include "dirent.h"
 #include <errno.h>
 #include <io.h> /* _findfirst and _findnext set errno iff they return -1 */
 #include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#else
+#include <unistd.h>
+#endif
+
 
 #ifdef __cplusplus
 extern "C"

@@ -33,7 +33,7 @@
 namespace sbol 
 {
     /// All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBOL files. An abstract class.
-	class TopLevel : public Identified
+	class SBOL_DECLSPEC TopLevel : public Identified
 	{
 
 	// The public constructor delegates to this protected constructor in order to initialize the object with an SBOL type URI 
@@ -41,7 +41,7 @@ namespace sbol
         TopLevel(sbol_type type_uri = "", std::string uri = "", std::string version = "1.0.0") :
             Identified(type_uri, uri, version)
         {
-            if  (isSBOLCompliant())
+            if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
                 displayId.set(uri);
                 if (compliantTypesEnabled())

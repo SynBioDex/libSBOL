@@ -42,7 +42,7 @@ namespace sbol
     
     /// The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, proteins, and complexes
     /// @ingroup sbol_core_data_model
-    class ComponentDefinition : public TopLevel
+    class SBOL_DECLSPEC ComponentDefinition : public TopLevel
 	{
 
 	public:
@@ -95,6 +95,10 @@ namespace sbol
         /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is a partial design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
         void assemble(std::vector<ComponentDefinition*> list_of_components);
+
+        /// Assemble a parent ComponentDefinition's Sequence from its subcomponent Sequences
+        /// @param composite_sequence A recursive parameter, use default value
+        /// @return The assembled parent sequence
         std::string updateSequence(std::string composite_sequence = "");
 
         /// Orders this ComponentDefinition's member Components into a linear arrangement based on Sequence Constraints.
@@ -132,7 +136,7 @@ namespace sbol
         void participate(Participation& species);
         
         virtual ~ComponentDefinition() {  };
-	protected:
+//	protected:
 		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri
         ComponentDefinition(sbol_type type, std::string uri, std::string component_type, std::string version) :
             TopLevel(type, uri, version),

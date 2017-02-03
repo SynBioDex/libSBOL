@@ -43,7 +43,7 @@ namespace sbol
     
     /// @ingroup extension_layer
     /// A URIProperty may contain a restricted type of string that conforms to the specification for a Uniform Resource Identifier (URI), typically consisting of a namespace authority followed by an identifier.  A URIProperty often contains a reference to an SBOL object or may contain an ontology term.
-    class URIProperty : public Property<std::string>
+    class SBOL_DECLSPEC URIProperty : public Property<std::string>
 	{
 	public:
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
@@ -56,7 +56,7 @@ namespace sbol
 
     /// @ingroup extension_layer
     /// TextProperty objects are used to contain string literals.  They can be used as member objects inside custom SBOL Extension classes.
-	class TextProperty : public Property<std::string>
+	class SBOL_DECLSPEC TextProperty : public Property<std::string>
 	{
 	public:
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
@@ -69,7 +69,7 @@ namespace sbol
 
     /// @ingroup extension_layer
     /// IntProperty objects are used to contain integers.  They can be used as member objects inside custom SBOL Extension classes.
-	class IntProperty : public Property<int>
+	class SBOL_DECLSPEC IntProperty : public Property<int>
 	{
 	public:
         virtual int get();                  ///< Basic getter for all SBOL literal properties.
@@ -86,12 +86,15 @@ namespace sbol
     /// @ingroup extension_layer
     /// @brief Contains a version number for an SBOL object.
     /// The VersionProperty follows Maven versioning semantics and includes a major, minor, and patch version number. Specifically, libSBOL currently only supports using '.' as a delimiter. Ex: v2.0.1.  If the user does not want to follow Maven versioning, they can specify an arbitrary version string using the set() method.
-    class VersionProperty : public TextProperty
+    class SBOL_DECLSPEC VersionProperty : public TextProperty
     {
     private:
         std::vector<std::string> split(const char c);
     public:
+        /// @cond
         std::pair< std::vector<std::string>, std::vector<std::string> > split();
+        /// @endcond
+        
         void incrementMajor(); ///< Increment major version
         void incrementMinor(); ///< Increment minor version
         void incrementPatch(); ///< Increment patch version
@@ -108,7 +111,7 @@ namespace sbol
                 // @TODO move this error checking to validation rules to be run on VersionProperty::set() and VersionProperty()::VersionProperty()
                 // sbol-10207 The version property of an Identified object is OPTIONAL and MAY contain a String that MUST be composed of only alphanumeric characters, underscores, hyphens, or periods and MUST begin with a digit. 20 Reference: Section 7.4 on page 16 21
                 // sbol-10208 The version property of an Identified object SHOULD follow the conventions of semantic 22 versioning as implemented by Maven.
-                if (isSBOLCompliant())
+                if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
                 {
                     std::regex v_rgx("[0-9]+[a-zA-Z0-9_\\\\.-]*");
                     if (!std::regex_match(v.begin(), v.end(), v_rgx))
@@ -129,16 +132,35 @@ namespace sbol
         OwnedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string dummy = "");  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
 		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
 
-        void set(SBOLClass& sbol_obj);                  ///< Attach a child SBOL object to a parent SBOL object
+        /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
+        /// @param sbol_obj A child object to add to this container property.
+        /// Assigns a child object to this OwnedObject container property. This method always overwrites the first SBOLObject in the container. appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
+        void set(SBOLClass& sbol_obj);
+        
+        /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
+        /// @param sbol_obj A child object to add to this container property.
+        /// Adds a child object to the parent object. This method always appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
+		void add(SBOLClass& sbol_obj);
+        
+        /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
+        /// @tparam SBOLSubClass A derived class of SBOLClass. Use this type specialization when adding multiple types of SBOLObjects to a container.
+        /// @param sbol_obj A child object to add to this container property.
+        /// Adds a child object to the parent object. This method always appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
+        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);
+
+        /// Get the child object
+        /// @tparam SBOLClass The type of the child object
+        /// @param uri The URI of the child object
+        /// @return A reference to the child object
+        /// By default returns the first object in this OwnedObject container property
+        SBOLClass& get(const std::string uri = "");
         
         /// Get the child object
         /// @tparam SBOLClass The type of the child object
-        /// @param object_id The URI of the child object
+        /// @tparam SBOLSubClass A derived class of SBOLClass. Use this type specialization when adding multiple types of SBOLObjects to a container.
+        /// @param uri The specific URI for a child object if this OwnedObject property contains multiple objects,
         /// @return A reference to the child object
-        SBOLClass& get(const std::string object_id);
-        
-		void add(SBOLClass& sbol_obj);                  ///< Push another child object to the list, if the property allows multiple values
-        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);  ///< Push an object of derived class to the list, eg, add a Range to a list of Locations
+        /// Returns a child object from the OwnedObject property. If no URI is specified, the first object in this OwnedObject property is returned.
         template < class SBOLSubClass > SBOLSubClass& get(std::string uri = "");
         
         /// Get all the objects contained in the property
@@ -156,12 +178,21 @@ namespace sbol
         /// Remove all children objects from the parent and destroy them.
         void clear() override;
         
-        /// Autoconstruct a child object with default values and add it to a parent SBOL object. The object will be intialized with default values as defined in the constructor call. After creating the object, default values can be changed using set.
-        /// @param uri The identity of the new object. If operating in SBOL-compliant mode, this should simply be a displayId for the new object. The full URI will be generated automatically. If operating in open-world mode, this should be a full URI including namespace.
+        /// @tparam SBOLClass The type of SBOL object that will be created
+        /// @param uri If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
+        /// @return A reference to the child object
+        /// Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
+        /// @TODO check uniqueness of URI in Document
         SBOLClass& create(std::string uri);
+        
+        /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
+        /// @tparam SBOLSubClass A derived class of SBOLClass. Use this specialization for OwnedObject properties which contain multiple types of SBOLObjects.
+        /// @param uri If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
+        /// @return A reference to the child object
+        /// Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
+        /// @TODO check uniqueness of URI in Document
         template < class SBOLSubClass > SBOLSubClass& create(std::string uri);
 
-        void create(std::string uri_prefix, std::string display_id, std::string version);
 		SBOLClass& operator[] (const int nIndex);       ///< Retrieve a child object by numerical index.
         SBOLClass& operator[] (std::string uri);  ///< Retrieve a child object by URI
 
@@ -200,25 +231,6 @@ namespace sbol
 
 		std::vector<SBOLObject*>::iterator python_iter;
 	};
-    
-    /// @TODO Deprecate this
-    template <class SBOLClass>
-    void OwnedObject<SBOLClass>::create(std::string uri_prefix, std::string display_id, std::string version)
-    {
-        // Construct an SBOLObject with emplacement
-        void* mem = malloc(sizeof(SBOLClass));
-        SBOLClass* owned_obj = new (mem)SBOLClass;
-        
-        std::string sbol_class_name = owned_obj->getClassName(owned_obj->type);
-        std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name,  display_id, "1.0.0");
-        
-        owned_obj->identity.set(compliant_uri);
-        owned_obj->displayId.set(display_id);
-        owned_obj->version.set(version);
-        add(*owned_obj);
-    };
-    
-
 
 	template <class SBOLClass >
     OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :
@@ -260,8 +272,6 @@ namespace sbol
     };
 
     
-    /// @param nIndex A numerical index
-    /// @return A reference to the child object
 	template <class SBOLClass>
 	SBOLClass& OwnedObject<SBOLClass>::operator[] (const int nIndex)
 	{

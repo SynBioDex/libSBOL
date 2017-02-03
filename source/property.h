@@ -53,7 +53,7 @@ namespace sbol
     /// @tparam The SBOL specification currently supports string, URI, and integer literal values.
     /// @ingroup extension_layer
 	template <class LiteralType>
-	class Property
+	class SBOL_DECLSPEC Property
 	{
     friend class SBOLObject;
         

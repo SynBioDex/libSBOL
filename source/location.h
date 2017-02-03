@@ -31,7 +31,7 @@
 namespace sbol
 {
     /// The Location class specifies the strand orientation of a Component and can be further extended by the Range, Cut, and GenericLocation classes.
-	class Location : public Identified
+	class SBOL_DECLSPEC Location : public Identified
 	{
 	public:
         /// The orientation indicates how a region of double-stranded DNA represented by the parent SequenceAnnotation and its associated Component are oriented. The orientation may be one of the following values. By default it is set to SBOL_ORIENTATION_INLINE.
@@ -51,7 +51,7 @@ namespace sbol
     };
 
     /// A Range object specifies a region via discrete, inclusive start and end positions that correspond to indices for characters in the elements String of a Sequence.  Note that the index of the first location is 1, as is typical practice in biology, rather than 0, as is typical practice in computer science.
-	class Range : public Location
+	class SBOL_DECLSPEC Range : public Location
 	{
 	public:
         /// Specifies the inclusive starting position of a sequence region. It must be 1 or greater.
@@ -79,7 +79,7 @@ namespace sbol
 	};
 
     /// The Cut class specifies a location between two coordinates of a Sequence's elements.     class Cut : public Location
-    class Cut : public Location
+    class SBOL_DECLSPEC Cut : public Location
     {
     public:
         /// This property specifies the location between this nucleotide coordinate (or other sequence element) and the nucleotide coordinate immediately following it. When equal to zero, the specified region is immediately before the first nucleotide or character in the elements
@@ -102,7 +102,7 @@ namespace sbol
     };
 
     /// the GenericLocation class is included as a starting point for specifying regions on Sequence objects with encoding properties other than IUPAC and potentially nonlinear structure. This class can also be used to set the orientation of a SequenceAnnotation and any associated Component when their parent ComponentDefinition is a partial design that lacks a Sequence.
-    class GenericLocation : public Location
+    class SBOL_DECLSPEC GenericLocation : public Location
     {
     public:
         /// Construct a GenericLocation. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < GenericLocation > instead.

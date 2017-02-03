@@ -618,10 +618,10 @@ namespace sbol
 %ignore sbol::Document::parse_objects;
 %ignore sbol::Document::parse_properties;
 %ignore sbol::Document::namespaceHandler;
-%ignore sbol::Document::addNamespace;
 %ignore sbol::Document::flatten();
 %ignore sbol::Document::parse_objects;
 %ignore sbol::Document::close;
+
 %include "document.h"
 
 
@@ -693,17 +693,50 @@ namespace sbol
 {
     void addComponentDefinition(PyObject *list)
     {
-        
+        std::vector<sbol::ComponentDefinition*> list_of_cds = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::ComponentDefinition* cd;
+                if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) throw;
+                list_of_cds.push_back(cd);
+            }
+			$self->add(list_of_cds);
+        };        
     }
 
     void addSequence(PyObject *list)
     {
-        
+        std::vector<sbol::Sequence*> list_of_seqs = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::Sequence* seq;
+                if ((SWIG_ConvertPtr(obj,(void **) &seq, $descriptor(sbol::Sequence*),1)) == -1) throw;
+                list_of_seqs.push_back(seq);
+            }
+			$self->add(list_of_seqs);
+        };
     }
     
     void addModuleDefinition(PyObject *list)
     {
-        
+        std::vector<sbol::ModuleDefinition*> list_of_mds = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::ModuleDefinition* md;
+                if ((SWIG_ConvertPtr(obj,(void **) &md, $descriptor(sbol::ModuleDefinition*),1)) == -1) throw;
+                list_of_mds.push_back(md);
+            }
+			$self->add(list_of_mds);
+        };                
     }
 }
 
@@ -726,6 +759,23 @@ namespace sbol
         };
     }
 }
+
+%inline
+%{
+    // SBOLObject&(*constructor)()
+    PyObject* register_extension_class(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor )
+    {
+        std::string uri = ns + class_name;
+//        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())constructor));
+        //namespaces[ns_prefix] = ns;  // Register extension namespace
+        std::cout << "Registering " << uri << endl;
+        std::cout << "Constructing " << uri << endl;
+        PyObject* obj = PyObject_CallFunction(constructor, NULL);
+        std::cout << "Constructed " << uri << endl;
+        return obj;
+    };
+    
+%}
 
 
 //// The following code was experimented with for mapping C++ class structure to Python class structure

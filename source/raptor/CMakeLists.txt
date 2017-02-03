@@ -1,7 +1,7 @@
 # Get the binaries for the dependencies
 set( LINK_DIR_x86				${CMAKE_CURRENT_SOURCE_DIR}/lib/x86 )
 set( LINK_DIR_x64				${CMAKE_CURRENT_SOURCE_DIR}/lib/x64 )
-set( BUILD_SHARED_LIBS OFF )
+#set( BUILD_SHARED_LIBS OFF )
 IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     IF(SBOL_BUILD_32)
         FIND_LIBRARY(raptor2
@@ -83,7 +83,7 @@ ELSE ()  # If Mac OSX or Linux
 
     # Search for raptor library.  It is non-native on Mac OSX and must be downloaded from a package installer like Homebrew
     # Search for curl and libxslt dependencies.  These are native system libraries on Mac OSX and can be linked dynamically.
-    if(SBOL_BUILD_STATIC)
+    if(NOT SBOL_BUILD_SHARED)
         # Search for Raptor as a static library
         set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
         add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC)
@@ -91,7 +91,7 @@ ELSE ()  # If Mac OSX or Linux
         find_package( CURL )
         find_package( LibXslt )
         find_package( JsonCpp )
-    endif(SBOL_BUILD_STATIC)
+    endif()
     if(SBOL_BUILD_SHARED)
         # Search for Raptor as a dynamic dependency
         set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)

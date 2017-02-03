@@ -39,16 +39,17 @@ std::string TextProperty::get()
 {
     if (this->sbol_owner)
     {
+        // check if property a valid member of this object (mismatching of properties can result from improper template calls)
         if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
         {
-            // not found
-            throw;
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "This object does not have a property of type " + type);
         }
         else
         {
-            // found
+            // property value not set
             if (this->sbol_owner->properties[type].size() == 0)
-                throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+                throw SBOLError(SBOL_ERROR_NOT_FOUND, "Property has not been set");
+            // property value is found
             else
             {
                 std::string value = this->sbol_owner->properties[type].front();
@@ -58,7 +59,7 @@ std::string TextProperty::get()
         }
     }	else
     {
-        throw;
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");
     }
 };
 
@@ -67,16 +68,17 @@ std::string URIProperty::get()
 {
     if (this->sbol_owner)
     {
+        // check if property a valid member of this object (mismatching of properties can result from improper template calls)
         if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
         {
-            // not found
-            throw;
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "This object does not have a property of type " + type);
         }
         else
         {
-            // found
+            // property value not set
             if (this->sbol_owner->properties[type].size() == 0)
-                throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+                throw SBOLError(SBOL_ERROR_NOT_FOUND, "Property has not been set");
+            // property value is found
             else
             {
                 std::string value = this->sbol_owner->properties[type].front();
@@ -86,7 +88,7 @@ std::string URIProperty::get()
         }
     }	else
     {
-        throw;
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");
     }
 };
 
@@ -95,16 +97,17 @@ int IntProperty::get()
 {
     if (this->sbol_owner)
     {
+        // check if property a valid member of this object (mismatching of properties can result from improper template calls)
         if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
         {
-            // not found
-            throw;
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "This object does not have a property of type " + type);
         }
         else
         {
-            // found
+            // property value not set
             if (this->sbol_owner->properties[type].size() == 0)
-                throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+                throw SBOLError(SBOL_ERROR_NOT_FOUND, "Property has not been set");
+            // property value is found
             else
             {
                 std::string value = this->sbol_owner->properties[type].front();
@@ -114,8 +117,7 @@ int IntProperty::get()
         }
     }	else
     {
-        throw;
-    }
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");    }
 };
 
 void VersionProperty::incrementMinor()
@@ -146,7 +148,7 @@ void VersionProperty::incrementMinor()
     this->set(new_version);
     
     /// Update the identity if SBOLCompliant
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
         SBOLObject* parent_obj = this->sbol_owner;
         std::string persistentIdentity;
@@ -187,7 +189,7 @@ void VersionProperty::incrementMajor()
     this->set(new_version);
     
     /// Update the identity if SBOLCompliant
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
         SBOLObject* parent_obj = this->sbol_owner;
         std::string persistentIdentity;
@@ -227,7 +229,7 @@ void VersionProperty::incrementPatch()
     this->set(new_version);
     
     /// Update the identity if SBOLCompliant
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
         SBOLObject* parent_obj = this->sbol_owner;
         std::string persistentIdentity;
@@ -400,7 +402,7 @@ void ReferencedObject::set(std::string uri)
 // For compliant URIs
 void ReferencedObject::setReference(const std::string uri)
 {
-    if (isSBOLCompliant())
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
         // if not TopLevel throw an error
         // @TODO search Document by persistentIdentity and retrieve the latest version

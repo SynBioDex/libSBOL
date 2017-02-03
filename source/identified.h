@@ -36,7 +36,7 @@ namespace sbol
     
     /// @ingroup sbol_core_data_model
     /// All SBOL-defined classes are directly or indirectly derived from the Identified abstract class. An Identified object is identified using a Uniform Resource Identifier (URI), a unique string that identifies and refers to a specific object in an SBOL document or in an online resource such as a DNA repository.
-	class Identified : public SBOLObject
+	class SBOL_DECLSPEC Identified : public SBOLObject
     {
 	
 	public:
@@ -80,7 +80,7 @@ namespace sbol
             name(SBOL_NAME, this),
             description(SBOL_DESCRIPTION, this)
         {
-            if(isSBOLCompliant())
+            if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
                 if (compliantTypesEnabled())
                 {

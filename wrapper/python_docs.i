@@ -1,22 +1,55 @@
 
 // File: index.xml
 
-// File: classsbol_1_1_component.xml
+// File: classsbol_1_1_collection.xml
 
 
-%feature("docstring") sbol::Component "
+%feature("docstring") sbol::Collection "
 
-The Component class is used to compose ComponentDefinition objects into a
-structural hierarchy. For example, the ComponentDefinition of a gene could
-contain four Component objects: a promoter, RBS, CDS, and terminator. In turn,
-the ComponentDefinition of the promoter Component could contain Component
-objects defined as various operator sites.  
+The Collection class is a class that groups together a set of TopLevel objects
+that have something in common.  
+
+Some examples of Collection objects: . Results of a query to find all
+ComponentDefinition objects in a repository that function as promoters . A set
+of ModuleDefinition objects representing a library of genetic logic gates. . A
+ModuleDefinition for a complexdesign, and all of the ModuleDefinition,
+ComponentDefinition, Sequence, and Model objects used to provide its full
+specification.  
 ";
 
-%feature("docstring") sbol::Component::getClassName "
+%feature("docstring") sbol::Collection::addToDocument "
 ";
 
-%feature("docstring") sbol::Component::getPropertyValues "
+%feature("docstring") sbol::Collection::~Collection "
+";
+
+%feature("docstring") sbol::Collection::getProperties "
+
+Gets URIs for all properties contained by this object.  
+
+This includes SBOL core properties as well as custom annotations. Use this to
+find custom extension data in an SBOL file.  
+
+Returns
+-------
+A vector of URIs that identify the properties contained in this object  
+";
+
+%feature("docstring") sbol::Collection::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
+";
+
+%feature("docstring") sbol::Collection::getPropertyValues "
 
 Get all values of a custom annotation property by its URI.  
 
@@ -30,7 +63,30 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Component::close "
+%feature("docstring") sbol::Collection::find_reference "
+";
+
+%feature("docstring") sbol::Collection::Collection "
+
+Construct a Collection.  
+
+Parameters
+----------
+* `uri` :  
+    If operating in open-world mode, this should be a full URI including a
+    scheme, namespace, and identifier. If SBOLCompliance configuration is
+    enabled, then this argument is simply the displayId for the new object and a
+    full URI will automatically be constructed.  
+";
+
+%feature("docstring") sbol::Collection::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::Collection::close "
 
 Use this method to destroy an SBOL object that is not contained by a parent
 Document.  
@@ -40,7 +96,14 @@ object's URI identity as an argument.  Recurse through child objects and delete
 them.  
 ";
 
-%feature("docstring") sbol::Component::copy "
+%feature("docstring") sbol::Collection::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::Collection::copy "
 
 Copy an object and automatically increment its version.  
 
@@ -68,13 +131,133 @@ Returns
 The full URI of the created object.  
 ";
 
+%feature("docstring") sbol::Collection::copy "
+";
+
+%feature("docstring") sbol::Collection::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
+";
+
+%feature("docstring") sbol::Collection::getPropertyValue "
+
+Get the value of a custom annotation property by its URI.  
+
+Parameters
+----------
+* `property_uri` :  
+    The URI for the property  
+
+Returns
+-------
+The value of the property or SBOL_ERROR_NOT_FOUND  
+";
+
+%feature("docstring") sbol::Collection::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
+";
+
+// File: classsbol_1_1_component.xml
+
+
+%feature("docstring") sbol::Component "
+
+The Component class is used to compose ComponentDefinition objects into a
+structural hierarchy. For example, the ComponentDefinition of a gene could
+contain four Component objects: a promoter, RBS, CDS, and terminator. In turn,
+the ComponentDefinition of the promoter Component could contain Component
+objects defined as various operator sites.  
+";
+
+%feature("docstring") sbol::Component::find_reference "
+";
+
+%feature("docstring") sbol::Component::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::Component::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
+";
+
+%feature("docstring") sbol::Component::getPropertyValues "
+
+Get all values of a custom annotation property by its URI.  
+
+Parameters
+----------
+* `property_uri` :  
+    The URI for the property  
+
+Returns
+-------
+A vector of property values or SBOL_ERROR_NOT_FOUND  
+";
+
+%feature("docstring") sbol::Component::close "
+
+Use this method to destroy an SBOL object that is not contained by a parent
+Document.  
+
+If the object does have a parent Document, instead use doc.close() with the
+object's URI identity as an argument.  Recurse through child objects and delete
+them.  
+";
+
+%feature("docstring") sbol::Component::copy "
+";
+
 %feature("docstring") sbol::Component::find "
-";
 
-%feature("docstring") sbol::Component::nest "
-";
+Search this object recursively to see if an object with the URI already exists.  
 
-%feature("docstring") sbol::Component::serialize "
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Component::getProperties "
@@ -90,6 +273,27 @@ A vector of URIs that identify the properties contained in this object
 ";
 
 %feature("docstring") sbol::Component::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::Component::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::Component::Component "
@@ -129,9 +333,6 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Component::isEqual "
-";
-
 %feature("docstring") sbol::Component::~Component "
 ";
 
@@ -146,10 +347,7 @@ design.
 The primary usage of this class is to represent structural entities with
 designed sequences, such as DNA, RNA, and proteins, but it can also be used to
 represent any other entity that is part of a design, such as small molecules,
-proteins, and complexes  
-";
-
-%feature("docstring") sbol::ComponentDefinition::serialize "
+proteins, and complexes
 ";
 
 %feature("docstring") sbol::ComponentDefinition::participate "
@@ -206,31 +404,6 @@ The full URI of the created object.
 ";
 
 %feature("docstring") sbol::ComponentDefinition::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
 ";
 
 %feature("docstring") sbol::ComponentDefinition::getLastComponent "
@@ -282,10 +455,36 @@ Returns
 The upstream component  
 ";
 
+%feature("docstring") sbol::ComponentDefinition::find_reference "
+";
+
 %feature("docstring") sbol::ComponentDefinition::updateSequence "
+
+Assemble a parent ComponentDefinition's Sequence from its subcomponent
+Sequences.  
+
+Parameters
+----------
+* `composite_sequence` :  
+    A recursive parameter, use default value  
+
+Returns
+-------
+The assembled parent sequence  
 ";
 
 %feature("docstring") sbol::ComponentDefinition::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::ComponentDefinition::hasUpstreamComponent "
@@ -303,9 +502,6 @@ Parameters
 Returns
 -------
 1 if found, 0 if not  
-";
-
-%feature("docstring") sbol::ComponentDefinition::nest "
 ";
 
 %feature("docstring") sbol::ComponentDefinition::~ComponentDefinition "
@@ -353,6 +549,22 @@ Returns
 A vector of URIs that identify the properties contained in this object  
 ";
 
+%feature("docstring") sbol::ComponentDefinition::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
+";
+
 %feature("docstring") sbol::ComponentDefinition::addToDocument "
 ";
 
@@ -366,7 +578,18 @@ Returns
 Primary sequence structure  
 ";
 
+%feature("docstring") sbol::ComponentDefinition::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
+";
+
 %feature("docstring") sbol::ComponentDefinition::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::ComponentDefinition::getDownstreamComponent "
@@ -387,10 +610,21 @@ Returns
 The first component in sequential order  
 ";
 
-%feature("docstring") sbol::ComponentDefinition::isEqual "
-";
+%feature("docstring") sbol::ComponentDefinition::compare "
 
-%feature("docstring") sbol::ComponentDefinition::getTypeURI "
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::ComponentDefinition::ComponentDefinition "
@@ -430,31 +664,6 @@ A vector of URIs that identify the properties contained in this object
 ";
 
 %feature("docstring") sbol::ComponentInstance::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
 ";
 
 %feature("docstring") sbol::ComponentInstance::getPropertyValues "
@@ -472,6 +681,10 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::ComponentInstance::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::ComponentInstance::~ComponentInstance "
@@ -487,16 +700,54 @@ object's URI identity as an argument.  Recurse through child objects and delete
 them.  
 ";
 
-%feature("docstring") sbol::ComponentInstance::isEqual "
+%feature("docstring") sbol::ComponentInstance::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
-%feature("docstring") sbol::ComponentInstance::serialize "
+%feature("docstring") sbol::ComponentInstance::find_reference "
 ";
 
-%feature("docstring") sbol::ComponentInstance::nest "
+%feature("docstring") sbol::ComponentInstance::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::ComponentInstance::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::ComponentInstance::getPropertyValue "
@@ -514,6 +765,10 @@ The value of the property or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::ComponentInstance::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 // File: classsbol_1_1_config.xml
@@ -523,43 +778,119 @@ The value of the property or SBOL_ERROR_NOT_FOUND
 
 A class which contains global configuration variables for the libSBOL
 environment. Intended to be used like a static class, configuration variables
-are accessed through the `config' object.  
+are accessed through the `Config' object.
 ";
 
-%feature("docstring") sbol::Config::exceptionsEnabled "
+%feature("docstring") sbol::Config::setOption "
+
+Configure options for online validation and conversion
+Option  
+
+Description  
+
+Values  
+
+validate  
+
+Enable validation and conversion requests through the online validator  
+
+True or False  
+
+validatorURL  
+
+The http request endpoint for validation  
+
+A valid URL, set to  http://www.async.ece.utah.edu/sbol-validator/endpoint.php
+by default  
+
+output  
+
+File format for conversion  
+
+SBOL2, SBOL1, FASTA, GenBank  
+
+diff  
+
+Report differences between two files  
+
+True or False  
+
+noncompliantUrisAllowed  
+
+If set to false, URIs in the file will not be checked for compliance  
+with the SBOL specification  
+
+True or False  
+
+incompleteDocumentsAllowed  
+
+If set to false, not all referenced objects must be described within  
+the given main_file  
+
+True or False  
+
+bestPracticesCheck  
+
+If set to true, the file is checked for the best practice rules set  
+in the SBOL specification  
+
+True or False  
+
+failOnFirstError  
+
+If set to true, the validator will fail at the first error  
+
+True or False  
+
+displayFullErrorStackTrace  
+
+If set to true (and failOnFirstError is true) the validator will  
+provide a stack trace for the first validation error  
+
+True or False  
+
+topLevelToConvert  
+
+
+
+uriPrefix  
+
+Required for conversion from FASTA and GenBank to SBOL1 or SBOL2,  
+used to generate URIs  
+
+True or False  
+
+version  
+
+Adds the version to all URIs and to the document  
+
+A valid Maven version string  
+
+wantFileBack  
+
+Whether or not to return the file contents as a string  
+
+True or False  
+
+Parameters
+----------
+* `option` :  
+    The option key  
+* `value` :  
+    The option value  
 ";
 
 %feature("docstring") sbol::Config::Config "
 ";
 
-%feature("docstring") sbol::Config::setHomespace "
-";
+%feature("docstring") sbol::Config::getOption "
 
-%feature("docstring") sbol::Config::setFileFormat "
-";
+Get current option value for online validation and conversion.  
 
-%feature("docstring") sbol::Config::getHomespace "
-";
-
-%feature("docstring") sbol::Config::toggleExceptions "
-";
-
-%feature("docstring") sbol::Config::toggleSBOLCompliance "
-";
-
-%feature("docstring") sbol::Config::compliantTypesEnabled "
-";
-
-%feature("docstring") sbol::Config::hasHomespace "
-";
-
-%feature("docstring") sbol::Config::isSBOLCompliant "
-";
-
-%feature("docstring") sbol::Config::getFileFormat "
-";
-
-%feature("docstring") sbol::Config::toggleSBOLCompliantTypes "
+Parameters
+----------
+* `option` :  
+    The option key  
 ";
 
 // File: classsbol_1_1_cut.xml
@@ -568,68 +899,77 @@ are accessed through the `config' object.
 %feature("docstring") sbol::Cut "
 
 The Cut class specifies a location between two coordinates of a Sequence's
-elements. class Cut : public Location.  
+elements. 
 ";
 
-%feature("docstring") sbol::Cut::getProperties "
+%feature("docstring") sbol::Cut::compare "
 
-Gets URIs for all properties contained by this object.  
+Compare two SBOL objects or Documents.  
 
-This includes SBOL core properties as well as custom annotations. Use this to
-find custom extension data in an SBOL file.  
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
 
 Returns
 -------
-A vector of URIs that identify the properties contained in this object  
+1 if the objects are identical, 0 if they are different  
+";
+
+%feature("docstring") sbol::Cut::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::Cut::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
+";
+
+%feature("docstring") sbol::Cut::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
+";
+
+%feature("docstring") sbol::Cut::copy "
 ";
 
 %feature("docstring") sbol::Cut::~Cut "
 ";
 
-%feature("docstring") sbol::Cut::serialize "
-";
-
-%feature("docstring") sbol::Cut::getTypeURI "
-";
-
-%feature("docstring") sbol::Cut::find "
-";
-
-%feature("docstring") sbol::Cut::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
-";
-
-%feature("docstring") sbol::Cut::nest "
-";
-
-%feature("docstring") sbol::Cut::isEqual "
+%feature("docstring") sbol::Cut::find_reference "
 ";
 
 %feature("docstring") sbol::Cut::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Cut::getPropertyValue "
@@ -644,6 +984,18 @@ Parameters
 Returns
 -------
 The value of the property or SBOL_ERROR_NOT_FOUND  
+";
+
+%feature("docstring") sbol::Cut::getProperties "
+
+Gets URIs for all properties contained by this object.  
+
+This includes SBOL core properties as well as custom annotations. Use this to
+find custom extension data in an SBOL file.  
+
+Returns
+-------
+A vector of URIs that identify the properties contained in this object  
 ";
 
 %feature("docstring") sbol::Cut::getPropertyValues "
@@ -664,8 +1016,7 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 
 Construct a Cut.  
 
-If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create <
-Cut > instead.  
+If operating in SBOL-compliant mode, use SequenceAnnotation.locations.create instead.  
 
 Parameters
 ----------
@@ -697,10 +1048,59 @@ Read and write SBOL using a Document class. The Document is a container for
 Components, Modules, and all other SBOLObjects.  
 ";
 
-%feature("docstring") sbol::Document::nest "
+%feature("docstring") sbol::Document::addComponentDefinition "
+Document.addComponentDefinition(componentDefinition)
+Adds a component definition or a list of component definitions to a sbol::Document object.
+
+Parameters
+----------
+* `componentDefinition` : 
+    ComponentDefinition object or a list of ComponentDefinition objects
 ";
 
-%feature("docstring") sbol::Document::getWorld "
+%feature("docstring") sbol::Document::addSequence "
+Document.addSequence(sequence)
+Adds a sequence or a list of sequences to a sbol::Document object.
+
+Parameters
+----------
+* `sequence` : 
+    Sequence object or a list of Sequence objects
+";
+
+%feature("docstring") sbol::Document::addModuleDefinition "
+Document.addModuleDefinition(moduleDefinition)
+Adds a module definition or a list of module definitions to a sbol::Document object.
+
+Parameters
+----------
+* `moduleDefinition` : 
+    ModuleDefinition object or a list of ModuleDefinition objects
+";
+
+%feature("docstring") sbol::Document::request_validation "
+
+Submit this Document to the online validator.  
+
+Returns
+-------
+The validation results  
+";
+
+%feature("docstring") sbol::Document::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Document::close "
@@ -718,13 +1118,17 @@ object's URI identity as an argument.  Recurse through child objects and delete
 them.  
 ";
 
-%feature("docstring") sbol::Document::isEqual "
-";
-
 %feature("docstring") sbol::Document::Document "
 
 Construct a Document. The Document is a container for Components, Modules, and
 all other SBOLObjects.  
+";
+
+%feature("docstring") sbol::Document::generate "
+
+Generates rdf/xml.  
+
+author: KC generates rdf/xml  
 ";
 
 %feature("docstring") sbol::Document::add "
@@ -765,12 +1169,17 @@ Parameters
 ----------
 * `filename` :  
     The full name of the file you want to write (including file extension)  
-";
 
-%feature("docstring") sbol::Document::namespaceHandler "
+Returns
+-------
+A string with the validation results, or empty string if validation is disabled  
 ";
 
 %feature("docstring") sbol::Document::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Document::getProperties "
@@ -787,8 +1196,13 @@ A vector of URIs that identify the properties contained in this object
 
 %feature("docstring") sbol::Document::validate "
 
-Run validation rules on this Document. Validation rules are called automatically
-during parsing and serialization.  
+Run validation on this Document.  
+
+Returns
+-------
+The validation results  
+
+author: KC  
 ";
 
 %feature("docstring") sbol::Document::read "
@@ -804,12 +1218,15 @@ Parameters
 ";
 
 %feature("docstring") sbol::Document::addNamespace "
-";
 
-%feature("docstring") sbol::Document::addNamespace "
-";
+Add a new namespace to this Document.  
 
-%feature("docstring") sbol::Document::parse_objects "
+Parameters
+----------
+* `ns` :  
+    The namespace, eg. http://sbols.org/v2#  
+* `prefix` :  
+    The namespace prefix, eg. sbol  
 ";
 
 %feature("docstring") sbol::Document::getAll "
@@ -823,18 +1240,52 @@ templateparam
 ";
 
 %feature("docstring") sbol::Document::find "
+
+Search recursively for an SBOLObject in this Document that matches the uri.  
+
+Parameters
+----------
+* `uri` :  
+    The identity of the object to search for  
+
+Returns
+-------
+A pointer to the SBOLObject, or NULL if an object with this identity doesn't
+exist  
 ";
 
 %feature("docstring") sbol::Document::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::Document::serialize "
+%feature("docstring") sbol::Document::find_reference "
 ";
 
-%feature("docstring") sbol::Document::parse_properties "
+%feature("docstring") sbol::Document::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::Document::getNamespaces "
+
+Returns
+-------
+A vector of namespaces Get namespaces contained in this Document  
 ";
 
 %feature("docstring") sbol::Document::append "
@@ -878,9 +1329,6 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Document::flatten "
-";
-
 %feature("docstring") sbol::Document::getPropertyValue "
 
 Get the value of a custom annotation property by its URI.  
@@ -893,9 +1341,6 @@ Parameters
 Returns
 -------
 The value of the property or SBOL_ERROR_NOT_FOUND  
-";
-
-%feature("docstring") sbol::Document::getTopLevel "
 ";
 
 // File: classsbol_1_1_functional_component.xml
@@ -935,52 +1380,30 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::FunctionalComponent::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::FunctionalComponent::copy "
+";
 
-Copy an object and automatically increment its version.  
+%feature("docstring") sbol::FunctionalComponent::compare "
 
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
+Compare two SBOL objects or Documents.  
 
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
 
 Parameters
 ----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
+* `comparand` :  
+    A pointer to the object being compared to this one.  
 
 Returns
 -------
-The full URI of the created object.  
-";
-
-%feature("docstring") sbol::FunctionalComponent::serialize "
-";
-
-%feature("docstring") sbol::FunctionalComponent::nest "
-";
-
-%feature("docstring") sbol::FunctionalComponent::getProperties "
-
-Gets URIs for all properties contained by this object.  
-
-This includes SBOL core properties as well as custom annotations. Use this to
-find custom extension data in an SBOL file.  
-
-Returns
--------
-A vector of URIs that identify the properties contained in this object  
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::FunctionalComponent::connect "
@@ -997,10 +1420,34 @@ Parameters
     with this component.  
 ";
 
-%feature("docstring") sbol::FunctionalComponent::isEqual "
+%feature("docstring") sbol::FunctionalComponent::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::FunctionalComponent::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::FunctionalComponent::close "
@@ -1043,6 +1490,25 @@ Parameters
 ";
 
 %feature("docstring") sbol::FunctionalComponent::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::FunctionalComponent::getProperties "
+
+Gets URIs for all properties contained by this object.  
+
+This includes SBOL core properties as well as custom annotations. Use this to
+find custom extension data in an SBOL file.  
+
+Returns
+-------
+A vector of URIs that identify the properties contained in this object  
+";
+
+%feature("docstring") sbol::FunctionalComponent::find_reference "
 ";
 
 %feature("docstring") sbol::FunctionalComponent::mask "
@@ -1075,6 +1541,153 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
+// File: classsbol_1_1_generic_location.xml
+
+
+%feature("docstring") sbol::GenericLocation "
+
+the GenericLocation class is included as a starting point for specifying regions
+on Sequence objects with encoding properties other than IUPAC and potentially
+nonlinear structure. This class can also be used to set the orientation of a
+SequenceAnnotation and any associated Component when their parent
+ComponentDefinition is a partial design that lacks a Sequence.  
+";
+
+%feature("docstring") sbol::GenericLocation::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::GenericLocation::getPropertyValues "
+
+Get all values of a custom annotation property by its URI.  
+
+Parameters
+----------
+* `property_uri` :  
+    The URI for the property  
+
+Returns
+-------
+A vector of property values or SBOL_ERROR_NOT_FOUND  
+";
+
+%feature("docstring") sbol::GenericLocation::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
+";
+
+%feature("docstring") sbol::GenericLocation::find_reference "
+";
+
+%feature("docstring") sbol::GenericLocation::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
+";
+
+%feature("docstring") sbol::GenericLocation::close "
+
+Use this method to destroy an SBOL object that is not contained by a parent
+Document.  
+
+If the object does have a parent Document, instead use doc.close() with the
+object's URI identity as an argument.  Recurse through child objects and delete
+them.  
+";
+
+%feature("docstring") sbol::GenericLocation::getPropertyValue "
+
+Get the value of a custom annotation property by its URI.  
+
+Parameters
+----------
+* `property_uri` :  
+    The URI for the property  
+
+Returns
+-------
+The value of the property or SBOL_ERROR_NOT_FOUND  
+";
+
+%feature("docstring") sbol::GenericLocation::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
+";
+
+%feature("docstring") sbol::GenericLocation::copy "
+";
+
+%feature("docstring") sbol::GenericLocation::~GenericLocation "
+";
+
+%feature("docstring") sbol::GenericLocation::GenericLocation "
+
+Construct a GenericLocation.  
+
+If operating in SBOL-compliant mode, use SequenceAnnotation.locations.create instead.  
+
+Parameters
+----------
+* `uri` :  
+    If operating in open-world mode, this should be a full URI including a
+    scheme, namespace, and identifier. If SBOLCompliance configuration is
+    enabled, then this argument is simply the displayId for the new object and a
+    full URI will automatically be constructed.  
+";
+
+%feature("docstring") sbol::GenericLocation::getProperties "
+
+Gets URIs for all properties contained by this object.  
+
+This includes SBOL core properties as well as custom annotations. Use this to
+find custom extension data in an SBOL file.  
+
+Returns
+-------
+A vector of URIs that identify the properties contained in this object  
+";
+
+%feature("docstring") sbol::GenericLocation::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
+";
+
 // File: classsbol_1_1_identified.xml
 
 
@@ -1103,46 +1716,39 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::Identified::getClassName "
-";
-
-%feature("docstring") sbol::Identified::getTypeURI "
-";
-
-%feature("docstring") sbol::Identified::isEqual "
-";
-
-%feature("docstring") sbol::Identified::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
 
 Returns
 -------
-The full URI of the created object.  
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::Identified::nest "
+%feature("docstring") sbol::Identified::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::Identified::~Identified "
+%feature("docstring") sbol::Identified::find_reference "
+";
+
+%feature("docstring") sbol::Identified::copy "
+";
+
+%feature("docstring") sbol::Identified::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Identified::getProperties "
@@ -1168,6 +1774,17 @@ them.
 ";
 
 %feature("docstring") sbol::Identified::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Identified::getPropertyValue "
@@ -1184,7 +1801,24 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Identified::serialize "
+%feature("docstring") sbol::Identified::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
+";
+
+%feature("docstring") sbol::Identified::~Identified "
 ";
 
 // File: classsbol_1_1_interaction.xml
@@ -1200,41 +1834,31 @@ biology (e.g. transcription and translation), and other basic molecular
 interactions (e.g., non-covalent binding or enzymatic phosphorylation).  
 ";
 
-%feature("docstring") sbol::Interaction::find "
-";
-
 %feature("docstring") sbol::Interaction::getClassName "
-";
-
-%feature("docstring") sbol::Interaction::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
 
 Returns
 -------
-The full URI of the created object.  
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::Interaction::nest "
+%feature("docstring") sbol::Interaction::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
+";
+
+%feature("docstring") sbol::Interaction::copy "
+";
+
+%feature("docstring") sbol::Interaction::~Interaction "
 ";
 
 %feature("docstring") sbol::Interaction::Interaction "
@@ -1273,10 +1897,40 @@ object's URI identity as an argument.  Recurse through child objects and delete
 them.  
 ";
 
-%feature("docstring") sbol::Interaction::~Interaction "
+%feature("docstring") sbol::Interaction::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
-%feature("docstring") sbol::Interaction::isEqual "
+%feature("docstring") sbol::Interaction::find_reference "
+";
+
+%feature("docstring") sbol::Interaction::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Interaction::getPropertyValue "
@@ -1293,10 +1947,11 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Interaction::serialize "
-";
-
 %feature("docstring") sbol::Interaction::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Interaction::getPropertyValues "
@@ -1332,14 +1987,19 @@ Basic getter for all SBOL literal properties.
 
 Returns
 -------
-All properties are initially read from an SBOL file as a raw string containing
-the property value.  
+An integer  
 ";
 
 %feature("docstring") sbol::IntProperty::size "
 ";
 
 %feature("docstring") sbol::IntProperty::getOwner "
+";
+
+%feature("docstring") sbol::IntProperty::clear "
+";
+
+%feature("docstring") sbol::IntProperty::getAll "
 ";
 
 %feature("docstring") sbol::IntProperty::write "
@@ -1364,6 +2024,9 @@ Parameters
 * `new_value` :  
     A new integer value for the property, which is converted to a raw string
     during serialization.  
+";
+
+%feature("docstring") sbol::IntProperty::remove "
 ";
 
 %feature("docstring") sbol::IntProperty::getTypeURI "
@@ -1438,12 +2101,6 @@ templateparam
     The type of SBOL Property, eg, Text, Int, OwnedObject, etc  
 ";
 
-%feature("docstring") sbol::List::remove "
-";
-
-%feature("docstring") sbol::List::remove "
-";
-
 %feature("docstring") sbol::List::List "
 ";
 
@@ -1457,34 +2114,20 @@ further extended by the Range, Cut, and GenericLocation classes.
 ";
 
 %feature("docstring") sbol::Location::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
 ";
 
 %feature("docstring") sbol::Location::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Location::getPropertyValue "
@@ -1501,7 +2144,19 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Location::serialize "
+%feature("docstring") sbol::Location::getProperties "
+
+Gets URIs for all properties contained by this object.  
+
+This includes SBOL core properties as well as custom annotations. Use this to
+find custom extension data in an SBOL file.  
+
+Returns
+-------
+A vector of URIs that identify the properties contained in this object  
+";
+
+%feature("docstring") sbol::Location::find_reference "
 ";
 
 %feature("docstring") sbol::Location::close "
@@ -1515,6 +2170,10 @@ them.
 ";
 
 %feature("docstring") sbol::Location::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Location::~Location "
@@ -1523,22 +2182,37 @@ them.
 %feature("docstring") sbol::Location::Location "
 ";
 
-%feature("docstring") sbol::Location::nest "
-";
+%feature("docstring") sbol::Location::compare "
 
-%feature("docstring") sbol::Location::isEqual "
-";
+Compare two SBOL objects or Documents.  
 
-%feature("docstring") sbol::Location::getProperties "
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
 
-Gets URIs for all properties contained by this object.  
-
-This includes SBOL core properties as well as custom annotations. Use this to
-find custom extension data in an SBOL file.  
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
 
 Returns
 -------
-A vector of URIs that identify the properties contained in this object  
+1 if the objects are identical, 0 if they are different  
+";
+
+%feature("docstring") sbol::Location::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Location::getPropertyValues "
@@ -1556,6 +2230,10 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::Location::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 // File: classsbol_1_1_maps_to.xml
@@ -1573,35 +2251,47 @@ ModuleDefinition, for example mapping a generic gene to an explicit component
 with a name and sequence.  
 ";
 
-%feature("docstring") sbol::MapsTo::copy "
+%feature("docstring") sbol::MapsTo::find_property "
 
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
 
 Parameters
 ----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
+* `uri` :  
+    The RDF type of the property to search for.  
 
 Returns
 -------
-The full URI of the created object.  
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
+";
+
+%feature("docstring") sbol::MapsTo::copy "
 ";
 
 %feature("docstring") sbol::MapsTo::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::MapsTo::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::MapsTo::MapsTo "
@@ -1628,9 +2318,6 @@ Parameters
     SBOL_REFINEMENT_VERIFY_IDENTICAL  
 ";
 
-%feature("docstring") sbol::MapsTo::serialize "
-";
-
 %feature("docstring") sbol::MapsTo::getPropertyValues "
 
 Get all values of a custom annotation property by its URI.  
@@ -1643,6 +2330,9 @@ Parameters
 Returns
 -------
 A vector of property values or SBOL_ERROR_NOT_FOUND  
+";
+
+%feature("docstring") sbol::MapsTo::find_reference "
 ";
 
 %feature("docstring") sbol::MapsTo::getProperties "
@@ -1658,15 +2348,20 @@ A vector of URIs that identify the properties contained in this object
 ";
 
 %feature("docstring") sbol::MapsTo::find "
-";
 
-%feature("docstring") sbol::MapsTo::nest "
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::MapsTo::~MapsTo "
-";
-
-%feature("docstring") sbol::MapsTo::isEqual "
 ";
 
 %feature("docstring") sbol::MapsTo::close "
@@ -1694,6 +2389,10 @@ The value of the property or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::MapsTo::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 // File: classsbol_1_1_model.xml
@@ -1711,9 +2410,17 @@ their choice.
 ";
 
 %feature("docstring") sbol::Model::find "
-";
 
-%feature("docstring") sbol::Model::serialize "
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Model::getProperties "
@@ -1738,7 +2445,21 @@ object's URI identity as an argument.  Recurse through child objects and delete
 them.  
 ";
 
-%feature("docstring") sbol::Model::isEqual "
+%feature("docstring") sbol::Model::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::Model::getPropertyValues "
@@ -1755,6 +2476,9 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
+%feature("docstring") sbol::Model::find_reference "
+";
+
 %feature("docstring") sbol::Model::~Model "
 ";
 
@@ -1765,6 +2489,10 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::Model::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Model::getPropertyValue "
@@ -1782,9 +2510,26 @@ The value of the property or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::Model::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::Model::nest "
+%feature("docstring") sbol::Model::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Model::copy "
@@ -1816,31 +2561,6 @@ The full URI of the created object.
 ";
 
 %feature("docstring") sbol::Model::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
 ";
 
 // File: classsbol_1_1_module.xml
@@ -1890,13 +2610,28 @@ Parameters
 %feature("docstring") sbol::Module::~Module "
 ";
 
-%feature("docstring") sbol::Module::find "
+%feature("docstring") sbol::Module::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::Module::nest "
-";
+%feature("docstring") sbol::Module::compare "
 
-%feature("docstring") sbol::Module::serialize "
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::Module::getProperties "
@@ -1911,10 +2646,11 @@ Returns
 A vector of URIs that identify the properties contained in this object  
 ";
 
-%feature("docstring") sbol::Module::isEqual "
-";
-
 %feature("docstring") sbol::Module::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Module::close "
@@ -1927,7 +2663,21 @@ object's URI identity as an argument.  Recurse through child objects and delete
 them.  
 ";
 
-%feature("docstring") sbol::Module::getClassName "
+%feature("docstring") sbol::Module::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
+";
+
+%feature("docstring") sbol::Module::find_reference "
 ";
 
 %feature("docstring") sbol::Module::getPropertyValue "
@@ -1945,31 +2695,22 @@ The value of the property or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::Module::copy "
+";
 
-Copy an object and automatically increment its version.  
+%feature("docstring") sbol::Module::find_property "
 
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
 
 Parameters
 ----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
+* `uri` :  
+    The RDF type of the property to search for.  
 
 Returns
 -------
-The full URI of the created object.  
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 // File: classsbol_1_1_module_definition.xml
@@ -1982,32 +2723,7 @@ entities in a biological design. The primary usage of this class is to assert
 the molecular interactions and abstract function of its child entities.  
 ";
 
-%feature("docstring") sbol::ModuleDefinition::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
+%feature("docstring") sbol::ModuleDefinition::find_reference "
 ";
 
 %feature("docstring") sbol::ModuleDefinition::copy "
@@ -2038,7 +2754,7 @@ Returns
 The full URI of the created object.  
 ";
 
-%feature("docstring") sbol::ModuleDefinition::serialize "
+%feature("docstring") sbol::ModuleDefinition::copy "
 ";
 
 %feature("docstring") sbol::ModuleDefinition::close "
@@ -2049,35 +2765,6 @@ Document.
 If the object does have a parent Document, instead use doc.close() with the
 object's URI identity as an argument.  Recurse through child objects and delete
 them.  
-";
-
-%feature("docstring") sbol::ModuleDefinition::nest "
-";
-
-%feature("docstring") sbol::ModuleDefinition::assemble "
-";
-
-%feature("docstring") sbol::ModuleDefinition::getPropertyValues "
-
-Get all values of a custom annotation property by its URI.  
-
-Parameters
-----------
-* `property_uri` :  
-    The URI for the property  
-
-Returns
--------
-A vector of property values or SBOL_ERROR_NOT_FOUND  
-";
-
-%feature("docstring") sbol::ModuleDefinition::setInput "
-";
-
-%feature("docstring") sbol::ModuleDefinition::isEqual "
-";
-
-%feature("docstring") sbol::ModuleDefinition::~ModuleDefinition "
 ";
 
 %feature("docstring") sbol::ModuleDefinition::getPropertyValue "
@@ -2094,6 +2781,32 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
+%feature("docstring") sbol::ModuleDefinition::assemble "
+
+Assemble a high-level ModuleDefinition from lower-level submodules.  
+
+Autoconstructs Module objects in the process.  
+
+Parameters
+----------
+* `list_of_modules` :  
+    A list of pointers to the submodule ModuleDefinitions  
+";
+
+%feature("docstring") sbol::ModuleDefinition::getPropertyValues "
+
+Get all values of a custom annotation property by its URI.  
+
+Parameters
+----------
+* `property_uri` :  
+    The URI for the property  
+
+Returns
+-------
+A vector of property values or SBOL_ERROR_NOT_FOUND  
+";
+
 %feature("docstring") sbol::ModuleDefinition::getProperties "
 
 Gets URIs for all properties contained by this object.  
@@ -2106,19 +2819,115 @@ Returns
 A vector of URIs that identify the properties contained in this object  
 ";
 
+%feature("docstring") sbol::ModuleDefinition::setInput "
+
+Defines an input for a system module.  
+
+Parameters
+----------
+* `input` :  
+    A ComponentDefinition that defines the input  
+
+Returns
+-------
+A FunctionalComponent that is derived from the argument ComponentDefinition and
+configured as this ModuleDefinition's input (it's direction property is set to
+SBOL_DIRECTION_IN)  
+";
+
+%feature("docstring") sbol::ModuleDefinition::~ModuleDefinition "
+";
+
+%feature("docstring") sbol::ModuleDefinition::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
+";
+
+%feature("docstring") sbol::ModuleDefinition::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
+";
+
 %feature("docstring") sbol::ModuleDefinition::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::ModuleDefinition::setOutput "
+
+Defines an output for a system module.  
+
+Parameters
+----------
+* `output` :  
+    A ComponentDefinition that defines the output  
+
+Returns
+-------
+A FunctionalComponent that is derived from the argument ComponentDefinition and
+configured as this ModuleDefinition's output (it's direction property is set to
+SBOL_DIRECTION_OUT)  
 ";
 
 %feature("docstring") sbol::ModuleDefinition::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::ModuleDefinition::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::ModuleDefinition::ModuleDefinition "
+
+Construct a ModuleDefinition.  
+
+Parameters
+----------
+* `uri` :  
+    A full URI including a scheme, namespace, and identifier. If SBOLCompliance
+    configuration is enabled, then this argument is simply the displayId for the
+    new object and a full URI will automatically be constructed.  
+* `version` :  
+    An arbitrary version string. If SBOLCompliance is enabled, this should be a
+    valid Maven version string.  
 ";
 
 %feature("docstring") sbol::ModuleDefinition::addToDocument "
@@ -2152,6 +2961,27 @@ templateparam
 %feature("docstring") sbol::OwnedObject::begin "
 ";
 
+%feature("docstring") sbol::OwnedObject::remove "
+
+Remove an object from the list of objects and destroy it.  
+
+Parameters
+----------
+* `uri` :  
+    The identity of the object to be destroyed. This can be a displayId of the
+    object or a full URI may be provided.  
+";
+
+%feature("docstring") sbol::OwnedObject::remove "
+
+Remove an object from the list of objects and destroy it.  
+
+Parameters
+----------
+* `index` :  
+    A numerical index for the object.  
+";
+
 %feature("docstring") sbol::OwnedObject::get "
 
 Get the child object.  
@@ -2163,25 +2993,38 @@ templateparam
 
 Parameters
 ----------
-* `object_id` :  
+* `uri` :  
     The URI of the child object  
 
 Returns
 -------
-A reference to the child object  
+A reference to the child object By default returns the first object in this
+OwnedObject container property  
 ";
 
 %feature("docstring") sbol::OwnedObject::get "
-";
 
-%feature("docstring") sbol::OwnedObject::get "
+Get the child object.  
 
-Basic getter for all SBOL literal properties.  
+templateparam
+-------------
+* `SBOLClass` :  
+    The type of the child object  
+* `SBOLSubClass` :  
+    A derived class of SBOLClass. Use this type specialization when adding
+    multiple types of SBOLObjects to a container.  
+
+Parameters
+----------
+* `uri` :  
+    The specific URI for a child object if this OwnedObject property contains
+    multiple objects,  
 
 Returns
 -------
-All properties are initially read from an SBOL file as a raw string containing
-the property value.  
+A reference to the child object Returns a child object from the OwnedObject
+property. If no URI is specified, the first object in this OwnedObject property
+is returned.  
 ";
 
 %feature("docstring") sbol::OwnedObject::OwnedObject "
@@ -2192,17 +3035,15 @@ the property value.
 
 %feature("docstring") sbol::OwnedObject::create "
 
-Autoconstruct a child object and add it to a parent SBOL object.  
-
 templateparam
 -------------
-* `The` :  
-    type of SBOL object that will be created  
+* `SBOLClass` :  
+    The type of SBOL object that will be created  
 
 Parameters
 ----------
-* `If` :  
-    SBOLCompliance is enabled, this should be the displayId for the new child
+* `uri` :  
+    If SBOLCompliance is enabled, this should be the displayId for the new child
     object. If not enabled, this should be a full raw URI.  
 
 Returns
@@ -2216,19 +3057,46 @@ uniqueness of URI in Document
 ";
 
 %feature("docstring") sbol::OwnedObject::create "
-";
 
-%feature("docstring") sbol::OwnedObject::create "
+templateparam
+-------------
+* `SBOLClass` :  
+    The type of SBOL object contained in this OwnedObject property  
+* `SBOLSubClass` :  
+    A derived class of SBOLClass. Use this specialization for OwnedObject
+    properties which contain multiple types of SBOLObjects.  
 
-Deprecate this  
+Parameters
+----------
+* `uri` :  
+    If SBOLCompliance is enabled, this should be the displayId for the new child
+    object. If not enabled, this should be a full raw URI.  
+
+Returns
+-------
+A reference to the child object Autoconstructs a child object and attaches it to
+the parent object. The new object will be constructed with default values
+specified in the constructor for this type of object. If SBOLCompliance is
+enabled, the child object's identity will be constructed using the supplied
+displayId argument. Otherwise, the user should supply a full URI.  check
+uniqueness of URI in Document  
 ";
 
 %feature("docstring") sbol::OwnedObject::set "
 
-Attach a child SBOL object to a parent SBOL object.  
+templateparam
+-------------
+* `SBOLClass` :  
+    The type of SBOL object contained in this OwnedObject property  
 
 Parameters
 ----------
+* `sbol_obj` :  
+    A child object to add to this container property. Assigns a child object to
+    this OwnedObject container property. This method always overwrites the first
+    SBOLObject in the container. appends another object to those already
+    contained in this OwnedObject property. In SBOLCompliant mode, the create
+    method is preferred  
 * `sbol_obj` :  
     The child object Sets the first object in the container  
 ";
@@ -2254,10 +3122,12 @@ Parameters
     during serialization.  
 ";
 
-%feature("docstring") sbol::OwnedObject::getTypeURI "
+%feature("docstring") sbol::OwnedObject::clear "
+
+Remove all children objects from the parent and destroy them.  
 ";
 
-%feature("docstring") sbol::OwnedObject::copy "
+%feature("docstring") sbol::OwnedObject::getAll "
 ";
 
 %feature("docstring") sbol::OwnedObject::size "
@@ -2269,20 +3139,51 @@ Parameters
 %feature("docstring") sbol::OwnedObject::getOwner "
 ";
 
-%feature("docstring") sbol::OwnedObject::add "
+%feature("docstring") sbol::OwnedObject::getTypeURI "
+";
 
-Push another child object to the list, if the property allows multiple values.  
+%feature("docstring") sbol::OwnedObject::getObjects "
 
-Parameters
-----------
-* `sbol_obj` :  
-    The child object  
+Get all the objects contained in the property.  
+
+Returns
+-------
+A vector of pointers to the objects  
 ";
 
 %feature("docstring") sbol::OwnedObject::add "
 
-Push an object of derived class to the list, eg, add a Range to a list of
-Locations.  
+templateparam
+-------------
+* `SBOLClass` :  
+    The type of SBOL object contained in this OwnedObject property  
+
+Parameters
+----------
+* `sbol_obj` :  
+    A child object to add to this container property. Adds a child object to the
+    parent object. This method always appends another object to those already
+    contained in this OwnedObject property. In SBOLCompliant mode, the create
+    method is preferred  
+";
+
+%feature("docstring") sbol::OwnedObject::add "
+
+templateparam
+-------------
+* `SBOLClass` :  
+    The type of SBOL object contained in this OwnedObject property  
+* `SBOLSubClass` :  
+    A derived class of SBOLClass. Use this type specialization when adding
+    multiple types of SBOLObjects to a container.  
+
+Parameters
+----------
+* `sbol_obj` :  
+    A child object to add to this container property. Adds a child object to the
+    parent object. This method always appends another object to those already
+    contained in this OwnedObject property. In SBOLCompliant mode, the create
+    method is preferred  
 ";
 
 %feature("docstring") sbol::OwnedObject::add "
@@ -2332,9 +3233,6 @@ Parameters
 %feature("docstring") sbol::Participation::Participation "
 ";
 
-%feature("docstring") sbol::Participation::serialize "
-";
-
 %feature("docstring") sbol::Participation::getProperties "
 
 Gets URIs for all properties contained by this object.  
@@ -2348,9 +3246,6 @@ A vector of URIs that identify the properties contained in this object
 ";
 
 %feature("docstring") sbol::Participation::~Participation "
-";
-
-%feature("docstring") sbol::Participation::nest "
 ";
 
 %feature("docstring") sbol::Participation::getPropertyValues "
@@ -2367,10 +3262,45 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
+%feature("docstring") sbol::Participation::find_reference "
+";
+
 %feature("docstring") sbol::Participation::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
+";
+
+%feature("docstring") sbol::Participation::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::Participation::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Participation::getPropertyValue "
@@ -2388,40 +3318,32 @@ The value of the property or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::Participation::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::Participation::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Participation::define "
 ";
 
-%feature("docstring") sbol::Participation::isEqual "
-";
-
 %feature("docstring") sbol::Participation::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
 ";
 
 // File: classsbol_1_1_property.xml
@@ -2441,10 +3363,13 @@ templateparam
     values.  
 ";
 
-%feature("docstring") sbol::Property::size "
+%feature("docstring") sbol::Property::clear "
 ";
 
-%feature("docstring") sbol::Property::end "
+%feature("docstring") sbol::Property::getAll "
+";
+
+%feature("docstring") sbol::Property::remove "
 ";
 
 %feature("docstring") sbol::Property::Property "
@@ -2480,10 +3405,10 @@ Parameters
 %feature("docstring") sbol::Property::write "
 ";
 
-%feature("docstring") sbol::Property::getOwner "
+%feature("docstring") sbol::Property::~Property "
 ";
 
-%feature("docstring") sbol::Property::~Property "
+%feature("docstring") sbol::Property::size "
 ";
 
 %feature("docstring") sbol::Property::add "
@@ -2494,6 +3419,9 @@ Parameters
 ----------
 * `new_value` :  
     A new string which will be added to a list of values.  
+";
+
+%feature("docstring") sbol::Property::end "
 ";
 
 %feature("docstring") sbol::Property::getTypeURI "
@@ -2523,14 +3451,7 @@ Parameters
 %feature("docstring") sbol::Property::begin "
 ";
 
-%feature("docstring") sbol::Property::get "
-
-Basic getter for all SBOL literal properties.  
-
-Returns
--------
-All properties are initially read from an SBOL file as a raw string containing
-the property value.  
+%feature("docstring") sbol::Property::getOwner "
 ";
 
 %feature("docstring") sbol::Property::validate "
@@ -2548,9 +3469,17 @@ in biology, rather than 0, as is typical practice in computer science.
 ";
 
 %feature("docstring") sbol::Range::find "
-";
 
-%feature("docstring") sbol::Range::serialize "
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Range::getProperties "
@@ -2575,9 +3504,6 @@ object's URI identity as an argument.  Recurse through child objects and delete
 them.  
 ";
 
-%feature("docstring") sbol::Range::isEqual "
-";
-
 %feature("docstring") sbol::Range::getPropertyValues "
 
 Get all values of a custom annotation property by its URI.  
@@ -2592,7 +3518,31 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
+%feature("docstring") sbol::Range::find_reference "
+";
+
+%feature("docstring") sbol::Range::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
+";
+
 %feature("docstring") sbol::Range::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Range::getPropertyValue "
@@ -2613,17 +3563,17 @@ The value of the property or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::Range::getTypeURI "
-";
 
-%feature("docstring") sbol::Range::nest "
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Range::Range "
 
 Construct a Range.  
 
-If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create <
-Range > instead.  
+If operating in SBOL-compliant mode, use SequenceAnnotation.locations.create instead.  
 
 Parameters
 ----------
@@ -2638,32 +3588,23 @@ Parameters
     An integer equal to or greater than the start  
 ";
 
-%feature("docstring") sbol::Range::copy "
+%feature("docstring") sbol::Range::find_property "
 
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
 
 Parameters
 ----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
+* `uri` :  
+    The RDF type of the property to search for.  
 
 Returns
 -------
-The full URI of the created object.  
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
+";
+
+%feature("docstring") sbol::Range::copy "
 ";
 
 // File: classsbol_1_1_referenced_object.xml
@@ -2698,6 +3639,9 @@ Returns
 The full URI of the created object.  
 ";
 
+%feature("docstring") sbol::ReferencedObject::validate "
+";
+
 %feature("docstring") sbol::ReferencedObject::end "
 ";
 
@@ -2710,8 +3654,7 @@ Basic getter for all SBOL literal properties.
 
 Returns
 -------
-All properties are initially read from an SBOL file as a raw string containing
-the property value.  
+A string of characters used to identify a resource  
 ";
 
 %feature("docstring") sbol::ReferencedObject::getOwner "
@@ -2734,7 +3677,7 @@ Parameters
 %feature("docstring") sbol::ReferencedObject::begin "
 ";
 
-%feature("docstring") sbol::ReferencedObject::validate "
+%feature("docstring") sbol::ReferencedObject::remove "
 ";
 
 %feature("docstring") sbol::ReferencedObject::addReference "
@@ -2759,7 +3702,25 @@ Parameters
 %feature("docstring") sbol::ReferencedObject::size "
 ";
 
+%feature("docstring") sbol::ReferencedObject::clear "
+";
+
 %feature("docstring") sbol::ReferencedObject::ReferencedObject "
+";
+
+%feature("docstring") sbol::ReferencedObject::getAll "
+";
+
+// File: classsbol_1_1_s_b_o_l_error.xml
+
+
+%feature("docstring") sbol::SBOLError "
+";
+
+%feature("docstring") sbol::SBOLError::what "
+";
+
+%feature("docstring") sbol::SBOLError::SBOLError "
 ";
 
 // File: classsbol_1_1_s_b_o_l_object.xml
@@ -2767,14 +3728,36 @@ Parameters
 
 %feature("docstring") sbol::SBOLObject "
 
-An SBOLObject converts a C++ class data structure into an RDF triple store and
+An SBOLObject converts a class data structure into an RDF triple store and
 contains methods for serializing and parsing RDF triples.  
 ";
 
-%feature("docstring") sbol::SBOLObject::nest "
+%feature("docstring") sbol::SBOLObject::getProperties "
+
+Gets URIs for all properties contained by this object.  
+
+This includes SBOL core properties as well as custom annotations. Use this to
+find custom extension data in an SBOL file.  
+
+Returns
+-------
+A vector of URIs that identify the properties contained in this object  
 ";
 
-%feature("docstring") sbol::SBOLObject::serialize "
+%feature("docstring") sbol::SBOLObject::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::SBOLObject::getPropertyValues "
@@ -2797,16 +3780,21 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 %feature("docstring") sbol::SBOLObject::SBOLObject "
 ";
 
-%feature("docstring") sbol::SBOLObject::getProperties "
+%feature("docstring") sbol::SBOLObject::compare "
 
-Gets URIs for all properties contained by this object.  
+Compare two SBOL objects or Documents.  
 
-This includes SBOL core properties as well as custom annotations. Use this to
-find custom extension data in an SBOL file.  
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
 
 Returns
 -------
-A vector of URIs that identify the properties contained in this object  
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::SBOLObject::close "
@@ -2817,6 +3805,9 @@ Document.
 If the object does have a parent Document, instead use doc.close() with the
 object's URI identity as an argument.  Recurse through child objects and delete
 them.  
+";
+
+%feature("docstring") sbol::SBOLObject::find_reference "
 ";
 
 %feature("docstring") sbol::SBOLObject::getPropertyValue "
@@ -2833,19 +3824,35 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::SBOLObject::find "
-";
-
 %feature("docstring") sbol::SBOLObject::~SBOLObject "
 ";
 
 %feature("docstring") sbol::SBOLObject::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::SBOLObject::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::SBOLObject::isEqual "
+%feature("docstring") sbol::SBOLObject::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
 // File: classsbol_1_1_sequence.xml
@@ -2858,9 +3865,54 @@ ComponentDefinition object.
 ";
 
 %feature("docstring") sbol::Sequence::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
+";
+
+%feature("docstring") sbol::Sequence::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::Sequence::Sequence "
+
+Construct a ComponentDefinition.  
+
+Parameters
+----------
+* `uri` :  
+    A full URI including a scheme, namespace, and identifier. If SBOLCompliance
+    configuration is enabled, then this argument is simply the displayId for the
+    new object and a full URI will automatically be constructed.  
+* `elements` :  
+    A string representation of the primary structure of DNA, RNA, protein, or a
+    SMILES string for small molecules.  
+* `encoding` :  
+    A URI that describes the representation format used for the elements
+    property. Set to SBOL_ENCODING_IUPAC by default  
+* `version` :  
+    An arbitrary version string. If SBOLCompliance is enabled, this should be a
+    Maven version string.  
 ";
 
 %feature("docstring") sbol::Sequence::copy "
@@ -2892,40 +3944,12 @@ The full URI of the created object.
 ";
 
 %feature("docstring") sbol::Sequence::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
 ";
 
 %feature("docstring") sbol::Sequence::~Sequence "
 ";
 
-%feature("docstring") sbol::Sequence::serialize "
-";
-
-%feature("docstring") sbol::Sequence::getClassName "
+%feature("docstring") sbol::Sequence::find_reference "
 ";
 
 %feature("docstring") sbol::Sequence::close "
@@ -2942,6 +3966,20 @@ them.
 ";
 
 %feature("docstring") sbol::Sequence::assemble "
+
+Calculates the complete sequence of a high-level Component from the sequence of
+its subcomponents.  
+
+{rior to assembling the the complete sequence, you must assemble a template
+design by calling ComponentDefinition::assemble for the ComponentDefinition that
+references this Sequence.  
+
+Parameters
+----------
+* `composite_sequence` :  
+    Typically no value for the composite sequence should be specified by the
+    user. This parameter is used to hold the composite sequence as it is passed
+    to function calls at a higher-level of the recursion stack.  
 ";
 
 %feature("docstring") sbol::Sequence::getPropertyValues "
@@ -2959,18 +3997,27 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::Sequence::getTypeURI "
-";
-
-%feature("docstring") sbol::Sequence::getProperties "
-
-Gets URIs for all properties contained by this object.  
-
-This includes SBOL core properties as well as custom annotations. Use this to
-find custom extension data in an SBOL file.  
 
 Returns
 -------
-A vector of URIs that identify the properties contained in this object  
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::Sequence::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::Sequence::getPropertyValue "
@@ -2987,10 +4034,23 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Sequence::nest "
+%feature("docstring") sbol::Sequence::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::Sequence::isEqual "
+%feature("docstring") sbol::Sequence::getProperties "
+
+Gets URIs for all properties contained by this object.  
+
+This includes SBOL core properties as well as custom annotations. Use this to
+find custom extension data in an SBOL file.  
+
+Returns
+-------
+A vector of URIs that identify the properties contained in this object  
 ";
 
 // File: classsbol_1_1_sequence_annotation.xml
@@ -3047,7 +4107,14 @@ object's URI identity as an argument.  Recurse through child objects and delete
 them.  
 ";
 
+%feature("docstring") sbol::SequenceAnnotation::find_reference "
+";
+
 %feature("docstring") sbol::SequenceAnnotation::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::SequenceAnnotation::getPropertyValue "
@@ -3064,44 +4131,61 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::SequenceAnnotation::serialize "
-";
+%feature("docstring") sbol::SequenceAnnotation::find_property "
 
-%feature("docstring") sbol::SequenceAnnotation::getTypeURI "
-";
-
-%feature("docstring") sbol::SequenceAnnotation::find "
-";
-
-%feature("docstring") sbol::SequenceAnnotation::nest "
-";
-
-%feature("docstring") sbol::SequenceAnnotation::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
 
 Parameters
 ----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
+* `uri` :  
+    The RDF type of the property to search for.  
 
 Returns
 -------
-The full URI of the created object.  
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
+";
+
+%feature("docstring") sbol::SequenceAnnotation::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
+";
+
+%feature("docstring") sbol::SequenceAnnotation::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
+";
+
+%feature("docstring") sbol::SequenceAnnotation::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
+";
+
+%feature("docstring") sbol::SequenceAnnotation::copy "
 ";
 
 %feature("docstring") sbol::SequenceAnnotation::getProperties "
@@ -3114,9 +4198,6 @@ find custom extension data in an SBOL file.
 Returns
 -------
 A vector of URIs that identify the properties contained in this object  
-";
-
-%feature("docstring") sbol::SequenceAnnotation::isEqual "
 ";
 
 // File: classsbol_1_1_sequence_constraint.xml
@@ -3180,52 +4261,63 @@ The value of the property or SBOL_ERROR_NOT_FOUND
 ";
 
 %feature("docstring") sbol::SequenceConstraint::getTypeURI "
-";
 
-%feature("docstring") sbol::SequenceConstraint::nest "
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::SequenceConstraint::copy "
+";
 
-Copy an object and automatically increment its version.  
+%feature("docstring") sbol::SequenceConstraint::find_reference "
+";
 
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
+%feature("docstring") sbol::SequenceConstraint::compare "
 
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
 
 Parameters
 ----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
+* `comparand` :  
+    A pointer to the object being compared to this one.  
 
 Returns
 -------
-The full URI of the created object.  
-";
-
-%feature("docstring") sbol::SequenceConstraint::getProperties "
-
-Gets URIs for all properties contained by this object.  
-
-This includes SBOL core properties as well as custom annotations. Use this to
-find custom extension data in an SBOL file.  
-
-Returns
--------
-A vector of URIs that identify the properties contained in this object  
+1 if the objects are identical, 0 if they are different  
 ";
 
 %feature("docstring") sbol::SequenceConstraint::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
+";
+
+%feature("docstring") sbol::SequenceConstraint::find_property "
+
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
+
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
+
+Returns
+-------
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
 %feature("docstring") sbol::SequenceConstraint::getPropertyValues "
@@ -3245,13 +4337,23 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 %feature("docstring") sbol::SequenceConstraint::~SequenceConstraint "
 ";
 
-%feature("docstring") sbol::SequenceConstraint::serialize "
-";
+%feature("docstring") sbol::SequenceConstraint::getProperties "
 
-%feature("docstring") sbol::SequenceConstraint::isEqual "
+Gets URIs for all properties contained by this object.  
+
+This includes SBOL core properties as well as custom annotations. Use this to
+find custom extension data in an SBOL file.  
+
+Returns
+-------
+A vector of URIs that identify the properties contained in this object  
 ";
 
 %feature("docstring") sbol::SequenceConstraint::getClassName "
+
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
 // File: classsbol_1_1_text_property.xml
@@ -3291,17 +4393,16 @@ Basic getter for all SBOL literal properties.
 
 Returns
 -------
-All properties are initially read from an SBOL file as a raw string containing
-the property value.  
+A string literal  
 ";
 
 %feature("docstring") sbol::TextProperty::getTypeURI "
 ";
 
-%feature("docstring") sbol::TextProperty::validate "
+%feature("docstring") sbol::TextProperty::clear "
 ";
 
-%feature("docstring") sbol::TextProperty::size "
+%feature("docstring") sbol::TextProperty::getAll "
 ";
 
 %feature("docstring") sbol::TextProperty::getOwner "
@@ -3317,13 +4418,22 @@ Parameters
     A new string which will be added to a list of values.  
 ";
 
+%feature("docstring") sbol::TextProperty::size "
+";
+
 %feature("docstring") sbol::TextProperty::end "
+";
+
+%feature("docstring") sbol::TextProperty::remove "
 ";
 
 %feature("docstring") sbol::TextProperty::write "
 ";
 
 %feature("docstring") sbol::TextProperty::begin "
+";
+
+%feature("docstring") sbol::TextProperty::validate "
 ";
 
 %feature("docstring") sbol::TextProperty::TextProperty "
@@ -3342,22 +4452,97 @@ document tree and SBOL files. An abstract class.
 ";
 
 %feature("docstring") sbol::TopLevel::getTypeURI "
-";
 
-%feature("docstring") sbol::TopLevel::isEqual "
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::TopLevel::find "
+
+Search this object recursively to see if an object with the URI already exists.  
+
+Parameters
+----------
+* `uri` :  
+    The URI to search for.  
+
+Returns
+-------
+A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
-%feature("docstring") sbol::TopLevel::close "
+%feature("docstring") sbol::TopLevel::getClassName "
 
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
+Returns
+-------
+Parses a local class name from the RDF-type of this SBOL Object  
+";
 
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
+%feature("docstring") sbol::TopLevel::getProperties "
+
+Gets URIs for all properties contained by this object.  
+
+This includes SBOL core properties as well as custom annotations. Use this to
+find custom extension data in an SBOL file.  
+
+Returns
+-------
+A vector of URIs that identify the properties contained in this object  
+";
+
+%feature("docstring") sbol::TopLevel::addToDocument "
+";
+
+%feature("docstring") sbol::TopLevel::~TopLevel "
+";
+
+%feature("docstring") sbol::TopLevel::compare "
+
+Compare two SBOL objects or Documents.  
+
+The behavior is currently undefined for objects with custom annotations or
+extension classes.  
+
+Parameters
+----------
+* `comparand` :  
+    A pointer to the object being compared to this one.  
+
+Returns
+-------
+1 if the objects are identical, 0 if they are different  
+";
+
+%feature("docstring") sbol::TopLevel::copy "
+
+Copy an object and automatically increment its version.  
+
+If the optional version argument is specified, it will be used instead of
+incrementing the copied object's version. An object may also be copied into a
+new document and a new namespace, assuming compliant URIs.  
+
+templateparam
+-------------
+* `SBOLClass` :  
+    The type of SBOL object being copied  
+
+Parameters
+----------
+* `new_doc` :  
+    The new copies will be attached to this Document. NULL by default.  
+* `ns` :  
+    This namespace will be substituted for the current namespace (as configured
+    by setHomespace) in all SBOL-compliat URIs.  
+* `version` :  
+    A new version  
+
+Returns
+-------
+The full URI of the created object.  
+";
+
+%feature("docstring") sbol::TopLevel::copy "
 ";
 
 %feature("docstring") sbol::TopLevel::getPropertyValues "
@@ -3374,68 +4559,6 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::TopLevel::addToDocument "
-";
-
-%feature("docstring") sbol::TopLevel::~TopLevel "
-";
-
-%feature("docstring") sbol::TopLevel::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
-";
-
-%feature("docstring") sbol::TopLevel::copy "
-
-Copy an object and automatically increment its version.  
-
-If the optional version argument is specified, it will be used instead of
-incrementing the copied object's version. An object may also be copied into a
-new document and a new namespace, assuming compliant URIs.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object being copied  
-
-Parameters
-----------
-* `new_doc` :  
-    The new copies will be attached to this Document. NULL by default.  
-* `ns` :  
-    This namespace will be substituted for the current namespace (as configured
-    by setHomespace) in all SBOL-compliat URIs.  
-* `version` :  
-    A new version  
-
-Returns
--------
-The full URI of the created object.  
-";
-
 %feature("docstring") sbol::TopLevel::getPropertyValue "
 
 Get the value of a custom annotation property by its URI.  
@@ -3450,25 +4573,33 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::TopLevel::nest "
-";
+%feature("docstring") sbol::TopLevel::find_property "
 
-%feature("docstring") sbol::TopLevel::getClassName "
-";
+Search this object recursively to see if it contains a member property with the
+given RDF type.  
 
-%feature("docstring") sbol::TopLevel::getProperties "
-
-Gets URIs for all properties contained by this object.  
-
-This includes SBOL core properties as well as custom annotations. Use this to
-find custom extension data in an SBOL file.  
+Parameters
+----------
+* `uri` :  
+    The RDF type of the property to search for.  
 
 Returns
 -------
-A vector of URIs that identify the properties contained in this object  
+A pointer to the object that contains a member property with the specified RDF
+type, NULL otherwise  
 ";
 
-%feature("docstring") sbol::TopLevel::serialize "
+%feature("docstring") sbol::TopLevel::close "
+
+Use this method to destroy an SBOL object that is not contained by a parent
+Document.  
+
+If the object does have a parent Document, instead use doc.close() with the
+object's URI identity as an argument.  Recurse through child objects and delete
+them.  
+";
+
+%feature("docstring") sbol::TopLevel::find_reference "
 ";
 
 // File: classsbol_1_1_u_r_i_property.xml
@@ -3490,20 +4621,25 @@ ontology term.
 %feature("docstring") sbol::URIProperty::URIProperty "
 ";
 
+%feature("docstring") sbol::URIProperty::getAll "
+";
+
 %feature("docstring") sbol::URIProperty::get "
 
 Basic getter for all SBOL literal properties.  
 
 Returns
 -------
-All properties are initially read from an SBOL file as a raw string containing
-the property value.  
+A string of characters used to identify a resource  
 ";
 
 %feature("docstring") sbol::URIProperty::size "
 ";
 
 %feature("docstring") sbol::URIProperty::getTypeURI "
+";
+
+%feature("docstring") sbol::URIProperty::remove "
 ";
 
 %feature("docstring") sbol::URIProperty::end "
@@ -3516,6 +4652,9 @@ the property value.
 ";
 
 %feature("docstring") sbol::URIProperty::getOwner "
+";
+
+%feature("docstring") sbol::URIProperty::clear "
 ";
 
 %feature("docstring") sbol::URIProperty::set "
@@ -3558,35 +4697,27 @@ Contains a version number for an SBOL object.
 
 The VersionProperty follows Maven versioning semantics and includes a major,
 minor, and patch version number. Specifically, libSBOL currently only supports
-using '.' as a delimiter. Ex: v2.0.1. If the user does not want to follow Maven
+using '.' as a delimiter (e.g.: v2.0.1). If the user does not want to follow Maven
 versioning, they can specify an arbitrary version string using the set() method.  
 ";
 
-%feature("docstring") sbol::VersionProperty::incrementMinor "
-
-Increment minor version.  
+%feature("docstring") sbol::VersionProperty::clear "
 ";
 
-%feature("docstring") sbol::VersionProperty::validate "
-";
-
-%feature("docstring") sbol::VersionProperty::decrementMinor "
-
-Decrement major version.  
-";
-
-%feature("docstring") sbol::VersionProperty::decrementPatch "
-
-Decrement major version.  
-";
-
-%feature("docstring") sbol::VersionProperty::begin "
-";
-
-%feature("docstring") sbol::VersionProperty::getTypeURI "
+%feature("docstring") sbol::VersionProperty::getAll "
 ";
 
 %feature("docstring") sbol::VersionProperty::end "
+";
+
+%feature("docstring") sbol::VersionProperty::major "
+
+Get major version.  
+
+Returns
+-------
+The major version as an integer Splits the version string by a delimiter and
+returns the major version number  
 ";
 
 %feature("docstring") sbol::VersionProperty::set "
@@ -3610,56 +4741,7 @@ Parameters
     during serialization.  
 ";
 
-%feature("docstring") sbol::VersionProperty::size "
-";
-
-%feature("docstring") sbol::VersionProperty::VersionProperty "
-";
-
-%feature("docstring") sbol::VersionProperty::split "
-";
-
-%feature("docstring") sbol::VersionProperty::add "
-
-Appends the new value to a list of values, for properties that allow it.  
-
-Parameters
-----------
-* `new_value` :  
-    A new string which will be added to a list of values.  
-";
-
-%feature("docstring") sbol::VersionProperty::decrementMajor "
-
-Decrement major version.  
-";
-
-%feature("docstring") sbol::VersionProperty::incrementPatch "
-
-Increment patch version.  
-";
-
-%feature("docstring") sbol::VersionProperty::major "
-
-Get major version.  
-
-Returns
--------
-The major version as an integer Splits the version string by a delimiter and
-returns the major version number  
-";
-
-%feature("docstring") sbol::VersionProperty::get "
-
-Basic getter for all SBOL literal properties.  
-
-Returns
--------
-All properties are initially read from an SBOL file as a raw string containing
-the property value.  
-";
-
-%feature("docstring") sbol::VersionProperty::write "
+%feature("docstring") sbol::VersionProperty::getTypeURI "
 ";
 
 %feature("docstring") sbol::VersionProperty::minor "
@@ -3672,6 +4754,73 @@ The minor version as an integer Splits the version string by a delimiter and
 returns the minor version number  
 ";
 
+%feature("docstring") sbol::VersionProperty::VersionProperty "
+";
+
+%feature("docstring") sbol::VersionProperty::decrementMajor "
+
+Decrement major version.  
+";
+
+%feature("docstring") sbol::VersionProperty::get "
+
+Basic getter for all SBOL literal properties.  
+
+Returns
+-------
+A string literal  
+";
+
+%feature("docstring") sbol::VersionProperty::decrementMinor "
+
+Decrement major version.  
+";
+
+%feature("docstring") sbol::VersionProperty::begin "
+";
+
+%feature("docstring") sbol::VersionProperty::remove "
+";
+
+%feature("docstring") sbol::VersionProperty::incrementMajor "
+
+Increment major version.  
+";
+
+%feature("docstring") sbol::VersionProperty::incrementMinor "
+
+Increment minor version.  
+";
+
+%feature("docstring") sbol::VersionProperty::validate "
+";
+
+%feature("docstring") sbol::VersionProperty::decrementPatch "
+
+Decrement major version.  
+";
+
+%feature("docstring") sbol::VersionProperty::incrementPatch "
+
+Increment patch version.  
+";
+
+%feature("docstring") sbol::VersionProperty::add "
+
+Appends the new value to a list of values, for properties that allow it.  
+
+Parameters
+----------
+* `new_value` :  
+    A new string which will be added to a list of values.  
+";
+
+%feature("docstring") sbol::VersionProperty::size "
+";
+
+%feature("docstring") sbol::VersionProperty::write "
+";
+
 %feature("docstring") sbol::VersionProperty::patch "
 
 Get patch version.  
@@ -3682,48 +4831,71 @@ The patch version as an integer Splits the version string by a delimiter and
 returns the patch version  
 ";
 
-%feature("docstring") sbol::VersionProperty::incrementMajor "
-
-Increment major version.  
-";
-
 %feature("docstring") sbol::VersionProperty::getOwner "
 ";
 
 // File: namespacesbol.xml
+
+%feature("docstring") sbol::toggleSBOLCompliantTypes "
+
+Allows SBOL-compliant URIs. Accepts boolean. The default value is false.  
+";
+
+%feature("docstring") sbol::hasHomespace "
+
+Checks if a valid default namespace has been defined.  
+";
+
+%feature("docstring") sbol::libsbol_rule_1 "
+";
 
 %feature("docstring") sbol::compliantTypesEnabled "
 
 Checks if an object's type is included in SBOL-compliant URIs.  
 ";
 
-%feature("docstring") sbol::cut_sbol_resource "
+%feature("docstring") sbol::sbolRule10101 "
 ";
 
-%feature("docstring") sbol::randomIdentifier "
-";
+%feature("docstring") sbol::setHomespace "
 
-%feature("docstring") sbol::seek_end_of_element "
+Sets the default namespace for autocreation of URIs when a new SBOL object is
+created.  
 ";
 
 %feature("docstring") sbol::create "
 ";
 
+%feature("docstring") sbol::sbolRule10102 "
+";
+
+%feature("docstring") sbol::getFileFormat "
+
+Returns currently accepted file format.  
+";
+
 %feature("docstring") sbol::exceptionsEnabled "
+
+Checks if exception is enabled.  
 ";
 
-%feature("docstring") sbol::seek_new_line "
+%feature("docstring") sbol::toggleExceptions "
+
+Function to toggle exception handling. Accepts boolean. The default value is
+false.  
 ";
 
-%feature("docstring") sbol::get_local_part "
+%feature("docstring") sbol::sbol_rule_10202 "
 ";
 
 %feature("docstring") sbol::setFileFormat "
+
+Sets file format to use.  
 ";
 
 %feature("docstring") sbol::getHomespace "
 
-Get the current default namespace for autocreation of URIs when a new SBOL
+Returns the current default namespace for autocreation of URIs when a new SBOL
 object is created.  
 ";
 
@@ -3732,112 +4904,10 @@ object is created.
 Checks if SBOLCompliance is enabled.  
 ";
 
-%feature("docstring") sbol::toggleSBOLCompliantTypes "
-
-Turns option to include types in SBOL-compliant URIs on or off.  
-";
-
-%feature("docstring") sbol::hasHomespace "
-
-Checks if a valid default namespace has been defined.  
-";
-
-%feature("docstring") sbol::is_open_node "
-";
-
-%feature("docstring") sbol::parseClassName "
-
-Parse a class name from a URI.  
-
-Parameters
-----------
-* `uri` :  
-    A URI  
-";
-
-%feature("docstring") sbol::parse_element "
-";
-
-%feature("docstring") sbol::getFileFormat "
-";
-
-%feature("docstring") sbol::parseNamespace "
-";
-
-%feature("docstring") sbol::toggleExceptions "
-";
-
-%feature("docstring") sbol::seek_resource "
-";
-
-%feature("docstring") sbol::register_extension "
-
-Deprecate this  
-";
-
-%feature("docstring") sbol::libsbol_rule_1 "
-";
-
-%feature("docstring") sbol::get_qname "
-";
-
 %feature("docstring") sbol::toggleSBOLCompliance "
 
-Enables SBOLCompliance, which simplifies creation of URIs in constructor calls.  
-";
-
-%feature("docstring") sbol::parsePropertyName "
-";
-
-%feature("docstring") sbol::getCompliantURI "
-";
-
-%feature("docstring") sbol::seek_element "
-";
-
-%feature("docstring") sbol::setHomespace "
-
-Set the default namespace for autocreation of URIs when a new SBOL object is
-created.  
-";
-
-%feature("docstring") sbol::constructNonCompliantURI "
-";
-
-%feature("docstring") sbol::replace_reference_to_resource "
-";
-
-%feature("docstring") sbol::seek_end_of_node "
-";
-
-%feature("docstring") sbol::constructCompliantURI "
-";
-
-%feature("docstring") sbol::constructCompliantURI "
-";
-
-%feature("docstring") sbol::autoconstructURI "
-";
-
-%feature("docstring") sbol::indent "
-";
-
-%feature("docstring") sbol::seek_end_of_line "
-";
-
-%feature("docstring") sbol::get_prefix "
-";
-
-%feature("docstring") sbol::raptor_error_handler "
-";
-
-%feature("docstring") sbol::SBOLError "
-";
-
-%feature("docstring") sbol::seek_next_element "
-";
-
-%feature("docstring") sbol::seek_property_element "
+Enables SBOLCompliance, which simplifies creation of URIs in constructor calls.
+Accepts boolean. The default value is false.  
 ";
 
 // File: namespacestd.xml
@@ -3888,6 +4958,9 @@ created.
 %feature("docstring") if "
 ";
 
+%feature("docstring") if "
+";
+
 // File: example_2_c_make_lists_8txt.xml
 
 %feature("docstring") TARGET_LINK_LIBRARIES "
@@ -3916,9 +4989,9 @@ created.
 %feature("docstring") CONFIGURE_FILE "
 ";
 
-// File: component_8h.xml
+// File: collection_8h.xml
 
-// File: componentdefinition_8cpp.xml
+// File: component_8h.xml
 
 // File: componentdefinition_8h.xml
 
@@ -3930,17 +5003,12 @@ created.
 
 // File: document_8cpp.xml
 
+%feature("docstring") CurlWrite_CallbackFunc_StdString "
+";
+
 // File: document_8h.xml
 
-// File: generictoplevel_8h.xml
-
-// File: host_8h.xml
-
-// File: identified_8cpp.xml
-
 // File: identified_8h.xml
-
-// File: igem__component_8h.xml
 
 // File: interaction_8h.xml
 
@@ -3968,32 +5036,17 @@ created.
 
 // File: property_8h.xml
 
-// File: sbol_8cpp.xml
-
 // File: sbol_8h.xml
 
 // File: sbolerror_8cpp.xml
 
 // File: sbolerror_8h.xml
 
-// File: sbolobject_8cpp.xml
-
-// File: sbolobject_8h.xml
-
 // File: sequence_8h.xml
 
 // File: sequenceannotation_8h.xml
 
-// File: sequenceannotationextension_8h.xml
-
 // File: sequenceconstraint_8h.xml
-
-// File: serializer_8h.xml
-
-%feature("docstring") main "
-";
-
-// File: toplevel_8cpp.xml
 
 // File: toplevel_8h.xml
 
