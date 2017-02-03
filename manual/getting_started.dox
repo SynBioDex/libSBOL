@@ -167,7 +167,7 @@
 /// * In the dropdown menu in the upper left of the Property Pages window, select Release configuration.
 /// * To specify link libraries, navigate to 'Configuration Properties > Linker > Input'.  Select the 'Additional Dependencies' field and edit it.  Enter the following libraries:
 ///
-///   sbol.lib; raptor2.lib; libxml2-static.lib; libiconv-static.lib; libz-static.lib; jsoncpp.lib; libcurl.lib
+///   sbol.lib; raptor2.lib; libxml2.lib; libiconv.lib; libz.lib; jsoncpp.lib; libcurl.lib
 ///
 /// * To specify the path where the libraries and header files are located, navigate to 'Configuration Properties > VC++ Directories'. Edit the  'Library Directories' field and enter the install path from Step 1.  In addition, edit the 'Include Directories' field and enter the same path.  Click Apply. (Make sure that all the libraries you listed above are located under the 'Library Directories'. If not, add addtional directory paths to cover all the libraries)
 ///
@@ -178,8 +178,6 @@
 /// #include "sbol.h"
 /// using namespace sbol;
 /// ```
-/// 5) If you want to build using 64 bit libraries, make sure you target 'x64' and follow the above steps. In step 3, you might want to change the libraries into:
-///
-///   sbol.lib; raptor2_64.lib; libxml2-static_64.lib; libiconv-static_64.lib; libz-static_64.lib; jsoncpp_64.lib; libcurl_64.lib
+/// 5) If you want to build using 64 bit libraries, make sure you target 'x64' and follow the above steps. 
 ///
 //////////////////////////////////////////////////////////////////////
