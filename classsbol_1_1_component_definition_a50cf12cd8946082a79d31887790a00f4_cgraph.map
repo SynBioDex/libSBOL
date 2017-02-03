@@ -1,5 +1,0 @@
-<map id="getLastComponent" name="getLastComponent">
-<area shape="rect" id="node2" href="$classsbol_1_1_component_definition.html#a96a1b04568b582070aff16b0cdf29545" title="Checks if the specified Component has a Component downstream in linear arrangement on the DNA strand..." alt="" coords="419,5,606,31"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_component_definition.html#a24beb7eec4f540c77220218931525e9e" title="Get the downstream Component. " alt="" coords="187,56,371,81"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_u_r_i_property.html#a4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="654,31,806,56"/>
-</map>

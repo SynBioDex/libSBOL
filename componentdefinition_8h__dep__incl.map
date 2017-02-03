@@ -1,8 +1,8 @@
-<map id="/Users/bryan/Dev/libSBOL/source/componentdefinition.h" name="/Users/bryan/Dev/libSBOL/source/componentdefinition.h">
-<area shape="rect" id="node2" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="205,92,382,131"/>
-<area shape="rect" id="node3" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="105,179,282,217"/>
-<area shape="rect" id="node7" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="307,179,484,217"/>
-<area shape="rect" id="node4" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,265,182,304"/>
-<area shape="rect" id="node5" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="207,265,384,304"/>
-<area shape="rect" id="node6" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="207,352,384,391"/>
+<map id="componentdefinition.h" name="componentdefinition.h">
+<area shape="rect" id="node2" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="119,80,209,107"/>
+<area shape="rect" id="node3" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="62,155,149,181"/>
+<area shape="rect" id="node7" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="173,155,275,181"/>
+<area shape="rect" id="node4" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,229,104,256"/>
+<area shape="rect" id="node5" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="128,229,184,256"/>
+<area shape="rect" id="node6" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="106,304,206,331"/>
 </map>

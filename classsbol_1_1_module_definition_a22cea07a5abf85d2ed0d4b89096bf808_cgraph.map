@@ -1,5 +1,0 @@
-<map id="setInput" name="setInput">
-<area shape="rect" id="node2" href="$classsbol_1_1_text_property.html#a4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="122,5,276,31"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872" title="Basic setter for SBOL TextProperty and URIProperty. " alt="" coords="135,55,263,80"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_u_r_i_property.html#a4879b26a87a0b49f7d535c7a669620f6" title="Basic getter for all SBOL literal properties. " alt="" coords="123,104,275,129"/>
-</map>

@@ -1,9 +1,9 @@
-<map id="/Users/bryan/Dev/libSBOL/source/sequenceconstraint.h" name="/Users/bryan/Dev/libSBOL/source/sequenceconstraint.h">
-<area shape="rect" id="node2" href="$componentdefinition_8h.html" title="ComponentDefinition class. " alt="" coords="194,92,393,131"/>
-<area shape="rect" id="node3" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="205,179,382,217"/>
-<area shape="rect" id="node4" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="105,265,282,304"/>
-<area shape="rect" id="node8" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="307,265,484,304"/>
-<area shape="rect" id="node5" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,352,182,391"/>
-<area shape="rect" id="node6" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="207,352,384,391"/>
-<area shape="rect" id="node7" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="207,439,384,477"/>
+<map id="sequenceconstraint.h" name="sequenceconstraint.h">
+<area shape="rect" id="node2" href="$componentdefinition_8h.html" title="ComponentDefinition class. " alt="" coords="90,80,238,107"/>
+<area shape="rect" id="node3" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="119,155,209,181"/>
+<area shape="rect" id="node4" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="62,229,149,256"/>
+<area shape="rect" id="node8" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="173,229,275,256"/>
+<area shape="rect" id="node5" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,304,104,331"/>
+<area shape="rect" id="node6" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="128,304,184,331"/>
+<area shape="rect" id="node7" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="106,379,206,405"/>
 </map>

@@ -1,25 +1,25 @@
-<map id="/Users/bryan/Dev/libSBOL/source/sbol.h" name="/Users/bryan/Dev/libSBOL/source/sbol.h">
-<area shape="rect" id="node2" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="1155,92,1242,117"/>
-<area shape="rect" id="node3" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="673,165,764,191"/>
-<area shape="rect" id="node4" href="$componentdefinition_8h.html" title="ComponentDefinition class. " alt="" coords="529,239,681,264"/>
-<area shape="rect" id="node21" href="$component_8h.html" title="ComponentInstance, Component, and FunctionalComponent classes. " alt="" coords="693,312,792,337"/>
-<area shape="rect" id="node23" href="$sequenceannotation_8h.html" title="SequenceAnnotation class. " alt="" coords="416,312,568,337"/>
-<area shape="rect" id="node26" href="$sequence_8h.html" title="Sequence class. " alt="" coords="5,312,96,337"/>
-<area shape="rect" id="node27" href="$moduledefinition_8h.html" title="ModuleDefinition class. " alt="" coords="756,239,886,264"/>
-<area shape="rect" id="node28" href="$module_8h.html" title="Module class. " alt="" coords="990,312,1066,337"/>
-<area shape="rect" id="node31" href="$model_8h.html" title="Model class. " alt="" coords="171,312,240,337"/>
-<area shape="rect" id="node32" href="$collection_8h.html" title="Collection class. " alt="" coords="334,239,422,264"/>
-<area shape="rect" id="node5" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="234,385,312,411"/>
-<area shape="rect" id="node25" href="$sequenceconstraint_8h.html" title="SequenceConstraint class. " alt="" coords="590,385,738,411"/>
-<area shape="rect" id="node6" href="$identified_8h.html" title="Identified class. " alt="" coords="829,459,915,484"/>
-<area shape="rect" id="node7" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="1027,532,1095,557"/>
-<area shape="rect" id="node8" href="$validation_8h.html" title="Validation rules. " alt="" coords="1357,752,1446,777"/>
-<area shape="rect" id="node13" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="1015,605,1107,631"/>
-<area shape="rect" id="node10" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="1046,825,1114,851"/>
-<area shape="rect" id="node14" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="1098,679,1179,704"/>
-<area shape="rect" id="node15" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="1096,752,1186,777"/>
-<area shape="rect" id="node22" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="992,385,1069,411"/>
-<area shape="rect" id="node24" href="$location_8h.html" title="Location, Cut, Range, and GenericLocation classes. " alt="" coords="437,385,515,411"/>
-<area shape="rect" id="node29" href="$interaction_8h.html" title="Interaction class. " alt="" coords="869,312,963,337"/>
-<area shape="rect" id="node30" href="$participation_8h.html" title="Participation class. " alt="" coords="864,385,968,411"/>
+<map id="sbol.h" name="sbol.h">
+<area shape="rect" id="node2" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="1147,80,1233,107"/>
+<area shape="rect" id="node3" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="665,155,755,181"/>
+<area shape="rect" id="node4" href="$componentdefinition_8h.html" title="ComponentDefinition class. " alt="" coords="524,229,672,256"/>
+<area shape="rect" id="node21" href="$component_8h.html" title="ComponentInstance, Component, and FunctionalComponent classes. " alt="" coords="685,304,781,331"/>
+<area shape="rect" id="node23" href="$sequenceannotation_8h.html" title="SequenceAnnotation class. " alt="" coords="413,304,559,331"/>
+<area shape="rect" id="node26" href="$sequence_8h.html" title="Sequence class. " alt="" coords="5,304,92,331"/>
+<area shape="rect" id="node27" href="$moduledefinition_8h.html" title="ModuleDefinition class. " alt="" coords="748,229,875,256"/>
+<area shape="rect" id="node28" href="$module_8h.html" title="Module class. " alt="" coords="979,304,1054,331"/>
+<area shape="rect" id="node31" href="$model_8h.html" title="Model class. " alt="" coords="168,304,236,331"/>
+<area shape="rect" id="node32" href="$collection_8h.html" title="Collection class. " alt="" coords="331,229,417,256"/>
+<area shape="rect" id="node5" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="230,379,307,405"/>
+<area shape="rect" id="node25" href="$sequenceconstraint_8h.html" title="SequenceConstraint class. " alt="" coords="585,379,728,405"/>
+<area shape="rect" id="node6" href="$identified_8h.html" title="Identified class. " alt="" coords="819,453,905,480"/>
+<area shape="rect" id="node7" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="1024,528,1092,555"/>
+<area shape="rect" id="node8" href="$validation_8h.html" title="Validation rules. " alt="" coords="1351,752,1437,779"/>
+<area shape="rect" id="node13" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="1013,603,1103,629"/>
+<area shape="rect" id="node10" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="1041,827,1107,853"/>
+<area shape="rect" id="node14" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="1096,677,1177,704"/>
+<area shape="rect" id="node15" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="1092,752,1179,779"/>
+<area shape="rect" id="node22" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="982,379,1057,405"/>
+<area shape="rect" id="node24" href="$location_8h.html" title="Location, Cut, Range, and GenericLocation classes. " alt="" coords="433,379,510,405"/>
+<area shape="rect" id="node29" href="$interaction_8h.html" title="Interaction class. " alt="" coords="859,304,953,331"/>
+<area shape="rect" id="node30" href="$participation_8h.html" title="Participation class. " alt="" coords="855,379,957,405"/>
 </map>

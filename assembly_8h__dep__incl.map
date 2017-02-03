@@ -1,5 +1,5 @@
-<map id="/Users/bryan/Dev/libSBOL/source/assembly.h" name="/Users/bryan/Dev/libSBOL/source/assembly.h">
-<area shape="rect" id="node2" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,92,182,131"/>
-<area shape="rect" id="node3" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="207,92,384,131"/>
-<area shape="rect" id="node4" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="207,179,384,217"/>
+<map id="assembly.h" name="assembly.h">
+<area shape="rect" id="node2" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,80,104,107"/>
+<area shape="rect" id="node3" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="128,80,184,107"/>
+<area shape="rect" id="node4" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="106,155,206,181"/>
 </map>

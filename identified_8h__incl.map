@@ -1,8 +1,8 @@
-<map id="/Users/bryan/Dev/libSBOL/source/identified.h" name="/Users/bryan/Dev/libSBOL/source/identified.h">
-<area shape="rect" id="node2" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="445,92,513,117"/>
-<area shape="rect" id="node3" href="$validation_8h.html" title="Validation rules. " alt="" coords="434,312,523,337"/>
-<area shape="rect" id="node8" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="562,165,654,191"/>
-<area shape="rect" id="node5" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="495,385,563,411"/>
-<area shape="rect" id="node9" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="522,239,603,264"/>
-<area shape="rect" id="node10" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="649,312,738,337"/>
+<map id="identified.h" name="identified.h">
+<area shape="rect" id="node2" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="445,80,513,107"/>
+<area shape="rect" id="node3" href="$validation_8h.html" title="Validation rules. " alt="" coords="435,304,522,331"/>
+<area shape="rect" id="node8" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="561,155,652,181"/>
+<area shape="rect" id="node5" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="496,379,563,405"/>
+<area shape="rect" id="node9" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="521,229,602,256"/>
+<area shape="rect" id="node10" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="649,304,735,331"/>
 </map>

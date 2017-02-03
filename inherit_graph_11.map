@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classsbol_1_1_property.html" title="Property\&lt; sbol::Interaction \&gt;" alt="" coords="5,12,194,37"/>
-<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lInteraction \&gt;" alt="" coords="242,5,388,44"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Interaction \&gt; \&gt;" alt="" coords="436,5,602,44"/>
+<area shape="rect" id="node1" href="$classsbol_1_1_property.html" title="Property\&lt; sbol::Interaction \&gt;" alt="" coords="5,13,196,39"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lInteraction \&gt;" alt="" coords="244,5,389,47"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Interaction \&gt; \&gt;" alt="" coords="437,5,601,47"/>
 </map>

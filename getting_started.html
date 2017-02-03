@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.1.0</span>
+   &#160;<span id="projectnumber">2.1.1</span>
    </div>
   </td>
  </tr>
@@ -143,19 +143,18 @@ Creating a Visual Studio project on Windows</h1>
 <li>Navigate to the Project Menu and select the project Properties. or hit Alt+F7 to jump there directly.</li>
 <li>In the dropdown menu in the upper left of the Property Pages window, select Release configuration.</li>
 <li><p class="startli">To specify link libraries, navigate to 'Configuration Properties &gt; Linker &gt; Input'. Select the 'Additional Dependencies' field and edit it. Enter the following libraries:</p>
-<p class="startli">sbol.lib; raptor2.lib; libxml2-static.lib; libiconv-static.lib; libz-static.lib; jsoncpp.lib; libcurl.lib</p>
+<p class="startli">sbol.lib; raptor2.lib; libxml2.lib; libiconv.lib; libz.lib; jsoncpp.lib; libcurl.lib</p>
 </li>
 <li>To specify the path where the libraries and header files are located, navigate to 'Configuration Properties &gt; VC++ Directories'. Edit the 'Library Directories' field and enter the install path from Step 1. In addition, edit the 'Include Directories' field and enter the same path. Click Apply. (Make sure that all the libraries you listed above are located under the 'Library Directories'. If not, add addtional directory paths to cover all the libraries)</li>
 </ul>
 <p>4) INCLUDE SBOL HEADER AND NAMESPACE IN THE CLIENT APP</p><ul>
 <li>Add these lines to your client application and build:</li>
 </ul>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="sbol_8h.html">sbol.h</a>&quot;</span></div><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespacesbol.html">sbol</a>;</div></div><!-- fragment --><p> 5) If you want to build using 64 bit libraries, make sure you target 'x64' and follow the above steps. In step 3, you might want to change the libraries into:</p>
-<p>sbol.lib; raptor2_64.lib; libxml2-static_64.lib; libiconv-static_64.lib; libz-static_64.lib; jsoncpp_64.lib; libcurl_64.lib </p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="sbol_8h.html">sbol.h</a>&quot;</span></div><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespacesbol.html">sbol</a>;</div></div><!-- fragment --><p> 5) If you want to build using 64 bit libraries, make sure you target 'x64' and follow the above steps. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 31 2017 18:13:45 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 3 2017 02:51:54 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

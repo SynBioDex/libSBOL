@@ -1,9 +1,9 @@
 <map id="TopLevel" name="TopLevel">
-<area shape="rect" id="node4" href="$classsbol_1_1_collection.html" title="The Collection class is a class that groups together a set of TopLevel objects that have something in..." alt="" coords="5,896,113,996"/>
-<area shape="rect" id="node5" href="$classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="137,796,344,1096"/>
-<area shape="rect" id="node6" href="$classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="368,883,463,1009"/>
-<area shape="rect" id="node7" href="$classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="487,849,653,1043"/>
-<area shape="rect" id="node8" href="$classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="677,883,786,1009"/>
-<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="349,393,482,587"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="340,5,491,345"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_collection.html" title="The Collection class is a class that groups together a set of TopLevel objects that have something in..." alt="" coords="5,961,113,1067"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="137,851,339,1177"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="363,946,459,1082"/>
+<area shape="rect" id="node7" href="$classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="483,909,643,1119"/>
+<area shape="rect" id="node8" href="$classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="667,946,777,1082"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="345,424,477,633"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="337,5,485,376"/>
 </map>

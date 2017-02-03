@@ -1,6 +1,6 @@
-<map id="/Users/bryan/Dev/libSBOL/source/properties.h" name="/Users/bryan/Dev/libSBOL/source/properties.h">
-<area shape="rect" id="node2" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="364,92,444,117"/>
-<area shape="rect" id="node3" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="185,165,274,191"/>
-<area shape="rect" id="node4" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="350,239,418,264"/>
-<area shape="rect" id="node8" href="$validation_8h.html" title="Validation rules. " alt="" coords="400,165,488,191"/>
+<map id="properties.h" name="properties.h">
+<area shape="rect" id="node2" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="362,80,443,107"/>
+<area shape="rect" id="node3" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="186,155,273,181"/>
+<area shape="rect" id="node4" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="348,229,415,256"/>
+<area shape="rect" id="node8" href="$validation_8h.html" title="Validation rules. " alt="" coords="399,155,486,181"/>
 </map>
