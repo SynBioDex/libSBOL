@@ -742,8 +742,11 @@ void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
     //vector<std::string>* namespaces = (vector<string>*)user_data;
     Document* doc = (Document *)user_data;
     string ns = string((const char *)raptor_uri_as_string(raptor_namespace_get_uri(nspace)));
-    string prefix = string((const char *)raptor_namespace_get_prefix(nspace));
-    doc->namespaces[prefix] = ns;
+    if (raptor_namespace_get_prefix(nspace))
+    {
+        string prefix = string((const char *)raptor_namespace_get_prefix(nspace));
+        doc->namespaces[prefix] = ns;
+    }
 }
 
 void Document::read(std::string filename)
