@@ -621,8 +621,6 @@ void Document::parse_annotation_objects()
     }
 }
 
-
-
 void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
 {
     cout << message->text << endl;
@@ -817,6 +815,8 @@ void Document::append(std::string filename)
     // On the final pass, nested annotations not in the SBOL namespace are identified
     parse_annotation_objects();
 
+    // A dummy parser which can be extended by SWIG to attach Python extension code
+    Config::parse_extension_objects();
 //@TODO fix validation on read
 //    this->validate();
 

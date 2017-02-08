@@ -107,7 +107,18 @@ namespace std {
     }
 }
 
+
+%pythonappend sbol::Config::parse_extension_objects()
+%{
+%}
+
 %include "config.h"
+
+// Add PYTHON_DATA_MODEL_REGISTER as a static variable in Config. This dictionary contains key : value pairs consisting of a Python extension class URI and the corresponding constructor callbacks for Python extension classes
+%pythoncode
+%{
+    Config.__extensionclass__ = {}
+%}
 
 %init %{
     toggleExceptions();
@@ -281,7 +292,21 @@ namespace sbol
 %ignore sbol::SBOLObject::properties;
 %ignore sbol::SBOLObject::list_properties;
 %ignore sbol::SBOLObject::owned_objects;
+
+//%pythonappend SBOLObject
+//%{
+//    self.thisown = False
+//%}
+
 %include "object.h"
+
+%typemap(out) sbol::SBOLObject*
+{
+    sbol::SBOLObject* obj = $1;
+    obj->thisown = false;
+    PyObject *pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(pyobj), $descriptor(sbol::SBOLObject*), 0 |  0 );
+    $result  = pyobj;
+}
 
 %extend sbol::SBOLObject
 {
@@ -760,22 +785,29 @@ namespace sbol
     }
 }
 
-%inline
+%pythoncode
 %{
-    // SBOLObject&(*constructor)()
-    PyObject* register_extension_class(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor )
-    {
-        std::string uri = ns + class_name;
-//        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())constructor));
-        //namespaces[ns_prefix] = ns;  // Register extension namespace
-        std::cout << "Registering " << uri << endl;
-        std::cout << "Constructing " << uri << endl;
-        PyObject* obj = PyObject_CallFunction(constructor, NULL);
-        std::cout << "Constructed " << uri << endl;
-        return obj;
-    };
-    
+    def register_extension_class(ns, ns_prefix, class_name, constructor ):
+        uri = ns + class_name
+        Config.__extensionclass__[uri] = constructor
 %}
+    
+//%inline
+//%{
+//    // SBOLObject&(*constructor)()
+//    PyObject* register_extension_class(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor )
+//    {
+//        std::string uri = ns + class_name;
+////        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())constructor));
+//        //namespaces[ns_prefix] = ns;  // Register extension namespace
+//        std::cout << "Registering " << uri << endl;
+//        std::cout << "Constructing " << uri << endl;
+//        PyObject* obj = PyObject_CallFunction(constructor, NULL);
+//        std::cout << "Constructed " << uri << endl;
+//        return obj;
+//    };
+//    
+//%}
 
 
 //// The following code was experimented with for mapping C++ class structure to Python class structure

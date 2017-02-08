@@ -349,3 +349,8 @@ std::string Config::getFileFormat()
 {
     return format;
 };
+
+void Config::parse_extension_objects()
+{
+    
+};

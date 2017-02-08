@@ -96,6 +96,8 @@ namespace sbol
         /// Get current option value for online validation and conversion
         /// @param option The option key
         static std::string getOption(std::string option);
+        
+        static void parse_extension_objects();
     };
 
 	SBOL_DECLSPEC void setHomespace(std::string ns); ///< Set the default namespace for autocreation of URIs when a new SBOL object is created
