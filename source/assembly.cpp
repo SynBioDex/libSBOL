@@ -775,7 +775,7 @@ int FunctionalComponent::isMasked()
     return 0;
 };
 
-vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void*(*callback_fn)(void *), void* user_data)
+vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *), void* user_data)
 {
     /* Assumes parent_component is an SBOL data structure of the general form ComponentDefinition(->Component->ComponentDefinition)n where n+1 is an integer describing how many hierarchical levels are in the SBOL structure */
     /* Look at each of the ComponentDef's SequenceAnnotations, is the target base there? */
@@ -789,7 +789,7 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
         cout << "Adding subcomponent : " << identity.get() << endl;
         component_nodes.push_back(this);  // Add leaf components
         if (callback_fn)
-            user_data = callback_fn(user_data);
+            callback_fn(this, user_data);
     }
     else
     {
@@ -798,7 +798,7 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
             cout << "Adding subcomponent : " << identity.get() << endl;
             component_nodes.push_back(this);  // Add components with children
             if (callback_fn)
-                user_data = callback_fn(user_data);
+                callback_fn(this, user_data);
         }
         for (auto& subc : components)
         {
@@ -819,4 +819,65 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
     return component_nodes;
 };
 
+bool SequenceAnnotation::precedes(SequenceAnnotation& comparand)
+{
+    if (locations.size() > 0 && comparand.locations.size() > 0)
+    {
+        Range& this_range = (Range&)locations[0];
+        Range& that_range = (Range&)comparand.locations[0];
+        if (this_range.start.get() < that_range.start.get())
+            return true;
+        else
+            return false;
+    }
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
+}
+
+bool SequenceAnnotation::follows(SequenceAnnotation& comparand)
+{
+    if (locations.size() > 0 && comparand.locations.size() > 0)
+    {
+        Range& this_range = (Range&)locations[0];
+        Range& that_range = (Range&)comparand.locations[0];
+        if (this_range.end.get() < that_range.end.get())
+            return true;
+        else
+            return false;
+    }
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
+}
+
+bool SequenceAnnotation::contains(SequenceAnnotation& comparand)
+{
+    if (locations.size() > 0 && comparand.locations.size() > 0)
+    {
+        Range& this_range = (Range&)locations[0];
+        Range& that_range = (Range&)comparand.locations[0];
+        if (this_range.start.get() <= that_range.start.get() && this_range.end.get() >= that_range.end.get())
+            return true;
+        else
+            return false;
+    }
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
+}
+
+bool SequenceAnnotation::overlaps(SequenceAnnotation& comparand)
+{
+    if (locations.size() > 0 && comparand.locations.size() > 0)
+    {
+        Range& this_range = (Range&)locations[0];
+        Range& that_range = (Range&)comparand.locations[0];
+        if (this_range.start.get() <= that_range.start.get() && this_range.end.get() <= that_range.end.get())
+            return true;
+        else if (this_range.start.get() >= that_range.start.get() && this_range.end.get() >= that_range.end.get())
+            return true;
+        else
+            return false;
+    }
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
+}
 

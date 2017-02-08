@@ -58,7 +58,11 @@ namespace sbol
 
 //        SequenceAnnotation(std::string uri_prefix, std::string display_id, std::string version) : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri_prefix, display_id, version) {};
 
-        
+        bool precedes(SequenceAnnotation& comparand);
+        bool follows(SequenceAnnotation& comparand);
+        bool contains(SequenceAnnotation& comparand);
+        bool overlaps(SequenceAnnotation& comparand);
+
         virtual ~SequenceAnnotation() {};
 	
 	protected:

@@ -66,7 +66,6 @@ namespace sbol
         /// @param end An integer equal to or greater than the start
         Range(std::string uri = DEFAULT_NS "/Range/example", int start = 1, int end = 2) : Range(SBOL_RANGE, uri, start, end) {};
 
-        
 		virtual ~Range() {};
         
 	protected:
