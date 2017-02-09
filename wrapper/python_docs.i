@@ -18,9 +18,8 @@ specification.
 ";
 
 %feature("docstring") sbol::Collection::addToDocument "
-";
 
-%feature("docstring") sbol::Collection::~Collection "
+Add the Collection object to Document
 ";
 
 %feature("docstring") sbol::Collection::getProperties "
@@ -63,9 +62,6 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Collection::find_reference "
-";
-
 %feature("docstring") sbol::Collection::Collection "
 
 Construct a Collection.  
@@ -84,16 +80,6 @@ Parameters
 Returns
 -------
 The uniform resource identifier that describes the RDF-type of this SBOL Object  
-";
-
-%feature("docstring") sbol::Collection::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
 ";
 
 %feature("docstring") sbol::Collection::getClassName "
@@ -129,9 +115,6 @@ Parameters
 Returns
 -------
 The full URI of the created object.  
-";
-
-%feature("docstring") sbol::Collection::copy "
 ";
 
 %feature("docstring") sbol::Collection::find_property "
@@ -193,9 +176,6 @@ the ComponentDefinition of the promoter Component could contain Component
 objects defined as various operator sites.  
 ";
 
-%feature("docstring") sbol::Component::find_reference "
-";
-
 %feature("docstring") sbol::Component::getClassName "
 
 Returns
@@ -231,16 +211,6 @@ Parameters
 Returns
 -------
 A vector of property values or SBOL_ERROR_NOT_FOUND  
-";
-
-%feature("docstring") sbol::Component::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
 ";
 
 %feature("docstring") sbol::Component::copy "
@@ -333,9 +303,6 @@ Returns
 The value of the property or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Component::~Component "
-";
-
 // File: classsbol_1_1_component_definition.xml
 
 
@@ -365,16 +332,6 @@ Parameters
     Interaction).  
 ";
 
-%feature("docstring") sbol::ComponentDefinition::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 %feature("docstring") sbol::ComponentDefinition::copy "
 
 Copy an object and automatically increment its version.  
@@ -401,9 +358,6 @@ Parameters
 Returns
 -------
 The full URI of the created object.  
-";
-
-%feature("docstring") sbol::ComponentDefinition::copy "
 ";
 
 %feature("docstring") sbol::ComponentDefinition::getLastComponent "
@@ -455,9 +409,6 @@ Returns
 The upstream component  
 ";
 
-%feature("docstring") sbol::ComponentDefinition::find_reference "
-";
-
 %feature("docstring") sbol::ComponentDefinition::updateSequence "
 
 Assemble a parent ComponentDefinition's Sequence from its subcomponent
@@ -502,9 +453,6 @@ Parameters
 Returns
 -------
 1 if found, 0 if not  
-";
-
-%feature("docstring") sbol::ComponentDefinition::~ComponentDefinition "
 ";
 
 %feature("docstring") sbol::ComponentDefinition::getPropertyValues "
@@ -566,6 +514,8 @@ type, NULL otherwise
 ";
 
 %feature("docstring") sbol::ComponentDefinition::addToDocument "
+
+Add the ComponentDefinition object to Document
 ";
 
 %feature("docstring") sbol::ComponentDefinition::getInSequentialOrder "
@@ -687,18 +637,6 @@ Returns
 Parses a local class name from the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::ComponentInstance::~ComponentInstance "
-";
-
-%feature("docstring") sbol::ComponentInstance::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
 
 %feature("docstring") sbol::ComponentInstance::compare "
 
@@ -715,9 +653,6 @@ Parameters
 Returns
 -------
 1 if the objects are identical, 0 if they are different  
-";
-
-%feature("docstring") sbol::ComponentInstance::find_reference "
 ";
 
 %feature("docstring") sbol::ComponentInstance::find_property "
@@ -959,12 +894,6 @@ A pointer to theobject with this URI if it exists, NULL otherwise
 %feature("docstring") sbol::Cut::copy "
 ";
 
-%feature("docstring") sbol::Cut::~Cut "
-";
-
-%feature("docstring") sbol::Cut::find_reference "
-";
-
 %feature("docstring") sbol::Cut::getClassName "
 
 Returns
@@ -1029,16 +958,6 @@ Parameters
     An integer of 0 or greater  
 ";
 
-%feature("docstring") sbol::Cut::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 // File: classsbol_1_1_document.xml
 
 
@@ -1049,7 +968,7 @@ Components, Modules, and all other SBOLObjects.
 ";
 
 %feature("docstring") sbol::Document::addComponentDefinition "
-Document.addComponentDefinition(componentDefinition)
+
 Adds a component definition or a list of component definitions to a sbol::Document object.
 
 Parameters
@@ -1059,7 +978,7 @@ Parameters
 ";
 
 %feature("docstring") sbol::Document::addSequence "
-Document.addSequence(sequence)
+
 Adds a sequence or a list of sequences to a sbol::Document object.
 
 Parameters
@@ -1069,7 +988,7 @@ Parameters
 ";
 
 %feature("docstring") sbol::Document::addModuleDefinition "
-Document.addModuleDefinition(moduleDefinition)
+
 Adds a module definition or a list of module definitions to a sbol::Document object.
 
 Parameters
@@ -1103,47 +1022,10 @@ A pointer to the object that contains a member property with the specified RDF
 type, NULL otherwise  
 ";
 
-%feature("docstring") sbol::Document::close "
-
-Delete all objects in this Document and destroy the Document.  
-";
-
-%feature("docstring") sbol::Document::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 %feature("docstring") sbol::Document::Document "
 
 Construct a Document. The Document is a container for Components, Modules, and
 all other SBOLObjects.  
-";
-
-%feature("docstring") sbol::Document::generate "
-
-Generates rdf/xml.  
-
-author: KC generates rdf/xml  
-";
-
-%feature("docstring") sbol::Document::add "
-
-Register an object in the Document.  
-
-Parameters
-----------
-* `sbol_obj` :  
-    The SBOL object you want to serialize  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object  
 ";
 
 %feature("docstring") sbol::Document::add "
@@ -1201,8 +1083,6 @@ Run validation on this Document.
 Returns
 -------
 The validation results  
-
-author: KC  
 ";
 
 %feature("docstring") sbol::Document::read "
@@ -1259,9 +1139,6 @@ exist
 Returns
 -------
 The uniform resource identifier that describes the RDF-type of this SBOL Object  
-";
-
-%feature("docstring") sbol::Document::find_reference "
 ";
 
 %feature("docstring") sbol::Document::compare "
@@ -1450,19 +1327,6 @@ Returns
 A pointer to theobject with this URI if it exists, NULL otherwise  
 ";
 
-%feature("docstring") sbol::FunctionalComponent::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
-%feature("docstring") sbol::FunctionalComponent::~FunctionalComponent "
-";
-
 %feature("docstring") sbol::FunctionalComponent::FunctionalComponent "
 
 Construct a FunctionalComponent.  
@@ -1506,9 +1370,6 @@ find custom extension data in an SBOL file.
 Returns
 -------
 A vector of URIs that identify the properties contained in this object  
-";
-
-%feature("docstring") sbol::FunctionalComponent::find_reference "
 ";
 
 %feature("docstring") sbol::FunctionalComponent::mask "
@@ -1591,9 +1452,6 @@ Returns
 1 if the objects are identical, 0 if they are different  
 ";
 
-%feature("docstring") sbol::GenericLocation::find_reference "
-";
-
 %feature("docstring") sbol::GenericLocation::find_property "
 
 Search this object recursively to see if it contains a member property with the
@@ -1608,16 +1466,6 @@ Returns
 -------
 A pointer to the object that contains a member property with the specified RDF
 type, NULL otherwise  
-";
-
-%feature("docstring") sbol::GenericLocation::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
 ";
 
 %feature("docstring") sbol::GenericLocation::getPropertyValue "
@@ -1649,9 +1497,6 @@ A pointer to theobject with this URI if it exists, NULL otherwise
 ";
 
 %feature("docstring") sbol::GenericLocation::copy "
-";
-
-%feature("docstring") sbol::GenericLocation::~GenericLocation "
 ";
 
 %feature("docstring") sbol::GenericLocation::GenericLocation "
@@ -1729,9 +1574,6 @@ Returns
 The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::Identified::find_reference "
-";
-
 %feature("docstring") sbol::Identified::copy "
 ";
 
@@ -1761,16 +1603,6 @@ find custom extension data in an SBOL file.
 Returns
 -------
 A vector of URIs that identify the properties contained in this object  
-";
-
-%feature("docstring") sbol::Identified::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
 ";
 
 %feature("docstring") sbol::Identified::find "
@@ -1818,9 +1650,6 @@ Returns
 1 if the objects are identical, 0 if they are different  
 ";
 
-%feature("docstring") sbol::Identified::~Identified "
-";
-
 // File: classsbol_1_1_interaction.xml
 
 
@@ -1858,9 +1687,6 @@ A pointer to theobject with this URI if it exists, NULL otherwise
 %feature("docstring") sbol::Interaction::copy "
 ";
 
-%feature("docstring") sbol::Interaction::~Interaction "
-";
-
 %feature("docstring") sbol::Interaction::Interaction "
 
 Construct an Interaction.  
@@ -1887,16 +1713,6 @@ Returns
 A vector of URIs that identify the properties contained in this object  
 ";
 
-%feature("docstring") sbol::Interaction::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 %feature("docstring") sbol::Interaction::compare "
 
 Compare two SBOL objects or Documents.  
@@ -1912,9 +1728,6 @@ Parameters
 Returns
 -------
 1 if the objects are identical, 0 if they are different  
-";
-
-%feature("docstring") sbol::Interaction::find_reference "
 ";
 
 %feature("docstring") sbol::Interaction::find_property "
@@ -1990,16 +1803,18 @@ Returns
 An integer  
 ";
 
-%feature("docstring") sbol::IntProperty::size "
-";
-
 %feature("docstring") sbol::IntProperty::getOwner "
 ";
 
 %feature("docstring") sbol::IntProperty::clear "
+
+Remove all children objects from the parent and destroy them.  
 ";
 
 %feature("docstring") sbol::IntProperty::getAll "
+
+Retrieve a vector of objects from the IntProperty.
+
 ";
 
 %feature("docstring") sbol::IntProperty::write "
@@ -2007,38 +1822,13 @@ An integer
 
 %feature("docstring") sbol::IntProperty::set "
 
-Basic setter for SBOL TextProperty and URIProperty.  
-
-Parameters
-----------
-* `new_value` :  
-    A new string value for the Property.  
-";
-
-%feature("docstring") sbol::IntProperty::set "
-
-Basic setter for SBOL IntProperty, but can be used with TextProperty as well.  
+Basic setter for SBOL IntProperty.
 
 Parameters
 ----------
 * `new_value` :  
     A new integer value for the property, which is converted to a raw string
     during serialization.  
-";
-
-%feature("docstring") sbol::IntProperty::remove "
-";
-
-%feature("docstring") sbol::IntProperty::getTypeURI "
-";
-
-%feature("docstring") sbol::IntProperty::validate "
-";
-
-%feature("docstring") sbol::IntProperty::begin "
-";
-
-%feature("docstring") sbol::IntProperty::end "
 ";
 
 %feature("docstring") sbol::IntProperty::add "
@@ -2060,8 +1850,6 @@ Provides iterator functionality for SBOL properties that contain multiple
 references.  
 ";
 
-%feature("docstring") sbol::ReferencedObject::iterator::iterator "
-";
 
 // File: classsbol_1_1_owned_object_1_1iterator.xml
 
@@ -2156,27 +1944,11 @@ Returns
 A vector of URIs that identify the properties contained in this object  
 ";
 
-%feature("docstring") sbol::Location::find_reference "
-";
-
-%feature("docstring") sbol::Location::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 %feature("docstring") sbol::Location::getClassName "
 
 Returns
 -------
 Parses a local class name from the RDF-type of this SBOL Object  
-";
-
-%feature("docstring") sbol::Location::~Location "
 ";
 
 %feature("docstring") sbol::Location::Location "
@@ -2332,9 +2104,6 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::MapsTo::find_reference "
-";
-
 %feature("docstring") sbol::MapsTo::getProperties "
 
 Gets URIs for all properties contained by this object.  
@@ -2359,19 +2128,6 @@ Parameters
 Returns
 -------
 A pointer to theobject with this URI if it exists, NULL otherwise  
-";
-
-%feature("docstring") sbol::MapsTo::~MapsTo "
-";
-
-%feature("docstring") sbol::MapsTo::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
 ";
 
 %feature("docstring") sbol::MapsTo::getPropertyValue "
@@ -2435,16 +2191,6 @@ Returns
 A vector of URIs that identify the properties contained in this object  
 ";
 
-%feature("docstring") sbol::Model::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 %feature("docstring") sbol::Model::compare "
 
 Compare two SBOL objects or Documents.  
@@ -2476,13 +2222,8 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::Model::find_reference "
-";
-
-%feature("docstring") sbol::Model::~Model "
-";
-
 %feature("docstring") sbol::Model::addToDocument "
+Add the Model object to Document
 ";
 
 %feature("docstring") sbol::Model::Model "
@@ -2560,8 +2301,6 @@ Returns
 The full URI of the created object.  
 ";
 
-%feature("docstring") sbol::Model::copy "
-";
 
 // File: classsbol_1_1_module.xml
 
@@ -2607,9 +2346,6 @@ Parameters
     Maven version string of the form \"major.minor.patch\".  
 ";
 
-%feature("docstring") sbol::Module::~Module "
-";
-
 %feature("docstring") sbol::Module::getClassName "
 
 Returns
@@ -2653,16 +2389,6 @@ Returns
 The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
-%feature("docstring") sbol::Module::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 %feature("docstring") sbol::Module::find "
 
 Search this object recursively to see if an object with the URI already exists.  
@@ -2675,9 +2401,6 @@ Parameters
 Returns
 -------
 A pointer to theobject with this URI if it exists, NULL otherwise  
-";
-
-%feature("docstring") sbol::Module::find_reference "
 ";
 
 %feature("docstring") sbol::Module::getPropertyValue "
@@ -2723,9 +2446,6 @@ entities in a biological design. The primary usage of this class is to assert
 the molecular interactions and abstract function of its child entities.  
 ";
 
-%feature("docstring") sbol::ModuleDefinition::find_reference "
-";
-
 %feature("docstring") sbol::ModuleDefinition::copy "
 
 Copy an object and automatically increment its version.  
@@ -2752,19 +2472,6 @@ Parameters
 Returns
 -------
 The full URI of the created object.  
-";
-
-%feature("docstring") sbol::ModuleDefinition::copy "
-";
-
-%feature("docstring") sbol::ModuleDefinition::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
 ";
 
 %feature("docstring") sbol::ModuleDefinition::getPropertyValue "
@@ -2833,9 +2540,6 @@ Returns
 A FunctionalComponent that is derived from the argument ComponentDefinition and
 configured as this ModuleDefinition's input (it's direction property is set to
 SBOL_DIRECTION_IN)  
-";
-
-%feature("docstring") sbol::ModuleDefinition::~ModuleDefinition "
 ";
 
 %feature("docstring") sbol::ModuleDefinition::find_property "
@@ -2931,6 +2635,8 @@ Parameters
 ";
 
 %feature("docstring") sbol::ModuleDefinition::addToDocument "
+
+Add the ModuleDefinition object to Document
 ";
 
 // File: classsbol_1_1_owned_object.xml
@@ -2958,9 +2664,6 @@ templateparam
 %feature("docstring") sbol::OwnedObject::write "
 ";
 
-%feature("docstring") sbol::OwnedObject::begin "
-";
-
 %feature("docstring") sbol::OwnedObject::remove "
 
 Remove an object from the list of objects and destroy it.  
@@ -2970,36 +2673,8 @@ Parameters
 * `uri` :  
     The identity of the object to be destroyed. This can be a displayId of the
     object or a full URI may be provided.  
-";
-
-%feature("docstring") sbol::OwnedObject::remove "
-
-Remove an object from the list of objects and destroy it.  
-
-Parameters
-----------
 * `index` :  
-    A numerical index for the object.  
-";
-
-%feature("docstring") sbol::OwnedObject::get "
-
-Get the child object.  
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of the child object  
-
-Parameters
-----------
-* `uri` :  
-    The URI of the child object  
-
-Returns
--------
-A reference to the child object By default returns the first object in this
-OwnedObject container property  
+    A numerical index for the object. 
 ";
 
 %feature("docstring") sbol::OwnedObject::get "
@@ -3030,32 +2705,6 @@ is returned.
 %feature("docstring") sbol::OwnedObject::OwnedObject "
 ";
 
-%feature("docstring") sbol::OwnedObject::OwnedObject "
-";
-
-%feature("docstring") sbol::OwnedObject::create "
-
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object that will be created  
-
-Parameters
-----------
-* `uri` :  
-    If SBOLCompliance is enabled, this should be the displayId for the new child
-    object. If not enabled, this should be a full raw URI.  
-
-Returns
--------
-A reference to the child object Autoconstructs a child object and attaches it to
-the parent object. The new object will be constructed with default values
-specified in the constructor for this type of object. If SBOLCompliance is
-enabled, the child object's identity will be constructed using the supplied
-displayId argument. Otherwise, the user should supply a full URI.  check
-uniqueness of URI in Document  
-";
-
 %feature("docstring") sbol::OwnedObject::create "
 
 templateparam
@@ -3084,6 +2733,8 @@ uniqueness of URI in Document
 
 %feature("docstring") sbol::OwnedObject::set "
 
+Basic setter for OwnedObject SBOL IntProperty.
+
 templateparam
 -------------
 * `SBOLClass` :  
@@ -3101,45 +2752,25 @@ Parameters
     The child object Sets the first object in the container  
 ";
 
-%feature("docstring") sbol::OwnedObject::set "
-
-Basic setter for SBOL TextProperty and URIProperty.  
-
-Parameters
-----------
-* `new_value` :  
-    A new string value for the Property.  
-";
-
-%feature("docstring") sbol::OwnedObject::set "
-
-Basic setter for SBOL IntProperty, but can be used with TextProperty as well.  
-
-Parameters
-----------
-* `new_value` :  
-    A new integer value for the property, which is converted to a raw string
-    during serialization.  
-";
-
 %feature("docstring") sbol::OwnedObject::clear "
 
 Remove all children objects from the parent and destroy them.  
 ";
 
 %feature("docstring") sbol::OwnedObject::getAll "
-";
 
-%feature("docstring") sbol::OwnedObject::size "
-";
+Retrieve a vector of objects from the OwnedObject.
 
-%feature("docstring") sbol::OwnedObject::end "
 ";
 
 %feature("docstring") sbol::OwnedObject::getOwner "
 ";
 
 %feature("docstring") sbol::OwnedObject::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::OwnedObject::getObjects "
@@ -3153,21 +2784,7 @@ A vector of pointers to the objects
 
 %feature("docstring") sbol::OwnedObject::add "
 
-templateparam
--------------
-* `SBOLClass` :  
-    The type of SBOL object contained in this OwnedObject property  
-
-Parameters
-----------
-* `sbol_obj` :  
-    A child object to add to this container property. Adds a child object to the
-    parent object. This method always appends another object to those already
-    contained in this OwnedObject property. In SBOLCompliant mode, the create
-    method is preferred  
-";
-
-%feature("docstring") sbol::OwnedObject::add "
+Appends the new value to a list of values, for properties that allow it.  
 
 templateparam
 -------------
@@ -3186,15 +2803,6 @@ Parameters
     method is preferred  
 ";
 
-%feature("docstring") sbol::OwnedObject::add "
-
-Appends the new value to a list of values, for properties that allow it.  
-
-Parameters
-----------
-* `new_value` :  
-    A new string which will be added to a list of values.  
-";
 
 // File: classsbol_1_1_participation.xml
 
@@ -3203,16 +2811,6 @@ Parameters
 
 Each Participation represents how a particular FunctionalComponent behaves in
 its parent Interaction.  
-";
-
-%feature("docstring") sbol::Participation::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
 ";
 
 %feature("docstring") sbol::Participation::Participation "
@@ -3245,9 +2843,6 @@ Returns
 A vector of URIs that identify the properties contained in this object  
 ";
 
-%feature("docstring") sbol::Participation::~Participation "
-";
-
 %feature("docstring") sbol::Participation::getPropertyValues "
 
 Get all values of a custom annotation property by its URI.  
@@ -3260,9 +2855,6 @@ Parameters
 Returns
 -------
 A vector of property values or SBOL_ERROR_NOT_FOUND  
-";
-
-%feature("docstring") sbol::Participation::find_reference "
 ";
 
 %feature("docstring") sbol::Participation::find "
@@ -3340,9 +2932,6 @@ A pointer to the object that contains a member property with the specified RDF
 type, NULL otherwise  
 ";
 
-%feature("docstring") sbol::Participation::define "
-";
-
 %feature("docstring") sbol::Participation::copy "
 ";
 
@@ -3364,12 +2953,27 @@ templateparam
 ";
 
 %feature("docstring") sbol::Property::clear "
+
+Remove all children objects from the parent and destroy them.  
 ";
 
 %feature("docstring") sbol::Property::getAll "
+
+Retrieve a vector of objects from the Property.
+
 ";
 
 %feature("docstring") sbol::Property::remove "
+
+Remove a Property from the list of objects and destroy it.  
+
+Parameters
+----------
+* `uri` :  
+    The identity of the object to be destroyed. This can be a displayId of the
+    object or a full URI may be provided.  
+* `index` :  
+    A numerical index for the object. 
 ";
 
 %feature("docstring") sbol::Property::Property "
@@ -3396,19 +3000,7 @@ Parameters
     read and written.  
 ";
 
-%feature("docstring") sbol::Property::Property "
-";
-
-%feature("docstring") sbol::Property::Property "
-";
-
 %feature("docstring") sbol::Property::write "
-";
-
-%feature("docstring") sbol::Property::~Property "
-";
-
-%feature("docstring") sbol::Property::size "
 ";
 
 %feature("docstring") sbol::Property::add "
@@ -3421,34 +3013,22 @@ Parameters
     A new string which will be added to a list of values.  
 ";
 
-%feature("docstring") sbol::Property::end "
-";
-
 %feature("docstring") sbol::Property::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::Property::set "
 
-Basic setter for SBOL TextProperty and URIProperty.  
-
-Parameters
-----------
-* `new_value` :  
-    A new string value for the Property.  
-";
-
-%feature("docstring") sbol::Property::set "
-
-Basic setter for SBOL IntProperty, but can be used with TextProperty as well.  
+Basic setter for SBOL Property.
 
 Parameters
 ----------
 * `new_value` :  
     A new integer value for the property, which is converted to a raw string
     during serialization.  
-";
-
-%feature("docstring") sbol::Property::begin "
 ";
 
 %feature("docstring") sbol::Property::getOwner "
@@ -3494,16 +3074,6 @@ Returns
 A vector of URIs that identify the properties contained in this object  
 ";
 
-%feature("docstring") sbol::Range::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 %feature("docstring") sbol::Range::getPropertyValues "
 
 Get all values of a custom annotation property by its URI.  
@@ -3516,9 +3086,6 @@ Parameters
 Returns
 -------
 A vector of property values or SBOL_ERROR_NOT_FOUND  
-";
-
-%feature("docstring") sbol::Range::find_reference "
 ";
 
 %feature("docstring") sbol::Range::compare "
@@ -3557,9 +3124,6 @@ Parameters
 Returns
 -------
 The value of the property or SBOL_ERROR_NOT_FOUND  
-";
-
-%feature("docstring") sbol::Range::~Range "
 ";
 
 %feature("docstring") sbol::Range::getTypeURI "
@@ -3642,9 +3206,6 @@ The full URI of the created object.
 %feature("docstring") sbol::ReferencedObject::validate "
 ";
 
-%feature("docstring") sbol::ReferencedObject::end "
-";
-
 %feature("docstring") sbol::ReferencedObject::write "
 ";
 
@@ -3661,11 +3222,8 @@ A string of characters used to identify a resource
 ";
 
 %feature("docstring") sbol::ReferencedObject::set "
-";
 
-%feature("docstring") sbol::ReferencedObject::set "
-
-Basic setter for SBOL IntProperty, but can be used with TextProperty as well.  
+Basic setter for SBOL ReferencedObject.  
 
 Parameters
 ----------
@@ -3674,10 +3232,17 @@ Parameters
     during serialization.  
 ";
 
-%feature("docstring") sbol::ReferencedObject::begin "
-";
-
 %feature("docstring") sbol::ReferencedObject::remove "
+
+Remove a ReferencedObject from the list of objects and destroy it.  
+
+Parameters
+----------
+* `uri` :  
+    The identity of the object to be destroyed. This can be a displayId of the
+    object or a full URI may be provided.  
+* `index` :  
+    A numerical index for the object. 
 ";
 
 %feature("docstring") sbol::ReferencedObject::addReference "
@@ -3697,18 +3262,24 @@ Parameters
 ";
 
 %feature("docstring") sbol::ReferencedObject::getTypeURI "
-";
 
-%feature("docstring") sbol::ReferencedObject::size "
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::ReferencedObject::clear "
+
+Remove all children objects from the parent and destroy them.  
 ";
 
 %feature("docstring") sbol::ReferencedObject::ReferencedObject "
 ";
 
 %feature("docstring") sbol::ReferencedObject::getAll "
+
+Retrieve a vector of objects from the ReferencedObject.
+
 ";
 
 // File: classsbol_1_1_s_b_o_l_error.xml
@@ -3777,9 +3348,6 @@ A vector of property values or SBOL_ERROR_NOT_FOUND
 %feature("docstring") sbol::SBOLObject::SBOLObject "
 ";
 
-%feature("docstring") sbol::SBOLObject::SBOLObject "
-";
-
 %feature("docstring") sbol::SBOLObject::compare "
 
 Compare two SBOL objects or Documents.  
@@ -3797,19 +3365,6 @@ Returns
 1 if the objects are identical, 0 if they are different  
 ";
 
-%feature("docstring") sbol::SBOLObject::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
-%feature("docstring") sbol::SBOLObject::find_reference "
-";
-
 %feature("docstring") sbol::SBOLObject::getPropertyValue "
 
 Get the value of a custom annotation property by its URI.  
@@ -3822,9 +3377,6 @@ Parameters
 Returns
 -------
 The value of the property or SBOL_ERROR_NOT_FOUND  
-";
-
-%feature("docstring") sbol::SBOLObject::~SBOLObject "
 ";
 
 %feature("docstring") sbol::SBOLObject::getTypeURI "
@@ -3943,26 +3495,10 @@ Returns
 The full URI of the created object.  
 ";
 
-%feature("docstring") sbol::Sequence::copy "
-";
-
-%feature("docstring") sbol::Sequence::~Sequence "
-";
-
-%feature("docstring") sbol::Sequence::find_reference "
-";
-
-%feature("docstring") sbol::Sequence::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 %feature("docstring") sbol::Sequence::addToDocument "
+
+Add the Sequence object to Document
+
 ";
 
 %feature("docstring") sbol::Sequence::assemble "
@@ -4079,9 +3615,6 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::SequenceAnnotation::~SequenceAnnotation "
-";
-
 %feature("docstring") sbol::SequenceAnnotation::SequenceAnnotation "
 
 Construct a ComponentDefinition.  
@@ -4095,19 +3628,6 @@ Parameters
 * `version` :  
     An arbitrary version string. If SBOLCompliance is enabled, this should be a
     Maven version string of the form \"major.minor.patch\".  
-";
-
-%feature("docstring") sbol::SequenceAnnotation::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
-%feature("docstring") sbol::SequenceAnnotation::find_reference "
 ";
 
 %feature("docstring") sbol::SequenceAnnotation::getClassName "
@@ -4236,16 +3756,6 @@ Parameters
     object Components. By default, this is set to SBOL_RESTRICTION_PRECEDES  
 ";
 
-%feature("docstring") sbol::SequenceConstraint::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
 %feature("docstring") sbol::SequenceConstraint::getPropertyValue "
 
 Get the value of a custom annotation property by its URI.  
@@ -4268,9 +3778,6 @@ The uniform resource identifier that describes the RDF-type of this SBOL Object
 ";
 
 %feature("docstring") sbol::SequenceConstraint::copy "
-";
-
-%feature("docstring") sbol::SequenceConstraint::find_reference "
 ";
 
 %feature("docstring") sbol::SequenceConstraint::compare "
@@ -4334,9 +3841,6 @@ Returns
 A vector of property values or SBOL_ERROR_NOT_FOUND  
 ";
 
-%feature("docstring") sbol::SequenceConstraint::~SequenceConstraint "
-";
-
 %feature("docstring") sbol::SequenceConstraint::getProperties "
 
 Gets URIs for all properties contained by this object.  
@@ -4368,17 +3872,7 @@ They can be used as member objects inside custom SBOL Extension classes.
 
 %feature("docstring") sbol::TextProperty::set "
 
-Basic setter for SBOL TextProperty and URIProperty.  
-
-Parameters
-----------
-* `new_value` :  
-    A new string value for the Property.  
-";
-
-%feature("docstring") sbol::TextProperty::set "
-
-Basic setter for SBOL IntProperty, but can be used with TextProperty as well.  
+Basic setter for SBOL TextProperty.
 
 Parameters
 ----------
@@ -4397,12 +3891,21 @@ A string literal
 ";
 
 %feature("docstring") sbol::TextProperty::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::TextProperty::clear "
+
+Remove all children objects from the parent and destroy them.  
 ";
 
 %feature("docstring") sbol::TextProperty::getAll "
+
+Retrieve a vector of objects from the TextProperty.
+
 ";
 
 %feature("docstring") sbol::TextProperty::getOwner "
@@ -4418,19 +3921,20 @@ Parameters
     A new string which will be added to a list of values.  
 ";
 
-%feature("docstring") sbol::TextProperty::size "
-";
-
-%feature("docstring") sbol::TextProperty::end "
-";
-
 %feature("docstring") sbol::TextProperty::remove "
+
+Remove a TextProperty from the list of objects and destroy it.  
+
+Parameters
+----------
+* `uri` :  
+    The identity of the object to be destroyed. This can be a displayId of the
+    object or a full URI may be provided.  
+* `index` :  
+    A numerical index for the object.
 ";
 
 %feature("docstring") sbol::TextProperty::write "
-";
-
-%feature("docstring") sbol::TextProperty::begin "
 ";
 
 %feature("docstring") sbol::TextProperty::validate "
@@ -4492,9 +3996,9 @@ A vector of URIs that identify the properties contained in this object
 ";
 
 %feature("docstring") sbol::TopLevel::addToDocument "
-";
 
-%feature("docstring") sbol::TopLevel::~TopLevel "
+Add the TopLevel object to Document
+
 ";
 
 %feature("docstring") sbol::TopLevel::compare "
@@ -4542,9 +4046,6 @@ Returns
 The full URI of the created object.  
 ";
 
-%feature("docstring") sbol::TopLevel::copy "
-";
-
 %feature("docstring") sbol::TopLevel::getPropertyValues "
 
 Get all values of a custom annotation property by its URI.  
@@ -4589,19 +4090,6 @@ A pointer to the object that contains a member property with the specified RDF
 type, NULL otherwise  
 ";
 
-%feature("docstring") sbol::TopLevel::close "
-
-Use this method to destroy an SBOL object that is not contained by a parent
-Document.  
-
-If the object does have a parent Document, instead use doc.close() with the
-object's URI identity as an argument.  Recurse through child objects and delete
-them.  
-";
-
-%feature("docstring") sbol::TopLevel::find_reference "
-";
-
 // File: classsbol_1_1_u_r_i_property.xml
 
 
@@ -4622,6 +4110,9 @@ ontology term.
 ";
 
 %feature("docstring") sbol::URIProperty::getAll "
+
+Retrieve a vector of objects from the URIProperty.
+
 ";
 
 %feature("docstring") sbol::URIProperty::get "
@@ -4633,43 +4124,9 @@ Returns
 A string of characters used to identify a resource  
 ";
 
-%feature("docstring") sbol::URIProperty::size "
-";
-
-%feature("docstring") sbol::URIProperty::getTypeURI "
-";
-
-%feature("docstring") sbol::URIProperty::remove "
-";
-
-%feature("docstring") sbol::URIProperty::end "
-";
-
-%feature("docstring") sbol::URIProperty::validate "
-";
-
-%feature("docstring") sbol::URIProperty::begin "
-";
-
-%feature("docstring") sbol::URIProperty::getOwner "
-";
-
-%feature("docstring") sbol::URIProperty::clear "
-";
-
 %feature("docstring") sbol::URIProperty::set "
 
-Basic setter for SBOL TextProperty and URIProperty.  
-
-Parameters
-----------
-* `new_value` :  
-    A new string value for the Property.  
-";
-
-%feature("docstring") sbol::URIProperty::set "
-
-Basic setter for SBOL IntProperty, but can be used with TextProperty as well.  
+Basic setter for SBOL URIProperty.
 
 Parameters
 ----------
@@ -4701,13 +4158,10 @@ using '.' as a delimiter (e.g.: v2.0.1). If the user does not want to follow Mav
 versioning, they can specify an arbitrary version string using the set() method.  
 ";
 
-%feature("docstring") sbol::VersionProperty::clear "
-";
-
 %feature("docstring") sbol::VersionProperty::getAll "
-";
 
-%feature("docstring") sbol::VersionProperty::end "
+Retrieve a vector of objects from the VersionProperty.
+
 ";
 
 %feature("docstring") sbol::VersionProperty::major "
@@ -4722,17 +4176,7 @@ returns the major version number
 
 %feature("docstring") sbol::VersionProperty::set "
 
-Basic setter for SBOL TextProperty and URIProperty.  
-
-Parameters
-----------
-* `new_value` :  
-    A new string value for the Property.  
-";
-
-%feature("docstring") sbol::VersionProperty::set "
-
-Basic setter for SBOL IntProperty, but can be used with TextProperty as well.  
+Basic setter for SBOL VersionProperty.
 
 Parameters
 ----------
@@ -4742,6 +4186,10 @@ Parameters
 ";
 
 %feature("docstring") sbol::VersionProperty::getTypeURI "
+
+Returns
+-------
+The uniform resource identifier that describes the RDF-type of this SBOL Object  
 ";
 
 %feature("docstring") sbol::VersionProperty::minor "
@@ -4776,10 +4224,17 @@ A string literal
 Decrement major version.  
 ";
 
-%feature("docstring") sbol::VersionProperty::begin "
-";
-
 %feature("docstring") sbol::VersionProperty::remove "
+
+Remove a VersionProperty from the list of objects and destroy it.  
+
+Parameters
+----------
+* `uri` :  
+    The identity of the object to be destroyed. This can be a displayId of the
+    object or a full URI may be provided.  
+* `index` :  
+    A numerical index for the object.
 ";
 
 %feature("docstring") sbol::VersionProperty::incrementMajor "
@@ -4815,12 +4270,6 @@ Parameters
     A new string which will be added to a list of values.  
 ";
 
-%feature("docstring") sbol::VersionProperty::size "
-";
-
-%feature("docstring") sbol::VersionProperty::write "
-";
-
 %feature("docstring") sbol::VersionProperty::patch "
 
 Get patch version.  
@@ -4838,7 +4287,12 @@ returns the patch version
 
 %feature("docstring") sbol::toggleSBOLCompliantTypes "
 
-Allows SBOL-compliant URIs. Accepts boolean. The default value is false.  
+Allows SBOL-compliant URIs.
+
+Parameters
+----------
+* `is_toggled` : 
+    Accepts boolean. The default value is false.  
 ";
 
 %feature("docstring") sbol::hasHomespace "
@@ -4846,27 +4300,23 @@ Allows SBOL-compliant URIs. Accepts boolean. The default value is false.
 Checks if a valid default namespace has been defined.  
 ";
 
-%feature("docstring") sbol::libsbol_rule_1 "
-";
-
 %feature("docstring") sbol::compliantTypesEnabled "
 
 Checks if an object's type is included in SBOL-compliant URIs.  
-";
-
-%feature("docstring") sbol::sbolRule10101 "
 ";
 
 %feature("docstring") sbol::setHomespace "
 
 Sets the default namespace for autocreation of URIs when a new SBOL object is
 created.  
+
+Parameters
+----------
+* `ns`:
+    Homespace
 ";
 
 %feature("docstring") sbol::create "
-";
-
-%feature("docstring") sbol::sbolRule10102 "
 ";
 
 %feature("docstring") sbol::getFileFormat "
@@ -4881,11 +4331,12 @@ Checks if exception is enabled.
 
 %feature("docstring") sbol::toggleExceptions "
 
-Function to toggle exception handling. Accepts boolean. The default value is
-false.  
-";
+Function to toggle exception handling. 
 
-%feature("docstring") sbol::sbol_rule_10202 "
+Parameters
+----------
+* `is_toggled` : 
+    Accepts boolean. The default value is false.  
 ";
 
 %feature("docstring") sbol::setFileFormat "
@@ -4907,168 +4358,11 @@ Checks if SBOLCompliance is enabled.
 %feature("docstring") sbol::toggleSBOLCompliance "
 
 Enables SBOLCompliance, which simplifies creation of URIs in constructor calls.
-Accepts boolean. The default value is false.  
+
+Parameters
+----------
+* `is_toggled` : 
+    Accepts boolean. The default value is false.  
 ";
 
 // File: namespacestd.xml
-
-// File: _biosystem_design_example_8cpp.xml
-
-%feature("docstring") main "
-";
-
-// File: _c_r_i_s_p_r_repression_example_8cpp.xml
-
-%feature("docstring") main "
-";
-
-// File: _sequence_assembly_example_8cpp.xml
-
-%feature("docstring") main "
-";
-
-// File: _find_doxygen_8cmake.xml
-
-// File: getting__started_8dox.xml
-
-// File: installation_8dox.xml
-
-// File: mainpage_8dox.xml
-
-// File: modules_8dox.xml
-
-// File: sequences_8dox.xml
-
-// File: assembly_8cpp.xml
-
-// File: assembly_8h.xml
-
-// File: source_2cmake__install_8cmake.xml
-
-// File: manual_2cmake__install_8cmake.xml
-
-// File: source_2_c_make_lists_8txt.xml
-
-%feature("docstring") include_directories "
-";
-
-%feature("docstring") if "
-";
-
-%feature("docstring") if "
-";
-
-%feature("docstring") if "
-";
-
-// File: example_2_c_make_lists_8txt.xml
-
-%feature("docstring") TARGET_LINK_LIBRARIES "
-";
-
-%feature("docstring") find_library "
-";
-
-%feature("docstring") find_library "
-";
-
-%feature("docstring") find_library "
-";
-
-%feature("docstring") SET "
-";
-
-%feature("docstring") SET "
-";
-
-%feature("docstring") cmake_policy "
-";
-
-// File: manual_2_c_make_lists_8txt.xml
-
-%feature("docstring") CONFIGURE_FILE "
-";
-
-// File: collection_8h.xml
-
-// File: component_8h.xml
-
-// File: componentdefinition_8h.xml
-
-// File: config_8cpp.xml
-
-// File: config_8h.xml
-
-// File: constants_8h.xml
-
-// File: document_8cpp.xml
-
-%feature("docstring") CurlWrite_CallbackFunc_StdString "
-";
-
-// File: document_8h.xml
-
-// File: identified_8h.xml
-
-// File: interaction_8h.xml
-
-// File: location_8h.xml
-
-// File: mapsto_8h.xml
-
-// File: mergestaticlibs_8cmake.xml
-
-// File: model_8h.xml
-
-// File: module_8h.xml
-
-// File: moduledefinition_8h.xml
-
-// File: object_8cpp.xml
-
-// File: object_8h.xml
-
-// File: participation_8h.xml
-
-// File: properties_8cpp.xml
-
-// File: properties_8h.xml
-
-// File: property_8h.xml
-
-// File: sbol_8h.xml
-
-// File: sbolerror_8cpp.xml
-
-// File: sbolerror_8h.xml
-
-// File: sequence_8h.xml
-
-// File: sequenceannotation_8h.xml
-
-// File: sequenceconstraint_8h.xml
-
-// File: toplevel_8h.xml
-
-// File: validation_8cpp.xml
-
-// File: validation_8h.xml
-
-// File: group__sbol__core__data__model.xml
-
-// File: group__extension__layer.xml
-
-// File: getting_started.xml
-
-// File: installation.xml
-
-// File: modular_design.xml
-
-// File: sequences.xml
-
-// File: dir_cfafba98a580ce4b62f8a6fa96d7cbb0.xml
-
-// File: dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.xml
-
-// File: indexpage.xml
-
