@@ -134,7 +134,21 @@ typedef std::string sbol::sbol_type;
 //%ignore sbol::Property(std::string , void *, int initial_value, std::vector< (sbol::*)(void *)(void *) > );
 //%ignore sbol::Property(std::string , void *, std::vector< (sbol::*)(void *)(void *) > );
 
+%ignore sbol::SBOLObject::close;
+%ignore sbol::SBOLObject::properties;
+%ignore sbol::SBOLObject::list_properties;
+%ignore sbol::SBOLObject::owned_objects;
+%ignore sbol::SBOLObject::begin;
+%ignore sbol::SBOLObject::end;
+%ignore sbol::SBOLObject::size;
 
+%ignore sbol::OwnedObject::begin;
+%ignore sbol::OwnedObject::end;
+%ignore sbol::OwnedObject::size;
+
+%ignore sbol::ReferencedObject::begin;
+%ignore sbol::ReferencedObject::end;
+%ignore sbol::ReferencedObject::size;
 
 
 %include "property.h"
@@ -287,11 +301,6 @@ namespace sbol
         return $self->size();
     }
 };
-
-%ignore sbol::SBOLObject::close;
-%ignore sbol::SBOLObject::properties;
-%ignore sbol::SBOLObject::list_properties;
-%ignore sbol::SBOLObject::owned_objects;
 
 //%pythonappend SBOLObject
 //%{
