@@ -309,13 +309,13 @@ namespace sbol
 
 %include "object.h"
 
-%typemap(out) sbol::SBOLObject*
-{
-    sbol::SBOLObject* obj = $1;
-    obj->thisown = false;
-    PyObject *pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(pyobj), $descriptor(sbol::SBOLObject*), 0 |  0 );
-    $result  = pyobj;
-}
+//%typemap(out) sbol::SBOLObject*
+//{
+//    sbol::SBOLObject* obj = $1;
+//    obj->thisown = false;
+//    PyObject *pyobj = SWIG_NewPointerObj(SWIG_as_voidptr(pyobj), $descriptor(sbol::SBOLObject*), 0 |  0 );
+//    $result  = pyobj;
+//}
 
 %extend sbol::SBOLObject
 {
