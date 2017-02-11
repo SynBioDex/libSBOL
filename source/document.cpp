@@ -1363,4 +1363,181 @@ std::string Document::request_validation(std::string& sbol)
 
 
 
+std::string Document::query_repository(std::string command)
+{
+//    /* Form validation options in JSON */
+//    Json::Value request;   // 'root' will contain the root value after parsing.
+//    
+//    vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
+//    for (auto const& opt : opts)
+//    {
+//        if (Config::getOption(opt).compare("True") == 0)
+//            request["options"][opt] = true;
+//        else if (Config::getOption(opt).compare("False") == 0)
+//            request["options"][opt] = false;
+//        else
+//            request["options"][opt] = Config::getOption(opt);
+//    }
+//    if (Config::getOption("return_file").compare("True") == 0)
+//        request["return_file"] = true;
+//    else if (Config::getOption("return_file").compare("False") == 0)
+//        request["return_file"] = false;
+//    request["main_file"] = sbol;
+//    Json::StyledWriter writer;
+//    string json = writer.write( request );
+    
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+//    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+//    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/component/count");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the POST data */
+//        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+
+    cout << response << endl;
+//    Json::Value json_response;
+//    Json::Reader reader;
+//    bool parsed = reader.parse( response, json_response );     //parse process
+//    if ( parsed )
+//    {
+//        //response = json_response.get("result", response ).asString();
+//        //response = json_response.get("valid", response ).asString() << endl;
+//        //response = json_response.get("output_file", response ).asString() << endl;
+//        //response = json_response.get("valid", response ).asString();
+//        if (json_response.get("valid", response ).asString().compare("true") == 0)
+//            response = "Valid.";
+//        else
+//            response = "Invalid.";
+//        for (auto itr : json_response["errors"])
+//        {
+//            response += " " + itr.asString();
+//        }
+//    }
+    return response;
+};
+
+std::string Document::login(std::string email, std::string password)
+{
+    //    /* Form validation options in JSON */
+    //    Json::Value request;   // 'root' will contain the root value after parsing.
+    //
+    //    vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
+    //    for (auto const& opt : opts)
+    //    {
+    //        if (Config::getOption(opt).compare("True") == 0)
+    //            request["options"][opt] = true;
+    //        else if (Config::getOption(opt).compare("False") == 0)
+    //            request["options"][opt] = false;
+    //        else
+    //            request["options"][opt] = Config::getOption(opt);
+    //    }
+    //    if (Config::getOption("return_file").compare("True") == 0)
+    //        request["return_file"] = true;
+    //    else if (Config::getOption("return_file").compare("False") == 0)
+    //        request["return_file"] = false;
+    //    request["main_file"] = sbol;
+    //    Json::StyledWriter writer;
+    //    string json = writer.write( request );
+    
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    //    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/remoteLogin");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the POST data */
+        string parameters = "email=bartleyba@sbolstandard.org&password=test";
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    cout << response << endl;
+    //    Json::Value json_response;
+    //    Json::Reader reader;
+    //    bool parsed = reader.parse( response, json_response );     //parse process
+    //    if ( parsed )
+    //    {
+    //        //response = json_response.get("result", response ).asString();
+    //        //response = json_response.get("valid", response ).asString() << endl;
+    //        //response = json_response.get("output_file", response ).asString() << endl;
+    //        //response = json_response.get("valid", response ).asString();
+    //        if (json_response.get("valid", response ).asString().compare("true") == 0)
+    //            response = "Valid.";
+    //        else
+    //            response = "Invalid.";
+    //        for (auto itr : json_response["errors"])
+    //        {
+    //            response += " " + itr.asString();
+    //        }
+    //    }
+    return response;
+};
+
 

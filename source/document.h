@@ -124,6 +124,10 @@ namespace sbol {
         /// @return The validation results
         std::string request_validation(std::string& sbol);
 
+        std::string query_repository(std::string command);
+
+        std::string login(std::string email, std::string password);
+        
 		/// Generates rdf/xml
         void generate(raptor_world** world, raptor_serializer** sbol_serializer, char** sbol_buffer, size_t* sbol_buffer_len, raptor_iostream** ios, raptor_uri** base_uri);
 
