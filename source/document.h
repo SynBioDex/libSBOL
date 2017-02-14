@@ -126,6 +126,8 @@ namespace sbol {
 
         std::string query_repository(std::string command);
 
+        std::string search_metadata(std::string command);
+
         std::string login(std::string email, std::string password);
         
 		/// Generates rdf/xml

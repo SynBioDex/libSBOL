@@ -1397,7 +1397,7 @@ std::string Document::query_repository(std::string command)
     
     struct curl_slist *headers = NULL;
 //    headers = curl_slist_append(headers, "Accept: application/json");
-    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+//    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
 //    headers = curl_slist_append(headers, "charsets: utf-8");
     
     /* get a curl handle */
@@ -1407,8 +1407,8 @@ std::string Document::query_repository(std::string command)
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/component/count");
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.utah.edu/public/igem/BBa_F2620/1/sbol");
+//        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */
 //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
@@ -1499,7 +1499,7 @@ std::string Document::login(std::string email, std::string password)
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */
-        string parameters = "email=bartleyba@sbolstandard.org&password=test";
+        string parameters = "email=" + email + "&" + "password=" + password;
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
         
         /* Now specify the callback to read the response into string */
@@ -1539,5 +1539,89 @@ std::string Document::login(std::string email, std::string password)
     //    }
     return response;
 };
+
+std::string Document::search_metadata(std::string command)
+{
+    /* Form validation options in JSON */
+    Json::Value request;   // 'root' will contain the root value after parsing.
+    vector<string> opts = {"role", "type", "name", "collection" };
+//    for (auto const& opt : opts)
+//    {
+//        request[opt] = "";
+//    }
+    request["role"] = SO "0000110";
+//    request["name"] = "ORI"
+
+    Json::StyledWriter writer;
+    string json = writer.write( request );
+    cout << json << endl;
+    cout << "Press any key to continue" << endl;
+    getchar();
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    //    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl)
+    {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/component/search/metadata");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the POST data */
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    cout << response << endl;
+    //    Json::Value json_response;
+    //    Json::Reader reader;
+    //    bool parsed = reader.parse( response, json_response );     //parse process
+    //    if ( parsed )
+    //    {
+    //        //response = json_response.get("result", response ).asString();
+    //        //response = json_response.get("valid", response ).asString() << endl;
+    //        //response = json_response.get("output_file", response ).asString() << endl;
+    //        //response = json_response.get("valid", response ).asString();
+    //        if (json_response.get("valid", response ).asString().compare("true") == 0)
+    //            response = "Valid.";
+    //        else
+    //            response = "Invalid.";
+    //        for (auto itr : json_response["errors"])
+    //        {
+    //            response += " " + itr.asString();
+    //        }
+    //    }
+    return response;
+};
+
 
 
