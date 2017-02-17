@@ -911,12 +911,16 @@ int Range::length()
 
 
 
-std::vector<SequenceAnnotation*> SequenceAnnotation::precedes(std::vector<SequenceAnnotation*> comparand_list)
+vector<SequenceAnnotation*> SequenceAnnotation::precedes(std::vector<SequenceAnnotation*> comparand_list)
 {
+    vector<SequenceAnnotation*> filtered_list = {};
+    return filtered_list;
 };
 
 std::vector<SequenceAnnotation*> SequenceAnnotation::follows(std::vector<SequenceAnnotation*> comparand_list)
 {
+    vector<SequenceAnnotation*> filtered_list = {};
+    return filtered_list;
 };
 
 std::vector<SequenceAnnotation*> SequenceAnnotation::contains(std::vector<SequenceAnnotation*> comparand_list)
