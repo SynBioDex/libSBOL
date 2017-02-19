@@ -108,12 +108,31 @@ namespace std {
 }
 
 
-%pythonappend sbol::Config::parse_extension_objects()
-%{
-%}
+//%pythonappend sbol::Config::parse_extension_objects()
+//%{
+//    print ("Parsing extension objects")
+//%}
+//
+//%pythonappend sbol::Config::extension_memory_handler(bool swig_thisown)
+//%{
+//    print ("Entering memory handler")
+//    print (args)
+//    self.thisown = args[0]
+//%}
+
+
+
+//%pythonappend sbol::Config::extension_memory_handler(bool swig_thisown)
+//%{
+//    print ("Entering memory handler")
+//    print (args)
+//    self.thisown = args[0]
+//%}
+
 
 %include "config.h"
 
+    
 // Add PYTHON_DATA_MODEL_REGISTER as a static variable in Config. This dictionary contains key : value pairs consisting of a Python extension class URI and the corresponding constructor callbacks for Python extension classes
 %pythoncode
 %{
@@ -245,6 +264,33 @@ namespace sbol
     %template(_IntProperty) Property<int>;
 }
 
+%define TEMPLATE_HANDLER(SBOLClass)
+    
+    //    %template(_VectorOfComponents) std::vector<sbol::Component>;
+    //    %template(componentsProperty) sbol::Property<sbol::Component>;
+    //    %template(ownedComponents) sbol::OwnedObject<sbol::Component>;
+    //%template(listOfOwnedComponents) sbol::List<sbol::OwnedObject<sbol::Component>>;
+    %template(SBOLClass ## Vector) std::vector<sbol::SBOLClass>;
+    %template(SBOLClass ## Property) sbol::Property<sbol::SBOLClass >;
+    %template(Owned ## SBOLClass) sbol::OwnedObject<sbol::SBOLClass >;
+    %template(ListOfOwned ## SBOLClass) sbol::List<sbol::OwnedObject<sbol::SBOLClass >>;
+
+    %pythonappend sbol::OwnedObject<sbol::SBOLClass >::add(SBOLClass& sbol_obj)
+    %{
+        print self.thisown
+        self.thisown = False
+        print self.thisown
+    %}
+    
+    %pythonappend sbol::List<sbol::OwnedObject<sbol::SBOLClass >>::add(SBOLClass& sbol_obj)
+    %{
+        print self.thisown
+        self.thisown = False
+        print self.thisown
+    %}
+    
+%enddef
+    
 %include "properties.h"
 
 %extend sbol::OwnedObject 
@@ -517,7 +563,7 @@ namespace sbol
 
 %include "toplevel.h"
 
-// Declare instances of the member templates first, then declare instances of the class templates.
+// Templates used by subclasses of Location: Range, Cut, and Generic Location
 %template(addRange) sbol::OwnedObject::add<Range>;
 %template(getRange) sbol::OwnedObject::get<Range>;
 %template(createRange) sbol::OwnedObject::create<Range>;
@@ -527,57 +573,44 @@ namespace sbol
 %template(addGenericLocation) sbol::OwnedObject::add<GenericLocation>;
 %template(getGenericLocation) sbol::OwnedObject::get<GenericLocation>;
 %template(createGenericLocation) sbol::OwnedObject::create<GenericLocation>;
-%include "location.h"
 
+// Templates used in SequenceAnnotation class
 %template(locationProperty) sbol::Property<sbol::Location>;
 %template(_VectorOfLocations) std::vector<sbol::Location>;
 %template(_ownedLocation) sbol::OwnedObject<sbol::Location>;
 %template(listOfOwnedLocations) sbol::List<sbol::OwnedObject<sbol::Location>>;
-%include "sequenceannotation.h"
-
-//%template(_componentInstance) sbol::Property<sbol::ComponentInstance>;
-//%template(referencedComponentInstance) sbol::ReferencedObject<sbol::ComponentInstance>;
-//%template(_componentDefinition) sbol::Property<sbol::ComponentDefinition>;
-//%template(referencedComponentDefinition) sbol::ReferencedObject<sbol::ComponentDefinition>;
-%include "mapsto.h"
+    
+// Templates used in Component class
 %template(_VectorOfMapsTos) std::vector<sbol::MapsTo>;
 %template(mapsToProperty) sbol::Property<sbol::MapsTo>;
 %template(ownedMapsTo) sbol::OwnedObject<sbol::MapsTo>;
 %template(listOfOwnedMapsTos) sbol::List<sbol::OwnedObject<sbol::MapsTo>>;
-%include "component.h"
-
-//%include "sequence.h"
-//%template(_sequence) sbol::Property<sbol::Sequence>;
-//%template(referencedSequence) sbol::ReferencedObject<sbol::Sequence>;
-%include "sequenceconstraint.h"
+   
+// Templates used in ComponentDefinition class
 %template(_VectorOfSequenceConstraints) std::vector<sbol::SequenceConstraint>;
 %template(sequenceConstraintProperty) sbol::Property<sbol::SequenceConstraint>;
 %template(ownedSequenceConstraint) sbol::OwnedObject<sbol::SequenceConstraint>;
 %template(listOfOwnedSequenceConstraints) sbol::List<sbol::OwnedObject<sbol::SequenceConstraint>>;
-
 %template(_VectorOfSequenceAnnotations) std::vector<sbol::SequenceAnnotation>;
 %template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
 %template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
 %template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
-%template(_VectorOfComponents) std::vector<sbol::Component>;
-%template(componentsProperty) sbol::Property<sbol::Component>;
-%template(ownedComponents) sbol::OwnedObject<sbol::Component>;
-%template(listOfOwnedComponents) sbol::List<sbol::OwnedObject<sbol::Component>>;
-%include "componentdefinition.h"
-%include "sequence.h"
+//%template(_VectorOfComponents) std::vector<sbol::Component>;
+//%template(componentsProperty) sbol::Property<sbol::Component>;
+//%template(ownedComponents) sbol::OwnedObject<sbol::Component>;
+//%template(listOfOwnedComponents) sbol::List<sbol::OwnedObject<sbol::Component>>;
 
+TEMPLATE_HANDLER(Component);
+
+// Templates used in Participation class
 %template(listOfURIs) sbol::List<sbol::URIProperty>;
-%include "participation.h"
 
+// Templates used in Interaction class
 %template(participationProperty) sbol::Property<sbol::Participation>;
 %template(ownedParticipation) sbol::OwnedObject<sbol::Participation>;
 %template(listOfOwnedParticipations) sbol::List<sbol::OwnedObject<sbol::Participation>>;
-%include "interaction.h"
 
-%include "module.h"
-%include "model.h"
-%include "collection.h"
-
+// ModuleDefinition templates
 %template(moduleProperty) sbol::Property<sbol::Module>;
 %template(ownedModule) sbol::OwnedObject<sbol::Module>;
 %template(listOfOwnedModules) sbol::List<sbol::OwnedObject<sbol::Module>>;
@@ -587,6 +620,40 @@ namespace sbol
 %template(functionalComponentProperty) sbol::Property<sbol::FunctionalComponent>;
 %template(ownedFunctionalComponent) sbol::OwnedObject<sbol::FunctionalComponent>;
 %template(listOfOwnedFunctionalComponents) sbol::List<sbol::OwnedObject<sbol::FunctionalComponent>>;
+
+    // Templates used by Document class
+    %template(componentDefinitionProperty) sbol::Property<sbol::ComponentDefinition>;
+    %template(ownedComponentDefinition) sbol::OwnedObject<sbol::ComponentDefinition>;
+    %template(listOfOwnedComponentDefinitions) sbol::List<sbol::OwnedObject<sbol::ComponentDefinition>>;
+    %template(moduleDefinitionProperty) sbol::Property<sbol::ModuleDefinition>;
+    %template(ownedModuleDefinition) sbol::OwnedObject<sbol::ModuleDefinition>;
+    %template(listOfOwnedModuleDefinitions) sbol::List<sbol::OwnedObject<sbol::ModuleDefinition>>;
+    %template(sequenceProperty) sbol::Property<sbol::Sequence>;
+    %template(ownedSequence) sbol::OwnedObject<sbol::Sequence>;
+    %template(listOfOwnedSequences) sbol::List<sbol::OwnedObject<sbol::Sequence>>;
+    %template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
+    %template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
+    %template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
+    %template(modelProperty) sbol::Property<sbol::Model>;
+    %template(ownedModel) sbol::OwnedObject<sbol::Model>;
+    %template(listOfOwnedModels) sbol::List<sbol::OwnedObject<sbol::Model>>;
+    
+%include "location.h"
+%include "sequenceannotation.h"
+%include "mapsto.h"
+%include "component.h"
+%include "sequenceconstraint.h"
+
+%include "componentdefinition.h"
+%include "sequence.h"
+%include "participation.h"
+
+%include "interaction.h"
+
+%include "module.h"
+%include "model.h"
+%include "collection.h"
+
 %include "moduledefinition.h"
 
 //%pythonappend sbol::Document::write(std::string filename) %{
@@ -633,21 +700,7 @@ namespace sbol
         unit_tests.runTests()
 %}
 
-%template(componentDefinitionProperty) sbol::Property<sbol::ComponentDefinition>;
-%template(ownedComponentDefinition) sbol::OwnedObject<sbol::ComponentDefinition>;
-%template(listOfOwnedComponentDefinitions) sbol::List<sbol::OwnedObject<sbol::ComponentDefinition>>;
-%template(moduleDefinitionProperty) sbol::Property<sbol::ModuleDefinition>;
-%template(ownedModuleDefinition) sbol::OwnedObject<sbol::ModuleDefinition>;
-%template(listOfOwnedModuleDefinitions) sbol::List<sbol::OwnedObject<sbol::ModuleDefinition>>;
-%template(sequenceProperty) sbol::Property<sbol::Sequence>;
-%template(ownedSequence) sbol::OwnedObject<sbol::Sequence>;
-%template(listOfOwnedSequences) sbol::List<sbol::OwnedObject<sbol::Sequence>>;
-%template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
-%template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
-%template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
-%template(modelProperty) sbol::Property<sbol::Model>;
-%template(ownedModel) sbol::OwnedObject<sbol::Model>;
-%template(listOfOwnedModels) sbol::List<sbol::OwnedObject<sbol::Model>>;
+
     
 %ignore sbol::Document::parse_objects;
 %ignore sbol::Document::parse_properties;
@@ -659,6 +712,7 @@ namespace sbol
 %include "document.h"
 
 
+// Templates used by Document
 %template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
 %template(addSequence) sbol::Document::add<Sequence>;
 %template(addModel) sbol::Document::add<Model>;
