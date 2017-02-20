@@ -43,6 +43,15 @@
 using namespace sbol;
 using namespace std;
 
+Document::~Document()
+{
+    for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        delete obj;
+    }
+};
+
 unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
 {
     // Typecast proxy constructors to a constructor for SBOL
@@ -1132,11 +1141,6 @@ void Document::close(std::string uri)
 {
     if (uri == "")
     {
-        for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
-        {
-            SBOLObject* obj = i_obj->second;
-            obj->close();
-        }
         delete this;
     }
     else
