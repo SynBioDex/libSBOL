@@ -157,12 +157,25 @@
 
 typedef std::string sbol::sbol_type;
 
-%define TEMPLATE_HANDLER(SBOLClass)
+%define TEMPLATE_MACRO_0(SBOLClass)
+    %template(add ## SBOLClass) sbol::OwnedObject::add<SBOLClass>;
+    %template(create ## SBOLClass) sbol::OwnedObject::create<SBOLClass>;
+    %template(get ## SBOLClass) sbol::OwnedObject::get<SBOLClass>;
+
+    %pythonappend add ## SBOLClass
+    %{
+        args[0].thisown = False
+    %}
     
-    //    %template(_VectorOfComponents) std::vector<sbol::Component>;
-    //    %template(componentsProperty) sbol::Property<sbol::Component>;
-    //    %template(ownedComponents) sbol::OwnedObject<sbol::Component>;
-    //%template(listOfOwnedComponents) sbol::List<sbol::OwnedObject<sbol::Component>>;
+    %pythonappend create ## SBOLClass
+    %{
+        args[0].thisown = False
+    %}
+%enddef
+
+%define TEMPLATE_MACRO_1(SBOLClass)
+
+    /* Instantiate templates */
     %template(SBOLClass ## Vector) std::vector<sbol::SBOLClass>;
     %template(SBOLClass ## Property) sbol::Property<sbol::SBOLClass >;
     %template(Owned ## SBOLClass) sbol::OwnedObject<sbol::SBOLClass >;
@@ -182,94 +195,74 @@ typedef std::string sbol::sbol_type;
     
     %pythonappend sbol::OwnedObject<sbol::SBOLClass >::add(SBOLClass& sbol_obj)
     %{
-        print self.thisown
-        self.thisown = False
-        print self.thisown
+        args[0].thisown = False
     %}
     
     %pythonappend sbol::List<sbol::OwnedObject<sbol::SBOLClass >>::add(SBOLClass& sbol_obj)
     %{
-        print self.thisown
-        self.thisown = False
-        print self.thisown
+        args[0].thisown = False
     %}
     
+    %pythonappend sbol::List<sbol::OwnedObject<sbol::SBOLClass >>::create(std::string uri)
+    %{
+        args[0].thisown = False
+    %}
+        
 %enddef
 
+%define TEMPLATE_MACRO_2(SBOLClass)
+        
+    %template(add ## SBOLClass) sbol::Document::add<SBOLClass>;
+        
+    %pythonappend add ## SBOLClass
+    %{
+        args[0].thisown = False
+    %}
+        
+%enddef
+        
 // Templates used by subclasses of Location: Range, Cut, and Generic Location
-%template(addRange) sbol::OwnedObject::add<Range>;
-%template(getRange) sbol::OwnedObject::get<Range>;
-%template(createRange) sbol::OwnedObject::create<Range>;
-%template(addCut) sbol::OwnedObject::add<Cut>;
-%template(getCut) sbol::OwnedObject::get<Cut>;
-%template(createCut) sbol::OwnedObject::create<Cut>;
-%template(addGenericLocation) sbol::OwnedObject::add<GenericLocation>;
-%template(getGenericLocation) sbol::OwnedObject::get<GenericLocation>;
-%template(createGenericLocation) sbol::OwnedObject::create<GenericLocation>;
-
+//%template(addRange) sbol::OwnedObject::add<Range>;
+//%template(getRange) sbol::OwnedObject::get<Range>;
+//%template(createRange) sbol::OwnedObject::create<Range>;
+//%template(addCut) sbol::OwnedObject::add<Cut>;
+//%template(getCut) sbol::OwnedObject::get<Cut>;
+//%template(createCut) sbol::OwnedObject::create<Cut>;
+//%template(addGenericLocation) sbol::OwnedObject::add<GenericLocation>;
+//%template(getGenericLocation) sbol::OwnedObject::get<GenericLocation>;
+//%template(createGenericLocation) sbol::OwnedObject::create<GenericLocation>;
+TEMPLATE_MACRO_0(Range);
 // Templates used in SequenceAnnotation class
-%template(locationProperty) sbol::Property<sbol::Location>;
-%template(_VectorOfLocations) std::vector<sbol::Location>;
-%template(_ownedLocation) sbol::OwnedObject<sbol::Location>;
-%template(listOfOwnedLocations) sbol::List<sbol::OwnedObject<sbol::Location>>;
-    
+TEMPLATE_MACRO_1(Location);
+        
 // Templates used in Component class
-%template(_VectorOfMapsTos) std::vector<sbol::MapsTo>;
-%template(mapsToProperty) sbol::Property<sbol::MapsTo>;
-%template(ownedMapsTo) sbol::OwnedObject<sbol::MapsTo>;
-%template(listOfOwnedMapsTos) sbol::List<sbol::OwnedObject<sbol::MapsTo>>;
-   
+TEMPLATE_MACRO_1(MapsTo);
+     
 // Templates used in ComponentDefinition class
-%template(_VectorOfSequenceConstraints) std::vector<sbol::SequenceConstraint>;
-%template(sequenceConstraintProperty) sbol::Property<sbol::SequenceConstraint>;
-%template(ownedSequenceConstraint) sbol::OwnedObject<sbol::SequenceConstraint>;
-%template(listOfOwnedSequenceConstraints) sbol::List<sbol::OwnedObject<sbol::SequenceConstraint>>;
-%template(_VectorOfSequenceAnnotations) std::vector<sbol::SequenceAnnotation>;
-%template(sequenceAnnotationProperty) sbol::Property<sbol::SequenceAnnotation>;
-%template(ownedSequenceAnnotation) sbol::OwnedObject<sbol::SequenceAnnotation>;
-%template(listOfOwnedSequenceAnnotations) sbol::List<sbol::OwnedObject<sbol::SequenceAnnotation>>;
-//%template(_VectorOfComponents) std::vector<sbol::Component>;
-//%template(componentsProperty) sbol::Property<sbol::Component>;
-//%template(ownedComponents) sbol::OwnedObject<sbol::Component>;
-//%template(listOfOwnedComponents) sbol::List<sbol::OwnedObject<sbol::Component>>;
-
-TEMPLATE_HANDLER(Component);
+TEMPLATE_MACRO_1(SequenceConstraint);
+TEMPLATE_MACRO_1(SequenceAnnotation);
+TEMPLATE_MACRO_1(Component);
 
 // Templates used in Participation class
 %template(listOfURIs) sbol::List<sbol::URIProperty>;
 
 // Templates used in Interaction class
-%template(participationProperty) sbol::Property<sbol::Participation>;
-%template(ownedParticipation) sbol::OwnedObject<sbol::Participation>;
-%template(listOfOwnedParticipations) sbol::List<sbol::OwnedObject<sbol::Participation>>;
-
+TEMPLATE_MACRO_1(Participation);
+        
 // ModuleDefinition templates
-%template(moduleProperty) sbol::Property<sbol::Module>;
-%template(ownedModule) sbol::OwnedObject<sbol::Module>;
-%template(listOfOwnedModules) sbol::List<sbol::OwnedObject<sbol::Module>>;
-%template(interactionProperty) sbol::Property<sbol::Interaction>;
-%template(ownedInteraction) sbol::OwnedObject<sbol::Interaction>;
-%template(listOfOwnedInteractions) sbol::List<sbol::OwnedObject<sbol::Interaction>>;
-%template(functionalComponentProperty) sbol::Property<sbol::FunctionalComponent>;
-%template(ownedFunctionalComponent) sbol::OwnedObject<sbol::FunctionalComponent>;
-%template(listOfOwnedFunctionalComponents) sbol::List<sbol::OwnedObject<sbol::FunctionalComponent>>;
+TEMPLATE_MACRO_1(Module);
+TEMPLATE_MACRO_1(Interaction);
+TEMPLATE_MACRO_1(FunctionalComponent);
 
 // Templates classes used by Document class
-%template(componentDefinitionProperty) sbol::Property<sbol::ComponentDefinition>;
-%template(ownedComponentDefinition) sbol::OwnedObject<sbol::ComponentDefinition>;
-%template(listOfOwnedComponentDefinitions) sbol::List<sbol::OwnedObject<sbol::ComponentDefinition>>;
-%template(moduleDefinitionProperty) sbol::Property<sbol::ModuleDefinition>;
-%template(ownedModuleDefinition) sbol::OwnedObject<sbol::ModuleDefinition>;
-%template(listOfOwnedModuleDefinitions) sbol::List<sbol::OwnedObject<sbol::ModuleDefinition>>;
-%template(sequenceProperty) sbol::Property<sbol::Sequence>;
-%template(ownedSequence) sbol::OwnedObject<sbol::Sequence>;
-%template(listOfOwnedSequences) sbol::List<sbol::OwnedObject<sbol::Sequence>>;
-%template(modelProperty) sbol::Property<sbol::Model>;
-%template(ownedModel) sbol::OwnedObject<sbol::Model>;
-%template(listOfOwnedModels) sbol::List<sbol::OwnedObject<sbol::Model>>;
-    
+TEMPLATE_MACRO_1(ComponentDefinition);
+TEMPLATE_MACRO_1(ModuleDefinition);
+TEMPLATE_MACRO_1(Sequence);
+TEMPLATE_MACRO_1(Model);
+
 // Template functions used by Document
-%template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
+//%template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
+TEMPLATE_MACRO_2(ComponentDefinition)
 %template(addSequence) sbol::Document::add<Sequence>;
 %template(addModel) sbol::Document::add<Model>;
 %template(addModuleDefinition) sbol::Document::add<ModuleDefinition>;

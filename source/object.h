@@ -69,7 +69,6 @@ namespace sbol
         sbol_type type;
         SBOLObject* parent;
         void * proxy;
-        //bool thisown;
         
         std::map<sbol::sbol_type, std::vector< std::string > > properties;
         std::map<sbol::sbol_type, std::vector< std::string > > list_properties;
