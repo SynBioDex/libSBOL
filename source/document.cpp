@@ -1540,23 +1540,34 @@ std::string Document::login(std::string email, std::string password)
     return response;
 };
 
-std::string Document::search_metadata(std::string command)
+std::string Document::search_metadata(std::string role, std::string type, std::string name, std::string collection)
 {
     /* Form validation options in JSON */
     Json::Value request;   // 'root' will contain the root value after parsing.
-    vector<string> opts = {"role", "type", "name", "collection" };
-//    for (auto const& opt : opts)
-//    {
-//        request[opt] = "";
-//    }
-    request["role"] = SO "0000110";
-//    request["name"] = "ORI"
-
+    Json::Value criteria = Json::Value(Json::arrayValue);
+    
+    request["offset"] = 0;
+    request["limit"] = 25;
+    request["criteria"] = criteria;
+    
+    map<string, string> Q = { {"role", role}, {"type", type}, {"name", name}, {"collection", collection} };
+    vector<string> option_keys = { "role", "type", "name", "collection" };
+    for (auto const& key : option_keys)
+    {
+        Json::Value query = Json::Value(Json::objectValue);
+        string val = Q[key];
+        if (val.compare("") != 0)
+        {
+            query["key"] = key;
+            query["value"] = val;
+            criteria.append(query);
+        }
+    }
+    request["criteria"] = criteria;
+    
     Json::StyledWriter writer;
     string json = writer.write( request );
-    cout << json << endl;
-    cout << "Press any key to continue" << endl;
-    getchar();
+//    cout << json << endl;
     
     /* Perform HTTP request */
     string response;
@@ -1602,24 +1613,21 @@ std::string Document::search_metadata(std::string command)
     curl_global_cleanup();
     
     cout << response << endl;
-    //    Json::Value json_response;
-    //    Json::Reader reader;
-    //    bool parsed = reader.parse( response, json_response );     //parse process
-    //    if ( parsed )
-    //    {
-    //        //response = json_response.get("result", response ).asString();
-    //        //response = json_response.get("valid", response ).asString() << endl;
-    //        //response = json_response.get("output_file", response ).asString() << endl;
-    //        //response = json_response.get("valid", response ).asString();
-    //        if (json_response.get("valid", response ).asString().compare("true") == 0)
-    //            response = "Valid.";
-    //        else
-    //            response = "Invalid.";
-    //        for (auto itr : json_response["errors"])
-    //        {
-    //            response += " " + itr.asString();
-    //        }
-    //    }
+    Json::Value json_response;
+    Json::Reader reader;
+    bool parsed = reader.parse( response, json_response );     //parse process
+    vector<map<string,string>> responses = {};
+    if ( parsed )
+    {
+        for (auto i_r = 0; i_r < json_response.size(); ++i_r)
+        {
+//            response = json_response[i_r].get("uri", response ).asString();
+//            response = json_response[i_r].get("name", response ).asString() << endl;
+//            response = json_response[i_r].get("description", response ).asString() << endl;
+//            response = json_response[i_r].get("displayId", response ).asString();
+//            response = json_response[i_r].get("version", response ).asString();
+        }
+    }
     return response;
 };
 

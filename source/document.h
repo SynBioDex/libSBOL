@@ -126,7 +126,7 @@ namespace sbol {
 
         std::string query_repository(std::string command);
 
-        std::string search_metadata(std::string command);
+        std::string search_metadata(std::string role, std::string type, std::string name, std::string collection);
 
         std::string login(std::string email, std::string password);
         
