@@ -823,6 +823,48 @@ void Document::append(std::string filename)
     fclose(fh);
 }
 
+void Document::readString(std::string& sbol)
+{
+    raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
+    
+    std::cout << "New parser" << std::endl;
+    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, getFileFormat().c_str());
+    
+    raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
+    std::cout << "New iostream" << std::endl;
+
+    raptor_iostream* ios = raptor_new_iostream_from_string(this->rdf_graph, (void *)sbol.c_str(), sbol.size());
+    unsigned char *uri_string;
+    raptor_uri *uri, *base_uri;
+    base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
+    void *user_data = this;
+    
+    // Read the triple store. On the first pass through the triple store, new SBOLObjects are constructed by the parse_objects handler
+    raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
+    //base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
+
+    raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
+    raptor_free_iostream(ios);
+    
+    // Read the triple store again. On the second pass through the triple store, property values are assigned to each SBOLObject's member properties by the parse_properties handler
+    ios = raptor_new_iostream_from_string(this->rdf_graph, (void *)sbol.c_str(), sbol.size());
+    raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_properties);
+    raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
+    raptor_free_iostream(ios);
+    
+    raptor_free_uri(base_uri);
+    raptor_free_parser(rdf_parser);
+    
+    // On the final pass, nested annotations not in the SBOL namespace are identified
+    parse_annotation_objects();
+    
+    // A dummy parser which can be extended by SWIG to attach Python extension code
+    Config::parse_extension_objects();
+    //@TODO fix validation on read
+    //    this->validate();
+    
+}
+
 
 void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world)
 {
@@ -1255,26 +1297,6 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
     return new_obj;
 };
 
-/* This callback is necessary to get the HTTP response as a string */
-size_t CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_t nmemb, std::string *s)
-{
-    size_t newLength = size*nmemb;
-    size_t oldLength = s->size();
-    try
-    {
-        s->resize(oldLength + newLength);
-    }
-    catch(std::bad_alloc &e)
-    {
-        //handle memory problem
-        return 0;
-    }
-    
-    std::copy((char*)contents,(char*)contents+newLength,s->begin()+oldLength);
-    return size*nmemb;
-};
-
-
 std::string Document::request_validation(std::string& sbol)
 {
     /* Form validation options in JSON */
@@ -1448,95 +1470,6 @@ std::string Document::query_repository(std::string command)
 //            response += " " + itr.asString();
 //        }
 //    }
-    return response;
-};
-
-std::string Document::login(std::string email, std::string password)
-{
-    //    /* Form validation options in JSON */
-    //    Json::Value request;   // 'root' will contain the root value after parsing.
-    //
-    //    vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
-    //    for (auto const& opt : opts)
-    //    {
-    //        if (Config::getOption(opt).compare("True") == 0)
-    //            request["options"][opt] = true;
-    //        else if (Config::getOption(opt).compare("False") == 0)
-    //            request["options"][opt] = false;
-    //        else
-    //            request["options"][opt] = Config::getOption(opt);
-    //    }
-    //    if (Config::getOption("return_file").compare("True") == 0)
-    //        request["return_file"] = true;
-    //    else if (Config::getOption("return_file").compare("False") == 0)
-    //        request["return_file"] = false;
-    //    request["main_file"] = sbol;
-    //    Json::StyledWriter writer;
-    //    string json = writer.write( request );
-    
-    
-    /* Perform HTTP request */
-    string response;
-    CURL *curl;
-    CURLcode res;
-    
-    /* In windows, this will init the winsock stuff */
-    curl_global_init(CURL_GLOBAL_ALL);
-    
-    struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
-    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
-    
-    /* get a curl handle */
-    curl = curl_easy_init();
-    if(curl) {
-        /* First set the URL that is about to receive our POST. This URL can
-         just as well be a https:// URL if that is what should receive the
-         data. */
-        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/remoteLogin");
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
-        /* Now specify the POST data */
-        string parameters = "email=" + email + "&" + "password=" + password;
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
-        
-        /* Now specify the callback to read the response into string */
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-        
-        /* Perform the request, res will get the return code */
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
-        
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
-    curl_slist_free_all(headers);
-    curl_global_cleanup();
-    
-    cout << response << endl;
-    //    Json::Value json_response;
-    //    Json::Reader reader;
-    //    bool parsed = reader.parse( response, json_response );     //parse process
-    //    if ( parsed )
-    //    {
-    //        //response = json_response.get("result", response ).asString();
-    //        //response = json_response.get("valid", response ).asString() << endl;
-    //        //response = json_response.get("output_file", response ).asString() << endl;
-    //        //response = json_response.get("valid", response ).asString();
-    //        if (json_response.get("valid", response ).asString().compare("true") == 0)
-    //            response = "Valid.";
-    //        else
-    //            response = "Invalid.";
-    //        for (auto itr : json_response["errors"])
-    //        {
-    //            response += " " + itr.asString();
-    //        }
-    //    }
     return response;
 };
 

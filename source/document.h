@@ -116,6 +116,8 @@ namespace sbol {
         /// @param filename The full name of the file you want to read (including file extension)
         void read(std::string filename);
 
+        void readString(std::string& sbol);
+        
         /// Read an RDF/XML file and attach the SBOL objects to this Document. New objects will be added to the existing contents of the Document
         /// @param filename The full name of the file you want to read (including file extension)
         void append(std::string filename);
@@ -127,8 +129,6 @@ namespace sbol {
         std::string query_repository(std::string command);
 
         std::string search_metadata(std::string role, std::string type, std::string name, std::string collection);
-
-        std::string login(std::string email, std::string password);
         
 		/// Generates rdf/xml
         void generate(raptor_world** world, raptor_serializer** sbol_serializer, char** sbol_buffer, size_t* sbol_buffer_len, raptor_iostream** ios, raptor_uri** base_uri);
@@ -739,6 +739,7 @@ namespace sbol {
             target_doc->add < SBOLClass > (new_obj);
         return new_obj;
     };
+    
 }
 
 

@@ -126,7 +126,6 @@
 %template(_MapOfStringVector) std::map<std::string, std::vector<std::string> >;
 %template(_MapOfSBOLObject) std::map<std::string, std::vector< sbol::SBOLObject* > >;
 
-
 // Instantiate libSBOL templates
 %include "config.h"
 %include "constants.h"
@@ -153,7 +152,23 @@
 %include "model.h"
 %include "collection.h"
 %include "moduledefinition.h"
+
+%pythonappend sbol::PartShop::search
+%{
+    print ('Search complete')
+    print(val)
+    exec('val = ' + val)
+    return val
+    %}
+
+%include "partshop.h"
 %include "document.h"
+
+%pythonappend sbol::PartShop::search
+%{
+    exec('val = ' + val)
+    return val
+%}
 
 typedef std::string sbol::sbol_type;
 
@@ -270,6 +285,10 @@ TEMPLATE_MACRO_2(ComponentDefinition)
 %template(getSequence) sbol::Document::get<Sequence>;
 %template(getModel) sbol::Document::get<Model>;
 %template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
+
+
+// Template functions used by PartShop
+%template(pullComponentDefinition) sbol::PartShop::pull<ComponentDefinition>;
 
 %extend sbol::Property
 {

@@ -33,6 +33,7 @@ FILE(GLOB SBOL_HEADER_FILES
 	model.h
     collection.h
     assembly.h
+    partshop.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
 	sbolerror.cpp
@@ -43,7 +44,8 @@ FILE(GLOB SBOL_SOURCE_FILES
     identified.cpp
 	toplevel.cpp
 	document.cpp
-    assembly.cpp)
+    assembly.cpp
+    partshop.cpp)
 
     
 FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )

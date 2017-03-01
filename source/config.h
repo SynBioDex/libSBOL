@@ -37,9 +37,12 @@
 #define CONFIG_INCLUDED
 
 #include "sbolerror.h"
+#include "constants.h"
 #include <string>
 #include <map>
 #include <vector>
+#include <curl/curl.h>
+#include <iostream>
 
 namespace sbol
 {
@@ -100,6 +103,7 @@ namespace sbol
         static void parse_extension_objects();
     };
 
+    /// Global methods
 	SBOL_DECLSPEC void setHomespace(std::string ns); ///< Set the default namespace for autocreation of URIs when a new SBOL object is created
 	SBOL_DECLSPEC extern std::string getHomespace(); ///< Get the current default namespace for autocreation of URIs when a new SBOL object is created
 	SBOL_DECLSPEC int hasHomespace();                ///< Checks if a valid default namespace has been defined
@@ -121,7 +125,11 @@ namespace sbol
     std::string SBOL_DECLSPEC parseClassName(std::string uri);
     std::string SBOL_DECLSPEC parsePropertyName(std::string uri);
     std::string SBOL_DECLSPEC parseNamespace(std::string uri);
+
+    size_t CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_t nmemb, std::string *s);
+
     /// @endcond
+    
 }
 
 #endif /* CONFIG_INCLUDED */
