@@ -45,6 +45,8 @@ find_path(LIBXSLT_INCLUDE_DIR
                 )
 #find_path(LIBXSLT_EXSLT_INCLUDE_DIR NAMES exslt.h HINTS /usr/local/opt/libxslt/include/libexslt)
 
+unset(LIBXSLT_LIBRARIES CACHE)
+
 find_library(LIBXSLT_LIBRARIES 
              NAMES xslt libxslt 
              PATHS /usr/local/opt/libxslt/lib

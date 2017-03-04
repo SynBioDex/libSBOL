@@ -60,13 +60,19 @@ namespace sbol
         /// Specifies the inclusive end position of a sequence region. It must be equal to or greater than the start.
 		IntProperty end;
 
+        int precedes(Range& comparand);
+        int follows(Range& comparand);
+        int contains(Range& comparand);
+        int overlaps(Range& comparand);
+        int length();
+
+        
         /// Construct a Range. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < Range > instead.
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param start An integer of 1 or greater
         /// @param end An integer equal to or greater than the start
         Range(std::string uri = DEFAULT_NS "/Range/example", int start = 1, int end = 2) : Range(SBOL_RANGE, uri, start, end) {};
 
-        
 		virtual ~Range() {};
         
 	protected:

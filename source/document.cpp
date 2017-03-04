@@ -43,6 +43,15 @@
 using namespace sbol;
 using namespace std;
 
+Document::~Document()
+{
+    for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject* obj = i_obj->second;
+        delete obj;
+    }
+};
+
 unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
 {
     // Typecast proxy constructors to a constructor for SBOL
@@ -621,8 +630,6 @@ void Document::parse_annotation_objects()
     }
 }
 
-
-
 void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
 {
     cout << message->text << endl;
@@ -817,6 +824,8 @@ void Document::append(std::string filename)
     // On the final pass, nested annotations not in the SBOL namespace are identified
     parse_annotation_objects();
 
+    // A dummy parser which can be extended by SWIG to attach Python extension code
+    Config::parse_extension_objects();
 //@TODO fix validation on read
 //    this->validate();
 
@@ -1132,11 +1141,6 @@ void Document::close(std::string uri)
 {
     if (uri == "")
     {
-        for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
-        {
-            SBOLObject* obj = i_obj->second;
-            obj->close();
-        }
         delete this;
     }
     else

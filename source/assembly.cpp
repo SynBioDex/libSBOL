@@ -774,3 +774,200 @@ int FunctionalComponent::isMasked()
     
     return 0;
 };
+
+vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *), void* user_data)
+{
+    /* Assumes parent_component is an SBOL data structure of the general form ComponentDefinition(->Component->ComponentDefinition)n where n+1 is an integer describing how many hierarchical levels are in the SBOL structure */
+    /* Look at each of the ComponentDef's SequenceAnnotations, is the target base there? */
+    if (!doc)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot traverse Component hierarchy without a Document");
+
+    bool GET_ALL = true;
+    vector<ComponentDefinition*> component_nodes;
+    if (components.size() == 0)
+    {
+        cout << "Adding subcomponent : " << identity.get() << endl;
+        component_nodes.push_back(this);  // Add leaf components
+        if (callback_fn)
+            callback_fn(this, user_data);
+    }
+    else
+    {
+        if (GET_ALL)
+        {
+            cout << "Adding subcomponent : " << identity.get() << endl;
+            component_nodes.push_back(this);  // Add components with children
+            if (callback_fn)
+                callback_fn(this, user_data);
+        }
+        for (auto& subc : components)
+        {
+            if (!doc->find(subc.definition.get()))
+            {
+                std::cout << "Not found" << std::endl;
+                throw SBOLError(SBOL_ERROR_NOT_FOUND, subc.definition.get() + "not found");
+            }
+            ComponentDefinition& subcdef = doc->get<ComponentDefinition>(subc.definition.get());
+            std::cout << subcdef.identity.get() << std::endl;
+            cout << "Descending one level : " << subcdef.identity.get() << endl;
+            vector < sbol::ComponentDefinition* > subcomponents = subcdef.applyToComponentHierarchy(callback_fn, user_data);
+            cout << "Found " << subcomponents.size() << " components" << std::endl;
+            component_nodes.reserve(component_nodes.size() + distance(subcomponents.begin(), subcomponents.end()));
+            component_nodes.insert(component_nodes.end(), subcomponents.begin(),subcomponents.end());
+        }
+    }
+    return component_nodes;
+};
+
+bool SequenceAnnotation::precedes(SequenceAnnotation& comparand)
+{
+    if (locations.size() > 0 && comparand.locations.size() > 0)
+    {
+        Range& this_range = (Range&)locations[0];
+        Range& that_range = (Range&)comparand.locations[0];
+        return this_range.precedes(that_range);
+    }
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
+}
+
+bool SequenceAnnotation::follows(SequenceAnnotation& comparand)
+{
+    if (locations.size() > 0 && comparand.locations.size() > 0)
+    {
+        Range& this_range = (Range&)locations[0];
+        Range& that_range = (Range&)comparand.locations[0];
+        return this_range.follows(that_range);
+    }
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
+}
+
+bool SequenceAnnotation::contains(SequenceAnnotation& comparand)
+{
+    if (locations.size() > 0 && comparand.locations.size() > 0)
+    {
+        Range& this_range = (Range&)locations[0];
+        Range& that_range = (Range&)comparand.locations[0];
+        return this_range.contains(that_range);
+    }
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
+}
+
+bool SequenceAnnotation::overlaps(SequenceAnnotation& comparand)
+{
+    if (locations.size() > 0 && comparand.locations.size() > 0)
+    {
+        Range& this_range = (Range&)locations[0];
+        Range& that_range = (Range&)comparand.locations[0];
+        return this_range.overlaps(that_range);
+    }
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
+}
+
+
+int Range::precedes(Range& comparand)
+{
+    if (end.get() < comparand.start.get())
+        return comparand.start.get() + 1 - end.get();
+    else
+        return 0;
+}
+
+int Range::follows(Range& comparand)
+{
+    if (start.get() > comparand.end.get())
+        return comparand.end.get() + 1 - start.get();
+    else
+        return 0;
+}
+
+int Range::contains(Range& comparand)
+{
+    if (start.get() <= comparand.start.get() && end.get() >= comparand.end.get())
+        return length();
+    else
+        return 0;
+}
+
+int Range::overlaps(Range& comparand)
+{
+    if (start.get() == comparand.start.get() && end.get() == comparand.end.get())
+        return 0;
+    else if (start.get() <= comparand.start.get() && end.get() <= comparand.end.get())
+        return comparand.start.get() + 1 - end.get();
+    else if (start.get() >= comparand.start.get() && end.get() >= comparand.end.get())
+        return comparand.end.get() + 1 - start.get();
+    else
+        return 0;
+}
+
+int Range::length()
+{
+    return end.get() + 1 - start.get();
+}
+
+
+
+vector<SequenceAnnotation*> SequenceAnnotation::precedes(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> filtered_list = {};
+    return filtered_list;
+};
+
+std::vector<SequenceAnnotation*> SequenceAnnotation::follows(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> filtered_list = {};
+    return filtered_list;
+};
+
+std::vector<SequenceAnnotation*> SequenceAnnotation::contains(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> list_of_contained_annotations;
+    
+    sbol::Range& r_this = (sbol::Range&)locations[0];
+    cout << r_this.start.get() << "\t" << r_this.end.get() << "\t";
+    for (auto &ann_comparand : comparand_list)
+    {
+        if (this->contains(*ann_comparand))
+        {
+            list_of_contained_annotations.push_back(ann_comparand);
+            sbol::Range& r_comparand = (sbol::Range&)ann_comparand->locations[0];
+            cout << r_comparand.start.get() << "\t" << r_comparand.end.get() << "\n\t\t";
+        }
+    }
+    cout << endl;
+    return list_of_contained_annotations;
+};
+
+std::vector<SequenceAnnotation*> SequenceAnnotation::overlaps(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> list_of_overlapping_annotations;
+    
+    sbol::Range& r_this = (sbol::Range&)locations[0];
+    cout << r_this.start.get() << "\t" << r_this.end.get() << "\t";
+    for (auto &ann_comparand : comparand_list)
+    {
+        if (this->overlaps(*ann_comparand))
+        {
+            list_of_overlapping_annotations.push_back(ann_comparand);
+            sbol::Range& r_comparand = (sbol::Range&)ann_comparand->locations[0];
+            cout << r_comparand.start.get() << "\t" << r_comparand.end.get() << "\n\t\t";
+        }
+    }
+    cout << endl;
+    return list_of_overlapping_annotations;
+};
+
+int SequenceAnnotation::length()
+{
+    if (locations.size() == 0)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. SequenceAnnotation " + identity.get() + " is invalid for this operation because it has no Range specified");
+    if (locations.size() > 1)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. SequenceAnnotation " + identity.get() + " is invalid for this operation because it has more than one Range specified");
+    Range& r_target = (Range&)locations[0];
+    return r_target.length();
+};
+

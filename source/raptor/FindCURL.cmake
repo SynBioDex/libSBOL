@@ -38,6 +38,8 @@ find_path(CURL_INCLUDE_DIR NAMES curl.h
 find_path(CURL_INCLUDE_DIR NAMES curl/curl.h)
 mark_as_advanced(CURL_INCLUDE_DIR)
 
+unset(CURL_LIBRARY CACHE)
+
 # Look for the library (sorted from most current/relevant entry to least).
 find_library(CURL_LIBRARY NAMES
     curl

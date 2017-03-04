@@ -73,7 +73,8 @@ namespace sbol {
                 namespaces["dcterms"] = PURL_URI;
                 namespaces["prov"] = PROV_URI "#";
 			};
-       
+        ~Document() override;
+        
         /// @cond
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
