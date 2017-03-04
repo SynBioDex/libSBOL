@@ -57,16 +57,19 @@ IF (SBOL_BUILD_PYTHON3)
                 libsbol.i )
 
             # Do not link in the Python libraries on MacOSX....
-            swig_link_libraries( libsbol32_3
-                sbol32
-                ${RAPTOR_LIBRARY}
-                ${CURL_LIBRARY}
-                ${LIBXSLT_LIBRARIES}
-#                ${SECURITY} ${CORE_FOUNDATION} ${LDAP}
-#                ${LIBXML2_LIBRARIES}
-#                ${zlib}
-#                ${iconv}
-                )
+            if(SBOL_BUILD_SHARED)
+                swig_link_libraries( libsbol32_3
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol32-shared)
+            else()
+                swig_link_libraries( libsbol32_3
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol32)
+            ENDIF()
 
             # ...rather, resolve Python symbols dynamically due to differing runtime env
             set_target_properties(_libsbol32_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -102,12 +105,19 @@ IF (SBOL_BUILD_PYTHON3)
                 libsbol.i )
 
             # Do not link in the Python libraries on MacOSX....
-            swig_link_libraries( libsbol64_3
-                sbol64
-                ${RAPTOR_LIBRARY}
-                ${CURL_LIBRARY}
-                ${LIBXSLT_LIBRARIES}
-                )
+            if(SBOL_BUILD_SHARED)
+                swig_link_libraries( libsbol64_3
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol64-shared)
+            else()
+                swig_link_libraries( libsbol64_3
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol64)
+            ENDIF()
 
             # ...rather, resolve Python symbols dynamically due to differing runtime env
             set_target_properties(_libsbol64_3 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -142,16 +152,21 @@ IF (SBOL_BUILD_PYTHON3)
                 python
                 libsbol.i )
 
-            # Do not link in the Python libraries on Linux....
-            swig_link_libraries( libsbol32_3
-                sbol32
-                ${RAPTOR_LIBRARY}
-                ${CURL_LIBRARY}
-                ${LIBXSLT_LIBRARIES}
-                )
-
-            # ...rather, resolve Python symbols dynamically due to differing runtime env
-            #set_target_properties(_libsbol PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+            if(SBOL_BUILD_SHARED)
+                swig_link_libraries( libsbol32_3
+                    ${PYTHON_LIBRARIES}
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol32-shared)
+            else()
+                swig_link_libraries( libsbol32_3
+                    ${PYTHON_LIBRARIES}
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol32)
+            ENDIF()
 
             # Move target to a new directory and rename it, so the SWIG libraries can be directly copied into the pySBOL project
             file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
@@ -182,16 +197,21 @@ IF (SBOL_BUILD_PYTHON3)
                 python
                 libsbol.i )
 
-            # Do not link in the Python libraries on Linux....
-            swig_link_libraries( libsbol64_3
-                sbol64
-                ${RAPTOR_LIBRARY}
-                ${CURL_LIBRARY}
-                ${LIBXSLT_LIBRARIES}
-                )
-
-            # ...rather, resolve Python symbols dynamically due to differing runtime env
-            #set_target_properties(_libsbol PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+            if(SBOL_BUILD_SHARED)
+                swig_link_libraries( libsbol64_3
+                    ${PYTHON_LIBRARIES}
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol64-shared)
+            else()
+                swig_link_libraries( libsbol64_3
+                    ${PYTHON_LIBRARIES}
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol64)
+            ENDIF()
 
             file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
@@ -319,12 +339,19 @@ IF (SBOL_BUILD_PYTHON2)
                 libsbol.i )
 
             # Do not link in the Python libraries on MacOSX....
-            swig_link_libraries( libsbol32_2
-                sbol32
-                ${RAPTOR_LIBRARY}
-                ${CURL_LIBRARY}
-                ${LIBXSLT_LIBRARIES}
-                )
+            if(SBOL_BUILD_SHARED)
+                swig_link_libraries( libsbol32_2
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol32-shared)
+            else()
+                swig_link_libraries( libsbol32_2
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol32)
+            ENDIF()
 
             ### ...rather, resolve Python symbols dynamically due to differing runtime env
             set_target_properties(_libsbol32_2 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -360,12 +387,19 @@ IF (SBOL_BUILD_PYTHON2)
                 libsbol.i )
 
             # Do not link in the Python libraries on MacOSX....
-            swig_link_libraries( libsbol64_2
-                sbol64
-                ${RAPTOR_LIBRARY}
-                ${CURL_LIBRARY}
-                ${LIBXSLT_LIBRARIES}
-                )
+            if(SBOL_BUILD_SHARED)
+                swig_link_libraries( libsbol64_2
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol64-shared)
+            else()
+                swig_link_libraries( libsbol64_2
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol64)
+            ENDIF()
 
             # ...rather, resolve Python symbols dynamically due to differing runtime env
             set_target_properties(_libsbol64_2 PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -397,11 +431,21 @@ IF (SBOL_BUILD_PYTHON2)
             swig_add_module( libsbol
                 python
                 libsbol.i )
-            swig_link_libraries( libsbol
-                ${PYTHON_LIBRARIES}
-                ${CURL_LIBRARY}
-                ${LIBXSLT_LIBRARIES}
-                sbol32)
+            if(SBOL_BUILD_SHARED)
+                swig_link_libraries( libsbol
+                    ${PYTHON_LIBRARIES}
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol32-shared)
+            else()
+                swig_link_libraries( libsbol
+                    ${PYTHON_LIBRARIES}
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol32)
+            ENDIF()
 
             file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
@@ -428,11 +472,21 @@ IF (SBOL_BUILD_PYTHON2)
             swig_add_module( libsbol
                 python
                 libsbol.i )
-            swig_link_libraries( libsbol
-                ${PYTHON_LIBRARIES}
-                ${CURL_LIBRARY}
-                ${LIBXSLT_LIBRARIES}
-                sbol64)
+            if(SBOL_BUILD_SHARED)
+                swig_link_libraries( libsbol
+                    ${PYTHON_LIBRARIES}
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol64-shared)
+            else()
+                swig_link_libraries( libsbol
+                    ${PYTHON_LIBRARIES}
+                    ${RAPTOR_LIBRARY}
+                    ${CURL_LIBRARY}
+                    ${LIBXSLT_LIBRARIES}
+                    sbol64)
+            ENDIF()
 
             file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
