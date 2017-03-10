@@ -887,7 +887,7 @@ int Range::follows(Range& comparand)
 int Range::contains(Range& comparand)
 {
     if (start.get() <= comparand.start.get() && end.get() >= comparand.end.get())
-        return length();
+        return comparand.length();
     else
         return 0;
 }
@@ -896,9 +896,9 @@ int Range::overlaps(Range& comparand)
 {
     if (start.get() == comparand.start.get() && end.get() == comparand.end.get())
         return 0;
-    else if (start.get() <= comparand.start.get() && end.get() <= comparand.end.get())
+    else if (start.get() <= comparand.start.get() && end.get() <= comparand.end.get() && end.get() > comparand.start.get() )
         return comparand.start.get() + 1 - end.get();
-    else if (start.get() >= comparand.start.get() && end.get() >= comparand.end.get())
+    else if (start.get() >= comparand.start.get() && end.get() >= comparand.end.get() && start.get() < comparand.end.get())
         return comparand.end.get() + 1 - start.get();
     else
         return 0;
