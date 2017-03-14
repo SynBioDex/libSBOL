@@ -61,8 +61,8 @@ namespace sbol
 	public:
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
 
-		TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
-			Property(type_uri, property_owner, "\"" + initial_value + "\"")
+        TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = {}) :
+			Property(type_uri, property_owner, "\"" + initial_value + "\"", validation_rules)
 		{
 		}
 	};
@@ -122,29 +122,16 @@ namespace sbol
     };
     
     
-    /// @ingroup extension_layer
-    /// @brief Contains a version number for an SBOL object.
-    /// The VersionProperty follows Maven versioning semantics and includes a major, minor, and patch version number. Specifically, libSBOL currently only supports using '.' as a delimiter. Ex: v2.0.1.  If the user does not want to follow Maven versioning, they can specify an arbitrary version string using the set() method.
+    /// @brief Contains a DateTime string following XML Schema
     class SBOL_DECLSPEC DateTimeProperty : public TextProperty
     {
     private:
         std::vector<std::string> split(const char c);
     public:
 
-        DateTimeProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
-            TextProperty(type_uri, property_owner, initial_value)
-            {
-                std::string v = this->get();
-                // @TODO move this error checking to validation rules to be run on VersionProperty::set() and VersionProperty()::VersionProperty()
-                // sbol-10207 The version property of an Identified object is OPTIONAL and MAY contain a String that MUST be composed of only alphanumeric characters, underscores,   hyphens, or periods and MUST begin with a digit. 20 Reference: Section 7.4 on page 16 21
-                // sbol-10208 The version property of an Identified object SHOULD follow the conventions of semantic 22 versioning as implemented by Maven.
-                if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
-                {
-//                    std::regex v_rgx("([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})[+-]([0-9]{2}):([0-9]{2})");
-                    std::regex v_rgx("([0-9]{4})-([0-9]{2})-([0-9]{2})T");
-                    if (!std::regex_match(v.begin(), v.end(), v_rgx))
-                        throw SBOLError(SBOL_ERROR_NONCOMPLIANT_VERSION, "Invalid datetime format. Datetimes are based on XML Schema dateTime datatype. For example 2016-03-16T20:12:00Z");
-                }
+        DateTimeProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = { libsbol_rule_2 }) :
+            TextProperty(type_uri, property_owner, initial_value, validation_rules)
+        {
         }
     };
 
