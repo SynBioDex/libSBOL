@@ -124,10 +124,11 @@ namespace sbol
     
     /// @brief Contains a DateTime string following XML Schema
     class SBOL_DECLSPEC DateTimeProperty : public TextProperty
-    {
-    private:
-        std::vector<std::string> split(const char c);
+    {        
     public:
+
+        /// Set this property with the current time
+        std::string stampTime();
 
         DateTimeProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = { libsbol_rule_2 }) :
             TextProperty(type_uri, property_owner, initial_value, validation_rules)

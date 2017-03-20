@@ -131,8 +131,12 @@ namespace sbol
         /// @return The last component in sequential order
         Component& getLastComponent();
         
-        ///
+        /// Apply a callback to every ComponentDefinition in a structural hierarchy defined by ComponentDefinition->Component relationships
+        /// @param callback_fn A pointer to the callback function.  The callback function accepts two parameters, a recursive index to the current ComponentDefintion in the structure, and user data which can be passed in and out of the callback as an argument or return value.
+        /// @param user_data Arbitrary user data which can be passed in and out of the callback as an argument or return value.
         std::vector<ComponentDefinition*> applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *) = NULL, void * user_data = NULL);
+        
+        ComponentDefinition& build();
         
         /// A convenience method that assigns a component to participate in a biochemical reaction.  Behind the scenes, it auto-constructs a FunctionalComponent for this ComponentDefinition and assigns it to a Participation
         /// @param species A Participation object (ie, participant species in a biochemical Interaction).

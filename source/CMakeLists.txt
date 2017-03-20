@@ -33,6 +33,7 @@ FILE(GLOB SBOL_HEADER_FILES
 	model.h
     collection.h
     assembly.h
+    provo.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
 	sbolerror.cpp
