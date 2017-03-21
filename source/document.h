@@ -399,7 +399,7 @@ namespace sbol {
             
             // Check for uniqueness of URI in the Document
             if (parent_doc && parent_doc->find(child_id))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
             
             // Construct a new child object
             SBOLClass* child_obj = new SBOLClass(uri);
@@ -426,7 +426,7 @@ namespace sbol {
         else
         {
             if (parent_doc && parent_doc->find(uri))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
             
             // Construct a new child object
             SBOLClass* child_obj = new SBOLClass(uri);
@@ -487,7 +487,7 @@ namespace sbol {
             
             // Check for uniqueness of URI in the Document
             if (parent_doc && parent_doc->find(child_id))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
             
             // Construct a new child object
             SBOLSubClass* child_obj = new SBOLSubClass(child_id);
@@ -513,7 +513,7 @@ namespace sbol {
         else
         {
             if (parent_doc && parent_doc->find(uri))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
             
             // Construct an SBOLObject with emplacement
             SBOLSubClass* child_obj = new SBOLSubClass(uri);
