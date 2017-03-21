@@ -1,19 +1,23 @@
 //////////////////////////////////////////////////////////////////////
 /// @page installation Installation
 ///
+/// Although it is generally advised to build libraries from source, we offer few different ways to obtain libSBOL.
+/// For help configuring a client project, see @ref visual_studio or @ref xcode.
+///
+/// @section use_windows_binaries Using Binary Installers for Windows
+///
 /// On Windows, installation through binary installers is the simplest way to obtain libSBOL. The installer contains pre-compiled libSBOL library. Simply install it to whichever path you want and use it.
 ///
-/// [Get the latest binary installers](https://github.com/SynBioDex/libSBOL/releases/latest)
+/// [Get the latest binary installers](https://sourceforge.net/projects/libsbol/files/v2.1.1.1/)
+///
+/// @section use_brew Using Homebrew
 ///
 /// On MacOSX, installation via the [Homebrew](http://brew.sh) package manager is easiest. Install libSBOL by running the following command in terminal:
 /// ```
 /// brew install homebrew/science/libsbol
 /// ```
-/// For help configuring a client project, see @ref visual_studio or @ref xcode.
 ///
-/// Instructions for building from source are also provided below.
-///
-/// @section build_from_source Build from Source
+/// @section build_from_source Building from Source
 ///
 /// To build libSBOL from source, you will need:
 /// * [git](https://git-scm.com/) for downloading the source code

@@ -13,6 +13,8 @@ find_path(JsonCpp_INCLUDE_DIR "json/json.h"
   PATH_SUFFIXES "jsoncpp"
   DOC "Specify the JsonCpp include directory here")
 
+unset(JsonCpp_LIBRARY CACHE)
+
 find_library(JsonCpp_LIBRARY
   NAMES jsoncpp
   PATHS ~/.linuxbrew/lib  # linuxbrew

@@ -7,3 +7,6 @@ CMakeFiles/
 CMakeScripts/
 Makefile
 cmake_install.cmake
+dist/
+_build/
+release/
