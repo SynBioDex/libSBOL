@@ -78,7 +78,7 @@ namespace sbol
         /// | :--------------------------- | :----------------------------------------------------------------------- | :-------------- |
         /// | homespace                    | Enable validation and conversion requests through the online validator   | http://examples.org |
         /// | sbol_compliant_uris          | Enables autoconstruction of SBOL-compliant URIs from displayIds          | True or False   |
-        /// | sbol_typed_uri               | Include the SBOL type in SBOL-compliant URIs                             | True or False   |
+        /// | sbol_typed_uris              | Include the SBOL type in SBOL-compliant URIs                             | True or False   |
         /// | output_format                | File format for serialization                                            | True or False   |
         /// | validate                     | Enable validation and conversion requests through the online validator   | True or False   |
         /// | validator_url                | The http request endpoint for validation                                 | A valid URL, set to<br>http://www.async.ece.utah.edu/sbol-validator/endpoint.php by default |
