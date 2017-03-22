@@ -827,11 +827,9 @@ void Document::readString(std::string& sbol)
 {
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
     
-    std::cout << "New parser" << std::endl;
     raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, getFileFormat().c_str());
     
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
-    std::cout << "New iostream" << std::endl;
 
     raptor_iostream* ios = raptor_new_iostream_from_string(this->rdf_graph, (void *)sbol.c_str(), sbol.size());
     unsigned char *uri_string;

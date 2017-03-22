@@ -221,8 +221,22 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
         vector<Component*> list_of_instances = {};
         for (auto i_com = 0; i_com != list_of_components.size(); i_com++)
         {
+            // Instantiate the Component defined by the ComponentDefinition
             ComponentDefinition& cdef = *list_of_components[i_com];
-            Component& c = parent_component.components.create(cdef.displayId.get());
+            int instance_count = 0;
+            
+            // Generate URI of new Component.  Check if an object with that URI is already instantiated.
+            string component_id;
+            component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "/" + to_string(instance_count) + "/" + parent_component.version.get();
+
+            while (parent_component.find(component_id) != NULL)
+            {
+                // Find the last instance assigned
+                ++instance_count;
+                component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "/" + to_string(instance_count) + "/" + parent_component.version.get();
+            }
+
+            Component& c = parent_component.components.create(cdef.displayId.get() + "/" + to_string(instance_count));
             c.definition.set(cdef.identity.get());
             list_of_instances.push_back(&c);
         }
@@ -233,7 +247,7 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
             
             Component& constraint_subject = *list_of_instances[i_com - 1];
             Component& constraint_object = *list_of_instances[i_com];
-        
+            
             SequenceConstraint& sc = parent_component.sequenceConstraints.create("constraint" + to_string(i_com));
             sc.subject.set(constraint_subject.identity.get());
             sc.object.set(constraint_object.identity.get());
