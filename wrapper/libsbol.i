@@ -286,9 +286,10 @@ TEMPLATE_MACRO_2(ComponentDefinition)
 %template(getModel) sbol::Document::get<Model>;
 %template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
 
-
 // Template functions used by PartShop
-%template(pullComponentDefinition) sbol::PartShop::pull<ComponentDefinition>;
+//%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
+%template(pullComponentDefinition) sbol::PartShop::pull < ComponentDefinition >;
+%template(pullCollection) sbol::PartShop::pull < Collection >;
 
 %extend sbol::Property
 {
