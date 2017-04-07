@@ -45,7 +45,7 @@ namespace sbol {
 
 	
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
-    class SBOL_DECLSPEC Document : public SBOLObject
+    class SBOL_DECLSPEC Document : public Identified
     {
         friend class SBOLObject;
         
@@ -58,7 +58,7 @@ namespace sbol {
 	public:
         /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
-            SBOLObject(SBOL_DOCUMENT, ""),
+            Identified(SBOL_DOCUMENT, ""),
             home(""),
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
