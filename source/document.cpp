@@ -1091,7 +1091,7 @@ std::string Document::write(std::string filename)
         }
         else
         {
-            cout << "Serialization failed" << endl;
+            throw SBOLError(SBOL_ERROR_SERIALIZATION, "Serialization failed");
         }
     }
 
@@ -1105,6 +1105,47 @@ std::string Document::write(std::string filename)
 
     return response;
 };
+
+std::string Document::writeString()
+{
+    raptor_world* world = getWorld();
+    raptor_serializer* sbol_serializer;
+    if (getFileFormat().compare("rdfxml") == 0)
+        sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
+    else
+        sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
+    
+    char *sbol_buffer;
+    size_t sbol_buffer_len;
+    
+    raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
+    raptor_uri *base_uri = NULL;
+    
+    generate(&world, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
+    
+    // Convert flat RDF/XML into nested SBOL
+    std::string sbol_buffer_string = std::string((char*)sbol_buffer);
+    const int size = (const int)sbol_buffer_len;
+
+    if (sbol_buffer)
+    {
+        // Iterate through objects in document and nest them
+        for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+        {
+            sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
+        }
+    }
+    else
+    {
+        throw SBOLError(SBOL_ERROR_SERIALIZATION, "Serialization failed");
+    }
+    
+    raptor_free_iostream(ios);
+    raptor_free_uri(base_uri);
+
+    return sbol_buffer_string;
+};
+
 
 /**
 * @author KC

@@ -116,7 +116,12 @@ namespace sbol {
         /// @param filename The full name of the file you want to read (including file extension)
         void read(std::string filename);
 
+        /// Convert text in SBOL into data objects
+        /// @param sbol A string formatted in SBOL
         void readString(std::string& sbol);
+        
+        /// Convert data objects in this Document into textual SBOL
+        std::string writeString();
         
         /// Read an RDF/XML file and attach the SBOL objects to this Document. New objects will be added to the existing contents of the Document
         /// @param filename The full name of the file you want to read (including file extension)
