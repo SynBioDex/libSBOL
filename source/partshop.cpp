@@ -185,7 +185,7 @@ string sbol::PartShop::search(std::string search_text, sbol_type object_type, in
 
 
 
-std::string sbol::PartShop::login(std::string email, std::string password)
+void sbol::PartShop::login(std::string email, std::string password)
 {
     
     /* Perform HTTP request */
@@ -231,6 +231,92 @@ std::string sbol::PartShop::login(std::string email, std::string password)
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
+//    cout << response << endl;
+    //    Json::Value json_response;
+    //    Json::Reader reader;
+    //    bool parsed = reader.parse( response, json_response );     //parse process
+    //    if ( parsed )
+    //    {
+    //        //response = json_response.get("result", response ).asString();
+    //        //response = json_response.get("valid", response ).asString() << endl;
+    //        //response = json_response.get("output_file", response ).asString() << endl;
+    //        //response = json_response.get("valid", response ).asString();
+    //        if (json_response.get("valid", response ).asString().compare("true") == 0)
+    //            response = "Valid.";
+    //        else
+    //            response = "Invalid.";
+    //        for (auto itr : json_response["errors"])
+    //        {
+    //            response += " " + itr.asString();
+    //        }
+    //    }
+    key = response;
+};
+
+std::vector < sbol::ComponentDefinition* > sbol::PartShop::pullComponentDefinitionFromCollection(Collection& collection)
+{
+    return pull < ComponentDefinition > (collection);
+};
+
+void sbol::PartShop::submit(Document& doc)
+{
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    //    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/remoteLogin");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the POST data */
+        string parameters = "";
+//        string parameters = "email=" + "x" + "&" + "password=" + "x";
+//        id : a user-defined string identifier for the submission; alphanumeric and underscores only, e.g. BBa_R0010
+//        version : the version string to associate with the submission, e.g. 1
+//        name : the dcterms name string to assign to the submission
+//        description : the dcterms description string to assign to the submission
+//        citations : a list of comma separated pubmed IDs of citations to store with the submission
+//        keywords : comma separated keywords to attach as annotations
+//        overwrite_merge : '0' prevent, '1' overwrite, '2' merge
+//        user : the user token returned by remoteLogin
+//        file : the contents of an SBOL2, SBOL1, GenBank or FASTA file
+        
+        
+        
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
     cout << response << endl;
     //    Json::Value json_response;
     //    Json::Reader reader;
@@ -250,10 +336,6 @@ std::string sbol::PartShop::login(std::string email, std::string password)
     //            response += " " + itr.asString();
     //        }
     //    }
-    return response;
+//    return response;
 };
 
-std::vector < sbol::ComponentDefinition* > sbol::PartShop::pullComponentDefinitionFromCollection(Collection& collection)
-{
-    return pull < ComponentDefinition > (collection);
-};
