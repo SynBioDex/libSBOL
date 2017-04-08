@@ -67,7 +67,10 @@ namespace sbol {
             moduleDefinitions(SBOL_MODULE_DEFINITION, this, ""),
             models(SBOL_MODEL, this, ""),
             sequences(SBOL_SEQUENCE, this, ""),
-            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, "")
+            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, ""),
+            citations(PURL_URI "bibliographicCitation", this),
+            keywords(PURL_URI "elements/1.1/subject", this)
+        
 			{
                 namespaces["sbol"] = SBOL_URI "#";
                 namespaces["dcterms"] = PURL_URI;
@@ -86,7 +89,10 @@ namespace sbol {
         List<OwnedObject<Model>> models;
         List<OwnedObject<Sequence>> sequences;
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
-
+        
+        URIProperty citations;
+        TextProperty keywords;
+        
 
         /// Register an object in the Document
         /// @param sbol_obj The SBOL object you want to serialize

@@ -251,6 +251,7 @@ void sbol::PartShop::login(std::string email, std::string password)
     //        }
     //    }
     key = response;
+    cout << key << endl;
 };
 
 std::vector < sbol::ComponentDefinition* > sbol::PartShop::pullComponentDefinitionFromCollection(Collection& collection)
@@ -270,8 +271,8 @@ void sbol::PartShop::submit(Document& doc)
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
-    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+//        headers = curl_slist_append(headers, "Accept: application/json");
+//    headers = curl_slist_append(headers, "Content-Type:  multipart/form-data");
     //    headers = curl_slist_append(headers, "charsets: utf-8");
     
     /* get a curl handle */
@@ -281,25 +282,51 @@ void sbol::PartShop::submit(Document& doc)
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/remoteLogin");
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/remoteSubmit");
+//        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */
-        string parameters = "";
-//        string parameters = "email=" + "x" + "&" + "password=" + "x";
-//        id : a user-defined string identifier for the submission; alphanumeric and underscores only, e.g. BBa_R0010
-//        version : the version string to associate with the submission, e.g. 1
-//        name : the dcterms name string to assign to the submission
-//        description : the dcterms description string to assign to the submission
-//        citations : a list of comma separated pubmed IDs of citations to store with the submission
-//        keywords : comma separated keywords to attach as annotations
-//        overwrite_merge : '0' prevent, '1' overwrite, '2' merge
-//        user : the user token returned by remoteLogin
-//        file : the contents of an SBOL2, SBOL1, GenBank or FASTA file
+        struct curl_httppost* post = NULL;
+        struct curl_httppost* last = NULL;
+        
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "id",
+                     CURLFORM_COPYCONTENTS, "BB1", CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "version",
+                     CURLFORM_COPYCONTENTS, "1", CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "name",
+                     CURLFORM_COPYCONTENTS, "BB1", CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "description",
+                     CURLFORM_COPYCONTENTS, "test", CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "citations",
+                     CURLFORM_COPYCONTENTS, "", CURLFORM_END);  // Comma separated list
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords",
+                     CURLFORM_COPYCONTENTS, "none", CURLFORM_END);
+
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge",
+                     CURLFORM_COPYCONTENTS, "1", CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "user",
+                     CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file",
+                     CURLFORM_COPYCONTENTS, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
         
         
+//        string parameters = "";
+//        if (doc.displayId.get().compare("") != 0)
+//            parameters += "id=" + doc.displayId.get() + "&";
+//        if (doc.version.get().compare("") != 0)
+//            parameters += "version=" + doc.version.get() + "&";
+//        if (doc.name.get().compare("") != 0)
+//            parameters += "name=" + doc.name.get()  + "&";
+//        if (doc.description.get().compare("") != 0)
+//            parameters += "description=" + doc.description.get() + "&";
+//        parameters += "overwrite_merge=1&"; // '0' prevent, '1' overwrite, '2' merge
+//        parameters += "user=" + key + "&";
+//        parameters += "file=" + doc.writeString();
+//        cout << parameters << endl;
         
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
+        /* Set the form info */
+        curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
+//        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
         
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
@@ -309,7 +336,7 @@ void sbol::PartShop::submit(Document& doc)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to submit Document failed with " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -317,7 +344,6 @@ void sbol::PartShop::submit(Document& doc)
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    cout << response << endl;
     //    Json::Value json_response;
     //    Json::Reader reader;
     //    bool parsed = reader.parse( response, json_response );     //parse process
@@ -336,6 +362,6 @@ void sbol::PartShop::submit(Document& doc)
     //            response += " " + itr.asString();
     //        }
     //    }
-//    return response;
+    cout <<  response << endl;
 };
 

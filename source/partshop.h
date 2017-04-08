@@ -77,10 +77,17 @@ namespace sbol
         /// @return Metadata formatted as a string encoding JSON.
         std::string search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
         
+        /// Submit a Document to SynBioHub
+        /// @param doc The Document to submit
         void submit(Document& doc);
         
+        /// In order to submit to a PartShop, you must login first. Register on [SynBioHub](http://synbiohub.org) to obtain account credentials.
+        /// @param email The email associated with the user's SynBioHub account
+        /// @param password The user's password
         void login(std::string email, std::string password);
         
+        /// Construct an interface to an instance of SynBioHub or other parts repository
+        /// @param The URL of the online repository
         PartShop(std::string url) :
         resource(url)
         {
