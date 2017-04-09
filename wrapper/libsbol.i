@@ -153,22 +153,28 @@
 %include "collection.h"
 %include "moduledefinition.h"
 
+// Converts json-formatted text into Python data structures, eg, lists, dictionaries
 %pythonappend sbol::PartShop::search
 %{
-    print ('Search complete')
-    print(val)
-    exec('val = ' + val)
-    return val
-    %}
+    if val[0] == '[' :
+        exec('val = ' + val)
+        return val
+    else :
+        return val
+%}
+//
+//// Converts json-formatted text into Python data structures, eg, lists, dictionaries
+%pythonappend sbol::PartShop::submit
+%{
+    if val[0] == '[' :
+        exec('val = ' + val)
+        return val
+    else :
+        return val
+%}
 
 %include "partshop.h"
 %include "document.h"
-
-%pythonappend sbol::PartShop::search
-%{
-    exec('val = ' + val)
-    return val
-%}
 
 typedef std::string sbol::sbol_type;
 

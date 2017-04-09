@@ -251,7 +251,6 @@ void sbol::PartShop::login(std::string email, std::string password)
     //        }
     //    }
     key = response;
-    cout << key << endl;
 };
 
 std::vector < sbol::ComponentDefinition* > sbol::PartShop::pullComponentDefinitionFromCollection(Collection& collection)
@@ -259,7 +258,7 @@ std::vector < sbol::ComponentDefinition* > sbol::PartShop::pullComponentDefiniti
     return pull < ComponentDefinition > (collection);
 };
 
-void sbol::PartShop::submit(Document& doc)
+std::string sbol::PartShop::submit(Document& doc, int overwrite)
 {
     
     /* Perform HTTP request */
@@ -290,43 +289,35 @@ void sbol::PartShop::submit(Document& doc)
         struct curl_httppost* last = NULL;
         
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "id",
-                     CURLFORM_COPYCONTENTS, "BB1", CURLFORM_END);
+                     CURLFORM_COPYCONTENTS, doc.displayId.get().c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "version",
-                     CURLFORM_COPYCONTENTS, "1", CURLFORM_END);
+                     CURLFORM_COPYCONTENTS, doc.version.get().c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "name",
-                     CURLFORM_COPYCONTENTS, "BB1", CURLFORM_END);
+                     CURLFORM_COPYCONTENTS, doc.name.get().c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "description",
-                     CURLFORM_COPYCONTENTS, "test", CURLFORM_END);
+                     CURLFORM_COPYCONTENTS, doc.description.get().c_str(), CURLFORM_END);
+        string citations;
+        for (auto citation : doc.citations.getAll())
+            citations += citation + ",";
+        citations = citations.substr(0, citations.length() - 1);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "citations",
-                     CURLFORM_COPYCONTENTS, "", CURLFORM_END);  // Comma separated list
+                     CURLFORM_COPYCONTENTS, citations.c_str(), CURLFORM_END);  // Comma separated list
+        string keywords;
+        for (auto kw : doc.keywords.getAll())
+            keywords += kw + ",";
+        keywords = keywords.substr(0, keywords.length() - 1);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords",
-                     CURLFORM_COPYCONTENTS, "none", CURLFORM_END);
+                     CURLFORM_COPYCONTENTS, doc.keywords.get().c_str(), CURLFORM_END);
 
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge",
-                     CURLFORM_COPYCONTENTS, "1", CURLFORM_END);
+                     CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "user",
                      CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "file",
                      CURLFORM_COPYCONTENTS, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
         
-        
-//        string parameters = "";
-//        if (doc.displayId.get().compare("") != 0)
-//            parameters += "id=" + doc.displayId.get() + "&";
-//        if (doc.version.get().compare("") != 0)
-//            parameters += "version=" + doc.version.get() + "&";
-//        if (doc.name.get().compare("") != 0)
-//            parameters += "name=" + doc.name.get()  + "&";
-//        if (doc.description.get().compare("") != 0)
-//            parameters += "description=" + doc.description.get() + "&";
-//        parameters += "overwrite_merge=1&"; // '0' prevent, '1' overwrite, '2' merge
-//        parameters += "user=" + key + "&";
-//        parameters += "file=" + doc.writeString();
-//        cout << parameters << endl;
-        
         /* Set the form info */
         curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
-//        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
         
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
@@ -362,6 +353,8 @@ void sbol::PartShop::submit(Document& doc)
     //            response += " " + itr.asString();
     //        }
     //    }
-    cout <<  response << endl;
+    if (response.compare("Error: Invalid user token") == 0)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
+    return response;
 };
 

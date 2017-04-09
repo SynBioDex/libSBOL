@@ -91,7 +91,7 @@ namespace sbol {
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
         
         URIProperty citations;
-        TextProperty keywords;
+        URIProperty keywords;
         
 
         /// Register an object in the Document

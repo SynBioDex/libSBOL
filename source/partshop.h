@@ -79,7 +79,8 @@ namespace sbol
         
         /// Submit a Document to SynBioHub
         /// @param doc The Document to submit
-        void submit(Document& doc);
+        /// @param overwrite An integer code: 0(default) - do not overwrite, 1 - overwrite, 2 - merge
+        std::string submit(Document& doc, int overwrite = 0);
         
         /// In order to submit to a PartShop, you must login first. Register on [SynBioHub](http://synbiohub.org) to obtain account credentials.
         /// @param email The email associated with the user's SynBioHub account
