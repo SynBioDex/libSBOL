@@ -126,7 +126,6 @@
 %template(_MapOfStringVector) std::map<std::string, std::vector<std::string> >;
 %template(_MapOfSBOLObject) std::map<std::string, std::vector< sbol::SBOLObject* > >;
 
-
 // Instantiate libSBOL templates
 %include "config.h"
 %include "constants.h"
@@ -153,6 +152,29 @@
 %include "model.h"
 %include "collection.h"
 %include "moduledefinition.h"
+
+// Converts json-formatted text into Python data structures, eg, lists, dictionaries
+%pythonappend sbol::PartShop::search
+%{
+    if val[0] == '[' :
+        exec('val = ' + val)
+        return val
+    else :
+        return val
+%}
+//
+//// Converts json-formatted text into Python data structures, eg, lists, dictionaries
+%pythonappend sbol::PartShop::submit
+%{
+    if val[0] == '[' :
+        exec('val = ' + val)
+        return val
+    else :
+        return val
+%}
+
+%include "partshop.h"
+
 %include "document.h"
 
 typedef std::string sbol::sbol_type;
@@ -270,6 +292,11 @@ TEMPLATE_MACRO_2(ComponentDefinition)
 %template(getSequence) sbol::Document::get<Sequence>;
 %template(getModel) sbol::Document::get<Model>;
 %template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
+
+// Template functions used by PartShop
+//%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
+%template(pullComponentDefinition) sbol::PartShop::pull < ComponentDefinition >;
+%template(pullCollection) sbol::PartShop::pull < Collection >;
 
 %extend sbol::Property
 {
