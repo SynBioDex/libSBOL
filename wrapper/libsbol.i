@@ -174,6 +174,7 @@
 %}
 
 %include "partshop.h"
+
 %include "document.h"
 
 typedef std::string sbol::sbol_type;

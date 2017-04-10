@@ -36,8 +36,21 @@ using namespace sbol;
 
 SBOLObject::~SBOLObject()
 {
+    if (type.compare(SBOL_DOCUMENT) != 0)  // Documents have their own destructor override
+    {
+        for (auto &i_own : owned_objects)
+        {
+            vector<SBOLObject*>& object_store = i_own.second;
+            for (auto &i_obj : object_store)
+                i_obj->close();
+        }
+    }
 }
 
+bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
+{
+    return (&a != &b);
+};
 
 void SBOLObject::close()
 {

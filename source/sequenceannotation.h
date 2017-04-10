@@ -62,7 +62,12 @@ namespace sbol
         bool follows(SequenceAnnotation& comparand);
         bool contains(SequenceAnnotation& comparand);
         bool overlaps(SequenceAnnotation& comparand);
-
+        std::vector<SequenceAnnotation*> precedes(std::vector<SequenceAnnotation*> comparand_list);
+        std::vector<SequenceAnnotation*> follows(std::vector<SequenceAnnotation*> comparand_list);
+        std::vector<SequenceAnnotation*> contains(std::vector<SequenceAnnotation*> comparand_list);
+        std::vector<SequenceAnnotation*> overlaps(std::vector<SequenceAnnotation*> comparand_list);
+        int length();
+        
         virtual ~SequenceAnnotation() {};
 	
 	protected:

@@ -839,10 +839,7 @@ bool SequenceAnnotation::precedes(SequenceAnnotation& comparand)
     {
         Range& this_range = (Range&)locations[0];
         Range& that_range = (Range&)comparand.locations[0];
-        if (this_range.start.get() < that_range.start.get())
-            return true;
-        else
-            return false;
+        return this_range.precedes(that_range);
     }
     else
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
@@ -854,10 +851,7 @@ bool SequenceAnnotation::follows(SequenceAnnotation& comparand)
     {
         Range& this_range = (Range&)locations[0];
         Range& that_range = (Range&)comparand.locations[0];
-        if (this_range.end.get() < that_range.end.get())
-            return true;
-        else
-            return false;
+        return this_range.follows(that_range);
     }
     else
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
@@ -869,10 +863,7 @@ bool SequenceAnnotation::contains(SequenceAnnotation& comparand)
     {
         Range& this_range = (Range&)locations[0];
         Range& that_range = (Range&)comparand.locations[0];
-        if (this_range.start.get() <= that_range.start.get() && this_range.end.get() >= that_range.end.get())
-            return true;
-        else
-            return false;
+        return this_range.contains(that_range);
     }
     else
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
@@ -884,14 +875,195 @@ bool SequenceAnnotation::overlaps(SequenceAnnotation& comparand)
     {
         Range& this_range = (Range&)locations[0];
         Range& that_range = (Range&)comparand.locations[0];
-        if (this_range.start.get() <= that_range.start.get() && this_range.end.get() <= that_range.end.get())
-            return true;
-        else if (this_range.start.get() >= that_range.start.get() && this_range.end.get() >= that_range.end.get())
-            return true;
-        else
-            return false;
+        return this_range.overlaps(that_range);
     }
     else
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
 }
 
+
+int Range::precedes(Range& comparand)
+{
+    if (end.get() < comparand.start.get())
+        return comparand.start.get() + 1 - end.get();
+    else
+        return 0;
+}
+
+int Range::follows(Range& comparand)
+{
+    if (start.get() > comparand.end.get())
+        return comparand.end.get() + 1 - start.get();
+    else
+        return 0;
+}
+
+int Range::contains(Range& comparand)
+{
+    if (start.get() <= comparand.start.get() && end.get() >= comparand.end.get())
+        return comparand.length();
+    else
+        return 0;
+}
+
+int Range::overlaps(Range& comparand)
+{
+    if (start.get() == comparand.start.get() && end.get() == comparand.end.get())
+        return 0;
+    else if (start.get() <= comparand.start.get() && end.get() <= comparand.end.get() && end.get() > comparand.start.get() )
+        return comparand.start.get() + 1 - end.get();
+    else if (start.get() >= comparand.start.get() && end.get() >= comparand.end.get() && start.get() < comparand.end.get())
+        return comparand.end.get() + 1 - start.get();
+    else
+        return 0;
+}
+
+int Range::length()
+{
+    return end.get() + 1 - start.get();
+}
+
+
+
+vector<SequenceAnnotation*> SequenceAnnotation::precedes(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> filtered_list = {};
+    return filtered_list;
+};
+
+std::vector<SequenceAnnotation*> SequenceAnnotation::follows(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> filtered_list = {};
+    return filtered_list;
+};
+
+std::vector<SequenceAnnotation*> SequenceAnnotation::contains(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> list_of_contained_annotations;
+    
+    sbol::Range& r_this = (sbol::Range&)locations[0];
+    cout << r_this.start.get() << "\t" << r_this.end.get() << "\t";
+    for (auto &ann_comparand : comparand_list)
+    {
+        if (this->contains(*ann_comparand))
+        {
+            list_of_contained_annotations.push_back(ann_comparand);
+            sbol::Range& r_comparand = (sbol::Range&)ann_comparand->locations[0];
+            cout << r_comparand.start.get() << "\t" << r_comparand.end.get() << "\n\t\t";
+        }
+    }
+    cout << endl;
+    return list_of_contained_annotations;
+};
+
+std::vector<SequenceAnnotation*> SequenceAnnotation::overlaps(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> list_of_overlapping_annotations;
+    
+    sbol::Range& r_this = (sbol::Range&)locations[0];
+    cout << r_this.start.get() << "\t" << r_this.end.get() << "\t";
+    for (auto &ann_comparand : comparand_list)
+    {
+        if (this->overlaps(*ann_comparand))
+        {
+            list_of_overlapping_annotations.push_back(ann_comparand);
+            sbol::Range& r_comparand = (sbol::Range&)ann_comparand->locations[0];
+            cout << r_comparand.start.get() << "\t" << r_comparand.end.get() << "\n\t\t";
+        }
+    }
+    cout << endl;
+    return list_of_overlapping_annotations;
+};
+
+int SequenceAnnotation::length()
+{
+    if (locations.size() == 0)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. SequenceAnnotation " + identity.get() + " is invalid for this operation because it has no Range specified");
+    if (locations.size() > 1)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. SequenceAnnotation " + identity.get() + " is invalid for this operation because it has more than one Range specified");
+    Range& r_target = (Range&)locations[0];
+    return r_target.length();
+};
+
+void ComponentDefinition::insertRight(Component& upstream, ComponentDefinition& insert)
+{
+    // Two cases. In first case, insert a Component that already has a downstream Component specified by a SequenceConstraint. Otherwise, append this Component to the end os sequential constraints.
+    // Search for an existing SequenceConstraint between upstream and downstream Component
+    SequenceConstraint* target_constraint;
+    // Search for target_constraint
+    for (int i_sc = 0; i_sc < sequenceConstraints.size(); ++i_sc)
+    {
+        SequenceConstraint& sc = sequenceConstraints[i_sc];
+        if (sc.subject.get().compare(upstream.identity.get()) == 0 && sc.restriction.get().compare(SBOL_RESTRICTION_PRECEDES) == 0)
+        {
+            // If more than one downstream component has been specified, then it is ambiguous where the insert should be placed, so throw an error
+            if (target_constraint)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceConstraints are ambiguous. The target component may have more than one downstream component specified");
+            target_constraint = &sc;
+        }
+    }
+    
+    // Autoconstruct a new SequenceConstraint
+    SequenceConstraint* new_constraint;
+    int i_sc = sequenceConstraints.size();
+    string new_sc_id;
+    while (new_constraint == NULL)
+    {
+        try
+        {
+            string new_sc_id = "constraint" + to_string(i_sc);
+            cout << "Instantiating " << new_sc_id << endl;
+            new_constraint = &sequenceConstraints.create(new_sc_id);
+            new_constraint->subject.set(upstream.identity.get());
+            new_constraint->object.set(insert.identity.get());
+        }
+        catch (const SBOLError& e)
+        {
+            if (e.error_code() == DUPLICATE_URI_ERROR)
+                ++i_sc;
+        }
+    }
+    // Autoconstruct a new Component
+    Component* new_component;
+    int i_c = components.size();
+    string new_c_id;
+    while (!new_constraint)
+    {
+        try
+        {
+            string new_sc_id = "constraint" + to_string(i_c);
+            cout << "Instantiating " << new_sc_id << endl;
+            new_constraint = &sequenceConstraints.create(new_sc_id);
+            new_constraint->subject.set(upstream.identity.get());
+            new_constraint->object.set(insert.identity.get());
+        }
+        catch (const SBOLError& e)
+        {
+            if (e.error_code() == DUPLICATE_URI_ERROR)
+                ++i_sc;
+        }
+    }
+    
+    
+    // In case a downstream component was found...
+    if (target_constraint)
+    {
+        target_constraint->subject.set(insert.identity.get());
+    }
+
+};
+
+void ComponentDefinition::insertLeft(Component& target, ComponentDefinition& insert)
+{
+    
+};
+
+void ComponentDefinition::addLeftFlank(Component& target, std::string elements)
+{
+    
+};
+
+void ComponentDefinition::addRightFlank(Component& target, std::string elements)
+{
+    
+};
