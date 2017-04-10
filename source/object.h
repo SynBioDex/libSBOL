@@ -205,7 +205,7 @@ namespace sbol
         
         std::vector<std::string>::iterator python_iter;
     };
-    
+    bool operator !=(const SBOLObject &a, const SBOLObject &b);
 }
 
 //// This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)

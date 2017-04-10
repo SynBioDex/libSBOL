@@ -47,6 +47,10 @@ SBOLObject::~SBOLObject()
     }
 }
 
+bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
+{
+    return (&a != &b);
+};
 
 void SBOLObject::close()
 {

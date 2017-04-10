@@ -131,8 +131,18 @@ namespace sbol
         /// @return The last component in sequential order
         Component& getLastComponent();
         
-        ///
+        /// Apply a callback function to every Component
         std::vector<ComponentDefinition*> applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *) = NULL, void * user_data = NULL);
+        
+        
+        void insertRight(Component& target, ComponentDefinition& insert);
+        
+        void insertLeft(Component& target, ComponentDefinition& insert);
+        
+        void addLeftFlank(Component& target, std::string elements);
+        
+        void addRightFlank(Component& target, std::string elements);
+
         
         /// A convenience method that assigns a component to participate in a biochemical reaction.  Behind the scenes, it auto-constructs a FunctionalComponent for this ComponentDefinition and assigns it to a Participation
         /// @param species A Participation object (ie, participant species in a biochemical Interaction).
