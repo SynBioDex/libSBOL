@@ -800,7 +800,7 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
     vector<ComponentDefinition*> component_nodes;
     if (components.size() == 0)
     {
-        cout << "Adding subcomponent : " << identity.get() << endl;
+//        cout << "Adding subcomponent : " << identity.get() << endl;
         component_nodes.push_back(this);  // Add leaf components
         if (callback_fn)
             callback_fn(this, user_data);
@@ -809,7 +809,7 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
     {
         if (GET_ALL)
         {
-            cout << "Adding subcomponent : " << identity.get() << endl;
+//            cout << "Adding subcomponent : " << identity.get() << endl;
             component_nodes.push_back(this);  // Add components with children
             if (callback_fn)
                 callback_fn(this, user_data);
@@ -818,14 +818,14 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
         {
             if (!doc->find(subc.definition.get()))
             {
-                std::cout << "Not found" << std::endl;
+//                std::cout << "Not found" << std::endl;
                 throw SBOLError(SBOL_ERROR_NOT_FOUND, subc.definition.get() + "not found");
             }
             ComponentDefinition& subcdef = doc->get<ComponentDefinition>(subc.definition.get());
-            std::cout << subcdef.identity.get() << std::endl;
-            cout << "Descending one level : " << subcdef.identity.get() << endl;
+//            std::cout << subcdef.identity.get() << std::endl;
+//            cout << "Descending one level : " << subcdef.identity.get() << endl;
             vector < sbol::ComponentDefinition* > subcomponents = subcdef.applyToComponentHierarchy(callback_fn, user_data);
-            cout << "Found " << subcomponents.size() << " components" << std::endl;
+//            cout << "Found " << subcomponents.size() << " components" << std::endl;
             component_nodes.reserve(component_nodes.size() + distance(subcomponents.begin(), subcomponents.end()));
             component_nodes.insert(component_nodes.end(), subcomponents.begin(),subcomponents.end());
         }
