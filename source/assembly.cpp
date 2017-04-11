@@ -985,11 +985,12 @@ int SequenceAnnotation::length()
     return r_target.length();
 };
 
-void ComponentDefinition::insertRight(Component& upstream, ComponentDefinition& insert)
+void ComponentDefinition::insertDownstream(Component& upstream, ComponentDefinition& insert)
 {
     // Two cases. In first case, insert a Component that already has a downstream Component specified by a SequenceConstraint. Otherwise, append this Component to the end os sequential constraints.
     // Search for an existing SequenceConstraint between upstream and downstream Component
-    SequenceConstraint* target_constraint;
+    SequenceConstraint* target_constraint = NULL;
+    
     // Search for target_constraint
     for (int i_sc = 0; i_sc < sequenceConstraints.size(); ++i_sc)
     {
@@ -997,63 +998,55 @@ void ComponentDefinition::insertRight(Component& upstream, ComponentDefinition& 
         if (sc.subject.get().compare(upstream.identity.get()) == 0 && sc.restriction.get().compare(SBOL_RESTRICTION_PRECEDES) == 0)
         {
             // If more than one downstream component has been specified, then it is ambiguous where the insert should be placed, so throw an error
-            if (target_constraint)
+            if (target_constraint != NULL)
+            {
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceConstraints are ambiguous. The target component may have more than one downstream component specified");
+            }
             target_constraint = &sc;
         }
     }
-    
-    // Autoconstruct a new SequenceConstraint
-    SequenceConstraint* new_constraint;
-    int i_sc = sequenceConstraints.size();
-    string new_sc_id;
-    while (new_constraint == NULL)
+
+    // Generate URI of a Component to be created.  Check if an object with that URI is already instantiated.
+    int instance_count = 0;
+    string component_id;
+    component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+    while (find(component_id) != NULL)
     {
-        try
-        {
-            string new_sc_id = "constraint" + to_string(i_sc);
-            cout << "Instantiating " << new_sc_id << endl;
-            new_constraint = &sequenceConstraints.create(new_sc_id);
-            new_constraint->subject.set(upstream.identity.get());
-            new_constraint->object.set(insert.identity.get());
-        }
-        catch (const SBOLError& e)
-        {
-            if (e.error_code() == DUPLICATE_URI_ERROR)
-                ++i_sc;
-        }
+        // Find the last instance assigned
+        ++instance_count;
+        component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+        cout << component_id << endl;
     }
-    // Autoconstruct a new Component
-    Component* new_component;
-    int i_c = components.size();
-    string new_c_id;
-    while (!new_constraint)
-    {
-        try
-        {
-            string new_sc_id = "constraint" + to_string(i_c);
-            cout << "Instantiating " << new_sc_id << endl;
-            new_constraint = &sequenceConstraints.create(new_sc_id);
-            new_constraint->subject.set(upstream.identity.get());
-            new_constraint->object.set(insert.identity.get());
-        }
-        catch (const SBOLError& e)
-        {
-            if (e.error_code() == DUPLICATE_URI_ERROR)
-                ++i_sc;
-        }
-    }
+    // Autoconstruct the new Component
+    Component& c_insert = components.create(insert.displayId.get() + "/" + to_string(instance_count));
+    c_insert.definition.set(insert.identity.get());
     
+    // Generate URI of new Component.  Check if an object with that URI is already instantiated.
+    instance_count = 0;
+    string sc_id;
+    sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+    while (find(sc_id) != NULL)
+    {
+        // Find the last instance assigned
+        ++instance_count;
+        sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+
+    }
+
+    // Autoconstruct the new SequenceConstraint
+    SequenceConstraint& sc_new = sequenceConstraints.create("constraint" + to_string(instance_count));
+    sc_new.subject.set(upstream.identity.get());
+    sc_new.object.set(component_id);
     
     // In case a downstream component was found...
     if (target_constraint)
     {
-        target_constraint->subject.set(insert.identity.get());
+        target_constraint->subject.set(c_insert.identity.get());
     }
 
 };
 
-void ComponentDefinition::insertLeft(Component& target, ComponentDefinition& insert)
+void ComponentDefinition::insertUpstream(Component& target, ComponentDefinition& insert)
 {
     
 };
@@ -1066,4 +1059,19 @@ void ComponentDefinition::addLeftFlank(Component& target, std::string elements)
 void ComponentDefinition::addRightFlank(Component& target, std::string elements)
 {
     
+};
+
+std::vector<Component*> ComponentDefinition::getPrimaryStructure()
+{
+    std::vector<Component*> primary_structure;
+    Component* c = &getFirstComponent();
+    primary_structure.push_back(c);
+    cout << c->displayId.get() << endl;
+    while (hasDownstreamComponent(*c))
+    {
+        c = &getDownstreamComponent(*c);
+        primary_structure.push_back(c);
+        cout << c->displayId.get()  << endl;
+    }
+    return primary_structure;
 };

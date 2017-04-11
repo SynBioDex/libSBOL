@@ -131,13 +131,17 @@ namespace sbol
         /// @return The last component in sequential order
         Component& getLastComponent();
         
-        /// Apply a callback function to every Component
+        /// Perform an operation on every Component in a structurally-linked hierarchy of Components by applying a callback function. If no callback is specified, the default behavior is to return a pointer list of each Component in the hierarchy.
+        /// @param callback_fun A pointer to a callback function with signature void callback_fn(ComponentDefinition *, void *).
+        /// @return Returns a flat list of pointers to all Components in the hierarchy.
         std::vector<ComponentDefinition*> applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *) = NULL, void * user_data = NULL);
+
+        /// Get the primary sequence of a design in terms of its sequentially ordered ComponentDefinitions
+        std::vector<Component*> getPrimaryStructure();
+
+        void insertDownstream(Component& target, ComponentDefinition& insert);
         
-        
-        void insertRight(Component& target, ComponentDefinition& insert);
-        
-        void insertLeft(Component& target, ComponentDefinition& insert);
+        void insertUpstream(Component& target, ComponentDefinition& insert);
         
         void addLeftFlank(Component& target, std::string elements);
         
