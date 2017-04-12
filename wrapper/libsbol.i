@@ -114,6 +114,270 @@
 %ignore sbol::Document::parse_objects;
 %ignore sbol::Document::close;
 
+%extend sbol::Property
+{
+    std::string __getitem__(const int nIndex)
+    {
+        return $self->operator[](nIndex);
+    }
+    
+    Property<LiteralType>* __iter__()
+    {
+        $self->python_iter = Property<LiteralType>::iterator($self->begin());
+        return $self;
+    }
+    
+    // Built-in iterator function for Python 2
+    std::string next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    // Built-in iterator function for Python 3
+    std::string __next__()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    int __len__()
+    {
+        return $self->size();
+    }
+    
+}
+
+%extend sbol::OwnedObject
+{
+    SBOLClass& __getitem__(const int nIndex)
+    {
+        return $self->operator[](nIndex);
+    }
+    
+    SBOLClass& __getitem__(const std::string uri)
+    {
+        return $self->operator[](uri);
+    }
+    
+    OwnedObject<SBOLClass>* __iter__()
+    {
+        $self->python_iter = OwnedObject<SBOLClass>::iterator($self->begin());
+        return $self;
+    }
+    
+    SBOLClass* next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            SBOLObject* obj = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return (SBOLClass*)obj;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    SBOLClass* __next__()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            
+            SBOLObject* obj = *$self->python_iter;
+            $self->python_iter++;
+            
+            return (SBOLClass*)obj;
+        }
+        
+        throw SBOLError(END_OF_LIST, "");;
+        return NULL;
+    }
+    
+    int __len__()
+    {
+        return $self->size();
+    }
+};
+
+%extend sbol::SBOLObject
+{
+    std::string __repr__()
+    {
+        return $self->type;
+    }
+    
+    std::string __str__()
+    {
+        return $self->identity.get();
+    }
+}
+
+%extend sbol::ReferencedObject
+{
+    std::string __getitem__(const int nIndex)
+    {
+        return $self->operator[](nIndex);
+    }
+    
+    ReferencedObject* __iter__()
+    {
+        $self->python_iter = ReferencedObject::iterator($self->begin());
+        return $self;
+    }
+    
+    std::string next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    std::string __next__()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    int __len__()
+    {
+        return $self->size();
+    }
+};
+
+%extend sbol::ComponentDefinition
+{
+    void assemble(PyObject *list)
+    {
+        std::vector<sbol::ComponentDefinition*> list_of_cdefs = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::ComponentDefinition* cd;
+                if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) throw;
+                list_of_cdefs.push_back(cd);
+            }
+            $self->assemble(list_of_cdefs);
+        };
+    }
+}
+
+%extend sbol::Document
+{
+    void addComponentDefinition(PyObject *list)
+    {
+        std::vector<sbol::ComponentDefinition*> list_of_cds = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::ComponentDefinition* cd;
+                if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) throw;
+                list_of_cds.push_back(cd);
+            }
+            $self->add(list_of_cds);
+        };
+    }
+    
+    void addSequence(PyObject *list)
+    {
+        std::vector<sbol::Sequence*> list_of_seqs = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::Sequence* seq;
+                if ((SWIG_ConvertPtr(obj,(void **) &seq, $descriptor(sbol::Sequence*),1)) == -1) throw;
+                list_of_seqs.push_back(seq);
+            }
+            $self->add(list_of_seqs);
+        };
+    }
+    
+    void addModuleDefinition(PyObject *list)
+    {
+        std::vector<sbol::ModuleDefinition*> list_of_mds = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::ModuleDefinition* md;
+                if ((SWIG_ConvertPtr(obj,(void **) &md, $descriptor(sbol::ModuleDefinition*),1)) == -1) throw;
+                list_of_mds.push_back(md);
+            }
+            $self->add(list_of_mds);
+        };
+    }
+}
+
+
+%extend sbol::ModuleDefinition
+{
+    void assemble(PyObject *list)
+    {
+        std::vector<sbol::ModuleDefinition*> list_of_mdefs = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::ModuleDefinition* md;
+                if ((SWIG_ConvertPtr(obj,(void **) &md, $descriptor(sbol::ModuleDefinition*),1)) == -1) throw;
+                list_of_mdefs.push_back(md);
+            }
+            $self->assemble(list_of_mdefs);
+        };
+    }
+}
+
+
 // Instantiate STL templates
 %include "std_string.i"
 %include "std_vector.i"
