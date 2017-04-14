@@ -149,6 +149,13 @@ namespace sbol {
         /// @return The validation results
         std::string validate();
         
+        /// Get the total number of objects in the Document, including SBOL core object and custom annotation objects
+        int size()
+        {
+            std::size_t size = this->SBOLObjects.size();
+            return (int)size;
+        }
+        
         /// Search recursively for an SBOLObject in this Document that matches the uri
         /// @param uri The identity of the object to search for
         /// @return A pointer to the SBOLObject, or NULL if an object with this identity doesn't exist
