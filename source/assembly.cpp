@@ -1051,12 +1051,12 @@ void ComponentDefinition::insertUpstream(Component& target, ComponentDefinition&
     
 };
 
-void ComponentDefinition::addLeftFlank(Component& target, std::string elements)
+void ComponentDefinition::addUpstreamFlank(Component& target, std::string elements)
 {
     
 };
 
-void ComponentDefinition::addRightFlank(Component& target, std::string elements)
+void ComponentDefinition::addDownstreamFlank(Component& target, std::string elements)
 {
     
 };

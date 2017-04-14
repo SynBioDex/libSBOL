@@ -136,16 +136,28 @@ namespace sbol
         /// @return Returns a flat list of pointers to all Components in the hierarchy.
         std::vector<ComponentDefinition*> applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *) = NULL, void * user_data = NULL);
 
-        /// Get the primary sequence of a design in terms of its sequentially ordered ComponentDefinitions
+        /// Get the primary sequence of a design in terms of its sequentially ordered Components
         std::vector<Component*> getPrimaryStructure();
 
+        /// Insert a Component downstream of another in a primary sequence, shifting any adjacent Components dowstream as well
+        /// @param target The target Component will be upstream of the insert Component after this operation.
+        /// @param insert The insert Component is inserted downstream of the target Component.
         void insertDownstream(Component& target, ComponentDefinition& insert);
         
+        /// Insert a Component upstream of another in a primary sequence, shifting any adjacent Components upstream as well
+        /// @param target The target Component will be downstream of the insert Component after this operation.
+        /// @param insert The insert Component is inserted upstream of the target Component.
         void insertUpstream(Component& target, ComponentDefinition& insert);
+
+        /// This may be a useful method when building up SBOL representations of natural DNA sequences. For example it is often necessary to specify components that are assumed to have no meaningful role in the design, but are nevertheless important to fill in regions of sequence. This method autoconstructs a ComponentDefinition and Sequence object to create an arbitrary flanking sequence around design Components. The new ComponentDefinition will have Sequence Ontology type of flanking_region or SO:0000239
+        /// @param target The new flanking sequence will be placed upstream of the target
+        /// @param elements The primary sequence elements will be assigned to the autoconstructed Sequence object. The encoding is inferred
+        void addUpstreamFlank(Component& target, std::string elements);
         
-        void addLeftFlank(Component& target, std::string elements);
-        
-        void addRightFlank(Component& target, std::string elements);
+        /// This may be a useful method when building up SBOL representations of natural DNA sequences. For example it is often necessary to specify components that are assumed to have no meaningful role in the design, but are nevertheless important to fill in regions of sequence. This method autoconstructs a ComponentDefinition and Sequence object to create an arbitrary flanking sequence around design Components. The new ComponentDefinition will have Sequence Ontology type of flanking_sequence.
+        /// @param target The new flanking sequence will be placed downstream of the target
+        /// @param elements The primary sequence elements will be assigned to the autoconstructed Sequence object. The encoding is inferred
+        void addDownstreamFlank(Component& target, std::string elements);
 
         
         /// A convenience method that assigns a component to participate in a biochemical reaction.  Behind the scenes, it auto-constructs a FunctionalComponent for this ComponentDefinition and assigns it to a Participation

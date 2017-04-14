@@ -60,10 +60,27 @@ namespace sbol
         /// Specifies the inclusive end position of a sequence region. It must be equal to or greater than the start.
 		IntProperty end;
 
+        /// Calculates how many bases separate these Ranges
+        /// @comparand Another Range object
+        /// @return The number of bases by which this Range precedes the comparand, or 0 if it does not precede
         int precedes(Range& comparand);
+
+        /// Calculates how many bases separate these Ranges
+        /// @comparand Another Range object
+        /// @return The number of bases by which this Range follows the comparand, or 0 if it does not follow
         int follows(Range& comparand);
+
+        /// Calculates how many bases of the comparand are contained by this Range.
+        /// @comparand Another Range object
+        /// @return The number of bases which are contained (equivalent to the length of the comparand), or 0 if it is not contained.
         int contains(Range& comparand);
+
+        /// Calculates how many bases separate this Range from the comparand.
+        /// @comparand Another Range object
+        /// @return The number of bases by which the Ranges overlap. If they overlap, this is always a positive number regardless of direction. If they do not overlap, returns zero
         int overlaps(Range& comparand);
+        
+        /// Returns the length of a Range
         int length();
 
         
