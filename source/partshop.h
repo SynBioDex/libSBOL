@@ -48,17 +48,6 @@ namespace sbol
         /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
         /// @return The object identified by the specified uri
         template < class SBOLClass > SBOLClass& pull(std::string uri);
-
-        /// Retrieve all the objects referenced in a Collection
-        /// @tparam SBOLClass The type of SBOL objects in the Collection, for example, a ComponentDefinition
-        /// @param collection The Collection the user wants to dereference
-        /// @return A vector of object pointers.
-        template <class SBOLClass > std::vector < SBOLClass* > pull(sbol::Collection& collection);
-
-        /// Retrieve all the ComponentDefinitions in a Collection.
-        /// @param collection The Collection the user wants to dereference
-        /// @return A vector of ComponentDefinition pointers
-        std::vector < ComponentDefinition* > pullComponentDefinitionFromCollection(Collection& collection);
         
         /// Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @file constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. These constants follow a fairly systematic and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text This may be a literal text value or it may be a URI. See @file constants.h for useful ontology terms
@@ -69,7 +58,7 @@ namespace sbol
         /// @return Metadata formatted as a string encoding JSON.
         std::string search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
 
-        /// Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @file constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predicatable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
+        /// Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @file constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text A snippet of text to search for in a property's value.
         /// @param object_type The RDF type of an SBOL object. See @file constants.h. For example, SBOL_COMPONENT_DEFINITION by default.
         /// @param offset The index of the first record to return. This parameter is indexed starting from zero.
@@ -95,6 +84,9 @@ namespace sbol
         };
     };
     
+    /// Returns the SBOL object from the PartShop.
+    /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
+    /// @param uri The identity of the object
     template < class SBOLClass > SBOLClass& PartShop::pull(std::string uri)
     {
         std::string get_request = uri + "/sbol";
@@ -148,18 +140,9 @@ namespace sbol
         return obj;
     };
     
-    template <class SBOLClass > std::vector < SBOLClass* > PartShop::pull(sbol::Collection& collection)
-    {
-        std::vector < SBOLClass* > objects;
-        for (auto & ref : collection.members)
-        {
-            SBOLClass& obj = pull < SBOLClass >(ref);
-            objects.push_back(&obj);
-        }
-        return objects;
-    };
-    
-    
+    /// Returns a Document including all objects referenced from this object
+    template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri);
+
 }
 
 #endif

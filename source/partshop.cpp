@@ -253,11 +253,6 @@ void sbol::PartShop::login(std::string email, std::string password)
     key = response;
 };
 
-std::vector < sbol::ComponentDefinition* > sbol::PartShop::pullComponentDefinitionFromCollection(Collection& collection)
-{
-    return pull < ComponentDefinition > (collection);
-};
-
 std::string sbol::PartShop::submit(Document& doc, int overwrite)
 {
     
@@ -356,5 +351,56 @@ std::string sbol::PartShop::submit(Document& doc, int overwrite)
     if (response.compare("Error: Invalid user token") == 0)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
     return response;
+};
+
+template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri)
+{
+    std::string get_request = uri + "/sbol";
+    
+    /* Perform HTTP request */
+    std::string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    //    headers = curl_slist_append(headers, "Accept: application/json");
+    //    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
+        //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the POST data */
+        //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + std::string(curl_easy_strerror(res)));
+            
+        /* always cleanup */
+            curl_easy_cleanup(curl);
+            }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    Document& doc = *new Document();
+    doc.readString(response);
+    return doc;
 };
 

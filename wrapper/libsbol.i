@@ -561,6 +561,7 @@ TEMPLATE_MACRO_2(ComponentDefinition)
 //%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
 %template(pullComponentDefinition) sbol::PartShop::pull < ComponentDefinition >;
 %template(pullCollection) sbol::PartShop::pull < Collection >;
+%template(pullDocument) sbol::PartShop::pull < Document >;
 
 %extend sbol::Property
 {
