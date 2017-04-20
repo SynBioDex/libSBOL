@@ -43,6 +43,10 @@ namespace sbol
         std::string key;
         
     public:
+        /// Return the count of objects contained in a PartShop
+        /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
+        template < class SBOLClass > int count();
+        
         /// Retrieve an object from an online resource
         /// @param uri The identity of the SBOL object you want to retrieve
         /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
@@ -84,9 +88,6 @@ namespace sbol
         };
     };
     
-    /// Returns the SBOL object from the PartShop.
-    /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
-    /// @param uri The identity of the object
     template < class SBOLClass > SBOLClass& PartShop::pull(std::string uri)
     {
         std::string get_request = uri + "/sbol";
@@ -142,6 +143,56 @@ namespace sbol
     
     /// Returns a Document including all objects referenced from this object
     template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri);
+
+    template < class SBOLClass > int PartShop::count()
+    {
+        // Form get request
+        std::string get_request;
+        SBOLClass dummy = SBOLClass();
+        std::string sbol_class = parseClassName(dummy.getTypeURI());
+        get_request = resource + "/" + sbol_class + "/count";
+        
+        /* Perform HTTP request */
+        std::string response;
+        CURL *curl;
+        CURLcode res;
+        
+        /* In windows, this will init the winsock stuff */
+        curl_global_init(CURL_GLOBAL_ALL);
+        
+        struct curl_slist *headers = NULL;
+        //    headers = curl_slist_append(headers, "Accept: application/json");
+        //    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+        //    headers = curl_slist_append(headers, "charsets: utf-8");
+        
+        /* get a curl handle */
+        curl = curl_easy_init();
+        if(curl) {
+            /* First set the URL that is about to receive our POST. This URL can
+             just as well be a https:// URL if that is what should receive the
+             data. */
+            //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+            curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
+            //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+            
+            /* Now specify the callback to read the response into string */
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+            
+            /* Perform the request, res will get the return code */
+            res = curl_easy_perform(curl);
+            /* Check for errors */
+            if(res != CURLE_OK)
+                throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to count objects failed with " + std::string(curl_easy_strerror(res)));
+            
+            /* always cleanup */
+            curl_easy_cleanup(curl);
+        }
+        curl_slist_free_all(headers);
+        curl_global_cleanup();
+        
+        return stoi(response);
+    };
 
 }
 
