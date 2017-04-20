@@ -58,11 +58,30 @@ namespace sbol
 
 //        SequenceAnnotation(std::string uri_prefix, std::string display_id, std::string version) : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri_prefix, display_id, version) {};
 
+        /// Tests if the comparand SequenceAnnotation precedes this one according to base coordinates
+        /// @comparand Another SequenceAnnotation
         bool precedes(SequenceAnnotation& comparand);
-        bool follows(SequenceAnnotation& comparand);
-        bool contains(SequenceAnnotation& comparand);
-        bool overlaps(SequenceAnnotation& comparand);
 
+        /// Tests if the comparand SequenceAnnotation follows this one according to base coordinates
+        /// @comparand Another SequenceAnnotation
+        bool follows(SequenceAnnotation& comparand);
+
+        /// Tests if the comparand SequenceAnnotation is contained within the same start and end base coordinates as this one. This is mutually exclusive with overlaps.
+        /// @comparand Another SequenceAnnotation
+        bool contains(SequenceAnnotation& comparand);
+
+        /// Tests if the comparand SequenceAnnotation overlaps with this one in the primary sequence
+        /// @comparand Another SequenceAnnotation
+        bool overlaps(SequenceAnnotation& comparand);
+        
+        std::vector<SequenceAnnotation*> precedes(std::vector<SequenceAnnotation*> comparand_list);
+        std::vector<SequenceAnnotation*> follows(std::vector<SequenceAnnotation*> comparand_list);
+        std::vector<SequenceAnnotation*> contains(std::vector<SequenceAnnotation*> comparand_list);
+        std::vector<SequenceAnnotation*> overlaps(std::vector<SequenceAnnotation*> comparand_list);
+        
+        /// The length of a SequenceAnnotation in base coordinates.
+        int length();
+        
         virtual ~SequenceAnnotation() {};
 	
 	protected:

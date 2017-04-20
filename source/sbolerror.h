@@ -65,6 +65,10 @@ namespace sbol
         virtual const char* what() const throw() {
             return message_.c_str();
         }
+        SBOLErrorCode error_code() const
+        {
+            return err_;
+        }
     };
     
 };

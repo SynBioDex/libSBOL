@@ -221,8 +221,22 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
         vector<Component*> list_of_instances = {};
         for (auto i_com = 0; i_com != list_of_components.size(); i_com++)
         {
+            // Instantiate the Component defined by the ComponentDefinition
             ComponentDefinition& cdef = *list_of_components[i_com];
-            Component& c = parent_component.components.create(cdef.displayId.get());
+            int instance_count = 0;
+            
+            // Generate URI of new Component.  Check if an object with that URI is already instantiated.
+            string component_id;
+            component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "/" + to_string(instance_count) + "/" + parent_component.version.get();
+
+            while (parent_component.find(component_id) != NULL)
+            {
+                // Find the last instance assigned
+                ++instance_count;
+                component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "/" + to_string(instance_count) + "/" + parent_component.version.get();
+            }
+
+            Component& c = parent_component.components.create(cdef.displayId.get() + "/" + to_string(instance_count));
             c.definition.set(cdef.identity.get());
             list_of_instances.push_back(&c);
         }
@@ -233,7 +247,7 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
             
             Component& constraint_subject = *list_of_instances[i_com - 1];
             Component& constraint_object = *list_of_instances[i_com];
-        
+            
             SequenceConstraint& sc = parent_component.sequenceConstraints.create("constraint" + to_string(i_com));
             sc.subject.set(constraint_subject.identity.get());
             sc.object.set(constraint_object.identity.get());
@@ -791,7 +805,7 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
     vector<ComponentDefinition*> component_nodes;
     if (components.size() == 0)
     {
-        cout << "Adding subcomponent : " << identity.get() << endl;
+//        cout << "Adding subcomponent : " << identity.get() << endl;
         component_nodes.push_back(this);  // Add leaf components
         if (callback_fn)
             callback_fn(this, user_data);
@@ -800,7 +814,7 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
     {
         if (GET_ALL)
         {
-            cout << "Adding subcomponent : " << identity.get() << endl;
+//            cout << "Adding subcomponent : " << identity.get() << endl;
             component_nodes.push_back(this);  // Add components with children
             if (callback_fn)
                 callback_fn(this, user_data);
@@ -809,14 +823,14 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
         {
             if (!doc->find(subc.definition.get()))
             {
-                std::cout << "Not found" << std::endl;
+//                std::cout << "Not found" << std::endl;
                 throw SBOLError(SBOL_ERROR_NOT_FOUND, subc.definition.get() + "not found");
             }
             ComponentDefinition& subcdef = doc->get<ComponentDefinition>(subc.definition.get());
-            std::cout << subcdef.identity.get() << std::endl;
-            cout << "Descending one level : " << subcdef.identity.get() << endl;
+//            std::cout << subcdef.identity.get() << std::endl;
+//            cout << "Descending one level : " << subcdef.identity.get() << endl;
             vector < sbol::ComponentDefinition* > subcomponents = subcdef.applyToComponentHierarchy(callback_fn, user_data);
-            cout << "Found " << subcomponents.size() << " components" << std::endl;
+//            cout << "Found " << subcomponents.size() << " components" << std::endl;
             component_nodes.reserve(component_nodes.size() + distance(subcomponents.begin(), subcomponents.end()));
             component_nodes.insert(component_nodes.end(), subcomponents.begin(),subcomponents.end());
         }
@@ -830,10 +844,7 @@ bool SequenceAnnotation::precedes(SequenceAnnotation& comparand)
     {
         Range& this_range = (Range&)locations[0];
         Range& that_range = (Range&)comparand.locations[0];
-        if (this_range.start.get() < that_range.start.get())
-            return true;
-        else
-            return false;
+        return this_range.precedes(that_range);
     }
     else
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
@@ -845,10 +856,7 @@ bool SequenceAnnotation::follows(SequenceAnnotation& comparand)
     {
         Range& this_range = (Range&)locations[0];
         Range& that_range = (Range&)comparand.locations[0];
-        if (this_range.end.get() < that_range.end.get())
-            return true;
-        else
-            return false;
+        return this_range.follows(that_range);
     }
     else
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
@@ -860,10 +868,7 @@ bool SequenceAnnotation::contains(SequenceAnnotation& comparand)
     {
         Range& this_range = (Range&)locations[0];
         Range& that_range = (Range&)comparand.locations[0];
-        if (this_range.start.get() <= that_range.start.get() && this_range.end.get() >= that_range.end.get())
-            return true;
-        else
-            return false;
+        return this_range.contains(that_range);
     }
     else
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
@@ -875,14 +880,373 @@ bool SequenceAnnotation::overlaps(SequenceAnnotation& comparand)
     {
         Range& this_range = (Range&)locations[0];
         Range& that_range = (Range&)comparand.locations[0];
-        if (this_range.start.get() <= that_range.start.get() && this_range.end.get() <= that_range.end.get())
-            return true;
-        else if (this_range.start.get() >= that_range.start.get() && this_range.end.get() >= that_range.end.get())
-            return true;
-        else
-            return false;
+        return this_range.overlaps(that_range);
     }
     else
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceAnnotation has no Range specified");
 }
 
+
+int Range::precedes(Range& comparand)
+{
+    if (end.get() < comparand.start.get())
+        return comparand.start.get() + 1 - end.get();
+    else
+        return 0;
+}
+
+int Range::follows(Range& comparand)
+{
+    if (start.get() > comparand.end.get())
+        return comparand.end.get() + 1 - start.get();
+    else
+        return 0;
+}
+
+int Range::contains(Range& comparand)
+{
+    if (start.get() <= comparand.start.get() && end.get() >= comparand.end.get())
+        return comparand.length();
+    else
+        return 0;
+}
+
+int Range::overlaps(Range& comparand)
+{
+    if (start.get() == comparand.start.get() && end.get() == comparand.end.get())
+        return 0;
+    else if (start.get() <= comparand.start.get() && end.get() <= comparand.end.get() && end.get() > comparand.start.get() )
+        return comparand.start.get() + 1 - end.get();
+    else if (start.get() >= comparand.start.get() && end.get() >= comparand.end.get() && start.get() < comparand.end.get())
+        return comparand.end.get() + 1 - start.get();
+    else
+        return 0;
+}
+
+int Range::length()
+{
+    return end.get() + 1 - start.get();
+}
+
+
+
+vector<SequenceAnnotation*> SequenceAnnotation::precedes(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> filtered_list = {};
+    return filtered_list;
+};
+
+std::vector<SequenceAnnotation*> SequenceAnnotation::follows(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> filtered_list = {};
+    return filtered_list;
+};
+
+std::vector<SequenceAnnotation*> SequenceAnnotation::contains(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> list_of_contained_annotations;
+    
+    sbol::Range& r_this = (sbol::Range&)locations[0];
+    cout << r_this.start.get() << "\t" << r_this.end.get() << "\t";
+    for (auto &ann_comparand : comparand_list)
+    {
+        if (this->contains(*ann_comparand))
+        {
+            list_of_contained_annotations.push_back(ann_comparand);
+            sbol::Range& r_comparand = (sbol::Range&)ann_comparand->locations[0];
+            cout << r_comparand.start.get() << "\t" << r_comparand.end.get() << "\n\t\t";
+        }
+    }
+    cout << endl;
+    return list_of_contained_annotations;
+};
+
+std::vector<SequenceAnnotation*> SequenceAnnotation::overlaps(std::vector<SequenceAnnotation*> comparand_list)
+{
+    vector<SequenceAnnotation*> list_of_overlapping_annotations;
+    
+    sbol::Range& r_this = (sbol::Range&)locations[0];
+    cout << r_this.start.get() << "\t" << r_this.end.get() << "\t";
+    for (auto &ann_comparand : comparand_list)
+    {
+        if (this->overlaps(*ann_comparand))
+        {
+            list_of_overlapping_annotations.push_back(ann_comparand);
+            sbol::Range& r_comparand = (sbol::Range&)ann_comparand->locations[0];
+            cout << r_comparand.start.get() << "\t" << r_comparand.end.get() << "\n\t\t";
+        }
+    }
+    cout << endl;
+    return list_of_overlapping_annotations;
+};
+
+int SequenceAnnotation::length()
+{
+    if (locations.size() == 0)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. SequenceAnnotation " + identity.get() + " is invalid for this operation because it has no Range specified");
+    if (locations.size() > 1)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. SequenceAnnotation " + identity.get() + " is invalid for this operation because it has more than one Range specified");
+    Range& r_target = (Range&)locations[0];
+    return r_target.length();
+};
+
+void ComponentDefinition::insertDownstream(Component& upstream, ComponentDefinition& insert)
+{
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+    if (doc == NULL)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before calling insertDownstream");
+    if (doc != insert.doc)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Invalid Document for ComponentDefinition " + insert.identity.get() + " Add the insert to the same Document as the calling object.");
+    // If the user makes a mistake and tries to insert a ComponentDefinition that doesn't already belong to this Document
+    if (insert.doc == NULL)
+        insert.doc = doc;
+    
+    // Two cases. In first case, insert a Component that already has a downstream Component specified by a SequenceConstraint. Otherwise, append this Component to the end os sequential constraints.
+    // Search for an existing SequenceConstraint between upstream and downstream Component
+    SequenceConstraint* target_constraint = NULL;
+    
+    // Search for target_constraint
+    for (int i_sc = 0; i_sc < sequenceConstraints.size(); ++i_sc)
+    {
+        SequenceConstraint& sc = sequenceConstraints[i_sc];
+        if (sc.subject.get().compare(upstream.identity.get()) == 0 && sc.restriction.get().compare(SBOL_RESTRICTION_PRECEDES) == 0)
+        {
+            // If more than one downstream component has been specified, then it is ambiguous where the insert should be placed, so throw an error
+            if (target_constraint != NULL)
+            {
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceConstraints are ambiguous. The target component may have more than one downstream component specified");
+            }
+            target_constraint = &sc;
+        }
+    }
+
+    // Generate URI of a Component to be created.  Check if an object with that URI is already instantiated.
+    int instance_count = 0;
+    string component_id;
+    component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+    while (find(component_id) != NULL)
+    {
+        // Find the last instance assigned
+        ++instance_count;
+        component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+    }
+    // Autoconstruct the new Component
+    Component& c_insert = components.create(insert.displayId.get() + "/" + to_string(instance_count));
+    c_insert.definition.set(insert.identity.get());
+    
+    // Generate URI of new SequenceConstraint.  Check if an object with that URI is already instantiated.
+    instance_count = 0;
+    string sc_id;
+    sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+    while (find(sc_id) != NULL)
+    {
+        // Find the last instance assigned
+        ++instance_count;
+        sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+
+    }
+
+    // Autoconstruct the new SequenceConstraint
+    SequenceConstraint& sc_new = sequenceConstraints.create("constraint" + to_string(instance_count));
+    sc_new.subject.set(upstream.identity.get());
+    sc_new.object.set(component_id);
+    sc_new.restriction.set(SBOL_RESTRICTION_PRECEDES);
+    
+    // In case a downstream component was found...
+    if (target_constraint)
+    {
+        target_constraint->subject.set(c_insert.identity.get());
+    }
+
+};
+
+void ComponentDefinition::insertUpstream(Component& downstream, ComponentDefinition& insert)
+{
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+    if (doc == NULL)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before calling insertUpstream");
+    if (doc != insert.doc)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Invalid Document for ComponentDefinition " + insert.identity.get() + " Add the insert to the same Document as the calling object.");
+    // If the user makes a mistake and tries to insert a ComponentDefinition that doesn't already belong to this Document
+    if (insert.doc == NULL)
+        insert.doc = doc;
+    // Two cases. In first case, insert a Component that already has a downstream Component specified by a SequenceConstraint. Otherwise, append this Component to the end os sequential constraints.
+    // Search for an existing SequenceConstraint between upstream and downstream Component
+    SequenceConstraint* target_constraint = NULL;
+    
+    // Search for target_constraint
+    for (int i_sc = 0; i_sc < sequenceConstraints.size(); ++i_sc)
+    {
+        SequenceConstraint& sc = sequenceConstraints[i_sc];
+        if (sc.object.get().compare(downstream.identity.get()) == 0 && sc.restriction.get().compare(SBOL_RESTRICTION_PRECEDES) == 0)
+        {
+            // If more than one downstream component has been specified, then it is ambiguous where the insert should be placed, so throw an error
+            if (target_constraint != NULL)
+            {
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SequenceConstraints are ambiguous. The target component may have more than one downstream component specified");
+            }
+            target_constraint = &sc;
+        }
+    }
+    
+    // Generate URI of a Component to be created.  Check if an object with that URI is already instantiated.
+    int instance_count = 0;
+    string component_id;
+    component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+    while (find(component_id) != NULL)
+    {
+        // Find the last instance assigned
+        ++instance_count;
+        component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+    }
+    // Autoconstruct the new Component
+    Component& c_insert = components.create(insert.displayId.get() + "/" + to_string(instance_count));
+    c_insert.definition.set(insert.identity.get());
+    
+    // Generate URI of new SequenceConstraint.  Check if an object with that URI is already instantiated.
+    instance_count = 0;
+    string sc_id;
+    sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+    while (find(sc_id) != NULL)
+    {
+        // Find the last instance assigned
+        ++instance_count;
+        sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+    }
+    
+    // Autoconstruct the new SequenceConstraint
+    SequenceConstraint& sc_new = sequenceConstraints.create("constraint" + to_string(instance_count));
+    sc_new.subject.set(component_id);
+    sc_new.object.set(downstream.identity.get());
+    sc_new.restriction.set(SBOL_RESTRICTION_PRECEDES);
+    
+    // In case an upstream component was found...
+    if (target_constraint)
+    {
+        target_constraint->object.set(c_insert.identity.get());
+    }
+
+};
+
+void ComponentDefinition::addUpstreamFlank(Component& downstream, std::string elements)
+{
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+    if (doc == NULL)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before attempting to insert a flanking Component");
+
+    // Generate URI of flanking ComponentDefinition.  Check if an object with that URI is already instantiated.
+    ComponentDefinition* flank = NULL;
+    int instance_count = 0;
+    string flank_display_id = "flank" + to_string(instance_count);
+    while (flank == NULL)
+    {
+        try
+        {
+            flank = &doc->componentDefinitions.create(flank_display_id);
+        }
+        catch(SBOLError &e)
+        {
+            instance_count++;
+            flank_display_id = "flank" + to_string(instance_count);
+        }
+    }
+    
+    // Set to Sequence Ontology "flanking_sequence"
+    flank->roles.set(SO "0000239");
+
+    // Generate URI of flanking Sequence.  Check if an object with that URI is already instantiated.
+    Sequence* flank_seq = NULL;
+    instance_count = 0;
+    flank_display_id = "flank_seq" + to_string(instance_count);
+    while (flank_seq == NULL)
+    {
+        try
+        {
+            flank_seq = &doc->sequences.create(flank_display_id);
+        }
+        catch(sbol::SBOLError &e)
+        {
+            instance_count++;
+            flank_display_id = "flank_seq" + to_string(instance_count);
+        }
+    }
+    
+    // Assign primary sequence elements
+    flank_seq->elements.set(elements);
+    
+    // Now add the Sequence to the ComponentDefinition
+    flank->sequences.set(flank_seq->identity.get());
+
+    // Insert the new flank upstream
+    insertUpstream(downstream, *flank);
+};
+
+void ComponentDefinition::addDownstreamFlank(Component& upstream, std::string elements)
+{
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+    if (doc == NULL)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before attempting to insert a flanking Component");
+    
+    // Generate URI of flanking ComponentDefinition.  Check if an object with that URI is already instantiated.
+    ComponentDefinition* flank = NULL;
+    int instance_count = 0;
+    string flank_display_id = "flank" + to_string(instance_count);
+    while (flank == NULL)
+    {
+        try
+        {
+            flank = &doc->componentDefinitions.create(flank_display_id);
+        }
+        catch(SBOLError &e)
+        {
+            instance_count++;
+            flank_display_id = "flank" + to_string(instance_count);
+        }
+    }
+    
+    // Set to Sequence Ontology "flanking_sequence"
+    flank->roles.set(SO "0000239");
+    
+    // Generate URI of flanking Sequence.  Check if an object with that URI is already instantiated.
+    Sequence* flank_seq = NULL;
+    instance_count = 0;
+    flank_display_id = "flank_seq" + to_string(instance_count);
+    while (flank_seq == NULL)
+    {
+        try
+        {
+            flank_seq = &doc->sequences.create(flank_display_id);
+        }
+        catch(sbol::SBOLError &e)
+        {
+            instance_count++;
+            flank_display_id = "flank_seq" + to_string(instance_count);
+        }
+    }
+    
+    // Assign primary sequence elements
+    flank_seq->elements.set(elements);
+    
+    // Now add the Sequence to the ComponentDefinition
+    flank->sequences.set(flank_seq->identity.get());
+    
+    // Insert the new flank upstream
+    insertDownstream(upstream, *flank);
+};
+
+std::vector<Component*> ComponentDefinition::getPrimaryStructure()
+{
+    std::vector<Component*> primary_structure;
+    Component* c = &getFirstComponent();
+    primary_structure.push_back(c);
+    while (hasDownstreamComponent(*c))
+    {
+        c = &getDownstreamComponent(*c);
+        primary_structure.push_back(c);
+    }
+    return primary_structure;
+};

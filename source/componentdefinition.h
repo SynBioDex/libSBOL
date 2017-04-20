@@ -131,10 +131,35 @@ namespace sbol
         /// @return The last component in sequential order
         Component& getLastComponent();
         
-        /// Apply a callback to every ComponentDefinition in a structural hierarchy defined by ComponentDefinition->Component relationships
-        /// @param callback_fn A pointer to the callback function.  The callback function accepts two parameters, a recursive index to the current ComponentDefintion in the structure, and user data which can be passed in and out of the callback as an argument or return value.
+        /// Perform an operation on every Component in a structurally-linked hierarchy of Components by applying a callback function. If no callback is specified, the default behavior is to return a pointer list of each Component in the hierarchy.
+        /// @param callback_fun A pointer to a callback function with signature void callback_fn(ComponentDefinition *, void *).
         /// @param user_data Arbitrary user data which can be passed in and out of the callback as an argument or return value.
+        /// @return Returns a flat list of pointers to all Components in the hierarchy.
         std::vector<ComponentDefinition*> applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *) = NULL, void * user_data = NULL);
+
+        /// Get the primary sequence of a design in terms of its sequentially ordered Components
+        std::vector<Component*> getPrimaryStructure();
+
+        /// Insert a Component downstream of another in a primary sequence, shifting any adjacent Components dowstream as well
+        /// @param target The target Component will be upstream of the insert Component after this operation.
+        /// @param insert The insert Component is inserted downstream of the target Component.
+        void insertDownstream(Component& target, ComponentDefinition& insert);
+        
+        /// Insert a Component upstream of another in a primary sequence, shifting any adjacent Components upstream as well
+        /// @param target The target Component will be downstream of the insert Component after this operation.
+        /// @param insert The insert Component is inserted upstream of the target Component.
+        void insertUpstream(Component& target, ComponentDefinition& insert);
+
+        /// This may be a useful method when building up SBOL representations of natural DNA sequences. For example it is often necessary to specify components that are assumed to have no meaningful role in the design, but are nevertheless important to fill in regions of sequence. This method autoconstructs a ComponentDefinition and Sequence object to create an arbitrary flanking sequence around design Components. The new ComponentDefinition will have Sequence Ontology type of flanking_region or SO:0000239
+        /// @param target The new flanking sequence will be placed upstream of the target
+        /// @param elements The primary sequence elements will be assigned to the autoconstructed Sequence object. The encoding is inferred
+        void addUpstreamFlank(Component& target, std::string elements);
+        
+        /// This may be a useful method when building up SBOL representations of natural DNA sequences. For example it is often necessary to specify components that are assumed to have no meaningful role in the design, but are nevertheless important to fill in regions of sequence. This method autoconstructs a ComponentDefinition and Sequence object to create an arbitrary flanking sequence around design Components. The new ComponentDefinition will have Sequence Ontology type of flanking_sequence.
+        /// @param target The new flanking sequence will be placed downstream of the target
+        /// @param elements The primary sequence elements will be assigned to the autoconstructed Sequence object. The encoding is inferred
+        void addDownstreamFlank(Component& target, std::string elements);
+
         
         ComponentDefinition& build();
         
