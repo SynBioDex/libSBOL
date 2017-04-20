@@ -31,21 +31,22 @@ FILE(GLOB SBOL_HEADER_FILES
 	module.h
 	mapsto.h
 	model.h
-    collection.h
-    assembly.h
-    partshop.h
+  collection.h
+  assembly.h
+  provo.h
+  partshop.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
 	sbolerror.cpp
-    config.cpp
-    validation.cpp
-    properties.cpp
+  config.cpp
+  validation.cpp
+  properties.cpp
 	object.cpp
-    identified.cpp
+  identified.cpp
 	toplevel.cpp
 	document.cpp
-    assembly.cpp
-    partshop.cpp)
+  assembly.cpp
+  partshop.cpp)
 
     
 FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )

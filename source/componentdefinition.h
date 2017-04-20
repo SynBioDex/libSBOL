@@ -133,6 +133,7 @@ namespace sbol
         
         /// Perform an operation on every Component in a structurally-linked hierarchy of Components by applying a callback function. If no callback is specified, the default behavior is to return a pointer list of each Component in the hierarchy.
         /// @param callback_fun A pointer to a callback function with signature void callback_fn(ComponentDefinition *, void *).
+        /// @param user_data Arbitrary user data which can be passed in and out of the callback as an argument or return value.
         /// @return Returns a flat list of pointers to all Components in the hierarchy.
         std::vector<ComponentDefinition*> applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *) = NULL, void * user_data = NULL);
 
@@ -159,6 +160,8 @@ namespace sbol
         /// @param elements The primary sequence elements will be assigned to the autoconstructed Sequence object. The encoding is inferred
         void addDownstreamFlank(Component& target, std::string elements);
 
+        
+        ComponentDefinition& build();
         
         /// A convenience method that assigns a component to participate in a biochemical reaction.  Behind the scenes, it auto-constructs a FunctionalComponent for this ComponentDefinition and assigns it to a Participation
         /// @param species A Participation object (ie, participant species in a biochemical Interaction).

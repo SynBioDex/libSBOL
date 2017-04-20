@@ -639,6 +639,11 @@ void Participation::define(ComponentDefinition& species, string role)
         roles.add(role);
 };
 
+ComponentDefinition& ComponentDefinition::build()
+{
+    
+};
+
 void ComponentDefinition::participate(Participation& species)
 {
     species.define(*this);

@@ -136,6 +136,8 @@ namespace sbol
     template <class LiteralType>
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
 	{
+        std::string trim_value = initial_value.substr(1, initial_value.length() - 2);
+        validate(&trim_value);
 		// Register Property in owner Object
 		if (this->sbol_owner != NULL)
 		{
@@ -342,10 +344,16 @@ namespace sbol
     template <class LiteralType>
     void Property<LiteralType>::validate(void * arg)
     {
-        for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
+        // If no argument is specified, validate the property values already in the store.  The constructor does this, for example, to validate the initial value.
+//  This doesn't work because of access into incomplete type!!!
+        if (arg)
         {
-            ValidationRule& validate_fx = *i_rule;
-            validate_fx(sbol_owner, arg);
+            // Validate the argument, if one is specified. The setters do this
+            for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
+            {
+                ValidationRule& validate_fx = *i_rule;
+                validate_fx(sbol_owner, arg);
+            }
         }
     };
     

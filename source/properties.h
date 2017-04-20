@@ -61,8 +61,8 @@ namespace sbol
 	public:
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
 
-		TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
-			Property(type_uri, property_owner, "\"" + initial_value + "\"")
+        TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = {}) :
+			Property(type_uri, property_owner, "\"" + initial_value + "\"", validation_rules)
 		{
 		}
 	};
@@ -120,6 +120,24 @@ namespace sbol
                 
             }
     };
+    
+    
+    /// @brief Contains a DateTime string following XML Schema
+    class SBOL_DECLSPEC DateTimeProperty : public TextProperty
+    {        
+    public:
+
+        /// Set this property with the current time
+        std::string stampTime();
+
+        DateTimeProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = { libsbol_rule_2 }) :
+            TextProperty(type_uri, property_owner, initial_value, validation_rules)
+        {
+        }
+    };
+
+    
+    
     
     /// A container property that contains child objects. Creates a composition out of two or more classes.  In the SBOL specification, compositional relationships are indicated in class diagrams by arrows with black diamonds. A compositional relationship means that deleting the parent object will delete the child objects, and adding the parent object to a Document will also add the child object.  Owned objects are stored in arbitrary order.
     /// @ingroup extension_layer

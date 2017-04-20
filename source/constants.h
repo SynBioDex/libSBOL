@@ -34,6 +34,8 @@
 #define RDF_URI "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 #define PURL_URI "http://purl.org/dc/terms/"
 #define PROV_URI "http://www.w3.org/ns/prov"
+#define PROVO "http://www.w3.org/ns/prov"
+//#define PROVO "https://www.w3.org/TR/prov-o/"
 
 // rdf nodes used in SBOL
 #define NODENAME_ABOUT    "rdf:about"
@@ -132,6 +134,23 @@
 #define SBOL_REFINEMENT_MERGE SBOL_URI "#merge"                      ///< Option for MapsTo::refinement property
 #define SBOL_ROLE_INTEGRATION_MERGE SBOL_URI "#mergeRoles"           ///< Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property
 #define SBOL_ROLE_INTEGRATION_OVERRIDE SBOL_URI "#overrideRoles"     ///< Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property
+
+/* PROVO ontology */
+#define PROVO_ACTIVITY PROVO "#Activity"
+#define PROVO_USAGE PROVO "#Usage"
+#define PROVO_ASSOCIATION PROVO "#Association"
+#define PROVO_AGENT "#Agent"
+#define PROVO_PLAN PROVO "#Plan"
+#define PROVO_WAS_GENERATED_BY PROVO "#wasGeneratedBy"
+#define PROVO_STARTED_AT_TIME PROVO "#startedAtTime"
+#define PROVO_ENDED_AT_TIME PROVO "#endedAtTime"
+#define PROVO_QUALIFIED_ASSOCIATION PROVO "#qualifiedAssociation"
+#define PROVO_QUALIFIED_USAGE PROVO "#qualifedUsage"
+#define PROVO_WAS_INFORMED_BY PROVO "#wasInformedBy"
+#define PROVO_HAD_PLAN PROVO "#hadPlan"
+#define PROVO_HAD_ROLE PROVO "#hadRole"
+#define PROVO_AGENT_PROPERTY PROVO "#agent"
+#define PROVO_ENTITY "#entity"
 
 /* Systems Biology Ontology */
 /* Interaction.types */
