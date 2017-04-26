@@ -52,6 +52,10 @@ namespace sbol
         /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
         /// @return The object identified by the specified uri
         template < class SBOLClass > SBOLClass& pull(std::string uri);
+
+        /// Returns all Collections that are not members of any other Collections
+        /// @return A Document containing all the root Collections
+        Document& pullRootCollections();
         
         /// Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @file constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. These constants follow a fairly systematic and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text This may be a literal text value or it may be a URI. See @file constants.h for useful ontology terms

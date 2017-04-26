@@ -443,6 +443,7 @@
 
 typedef std::string sbol::sbol_type;
 
+/* This macro is used to instantiate container properties (OwnedObjects) that can contain more than one type of object, eg, Range */
 %define TEMPLATE_MACRO_0(SBOLClass)
     %template(add ## SBOLClass) sbol::OwnedObject::add<SBOLClass>;
     %template(create ## SBOLClass) sbol::OwnedObject::create<SBOLClass>;
@@ -487,11 +488,15 @@ typedef std::string sbol::sbol_type;
     %pythonappend sbol::List<sbol::OwnedObject<sbol::SBOLClass >>::add(SBOLClass& sbol_obj)
     %{
         args[0].thisown = False
+        print "Transferring ownership to libSBOL"
+
     %}
     
     %pythonappend sbol::List<sbol::OwnedObject<sbol::SBOLClass >>::create(std::string uri)
     %{
         args[0].thisown = False
+        print "Transferring ownership to libSBOL"
+
     %}
         
 %enddef
@@ -503,6 +508,7 @@ typedef std::string sbol::sbol_type;
     %pythonappend add ## SBOLClass
     %{
         args[0].thisown = False
+        print "Transferring ownership to libSBOL"
     %}
         
 %enddef

@@ -1,6 +1,7 @@
 #include "partshop.h"
 
 using namespace std;
+using namespace sbol;
 
 // A utility function to replace a substring with a new substring
 void replace(string& text, string target, string replacement)
@@ -121,6 +122,7 @@ string sbol::PartShop::search(std::string search_text, sbol_type object_type, st
     //            response += " " + itr.asString();
     //        }
     //    }
+    
     return response;
 };
 
@@ -396,6 +398,53 @@ template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri
         /* always cleanup */
             curl_easy_cleanup(curl);
             }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    Document& doc = *new Document();
+    doc.readString(response);
+    return doc;
+};
+
+Document& sbol::PartShop::pullRootCollections()
+{
+    // Form get request
+    std::string get_request;
+    get_request = resource + "/rootCollections";
+    
+    /* Perform HTTP request */
+    std::string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
+        //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to count objects failed with " + std::string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
