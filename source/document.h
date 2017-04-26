@@ -392,17 +392,22 @@ namespace sbol {
 
         if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
+            SBOLClass* child_obj = new SBOLClass();
+
             // Form compliant URI for child object
             std::string persistent_id;
             std::string version;
-            if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+            if (!CHECK_TOP_LEVEL && parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
             {
                 persistent_id = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
                 persistent_id = persistent_id.substr(1, persistent_id.length() - 2);  // Removes flanking < and > from the uri
             }
             else
             {
+                // If object is TopLevel, intialize the URI
                 persistent_id = getHomespace();
+                if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+                    persistent_id += "/" + parseClassName(child_obj->getTypeURI());
             }
             if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
             {
@@ -421,8 +426,9 @@ namespace sbol {
                 throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
             
             // Construct a new child object
-            SBOLClass* child_obj = new SBOLClass(uri);
-
+//            SBOLClass* child_obj = new SBOLClass(uri);
+            
+                                                      
             // Initialize SBOLCompliant properties
             child_obj->identity.set(child_id);
             child_obj->persistentIdentity.set(child_persistent_id);
