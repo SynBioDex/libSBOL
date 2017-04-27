@@ -52,7 +52,7 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
 
     find_path(RAPTOR_INCLUDE_DIR raptor2.h)
 
-    unset(RAPTOR_LIBRARY CACHE)
+    #unset(RAPTOR_LIBRARY CACHE)
 
     find_library(RAPTOR_LIBRARY 
         NAMES raptor2 libraptor2
