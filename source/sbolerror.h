@@ -1,5 +1,5 @@
 /**
- * @file    properties.cpp
+ * @file    sbolerror.h
  * @brief   SBOLError class and error codes
  * @author  Bryan Bartley
  * @email   bartleyba@sbolstandard.org

@@ -32,9 +32,109 @@
 #include <vector>
 #include <curl/curl.h>
 #include <iostream>
+#include <algorithm>
+#include <json/json.h>
 
 namespace sbol
 {
+    class SBOL_DECLSPEC SearchQuery : public TopLevel
+    {
+    public:
+        URIProperty objectType;
+        IntProperty offset;
+        IntProperty limit;
+        
+        List<TextProperty> operator[] (std::string uri)
+        {
+            // If the URI has a namespace, treat the function argument as a full URI
+            if (parseNamespace(uri).compare("") == 0)
+                return List<TextProperty>(SBOL_URI "#" + uri, this);
+            else
+                return List<TextProperty>(uri, this);
+        };  ///< Retrieve a child object by URI
+
+        SearchQuery(sbol_type type = SBOL_COMPONENT_DEFINITION) :
+            TopLevel(SBOL_URI "#SearchQuery", "example"),
+            objectType(SBOL_URI "#objectType", this, type),
+            offset(SBOL_URI "#offset", this, 0),
+            limit(SBOL_URI "#limit", this, 25)
+        {
+            // The following properties are set to empty string because they are treated like search criteria
+            displayId.set("");
+            persistentIdentity.set("");
+            version.set("");
+        };
+    };
+
+    class SBOL_DECLSPEC SearchResponse_ : public TopLevel
+    {
+        List<OwnedObject<Identified>> metadata;
+        
+        SearchResponse_() :
+            metadata(SBOL_URI "#SearchResponse", this )
+        {
+        };
+    };
+    
+//    class SBOL_DECLSPEC SearchQuery : public Json::Value
+//    {
+//    private:
+//        std::string resource;
+//        std::string key;
+//        
+//    public:
+//        
+//        /// Construct an interface to an instance of SynBioHub or other parts repository
+//        /// @param The URL of the online repository
+//        SearchQuery(std::map<std::string, std::string> criteria ) :
+//        Json::Value()
+//        {
+//            //        std::vector<std::string> keys;
+//            //        for(auto const& key_value_pair: criteria)
+//            //            keys.push_back(key_value_pair.first);
+//            //        // Check that Json request contains the expected key-value pairs
+//            //        std::vector<std::string> valid_parameters = {"objectType", "sbolTag", "collection", "dcterms", "namespace/tag"};
+//            //        for (auto const& p : valid_parameters)
+//            //        {
+//            //            if ( std::find(valid_parameters.begin(), valid_parameters.end(), p) == valid_parameters.end() )
+//            //            {
+//            //                throw sbol::SBOLError(sbol::SBOL_ERROR_INVALID_ARGUMENT, "Invalid search parameter " + p + ". Search parameters must be one or more of objectType, sbolTag, collection, dcterms, or namespace/tag");
+//            //                (*this)[p] = criteria[p];
+//            //            }
+//            //        }
+//        }
+//    };
+    
+    class SBOL_DECLSPEC SearchResponse : public Json::Value
+    {
+    private:
+        std::string resource;
+        std::string key;
+        
+    public:
+        
+        /// Construct an interface to an instance of SynBioHub or other parts repository
+        /// @param The URL of the online repository
+        SearchResponse() :
+        Json::Value()
+        {
+            //
+            //        std::vector<std::string> keys;
+            //        for(auto const& key_value_pair: criteria)
+            //            keys.push_back(key_value_pair.first);
+            //        // Check that Json request contains the expected key-value pairs
+            //        std::vector<std::string> valid_parameters = {"objectType", "sbolTag", "collection", "dcterms", "namespace/tag"};
+            //        for (auto const& p : valid_parameters)
+            //        {
+            //            if ( std::find(valid_parameters.begin(), valid_parameters.end(), p) == valid_parameters.end() )
+            //            {
+            //                throw sbol::SBOLError(sbol::SBOL_ERROR_INVALID_ARGUMENT, "Invalid search parameter " + p + ". Search parameters must be one or more of objectType, sbolTag, collection, dcterms, or namespace/tag");
+            //                (*this)[p] = criteria[p];
+            //            }
+            //        }
+        }
+    };  // SearchResponse
+    
     /// A class which provides an API front-end for online bioparts repositories
     class SBOL_DECLSPEC PartShop
     {
@@ -73,6 +173,11 @@ namespace sbol
         /// @param limit The total count number of records to return
         /// @return Metadata formatted as a string encoding JSON.
         std::string search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
+        
+        /// Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @file constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
+        /// @param search_query A map of string key-value pairs. Keys are objectType, sbolTag, collection, dcterms:tag, namespace/tag, offset, limit.
+        /// @return Search metadata A vector of maps with key-value pairs.
+        std::vector<std::map<std::string, std::string>> search(SearchQuery& q);
         
         /// Submit a Document to SynBioHub
         /// @param doc The Document to submit
@@ -197,7 +302,6 @@ namespace sbol
         
         return stoi(response);
     };
-
-}
-
+    
+}  // sbol namepsace
 #endif
