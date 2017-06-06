@@ -249,60 +249,7 @@ namespace sbol
             return (int)size;
         }
 
-		std::vector<SBOLObject*>::iterator python_iter;
-        
-//                SBOLClass& __getitem__(const int nIndex)
-//                {
-//                    return this->operator[](nIndex);
-//                }
-//        
-//                SBOLClass& __getitem__(const std::string uri)
-//                {
-//                    return this->operator[](uri);
-//                }
-//        
-//                OwnedObject<SBOLClass>* __iter__()
-//                {
-//                    this->python_iter = OwnedObject<SBOLClass>::iterator(this->begin());
-//                    return this;
-//                }
-//        
-//                SBOLClass* next()
-//                {
-//                    if (this->python_iter != this->end())
-//                    {
-//                        SBOLObject* obj = *this->python_iter;
-//                        this->python_iter++;
-//                        if (this->python_iter == this->end())
-//                        {
-//                            PyErr_SetNone(PyExc_StopIteration);
-//                        }
-//                        return (SBOLClass*)obj;
-//                    }
-//                    throw SBOLError(END_OF_LIST, "");
-//                    return NULL;
-//                }
-//        
-//                SBOLClass* __next__()
-//                {
-//                    if (this->python_iter != this->end())
-//                    {
-//        
-//                        SBOLObject* obj = *this->python_iter;
-//                        this->python_iter++;
-//                        
-//                        return (SBOLClass*)obj;
-//                    }
-//                    
-//                    throw SBOLError(END_OF_LIST, "");;
-//                    return NULL;
-//                }
-//                
-//                int __len__()
-//                {
-//                    return this->size();
-//                }
-        
+		std::vector<SBOLObject*>::iterator python_iter;        
 	};
 
 	template <class SBOLClass >

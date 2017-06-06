@@ -136,6 +136,19 @@
 %template(_StringProperty) sbol::Property<std::string>;  // These template instantiations are private, hence the underscore...
 %template(_IntProperty) sbol::Property<int>;
 
+    
+%pythonappend add
+%{
+    args[0].thisown = False
+%}
+    
+%pythonappend create
+%{
+    args[0].thisown = False
+%}
+
+/* @TODO remove methods should change thisown flag back to True */
+    
 %include "properties.h"
 %include "object.h"
 %include "identified.h"
@@ -186,74 +199,64 @@ typedef std::string sbol::sbol_type;
     %template(create ## SBOLClass) sbol::OwnedObject::create<SBOLClass>;
     %template(get ## SBOLClass) sbol::OwnedObject::get<SBOLClass>;
 
-    %pythonappend add ## SBOLClass
-    %{
-        args[0].thisown = False
-    %}
-    
-    %pythonappend create ## SBOLClass
-    %{
-        print "Transferring ownership to libSBOL"
-        args[0].thisown = False
-    %}
 %enddef
 
 /* This macro is used to instantiate container properties (OwnedObjects) that can contain a single type of object, eg, ComponentDefinition::sequenceAnnotations */
 %define TEMPLATE_MACRO_1(SBOLClass)
-//    %extend sbol::OwnedObject<sbol::SBOLClass >
-//    {
-//        SBOLClass& __getitem__(const int nIndex)
-//        {
-//            return $self->operator[](nIndex);
-//        }
-//        
-//        SBOLClass& __getitem__(const std::string uri)
-//        {
-//            return $self->operator[](uri);
-//        }
-//        
-//        OwnedObject<SBOLClass>* __iter__()
-//        {
-//            $self->python_iter = OwnedObject<SBOLClass>::iterator($self->begin());
-//            return $self;
-//        }
-//        
-//        SBOLClass* next()
-//        {
-//            if ($self->python_iter != $self->end())
-//            {
-//                SBOLObject* obj = *$self->python_iter;
-//                $self->python_iter++;
-//                if ($self->python_iter == $self->end())
-//                {
-//                    PyErr_SetNone(PyExc_StopIteration);
-//                }
-//                return (SBOLClass*)obj;
-//            }
-//            throw SBOLError(END_OF_LIST, "");
-//            return NULL;
-//        }
-//        
-//        SBOLClass* __next__()
-//        {
-//            if ($self->python_iter != $self->end())
-//            {
-//                
-//                SBOLObject* obj = *$self->python_iter;
-//                $self->python_iter++;
-//                
-//                return (SBOLClass*)obj;
-//            }
-//            
-//            throw SBOLError(END_OF_LIST, "");;
-//            return NULL;
-//        }
-//        
-//        int __len__()
-//        {
-//            return $self->size();
-//        }
-//    };
+    %extend sbol::OwnedObject<sbol::SBOLClass >
+    {
+        SBOLClass& __getitem__(const int nIndex)
+        {
+            return $self->operator[](nIndex);
+        }
+        
+        SBOLClass& __getitem__(const std::string uri)
+        {
+            return $self->operator[](uri);
+        }
+        
+        OwnedObject<SBOLClass>* __iter__()
+        {
+            $self->python_iter = OwnedObject<SBOLClass>::iterator($self->begin());
+            return $self;
+        }
+        
+        SBOLClass* next()
+        {
+            if ($self->python_iter != $self->end())
+            {
+                SBOLObject* obj = *$self->python_iter;
+                $self->python_iter++;
+                if ($self->python_iter == $self->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return (SBOLClass*)obj;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        SBOLClass* __next__()
+        {
+            if ($self->python_iter != $self->end())
+            {
+                
+                SBOLObject* obj = *$self->python_iter;
+                $self->python_iter++;
+                
+                return (SBOLClass*)obj;
+            }
+            
+            throw SBOLError(END_OF_LIST, "");;
+            return NULL;
+        }
+        
+        int __len__()
+        {
+            return $self->size();
+        }
+    };
     
     /* Convert C++ vector of pointers --> Python list */
     %typemap(out) std::vector<sbol::SBOLClass*> {
@@ -273,52 +276,17 @@ typedef std::string sbol::sbol_type;
     %template(Owned ## SBOLClass) sbol::OwnedObject<sbol::SBOLClass >;
     %template(ListOfOwned ## SBOLClass) sbol::List<sbol::OwnedObject<sbol::SBOLClass >>;
     
-    %pythonappend sbol::OwnedObject<sbol::SBOLClass >::add(SBOLClass& sbol_obj)
-    %{
-        args[0].thisown = False
-        print "Transferring ownership to libSBOL"
-    %}
-    
-    %pythonappend sbol::List<sbol::OwnedObject<sbol::SBOLClass >>::add(SBOLClass& sbol_obj)
-    %{
-        args[0].thisown = False
-        print "Transferring ownership to libSBOL"
-        %}
-    
-    %pythonappend sbol::List<sbol::OwnedObject<sbol::SBOLClass >>::create(std::string uri)
-    %{
-        args[0].thisown = False
-        print "Transferring ownership to libSBOL"
-    %}
-    
 %enddef
 
 /* This macro is used to instantiate special adders and getters for the Document class */
 %define TEMPLATE_MACRO_2(SBOLClass)
-
-
     
     %template(add ## SBOLClass) sbol::Document::add<SBOLClass>;
     %template(get ## SBOLClass) sbol::Document::get<SBOLClass>;
-
-    %pythonappend add ## SBOLClass
-    %{
-        args[0].thisown = False
-        print "Transferring ownership to libSBOL"
-    %}
-        
+    
 %enddef
         
 // Templates used by subclasses of Location: Range, Cut, and Generic Location
-//%template(addRange) sbol::OwnedObject::add<Range>;
-//%template(getRange) sbol::OwnedObject::get<Range>;
-//%template(createRange) sbol::OwnedObject::create<Range>;
-//%template(addCut) sbol::OwnedObject::add<Cut>;
-//%template(getCut) sbol::OwnedObject::get<Cut>;
-//%template(createCut) sbol::OwnedObject::create<Cut>;
-//%template(addGenericLocation) sbol::OwnedObject::add<GenericLocation>;
-//%template(getGenericLocation) sbol::OwnedObject::get<GenericLocation>;
-//%template(createGenericLocation) sbol::OwnedObject::create<GenericLocation>;
 TEMPLATE_MACRO_0(Range);
 TEMPLATE_MACRO_0(Cut);
 TEMPLATE_MACRO_0(GenericLocation);
@@ -353,11 +321,23 @@ TEMPLATE_MACRO_1(Model);
 
 // Template functions used by Document
 //%template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
+    
+//    %pythonappend sbol::Document::add<ComponentDefinition>(ComponentDefinition& sbol_obj)
+//    %{
+//        args[0].thisown = False
+//        print "Transferring ownership to libSBOL"
+//    %}
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
 TEMPLATE_MACRO_2(Sequence)
 TEMPLATE_MACRO_2(Model)
-
+%pythonappend sbol::Document::add<ComponentDefinition>(ComponentDefinition& sbol_obj)
+%{
+    args[0].thisown = False
+    print "Transferring ownership to libSBOL"
+%}
+    
+    
 //%template(addSequence) sbol::Document::add<Sequence>;
 //%template(addModel) sbol::Document::add<Model>;
 //%template(addModuleDefinition) sbol::Document::add<ModuleDefinition>;
