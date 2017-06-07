@@ -54,6 +54,60 @@ namespace sbol
 			Property(type_uri, property_owner, "<" + initial_value + ">", validation_rules)
 		{
 		}
+        
+        std::string __getitem__(const int nIndex)
+        {
+            return this->operator[](nIndex);
+        }
+        
+        URIProperty* __iter__()
+        {
+            this->python_iter = URIProperty::iterator(this->begin());
+            return this;
+        }
+        
+        // Built-in iterator function for Python 2
+        std::string next()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        // Built-in iterator function for Python 3
+        std::string __next__()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        int __len__()
+        {
+            return this->size();
+        }
 	};
 
     /// @ingroup extension_layer
@@ -63,8 +117,63 @@ namespace sbol
 	public:
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
 
+        std::string __getitem__(const int nIndex)
+        {
+            return this->operator[](nIndex);
+        }
+        
+        TextProperty* __iter__()
+        {
+            this->python_iter = TextProperty::iterator(this->begin());
+            return this;
+        }
+        
+        // Built-in iterator function for Python 2
+        std::string next()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        // Built-in iterator function for Python 3
+        std::string __next__()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        int __len__()
+        {
+            return this->size();
+        }
+        
         TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = {}) :
 			Property(type_uri, property_owner, "\"" + initial_value + "\"", validation_rules)
+        
 		{
 		}
 	};
@@ -76,6 +185,60 @@ namespace sbol
 	public:
         virtual int get();                  ///< Basic getter for all SBOL literal properties.
 
+        std::string __getitem__(const int nIndex)
+        {
+            return this->operator[](nIndex);
+        }
+        
+        IntProperty* __iter__()
+        {
+            this->python_iter = IntProperty::iterator(this->begin());
+            return this;
+        }
+        
+        // Built-in iterator function for Python 2
+        std::string next()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        // Built-in iterator function for Python 3
+        std::string __next__()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        int __len__()
+        {
+            return this->size();
+        }
+        
 		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0) :
 			Property(type_uri, property_owner, initial_value)
 		{
@@ -249,7 +412,59 @@ namespace sbol
             return (int)size;
         }
 
-		std::vector<SBOLObject*>::iterator python_iter;        
+		std::vector<SBOLObject*>::iterator python_iter;
+        
+        SBOLClass& __getitem__(const int nIndex)
+        {
+            return this->operator[](nIndex);
+        }
+        
+        SBOLClass& __getitem__(const std::string uri)
+        {
+            return this->operator[](uri);
+        }
+        
+        OwnedObject<SBOLClass>* __iter__()
+        {
+            this->python_iter = OwnedObject<SBOLClass>::iterator(this->begin());
+            return this;
+        }
+        
+        SBOLClass* next()
+        {
+            if (this->python_iter != this->end())
+            {
+                SBOLObject* obj = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return (SBOLClass*)obj;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        SBOLClass* __next__()
+        {
+            if (this->python_iter != this->end())
+            {
+                
+                SBOLObject* obj = *this->python_iter;
+                this->python_iter++;
+                
+                return (SBOLClass*)obj;
+            }
+            
+            throw SBOLError(END_OF_LIST, "");;
+            return NULL;
+        }
+        
+        int __len__()
+        {
+            return this->size();
+        }
 	};
 
 	template <class SBOLClass >

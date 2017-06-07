@@ -185,6 +185,28 @@ namespace sbol {
 
         /// Delete all objects in this Document and destroy the Document
         void close(std::string uri = "");
+
+        void addComponentDefinition(ComponentDefinition& sbol_obj)
+        {
+            add<ComponentDefinition>(sbol_obj);
+        }
+        
+        void addModuleDefinition(ModuleDefinition& sbol_obj)
+        {
+            add<ModuleDefinition>(sbol_obj);
+        }
+        
+        void addSequence(Sequence& sbol_obj)
+        {
+            add<Sequence>(sbol_obj);
+        }
+        
+        void addModel(Model& sbol_obj)
+        {
+            add<Model>(sbol_obj);
+        }
+        
+
         
 //        /// Iterates over SBOL objects in a Document
 //        class iterator : public std::unordered_map<std::string, sbol::SBOLObject*>::iterator

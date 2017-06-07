@@ -1,4 +1,4 @@
-FIND_PACKAGE( SWIG REQUIRED )
+find_package( SWIG REQUIRED )
 IF( SWIG_FOUND )
 
 	# adjust paths

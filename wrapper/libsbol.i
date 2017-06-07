@@ -139,12 +139,12 @@
     
 %pythonappend add
 %{
-    args[0].thisown = False
+    self.thisown = False
 %}
     
 %pythonappend create
 %{
-    args[0].thisown = False
+    self.thisown = False
 %}
 
 /* @TODO remove methods should change thisown flag back to True */
@@ -189,6 +189,26 @@
 
 %include "partshop.h"
 
+%pythonappend addComponentDefinition
+%{
+    args[0].thisown = False
+%}
+
+%pythonappend addModuleDefinition
+%{
+    args[0].thisown = False
+%}
+
+%pythonappend addSequence
+%{
+    args[0].thisown = False
+%}
+
+%pythonappend addModel
+%{
+    args[0].thisown = False
+%}
+    
 %include "document.h"
 
 typedef std::string sbol::sbol_type;
@@ -203,60 +223,6 @@ typedef std::string sbol::sbol_type;
 
 /* This macro is used to instantiate container properties (OwnedObjects) that can contain a single type of object, eg, ComponentDefinition::sequenceAnnotations */
 %define TEMPLATE_MACRO_1(SBOLClass)
-    %extend sbol::OwnedObject<sbol::SBOLClass >
-    {
-        SBOLClass& __getitem__(const int nIndex)
-        {
-            return $self->operator[](nIndex);
-        }
-        
-        SBOLClass& __getitem__(const std::string uri)
-        {
-            return $self->operator[](uri);
-        }
-        
-        OwnedObject<SBOLClass>* __iter__()
-        {
-            $self->python_iter = OwnedObject<SBOLClass>::iterator($self->begin());
-            return $self;
-        }
-        
-        SBOLClass* next()
-        {
-            if ($self->python_iter != $self->end())
-            {
-                SBOLObject* obj = *$self->python_iter;
-                $self->python_iter++;
-                if ($self->python_iter == $self->end())
-                {
-                    PyErr_SetNone(PyExc_StopIteration);
-                }
-                return (SBOLClass*)obj;
-            }
-            throw SBOLError(END_OF_LIST, "");
-            return NULL;
-        }
-        
-        SBOLClass* __next__()
-        {
-            if ($self->python_iter != $self->end())
-            {
-                
-                SBOLObject* obj = *$self->python_iter;
-                $self->python_iter++;
-                
-                return (SBOLClass*)obj;
-            }
-            
-            throw SBOLError(END_OF_LIST, "");;
-            return NULL;
-        }
-        
-        int __len__()
-        {
-            return $self->size();
-        }
-    };
     
     /* Convert C++ vector of pointers --> Python list */
     %typemap(out) std::vector<sbol::SBOLClass*> {
@@ -281,7 +247,7 @@ typedef std::string sbol::sbol_type;
 /* This macro is used to instantiate special adders and getters for the Document class */
 %define TEMPLATE_MACRO_2(SBOLClass)
     
-    %template(add ## SBOLClass) sbol::Document::add<SBOLClass>;
+//    %template(add ## SBOLClass) sbol::Document::add<SBOLClass>;
     %template(get ## SBOLClass) sbol::Document::get<SBOLClass>;
     
 %enddef
@@ -319,32 +285,11 @@ TEMPLATE_MACRO_1(ModuleDefinition);
 TEMPLATE_MACRO_1(Sequence);
 TEMPLATE_MACRO_1(Model);
 
-// Template functions used by Document
-//%template(addComponentDefinition) sbol::Document::add<ComponentDefinition>;
-    
-//    %pythonappend sbol::Document::add<ComponentDefinition>(ComponentDefinition& sbol_obj)
-//    %{
-//        args[0].thisown = False
-//        print "Transferring ownership to libSBOL"
-//    %}
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
 TEMPLATE_MACRO_2(Sequence)
 TEMPLATE_MACRO_2(Model)
-%pythonappend sbol::Document::add<ComponentDefinition>(ComponentDefinition& sbol_obj)
-%{
-    args[0].thisown = False
-    print "Transferring ownership to libSBOL"
-%}
     
-    
-//%template(addSequence) sbol::Document::add<Sequence>;
-//%template(addModel) sbol::Document::add<Model>;
-//%template(addModuleDefinition) sbol::Document::add<ModuleDefinition>;
-//%template(getComponentDefinition) sbol::Document::get<ComponentDefinition>;
-//%template(getSequence) sbol::Document::get<Sequence>;
-//%template(getModel) sbol::Document::get<Model>;
-//%template(getModuleDefinition) sbol::Document::get<ModuleDefinition>;
 
 // Template functions used by PartShop
 //%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
@@ -354,115 +299,6 @@ TEMPLATE_MACRO_2(Model)
 %template(countComponentDefinition) sbol::PartShop::count < ComponentDefinition >;
 %template(countCollection) sbol::PartShop::count < Collection >;
 
-/*
-%extend sbol::Property
-{
-    std::string __getitem__(const int nIndex)
-    {
-        return $self->operator[](nIndex);
-    }
-    
-    Property<LiteralType>* __iter__()
-    {
-        $self->python_iter = Property<LiteralType>::iterator($self->begin());
-        return $self;
-    }
-
-    // Built-in iterator function for Python 2
-    std::string next()
-    {
-        if ($self->python_iter != $self->end())
-        {
-            std::string ref = *$self->python_iter;
-            $self->python_iter++;
-            if ($self->python_iter == $self->end())
-            {
-                PyErr_SetNone(PyExc_StopIteration);
-            }
-            return ref;
-        }
-        throw SBOLError(END_OF_LIST, "");
-        return NULL;
-    }
-    
-    // Built-in iterator function for Python 3
-    std::string __next__()
-    {
-        if ($self->python_iter != $self->end())
-        {
-            std::string ref = *$self->python_iter;
-            $self->python_iter++;
-            if ($self->python_iter == $self->end())
-            {
-                PyErr_SetNone(PyExc_StopIteration);
-            }
-            return ref;
-        }
-        throw SBOLError(END_OF_LIST, "");
-        return NULL;
-    }
-    
-    int __len__()
-    {
-        return $self->size();
-    }
-    
-}
-
-%extend sbol::OwnedObject 
-{
-	SBOLClass& __getitem__(const int nIndex)
-	{
-		return $self->operator[](nIndex);
-	}
-
-	SBOLClass& __getitem__(const std::string uri)
-	{
-		return $self->operator[](uri);
-	}
-
-	OwnedObject<SBOLClass>* __iter__()
-	{
-		$self->python_iter = OwnedObject<SBOLClass>::iterator($self->begin());
-		return $self;
-	}
-
-	SBOLClass* next()
-	{
-		if ($self->python_iter != $self->end())
-		{
-			SBOLObject* obj = *$self->python_iter;
-			$self->python_iter++;
-			if ($self->python_iter == $self->end())
-			{
-				PyErr_SetNone(PyExc_StopIteration);
-			}
-			return (SBOLClass*)obj;
-		}
-		throw SBOLError(END_OF_LIST, "");
-		return NULL;
-	}
-
-    SBOLClass* __next__()
-    {
-        if ($self->python_iter != $self->end())
-        {
-
-            SBOLObject* obj = *$self->python_iter;
-            $self->python_iter++;
-
-            return (SBOLClass*)obj;
-        }
-
-        throw SBOLError(END_OF_LIST, "");;
-        return NULL;
-    }
-    
-    int __len__()
-    {
-        return $self->size();
-    }
-};
 
 %extend sbol::SBOLObject
 {
@@ -477,56 +313,56 @@ TEMPLATE_MACRO_2(Model)
     }
 }
 
-%extend sbol::ReferencedObject
-{
-    std::string __getitem__(const int nIndex)
-    {
-        return $self->operator[](nIndex);
-    }
-    
-    ReferencedObject* __iter__()
-    {
-        $self->python_iter = ReferencedObject::iterator($self->begin());
-        return $self;
-    }
-    
-    std::string next()
-    {
-        if ($self->python_iter != $self->end())
-        {
-            std::string ref = *$self->python_iter;
-            $self->python_iter++;
-            if ($self->python_iter == $self->end())
-            {
-                PyErr_SetNone(PyExc_StopIteration);
-            }
-            return ref;
-        }
-        throw SBOLError(END_OF_LIST, "");
-        return NULL;
-    }
-    
-    std::string __next__()
-    {
-        if ($self->python_iter != $self->end())
-        {
-            std::string ref = *$self->python_iter;
-            $self->python_iter++;
-            if ($self->python_iter == $self->end())
-            {
-                PyErr_SetNone(PyExc_StopIteration);
-            }
-            return ref;
-        }
-        throw SBOLError(END_OF_LIST, "");
-        return NULL;
-    }
-    
-    int __len__()
-    {
-        return $self->size();
-    }
-};
+//%extend sbol::ReferencedObject
+//{
+//    std::string __getitem__(const int nIndex)
+//    {
+//        return $self->operator[](nIndex);
+//    }
+//    
+//    ReferencedObject* __iter__()
+//    {
+//        $self->python_iter = ReferencedObject::iterator($self->begin());
+//        return $self;
+//    }
+//    
+//    std::string next()
+//    {
+//        if ($self->python_iter != $self->end())
+//        {
+//            std::string ref = *$self->python_iter;
+//            $self->python_iter++;
+//            if ($self->python_iter == $self->end())
+//            {
+//                PyErr_SetNone(PyExc_StopIteration);
+//            }
+//            return ref;
+//        }
+//        throw SBOLError(END_OF_LIST, "");
+//        return NULL;
+//    }
+//    
+//    std::string __next__()
+//    {
+//        if ($self->python_iter != $self->end())
+//        {
+//            std::string ref = *$self->python_iter;
+//            $self->python_iter++;
+//            if ($self->python_iter == $self->end())
+//            {
+//                PyErr_SetNone(PyExc_StopIteration);
+//            }
+//            return ref;
+//        }
+//        throw SBOLError(END_OF_LIST, "");
+//        return NULL;
+//    }
+//    
+//    int __len__()
+//    {
+//        return $self->size();
+//    }
+//};
     
 %extend sbol::ComponentDefinition
 {
@@ -617,7 +453,7 @@ TEMPLATE_MACRO_2(Model)
         };
     }
 }
-*/
+
     
 %pythoncode
 %{

@@ -36,6 +36,8 @@
 #include <map>
 #include <unordered_map>
 
+#include "Python.h"
+
 namespace sbol
 {
     
@@ -204,6 +206,59 @@ namespace sbol
         };
         
         std::vector<std::string>::iterator python_iter;
+        
+        std::string __getitem__(const int nIndex)
+        {
+            return this->operator[](nIndex);
+        }
+        
+        ReferencedObject* __iter__()
+        {
+            this->python_iter = ReferencedObject::iterator(this->begin());
+            return this;
+        }
+        
+        std::string next()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        std::string __next__()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        int __len__()
+        {
+            return this->size();
+        }
+
     };
     bool operator !=(const SBOLObject &a, const SBOLObject &b);
 }

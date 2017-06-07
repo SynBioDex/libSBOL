@@ -37,6 +37,7 @@
 #include <map>
 #include <unordered_map>
 
+
 /// @defgroup extension_layer Extension Interface
 /// The extension layer converts the SBOL data model, as described in the [formal specification document](http://sbolstandard.org), into Resource Description Framework (RDF) and a standard RDF/XML file format.  The extension interface also makes it possible to add custom application data to SBOL files, a feature intended to support workflow and collaboration between synthetic biologists at different stages of design, manufacturing, and testing of synthetic DNA constructs.
 /// All member properties of SBOL classes are themselves defined using Property classes
@@ -88,9 +89,6 @@ namespace sbol
         std::string operator[] (const int nIndex);  ///< Retrieve the indexed value in a list container
 
 
-#ifdef SWIG
-    protected:
-#endif
         /// Provides iterator functionality for SBOL properties that contain multiple values
         class iterator : public std::vector<std::string>::iterator
         {
@@ -126,6 +124,56 @@ namespace sbol
         };
         
         std::vector<std::string>::iterator python_iter;
+        
+//        std::string __getitem__(const int nIndex)
+//        {
+//            return this->operator[](nIndex);
+//        }
+//        
+//        Property<LiteralType>* __iter__()
+//        {
+//            this->python_iter = Property<LiteralType>::iterator(this->begin());
+//            return this;
+//        }
+//        
+//        // Built-in iterator function for Python 2
+//        std::string next()
+//        {
+//            if (this->python_iter != this->end())
+//            {
+//                std::string ref = *this->python_iter;
+//                this->python_iter++;
+//                if (this->python_iter == this->end())
+//                {
+//                    PyErr_SetNone(PyExc_StopIteration);
+//                }
+//                return ref;
+//            }
+//            throw SBOLError(END_OF_LIST, "");
+//            return NULL;
+//        }
+//        
+//        // Built-in iterator function for Python 3
+//        std::string __next__()
+//        {
+//            if (this->python_iter != this->end())
+//            {
+//                std::string ref = *this->python_iter;
+//                this->python_iter++;
+//                if (this->python_iter == this->end())
+//                {
+//                    PyErr_SetNone(PyExc_StopIteration);
+//                }
+//                return ref;
+//            }
+//            throw SBOLError(END_OF_LIST, "");
+//            return NULL;
+//        }
+//        
+//        int __len__()
+//        {
+//            return this->size();
+//        }
     };
     
 
