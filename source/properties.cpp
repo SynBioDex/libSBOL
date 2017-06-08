@@ -139,7 +139,7 @@ void VersionProperty::incrementMinor()
     
     // Concatenate new version string
     string new_version;
-    int i_v = 0;
+    unsigned int i_v = 0;
     do
     {
         new_version += v_tokens[i_v] + v_delimiters[i_v];
@@ -180,7 +180,7 @@ void VersionProperty::incrementMajor()
     
     // Concatenate new version string
     string new_version;
-    int i_v = 0;
+    unsigned int i_v = 0;
     do
     {
         new_version += v_tokens[i_v] + v_delimiters[i_v];
@@ -220,7 +220,7 @@ void VersionProperty::incrementPatch()
     
     // Concatenate new version string
     string new_version;
-    int i_v = 0;
+    unsigned int i_v = 0;
     do
     {
         new_version += v_tokens[i_v] + v_delimiters[i_v];
