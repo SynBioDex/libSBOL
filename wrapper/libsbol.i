@@ -191,22 +191,42 @@
 
 %pythonappend addComponentDefinition
 %{
-    args[0].thisown = False
+    # addComponentDefinition is overloaded, it can take a list or single object as an argument
+    if type(args[0]) is list:
+        for obj in args[0]:
+            obj.thisown = False
+    else:
+        args[0].thisown = False
 %}
 
 %pythonappend addModuleDefinition
 %{
-    args[0].thisown = False
+    # addModuleDefinition is overloaded, it can take a list or single object as an argument
+    if type(args[0]) is list:
+        for obj in args[0]:
+            obj.thisown = False
+    else:
+        args[0].thisown = False
 %}
 
 %pythonappend addSequence
 %{
-    args[0].thisown = False
+    # addModuleDefinition is overloaded, it can take a list or single object as an argument
+    if type(args[0]) is list:
+        for obj in args[0]:
+            obj.thisown = False
+    else:
+        args[0].thisown = False
 %}
 
 %pythonappend addModel
 %{
-    args[0].thisown = False
+    # addModel is overloaded, it can take a list or single object as an argument
+    if type(args[0]) is list:
+        for obj in args[0]:
+            obj.thisown = False
+    else:
+        args[0].thisown = False
 %}
     
 %include "document.h"
@@ -293,9 +313,10 @@ TEMPLATE_MACRO_2(Model)
 
 // Template functions used by PartShop
 //%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
-%template(pullComponentDefinition) sbol::PartShop::pull < ComponentDefinition >;
-%template(pullCollection) sbol::PartShop::pull < Collection >;
-%template(pullDocument) sbol::PartShop::pull < Document >;
+//%template(pullComponentDefinition) sbol::PartShop::pull < ComponentDefinition >;
+//%template(pullCollection) sbol::PartShop::pull < Collection >;
+//%template(pullSequence) sbol::PartShop::pull < Sequence >;
+//%template(pullDocument) sbol::PartShop::pull < Document >;
 %template(countComponentDefinition) sbol::PartShop::count < ComponentDefinition >;
 %template(countCollection) sbol::PartShop::count < Collection >;
 
@@ -379,6 +400,25 @@ TEMPLATE_MACRO_2(Model)
                 list_of_cdefs.push_back(cd);
             }
             $self->assemble(list_of_cdefs);
+        };
+    }
+    
+    void assemble(PyObject *list, PyObject *doc)
+    {
+        sbol::Document* cpp_doc;
+        if ((SWIG_ConvertPtr(doc,(void **) &cpp_doc, $descriptor(sbol::Document*),1)) == -1) throw;
+
+        std::vector<sbol::ComponentDefinition*> list_of_cdefs = {};
+        if (PyList_Check(list))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                PyObject *obj = PyList_GetItem(list, i);
+                sbol::ComponentDefinition* cd;
+                if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) throw;
+                list_of_cdefs.push_back(cd);
+            }
+            $self->assemble(list_of_cdefs, *cpp_doc);
         };
     }
 }

@@ -149,16 +149,15 @@ namespace sbol
         
         /// Retrieve an object from an online resource
         /// @param uri The identity of the SBOL object you want to retrieve
-        /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
-        /// @return The object identified by the specified uri
-        template < class SBOLClass > SBOLClass& pull(std::string uri);
+        /// @param doc A document to add the data to
+        void pull(std::string uri, Document& doc);
 
         /// Returns all Collections that are not members of any other Collections
         /// @return A Document containing all the root Collections
         Document& pullRootCollections();
         
-        /// Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @file constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. These constants follow a fairly systematic and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
-        /// @param search_text This may be a literal text value or it may be a URI. See @file constants.h for useful ontology terms
+        /// An exact search. Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @file constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. (These constants follow a fairly systematic and consistent naming scheme (see @file constants.h). The number of records returned in the search is specified by offset and limit parameters.
+        /// @param search_text This may be a literal text value or it may be a URI.
         /// @param object_type The RDF type of an SBOL object. See @file constants.h. For example, SBOL_COMPONENT_DEFINITION
         /// @param property_uri The RDF type of an SBOL property. Specifies which field of an SBOL object to search. For example, SBOL_ROLES. Refer to @file constants.h
         /// @param offset The index of the first record to return. This parameter is indexed starting from zero.
@@ -166,7 +165,7 @@ namespace sbol
         /// @return Metadata formatted as a string encoding JSON.
         std::string search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
 
-        /// Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @file constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
+        /// A general search. Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @file constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text A snippet of text to search for in a property's value.
         /// @param object_type The RDF type of an SBOL object. See @file constants.h. For example, SBOL_COMPONENT_DEFINITION by default.
         /// @param offset The index of the first record to return. This parameter is indexed starting from zero.
@@ -197,61 +196,8 @@ namespace sbol
         };
     };
     
-    template < class SBOLClass > SBOLClass& PartShop::pull(std::string uri)
-    {
-        std::string get_request = uri + "/sbol";
-        
-        /* Perform HTTP request */
-        std::string response;
-        CURL *curl;
-        CURLcode res;
-        
-        /* In windows, this will init the winsock stuff */
-        curl_global_init(CURL_GLOBAL_ALL);
-        
-        struct curl_slist *headers = NULL;
-        //    headers = curl_slist_append(headers, "Accept: application/json");
-        //    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-        //    headers = curl_slist_append(headers, "charsets: utf-8");
-        
-        /* get a curl handle */
-        curl = curl_easy_init();
-        if(curl) {
-            /* First set the URL that is about to receive our POST. This URL can
-             just as well be a https:// URL if that is what should receive the
-             data. */
-            //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-            curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
-            //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-            
-            /* Now specify the POST data */
-            //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
-            
-            /* Now specify the callback to read the response into string */
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-            
-            /* Perform the request, res will get the return code */
-            res = curl_easy_perform(curl);
-            /* Check for errors */
-            if(res != CURLE_OK)
-                throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + std::string(curl_easy_strerror(res)));
-            
-            /* always cleanup */
-            curl_easy_cleanup(curl);
-        }
-        curl_slist_free_all(headers);
-        curl_global_cleanup();
-        
-        Document doc = Document();
-        doc.readString(response);
-        SBOLClass& obj = doc.get<SBOLClass>(uri);
-        obj.doc = NULL;
-        return obj;
-    };
-    
-    /// Returns a Document including all objects referenced from this object
-    template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri);
+//    /// Returns a Document including all objects referenced from this object
+//    template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri);
 
     template < class SBOLClass > int PartShop::count()
     {

@@ -156,6 +156,11 @@ namespace sbol {
             return (int)size;
         }
         
+        int __len__()
+        {
+            return this->size();
+        }
+        
         /// Search recursively for an SBOLObject in this Document that matches the uri
         /// @param uri The identity of the object to search for
         /// @return A pointer to the SBOLObject, or NULL if an object with this identity doesn't exist

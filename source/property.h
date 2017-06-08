@@ -125,55 +125,7 @@ namespace sbol
         
         std::vector<std::string>::iterator python_iter;
         
-//        std::string __getitem__(const int nIndex)
-//        {
-//            return this->operator[](nIndex);
-//        }
-//        
-//        Property<LiteralType>* __iter__()
-//        {
-//            this->python_iter = Property<LiteralType>::iterator(this->begin());
-//            return this;
-//        }
-//        
-//        // Built-in iterator function for Python 2
-//        std::string next()
-//        {
-//            if (this->python_iter != this->end())
-//            {
-//                std::string ref = *this->python_iter;
-//                this->python_iter++;
-//                if (this->python_iter == this->end())
-//                {
-//                    PyErr_SetNone(PyExc_StopIteration);
-//                }
-//                return ref;
-//            }
-//            throw SBOLError(END_OF_LIST, "");
-//            return NULL;
-//        }
-//        
-//        // Built-in iterator function for Python 3
-//        std::string __next__()
-//        {
-//            if (this->python_iter != this->end())
-//            {
-//                std::string ref = *this->python_iter;
-//                this->python_iter++;
-//                if (this->python_iter == this->end())
-//                {
-//                    PyErr_SetNone(PyExc_StopIteration);
-//                }
-//                return ref;
-//            }
-//            throw SBOLError(END_OF_LIST, "");
-//            return NULL;
-//        }
-//        
-//        int __len__()
-//        {
-//            return this->size();
-//        }
+
     };
     
 

@@ -206,7 +206,7 @@ std::string ComponentDefinition::updateSequence(std::string composite_sequence)
 }
 
 /// @TODO update SequenceAnnotation starts and ends
-void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_components)
+void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_components, Document& doc)
 {
     if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "Assemble methods require SBOL-compliance enabled");
@@ -217,13 +217,21 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
     else
     {
         ComponentDefinition& parent_component = *this;
-
+        if (parent_component.doc == NULL)
+            doc.add<ComponentDefinition>(parent_component);
+        
         vector<Component*> list_of_instances = {};
         for (auto i_com = 0; i_com != list_of_components.size(); i_com++)
         {
             // Instantiate the Component defined by the ComponentDefinition
             ComponentDefinition& cdef = *list_of_components[i_com];
             int instance_count = 0;
+            
+            if (cdef.doc == NULL)
+                doc.add<ComponentDefinition>(cdef);
+            else if (cdef.doc != &doc)
+                throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + cdef.identity.get() + " cannot be assembled because it belongs to a different Document than the calling object.");
+            
             
             // Generate URI of new Component.  Check if an object with that URI is already instantiated.
             string component_id;
@@ -255,7 +263,18 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
         }
     }
 }
-    
+
+void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_components)
+{
+    // Throw an error if this ComponentDefinition is not attached to a Document
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "This ComponentDefinition cannot be assembled because it does not belong to a Document. Add it to a Document.");
+    }
+    assemble(list_of_components, *doc);
+}
+
+
 std::string Sequence::assemble(std::string composite_sequence)
 {
     // Throw an error if this Sequence is not attached to a Document

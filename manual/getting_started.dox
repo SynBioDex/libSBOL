@@ -5,7 +5,7 @@
 ///
 /// @section document Creating an SBOL Document
 ///
-/// An SBOLDocument object is a container for SBOL data objects. All file I/O operations are performed on the Document object. Usually the first step is to create an SBOLDocument in which to put your objects. This can be done by calling the SBOLDocument constructor.  The read and write methods are used for reading and writing files in SBOL format. 
+/// In a previous era, engineers might sit at a drafting board and draft a design by hand. The engineer's drafting sheet in LibSBOL is a Document object. The Document serves as a container, initially empty, for SBOL data objects. All file I/O operations are performed on the Document to populate it with SBOL objects representing design elements. Usually the first step is to create an SBOLDocument in which to put your objects. This can be done by calling the Document constructor.  The read and write methods are used for reading and writing files in SBOL format.
 /// ```
 /// Document& doc = *new Document();
 /// doc.read("CRISPR_example.xml");
