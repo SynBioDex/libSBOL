@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['operator_5b_5d',['operator[]',['../classsbol_1_1_owned_object.html#a6d459511f3586418b35a9c077e216539',1,'sbol::OwnedObject::operator[](const int nIndex)'],['../classsbol_1_1_owned_object.html#a53ecc619a72edb24d5e70cd6b44b80e8',1,'sbol::OwnedObject::operator[](std::string uri)'],['../classsbol_1_1_property.html#a3f759a6148161a88c97375716a176b4d',1,'sbol::Property::operator[]()']]]
+  ['length',['length',['../classsbol_1_1_range.html#a3d0f4ae571310c6ed081daa3985ecb47',1,'sbol::Range::length()'],['../classsbol_1_1_sequence_annotation.html#a3d0f4ae571310c6ed081daa3985ecb47',1,'sbol::SequenceAnnotation::length()']]],
+  ['login',['login',['../classsbol_1_1_part_shop.html#afbb1546e4f451faea3b1de9c7094c7c8',1,'sbol::PartShop']]]
 ];

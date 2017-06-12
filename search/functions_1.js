@@ -8,7 +8,9 @@ var searchData=
   ['component',['Component',['../classsbol_1_1_component.html#a49b0992209a9d19b6677916917eedaac',1,'sbol::Component']]],
   ['componentdefinition',['ComponentDefinition',['../classsbol_1_1_component_definition.html#a16766787aa7a6bb53bf539307c1e1a0c',1,'sbol::ComponentDefinition']]],
   ['connect',['connect',['../classsbol_1_1_functional_component.html#a5d2c1e546359392e22c620e06fa72cc8',1,'sbol::FunctionalComponent']]],
+  ['contains',['contains',['../classsbol_1_1_range.html#a4b6af2ccebb65d30b0cd77fd6196203d',1,'sbol::Range::contains()'],['../classsbol_1_1_sequence_annotation.html#a0d3334053419a639915bf7ec87dd06b3',1,'sbol::SequenceAnnotation::contains()']]],
   ['copy',['copy',['../classsbol_1_1_identified.html#a8988d8dfebd351ebbf2d323289d44b6f',1,'sbol::Identified::copy()'],['../classsbol_1_1_top_level.html#ac9c905af9efe1c313a0b284a1bef25d7',1,'sbol::TopLevel::copy()']]],
+  ['count',['count',['../classsbol_1_1_part_shop.html#abe231b81f80504a38452307a33cb4278',1,'sbol::PartShop']]],
   ['create',['create',['../classsbol_1_1_referenced_object.html#a19233c5aecb28652841ed13a2ffe8765',1,'sbol::ReferencedObject::create()'],['../classsbol_1_1_owned_object.html#a3455e33e12f73daa5e166cbfcaf6a2e4',1,'sbol::OwnedObject::create(std::string uri)'],['../classsbol_1_1_owned_object.html#ac411f2d6ccc5db50c9c0bb4c0fa305d0',1,'sbol::OwnedObject::create(std::string uri)']]],
   ['cut',['Cut',['../classsbol_1_1_cut.html#aeae3dc2f6f67bce0d11bdc60f51e289d',1,'sbol::Cut']]]
 ];

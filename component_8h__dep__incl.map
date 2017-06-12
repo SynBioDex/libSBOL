@@ -1,10 +1,12 @@
 <map id="component.h" name="component.h">
-<area shape="rect" id="node2" href="$componentdefinition_8h.html" title="ComponentDefinition class. " alt="" coords="5,80,153,107"/>
-<area shape="rect" id="node3" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="147,155,236,181"/>
-<area shape="rect" id="node9" href="$moduledefinition_8h.html" title="ModuleDefinition class. " alt="" coords="229,80,356,107"/>
-<area shape="rect" id="node4" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="89,229,176,256"/>
-<area shape="rect" id="node8" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="200,229,303,256"/>
-<area shape="rect" id="node5" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="33,304,131,331"/>
-<area shape="rect" id="node6" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="155,304,211,331"/>
-<area shape="rect" id="node7" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="133,379,233,405"/>
+<area shape="rect" id="node2" href="$componentdefinition_8h.html" title="ComponentDefinition class. " alt="" coords="42,80,190,107"/>
+<area shape="rect" id="node3" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="183,155,273,181"/>
+<area shape="rect" id="node11" href="$moduledefinition_8h.html" title="ModuleDefinition class. " alt="" coords="266,80,393,107"/>
+<area shape="rect" id="node4" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="126,229,213,256"/>
+<area shape="rect" id="node10" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="237,229,339,256"/>
+<area shape="rect" id="node5" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,304,104,331"/>
+<area shape="rect" id="node6" href="$partshop_8h.html" title="API front&#45;end for online bioparts repositories. " alt="" coords="128,304,211,331"/>
+<area shape="rect" id="node9" href="$provo_8h.html" title="PROV&#45;O ontology for provenance relationships. " alt="" coords="235,304,301,331"/>
+<area shape="rect" id="node7" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="191,379,247,405"/>
+<area shape="rect" id="node8" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="169,453,269,480"/>
 </map>

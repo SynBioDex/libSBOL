@@ -1,15 +1,16 @@
 <map id="componentdefinition.h" name="componentdefinition.h">
-<area shape="rect" id="node2" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="1256,155,1333,181"/>
-<area shape="rect" id="node18" href="$component_8h.html" title="ComponentInstance, Component, and FunctionalComponent classes. " alt="" coords="1041,80,1137,107"/>
-<area shape="rect" id="node20" href="$sequenceannotation_8h.html" title="SequenceAnnotation class. " alt="" coords="1221,80,1368,107"/>
-<area shape="rect" id="node22" href="$sequenceconstraint_8h.html" title="SequenceConstraint class. " alt="" coords="855,80,998,107"/>
-<area shape="rect" id="node3" href="$identified_8h.html" title="Identified class. " alt="" coords="997,229,1083,256"/>
-<area shape="rect" id="node4" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="547,304,615,331"/>
-<area shape="rect" id="node5" href="$validation_8h.html" title="Validation rules. " alt="" coords="145,528,231,555"/>
-<area shape="rect" id="node10" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="536,379,627,405"/>
-<area shape="rect" id="node7" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="285,603,352,629"/>
-<area shape="rect" id="node11" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="450,453,531,480"/>
-<area shape="rect" id="node12" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="555,528,642,555"/>
-<area shape="rect" id="node19" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="1005,155,1080,181"/>
-<area shape="rect" id="node21" href="$location_8h.html" title="Location, Cut, Range, and GenericLocation classes. " alt="" coords="1155,155,1232,181"/>
+<area shape="rect" id="node2" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="1203,155,1280,181"/>
+<area shape="rect" id="node21" href="$component_8h.html" title="ComponentInstance, Component, and FunctionalComponent classes. " alt="" coords="799,80,895,107"/>
+<area shape="rect" id="node23" href="$sequenceannotation_8h.html" title="SequenceAnnotation class. " alt="" coords="1087,80,1233,107"/>
+<area shape="rect" id="node25" href="$sequenceconstraint_8h.html" title="SequenceConstraint class. " alt="" coords="919,80,1062,107"/>
+<area shape="rect" id="node3" href="$identified_8h.html" title="Identified class. " alt="" coords="953,229,1039,256"/>
+<area shape="rect" id="node4" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="477,304,545,331"/>
+<area shape="rect" id="node5" href="$validation_8h.html" title="Validation rules. " alt="" coords="294,528,381,555"/>
+<area shape="rect" id="node14" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="557,379,648,405"/>
+<area shape="rect" id="node7" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="467,603,533,629"/>
+<area shape="rect" id="node8" href="$sbolerror_8h.html" title="SBOLError class and error codes. " alt="" coords="332,677,417,704"/>
+<area shape="rect" id="node11" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="597,677,683,704"/>
+<area shape="rect" id="node15" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="483,453,565,480"/>
+<area shape="rect" id="node22" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="884,155,959,181"/>
+<area shape="rect" id="node24" href="$location_8h.html" title="Location, Cut, Range, and GenericLocation classes. " alt="" coords="1040,155,1117,181"/>
 </map>

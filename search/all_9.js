@@ -1,10 +1,12 @@
 var searchData=
 [
   ['language',['language',['../classsbol_1_1_model.html#abe352a6828910dfe1fe9a096290c2bad',1,'sbol::Model']]],
+  ['length',['length',['../classsbol_1_1_range.html#a3d0f4ae571310c6ed081daa3985ecb47',1,'sbol::Range::length()'],['../classsbol_1_1_sequence_annotation.html#a3d0f4ae571310c6ed081daa3985ecb47',1,'sbol::SequenceAnnotation::length()']]],
   ['list',['List',['../classsbol_1_1_list.html',1,'sbol']]],
   ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3acomponent_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::Component &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
   ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3acomponentdefinition_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::ComponentDefinition &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
   ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3afunctionalcomponent_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::FunctionalComponent &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
+  ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3aidentified_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::Identified &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
   ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3ainteraction_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::Interaction &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
   ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3alocation_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::Location &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
   ['list_3c_20sbol_3a_3aownedobject_3c_20sbol_3a_3amapsto_20_3e_20_3e',['List&lt; sbol::OwnedObject&lt; sbol::MapsTo &gt; &gt;',['../classsbol_1_1_list.html',1,'sbol']]],
@@ -19,5 +21,6 @@ var searchData=
   ['local',['local',['../classsbol_1_1_maps_to.html#a7cd51e80d2720db8c50e97479e98f073',1,'sbol::MapsTo']]],
   ['location',['Location',['../classsbol_1_1_location.html',1,'sbol']]],
   ['location_2eh',['location.h',['../location_8h.html',1,'']]],
-  ['locations',['locations',['../classsbol_1_1_sequence_annotation.html#aba53258105e51532bb065df362b80112',1,'sbol::SequenceAnnotation']]]
+  ['locations',['locations',['../classsbol_1_1_sequence_annotation.html#aba53258105e51532bb065df362b80112',1,'sbol::SequenceAnnotation']]],
+  ['login',['login',['../classsbol_1_1_part_shop.html#afbb1546e4f451faea3b1de9c7094c7c8',1,'sbol::PartShop']]]
 ];

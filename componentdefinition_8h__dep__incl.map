@@ -1,8 +1,10 @@
 <map id="componentdefinition.h" name="componentdefinition.h">
-<area shape="rect" id="node2" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="119,80,209,107"/>
-<area shape="rect" id="node3" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="62,155,149,181"/>
-<area shape="rect" id="node7" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="173,155,275,181"/>
+<area shape="rect" id="node2" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="183,80,273,107"/>
+<area shape="rect" id="node3" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="126,155,213,181"/>
+<area shape="rect" id="node9" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="237,155,339,181"/>
 <area shape="rect" id="node4" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,229,104,256"/>
-<area shape="rect" id="node5" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="128,229,184,256"/>
-<area shape="rect" id="node6" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="106,304,206,331"/>
+<area shape="rect" id="node5" href="$partshop_8h.html" title="API front&#45;end for online bioparts repositories. " alt="" coords="128,229,211,256"/>
+<area shape="rect" id="node8" href="$provo_8h.html" title="PROV&#45;O ontology for provenance relationships. " alt="" coords="235,229,301,256"/>
+<area shape="rect" id="node6" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="191,304,247,331"/>
+<area shape="rect" id="node7" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="169,379,269,405"/>
 </map>

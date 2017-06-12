@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.1.1</span>
+   &#160;<span id="projectnumber">2.2.0</span>
    </div>
   </td>
  </tr>
@@ -127,6 +127,10 @@ Public Attributes</h2></td></tr>
 <a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#acc70a7be39e8fb18e4b82ec8069cefd7">wasDerivedFrom</a></td></tr>
 <tr class="memdesc:acc70a7be39e8fb18e4b82ec8069cefd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The wasDerivedFrom property is OPTIONAL and has a data type of URI. An SBOL object with this property refers to another SBOL object or non-SBOL resource from which this object was derived. If the wasDerivedFrom property of an SBOL object A that refers to an SBOL object B has an identical persistentIdentity, and both A and B have a version, then the version of B MUST precede that of A. In addition, an SBOL object MUST NOT refer to itself via its own wasDerivedFrom property or form a cyclical chain of references via its wasDerivedFrom property and those of other SBOL objects. For example, the reference chain “ A was derived from B and B was derived from A” is cyclical. <br /></td></tr>
 <tr class="separator:acc70a7be39e8fb18e4b82ec8069cefd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09b31bcba9970529f7c5e5cf8d80177a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09b31bcba9970529f7c5e5cf8d80177a"></a>
+<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a09b31bcba9970529f7c5e5cf8d80177a">wasGeneratedBy</a></td></tr>
+<tr class="memdesc:a09b31bcba9970529f7c5e5cf8d80177a"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <a class="el" href="classsbol_1_1_activity.html" title="A generated Entity is linked through a wasGeneratedBy relationship to an Activity, which is used to describe how different Agents and other entities were used. An Activity is linked through a qualifiedAssociation to Associations, to describe the role of agents, and is linked through qualifiedUsage to Usages to describe the role of other entities used as part of the activity. Moreover, each Activity includes optional startedAtTime and endedAtTime properties. When using Activity to capture how an entity was derived, it is expected that any additional information needed will be attached as annotations. This may include software settings or textual notes. Activities can also be linked together using the wasInformedBy relationship to provide dependency without explicitly specifying start and end times. ">Activity</a> which generated this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>, eg., a design process like codon-optimization or a construction process like Gibson Assembly. <br /></td></tr>
+<tr class="separator:a09b31bcba9970529f7c5e5cf8d80177a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47492e4ca2acc9db3be38b80b380ec43"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47492e4ca2acc9db3be38b80b380ec43"></a>
 <a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a47492e4ca2acc9db3be38b80b380ec43">name</a></td></tr>
 <tr class="memdesc:a47492e4ca2acc9db3be38b80b380ec43"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name property is OPTIONAL and has a data type of String. This property is intended to be displayed to a human when visualizing an <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object. If an <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object lacks a name, then software tools SHOULD instead display the object’s displayId or identity. It is RECOMMENDED that software tools give users the ability to switch perspectives between name properties that are human-readable and displayId properties that are less human-readable, but are more likely to be unique. <br /></td></tr>
@@ -651,14 +655,14 @@ Inheritance diagram for Participation:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_participation__inherit__graph.png" border="0" usemap="#_participation_inherit__map" alt="Inheritance graph"/></div>
 <map name="_participation_inherit__map" id="_participation_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="13,424,145,633"/>
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="13,424,145,648"/>
 <area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="5,5,153,376"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 3 2017 02:51:55 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 11 2017 23:04:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

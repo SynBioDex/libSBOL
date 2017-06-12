@@ -1,10 +1,11 @@
 <map id="model.h" name="model.h">
-<area shape="rect" id="node2" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="1041,80,1119,107"/>
-<area shape="rect" id="node3" href="$identified_8h.html" title="Identified class. " alt="" coords="997,155,1083,181"/>
-<area shape="rect" id="node4" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="759,229,827,256"/>
-<area shape="rect" id="node5" href="$validation_8h.html" title="Validation rules. " alt="" coords="334,453,421,480"/>
-<area shape="rect" id="node10" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="543,304,633,331"/>
-<area shape="rect" id="node7" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="405,528,472,555"/>
-<area shape="rect" id="node11" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="418,379,499,405"/>
-<area shape="rect" id="node12" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="547,453,634,480"/>
+<area shape="rect" id="node2" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="7,80,84,107"/>
+<area shape="rect" id="node3" href="$identified_8h.html" title="Identified class. " alt="" coords="43,155,128,181"/>
+<area shape="rect" id="node4" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="706,229,774,256"/>
+<area shape="rect" id="node5" href="$validation_8h.html" title="Validation rules. " alt="" coords="398,453,485,480"/>
+<area shape="rect" id="node14" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="619,304,709,331"/>
+<area shape="rect" id="node7" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="419,528,485,555"/>
+<area shape="rect" id="node8" href="$sbolerror_8h.html" title="SBOLError class and error codes. " alt="" coords="409,603,495,629"/>
+<area shape="rect" id="node11" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="674,603,761,629"/>
+<area shape="rect" id="node15" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="545,379,626,405"/>
 </map>

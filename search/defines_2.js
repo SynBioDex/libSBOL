@@ -43,6 +43,7 @@ var searchData=
   ['sbol_5furi',['SBOL_URI',['../constants_8h.html#a7903e05384695850fc071ef9507589b4',1,'constants.h']]],
   ['so',['SO',['../constants_8h.html#a02cc6d026fad97c4a8c84675a0619d03',1,'constants.h']]],
   ['so_5fcds',['SO_CDS',['../constants_8h.html#a2434c1c277a0415cf9970975fc4d736d',1,'constants.h']]],
+  ['so_5fgene',['SO_GENE',['../constants_8h.html#a42a7d93b3962154d8e9c68b53d687a31',1,'constants.h']]],
   ['so_5fmisc',['SO_MISC',['../constants_8h.html#a27d45d5eb216872a65d23e48f5e4ed95',1,'constants.h']]],
   ['so_5fpromoter',['SO_PROMOTER',['../constants_8h.html#a70c6bc61e1f72aeaa7ddae9a2596f97c',1,'constants.h']]],
   ['so_5frbs',['SO_RBS',['../constants_8h.html#a51d5ac228bf38c474fab6899abc60476',1,'constants.h']]],

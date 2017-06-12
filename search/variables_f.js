@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wasderivedfrom',['wasDerivedFrom',['../classsbol_1_1_identified.html#acc70a7be39e8fb18e4b82ec8069cefd7',1,'sbol::Identified']]]
+  ['types',['types',['../classsbol_1_1_component_definition.html#ab563237ddc0363ecbd245b5f791f2900',1,'sbol::ComponentDefinition::types()'],['../classsbol_1_1_interaction.html#ab563237ddc0363ecbd245b5f791f2900',1,'sbol::Interaction::types()']]]
 ];

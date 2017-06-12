@@ -1,11 +1,12 @@
 var searchData=
 [
-  ['sequence',['Sequence',['../classsbol_1_1_sequence.html#a180541a1f7828cd87fd00b98d5aa6cca',1,'sbol::Sequence']]],
-  ['sequenceannotation',['SequenceAnnotation',['../classsbol_1_1_sequence_annotation.html#ae3ed02d9000da15f55f3326b34165e15',1,'sbol::SequenceAnnotation']]],
-  ['sequenceconstraint',['SequenceConstraint',['../classsbol_1_1_sequence_constraint.html#ade56837119ac3235002813b0781838c9',1,'sbol::SequenceConstraint']]],
-  ['set',['set',['../classsbol_1_1_owned_object.html#a6fdb4549d20177fb0cb00862ca1764bc',1,'sbol::OwnedObject::set()'],['../classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872',1,'sbol::Property::set(std::string new_value)'],['../classsbol_1_1_property.html#a60d0f67ccdc9630d89f8bb041cc0f122',1,'sbol::Property::set(int new_value)']]],
-  ['sethomespace',['setHomespace',['../config_8h.html#a86dfc8d38e1b3806a462e76b8bf3c9e3',1,'sbol']]],
-  ['setinput',['setInput',['../classsbol_1_1_module_definition.html#a22cea07a5abf85d2ed0d4b89096bf808',1,'sbol::ModuleDefinition']]],
-  ['setoption',['setOption',['../classsbol_1_1_config.html#a178010d9582a8d351e5474ca64287497',1,'sbol::Config']]],
-  ['setoutput',['setOutput',['../classsbol_1_1_module_definition.html#a74f8d25b0121407dff31d299d682457a',1,'sbol::ModuleDefinition']]]
+  ['participate',['participate',['../classsbol_1_1_component_definition.html#ab1954c9bd44750d212d4a068f3c30f60',1,'sbol::ComponentDefinition']]],
+  ['participation',['Participation',['../classsbol_1_1_participation.html#acf7c00cebc742107cffb131958b452d1',1,'sbol::Participation']]],
+  ['partshop',['PartShop',['../classsbol_1_1_part_shop.html#a27f6e8a52ddb700a58b5509099e217a8',1,'sbol::PartShop']]],
+  ['patch',['patch',['../classsbol_1_1_version_property.html#aef4adde32f696a302057d1647c9a9442',1,'sbol::VersionProperty']]],
+  ['plan',['Plan',['../classsbol_1_1_plan.html#a48b22f4a1708da1fa34d7f1fadc6abe6',1,'sbol::Plan']]],
+  ['precedes',['precedes',['../classsbol_1_1_range.html#a3d77cffa43c9877c8c29ec68c900b543',1,'sbol::Range::precedes()'],['../classsbol_1_1_sequence_annotation.html#aa9fe97dbc256288b2592b96da7331f04',1,'sbol::SequenceAnnotation::precedes()']]],
+  ['property',['Property',['../classsbol_1_1_property.html#ad8f40b0d120f2c860386c286f2f598d4',1,'sbol::Property']]],
+  ['pull',['pull',['../classsbol_1_1_part_shop.html#ac27fb0043522b61d6ae487dc242211fc',1,'sbol::PartShop']]],
+  ['pullrootcollections',['pullRootCollections',['../classsbol_1_1_part_shop.html#ac66e176a894cdceea1ef99400e4de4c2',1,'sbol::PartShop']]]
 ];
