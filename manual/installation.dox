@@ -8,7 +8,7 @@
 ///
 /// On Windows, installation through binary installers is the simplest way to obtain libSBOL. The installer contains pre-compiled libSBOL library. Simply install it to whichever path you want and use it.
 ///
-/// [Get the latest binary installers](https://sourceforge.net/projects/libsbol/files/v2.1.1.1/)
+/// [Get the latest binary installers](https://sourceforge.net/projects/libsbol/)
 ///
 /// @section use_brew Using Homebrew
 ///
