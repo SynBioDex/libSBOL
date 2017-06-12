@@ -89,13 +89,16 @@ namespace sbol
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         ComponentDefinition(std::string uri = DEFAULT_NS "/ComponentDefinition/example", std::string type = BIOPAX_DNA, std::string version = "1.0.0") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
         
-//        // SBOL compliant constructor
-//        ComponentDefinition(std::string uri_prefix, std::string display_id, std::string version, std::string type) : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri_prefix, display_id, version, type) {};
         
-        /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is a partial design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble().
+        /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is an abstract design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble(). This method assumes all arguments are already contained in a Document.
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
         void assemble(std::vector<ComponentDefinition*> list_of_components);
 
+        /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is a partial design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble().
+        /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
+        /// @param doc The Document to which the assembled ComponentDefinitions will be added
+        void assemble(std::vector<ComponentDefinition*> list_of_components, Document& doc);
+        
         /// Assemble a parent ComponentDefinition's Sequence from its subcomponent Sequences
         /// @param composite_sequence A recursive parameter, use default value
         /// @return The assembled parent sequence
@@ -131,8 +134,37 @@ namespace sbol
         /// @return The last component in sequential order
         Component& getLastComponent();
         
-        ///
+        /// Perform an operation on every Component in a structurally-linked hierarchy of Components by applying a callback function. If no callback is specified, the default behavior is to return a pointer list of each Component in the hierarchy.
+        /// @param callback_fun A pointer to a callback function with signature void callback_fn(ComponentDefinition *, void *).
+        /// @param user_data Arbitrary user data which can be passed in and out of the callback as an argument or return value.
+        /// @return Returns a flat list of pointers to all Components in the hierarchy.
         std::vector<ComponentDefinition*> applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *) = NULL, void * user_data = NULL);
+
+        /// Get the primary sequence of a design in terms of its sequentially ordered Components
+        std::vector<Component*> getPrimaryStructure();
+
+        /// Insert a Component downstream of another in a primary sequence, shifting any adjacent Components dowstream as well
+        /// @param target The target Component will be upstream of the insert Component after this operation.
+        /// @param insert The insert Component is inserted downstream of the target Component.
+        void insertDownstream(Component& target, ComponentDefinition& insert);
+        
+        /// Insert a Component upstream of another in a primary sequence, shifting any adjacent Components upstream as well
+        /// @param target The target Component will be downstream of the insert Component after this operation.
+        /// @param insert The insert Component is inserted upstream of the target Component.
+        void insertUpstream(Component& target, ComponentDefinition& insert);
+
+        /// This may be a useful method when building up SBOL representations of natural DNA sequences. For example it is often necessary to specify components that are assumed to have no meaningful role in the design, but are nevertheless important to fill in regions of sequence. This method autoconstructs a ComponentDefinition and Sequence object to create an arbitrary flanking sequence around design Components. The new ComponentDefinition will have Sequence Ontology type of flanking_region or SO:0000239
+        /// @param target The new flanking sequence will be placed upstream of the target
+        /// @param elements The primary sequence elements will be assigned to the autoconstructed Sequence object. The encoding is inferred
+        void addUpstreamFlank(Component& target, std::string elements);
+        
+        /// This may be a useful method when building up SBOL representations of natural DNA sequences. For example it is often necessary to specify components that are assumed to have no meaningful role in the design, but are nevertheless important to fill in regions of sequence. This method autoconstructs a ComponentDefinition and Sequence object to create an arbitrary flanking sequence around design Components. The new ComponentDefinition will have Sequence Ontology type of flanking_sequence.
+        /// @param target The new flanking sequence will be placed downstream of the target
+        /// @param elements The primary sequence elements will be assigned to the autoconstructed Sequence object. The encoding is inferred
+        void addDownstreamFlank(Component& target, std::string elements);
+
+        
+        ComponentDefinition& build();
         
         /// A convenience method that assigns a component to participate in a biochemical reaction.  Behind the scenes, it auto-constructs a FunctionalComponent for this ComponentDefinition and assigns it to a Participation
         /// @param species A Participation object (ie, participant species in a biochemical Interaction).

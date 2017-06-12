@@ -81,7 +81,34 @@ ComponentInstance.Furthermore, ComponentInstance objects MUST NOT form a cyclica
 via their definition properties and the ComponentDefinition objects that contain them.For example, consider
 the ComponentInstance objects A and B and the ComponentDefinition objects X and Y.The reference chain "X
 contains A, A is defined by Y, Y contains B, and B is defined by X" is cyclical. */
+
+
+
 void sbol::libsbol_rule_1(void *sbol_obj, void *arg)
 {
 	cout << "Testing internal validation rules" << endl;
+};
+
+void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
+{
+
+        //string& date_time = (string&)*arg;
+		//char *date_time[] = (char *[])arg;
+		const char *c_date_time = (const char *)arg;
+		string date_time = string(c_date_time);
+
+        bool DATETIME_MATCH_1 = false;
+        bool DATETIME_MATCH_2 = false;
+        bool DATETIME_MATCH_3 = false;
+        std::regex date_time_1("([0-9]{4})-([0-9]{2})-([0-9]{2})([A-Z])?");
+        std::regex date_time_2("([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})([.][0-9]+)?[A-Z]?");
+        std::regex date_time_3("([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})([.][0-9]+)?[A-Z]?([\\+|-]([0-9]{2}):([0-9]{2}))?");
+        if (std::regex_match(date_time.begin(), date_time.end(), date_time_1))
+            DATETIME_MATCH_1 = true;
+        if (std::regex_match(date_time.begin(), date_time.end(), date_time_2))
+            DATETIME_MATCH_2 = true;
+        if (std::regex_match(date_time.begin(), date_time.end(), date_time_3))
+            DATETIME_MATCH_3 = true;
+        if (!(DATETIME_MATCH_1 || DATETIME_MATCH_2 || DATETIME_MATCH_3))
+            throw SBOLError(SBOL_ERROR_NONCOMPLIANT_VERSION, "Invalid datetime format. Datetimes are based on XML Schema dateTime datatype. For example 2016-03-16T20:12:00Z");
 };

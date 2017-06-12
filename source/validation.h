@@ -42,6 +42,9 @@ namespace sbol
 	/* These validation rules are internal to libSBOL */
 	SBOL_DECLSPEC void libsbol_rule_1(void *sbol_obj, void *arg);
 
+    /* These validation rules are internal to libSBOL */
+    SBOL_DECLSPEC void libsbol_rule_2(void *sbol_obj, void *arg);
+
     //  The following class is an experimental wrapper class for a validation callback function
     //  See http://stackoverflow.com/questions/879408/c-function-wrapper-that-behaves-just-like-the-function-itself
     //
@@ -56,6 +59,8 @@ namespace sbol
     //        };
     //        ~_ValidationRule();
     //    };
+    
 };
+
 
 #endif

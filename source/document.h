@@ -45,7 +45,7 @@ namespace sbol {
 
 	
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
-    class SBOL_DECLSPEC Document : public SBOLObject
+    class SBOL_DECLSPEC Document : public Identified
     {
         friend class SBOLObject;
         
@@ -58,7 +58,7 @@ namespace sbol {
 	public:
         /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
-            SBOLObject(SBOL_DOCUMENT, ""),
+            Identified(SBOL_DOCUMENT, ""),
             home(""),
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
@@ -67,7 +67,10 @@ namespace sbol {
             moduleDefinitions(SBOL_MODULE_DEFINITION, this, ""),
             models(SBOL_MODEL, this, ""),
             sequences(SBOL_SEQUENCE, this, ""),
-            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, "")
+            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, ""),
+            citations(PURL_URI "bibliographicCitation", this),
+            keywords(PURL_URI "elements/1.1/subject", this)
+        
 			{
                 namespaces["sbol"] = SBOL_URI "#";
                 namespaces["dcterms"] = PURL_URI;
@@ -87,7 +90,10 @@ namespace sbol {
         List<OwnedObject<Model>> models;
         List<OwnedObject<Sequence>> sequences;
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
-
+        
+        URIProperty citations;
+        URIProperty keywords;
+        
 
         /// Register an object in the Document
         /// @param sbol_obj The SBOL object you want to serialize
@@ -117,6 +123,13 @@ namespace sbol {
         /// @param filename The full name of the file you want to read (including file extension)
         void read(std::string filename);
 
+        /// Convert text in SBOL into data objects
+        /// @param sbol A string formatted in SBOL
+        void readString(std::string& sbol);
+        
+        /// Convert data objects in this Document into textual SBOL
+        std::string writeString();
+        
         /// Read an RDF/XML file and attach the SBOL objects to this Document. New objects will be added to the existing contents of the Document
         /// @param filename The full name of the file you want to read (including file extension)
         void append(std::string filename);
@@ -125,12 +138,28 @@ namespace sbol {
         /// @return The validation results
         std::string request_validation(std::string& sbol);
 
+        std::string query_repository(std::string command);
+
+        std::string search_metadata(std::string role, std::string type, std::string name, std::string collection);
+        
 		/// Generates rdf/xml
         void generate(raptor_world** world, raptor_serializer** sbol_serializer, char** sbol_buffer, size_t* sbol_buffer_len, raptor_iostream** ios, raptor_uri** base_uri);
 
         /// Run validation on this Document.
         /// @return The validation results
         std::string validate();
+        
+        /// Get the total number of objects in the Document, including SBOL core object and custom annotation objects
+        int size()
+        {
+            std::size_t size = this->SBOLObjects.size();
+            return (int)size;
+        }
+        
+        int __len__()
+        {
+            return this->size();
+        }
         
         /// Search recursively for an SBOLObject in this Document that matches the uri
         /// @param uri The identity of the object to search for
@@ -161,6 +190,28 @@ namespace sbol {
 
         /// Delete all objects in this Document and destroy the Document
         void close(std::string uri = "");
+
+        void addComponentDefinition(ComponentDefinition& sbol_obj)
+        {
+            add<ComponentDefinition>(sbol_obj);
+        }
+        
+        void addModuleDefinition(ModuleDefinition& sbol_obj)
+        {
+            add<ModuleDefinition>(sbol_obj);
+        }
+        
+        void addSequence(Sequence& sbol_obj)
+        {
+            add<Sequence>(sbol_obj);
+        }
+        
+        void addModel(Model& sbol_obj)
+        {
+            add<Model>(sbol_obj);
+        }
+        
+
         
 //        /// Iterates over SBOL objects in a Document
 //        class iterator : public std::unordered_map<std::string, sbol::SBOLObject*>::iterator
@@ -224,9 +275,6 @@ namespace sbol {
         }
 	};
 
-
-
-    
     template < class SBOLClass > void Document::add(std::vector < SBOLClass* > sbol_objects)
     {
         for (auto i_obj = sbol_objects.begin(); i_obj != sbol_objects.end(); ++i_obj)
@@ -368,17 +416,22 @@ namespace sbol {
 
         if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
+            SBOLClass* child_obj = new SBOLClass();
+
             // Form compliant URI for child object
             std::string persistent_id;
             std::string version;
-            if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+            if (!CHECK_TOP_LEVEL && parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
             {
                 persistent_id = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
                 persistent_id = persistent_id.substr(1, persistent_id.length() - 2);  // Removes flanking < and > from the uri
             }
             else
             {
+                // If object is TopLevel, intialize the URI
                 persistent_id = getHomespace();
+                if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+                    persistent_id += "/" + parseClassName(child_obj->getTypeURI());
             }
             if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
             {
@@ -394,11 +447,12 @@ namespace sbol {
             
             // Check for uniqueness of URI in the Document
             if (parent_doc && parent_doc->find(child_id))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
             
             // Construct a new child object
-            SBOLClass* child_obj = new SBOLClass(uri);
-
+//            SBOLClass* child_obj = new SBOLClass(uri);
+            
+                                                      
             // Initialize SBOLCompliant properties
             child_obj->identity.set(child_id);
             child_obj->persistentIdentity.set(child_persistent_id);
@@ -421,7 +475,7 @@ namespace sbol {
         else
         {
             if (parent_doc && parent_doc->find(uri))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
             
             // Construct a new child object
             SBOLClass* child_obj = new SBOLClass(uri);
@@ -482,7 +536,7 @@ namespace sbol {
             
             // Check for uniqueness of URI in the Document
             if (parent_doc && parent_doc->find(child_id))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
             
             // Construct a new child object
             SBOLSubClass* child_obj = new SBOLSubClass(child_id);
@@ -508,7 +562,7 @@ namespace sbol {
         else
         {
             if (parent_doc && parent_doc->find(uri))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with this URI is already in the Document");
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
             
             // Construct an SBOLObject with emplacement
             SBOLSubClass* child_obj = new SBOLSubClass(uri);

@@ -1,11 +1,20 @@
 
-#ADD_SUBDIRECTORY( libxml2 )
-ADD_SUBDIRECTORY( raptor )
+add_subdirectory( raptor )
 
 # gather headers
 include_directories( ${RAPTOR_INCLUDE_DIR})
 include_directories( ${JsonCpp_INCLUDE_DIR})
 include_directories( ${CURL_INCLUDE_DIR})
+if( SBOL_BUILD_PYTHON2 )
+    find_package( SWIG REQUIRED )
+    find_package( PythonLibs 2 EXACT)
+    include_directories( ${PYTHON_INCLUDE_DIR} )
+endif()
+if( SBOL_BUILD_PYTHON3 )
+    find_package( SWIG REQUIRED )
+    find_package( PythonLibs 3)
+    include_directories( ${PYTHON_INCLUDE_DIR} )
+endif()
 
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES
@@ -31,19 +40,22 @@ FILE(GLOB SBOL_HEADER_FILES
 	module.h
 	mapsto.h
 	model.h
-    collection.h
-    assembly.h
+  collection.h
+  assembly.h
+  provo.h
+  partshop.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
 	sbolerror.cpp
-    config.cpp
-    validation.cpp
-    properties.cpp
+  config.cpp
+  validation.cpp
+  properties.cpp
 	object.cpp
-    identified.cpp
+  identified.cpp
 	toplevel.cpp
 	document.cpp
-    assembly.cpp)
+  assembly.cpp
+  partshop.cpp)
 
     
 FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )

@@ -52,6 +52,9 @@ namespace sbol
         /// The wasDerivedFrom property is OPTIONAL and has a data type of URI. An SBOL object with this property refers to another SBOL object or non-SBOL resource from which this object was derived. If the wasDerivedFrom property of an SBOL object A that refers to an SBOL object B has an identical persistentIdentity, and both A and B have a version, then the version of B MUST precede that of A. In addition, an SBOL object MUST NOT refer to itself via its own wasDerivedFrom property or form a cyclical chain of references via its wasDerivedFrom property and those of other SBOL objects. For example, the reference chain “ A was derived from B and B was derived from A” is cyclical.
 		URIProperty wasDerivedFrom;
         
+        /// An Activity which generated this ComponentDefinition, eg., a design process like codon-optimization or a construction process like Gibson Assembly
+        ReferencedObject wasGeneratedBy;
+        
         /// The name property is OPTIONAL and has a data type of String. This property is intended to be displayed to a human when visualizing an Identified object. If an Identified object lacks a name, then software tools SHOULD instead display the object’s displayId or identity. It is RECOMMENDED that software tools give users the ability to switch perspectives between name properties that are human-readable and displayId properties that are less human-readable, but are more likely to be unique.
 		TextProperty name;
         
@@ -77,6 +80,7 @@ namespace sbol
             displayId(SBOL_DISPLAY_ID, this, uri),
             version(SBOL_VERSION, this, version),
             wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
+            wasGeneratedBy(PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, this),
             name(SBOL_NAME, this),
             description(SBOL_DESCRIPTION, this)
         {
@@ -107,6 +111,7 @@ namespace sbol
 			displayId(SBOL_DISPLAY_ID, this, display_id),
 			version(SBOL_VERSION, this, version),
 			wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
+            wasGeneratedBy(PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, this),
 			name(SBOL_NAME, this),
 			description(SBOL_DESCRIPTION, this)
 		{

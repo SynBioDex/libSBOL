@@ -30,6 +30,7 @@
 #include <vector>
 #include <utility>
 #include <regex>
+#include <time.h>
 
 using namespace sbol;
 using namespace std;
@@ -138,7 +139,7 @@ void VersionProperty::incrementMinor()
     
     // Concatenate new version string
     string new_version;
-    int i_v = 0;
+    unsigned int i_v = 0;
     do
     {
         new_version += v_tokens[i_v] + v_delimiters[i_v];
@@ -179,7 +180,7 @@ void VersionProperty::incrementMajor()
     
     // Concatenate new version string
     string new_version;
-    int i_v = 0;
+    unsigned int i_v = 0;
     do
     {
         new_version += v_tokens[i_v] + v_delimiters[i_v];
@@ -219,7 +220,7 @@ void VersionProperty::incrementPatch()
     
     // Concatenate new version string
     string new_version;
-    int i_v = 0;
+    unsigned int i_v = 0;
     do
     {
         new_version += v_tokens[i_v] + v_delimiters[i_v];
@@ -309,7 +310,6 @@ int VersionProperty::patch()
     return patch_version;
 };
 
-
 //ReferencedObject::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
 //URIProperty(type_uri, property_owner, initial_value)
 //{
@@ -320,6 +320,7 @@ int VersionProperty::patch()
 //        this->sbol_owner->properties.insert({ type_uri, property_store });
 //    }
 //};
+
 
 vector<string> VersionProperty::split(const char c)
 {
@@ -365,6 +366,66 @@ pair < vector<string>, vector<string> > VersionProperty::split()
     }
     
     return make_pair(tokens, delimiters);
+}
+
+string DateTimeProperty::stampTime()
+{
+    time_t curtime;
+    struct tm * GMT;
+    string stamp;
+    
+    time(&curtime);
+    GMT = gmtime(&curtime);
+    curtime = mktime(GMT);
+    stamp = string(ctime(&curtime));
+    stamp.erase(stamp.length()-1, 1);
+
+    // Split date string at delimiter (adapted from C++ cookbook)
+    const char delimiter = ' ';
+    vector<string> tokens;
+    string::size_type i = 0;
+    string::size_type j = stamp.find(delimiter);
+    
+    while (j != string::npos)
+    {
+        tokens.push_back(stamp.substr(i, j - i));
+        i = ++j;
+        j = stamp.find(delimiter, j);
+        if (j == string::npos)
+            tokens.push_back(stamp.substr(i, stamp.length()));
+    }
+    
+    // Format into DateTime XSD Schema
+    string month = tokens[1];
+    string day = tokens[2];
+    string t = tokens[3];
+    string yr = tokens[4];
+    
+    if (month.compare("Jan") == 0)
+        month = "01";
+    else if(month.compare("Feb") == 0)
+        month = "02";
+    else if(month.compare("Mar") == 0)
+        month = "03";
+    else if(month.compare("Apr") == 0)
+        month = "04";
+    else if(month.compare("May") == 0)
+        month = "05";
+    else if(month.compare("Jun") == 0)
+        month = "06";
+    else if(month.compare("Jul") == 0)
+        month = "07";
+    else if(month.compare("Aug") == 0)
+        month = "08";
+    else if(month.compare("Sep") == 0)
+        month = "09";
+    else if(month.compare("Oct") == 0)
+        month = "10";
+    else if(month.compare("Nov") == 0)
+        month = "11";
+    else if(month.compare("Nov") == 0)
+        month = "12";
+    return stamp;
 }
 
 ReferencedObject::ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :
@@ -452,5 +513,4 @@ void ReferencedObject::addReference(const std::string uri)
 {
     this->sbol_owner->properties[this->type].push_back("<" + uri + ">");
 };
-
 

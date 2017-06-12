@@ -47,6 +47,10 @@ SBOLObject::~SBOLObject()
     }
 }
 
+bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
+{
+    return (&a != &b);
+};
 
 void SBOLObject::close()
 {
@@ -332,7 +336,10 @@ std::vector < std::string > SBOLObject::getProperties()
 {
     std::vector < std::string > property_uris;
     for (auto i_p = properties.begin(); i_p != properties.end(); ++i_p)
-        property_uris.push_back(i_p->first);
+    {
+        string uri = i_p->first;
+        property_uris.push_back(uri);
+    }
     return property_uris;
 };
 

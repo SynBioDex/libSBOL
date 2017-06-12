@@ -1,5 +1,5 @@
 /**
- * @file    properties.cpp
+ * @file    sbolerror.h
  * @brief   SBOLError class and error codes
  * @author  Bryan Bartley
  * @email   bartleyba@sbolstandard.org
@@ -64,6 +64,10 @@ namespace sbol
         };
         virtual const char* what() const throw() {
             return message_.c_str();
+        }
+        SBOLErrorCode error_code() const
+        {
+            return err_;
         }
     };
     

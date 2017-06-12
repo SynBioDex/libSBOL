@@ -37,6 +37,7 @@
 #include <map>
 #include <unordered_map>
 
+
 /// @defgroup extension_layer Extension Interface
 /// The extension layer converts the SBOL data model, as described in the [formal specification document](http://sbolstandard.org), into Resource Description Framework (RDF) and a standard RDF/XML file format.  The extension interface also makes it possible to add custom application data to SBOL files, a feature intended to support workflow and collaboration between synthetic biologists at different stages of design, manufacturing, and testing of synthetic DNA constructs.
 /// All member properties of SBOL classes are themselves defined using Property classes
@@ -88,9 +89,6 @@ namespace sbol
         std::string operator[] (const int nIndex);  ///< Retrieve the indexed value in a list container
 
 
-#ifdef SWIG
-    protected:
-#endif
         /// Provides iterator functionality for SBOL properties that contain multiple values
         class iterator : public std::vector<std::string>::iterator
         {
@@ -126,6 +124,8 @@ namespace sbol
         };
         
         std::vector<std::string>::iterator python_iter;
+        
+
     };
     
 
@@ -136,6 +136,8 @@ namespace sbol
     template <class LiteralType>
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
 	{
+        std::string trim_value = initial_value.substr(1, initial_value.length() - 2);
+        validate(&trim_value);
 		// Register Property in owner Object
 		if (this->sbol_owner != NULL)
 		{
@@ -342,10 +344,16 @@ namespace sbol
     template <class LiteralType>
     void Property<LiteralType>::validate(void * arg)
     {
-        for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
+        // If no argument is specified, validate the property values already in the store.  The constructor does this, for example, to validate the initial value.
+//  This doesn't work because of access into incomplete type!!!
+        if (arg)
         {
-            ValidationRule& validate_fx = *i_rule;
-            validate_fx(sbol_owner, arg);
+            // Validate the argument, if one is specified. The setters do this
+            for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
+            {
+                ValidationRule& validate_fx = *i_rule;
+                validate_fx(sbol_owner, arg);
+            }
         }
     };
     
