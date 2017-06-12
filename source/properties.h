@@ -37,7 +37,9 @@
 #include <utility>
 #include <regex>
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
+#endif
 
 namespace sbol
 {
@@ -55,6 +57,8 @@ namespace sbol
 		{
 		}
         
+		#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+
         std::string __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
@@ -103,11 +107,13 @@ namespace sbol
             throw SBOLError(END_OF_LIST, "");
             return NULL;
         }
-        
+
         int __len__()
         {
             return this->size();
         }
+		#endif
+
 	};
 
     /// @ingroup extension_layer
@@ -117,6 +123,7 @@ namespace sbol
 	public:
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
 
+		#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::string __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
@@ -170,7 +177,8 @@ namespace sbol
         {
             return this->size();
         }
-        
+		#endif
+
         TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = {}) :
 			Property(type_uri, property_owner, "\"" + initial_value + "\"", validation_rules)
         
@@ -185,6 +193,7 @@ namespace sbol
 	public:
         virtual int get();                  ///< Basic getter for all SBOL literal properties.
 
+		#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::string __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
@@ -238,7 +247,8 @@ namespace sbol
         {
             return this->size();
         }
-        
+		#endif
+
 		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0) :
 			Property(type_uri, property_owner, initial_value)
 		{
