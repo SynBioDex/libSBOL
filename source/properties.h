@@ -423,10 +423,10 @@ namespace sbol
         }
 
         #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-
-		std::vector<SBOLObject*>::iterator python_iter;
         
-		SBOLClass& __getitem__(const int nIndex)
+        std::vector<SBOLObject*>::iterator python_iter;
+        
+        SBOLClass& __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
         }
