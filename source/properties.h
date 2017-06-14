@@ -57,7 +57,7 @@ namespace sbol
 		{
 		}
         
-		#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 
         std::string __getitem__(const int nIndex)
         {
@@ -112,7 +112,7 @@ namespace sbol
         {
             return this->size();
         }
-		#endif
+        #endif
 
 	};
 
@@ -123,7 +123,7 @@ namespace sbol
 	public:
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
 
-		#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::string __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
@@ -177,7 +177,7 @@ namespace sbol
         {
             return this->size();
         }
-		#endif
+        #endif
 
         TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = {}) :
 			Property(type_uri, property_owner, "\"" + initial_value + "\"", validation_rules)
@@ -193,7 +193,7 @@ namespace sbol
 	public:
         virtual int get();                  ///< Basic getter for all SBOL literal properties.
 
-		#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::string __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
@@ -247,7 +247,7 @@ namespace sbol
         {
             return this->size();
         }
-		#endif
+        #endif
 
 		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0) :
 			Property(type_uri, property_owner, initial_value)
@@ -424,6 +424,8 @@ namespace sbol
 
 		std::vector<SBOLObject*>::iterator python_iter;
         
+        #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+
         SBOLClass& __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
@@ -475,6 +477,7 @@ namespace sbol
         {
             return this->size();
         }
+        #endif
 	};
 
 	template <class SBOLClass >
