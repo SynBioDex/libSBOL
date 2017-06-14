@@ -422,6 +422,8 @@ namespace sbol
             return (int)size;
         }
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+
 		std::vector<SBOLObject*>::iterator python_iter;
         
         SBOLClass& __getitem__(const int nIndex)
@@ -475,7 +477,8 @@ namespace sbol
         {
             return this->size();
         }
-	};
+#endif
+    };
 
 	template <class SBOLClass >
     OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :
