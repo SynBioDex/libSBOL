@@ -422,11 +422,11 @@ namespace sbol
             return (int)size;
         }
 
-		std::vector<SBOLObject*>::iterator python_iter;
-        
         #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 
-        SBOLClass& __getitem__(const int nIndex)
+		std::vector<SBOLObject*>::iterator python_iter;
+        
+		SBOLClass& __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
         }
@@ -477,6 +477,7 @@ namespace sbol
         {
             return this->size();
         }
+
         #endif
 	};
 
