@@ -660,7 +660,7 @@ void Participation::define(ComponentDefinition& species, string role)
 
 ComponentDefinition& ComponentDefinition::build()
 {
-    
+	return *new ComponentDefinition();
 };
 
 void ComponentDefinition::participate(Participation& species)

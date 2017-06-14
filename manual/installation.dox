@@ -8,7 +8,7 @@
 ///
 /// On Windows, installation through binary installers is the simplest way to obtain libSBOL. The installer contains pre-compiled libSBOL library. Simply install it to whichever path you want and use it.
 ///
-/// [Get the latest binary installers](https://sourceforge.net/projects/libsbol/files/v2.1.1.1/)
+/// [Get the latest binary installers](https://sourceforge.net/projects/libsbol/)
 ///
 /// @section use_brew Using Homebrew
 ///
@@ -45,7 +45,7 @@
 ///
 /// 3. Run CMake-gui. For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for (e.g. Visual Studio 14 2015 for 32 bit and Visual Studio 14 2015 Win64 for 64 bit). See the screenshot above.
 ///
-/// 4. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. Building Python wrapper requires SWIG.
+/// 4. Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. It is HIGHLY RECOMMENDED to change CMAKE_INSTALL_PREFIX from it's default path (Program Files) to somewhere else. This value determines the path the output files will be located. Building Python wrapper requires SWIG.
 ///
 ///   SBOL_BUILD_SHARED: Builds a dynamically linked library. The default is static.
 ///
@@ -74,7 +74,7 @@
 /// ```
 /// You will need administrator privileges for a make install.
 ///
-/// 7. (optional) For Python bindings, copy and paste the sbol folder with Python bindings to your local Python site-packages folder.
+/// 7. For Python bindings, copy and paste the sbol folder with Python bindings to your local Python site-packages folder.
 ///
 ///
 /// Mac
@@ -95,7 +95,7 @@
 ///
 /// 4. Run CMake-gui (type cmake in terminal or run cmake app). For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. 
 /// 
-/// 5. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. By default on Mac OSX, the library will be installed to /usr/local/lib. Building Python wrapper requires SWIG.
+/// 5. Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. By default on Mac OSX, the library will be installed to /usr/local/lib. Building Python wrapper requires SWIG.
 ///
 ///   SBOL_BUILD_SHARED: Builds a dynamically linked library. The default is static.
 ///
@@ -134,7 +134,7 @@
 /// sudo apt-get install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev libjsoncpp-dev
 /// ```
 /// 
-/// 2. (optional) If you want to generate Python wrapper you will need SWIG. To install run:
+/// 2. If you want to generate Python wrapper you will need SWIG. To install run:
 /// ```
 /// sudo apt-get install swig python-dev
 /// ```
@@ -147,7 +147,7 @@
 ///
 /// 4. Run CMake-gui (type cmake-gui or cmake-qt-gui in terminal). For "Where is the source code" enter the path to your libSBOL folder (not libSBOL/source folder). Choose build path by setting "Where to build the binaries". After setting the paths, click Configure, and choose what type of compiler you want to generate instructions for. See the screenshot above.
 /// 
-/// 5. (optional) Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. Building Python wrapper requires SWIG.
+/// 5. Set optional targets, e.g. examples, tests, manual, or Python wrapper. To add them check the appropriate boxes and then press Configure again. CMAKE_INSTALL_PREFIX is of particular interest, since it determines the path the output will be located. Building Python wrapper requires SWIG.
 ///
 ///   SBOL_BUILD_SHARED: Builds a dynamically linked library. The default is static.
 ///
@@ -177,7 +177,7 @@
 /// ```
 /// to compile. The library will be located under the folder you specified in CMAKE_INSTALL_PREFIX.
 ///
-/// 8. (optional) For Python bindings, you might want to add the path of Python bindings as part of PYTHONPATH environment. To do so, run:
+/// 8. For Python bindings, you might want to add the path of Python bindings as part of PYTHONPATH environment. To do so, run:
 /// ```
 /// export PYTHONPATH=$PYTHONPATH:/path-to-your-Python-bindings
 /// ```

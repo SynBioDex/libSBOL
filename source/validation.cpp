@@ -92,7 +92,10 @@ void sbol::libsbol_rule_1(void *sbol_obj, void *arg)
 void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
 {
 
-        string& date_time = (string&)*arg;
+        //string& date_time = (string&)*arg;
+		//char *date_time[] = (char *[])arg;
+		const char *c_date_time = (const char *)arg;
+		string date_time = string(c_date_time);
 
         bool DATETIME_MATCH_1 = false;
         bool DATETIME_MATCH_2 = false;

@@ -4365,4 +4365,81 @@ Parameters
     Accepts boolean. The default value is false.  
 ";
 
+
+%feature("docstring") sbol::PartShop::count "
+Return the count of objects contained in a PartShop
+";
+
+%feature("docstring") sbol::PartShop::pull "
+Retrieve an object from an online resource
+
+Parameters
+----------
+* `uri` : 
+    The identity of the SBOL object you want to retrieve  
+* `doc` :
+	The Document to which SBOL data will be added
+";        
+
+%feature("docstring") sbol::PartShop::pullRootCollections "
+Returns a Document containing all Collections in the PartShop that are not members of any other Collections. 
+";    
+        
+%feature("docstring") sbol::PartShop::search "
+An exact search. Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @file constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. (These constants follow a fairly systematic and consistent naming scheme (see @file constants.h). The number of records returned in the search is specified by offset and limit parameters. Metadata is return as a list of object metadata in dictionary format.
+
+Parameters
+----------
+* `search_text` :
+	This may be a literal text value or it may be a URI
+* `object_type` :
+	The RDF type of an SBOL object. For example, SBOL_COMPONENT_DEFINITION
+* `property_uri` :
+	The RDF type of an SBOL property. Specifies which field of an SBOL object to search. For example, SBOL_ROLES
+* `offset` :
+	The index of the first record to return. This parameter is indexed starting from zero
+* `limit` :
+	The total count number of records to return
+";    
+
+%feature("docstring") sbol::PartShop::search "
+A general search. Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @file constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters. Metadata is return as a list of object metadata in dictionary format.
+
+Parameters
+----------
+* `search_text` A snippet of text to search for in an SBOL object's displayId, name, and description fields
+* `object_type` The RDF type of an SBOL object. For example, SBOL_COMPONENT_DEFINITION
+* `offset` The index of the first record to return. This parameter is indexed starting from zero
+* `limit` The total count number of records to return
+";    
+        
+%feature("docstring") sbol::PartShop::search "
+An advanced search that allows the user to specify an arbitrary number of search criteria as key/value pairs. Metadata is return as a list of object metadata in dictionary format.
+
+Parameters
+----------
+* `q` :
+	A SearchQuery object populated with search fields and values specified as key/value pairs
+";
+ 
+%feature("docstring") sbol::PartShop::submit "
+Submit your SBOL data to a SynBioHub instance. In order to submit to a PartShop, you must login first. Register on [SynBioHub](http://synbiohub.org) to obtain account credentials.
+* `doc` :
+	The Document to submit
+* `overwrite` :
+	An integer code: 0(default) - do not overwrite, 1 - overwrite, 2 - merge
+";
+
+%feature("docstring") sbol::PartShop::login "
+In order to submit to a PartShop, you must login first. Register on [SynBioHub](http://synbiohub.org) to obtain account credentials.
+
+Parameters
+----------
+* `email` :
+	The email associated with the user's SynBioHub account
+* `password` :
+	The user's password
+";
+        
+
 // File: namespacestd.xml

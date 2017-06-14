@@ -275,9 +275,6 @@ namespace sbol {
         }
 	};
 
-
-
-    
     template < class SBOLClass > void Document::add(std::vector < SBOLClass* > sbol_objects)
     {
         for (auto i_obj = sbol_objects.begin(); i_obj != sbol_objects.end(); ++i_obj)
@@ -791,7 +788,6 @@ namespace sbol {
             target_doc->add < SBOLClass > (new_obj);
         return new_obj;
     };
-    
 }
 
 
