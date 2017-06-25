@@ -39,7 +39,6 @@ using namespace std;
 extern Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
 //Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
 
-
 std::map<std::string, std::string> sbol::Config::options {
     {"homespace", "http://examples.org"},
     {"sbol_compliant_uris", "True"},
@@ -352,10 +351,6 @@ std::string Config::getFileFormat()
     return format;
 };
 
-void Config::parse_extension_objects()
-{
-    
-};
 
 /* This callback is necessary to get the HTTP response as a string */
 size_t sbol::CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_t nmemb, std::string *s)

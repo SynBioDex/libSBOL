@@ -147,6 +147,11 @@
     self.thisown = False
 %}
 
+%pythonappend addToDocument
+%{
+    arg2.thisown = False
+%}
+
 /* @TODO remove methods should change thisown flag back to True */
     
 %include "properties.h"
@@ -497,19 +502,12 @@ TEMPLATE_MACRO_2(Model)
     
 %pythoncode
 %{
-    def register_extension_class(ns, ns_prefix, class_name, constructor ):
-        uri = ns + class_name
-        Config.__extensionclass__[uri] = constructor
-
     def testSBOL():
         """
         Function to run test suite for pySBOL
         """
         import unit_tests
         unit_tests.runTests()
-    
-    ### Add PYTHON_DATA_MODEL_REGISTER as a static variable in Config. This dictionary contains key : value pairs consisting of a Python extension class URI and the corresponding constructor callbacks for Python extension classes
-    Config.__extensionclass__ = {}
 %}
     
 //%inline

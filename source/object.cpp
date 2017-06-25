@@ -30,6 +30,10 @@
 #include <functional>
 #include <iostream>
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+#include "Python.h"
+#endif
+
 using namespace std;
 using namespace sbol;
 
@@ -46,6 +50,15 @@ SBOLObject::~SBOLObject()
         }
     }
 }
+
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+void SBOLObject::register_extension(std::string ns, std::string ns_prefix, std::string class_name, PythonObject* constructor)
+{
+    std::string uri = ns + class_name;
+    PYTHON_DATA_MODEL_REGISTER[uri] = constructor;
+    namespaces[ns_prefix] = ns;
+};
+#endif
 
 bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
 {

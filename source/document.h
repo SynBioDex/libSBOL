@@ -43,7 +43,14 @@
 
 namespace sbol {
 
-	
+    /* <!--- Methods for SBOL extension classes ---> */
+    
+    /// @cond
+    // This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
+    extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
+    /// @endcond
+
+    
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
     class SBOL_DECLSPEC Document : public Identified
     {
@@ -83,6 +90,11 @@ namespace sbol {
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
         TopLevel& getTopLevel(std::string);
         raptor_world* getWorld();
+        
+        #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        // Instantiate Python extension objects
+        std::unordered_map<std::string, sbol::PythonObject*> PythonObjects;
+        #endif
         /// @endcond
 
         List<OwnedObject<ComponentDefinition>> componentDefinitions;
@@ -173,6 +185,8 @@ namespace sbol {
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
         void parse_annotation_objects();
+        void parse_extension_objects();
+
         SBOLObject* find_property(std::string uri);
         std::vector<SBOLObject*> find_reference(std::string uri);
         /// @endcond
@@ -322,13 +336,6 @@ namespace sbol {
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
 	};
     
-    /* <!--- Methods for SBOL extension classes ---> */
-    
-    /// @cond
-    // This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
-    extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
-    /// @endcond
-
     
     // This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
     template < class SBOLClass >
@@ -339,16 +346,6 @@ namespace sbol {
         SBOLClass* a = new (mem) SBOLClass;
         return (sbol::SBOLObject&)*a;
     };
-    
-    template < class ExtensionClass >
-    void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)
-    {
-        std::string uri = ns + class_name;
-        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<ExtensionClass>));
-        namespaces[ns_prefix] = ns;  // Register extension namespace
-    };
-    
-
     
 //    /// @TODO Deprecate this
 //    template <class SBOLClass>
@@ -787,6 +784,14 @@ namespace sbol {
         if (target_doc)
             target_doc->add < SBOLClass > (new_obj);
         return new_obj;
+    };
+    
+    template < class ExtensionClass >
+    void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)
+    {
+        std::string uri = ns + class_name;
+        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<ExtensionClass>));
+        namespaces[ns_prefix] = ns;  // Register extension namespace
     };
 }
 

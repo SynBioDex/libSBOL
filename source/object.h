@@ -68,6 +68,12 @@ namespace sbol
         template < class ExtensionClass > void register_extension_class(std::string ns, std::string ns_prefix, std::string class_name);
         
     public:
+
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        void register_extension(std::string ns, std::string ns_prefix, std::string class_name, PythonObject* constructor);
+#endif
+
+        
         /// @cond
         Document *doc = NULL;
         sbol_type type;
@@ -209,7 +215,7 @@ namespace sbol
         
         std::vector<std::string>::iterator python_iter;
         
-        #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::string __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
@@ -261,7 +267,7 @@ namespace sbol
         {
             return this->size();
         }
-        #endif
+#endif
 
     };
     bool operator !=(const SBOLObject &a, const SBOLObject &b);
