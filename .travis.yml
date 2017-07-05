@@ -35,7 +35,7 @@ install:
   - cd ~/build/libSBOL
   - sudo apt-get install -qq g++-4.8
   - export CXX="g++-5" CC="gcc-5"
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON -DSBOL_BUILD_TESTS=ON -DCURL_LIBRARY=/usr/lib/x86_64-linux-gnu/libcurl.so -DJsonCpp_LIBRARY=/usr/lib/x86_64-linux-gnu/libjsoncpp.so -DLIBXSLT_LIBRARIES=/usr/lib/x86_64-linux-gnu/libxslt.so -DRAPTOR_LIBRARY=/usr/lib/x86_64-linux-gnu/libraptor2.so -DSBOL_BUILD_PYTHON2=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DSWIG_EXECUTABLE=/usr/bin/swig3.0 "$TRAVIS_BUILD_DIR"
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON -DSBOL_BUILD_SHARED=ON -DSBOL_BUILD_TESTS=ON -DCURL_LIBRARY=/usr/lib/x86_64-linux-gnu/libcurl.so -DJsonCpp_LIBRARY=/usr/lib/x86_64-linux-gnu/libjsoncpp.so -DLIBXSLT_LIBRARIES=/usr/lib/x86_64-linux-gnu/libxslt.so -DRAPTOR_LIBRARY=/usr/lib/x86_64-linux-gnu/libraptor2.so -DSBOL_BUILD_PYTHON2=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DSWIG_EXECUTABLE=/usr/bin/swig3.0 "$TRAVIS_BUILD_DIR"
   - make 
   - make install
 
