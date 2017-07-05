@@ -17,7 +17,9 @@ branches:
 before_install:
   # print the distro information
   - lsb_release -a
-
+  
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  
   # cache refresh required to install packages
   - sudo apt-get update -qq
 
@@ -30,6 +32,7 @@ before_install:
 
 install:
   - cd ~/build/libSBOL
+  - export CXX="g++-5" CC="gcc-5"; fi
   - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON -DSBOL_BUILD_TESTS=ON -DSBOL_BUILD_PYTHON2=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 "$TRAVIS_BUILD_DIR"
   - make 
   - make install
@@ -37,8 +40,6 @@ install:
 before_script: true
 
 script:
-  - sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-5 /usr/bin/gcc
-  - gcc --version
   - cd ~/build/libSBOL
   - make -j2 && make install
   # - ctest -VV
@@ -48,6 +49,7 @@ script:
 addons:
   apt:
     sources:
+    - llvm-toolchain-precise
     - ubuntu-toolchain-r-test
     packages:
     - gcc-5
