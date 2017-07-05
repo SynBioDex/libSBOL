@@ -4,20 +4,23 @@
   <navindex>
     <tab type="mainpage" visible="yes" title="Introduction"/>
     <tab type="pages" visible="no" title="" intro=""/>
-    <tab type="user" visible="yes" url="@ref getting_started" title="Getting Started"/>
-    <tab type="modules" visible="yes" title="" intro=""/>
+    <tab type="user" visible="yes" url="@ref installation" title="Installation"/>
+    <tab type="user" visible="yes" url="@ref getting_started" title="Getting Started with SBOL"/>
+    <tab type="user" visible="yes" url="@ref sequences" title="Sequence Assembly"/>
+    <tab type="user" visible="yes" url= "@ref modular_design" title="Biosystem Design"/>
+    <tab type="modules" visible="no" title="" intro=""/>
     <tab type="namespaces" visible="yes" title="">
     <tab type="namespacelist" visible="yes" title="" intro=""/>
     <tab type="namespacemembers" visible="yes" title="" intro=""/>
     </tab>
-    <tab type="classes" visible="yes" title="">
-      <tab type="classlist" visible="yes" title="" intro=""/>
+    <tab type="classes" type="user" url="@ref classes" visible="yes"  title="">
+      <tab type="classlist" visible="yes"  title="" intro=""/>
       <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/> 
       <tab type="hierarchy" visible="yes" title="" intro=""/>
       <tab type="classmembers" visible="yes" title="" intro=""/>
     </tab>
-    <tab type="files" visible="yes" title="">
-      <tab type="filelist" visible="yes" title="" intro=""/>
+    <tab type="files" type="user" visible="yes" url="@ref files" title="">
+      <tab type="filelist" visible="yes" title="" intro="These are the main headers a user (rather than a developer) might need to reference."/>
       <tab type="globals" visible="yes" title="" intro=""/>
     </tab>
     <tab type="examples" visible="yes" title="" intro=""/>  
@@ -25,10 +28,9 @@
 
   <!-- Layout definition for a class page -->
   <class>
-    <briefdescription visible="yes"/>
-    <includes visible="$SHOW_INCLUDE_FILES"/>
-    <inheritancegraph visible="$CLASS_GRAPH"/>
-    <collaborationgraph visible="$COLLABORATION_GRAPH"/>
+    <detaileddescription title="" visible="yes"/>
+    <briefdescription visible="no"/>
+
     <memberdecl>
       <nestedclasses visible="yes" title=""/>
       <publictypes title=""/>
@@ -36,21 +38,21 @@
       <interfaces title=""/>
       <publicslots title=""/>
       <signals title=""/>
-      <publicmethods visible="yes" title=""/>
-      <publicstaticmethods title=""/>
       <publicattributes visible="yes" title=""/>
       <publicstaticattributes title=""/>
+      <publicmethods visible="yes" title=""/>
+      <publicstaticmethods title=""/>
       <protectedtypes title=""/>
       <protectedslots title=""/>
-      <protectedmethods title=""/>
-      <protectedstaticmethods title=""/>
       <protectedattributes title=""/>
       <protectedstaticattributes title=""/>
+      <protectedmethods title=""/>
+      <protectedstaticmethods title=""/>
       <packagetypes title=""/>
-      <packagemethods title=""/>
-      <packagestaticmethods title=""/>
       <packageattributes title=""/>
       <packagestaticattributes title=""/>
+      <packagemethods title=""/>
+      <packagestaticmethods title=""/>
       <properties visible="yes" title=""/>
       <events title=""/>
       <privatetypes title=""/>
@@ -63,7 +65,6 @@
       <related title="" subtitle=""/>
       <membergroups visible="yes"/>
     </memberdecl>
-    <detaileddescription title="" visible="yes"/>
     <memberdef>
       <inlineclasses visible="yes" title=""/>
       <typedefs visible="yes" title=""/>
@@ -79,6 +80,7 @@
     </memberdef>
     <allmemberslink visible="yes"/>
     <usedfiles visible="$SHOW_USED_FILES"/>
+    <inheritancegraph visible="$CLASS_GRAPH"/>
     <authorsection visible="yes"/>
   </class>
 
@@ -138,7 +140,8 @@
 
   <!-- Layout definition for a group page -->
   <group>
-    <briefdescription visible="yes"/>
+    <detaileddescription title="" visible="yes"/>
+    <briefdescription visible="no"/>
     <groupgraph visible="yes"/>
     <memberdecl>
       <classes title=""/>

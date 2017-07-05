@@ -1,46 +1,55 @@
 //////////////////////////////////////////////////////////////////////
-/// @page getting_started
-/// @section getting_started Getting Started
+/// @page getting_started Getting Started with SBOL
 ///
-/// This beginner’s guide will help you quickly set up a client project and introduces the basic principles of libSBOL for new users. This guide is not meant to be a comprehensive documentation of the library or the SBOL standard.  Refer to the [specification document](http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/) for a complete description of all SBOL data objects and their properties.
-///
-/// The libSBOL repository contains example Xcode and Visual Studio project files.  You can open these project files in your preferred IDE. The projects assume that you have already run `make install` (see @ref mainpage for build instructions) and that libSBOL has been installed to your system's standard library path. 
-///
-/// If you have installed libSBOL to a custom location and you would like to configure your Xcode project to link your local build, then you will have to configure the Build Settings.  Under Search Paths specify the Library and Header Search Paths to your local build.  Under Linking, Other Linker Flags, specify "-lsbol -lraptor2 -lxml2 -liconv -lz"
+/// This beginner’s guide introduces the basic principles of libSBOL for new users. This guide is not meant to be a comprehensive documentation of the library or the SBOL standard.  Refer to documentation about specific [Classes](classes.html) for detailed information about the API.  In addition, refer to the [specification document](http://sbolstandard.org/downloads/specifications/specification-data-model-2-0-1/) for a complete description of the SBOL data standard. For help configuring a client project, see @ref visual_studio or @ref xcode. For example code see the @ref sequences and @ref modular_design tutorials or the example directory of the project source.
 ///
 /// @section document Creating an SBOL Document
 ///
-/// An SBOLDocument object is a container for SBOL data objects. All file I/O operations are performed on the Document object. Usually the first step is to create an SBOLDocument in which to put your objects. This can be done by calling the SBOLDocument constructor.  The read and write methods are used for 
+/// In a previous era, engineers might sit at a drafting board and draft a design by hand. The engineer's drafting sheet in LibSBOL is a Document object. The Document serves as a container, initially empty, for SBOL data objects. All file I/O operations are performed on the Document to populate it with SBOL objects representing design elements. Usually the first step is to create an SBOLDocument in which to put your objects. This can be done by calling the Document constructor.  The read and write methods are used for reading and writing files in SBOL format.
 /// ```
 /// Document& doc = *new Document();
-/// doc.read("CRISPR_example.xml")
-/// doc.write("CRISPR_example.xml")
+/// doc.read("CRISPR_example.xml");
+/// doc.write("CRISPR_example.xml");
 /// ```
-/// Experienced C++ programmers may find that returning a reference from a new operator is an unusual idiomatic choice.  See @ref idiomatic_cpp for a discussion about this stylistic preference in this tutorial.
+/// (Experienced C++ programmers may find that returning a reference from a new operator is an unusual idiomatic choice.  See @ref idiomatic_cpp for a discussion about this stylistic preference in this tutorial.)
+/// Reading a Document will wipe its contents clean before import. However, you can import objects from multiple files into a single Document object using `doc.append('file.xml')`. This can be advantageous when you want to integrate multiple ComponentDefinitions from multiple files into a single design.
+///
+/// A Document may contain different types of SBOL objects, including ComponentDefinitions, ModuleDefinitions, Sequences, SequenceAnnotations, and Models. These objects are collectively referred to as Top Level objects because they can be referenced directly from a Document.
+///
+/// In order to review the ComponentDefinitions contained in a Document:
+/// ``` 
+/// for( auto i_cd = doc.componentDefinitions.begin(); i_cd != doc.componentDefinitions.end(); i_cd++)
+/// {
+///     ComponentDefinition& cd = (*i_cd);
+///     cout << cd.identity.get() << endl;
+/// }
+/// ```
+/// Similarly, you can iterate through a Document's moduleDefinitions, sequences, sequenceAnnotations, and models.
+///
+/// A Document and all associated SBOL objects may be deleted by calling `doc.close()`.
 ///
 /// @section creating_objects Creating SBOL Data Objects
 ///
-/// Both structural and functional details of biological designs can be described with SBOL data objects.  The principle classes for describing the structure and primary sequence of a design are ComponentDefinitions, Components, and Sequences, SequenceAnnotations.  The principle classes for describing the function of a design are ModuleDefinitions, Modules, and Interactions. These classes and their properties are represented as Unified Modeling Language (UML) diagrams in the specification document.  For example, following is the diagram for a ComponentDefinition which will be referred to in later sections.
+/// Both structural and functional details of biological designs can be described with SBOL data objects.  The principle classes for describing the structure and primary sequence of a design are ComponentDefinitions, Components, and Sequences, SequenceAnnotations.  The principle classes for describing the function of a design are ModuleDefinitions, Modules, and Interactions. In the official SBOL specification document, these classes and their properties are represented as Unified Modeling Language (UML) diagrams.  For example, following is the diagram for a ComponentDefinition which will be referred to in later sections.
 /// ![](component_definition_uml.png) 
-/// Objects can be created by calling their respective constructors. Each new object must be assigned a unique identity, or uniform resource identifier (URI), and each constructor has two alternative signatures.  One signature accepts a raw URI, while the "compliant" constructor auto-constructs a URI.
+/// When a new object is created, it must be assigned a unique identity, or uniform resource identifier (URI). A typical URI consists of a scheme, a namespace, and an identifier, although other forms of URI's are allowed.  In this tutorial, we use URI's of the type `http://sys-bio.org/my_design`, where the scheme is indicated by `http://`, the namespace is `sys-bio.org` and the identifier is `my_design`.
 ///
-/// The following constructs a ModuleDefinition given a raw URI:
+/// Objects can be created by calling their respective constructors. The following constructs a ModuleDefinition:
 /// ```
-/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("sys-bio.org/CRISPRTemplate");
+/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("http://sys-bio.org/CRISPRTemplate");
 /// ```
+/// LibSBOL provides a few global configuration options that make URI construction easy. The first configuration option allows you to specify a default namespace for new object creation. If the default namespace is set, then only an identifier needs to be passed to the constructor.  This identifier will be automatically appended to the default namespace. Setting the default namespace is like signing your homework and claims ownership of an object.
+/// ```
+/// setHomespace("http://sys-bio.org");
+/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("CRISPRTemplate");
+/// ```
+/// Another configuration option enables automatic construction of SBOL-compliant URIs. These URIs consist of a namespace, an identifier, AND a Maven version number. In addition, SBOL-compliance simplifies autoconstruction of certain types of SBOL objects, as we will see later.  LibSBOL operates in SBOL-compliant mode by default. However, some RDF power users will prefer to operate in "open-world" mode and provide the full raw URI when constructing objects. To disable URI construction, SBOL-compliance use `toggleSBOLCompliance()`.
 ///
-/// The following auto-constructs a compliant URI from an authority, a displayID, and a version number:
+/// Some constructors have required fields. In the specification document, required fields are indicated as properties with a cardinality of 1 or more.  For example, a ComponentDefinition (see the UML diagram above) has only one required field, the type, which specifies the molecular type of a component.  Arguments to a constructor are always determined by whether the official SBOL specification document indicates if it is required.  Required fields SHOULD be specified when calling a constructor.  If they are not, then they will be assigned default values.  The following creates a protein component. If the BioPAX term for protein were not specified, then the constructor would create a ComponentDefinition of DNA by default.
 /// ```
-/// ModuleDefinition& CRISPRTemplate = *new ModuleDefinition("sys-bio.org", "CRISPRTemplate", "1.0.0");
+/// ComponentDefinition& Cas9 = *new ComponentDefinition("Cas9", BIOPAX_PROTEIN);
 /// ```
-/// The identity of the new object is thus assigned as "sys-bio.org/ModuleDefinition/CRISPRTemplate/1.0.0"
-///
-/// Some constructors have required fields. In the specification document, required fields are indicated as properties with a cardinality of 1 or more.  For example, a ComponentDefinition (see the UML diagram above) has only one required field, the type, which specifies the molecular type of a component. Required fields MUST be specified when calling a constructor.  The following creates a protein component.
-/// 
-/// ```
-/// ComponentDefinition& Cas9 = *new ComponentDefinition("sys-bio.org", "Cas9", "1.0.0", BIOPAX_PROTEIN);
-/// ```
-/// Notice the type is specified using a predefined constant.  See @ref constants.h for all such predefined constants.
+/// Notice the type is specified using a predefined constant. The ComponentDefinition::type property is one of many SBOL properties that use standard ontology terms as property values.  The ComponentDefinition::type property uses the Sequence Ontology to be specific.  Many commonly used ontological terms are provided by libSBOL as predefined constants in the @ref constants.h header.  See the help page for the @ref sbol.ComponentDefinition class or other specific class to find a table that lists the available terms.
 ///
 /// @section adding_objects Adding Objects to a Document
 ///
@@ -48,12 +57,13 @@
 /// ```
 /// doc.add<ModuleDefinition>(CRISPRTemplate);
 /// doc.add<ComponentDefinition>(Cas9);
-/// ``` 
-/// @section optional_fields Setting and Editing Optional Fields
-///
-/// Objects may also include optional fields.  These are indicated in UML as properties having a cardinality of 0 or more.  All properties of a ComponentDefinition are optional, except for the type.  Optional properties can only be set after the object is created. The following code creates a DNA component which is designated as a promoter: 
 /// ```
-/// ComponentDefinition& TargetPromoter = *new ComponentDefinition("sys-bio.org", "TargetPromoter", "1.0.0", BIOPAX_DNA);
+/// Only TopLevel objects need to be added to a Document. These top level objects include ComponentDefinitions, ModuleDefinitions, Sequences, Models. Child objects are automatically associated with the parent object's Document.
+/// @section optional_fields Getting, Setting, and Editing Optional Fields
+///
+/// Objects may also include optional fields.  These are indicated in UML as properties having a cardinality of 0 or more.  Except for the molecular type field, all properties of a ComponentDefinition are optional.  Optional properties can only be set after the object is created. The following code creates a DNA component which is designated as a promoter:
+/// ```
+/// ComponentDefinition& TargetPromoter = *new ComponentDefinition("TargetPromoter", BIOPAX_DNA, "1.0.0");
 /// TargetPromoter.roles.set(SO_PROMOTER)
 /// ```
 ///
@@ -72,19 +82,21 @@
 ///
 /// Some SBOL objects can be composed into hierarchical parent-child relationships.  In the specification diagrams, these relationshipss are indicated by black diamond arrows.  In the UML diagram above, the black diamond indicates that ComponentDefinitions are parents of SequenceAnnotations.  Properties of this type can be modified using the add method and passing the child object as the argument.
 /// ```
-/// TargetPromoter.annotations.add(annotation_object)
+/// SequenceAnnotation& point_mutation = *new SequenceAnnotation("point_mutation");
+/// TargetPromoter.annotations.add(point_mutation);
 /// ```
+/// If you are operating in SBOL-compliant mode, you may prefer to take a shortcut:
+/// ```
+/// TargetPromoter.annotations.create("point_mutation");
+/// ```
+/// The create method captures the construction and addition of the SequenceAnnotation in a single function call. Another advantage of the create method is the construction of SBOL-compliant URIs. If operating in SBOL-compliant mode, you will almost always want to use the create method.  The create method ALWAYS takes one argument--the URI of the new object. All other values are initialized with default values. You can change these values after object creation, however. When operating in open-world mode, it is preferable to follow the first example and use the constructor and add method.
 /// @section references Creating and Editing Reference Properties
 ///
 /// Some SBOL objects point to other objects by way of references. For example, ComponentDefinitions point to their corresponding Sequences. Properties of this type should be set with the URI of the related object. 
 /// ``` 
-/// ComponentDefinition& EYFPGene = *new ComponentDefinition(BASE_URI, "EYFPGene", v, BIOPAX_DNA);
-/// Sequence& seq = *new Sequence(BASE_URI, "EYFPSequence", "1.0.0", "atgnnntaa", SBOL_ENCODING_IUPAC);
-/// EYFPGene.sequence.setReference(BASE_URI, "EYFPSequence, "1.0.0");
-/// ```
-/// The setReference method automatically constructs a complicant URI.  Another way to set the reference is to specify the full URI.
-/// ```
-/// EYFPGene.sequence.set(seq.identity.get());
+/// ComponentDefinition& EYFPGene = *new ComponentDefinition("EYFPGene", BIOPAX_DNA);
+/// Sequence& seq = *new Sequence("EYFPSequence", "atgnnntaa", SBOL_ENCODING_IUPAC);
+/// EYFPGene.sequences.set(seq.identity.get());
 /// ```
 /// @section lists_of_objects Iterating and Indexing Lists
 /// Some properties can contain multiple values or objects. As mentioned under @ref optional_fields additional values can be specified with the add method.  In addition you may iterate over lists of objects or values.
@@ -108,7 +120,64 @@
 /// ```
 /// cout << Cas9ComplexFormation.participations[0].identity.get() << endl;
 /// ```
+/// This concludes the basic methods for manipulating SBOL data structures. Now that you're familiar with these basic methods, you are ready to learn about libSBOL's high-level design interface for synthetic biology. See @ref sequences.
+///
 /// @section idiomatic_cpp A Note on our Idiomatic Use of References
 ///
-/// In C++ creating a reference to an object using the new operator is a matter of stylistic controversy. For one thing, mixing references with the new operator can make low level memory management confusing for some developers.  The reason this isn't an issue here is because libSBOL encapsulates memory management within the Document object. Pointers to all the objects in a Document are freed when the Document destructor is called.  Coming from a Python background to C++, we wanted to maximize the object-oriented experience using the library and the reference syntax feels and looks more object-oriented. Rest assured however, that if you disagree with this idiomatic style, you can still work with pointers in the more traditional way.
+/// In C++ creating a reference to an object using the new operator is a matter of stylistic controversy. For one thing, mixing references with the new operator can make low level memory management confusing for some developers.  The reason this isn't an issue here is because libSBOL encapsulates memory management within the Document object. Pointers to all the objects in a Document are freed when the Document::close method is called. Coming from a Python background to C++, we wanted to maximize the object-oriented experience using the library and minimize the use of pointers. Rest assured however, that if you disagree with this idiomatic style, you can still work with pointers in the more traditional way.
+///
+/// @section xcode Creating an XCode project on Mac OSX
+///
+/// The libSBOL repository contains example Xcode (for Mac) and Visual Studio (for Windows) project files. In Xcode open the example.xcodeproj file included in the example/Xcode directory. This project assumes that you have already installed libSBOL via an installer executable or have run `make install`, assuming you have built libSBOL from source. (See @ref index "Introduction" for build instructions) Running `make install` places the headers in /usr/local/include/sbol/ and the library in /usr/local/lib. This project targets OS 10.9 and later. If you have an older system you will have to change the Build Settings > Deployment > OS X Deployment Target (eg, from 10.9 to 10.8) depending on your system version
+///
+/// If you have installed libSBOL to a custom location and you would like to configure your Xcode project from scratch:
+/// * Navigate to the File Menu and select OS X > Application > Command Line Tool.  Specify a Product Name and that you are using C++ language in the dropdown menu. Specify the path where you want your project created.
+/// * In the Project Navigation pane, select the blue XCode icon next to your project name. This should expose the Build Settings in the main window.  Under Search Paths, specify the Header Search Path and Library Search Paths to point to your local build. You will also need to specify the library path to raptor, which should be in /usr/local/lib if you used a 3rd party package installer like Homebrew
+/// * Also under Build Settings under the Linking sections, specify Other Linker Flags as "-lsbol -lraptor2"
+/// * Fix path to the example file necessary.
+/// * Add these lines to your client application:
+///
+/// ```
+/// #include "sbol.h"
+/// using namespace sbol;
+/// ```
+/// Now link and run your client application:
+/// ```
+/// $ g++ -std=c++11 -I../source -I/usr/local/include/raptor2 -L/usr/local/lib -lraptor2 -ljsoncpp -lcurl -lsbol client_app.cpp -o client_app 
+/// $ ./client_app
+/// ```
+/// Here, -I flags specify paths to include folders with necessary header files. -L flag specifies path to the libSBOL library. -o flag specifies the file name of the output. Change the values according to your setup.
+///
+/// @section visual_studio Creating a Visual Studio project on Windows
+/// 
+/// It is strongly recommended to use [Visual Studio 2015](https://www.visualstudio.com/downloads/)
+///
+/// 1) RUN THE INSTALLER
+/// * Download and run the latest [installer](https://github.com/SynBioDex/libSBOL/releases)
+/// By default this installs to "C:\Program Files (x86)\SBOL" with administrator privileges. If you don't have admin privileges, the installer will let you specify a custom install path.
+///
+/// 2) CREATE A NEW PROJECT IN VISUAL STUDIO
+/// * Navigate to the 'File Menu' and select 'New Project'.  To jump there directly, hit Ctrl-Shift-N
+/// * In the New Project window, navigate to 'Installed > Templates > Visual C++ > Win32' and select 'Win32 Console Application'.
+/// * If you do not want to use defaults, specify a name and location for your client application.  Click OK.
+/// * In the 'Application Settings' tab of the 'Win32 Application Wizard' window, select 'Console Application' for 'Application type'.  Deselect 'Precompiled Header' & 'SDL Checks'.  Click Finish.
+///
+/// 3) SPECIFY DEPENDENCIES
+/// * Navigate to the Project Menu and select the project Properties. or hit Alt+F7 to jump there directly.
+/// * In the dropdown menu in the upper left of the Property Pages window, select Release configuration.
+/// * To specify link libraries, navigate to 'Configuration Properties > Linker > Input'.  Select the 'Additional Dependencies' field and edit it.  Enter the following libraries:
+///
+///   sbol.lib; raptor2.lib; libxml2.lib; libiconv.lib; libz.lib; jsoncpp.lib; libcurl.lib
+///
+/// * To specify the path where the libraries and header files are located, navigate to 'Configuration Properties > VC++ Directories'. Edit the  'Library Directories' field and enter the install path from Step 1.  In addition, edit the 'Include Directories' field and enter the same path.  Click Apply. (Make sure that all the libraries you listed above are located under the 'Library Directories'. If not, add addtional directory paths to cover all the libraries)
+///
+/// 4) INCLUDE SBOL HEADER AND NAMESPACE IN THE CLIENT APP
+/// * Add these lines to your client application and build:
+///
+/// ```
+/// #include "sbol.h"
+/// using namespace sbol;
+/// ```
+/// 5) If you want to build using 64 bit libraries, make sure you target 'x64' and follow the above steps. 
+///
 //////////////////////////////////////////////////////////////////////

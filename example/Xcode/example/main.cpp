@@ -13,6 +13,7 @@ using namespace sbol;
 
 int main() {
     Document& doc = *new Document();
-    doc.read("../../../../../../CRISPR_example.xml");
+    
+    getchar();
     return 0;
 }

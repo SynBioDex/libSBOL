@@ -483,16 +483,16 @@ struct raptor_parser_s {
   raptor_locator locator;
 
   /* non-0 if parser had fatal error and cannot continue */
-  unsigned int failed : 1;
+  int failed : 1;
 
   /* non-0 to enable emitting graph marks (default set).  Intended
    * for use by GRDDL the parser on it's child parsers to prevent
    * multiple start/end marks on the default graph.
    */
-  unsigned int emit_graph_marks : 1;
+  int emit_graph_marks : 1;
 
   /* non-0 if have emitted start default graph mark */
-  unsigned int emitted_default_graph : 1;
+  int emitted_default_graph : 1;
 
   /* generated ID counter */
   int genid;
@@ -708,7 +708,6 @@ int raptor_parser_set_uri_filter_no_net(void *user_data, raptor_uri* uri);
 void raptor_parser_parse_uri_write_bytes(raptor_www* www, void *userdata, const void *ptr, size_t size, size_t nmemb);
 void raptor_parser_fatal_error(raptor_parser* parser, const char *message, ...) RAPTOR_PRINTF_FORMAT(2, 3);
 void raptor_parser_error(raptor_parser* parser, const char *message, ...) RAPTOR_PRINTF_FORMAT(2, 3);
-RAPTOR_INTERNAL_API void raptor_parser_log_error(raptor_parser* parser, raptor_log_level level, const char *message, ...) RAPTOR_PRINTF_FORMAT(3, 4);
 RAPTOR_INTERNAL_API void raptor_parser_log_error_varargs(raptor_parser* parser, raptor_log_level level, const char *message, va_list arguments) RAPTOR_PRINTF_FORMAT(3, 0);
 void raptor_parser_warning(raptor_parser* parser, const char *message, ...) RAPTOR_PRINTF_FORMAT(2, 3);
 
@@ -930,7 +929,6 @@ int raptor_init_serializer_rdfxmla(raptor_world* world);
 
 /* raptor_serialize_turtle.c */  
 int raptor_init_serializer_turtle(raptor_world* world);
-int raptor_init_serializer_mkr(raptor_world* world);
 
 /* raptor_serialize_html.c */  
 int raptor_init_serializer_html(raptor_world* world);
@@ -1308,21 +1306,8 @@ raptor_qname* raptor_new_qname_from_resource(raptor_sequence* namespaces, raptor
  */
 typedef struct raptor_turtle_writer_s raptor_turtle_writer;
 
-/**
- * raptor_turtle_writer_flags:
- * @TURTLE_WRITER_FLAG_AUTO_INDENT: auto indent
- * @TURTLE_WRITER_FLAG_MKR: write mkr not turtle
- *
- * Bit flags for raptor_new_turtle_writer()
- */
-typedef enum {
-  TURTLE_WRITER_FLAG_AUTO_INDENT = 1,
-  TURTLE_WRITER_FLAG_MKR = 2
-} raptor_turtle_writer_flags;
-
-
 /* Turtle Writer Class (raptor_turtle_writer) */
-RAPTOR_INTERNAL_API raptor_turtle_writer* raptor_new_turtle_writer(raptor_world* world, raptor_uri* base_uri, int write_base_uri, raptor_namespace_stack *nstack, raptor_iostream* iostr, int flags);
+RAPTOR_INTERNAL_API raptor_turtle_writer* raptor_new_turtle_writer(raptor_world* world, raptor_uri* base_uri, int write_base_uri, raptor_namespace_stack *nstack, raptor_iostream* iostr);
 RAPTOR_INTERNAL_API void raptor_free_turtle_writer(raptor_turtle_writer* turtle_writer);
 RAPTOR_INTERNAL_API void raptor_turtle_writer_raw(raptor_turtle_writer* turtle_writer, const unsigned char *s);
 RAPTOR_INTERNAL_API void raptor_turtle_writer_raw_counted(raptor_turtle_writer* turtle_writer, const unsigned char *s, unsigned int len);
@@ -1333,7 +1318,6 @@ RAPTOR_INTERNAL_API void raptor_turtle_writer_decrease_indent(raptor_turtle_writ
 RAPTOR_INTERNAL_API void raptor_turtle_writer_newline(raptor_turtle_writer *turtle_writer);
 RAPTOR_INTERNAL_API int raptor_turtle_writer_reference(raptor_turtle_writer* turtle_writer, raptor_uri* uri);
 RAPTOR_INTERNAL_API int raptor_turtle_writer_literal(raptor_turtle_writer* turtle_writer, raptor_namespace_stack *nstack, const unsigned char *s, const unsigned char* lang, raptor_uri* datatype);
-RAPTOR_INTERNAL_API void raptor_turtle_writer_csv_string(raptor_turtle_writer* turtle_writer, const unsigned char *s);
 RAPTOR_INTERNAL_API void raptor_turtle_writer_qname(raptor_turtle_writer* turtle_writer, raptor_qname* qname);
 RAPTOR_INTERNAL_API int raptor_turtle_writer_quoted_counted_string(raptor_turtle_writer* turtle_writer, const unsigned char *s, size_t length);
 void raptor_turtle_writer_comment(raptor_turtle_writer* turtle_writer, const unsigned char *s);
@@ -1345,7 +1329,6 @@ void raptor_turtle_writer_bnodeid(raptor_turtle_writer* turtle_writer, const uns
 int raptor_turtle_writer_uri(raptor_turtle_writer* turtle_writer, raptor_uri* uri);
 int raptor_turtle_writer_term(raptor_turtle_writer* turtle_writer, raptor_term* term);
 int raptor_turtle_is_legal_turtle_qname(raptor_qname* qname);
-
 
 /**
  * raptor_json_writer:

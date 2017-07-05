@@ -1,3 +1,28 @@
+/**
+ * @file    property.h
+ * @brief   Property template classes (eg, TextProperty, URIProperty, IntProperty)
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
 #ifndef PROPERTY_INCLUDED
 #define PROPERTY_INCLUDED
 
@@ -12,32 +37,32 @@
 #include <map>
 #include <unordered_map>
 
-/// @defgroup extension_layer Extension layer
-/// These classes are not a usual part of the SBOL core data model.  Rather they can be used to define new extension classes which add custom data to the SBOL file format.
- 
+
+/// @defgroup extension_layer Extension Interface
+/// The extension layer converts the SBOL data model, as described in the [formal specification document](http://sbolstandard.org), into Resource Description Framework (RDF) and a standard RDF/XML file format.  The extension interface also makes it possible to add custom application data to SBOL files, a feature intended to support workflow and collaboration between synthetic biologists at different stages of design, manufacturing, and testing of synthetic DNA constructs.
+/// All member properties of SBOL classes are themselves defined using Property classes
+
 namespace sbol
 {
     /// @brief This string type is assigned URI strings (see constants.h for default values).  This URI controls the tags of RDF/XML nodes
 	typedef std::string sbol_type;
 
-	/* All SBOLProperties have a pointer back to the object which the property belongs to.  
-	This requires forward declaration of the SBOLObject class */
+	// All SBOLProperties have a pointer back to the object which the property belongs to.  This requires forward declaration of the SBOLObject class
 	class SBOLObject;
 
-
+    /// Member properties of all SBOL objects are defined using a Property object.  The Property class provides a generic interface for accessing SBOL objects.  At a low level, the Property class converts SBOL data structures into RDF triples.
+    /// @tparam The SBOL specification currently supports string, URI, and integer literal values.
     /// @ingroup extension_layer
-    /// @brief These classes are for user defined extensions, the casual user need not worry about them.
-    /// @tparam LiteralType The SBOL specification currently supports supports integer, string, and URI literals
-    ///
 	template <class LiteralType>
-	class Property
+	class SBOL_DECLSPEC Property
 	{
-
+    friend class SBOLObject;
+        
 	protected:
 		sbol_type type;
 		SBOLObject *sbol_owner;  // back pointer to the SBOLObject to which this Property belongs
 		ValidationRules validationRules;
-
+        void initializeNamespace(std::string ns);  // Adds extension namespaces to the owner SBOLObject
 	public:
         Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules = {});
 
@@ -52,19 +77,19 @@ namespace sbol
 		~Property();
 		virtual sbol_type getTypeURI();
 		virtual SBOLObject& getOwner();
-		virtual std::string get();
-		void add(std::string new_value);
-
-   		virtual void set(std::string new_value);
-		virtual void set(int new_value);
+//        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+        virtual std::vector<std::string> getAll();
+        virtual void set(std::string new_value);    ///< Basic setter for SBOL TextProperty and URIProperty.
+        virtual void set(int new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
+		void add(std::string new_value);            ///< Appends the new value to a list of values, for properties that allow it.
+        virtual void remove(int index = 0);
+        virtual void clear();
 		virtual void write();
 		void validate(void * arg = NULL);
-        
-        std::string operator[] (const int nIndex);
+        std::string operator[] (const int nIndex);  ///< Retrieve the indexed value in a list container
 
-#ifdef SWIG
-    protected:
-#endif
+
+        /// Provides iterator functionality for SBOL properties that contain multiple values
         class iterator : public std::vector<std::string>::iterator
         {
         public:
@@ -88,26 +113,39 @@ namespace sbol
         
         int size()
         {
-            std::size_t size = this->sbol_owner->owned_objects[this->type].size();
+            std::size_t size = this->sbol_owner->properties[this->type].size();
+            std::string current_value = this->sbol_owner->properties[this->type][0];
+            if (size == 1)
+            {
+                if (current_value.compare("<>") == 0 || current_value.compare("\"\"") == 0)  // Empty fields retain <> or "" to distinguish between URIs and literals
+                    return 0;
+            }
             return (int)size;
         };
         
         std::vector<std::string>::iterator python_iter;
+        
+
     };
     
 
-
-	/* Constructor for string Property */
-	template <class LiteralType>
+    /// @param type_uri An RDF hash URI for this property, consisting of a namespace followed by an identifier. For example, Properties of SBOLObjects use URIs of the form http://sbols.org/v2#somePropertyName, where the identifier somePropertyName determines the appearance of XML nodes in an SBOL file.  Alternatively, annotations in a custom namespace can be provided using a similarly formed hash URI in another namespace.
+    /// @param property_owner All Property objects must have a pointer back to its parent SBOLObject of which it is a member
+    /// @param initial_value The initial value of the Property
+    /// @param validation_rules A vector of externally defined ValidationRules. The vector contains pointers to functions which correspond to the validation rules listed in the appendix of the formal SBOL specification document.  ValidationRules are automatically checked every time a setter or adder method is called and when Documents are read and written.
+    template <class LiteralType>
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
 	{
+        std::string trim_value = initial_value.substr(1, initial_value.length() - 2);
+        validate(&trim_value);
 		// Register Property in owner Object
 		if (this->sbol_owner != NULL)
 		{
 			std::vector<std::string> property_store;
 			property_store.push_back(initial_value);
-			this->sbol_owner->properties.insert({ type_uri, property_store });
-		}
+//			this->sbol_owner->properties.insert({ type_uri, property_store });
+            this->sbol_owner->properties.insert({ type, property_store });
+        }
 	}
 
 	/* Constructor for int Property */
@@ -146,36 +184,95 @@ namespace sbol
         return *sbol_owner;
     }
     
+//    /// @ingroup extension_layer
+//    /// @return All properties are initially read from an SBOL file as a raw string containing the property value.
+//    template <class LiteralType>
+//    std::string Property<LiteralType>::get()
+//    {
+//        if (this->sbol_owner)
+//        {
+//            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+//            {
+//                // not found
+//                throw;
+//            }
+//            else
+//            {
+//                // found
+//                if (this->sbol_owner->properties[type].size() == 0)
+//                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+//                else
+//                {
+//                    std::string value = this->sbol_owner->properties[type].front();
+//                    value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+//                    return value;
+//                }
+//            }
+//        }	else
+//        {
+//            throw;
+//        }
+//    };
+
     template <class LiteralType>
-    std::string Property<LiteralType>::get()
+    std::vector<std::string> Property<LiteralType>::getAll()
     {
         if (this->sbol_owner)
         {
             if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
             {
                 // not found
-                return "";
+                throw;
             }
             else
             {
                 // found
-                std::string value = this->sbol_owner->properties[type].front();
-                value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
-                return value;
+                if (this->sbol_owner->properties[type].size() == 0)
+                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+                else
+                {
+                    std::vector<std::string> values;
+                    std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                    for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                    {
+                        std::string value = *i_val;
+                        value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                        values.push_back(value);
+                    }
+                    return values;
+                }
             }
         }	else
         {
-            return "";
+            throw;
         }
     };
- 
-    template <class LiteralType>
-    std::string Property<LiteralType>::operator[] (const int nIndex)
-    {
-        std::vector<std::string> *value_store = &this->sbol_owner->properties[this->type];
-        return value_store->at(nIndex);
-    };
     
+    
+//    template <class LiteralType>
+//    int Property<LiteralType>::get()
+//    {
+//        if (this->sbol_owner)
+//        {
+//            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+//            {
+//                // not found
+//                throw;
+//            }
+//            else
+//            {
+//                // found
+//                std::string value = this->sbol_owner->properties[type].front();
+//                value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+//                return std::stoi(value);
+//            }
+//        }	else
+//        {
+//            throw;
+//        }
+//    };
+    
+    /// @param new_value A new string value for the Property.
     template <class LiteralType>
     void Property<LiteralType>::set(std::string new_value)
     {
@@ -195,7 +292,8 @@ namespace sbol
         }
         validate((void *)&new_value);
     };
-    
+
+    /// @param new_value A new integer value for the property, which is converted to a raw string during serialization.
     template <class LiteralType>
     void Property<LiteralType>::set(int new_value)
     {
@@ -206,6 +304,30 @@ namespace sbol
         }
         validate((void *)&new_value);  //  Call validation rules associated with this Property
     };
+    
+    /// @param nIndex A numerical index
+    template <class LiteralType>
+    std::string Property<LiteralType>::operator[] (const int nIndex)
+    {
+        std::vector<std::string> *value_store = &this->sbol_owner->properties[this->type];
+        return value_store->at(nIndex);
+    };
+    
+    template <class LiteralType>
+    void Property<LiteralType>::clear()
+    {
+        std::string current_value = this->sbol_owner->properties[this->type][0];
+        std::cout << current_value << std::endl;
+        this->sbol_owner->properties[type].clear();
+        if (current_value[0] == '<')  //  this property is a uri
+        {
+            this->sbol_owner->properties[this->type].push_back("<>");
+        }
+        else if (current_value[0] == '"') // this property is a literal
+        {
+            this->sbol_owner->properties[this->type].push_back("\"\"");
+        }
+    }
     
     template <class LiteralType>
     void Property<LiteralType>::write()
@@ -222,13 +344,20 @@ namespace sbol
     template <class LiteralType>
     void Property<LiteralType>::validate(void * arg)
     {
-        for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
+        // If no argument is specified, validate the property values already in the store.  The constructor does this, for example, to validate the initial value.
+//  This doesn't work because of access into incomplete type!!!
+        if (arg)
         {
-            ValidationRule& validate_fx = *i_rule;
-            validate_fx(sbol_owner, arg);
+            // Validate the argument, if one is specified. The setters do this
+            for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
+            {
+                ValidationRule& validate_fx = *i_rule;
+                validate_fx(sbol_owner, arg);
+            }
         }
     };
     
+    /// @param new_value A new string which will be added to a list of values.
     template <class LiteralType>
     void Property<LiteralType>::add(std::string new_value)
     {
@@ -247,6 +376,22 @@ namespace sbol
         }
     };
     
+    template <class LiteralType>
+    void Property<LiteralType>::remove(int index)
+    {
+        if (this->sbol_owner)
+        {
+            if (this->sbol_owner->properties.find(this->type) != this->sbol_owner->properties.end())
+            {
+                if (index >= this->sbol_owner->properties[this->type].size())
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+                if (this->sbol_owner->properties[this->type].size() == 1)
+                    this->clear();  // If this is the only value in the property, then clearing it will properly re-initialize the property
+                else
+                    this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index);
+            }
+        }
+    };
     
 }
 

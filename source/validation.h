@@ -1,3 +1,28 @@
+/**
+ * @file    validation.h
+ * @brief   Validation rules
+ * @author  Bryan Bartley
+ * @email   bartleyba@sbolstandard.org
+ *
+ * <!--------------------------------------------------------------------------
+ * This file is part of libSBOL.  Please visit http://sbolstandard.org for more
+ * information about SBOL, and the latest version of libSBOL.
+ *
+ *  Copyright 2016 University of Washington, WA, USA
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ------------------------------------------------------------------------->*/
+
 #ifndef VALIDATION_RULE_INCLUDED
 #define VALIDATION_RULE_INCLUDED
 
@@ -10,12 +35,15 @@ typedef std::vector<ValidationRule> ValidationRules;
 namespace sbol
 {
     /* These validation rules are explicitly defined in the SBOL 2.0 specification document */
-    void sbolRule10101(void *sbol_obj, void *arg);
-    void sbolRule10102(void *sbol_obj, void *arg);
-	void sbol_rule_10202(void *sbol_obj, void *arg);
+	SBOL_DECLSPEC void sbolRule10101(void *sbol_obj, void *arg);
+	SBOL_DECLSPEC void sbolRule10102(void *sbol_obj, void *arg);
+	SBOL_DECLSPEC void sbol_rule_10202(void *sbol_obj, void *arg);
 
 	/* These validation rules are internal to libSBOL */
-	void libsbol_rule_1(void *sbol_obj, void *arg);
+	SBOL_DECLSPEC void libsbol_rule_1(void *sbol_obj, void *arg);
+
+    /* These validation rules are internal to libSBOL */
+    SBOL_DECLSPEC void libsbol_rule_2(void *sbol_obj, void *arg);
 
     //  The following class is an experimental wrapper class for a validation callback function
     //  See http://stackoverflow.com/questions/879408/c-function-wrapper-that-behaves-just-like-the-function-itself
@@ -31,6 +59,8 @@ namespace sbol
     //        };
     //        ~_ValidationRule();
     //    };
+    
 };
+
 
 #endif
