@@ -32,8 +32,10 @@ before_install:
 
 install:
   - cd ~/build/libSBOL
+
   - sudo apt-get install -qq g++-4.8
   - export CXX="g++-5" CC="gcc-5"
+
   - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON -DSBOL_BUILD_TESTS=ON -DSBOL_BUILD_PYTHON2=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 "$TRAVIS_BUILD_DIR"
   - make 
   - make install
