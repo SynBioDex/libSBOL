@@ -45,10 +45,9 @@ before_script: true
 script:
   - cd ~/build/libSBOL
   - make -j2 && make install
-  # - ctest -VV
-  # display results of compiled tests
-  # - cat autotest/compiled-test-suite/results.xml
-  
+  - cd ~/install_x64/test
+  - ./sbol_test
+    
 addons:
   apt:
     sources:
