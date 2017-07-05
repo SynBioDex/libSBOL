@@ -3,16 +3,16 @@ dist: trusty
 
 language: cpp
 
-#notifications:
-#  email:
-#      - bartleyba@sbolstandard.org
-#      - kirichoi@uw.edu
+notifications:
+  email:
+    - bartleyba@sbolstandard.org
+    - kirichoi@uw.edu
 
 compiler: gcc
 
 branches:
   only:
-    - master
+    - develop
 
 before_install:
   # print the distro information
