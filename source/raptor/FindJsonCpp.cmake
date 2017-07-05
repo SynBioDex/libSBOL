@@ -13,7 +13,15 @@ find_path(JsonCpp_INCLUDE_DIR "json/json.h"
   PATH_SUFFIXES "jsoncpp"
   DOC "Specify the JsonCpp include directory here")
 
-#unset(JsonCpp_LIBRARY CACHE)
+if(SBOL_BUILD_SHARED)
+if(JsonCpp_LIBRARY MATCHES "(.*).(a|lib)")
+unset(JsonCpp_LIBRARY CACHE)
+endif()
+else()
+if(JsonCpp_LIBRARY MATCHES "(.*).(so|dylib|dll)")
+unset(JsonCpp_LIBRARY CACHE)
+endif()
+endif()
 
 find_library(JsonCpp_LIBRARY
   NAMES jsoncpp
