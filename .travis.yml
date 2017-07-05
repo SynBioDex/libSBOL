@@ -1,0 +1,45 @@
+sudo: required
+dist: trusty
+
+language: cpp
+
+#notifications:
+#  email:
+#      - bartleyba@sbolstandard.org
+#      - kirichoi@uw.edu
+
+compiler: gcc
+
+branches:
+  only:
+    - develop
+    - master
+
+before_install:
+  # print the distro information
+  - lsb_release -a
+
+  # cache refresh required to install packages
+  - sudo apt-get update -qq
+
+  # install dependencies
+  - sudo apt-get -y install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev libjsoncpp-dev swig python-dev
+
+  - echo "TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR"
+  # build 
+  - mkdir -p ~/build/libSBOL
+
+install:
+  - cd ~/build/libSBOL
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON -DSBOL_BUILD_TESTS=ON -DSBOL_BUILD_PYTHON2=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 "$TRAVIS_BUILD_DIR"
+  - make 
+  - make install
+
+before_script: true
+
+script:
+  - cd ~/build/libSBOL
+  - make -j2 && make install
+  # - ctest -VV
+  # display results of compiled tests
+  # - cat autotest/compiled-test-suite/results.xml
