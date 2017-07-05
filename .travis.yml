@@ -37,8 +37,18 @@ install:
 before_script: true
 
 script:
+  - sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-5 /usr/bin/gcc
+  - gcc --version
   - cd ~/build/libSBOL
   - make -j2 && make install
   # - ctest -VV
   # display results of compiled tests
   # - cat autotest/compiled-test-suite/results.xml
+  
+  addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-5
+    - g++-5
