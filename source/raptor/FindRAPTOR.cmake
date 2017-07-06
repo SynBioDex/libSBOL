@@ -51,8 +51,16 @@ if (NOT (RAPTOR_INCLUDE_DIR AND RAPTOR_LIBRARIES) OR NOT RAPTOR_FOUND)
              NO_DEFAULT_PATH)
 
     find_path(RAPTOR_INCLUDE_DIR raptor2.h)
-
-    #unset(RAPTOR_LIBRARY CACHE)
+    
+    if(SBOL_BUILD_SHARED)
+    if(RAPTOR_LIBRARY MATCHES "(.*).(a|lib)")
+    unset(RAPTOR_LIBRARY CACHE)
+    endif()
+    else()
+    if(RAPTOR_LIBRARY MATCHES "(.*).(so|dylib|dll)")
+    unset(RAPTOR_LIBRARY CACHE)
+    endif()
+    endif()
 
     find_library(RAPTOR_LIBRARY 
         NAMES raptor2 libraptor2

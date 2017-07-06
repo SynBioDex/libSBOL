@@ -209,7 +209,7 @@ namespace sbol
         
         std::vector<std::string>::iterator python_iter;
         
-		#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::string __getitem__(const int nIndex)
         {
             return this->operator[](nIndex);
@@ -261,7 +261,7 @@ namespace sbol
         {
             return this->size();
         }
-		#endif
+        #endif
 
     };
     bool operator !=(const SBOLObject &a, const SBOLObject &b);

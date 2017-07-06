@@ -17,6 +17,8 @@ IF( SWIG_FOUND )
         ${SBOL_SOURCE_DIR}
         ${RAPTOR_INCLUDE_DIR}
         ${CURL_INCLUDE_DIR}
+        ${JsonCpp_INCLUDE_DIR}
+
         # ${LIBXSLT_INCLUDE_DIR}
         # ${LIBXML2_INCLUDE_DIR}
         # ${LIBZ_INCLUDE_DIR}
