@@ -1,4 +1,5 @@
 # libSBOL 2.2.0
+[![Build Status](https://travis-ci.org/SynBioDex/libSBOL.svg?branch=master)](https://travis-ci.org/SynBioDex/libSBOL)
 
 [libSBOL](https://github.com/SynBioDex/libSBOL) is a C++ library for reading, writing, and constructing genetic designs according to the standardized specifications of the [Synthetic Biology Open Language (SBOL)](http://www.sbolstandard.org/).  
 
