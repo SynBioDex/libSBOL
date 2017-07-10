@@ -9,11 +9,13 @@ if( SBOL_BUILD_PYTHON2 )
     find_package( SWIG REQUIRED )
     find_package( PythonLibs 2 EXACT)
     include_directories( ${PYTHON_INCLUDE_DIR} )
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)
 endif()
 if( SBOL_BUILD_PYTHON3 )
     find_package( SWIG REQUIRED )
     find_package( PythonLibs 3)
     include_directories( ${PYTHON_INCLUDE_DIR} )
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
 endif()
 
 # gather source files
