@@ -90,11 +90,6 @@ namespace sbol {
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
         TopLevel& getTopLevel(std::string);
         raptor_world* getWorld();
-        
-        #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-        // Instantiate Python extension objects
-        std::unordered_map<std::string, sbol::PythonObject*> PythonObjects;
-        #endif
         /// @endcond
 
         List<OwnedObject<ComponentDefinition>> componentDefinitions;
@@ -673,17 +668,23 @@ namespace sbol {
             std::string persistentIdentity;
             std::string version;
             
-            // Check to see if the parent object has a persistent identity
-            if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+            SBOLClass dummy_obj = SBOLClass();  // This is unfortunately a necessary hack in order to infer what the compliant URI should be
+            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&dummy_obj);
+            if (!check_top_level)
             {
-                persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
-                persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+                // Check to see if the parent object has a persistent identity
+                if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+                {
+                    persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+                    persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+                }
             }
             // If the parent object doesn't have a persistent identity then it is TopLevel
             else if (compliantTypesEnabled())
             {
-                SBOLClass obj = SBOLClass();  // This is unfortunately a necessary hack in order to infer what the compliant URI should be
-                persistentIdentity = getHomespace() + "/" + parseClassName(obj.getTypeURI());
+
+                persistentIdentity = getHomespace() + "/" + parseClassName(dummy_obj.getTypeURI());
+
             }
             else
             {
