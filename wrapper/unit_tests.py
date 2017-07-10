@@ -70,7 +70,6 @@ class TestRoundTripSBOL2(unittest.TestCase):
         self.doc2 = Document()  # Document to compare for equality
         self.doc2.read(os.path.join(TEST_LOC_SBOL2, os.path.splitext(test_file)[0] + '_out' + file_format))
         self.assertEqual(self.doc.compare(self.doc2), 1)
-        os.remove(os.path.join(TEST_LOC_SBOL2, os.path.splitext(test_file)[0] + '_out' + file_format))
     
     def test_case00(self):
         print(str(TEST_FILES_SBOL2[0]))
@@ -132,10 +131,9 @@ class TestRoundTripSBOL2(unittest.TestCase):
         print(str(TEST_FILES_SBOL2[14]))
         self.run_round_trip(str(TEST_FILES_SBOL2[14]))
 
-#emptyJSONFile.json
-#    def test_case15(self):
-#        print(str(TEST_FILES_SBOL2[15]))
-#        self.run_round_trip(str(TEST_FILES_SBOL2[15]))
+    def test_case15(self):
+        print(str(TEST_FILES_SBOL2[15]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[15]))
 
     def test_case16(self):
         print(str(TEST_FILES_SBOL2[16]))
@@ -365,14 +363,14 @@ class TestRoundTripSBOL2(unittest.TestCase):
         print(str(TEST_FILES_SBOL2[72]))
         self.run_round_trip(str(TEST_FILES_SBOL2[72]))
 
-    def test_case73(self):
-        print(str(TEST_FILES_SBOL2[73]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[73]))
+#    SBOL1and2Test
+#    def test_case73(self):
+#        print(str(TEST_FILES_SBOL2[73]))
+#        self.run_round_trip(str(TEST_FILES_SBOL2[73]))
 
-    #SBOL1and2Test
-    #def test_case74(self):
-    #    print(str(TEST_FILES_SBOL2[74]))
-    #    self.run_round_trip(str(TEST_FILES_SBOL2[74]))
+    def test_case74(self):
+        print(str(TEST_FILES_SBOL2[74]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[74]))
 
     def test_case75(self):
         print(str(TEST_FILES_SBOL2[75]))
@@ -465,14 +463,10 @@ class TestRoundTripSBOL2(unittest.TestCase):
     def test_case97(self):
         print(str(TEST_FILES_SBOL2[97]))
         self.run_round_trip(str(TEST_FILES_SBOL2[97]))
-
+        
     def test_case98(self):
         print(str(TEST_FILES_SBOL2[98]))
         self.run_round_trip(str(TEST_FILES_SBOL2[98]))
-
-    def test_case99(self):
-        print(str(TEST_FILES_SBOL2[99]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[99]))
 
 class TestComponentDefinitions(unittest.TestCase):
     
@@ -500,7 +494,7 @@ class TestComponentDefinitions(unittest.TestCase):
     def testCDDisplayId(self):
         listCD_read = []
         doc = Document()
-        doc.read(os.path.join(TEST_LOC_SBOL2, str(TEST_FILES_SBOL2[72])))
+        doc.read(os.path.join(TEST_LOC_SBOL2, 'roundTrip.xml'))
 
         # List of displayIds        
         listCD = ['CRP_b', 'CRa_U6', 'EYFP', 'EYFP_cds', 'EYFP_gene', 'Gal4VP16',
@@ -704,7 +698,7 @@ class TestSequences(unittest.TestCase):
     def testSeqDisplayId(self):
         listseq_read = []
         doc = Document()
-        doc.read(os.path.join(TEST_LOC_SBOL2, str(TEST_FILES_SBOL2[72])))
+        doc.read(os.path.join(TEST_LOC_SBOL2, 'roundTrip.xml'))
 
         # List of displayIds        
         listseq = ['CRP_b_seq', 'CRa_U6_seq', 'gRNA_b_seq', 'mKate_seq']
@@ -716,7 +710,7 @@ class TestSequences(unittest.TestCase):
             
     def testSequenceElement(self):
         doc = Document()
-        doc.read(os.path.join(TEST_LOC_SBOL2, str(TEST_FILES_SBOL2[72])))
+        doc.read(os.path.join(TEST_LOC_SBOL2, 'roundTrip.xml'))
         # Sequence to test against
         seq = ('GCTCCGAATTTCTCGACAGATCTCATGTGATTACGCCAAGCTACGGGCGGAGTACTGTCCTC'
                'CGAGCGGAGTACTGTCCTCCGAGCGGAGTACTGTCCTCCGAGCGGAGTACTGTCCTCCGAGC'
@@ -761,6 +755,15 @@ class TestSequences(unittest.TestCase):
 # List of tests
 test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences]
 
+def delete_files():
+    TEST_FILES_SBOL2_OUT = os.listdir(TEST_LOC_SBOL2)
+    for i in range(len(TEST_FILES_SBOL2_OUT)):
+        split_path = os.path.splitext(TEST_FILES_SBOL2_OUT[i])
+        if os.path.exists(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1])):
+            os.remove(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1]))
+        else:
+            pass
+
 def runTests():
     print("Setting up")
     suite_list = []
@@ -771,7 +774,9 @@ def runTests():
    
     full_test_suite = unittest.TestSuite(suite_list)
     unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(full_test_suite)
-
+    delete_files()
+    
 if __name__ == '__main__':
-    unittest.main()
+    runTests()
 
+   
