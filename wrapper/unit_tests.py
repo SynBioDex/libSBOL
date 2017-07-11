@@ -19,8 +19,14 @@ TEST_LOC_SBOL2 = os.path.join(TEST_LOCATION, 'SBOL2')
 TEST_LOC_RDF = os.path.join(TEST_LOCATION, 'RDF')
 TEST_LOC_Invalid = os.path.join(TEST_LOCATION, 'InvalidFiles')
 TEST_LOC_GB = os.path.join(TEST_LOCATION, 'GenBank')
-TEST_FILES_SBOL2 = os.listdir(TEST_LOC_SBOL2)
-TEST_FILES_SBOL2.sort()
+FILES_SBOL2 = os.listdir(TEST_LOC_SBOL2)
+FILES_SBOL2.sort()
+TEST_FILES_SBOL2 = []
+for i in FILES_SBOL2:
+    if i.endswith('rdf'):
+        TEST_FILES_SBOL2.append(i)
+    if i.endswith('xml'):
+        TEST_FILES_SBOL2.append(i)
 
 def random_string(limit=10):
     length = random.randint(0, limit)
@@ -60,16 +66,13 @@ class TestRoundTripSBOL2(unittest.TestCase):
         pass
 
     def run_round_trip(self, test_file):
-        if test_file.endswith('xml'):
-            file_format = '.xml'
-        elif test_file.endswith('rdf'):
-            file_format = '.rdf'
+        split_path = os.path.splitext(test_file)
         self.doc = Document()   # Document for read and write
-        self.doc.read(os.path.join(TEST_LOC_SBOL2, os.path.splitext(test_file)[0] + file_format))
-        self.doc.write(os.path.join(TEST_LOC_SBOL2, os.path.splitext(test_file)[0] + '_out' + file_format))
+        self.doc.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + split_path[1]))
+        self.doc.write(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1]))
 
         self.doc2 = Document()  # Document to compare for equality
-        self.doc2.read(os.path.join(TEST_LOC_SBOL2, os.path.splitext(test_file)[0] + '_out' + file_format))
+        self.doc2.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1]))
         self.assertEqual(self.doc.compare(self.doc2), 1)
     
     def test_case00(self):
@@ -132,9 +135,10 @@ class TestRoundTripSBOL2(unittest.TestCase):
         print(str(TEST_FILES_SBOL2[14]))
         self.run_round_trip(str(TEST_FILES_SBOL2[14]))
 
-    def test_case15(self):
-        print(str(TEST_FILES_SBOL2[15]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[15]))
+#    SBOL1and2Test
+#    def test_case15(self):
+#        print(str(TEST_FILES_SBOL2[15]))
+#        self.run_round_trip(str(TEST_FILES_SBOL2[15]))
 
     def test_case16(self):
         print(str(TEST_FILES_SBOL2[16]))
@@ -364,15 +368,9 @@ class TestRoundTripSBOL2(unittest.TestCase):
         print(str(TEST_FILES_SBOL2[72]))
         self.run_round_trip(str(TEST_FILES_SBOL2[72]))
 
-#    SBOL1and2Test
-#    def test_case73(self):
-#        print(str(TEST_FILES_SBOL2[73]))
-#        self.run_round_trip(str(TEST_FILES_SBOL2[73]))
-
-    def test_case74(self):
-        print(str(TEST_FILES_SBOL2[74]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[74]))
-
+    def test_case73(self):
+        print(str(TEST_FILES_SBOL2[73]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[73]))
 
 class TestComponentDefinitions(unittest.TestCase):
     
