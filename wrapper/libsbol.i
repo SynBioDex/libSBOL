@@ -99,10 +99,10 @@
 %ignore sbol::SBOLObject::list_properties;
 %ignore sbol::SBOLObject::owned_objects;
 %ignore sbol::SBOLObject::begin;
-%ignore sbol::SBOLObject::end;
+// %ignore sbol::SBOLObject::end;
 %ignore sbol::SBOLObject::size;
 %ignore sbol::OwnedObject::begin;
-%ignore sbol::OwnedObject::end;
+// %ignore sbol::OwnedObject::end;
 %ignore sbol::OwnedObject::size;
 %ignore sbol::ReferencedObject::begin;
 %ignore sbol::ReferencedObject::end;
