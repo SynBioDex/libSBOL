@@ -20,6 +20,7 @@ TEST_LOC_RDF = os.path.join(TEST_LOCATION, 'RDF')
 TEST_LOC_Invalid = os.path.join(TEST_LOCATION, 'InvalidFiles')
 TEST_LOC_GB = os.path.join(TEST_LOCATION, 'GenBank')
 TEST_FILES_SBOL2 = os.listdir(TEST_LOC_SBOL2)
+TEST_FILES_SBOL2.sort()
 
 def random_string(limit=10):
     length = random.randint(0, limit)
@@ -478,7 +479,7 @@ class TestComponentDefinitions(unittest.TestCase):
         doc = Document()
         doc.addComponentDefinition(test_CD)
         
-        self.assertIsNotNone(doc.getComponentDefinition("BB0001"))
+        self.assertIsNotNone(doc.componentDefinitions.get("BB0001"))
         
         displayId = doc.getComponentDefinition("BB0001").displayId.get()
         
@@ -674,7 +675,7 @@ class TestComponentDefinitions(unittest.TestCase):
 #            self.assertFalse(ann in self.testees[0].precedes)
 #            self.testees[0].precedes += ann
 #            self.assertTrue(ann in self.testees[0].precedes)
-#
+
 class TestSequences(unittest.TestCase):
     
     def setUp(self):
@@ -718,12 +719,11 @@ class TestSequences(unittest.TestCase):
                'CGTGTACGGTGGGAGGCCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTCGAG'
                'TACCTCATCAGGAACATGTTGGATCCAATTCGACC')
                
-        seq_read = doc.getSequence('CRP_b_seq').elements.get()
+        seq_read = doc.sequences.get('CRP_b_seq').elements.get()
         self.assertEquals(seq_read, seq)
 
 #class TestPythonMethods(unittest.TestCase):
 
-    
 #    def testAnnotations(self):
 #        for n in range(NUM_SLOW_TESTS):
 #            self.assertEqual(len(self.testees[0].annotations), n)
@@ -752,8 +752,21 @@ class TestSequences(unittest.TestCase):
 #            self.assertTrue(com in col.components)
 #            self.assertEqual(len(col.components), n+1)
 
+class TestMemory(unittest.TestCase):
+    
+    def setUp(self):
+        pass
+    
+    def testDiscard(self):
+        doc = Document()
+        cd = ComponentDefinition()
+        bool1 = cd.thisown
+        doc.addComponentDefinition(cd)
+        bool2 = cd.thisown
+        self.assertNotEquals(bool1, bool2)
+
 # List of tests
-test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences]
+test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory]
 
 def delete_files():
     TEST_FILES_SBOL2_OUT = os.listdir(TEST_LOC_SBOL2)
