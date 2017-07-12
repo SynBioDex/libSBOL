@@ -411,7 +411,11 @@ class TestComponentDefinitions(unittest.TestCase):
         for CD in doc.componentDefinitions:
             listCD_read.append(CD.displayId.get())
             
-        self.assertItemsEqual(listCD_read, listCD)
+        # Python 3 compatability
+        if sys.version_info[0] < 3:
+            self.assertItemsEqual(listCD_read, listCD)
+        else:
+            self.assertCountEqual(listCD_read, listCD)
              
     #def testCDSeq(self):
     #    doc = Document()
@@ -609,8 +613,12 @@ class TestSequences(unittest.TestCase):
         
         for seq in doc.sequences:
             listseq_read.append(seq.displayId.get())
-            
-        self.assertItemsEqual(listseq_read, listseq)
+        
+        # Python 3 compatability
+        if sys.version_info[0] < 3:
+            self.assertItemsEqual(listseq_read, listseq)
+        else:
+            self.assertCountEqual(listseq_read, listseq)
             
     def testSequenceElement(self):
         doc = Document()
