@@ -11,7 +11,11 @@ IF( SWIG_FOUND )
     include( ${SWIG_USE_FILE} )
     set( CMAKE_SWIG_FLAGS "-c++" )
     set_source_files_properties(libsbol.i PROPERTIES CPLUSPLUS ON)
-    add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC -DCURL_STATICLIB)
+    add_definitions(-DRAPTOR_STATIC)
+
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+        add_definitions(-DLIBXML_STATIC -DLIBXSLT_STATIC -DCURL_STATICLIB -DCURL_STATIC)
+    endif()
 
     include_directories(
         ${SBOL_SOURCE_DIR}
