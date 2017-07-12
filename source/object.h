@@ -69,9 +69,9 @@ namespace sbol
         
     public:
 
-#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-        void register_extension(std::string ns, std::string ns_prefix, std::string class_name, PythonObject* constructor);
-#endif
+//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+//        void register_extension(std::string ns, std::string ns_prefix, std::string class_name, PythonObject* constructor);
+//#endif
 
         
         /// @cond
