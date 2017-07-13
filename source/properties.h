@@ -39,6 +39,8 @@
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
+#undef tolower    // This macro is defined in pyport.h and causes a symbol conflict with another macro in regex standard library on OS X
+
 #endif
 
 namespace sbol

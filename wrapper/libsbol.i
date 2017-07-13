@@ -41,7 +41,6 @@
 
 %include "python_docs.i"
 
-
 #ifdef SWIGWIN
     %include <windows.i>
 #endif
@@ -243,7 +242,7 @@ typedef std::string sbol::sbol_type;
     %template(add ## SBOLClass) sbol::OwnedObject::add<SBOLClass>;
     %template(create ## SBOLClass) sbol::OwnedObject::create<SBOLClass>;
     %template(get ## SBOLClass) sbol::OwnedObject::get<SBOLClass>;
-
+    
 %enddef
 
 /* This macro is used to instantiate container properties (OwnedObjects) that can contain a single type of object, eg, ComponentDefinition::sequenceAnnotations */
@@ -325,20 +324,89 @@ TEMPLATE_MACRO_2(Model)
 %template(countComponentDefinition) sbol::PartShop::count < ComponentDefinition >;
 %template(countCollection) sbol::PartShop::count < Collection >;
 
-
-%extend sbol::SBOLObject
+%define PROPERTY_MACRO(SBOLClass)
+%extend sbol::SBOLClass
 {
-    std::string __repr__()
+    std::string __getitem__(const int nIndex)
     {
-        return $self->type;
+        return $self->operator[](nIndex);
     }
-
-    std::string __str__()
+    
+    SBOLClass* __iter__()
     {
-        return $self->identity.get();
+        $self->python_iter = SBOLClass::iterator($self->begin());
+        return $self;
+    }
+    
+    // Built-in iterator function for Python 2
+    std::string next()
+    {
+        if ($self->size() == 0)
+            throw SBOLError(END_OF_LIST, "");
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    // Built-in iterator function for Python 3
+    std::string __next__()
+    {
+        if ($self->size() == 0)
+            throw SBOLError(END_OF_LIST, "");
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    int __len__()
+    {
+        return $self->size();
     }
 }
+%enddef
 
+%extend sbol::Config
+{
+    // This is the global SBOL register for Python extension classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a Python constructor
+    //        static PyObject* PYTHON_DATA_MODEL_REGISTER = PyDict_New();
+//    static std::map<std::string, PyObject*> PYTHON_DATA_MODEL_REGISTER;
+}
+    
+%extend sbol::SBOLObject
+{
+    void register_extension(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor)
+    {
+//        std::string uri = ns + class_name;
+//        Config::PYTHON_DATA_MODEL_REGISTER[uri] = constructor;
+//        namespaces[ns_prefix] = ns;
+    };
+}
+
+PROPERTY_MACRO(URIProperty)
+PROPERTY_MACRO(TextProperty)
+PROPERTY_MACRO(IntProperty)
+
+    
+    
+    
 //%extend sbol::ReferencedObject
 //{
 //    std::string __getitem__(const int nIndex)

@@ -26,6 +26,8 @@
 #include "sbol.h"
 #include <iostream>
 
+#include <regex>
+
 using namespace sbol;
 using namespace std;
 

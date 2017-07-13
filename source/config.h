@@ -46,6 +46,7 @@
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
+#undef tolower
 #endif
 
 namespace sbol
