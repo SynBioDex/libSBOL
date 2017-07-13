@@ -112,6 +112,17 @@
 #define SBOL_ROLE_INTEGRATION SBOL_URI "#roleIntegration"
 #define SBOL_MEMBERS SBOL_URI "#member"
 #define SBOL_AT SBOL_URI "#at"
+#define SBOL_COMBINATORIAL_DERIVATION SBOL_URI "#CombinatorialDerivation"
+#define SBOL_OPERATOR SBOL_URI "#operator"
+#define SBOL_VARIABLE_COMPONENTS SBOL_URI "#variableComponents"
+#define SBOL_VARIABLE_COMPONENT SBOL_URI "#VariableComponent"
+#define SBOL_VARIABLE SBOL_URI "#variable"
+#define SBOL_VARIANTS SBOL_URI "#variants"
+#define SBOL_VARIANT_COLLECTIONS SBOL_URI "#variantCollections"
+#define SBOL_VARIANT_DERIVATIONS SBOL_URI "#variantDeriviations"
+#define SBOL_STRATEGY SBOL_URI "#strategy"
+#define SBOL_TEMPLATE SBOL_URI "#template"
+
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property
