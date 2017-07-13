@@ -46,6 +46,7 @@ FILE(GLOB SBOL_HEADER_FILES
   assembly.h
   provo.h
   partshop.h
+    combinatorialderivation.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
 	sbolerror.cpp

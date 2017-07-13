@@ -28,6 +28,9 @@
     #include "model.h"
     #include "collection.h"
     #include "assembly.h"
+    #include "provo.h"
+    #include "partshop.h"
+    #include "combinatorialderivation.h"
     #include "sbol.h"
 
     #include <vector>
@@ -457,6 +460,11 @@ PROPERTY_MACRO(IntProperty)
 //        return $self->size();
 //    }
 //};
+
+%include "assembly.h"
+%include "provo.h"
+%include "combinatorialderivation.h"
+
     
 %extend sbol::ComponentDefinition
 {
