@@ -386,7 +386,7 @@ class TestComponentDefinitions(unittest.TestCase):
         
         self.assertIsNotNone(doc.componentDefinitions.get("BB0001"))
         
-        displayId = doc.getComponentDefinition("BB0001").displayId.get()
+        displayId = doc.componentDefinitions.get("BB0001").displayId.get()
         
         self.assertEqual(displayId, "BB0001")
         
