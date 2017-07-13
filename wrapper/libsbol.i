@@ -575,6 +575,10 @@ PROPERTY_MACRO(IntProperty)
     }
 }
 
+
+%pythonbegin %{
+from __future__ import absolute_import
+%}
     
 %pythoncode
 %{
@@ -583,9 +587,7 @@ PROPERTY_MACRO(IntProperty)
         """
         Function to run test suite for pySBOL
         """
-        import sys, os
-        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # Set path to current directory
-        import unit_tests
+        import sbol.unit_tests
         unit_tests.runTests()
 %}
     

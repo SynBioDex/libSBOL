@@ -96,7 +96,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     include_directories( ${CURL_INCLUDE_DIR}/..)
     if(SBOL_BUILD_32)
         message("Configuring for x86")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /EHsc")
         #Always build static
         if(SBOL_BUILD_SHARED)
             add_library( sbol32-shared
@@ -143,7 +143,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     endif()
     if(SBOL_BUILD_64)
         message("Configuring for x64")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /EHsc")
         #Always build static
         if(SBOL_BUILD_SHARED)
             add_library( sbol64-shared
