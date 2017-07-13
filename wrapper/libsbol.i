@@ -570,10 +570,13 @@ PROPERTY_MACRO(IntProperty)
     
 %pythoncode
 %{
+    
     def testSBOL():
         """
         Function to run test suite for pySBOL
         """
+        import sys, os
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # Set path to current directory
         import unit_tests
         unit_tests.runTests()
 %}
