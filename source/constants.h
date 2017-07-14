@@ -67,6 +67,8 @@
 #define SBOL_CUT SBOL_URI "#Cut"
 #define SBOL_COLLECTION SBOL_URI "#Collection"
 #define SBOL_GENERIC_LOCATION SBOL_URI "#GenericLocation"
+#define SBOL_VARIABLE_COMPONENT SBOL_URI "#VariableComponent"
+#define SBOL_COMBINATORIAL_DERIVATION SBOL_URI "#CombinatorialDerivation"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */
@@ -112,10 +114,8 @@
 #define SBOL_ROLE_INTEGRATION SBOL_URI "#roleIntegration"
 #define SBOL_MEMBERS SBOL_URI "#member"
 #define SBOL_AT SBOL_URI "#at"
-#define SBOL_COMBINATORIAL_DERIVATION SBOL_URI "#CombinatorialDerivation"
 #define SBOL_OPERATOR SBOL_URI "#operator"
 #define SBOL_VARIABLE_COMPONENTS SBOL_URI "#variableComponents"
-#define SBOL_VARIABLE_COMPONENT SBOL_URI "#VariableComponent"
 #define SBOL_VARIABLE SBOL_URI "#variable"
 #define SBOL_VARIANTS SBOL_URI "#variants"
 #define SBOL_VARIANT_COLLECTIONS SBOL_URI "#variantCollections"
