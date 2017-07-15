@@ -786,6 +786,17 @@ namespace sbol {
             target_doc->add < SBOLClass > (new_obj);
         return new_obj;
     };
+
+    template <class SBOLClass>
+    SBOLClass& TopLevel::simpleCopy(std::string uri)
+    {
+        Identified& obj_copy = Identified::simpleCopy(uri);
+        SBOLClass& new_obj = (SBOLClass&)obj_copy;
+        if (doc)
+            doc->add < SBOLClass > (new_obj);
+        return new_obj;
+    };
+
     
     template < class ExtensionClass >
     void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)

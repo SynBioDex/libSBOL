@@ -73,6 +73,7 @@ namespace sbol
         /// @return The full URI of the created object.
         Identified& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "");
 
+        Identified& simpleCopy(std::string uri);
         
         Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
             SBOLObject(type_uri, uri),

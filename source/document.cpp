@@ -1366,6 +1366,60 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
     return new_obj;
 };
 
+Identified& Identified::simpleCopy(string uri)
+{
+    // Call constructor for the copy
+    Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ this->type ]();
+ 
+    // Copy properties
+    for (auto i_store = properties.begin(); i_store != properties.end(); ++i_store)
+    {
+        string store_uri = i_store->first;
+        vector < string > property_store = i_store->second;
+        vector < string > property_store_copy = property_store;
+        for (int i_property_val = 0; i_property_val < property_store_copy.size(); ++i_property_val)
+        {
+            string property_val = property_store_copy[i_property_val];
+            property_store_copy[i_property_val] = property_val;
+        }
+        new_obj.properties[store_uri] = property_store_copy;
+    }
+    
+    // Initialize the object's URI, this code is same as Identified's constructor
+    if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
+    {
+        if (compliantTypesEnabled())
+        {
+            new_obj.identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + VERSION_STRING);
+            new_obj.persistentIdentity.set(getHomespace() + "/" + uri);
+        }
+        else
+        {
+            new_obj.identity.set(getHomespace() + "/" + uri + "/" + VERSION_STRING);
+            new_obj.persistentIdentity.set(getHomespace() + "/" + uri);
+        }
+    }
+    else if (hasHomespace())
+    {
+        new_obj.identity.set(getHomespace() + "/" + uri);
+        new_obj.persistentIdentity.set(getHomespace() + "/" + uri);
+    }
+
+    new_obj.type = this->type;
+    
+    // Record provenance of object
+    new_obj.wasDerivedFrom.set(this->identity.get());
+    
+    return new_obj;
+};
+
+
+
+
+
+
+
+
 std::string Document::request_validation(std::string& sbol)
 {
     /* Form validation options in JSON */

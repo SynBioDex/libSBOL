@@ -269,11 +269,32 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
     // Throw an error if this ComponentDefinition is not attached to a Document
     if (doc == NULL)
     {
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "This ComponentDefinition cannot be assembled because it does not belong to a Document. Add it to a Document.");
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot perform assembly operation on ComponentDefinition because it does not belong to a Document. You may pass a Document as an optional second argument to this method. Otherwise add this ComponentDefinition to a Document");
     }
     assemble(list_of_components, *doc);
 }
 
+void Sequence::compile()
+{
+    assemble();
+}
+
+ComponentDefinition& Sequence::synthesize(std::string clone_id)
+{
+    // Throw an error if this Sequence is not attached to a Document
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Sequence cannot be synthesized because it does not belong to a Document. Add the Sequence to a Document.");
+    }
+    ComponentDefinition* target;
+    for (auto & cd : doc->componentDefinitions)
+        if (cd.sequences.get().compare(identity.get()) == 0)
+            target = &cd;
+    ComponentDefinition& design = *target;
+    ComponentDefinition& build = design.simpleCopy < ComponentDefinition > (clone_id);
+    build.wasDerivedFrom.set(design.identity.get());
+    return build;
+}
 
 std::string Sequence::assemble(std::string composite_sequence)
 {
