@@ -2,8 +2,8 @@ import unittest
 from sbol import *
 import random
 import string
-import os
-import sys
+import os, sys
+import tempfile, shutil
 
 #####################
 # utility functions
@@ -60,19 +60,21 @@ def random_invalid_position(limit=1000):
 
 class TestRoundTripSBOL2(unittest.TestCase):
     def setUp(self):
-        pass
+        # Create temp directory
+        self.temp_out_dir = tempfile.mkdtemp()
 
     def tearDown(self):
-        pass
+        # Remove directory after the test
+        shutil.rmtree(self.temp_out_dir)
 
     def run_round_trip(self, test_file):
         split_path = os.path.splitext(test_file)
         self.doc = Document()   # Document for read and write
         self.doc.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + split_path[1]))
-        self.doc.write(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1]))
+        self.doc.write(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1]))
 
         self.doc2 = Document()  # Document to compare for equality
-        self.doc2.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1]))
+        self.doc2.read(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1]))
         self.assertEqual(self.doc.compare(self.doc2), 1)
     
     def test_case00(self):
@@ -384,7 +386,7 @@ class TestComponentDefinitions(unittest.TestCase):
         
         self.assertIsNotNone(doc.componentDefinitions.get("BB0001"))
         
-        displayId = doc.getComponentDefinition("BB0001").displayId.get()
+        displayId = doc.componentDefinitions.get("BB0001").displayId.get()
         
         self.assertEqual(displayId, "BB0001")
         

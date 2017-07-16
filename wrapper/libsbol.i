@@ -587,7 +587,7 @@ from __future__ import absolute_import
         """
         Function to run test suite for pySBOL
         """
-        import sbol.unit_tests
+        import sbol.unit_tests as unit_tests
         unit_tests.runTests()
 %}
     
