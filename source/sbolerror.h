@@ -48,7 +48,8 @@ namespace sbol
                          SBOL_ERROR_FILE_NOT_FOUND,
                          SBOL_ERROR_ORPHAN_OBJECT,
                          SBOL_ERROR_TYPE_MISMATCH,
-                         SBOL_ERROR_BAD_HTTP_REQUEST
+                         SBOL_ERROR_BAD_HTTP_REQUEST,
+                         SBOL_ERROR_URI_NOT_UNIQUE
                         };
 
 	//SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);

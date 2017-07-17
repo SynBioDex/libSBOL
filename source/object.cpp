@@ -328,6 +328,22 @@ std::string SBOLObject::getPropertyValue(std::string property_uri)
     else throw SBOLError(SBOL_ERROR_NOT_FOUND, property_uri + " not contained in this object.");
 };
 
+void SBOLObject::setPropertyValue(std::string property_uri, std::string val)
+{
+    if (properties.find(property_uri) != properties.end())
+    {
+        if (val[0] == '<' && val[val.length() - 1] == '>')
+        {
+            // Check if new value is a URI...
+            properties[property_uri].push_back(val);
+        }
+        else
+        {
+            // ...else treat the value as a literal
+            properties[property_uri].push_back("\"" + val + "\"");
+        }
+    }
+};
 
 std::vector < std::string > SBOLObject::getPropertyValues(std::string property_uri)
 {
@@ -356,4 +372,13 @@ std::vector < std::string > SBOLObject::getProperties()
     return property_uris;
 };
 
+void SBOLObject::setAnnotation(std::string property_uri, std::string val)
+{
+    setPropertyValue(property_uri, val);
+};
+
+std::string SBOLObject::getAnnotation(std::string property_uri)
+{
+    return getPropertyValue(property_uri);
+};
 

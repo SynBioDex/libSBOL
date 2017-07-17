@@ -134,6 +134,20 @@ namespace sbol
         /// @return A vector of URIs that identify the properties contained in this object
         std::vector < std::string > getProperties();
         
+        /// Set the value for a user-defined annotation property.
+        /// @val If the value is a URI, it should be surrounded by angle brackets, else it will be interpreted as a literal value
+        void setPropertyValue(std::string property_uri, std::string val);
+
+        /// Set the value for a user-defined annotation property. Synonymous with setPropertyValue
+        /// @val If the value is a URI, it should be surrounded by angle brackets, else it will be interpreted as a literal value
+        void setAnnotation(std::string property_uri, std::string val);
+   
+        /// Get the value of a custom annotation property by its URI. Synonymous with getPropertyValue
+        /// @param property_uri The URI for the property
+        /// @return The value of the property or SBOL_ERROR_NOT_FOUND
+        std::string getAnnotation(std::string property_uri);
+        
+        
         /// Use this method to destroy an SBOL object that is not contained by a parent Document.  If the object does have a parent Document, instead use doc.close() with the object's URI identity as an argument.
         /// @TODO Recurse through child objects and delete them.
         void close();
