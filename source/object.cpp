@@ -382,3 +382,10 @@ std::string SBOLObject::getAnnotation(std::string property_uri)
     return getPropertyValue(property_uri);
 };
 
+// Python extension method
+std::string SBOLObject::__str__()
+{
+    return identity.get();
+}
+
+

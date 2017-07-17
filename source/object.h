@@ -152,6 +152,10 @@ namespace sbol
         /// @TODO Recurse through child objects and delete them.
         void close();
         
+        /// @cond        
+        std::string __str__();
+        /// @endcond
+        
     protected:
         // Open-world constructor
         SBOLObject(sbol_type type, std::string uri) :
