@@ -311,12 +311,13 @@ TEMPLATE_MACRO_1(ComponentDefinition);
 TEMPLATE_MACRO_1(ModuleDefinition);
 TEMPLATE_MACRO_1(Sequence);
 TEMPLATE_MACRO_1(Model);
+TEMPLATE_MACRO_1(Collection);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
 TEMPLATE_MACRO_2(Sequence)
 TEMPLATE_MACRO_2(Model)
-    
+TEMPLATE_MACRO_2(Collection)
 
 // Template functions used by PartShop
 //%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);

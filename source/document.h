@@ -75,6 +75,7 @@ namespace sbol {
             models(SBOL_MODEL, this, ""),
             sequences(SBOL_SEQUENCE, this, ""),
             sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, ""),
+            collections(SBOL_COLLECTION, this, ""),
             citations(PURL_URI "bibliographicCitation", this),
             keywords(PURL_URI "elements/1.1/subject", this)
         
@@ -97,7 +98,8 @@ namespace sbol {
         List<OwnedObject<Model>> models;
         List<OwnedObject<Sequence>> sequences;
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
-        
+        List<OwnedObject<Collection>> collections;
+
         URIProperty citations;
         URIProperty keywords;
         
