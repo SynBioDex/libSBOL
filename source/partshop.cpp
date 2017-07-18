@@ -631,3 +631,8 @@ void PartShop::pull(std::string uri, Document& doc)
     
     doc.readString(response);
 };
+
+string PartShop::getURL()
+{
+    return resource;
+}

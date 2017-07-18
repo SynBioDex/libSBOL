@@ -188,6 +188,10 @@ namespace sbol
         /// @param password The user's password
         void login(std::string email, std::string password);
         
+        /// Returns the network address of the PartShop
+        /// @return The URL of the online repository
+        std::string getURL();
+        
         /// Construct an interface to an instance of SynBioHub or other parts repository
         /// @param The URL of the online repository
         PartShop(std::string url) :
