@@ -576,6 +576,14 @@ PROPERTY_MACRO(IntProperty)
     }
 }
 
+%extend sbol::SearchQuery
+{
+    sbol::TextProperty __getitem__(std::string uri)
+    {
+        return $self->operator[](uri);
+    }
+    
+}
 
 %pythonbegin %{
 from __future__ import absolute_import

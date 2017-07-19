@@ -44,13 +44,13 @@ namespace sbol
         IntProperty offset;
         IntProperty limit;
         
-        List<TextProperty> operator[] (std::string uri)
+        TextProperty operator[] (std::string uri)
         {
             // If the URI has a namespace, treat the function argument as a full URI
             if (parseNamespace(uri).compare("") == 0)
-                return List<TextProperty>(SBOL_URI "#" + uri, this);
+                return TextProperty(SBOL_URI "#" + uri, this);
             else
-                return List<TextProperty>(uri, this);
+                return TextProperty(uri, this);
         };  ///< Retrieve a child object by URI
 
         SearchQuery(sbol_type type = SBOL_COMPONENT_DEFINITION) :
