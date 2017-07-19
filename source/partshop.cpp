@@ -65,7 +65,6 @@ vector<map<string, string>> sbol::PartShop::search(SearchQuery& q)
     {
         string parameters;
         // Specify the type of SBOL object to search for
-        cout << q["objectType"].get() << endl;
         if (q["objectType"].size() == 1)
             parameters = "objectType=" + parseClassName(q["objectType"].get()) + "&";
         else
@@ -108,14 +107,9 @@ vector<map<string, string>> sbol::PartShop::search(SearchQuery& q)
         else
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid limit parameter specified");
         
-        cout << parameters << endl;
         encode_http(parameters);
         parameters = url + "/remoteSearch/" + parameters;
-        cout << endl;
-        cout << parameters << endl;
 
-        //        parameters = "http://synbiohub.org/remoteSearch/objectType%3DComponentDefinition%26role%3D%3Chttp%3A%2F%2Fidentifiers.org%2Fso%2FSO%3A0000316%3E%26GFP/?offset=0&limit=50";
-        
         /* First set the URL that is about to receive our GET. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
@@ -169,6 +163,98 @@ vector<map<string, string>> sbol::PartShop::search(SearchQuery& q)
     return cpp_response;
 };
 
+int sbol::PartShop::searchCount(SearchQuery& q)
+{
+    string url = resource;
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    //    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    
+    /* Specify the GET parameters */
+    if(curl)
+    {
+        string parameters;
+        // Specify the type of SBOL object to search for
+        if (q["objectType"].size() == 1)
+            parameters = "objectType=" + parseClassName(q["objectType"].get()) + "&";
+        else
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "SearchQuery is invalid because it does not have an objectType specified");
+        
+        // Get the search criteria, while ignoring special search parameters like objectType, offset, and limit
+        vector<string> search_criteria = q.getProperties();
+        auto i_ignore = std::find(std::begin(search_criteria), std::end(search_criteria), SBOL_IDENTITY);
+        search_criteria.erase(i_ignore);
+        i_ignore = std::find(std::begin(search_criteria), std::end(search_criteria), SBOL_URI "#objectType");
+        search_criteria.erase(i_ignore);
+        i_ignore = std::find(std::begin(search_criteria), std::end(search_criteria), SBOL_URI "#offset");
+        search_criteria.erase(i_ignore);
+        i_ignore = std::find(std::begin(search_criteria), std::end(search_criteria), SBOL_URI "#limit");
+        search_criteria.erase(i_ignore);
+        
+        // Form GET request from the search criteria
+        for (auto & property_uri : search_criteria)
+            for (auto & property_val : q.getPropertyValues(property_uri))
+            {
+                if (property_val.length() > 0)
+                {
+                    parameters += "<" + property_uri + ">=";
+                    if (property_val.find("http") == 0)
+                        parameters += "<" + property_val + ">&"; // encode property value as a URI
+                    else
+                        parameters += "'" + property_val + "'&"; // encode property value as a literal
+                }
+            }
+        
+        encode_http(parameters);
+        parameters = url + "/searchCount/" + parameters;
+        
+        /* First set the URL that is about to receive our GET. */
+        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    int count;
+    try
+    {
+        count = stoi(response);
+    }
+    catch (...)
+    {
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search failed with error message" + response);
+    }
+    return count;
+};
+
+
 string sbol::PartShop::search(std::string search_text, sbol_type object_type, std::string property_uri, int offset, int limit)
 {
     string url = resource;
@@ -210,9 +296,7 @@ string sbol::PartShop::search(std::string search_text, sbol_type object_type, st
         parameters += "/?offset=" + to_string(offset) + "&limit=" + to_string(limit);
 
         parameters = url + "/remoteSearch/" + parameters;
-        //        parameters = "http://synbiohub.org/remoteSearch/objectType%3DComponentDefinition%26role%3D%3Chttp%3A%2F%2Fidentifiers.org%2Fso%2FSO%3A0000316%3E%26GFP/?offset=0&limit=50";
-//        cout << parameters << endl;
-        
+
         /* First set the URL that is about to receive our GET. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
@@ -234,27 +318,82 @@ string sbol::PartShop::search(std::string search_text, sbol_type object_type, st
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    //    Json::Value json_response;
-    //    Json::Reader reader;
-    //    bool parsed = reader.parse( response, json_response );     //parse process
-    //    if ( parsed )
-    //    {
-    //        //response = json_response.get("result", response ).asString();
-    //        //response = json_response.get("valid", response ).asString() << endl;
-    //        //response = json_response.get("output_file", response ).asString() << endl;
-    //        //response = json_response.get("valid", response ).asString();
-    //        if (json_response.get("valid", response ).asString().compare("true") == 0)
-    //            response = "Valid.";
-    //        else
-    //            response = "Invalid.";
-    //        for (auto itr : json_response["errors"])
-    //        {
-    //            response += " " + itr.asString();
-    //        }
-    //    }
-    
     return response;
 };
+
+int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type, std::string property_uri)
+{
+    string url = resource;
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    //    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* Specify the GET data */
+        // Specify the type of SBOL object to search for
+        string parameters = "objectType=" + parseClassName(object_type) + "&";
+        
+        //        // Specify which property of the SBOL object to look in for the search text
+        //        parameters += parsePropertyName(property_uri) + UTF8_EQUALS;
+        parameters += "<" + property_uri + ">=";
+        
+        if (search_text.find("http") == 0)
+            // Encode search text as a URL
+            parameters += "<" + search_text + ">&";
+        else
+            // Encode as a literal
+            parameters += "'" + search_text + "'&";
+        
+        encode_http(parameters);
+        
+        parameters = url + "/remoteSearch/" + parameters;
+        
+        /* First set the URL that is about to receive our GET. */
+        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+
+    int count;
+    try
+    {
+        count = stoi(response);
+    }
+    catch (...)
+    {
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search failed with error message" + response);
+    }
+    return count;
+};
+
+
 
 string sbol::PartShop::search(std::string search_text, sbol_type object_type, int offset, int limit)
 {
@@ -289,7 +428,6 @@ string sbol::PartShop::search(std::string search_text, sbol_type object_type, in
         parameters += "/?offset=" + to_string(offset) + "&limit=" + to_string(limit);
         
         parameters = url + "/remoteSearch/" + parameters;
-//        cout << parameters << endl;
         
         /* First set the URL that is about to receive our GET. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
@@ -315,6 +453,69 @@ string sbol::PartShop::search(std::string search_text, sbol_type object_type, in
     return response;
 };
 
+int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type)
+{
+    string url = resource;
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    //    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* Specify the GET data */
+        // Specify the type of SBOL object to search for
+        string parameters = "objectType=" + parseClassName(object_type) + "&";
+        
+        // Specify partial search text. Specify how many records to retrieve
+        parameters = parameters + search_text;
+        
+        encode_http(search_text);
+        
+        parameters = url + "/searchCount/" + parameters;
+        
+        /* First set the URL that is about to receive our GET. */
+        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    int count;
+    try
+    {
+        count = stoi(response);
+    }
+    catch (...)
+    {
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search failed with error message" + response);
+    }
+    return count;
+};
 
 
 void sbol::PartShop::login(std::string email, std::string password)
@@ -363,25 +564,6 @@ void sbol::PartShop::login(std::string email, std::string password)
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-//    cout << response << endl;
-    //    Json::Value json_response;
-    //    Json::Reader reader;
-    //    bool parsed = reader.parse( response, json_response );     //parse process
-    //    if ( parsed )
-    //    {
-    //        //response = json_response.get("result", response ).asString();
-    //        //response = json_response.get("valid", response ).asString() << endl;
-    //        //response = json_response.get("output_file", response ).asString() << endl;
-    //        //response = json_response.get("valid", response ).asString();
-    //        if (json_response.get("valid", response ).asString().compare("true") == 0)
-    //            response = "Valid.";
-    //        else
-    //            response = "Invalid.";
-    //        for (auto itr : json_response["errors"])
-    //        {
-    //            response += " " + itr.asString();
-    //        }
-    //    }
     key = response;
 };
 

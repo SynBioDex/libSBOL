@@ -156,24 +156,38 @@ namespace sbol
         /// @return A Document containing all the root Collections
         Document& pullRootCollections();
         
-        /// An exact search. Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @file constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. (These constants follow a fairly systematic and consistent naming scheme (see @file constants.h). The number of records returned in the search is specified by offset and limit parameters.
+
+        /// Returns the number of search records for an EXACT search matching the given criteria.
+        /// @return An integer count.
+        int searchCount(std::string search_text, std::string object_type, std::string property_uri);
+        
+        /// An EXACT search. Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @ref constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. (These constants follow a fairly systematic and consistent naming scheme (see @ref constants.h). The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text This may be a literal text value or it may be a URI.
-        /// @param object_type The RDF type of an SBOL object. See @file constants.h. For example, SBOL_COMPONENT_DEFINITION
-        /// @param property_uri The RDF type of an SBOL property. Specifies which field of an SBOL object to search. For example, SBOL_ROLES. Refer to @file constants.h
+        /// @param object_type The RDF type of an SBOL object. See @ref constants.h. For example, SBOL_COMPONENT_DEFINITION
+        /// @param property_uri The RDF type of an SBOL property. Specifies which field of an SBOL object to search. For example, SBOL_ROLES. Refer to @ref constants.h
         /// @param offset The index of the first record to return. This parameter is indexed starting from zero.
         /// @param limit The total count number of records to return
         /// @return Metadata formatted as a string encoding JSON.
         std::string search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
-
-        /// A general search. Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @file constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
+        
+        /// Returns the number of search records for a general search matching the given criteria.
+        /// @return An integer count.
+        int searchCount(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION);
+        
+        /// A GENERAL search. Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @ref constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text A snippet of text to search for in a property's value.
-        /// @param object_type The RDF type of an SBOL object. See @file constants.h. For example, SBOL_COMPONENT_DEFINITION by default.
+        /// @param object_type The RDF type of an SBOL object. See @ref constants.h. For example, SBOL_COMPONENT_DEFINITION by default.
         /// @param offset The index of the first record to return. This parameter is indexed starting from zero.
         /// @param limit The total count number of records to return
         /// @return Metadata formatted as a string encoding JSON.
         std::string search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
         
-        /// Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @file constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
+        /// Returns the number of search records matching the given criteria for an ADVANCED search
+        /// @param search_query A map of string key-value pairs. See SearchQuery for required and optional criteria.
+        /// @return An integer count.
+        int searchCount(SearchQuery& q);
+        
+        /// Perform an ADVANCED search using a SearchQuery object.
         /// @param search_query A map of string key-value pairs. Keys are objectType, sbolTag, collection, dcterms:tag, namespace/tag, offset, limit.
         /// @return Search metadata A vector of maps with key-value pairs.
         std::vector<std::map<std::string, std::string>> search(SearchQuery& q);
