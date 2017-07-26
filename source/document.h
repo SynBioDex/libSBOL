@@ -701,13 +701,13 @@ namespace sbol {
             {
                 version = VERSION_STRING;
             }
-            uri = persistentIdentity + "/" + uri + "/" + version;
+            std::string compliant_uri = persistentIdentity + "/" + uri + "/" + version;
 
             // Search this property's object store for the uri
             for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
             {
                 SBOLObject* obj = *i_obj;
-                if (uri.compare(obj->identity.get()) == 0)
+                if (compliant_uri.compare(obj->identity.get()) == 0)
                 {
                     return (SBOLClass&)*obj;
                 }
@@ -726,7 +726,9 @@ namespace sbol {
             {
                 if (index >= this->sbol_owner->owned_objects[this->type].size())
                     throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
-                this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
+                SBOLObject* target = this->sbol_owner->owned_objects[this->type][ index ];
+                this->remove(target->identity.get());
+                //this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
             }
         }
     };
@@ -745,12 +747,14 @@ namespace sbol {
                     SBOLObject& obj = *object_store[i_obj];
                     if (uri.compare(obj.identity.get()) == 0)
                     {
-                        this->remove(i_obj);
+                        this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + i_obj);
+                        //this->remove(i_obj);
+                        TopLevel* check_top_level = dynamic_cast<TopLevel*>(&obj);
+                        if (check_top_level)
+                            obj.doc->SBOLObjects.erase(uri);
                         break;
                     }
                 }
-//                if (i_obj < object_store.size())
-//                    this->remove(i_obj);
             }
         }
     };
