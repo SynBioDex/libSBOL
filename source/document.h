@@ -84,6 +84,13 @@ namespace sbol {
                 namespaces["dcterms"] = PURL_URI;
                 namespaces["prov"] = PROV_URI "#";
 			};
+        
+        Document(std::string filename) :
+            Document()
+        {
+            read(filename);
+        }
+        
         ~Document() override;
         
         /// @cond
