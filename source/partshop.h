@@ -153,10 +153,14 @@ namespace sbol
         void pull(std::string uri, Document& doc);
 
         /// Returns all Collections that are not members of any other Collections
-        /// @return A Document containing all the root Collections
-        Document& pullRootCollections();
+        /// @param doc A Document to add the Collections to
+        std::string searchRootCollections();
         
-
+        /// Returns all Collections that are members of the Collection specified by its URI
+        /// @param uri The URI of a Collection of Collections
+        /// @param doc A Document to add the subcollections to
+        std::string searchSubCollections(std::string uri);
+        
         /// Returns the number of search records for an EXACT search matching the given criteria.
         /// @return An integer count.
         int searchCount(std::string search_text, std::string object_type, std::string property_uri);
