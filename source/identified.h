@@ -119,17 +119,6 @@ namespace sbol
             identity.validate();
 		}
         
-//        Identified(sbol_type type_uri, std::string uri) :
-//            SBOLObject(type_uri, prefix, display_id),
-//            persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, prefix + "/" + display_id),
-//            displayId(SBOL_DISPLAY_ID, this, display_id),
-//            version(SBOL_VERSION, this, version),
-//            wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this, ""),
-//            name(SBOL_NAME, this, name),
-//            description(SBOL_DESCRIPTION, this, description)
-//        {
-//            identity.validate();
-//        }
 	};
   
     template <class SBOLClass>
@@ -138,12 +127,7 @@ namespace sbol
         return (SBOLClass&)this->copy(NULL, ns, version);
     };
   
-//    ///
-//    template <class SBOLClass>
-//    SBOLClass& Identified::copy(Document& doc)
-//    {
-//        return (SBOLClass&)&copy();
-//    };
+
 };
 
 #endif

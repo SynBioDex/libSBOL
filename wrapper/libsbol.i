@@ -194,6 +194,22 @@
         return val
 %}
 
+%pythonappend sbol::PartShop::searchRootCollections
+%{
+    true = True
+    false = False
+    exec('val = ' + val)
+    return val
+%}
+
+%pythonappend sbol::PartShop::searchSubCollections
+%{
+    true = True
+    false = False
+    exec('val = ' + val)
+    return val
+%}
+    
 %include "partshop.h"
 
 %pythonappend addComponentDefinition
@@ -319,6 +335,9 @@ TEMPLATE_MACRO_2(Sequence)
 TEMPLATE_MACRO_2(Model)
 TEMPLATE_MACRO_2(Collection)
 
+
+%template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
+    
 // Template functions used by PartShop
 //%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
 //%template(pullComponentDefinition) sbol::PartShop::pull < ComponentDefinition >;
