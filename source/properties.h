@@ -80,6 +80,7 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {
@@ -99,6 +100,7 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {
@@ -145,6 +147,7 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking quotations from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {
@@ -164,6 +167,7 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking quotations from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {
