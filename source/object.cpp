@@ -330,8 +330,7 @@ std::string SBOLObject::getPropertyValue(std::string property_uri)
 
 void SBOLObject::setPropertyValue(std::string property_uri, std::string val)
 {
-    if (properties.find(property_uri) != properties.end())
-    {
+
         if (val[0] == '<' && val[val.length() - 1] == '>')
         {
             // Check if new value is a URI...
@@ -342,7 +341,6 @@ void SBOLObject::setPropertyValue(std::string property_uri, std::string val)
             // ...else treat the value as a literal
             properties[property_uri].push_back("\"" + val + "\"");
         }
-    }
 };
 
 std::vector < std::string > SBOLObject::getPropertyValues(std::string property_uri)
