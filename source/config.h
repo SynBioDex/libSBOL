@@ -107,6 +107,8 @@ namespace sbol
         /// @param value The option value
         static void setOption(std::string option, std::string value);
         
+        static void setOption(std::string option, bool value);
+
         /// Get current option value for online validation and conversion
         /// @param option The option key
         static std::string getOption(std::string option);
