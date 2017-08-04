@@ -122,6 +122,19 @@
 %include "std_vector.i"
 %include "std_map.i"
 
+// This typemap is here in order to convert the return type of ComponentDefinition::getPrimaryStructure into a Python list. (The typemaps defined later in this file work on other methods, but did not work on this method specifically)
+%typemap(out) std::vector<sbol::ComponentDefinition*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::ComponentDefinition*), 0 |  0 );
+        PyList_Append(list, elem);
+    }
+    $result  = list;
+    $1.clear();
+}
+
 %template(_IntVector) std::vector<int>;
 %template(_StringVector) std::vector<std::string>;
 %template(_SBOLObjectVector) std::vector<sbol::SBOLObject*>;
@@ -137,6 +150,7 @@
 
 %template(_StringProperty) sbol::Property<std::string>;  // These template instantiations are private, hence the underscore...
 %template(_IntProperty) sbol::Property<int>;
+
 
     
 %pythonappend add
@@ -251,6 +265,16 @@
     else:
         args[0].thisown = False
 %}
+  
+%pythonappend addCollection
+%{
+    # addCollection is overloaded, it can take a list or single object as an argument
+    if type(args[0]) is list:
+        for obj in args[0]:
+            obj.thisown = False
+        else:
+            args[0].thisown = False
+%}
     
 %include "document.h"
 
@@ -277,6 +301,7 @@ typedef std::string sbol::sbol_type;
             PyList_Append(list, elem);
         }
         $result  = list;
+        $1.clear();
     }
     
     /* Instantiate templates */

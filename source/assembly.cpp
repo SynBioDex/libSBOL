@@ -1273,15 +1273,17 @@ void ComponentDefinition::addDownstreamFlank(Component& upstream, std::string el
     insertDownstream(upstream, *flank);
 };
 
-std::vector<Component*> ComponentDefinition::getPrimaryStructure()
+std::vector<ComponentDefinition*> ComponentDefinition::getPrimaryStructure()
 {
-    std::vector<Component*> primary_structure;
+    std::vector<ComponentDefinition*> primary_structure;
     Component* c = &getFirstComponent();
-    primary_structure.push_back(c);
+    ComponentDefinition* cd = &c->doc->componentDefinitions.get(c->definition.get());
+    primary_structure.push_back(cd);
     while (hasDownstreamComponent(*c))
     {
         c = &getDownstreamComponent(*c);
-        primary_structure.push_back(c);
+        ComponentDefinition* cd = &c->doc->componentDefinitions.get(c->definition.get());
+        primary_structure.push_back(cd);
     }
     return primary_structure;
 };
