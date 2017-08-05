@@ -66,12 +66,59 @@ namespace sbol
         };
     };
 
-    class SBOL_DECLSPEC SearchResponse_ : public TopLevel
+    class SBOL_DECLSPEC SearchResponse : public TopLevel
     {
-        List<OwnedObject<Identified>> metadata;
+    friend class PartShop;
+    
+    public:
+        int size()
+        {
+            return (int)records.size();
+        }
         
-        SearchResponse_() :
-            metadata(SBOL_URI "#SearchResponse", this )
+        Identified& operator[] (int i)
+        {
+            // If the URI has a namespace, treat the function argument as a full URI
+            if (i < records.size())
+                return *records[i];
+            else
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
+        };  ///< Retrieve a child object by URI
+        
+        /// Provides iterator functionality for SBOL properties that contain multiple objects
+        class iterator : public std::vector<Identified*>::iterator
+        {
+        public:
+            
+            iterator(typename std::vector<Identified*>::iterator i_object = std::vector<Identified*>::iterator()) : std::vector<Identified*>::iterator(i_object)
+            {
+            }
+            
+            Identified& operator*()
+            {
+                return (Identified&) *std::vector<Identified*>::iterator::operator *();
+            }
+        };
+        
+        iterator begin()
+        {
+            return iterator(records.begin());
+        };
+        
+        iterator end()
+        {
+            return iterator(records.end());
+        };
+        
+    protected:
+        std::vector < sbol::Identified* > records;
+
+        SearchResponse() :
+            records()
+        {
+        };
+        
+        ~SearchResponse()
         {
         };
     };
@@ -105,35 +152,35 @@ namespace sbol
 //        }
 //    };
     
-    class SBOL_DECLSPEC SearchResponse : public Json::Value
-    {
-    private:
-        std::string resource;
-        std::string key;
-        
-    public:
-        
-        /// Construct an interface to an instance of SynBioHub or other parts repository
-        /// @param The URL of the online repository
-        SearchResponse() :
-        Json::Value()
-        {
-            //
-            //        std::vector<std::string> keys;
-            //        for(auto const& key_value_pair: criteria)
-            //            keys.push_back(key_value_pair.first);
-            //        // Check that Json request contains the expected key-value pairs
-            //        std::vector<std::string> valid_parameters = {"objectType", "sbolTag", "collection", "dcterms", "namespace/tag"};
-            //        for (auto const& p : valid_parameters)
-            //        {
-            //            if ( std::find(valid_parameters.begin(), valid_parameters.end(), p) == valid_parameters.end() )
-            //            {
-            //                throw sbol::SBOLError(sbol::SBOL_ERROR_INVALID_ARGUMENT, "Invalid search parameter " + p + ". Search parameters must be one or more of objectType, sbolTag, collection, dcterms, or namespace/tag");
-            //                (*this)[p] = criteria[p];
-            //            }
-            //        }
-        }
-    };  // SearchResponse
+//    class SBOL_DECLSPEC SearchResponse : public Json::Value
+//    {
+//    private:
+//        std::string resource;
+//        std::string key;
+//        
+//    public:
+//        
+//        /// Construct an interface to an instance of SynBioHub or other parts repository
+//        /// @param The URL of the online repository
+//        SearchResponse() :
+//        Json::Value()
+//        {
+//            //
+//            //        std::vector<std::string> keys;
+//            //        for(auto const& key_value_pair: criteria)
+//            //            keys.push_back(key_value_pair.first);
+//            //        // Check that Json request contains the expected key-value pairs
+//            //        std::vector<std::string> valid_parameters = {"objectType", "sbolTag", "collection", "dcterms", "namespace/tag"};
+//            //        for (auto const& p : valid_parameters)
+//            //        {
+//            //            if ( std::find(valid_parameters.begin(), valid_parameters.end(), p) == valid_parameters.end() )
+//            //            {
+//            //                throw sbol::SBOLError(sbol::SBOL_ERROR_INVALID_ARGUMENT, "Invalid search parameter " + p + ". Search parameters must be one or more of objectType, sbolTag, collection, dcterms, or namespace/tag");
+//            //                (*this)[p] = criteria[p];
+//            //            }
+//            //        }
+//        }
+//    };  // SearchResponse
     
     /// A class which provides an API front-end for online bioparts repositories
     class SBOL_DECLSPEC PartShop
@@ -160,11 +207,17 @@ namespace sbol
         /// @param uri The URI of a Collection of Collections
         /// @param doc A Document to add the subcollections to
         std::string searchSubCollections(std::string uri);
+
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         
-        /// Returns the number of search records for an EXACT search matching the given criteria.
-        /// @return An integer count.
-        int searchCount(std::string search_text, std::string object_type, std::string property_uri);
+        std::string search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
         
+        std::string search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
+
+        std::string search(SearchQuery& q);
+
+#else
+
         /// An EXACT search. Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @ref constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. (These constants follow a fairly systematic and consistent naming scheme (see @ref constants.h). The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text This may be a literal text value or it may be a URI.
         /// @param object_type The RDF type of an SBOL object. See @ref constants.h. For example, SBOL_COMPONENT_DEFINITION
@@ -172,11 +225,7 @@ namespace sbol
         /// @param offset The index of the first record to return. This parameter is indexed starting from zero.
         /// @param limit The total count number of records to return
         /// @return Metadata formatted as a string encoding JSON.
-        std::string search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
-        
-        /// Returns the number of search records for a general search matching the given criteria.
-        /// @return An integer count.
-        int searchCount(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION);
+        std::vector<std::map<std::string, std::string>> search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
         
         /// A GENERAL search. Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @ref constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text A snippet of text to search for in a property's value.
@@ -184,17 +233,27 @@ namespace sbol
         /// @param offset The index of the first record to return. This parameter is indexed starting from zero.
         /// @param limit The total count number of records to return
         /// @return Metadata formatted as a string encoding JSON.
-        std::string search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
+        std::vector<std::map<std::string, std::string>> search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
+        
+        /// Perform an ADVANCED search using a SearchQuery object.
+        /// @param search_query A map of string key-value pairs. Keys are objectType, sbolTag, collection, dcterms:tag, namespace/tag, offset, limit.
+        /// @return Search metadata A vector of maps with key-value pairs.
+        SearchResponse& search(SearchQuery& q);
+        
+#endif
+        
+        /// Returns the number of search records for an EXACT search matching the given criteria.
+        /// @return An integer count.
+        int searchCount(std::string search_text, std::string object_type, std::string property_uri);
+        
+        /// Returns the number of search records for a general search matching the given criteria.
+        /// @return An integer count.
+        int searchCount(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION);
         
         /// Returns the number of search records matching the given criteria for an ADVANCED search
         /// @param search_query A map of string key-value pairs. See SearchQuery for required and optional criteria.
         /// @return An integer count.
         int searchCount(SearchQuery& q);
-        
-        /// Perform an ADVANCED search using a SearchQuery object.
-        /// @param search_query A map of string key-value pairs. Keys are objectType, sbolTag, collection, dcterms:tag, namespace/tag, offset, limit.
-        /// @return Search metadata A vector of maps with key-value pairs.
-        std::vector<std::map<std::string, std::string>> search(SearchQuery& q);
         
         /// Submit a Document to SynBioHub
         /// @param doc The Document to submit

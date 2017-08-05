@@ -38,7 +38,8 @@ namespace sbol
     /// All SBOL-defined classes are directly or indirectly derived from the Identified abstract class. An Identified object is identified using a Uniform Resource Identifier (URI), a unique string that identifies and refers to a specific object in an SBOL document or in an online resource such as a DNA repository.
 	class SBOL_DECLSPEC Identified : public SBOLObject
     {
-	
+	friend class PartShop;
+        
 	public:
         /// The persistentIdentity property is OPTIONAL and has a data type of URI. This URI serves to uniquely refer to a set of SBOL objects that are different versions of each other. An Identified object MUST be referred to using either its identity URI or its persistentIdentity URI.
 		URIProperty persistentIdentity;

@@ -167,8 +167,12 @@
 %{
     arg2.thisown = False
 %}
-
+    
 /* @TODO remove methods should change thisown flag back to True */
+%pythonappend remove
+%{
+    self.thisown = True
+%}
     
 %include "properties.h"
 %include "object.h"
