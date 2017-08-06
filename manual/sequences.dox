@@ -2,10 +2,11 @@
 /// @page sequences Sequence Assembly
 /// See @ref sequence_example_code for full example code.
 /// @section parts_mining Part Mining from Online Repositories
-/// One of the reasons the SBOL standard was developed is to make it easy for users to pull data about biological components from online databases. The [iGEM Registry of Standard Biological Parts](http://parts.igem.org/Main_Page) is an online database that catalogs a vast inventory of genetic parts, mostly contributed by students competing in iGEM. These parts are available in SBOL format in the [SynBioHub](http://synbiohub.org) knowledgebase, hosted by Newcastle University.
-/// LibSBOL supports programmatic querying of iGEM parts in [SynBioHub](http://parts.igem.org/Main_Page). Using a part's web address, the user can fetch data about that part. Feel free to browse available parts online. Alternatively, users can use LibSBOL's search methods to locate interesting parts.
-/// In today's modern technological society, a variety of interesting and complicated products are built from off-the-shelf components. Imagine searching for an automotive part at your local parts shop. You might tell the clerk which part you are looking for, at which point she will look that part up in the company database, and then assist you to pull the part from the shelves. LibSBOL puts an inventory of biological parts at your fingertips.
-/// The following code example shows how to pull data about biological components from the SynBioHub repository. The SynBioHub repository is represented with a PartShop object. The following code retrieves parts  corresponding to promoter, coding sequence (CDS), ribosome binding site (RBS), and transcriptional terminator. These are imported into a Document object, which must be initialized first. See @ref getting_started for more about creating Documents.
+/// In today's modern technological society, a variety of interesting technologies can be assembled from "off-the-shelf" components, including cars, computers, and airplanes. Synthetic biology is inspired by a similar idea. Synthetic biologists aim to program new biological functions into organisms by assembling genetic code from off-the-shelf DNA sequences. LibSBOL puts an inventory of biological parts at your fingertips.
+///
+/// For example, the [iGEM Registry of Standard Biological Parts](http://parts.igem.org/Main_Page) is an online resource that many synthetic biologists are familiar with.  The Registry is an online database that catalogs a vast inventory of genetic parts, mostly contributed by students in the iGEM competition. These parts are now available in SBOL format in the [SynBioHub](http://synbiohub.org) knowledgebase, hosted by Newcastle University. The code example below demonstrates how a programmer can access these data.
+///
+/// The following code example shows how to pull data about biological components from the SynBioHub repository. The interface with the SynBioHub repository is represented by a `PartShop` object. The following code retrieves parts corresponding to promoter, coding sequence (CDS), ribosome binding site (RBS), and transcriptional terminator. These parts are imported into a `Document` object, which must be initialized first. See @ref getting_started for more about creating `Documents`.
 /// ```
 /// PartShop& igem = *new PartShop("http://synbiohub.org");
 /// igem.pull("http://synbiohub.org/public/igem/BBa_R0010/1", doc);
@@ -18,27 +19,85 @@
 /// e0040 = doc.getComponentDefinition('http://synbiohub.org/public/igem/BBa_E0040/1');
 /// b0012 = doc.getComponentDefinition('http://synbiohub.org/public/igem/BBa_B0012/1')
 /// ```
+/// In order to pull a part, simply locate the web address of that part by browsing the SynBioHub repository online. Alternatively, libSBOL also supports programmatic querying of SynBioHub. LibSBOL supports three kinds of searches: a **general search**, an **exact search**, and an **advanced search**. The following query conducts a general search which scans through `identity`, `name`, `description`, and `displayId` properties for a match to the search text, including matches to substrings of the property value. Search results are returned as a `SearchResponse` object.
+/// ```
+/// SearchResponse& records = igem.search("plasmid");
+/// ```
+/// By default, the general search looks only for `ComponentDefinitions`, and only returns 25 records at a time in order to prevent server overload. The search above is equivalent to the one below:
+/// ```
+/// SearchResponse& records = igem.search("plasmid", SBOL_COMPONENT_DEFINITION, 0, 25);
+/// ```
+/// This request explicitly specifies which kind of SBOL object to search for, an offset of 0 (explained below), and a limit of 25 records. Of course, these default parameters can be changed to search for different type of SBOL objects or to return more records.
 ///
-/// @section template_design Design Abstraction with SBOL
-/// Design abstraction enables the synthetic biologist to think about the high-level, functional characteristics of a biological system independently of its structural characteristics. This enables a computer-aided design (CAD) approach similar to electronics, in which the functional or schematic representation of an electronic circuit can be represented separately from the physical dimensions of the electronic components.
-/// One advantage of the SBOL standard over GenBank is the ability to represent DNA as abstract components without knowing their exact sequence. An abstract design can be used as a template, with sequence information filled in later. A ComponentDefinition represents a biological component whose general function is known while its sequence is currently either unknown or unspecified. The intended function of a component is specified using a term from the Sequence Ontology (SO), a standard vocabulary for describing genetic parts. As the following example shows, some common SO terms are built in to libSBOL as pre-defined constants (see @ref constants.h ). This code example defines the new component as a gene.  Other terms may be found by browsing the [Sequence Ontology](http://www.sequenceontology.org/browser/obob.cgi) online.
+/// Some searches may match a large number of objects, more than the specified limit allows. The total number of objects matching the search criteria can be found using the searchCount method, which has the same call signature as the search method. In this case, it is possible to specify an offset and to retrieve additional records in successive requests. It is a good idea to put a small delay in between successive requests to prevent server overload. The following example demonstrates how to do this. The 100 millisecond delay is implemented using cross-platform C++11 headers chrono and thread. As of the writing of this documentation, this call retrieves 391 records.
+/// ```
+/// SearchResponse& records = * new SearchResponse();
+/// string search_term = "plasmid";
+/// int limit = 25;
+/// int total_hits = igem.searchCount(search_term);
+/// for (int offset = 0; offset <= total_hits; offset += limit)
+/// {
+///     records.extend( igem.search(search_term, SBOL_COMPONENT_DEFINITION, offset, limit) );
+///     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+/// }
+/// ```
+/// Each record in a `SearchResponse` contains basic data, including identity, displayId, name, and description fields. *It is very important to realize however that the search does not retrieve the complete ComponentDefinition!* In order to retrieve the full object, the user must call `pullComponentDefinition` while specifying the target object's identity.
+///
+/// Records in a `SearchResponse` can be accessed using iterators or numeric indices. The interface for each record behaves exactly like any other SBOL object:
+/// ```
+/// for (auto & record : records)
+///     cout << record.identity.get() << endl;
+///
+/// for (int i=0; i < records.size(); ++i)
+///     cout << records[i].identity.get() << endl;
+/// ```
+/// The preceding examples concern **general searches**, which scan through an object's metadata for partial matches to the search term. In contrast, the **exact search** explicitly specifies which property of an object to search, and the value of that property must exactly match the search term. The following **exact search** will search for `ComponentDefinitions` with a role of promoter:
+/// ```
+/// SearchResponse& records = igem.search(SO_PROMOTER, SBOL_COMPONENT_DEFINITION, SBOL_ROLES, 0, 25);
+/// ```
+/// Finally, the **advanced search** allows the user to configure a search with multiple criteria by constructing a `SearchQuery` object. The following query looks for promoters that have an additional annotation indicating that the promoter is regulated (as opposed to constitutive):
+/// ```
+/// #include <chrono>
+/// #include <thread>
+///
+/// SearchQuery& q = SearchQuery();
+/// q["objectType"].set(SBOL_COMPONENT_DEFINITION);
+/// q["limit"].set(25);
+/// q["offset"].set(0);
+/// q["role"].set(SO_PROMOTER);
+/// q["role"].add("http://wiki.synbiohub.org/wiki/Terms/igem#partType/Regulatory");
+/// int total_hits = igem.searchCount(q);
+/// SearchResponse& records = igem.search(q);
+/// ```
+/// @section template_desin Design Abstraction with SBOL
+/// An advantage of the SBOL data format over GenBank is the ability to represent DNA as abstract components without specifying an exact sequence. An **abstract design** can be used as a template, with sequence information filled in later. In SBOL, a ComponentDefinition represents a biological component whose general function is known while its sequence is currently either unknown or unspecified. The intended function of the component is specified using a descriptive term from the Sequence Ontology (SO), a standard vocabulary for describing genetic parts. As the following example shows, some common SO terms are built in to libSBOL as pre-defined constants (see @ref constants.h). This code example defines the new component as a gene.  Other terms may be found by browsing the [Sequence Ontology](http://www.sequenceontology.org/browser/obob.cgi) online.
 /// ![](gene_cassette.png)
 /// ```
 /// ComponentDefinition& bb1 = *new ComponentDefinition("BB1");
 /// bb1.roles.set(SO_GENE);
 /// ```
+/// Design abstraction is an important engineering principle for synthetic biology. Abstraction enables the engineer to think at a high-level about functional characteristics of a system while hiding low-level physical details. For example, in electronics, abstract schematics are used to describe the function of a circuit, while hiding the physical details of how a printed circuit board is laid out. Computer-aided design (CAD) programs allow the engineer to easily switch back and forth between abstract and physical representations of a circuit. In the same spirit, libSBOL enables a CAD approach for designing genetic constructs and other forms of synthetic biology.
 /// @section hierarchical_dna Hierarchical DNA Assembly
-/// LibSBOL also includes methods for common high-level design tasks for synthetic biology such as assembly of components into functional hierarchies. This is another important advantage of the SBOL standard over GenBank. DNA sequences and biological structures in general exhibit hierarchical organization, from the genome, to operons, to genes, to lower level genetic operators. The following code example generates a hierarchical description of a gene which contains as subcomponents the previously created components. Note that these objects must be added to a Document for assembly.
+/// LibSBOL also includes methods for assembling biological components into **abstraction hierarchies**. This is important rom a biological perspective, because DNA sequences and biological structures in general exhibit hierarchical organization, from the genome, to operons, to genes, to lower level genetic operators. The following code assembles an abstraction hierarchy that describes a gene cassete. Note that these objects must be added to a Document for assembly.
 /// ```
 /// bb1.assemble({ &r0010, &b0032, &e0040, &b0012 }, doc);
 /// ```
-///
+/// After creating an abstraction hierarchy, it is then possible to iterate through an object's primary structure of components:
+/// ```
+/// for (auto & component : bb1.getPrimaryStructure())
+///     cout << component.identity.get() << endl;
+/// ```
+/// *Caution!* It is also possible to iterate through components as follows, but this way is *not* guaranteed to return components in sequential order. This is because SBOL supports a variety of structural descriptions, not just primary structure.
+/// ```
+/// for (auto & component : bb1.components)
+///     cout << component.identity.get() << endl;
+/// ```
 /// @section sequence_assembly Sequence Assembly
-/// A complete design adds explicit sequence information to the components in a template design. In order to assemble a complete design, Sequence objects must first be created and associated with the promoter, CDS, RBS, terminator subcomponents. In contrast to the ComponentDefinition::assemble method, which assembles a template design, the Sequence::assemble method calculates the complete sequence of a design from the sequence of its subcomponents. You must assemble a template design from ComponentDefinitions prior to assembling a complete sequence.
+/// A **complete design** adds explicit sequence information to the components in a template design. In order to complete a design, Sequence objects must first be created and associated with the promoter, CDS, RBS, terminator subcomponents. In contrast to the ComponentDefinition::assemble method, which assembles a template design, the Sequence::compile method recursively generates the complete sequence of a hierarchical design from the sequence of its subcomponents. Compiling a DNA sequence is analogous to a programmer compiling their code. In order to compile a Sequence, you must first assemble a template design from ComponentDefinitions, as described in the previous section.
 /// ```
 /// Sequence& bb1_seq = *new Sequence("BB1_seq");
 /// bb1.sequences.set(bb1_seq.identity.get());
-/// bb1_seq.assemble();
+/// bb1_seq.compile();
 /// cout << gene_seq.elements.get() << endl;
 /// ```
 /// @section sequence_annotations Sequence Annotations

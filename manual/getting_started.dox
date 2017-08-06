@@ -5,28 +5,31 @@
 ///
 /// @section document Creating an SBOL Document
 ///
-/// In a previous era, engineers might sit at a drafting board and draft a design by hand. The engineer's drafting sheet in LibSBOL is a Document object. The Document serves as a container, initially empty, for SBOL data objects. All file I/O operations are performed on the Document to populate it with SBOL objects representing design elements. Usually the first step is to create an SBOLDocument in which to put your objects. This can be done by calling the Document constructor.  The read and write methods are used for reading and writing files in SBOL format.
+/// In a previous era, engineers might sit at a drafting board and draft a design by hand. The engineer's drafting sheet in LibSBOL is called a `Document`. The `Document` serves as a container, initially empty, for SBOL data objects. All file I/O operations are performed on the `Document` to populate it with SBOL objects representing design elements. Usually the first step is to create a `Document` in which to put your objects. This can be done by calling the `Document` constructor.  The `read` and `write` methods are used for reading and writing files in SBOL format.
 /// ```
 /// Document& doc = *new Document();
 /// doc.read("CRISPR_example.xml");
 /// doc.write("CRISPR_example.xml");
 /// ```
+/// Reading a Document will wipe its contents clean before import. However, you can import objects from multiple files into a single `Document` object using `doc.append("file.xml")`. This can be advantageous when you want to integrate multiple `ComponentDefinitions` from multiple files into a single design.
 /// (Experienced C++ programmers may find that returning a reference from a new operator is an unusual idiomatic choice.  See @ref idiomatic_cpp for a discussion about this stylistic preference in this tutorial.)
-/// Reading a Document will wipe its contents clean before import. However, you can import objects from multiple files into a single Document object using `doc.append('file.xml')`. This can be advantageous when you want to integrate multiple ComponentDefinitions from multiple files into a single design.
 ///
-/// A Document may contain different types of SBOL objects, including ComponentDefinitions, ModuleDefinitions, Sequences, SequenceAnnotations, and Models. These objects are collectively referred to as Top Level objects because they can be referenced directly from a Document.
+/// A `Document` may contain different types of SBOL objects, including `ComponentDefinitions`, `ModuleDefinitions`, `Sequences`, `SequenceAnnotations`, and `Models`. These objects are collectively referred to as `TopLevel` objects because they can be referenced directly from a `Document`. To determine the total number of objects in a Document, use the `size` method:
+/// ```
+/// cout << doc.size() << endl;
+/// ```
 ///
-/// In order to review the ComponentDefinitions contained in a Document:
-/// ``` 
-/// for( auto i_cd = doc.componentDefinitions.begin(); i_cd != doc.componentDefinitions.end(); i_cd++)
+/// In order to review the `ComponentDefinitions` contained in a `Document`:
+/// ```
+/// cout << doc.componentDefinitions.size() << endl;
+/// for( auto & cd : doc.componentDefinitions )
 /// {
-///     ComponentDefinition& cd = (*i_cd);
 ///     cout << cd.identity.get() << endl;
 /// }
 /// ```
-/// Similarly, you can iterate through a Document's moduleDefinitions, sequences, sequenceAnnotations, and models.
+/// Similarly, you can iterate through a `Document's moduleDefinitions, sequences, sequenceAnnotations`, and `models`.
 ///
-/// A Document and all associated SBOL objects may be deleted by calling `doc.close()`.
+/// Memory management of pointers is encapsulated with the `close` method. Pointers to a `Document` and all SBOL objects contained therein may be deleted by calling `doc.close()`.
 ///
 /// @section creating_objects Creating SBOL Data Objects
 ///
@@ -102,17 +105,15 @@
 /// Some properties can contain multiple values or objects. As mentioned under @ref optional_fields additional values can be specified with the add method.  In addition you may iterate over lists of objects or values.
 /// ```
 /// // Iterate through objects (black diamond properties in UML)
-/// for( auto i_p = Cas9ComplexFormation.participations.begin(); i_p != Cas9ComplexFormation.participations.end(); i_p++)
+/// for( auto & p : Cas9ComplexFormation.participations)
 /// {
-///     Participation& p = (*i_p);
 ///     cout << p.identity.get() << endl;
 ///     cout << p.roles.get() << endl;
 /// }
 ///   
 /// // Iterate through references (white diamond properties in UML)
-/// for (auto i_role = reaction_participant.roles.begin(); i_role != reaction_participant.roles.end(); i_role++)
+/// for (auto & role : reaction_participant.roles)
 /// {
-///     string role = *i_role;
 ///     cout << role << endl;
 /// }
 /// ```
