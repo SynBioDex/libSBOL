@@ -633,6 +633,25 @@ PROPERTY_MACRO(IntProperty)
     
 }
 
+%extend sbol::SearchResponse
+{
+    sbol::Identified& __getitem__(int i)
+    {
+        return $self->operator[](i);
+    }
+    
+    int __len__()
+    {
+        return $self->size();
+    }
+    
+    SearchResponse* __iter__()
+    {
+        $self->python_iter = SearchResponse::iterator($self->begin());
+        return $self;
+    }
+}
+    
 %pythonbegin %{
 from __future__ import absolute_import
 %}

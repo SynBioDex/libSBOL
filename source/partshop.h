@@ -83,7 +83,7 @@ namespace sbol
                 return *records[i];
             else
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
-        };  ///< Retrieve a child object by URI
+        };
         
         /// Provides iterator functionality for SBOL properties that contain multiple objects
         class iterator : public std::vector<Identified*>::iterator
@@ -109,6 +109,40 @@ namespace sbol
         {
             return iterator(records.end());
         };
+        
+        Identified* next()
+        {
+            if (this->python_iter != this->end())
+            {
+                Identified* obj = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return obj;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        Identified* __next__()
+        {
+            if (this->python_iter != this->end())
+            {
+                
+                Identified* obj = *this->python_iter;
+                this->python_iter++;
+                
+                return obj;
+            }
+            
+            throw SBOLError(END_OF_LIST, "");;
+            return NULL;
+        }
+        
+        std::vector<Identified*>::iterator python_iter;
+
         
     protected:
         std::vector < sbol::Identified* > records;
@@ -208,15 +242,15 @@ namespace sbol
         /// @param doc A Document to add the subcollections to
         std::string searchSubCollections(std::string uri);
 
-#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-        
-        std::string search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
-        
-        std::string search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
-
-        std::string search(SearchQuery& q);
-
-#else
+//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+//        
+//        std::string search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
+//        
+//        std::string search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
+//
+//        std::string search(SearchQuery& q);
+//
+//#else
 
         /// An EXACT search. Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @ref constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. (These constants follow a fairly systematic and consistent naming scheme (see @ref constants.h). The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text This may be a literal text value or it may be a URI.
@@ -225,7 +259,7 @@ namespace sbol
         /// @param offset The index of the first record to return. This parameter is indexed starting from zero.
         /// @param limit The total count number of records to return
         /// @return Metadata formatted as a string encoding JSON.
-        std::vector<std::map<std::string, std::string>> search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
+        SearchResponse& search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
         
         /// A GENERAL search. Search name, description, and displayId properties for a match to the search text, including matches to substrings of the property value. The type of object to search for can be further restricted by use of the second parameter, though this is set to SBOL_COMPONENT_DEFINITION by default. See @ref constants.h for more of libSBOL's built-in RDF type constants. These constants follow a fairly predictable and consistent naming scheme. The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text A snippet of text to search for in a property's value.
@@ -233,14 +267,14 @@ namespace sbol
         /// @param offset The index of the first record to return. This parameter is indexed starting from zero.
         /// @param limit The total count number of records to return
         /// @return Metadata formatted as a string encoding JSON.
-        std::vector<std::map<std::string, std::string>> search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
+        SearchResponse& search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
         
         /// Perform an ADVANCED search using a SearchQuery object.
         /// @param search_query A map of string key-value pairs. Keys are objectType, sbolTag, collection, dcterms:tag, namespace/tag, offset, limit.
         /// @return Search metadata A vector of maps with key-value pairs.
         SearchResponse& search(SearchQuery& q);
         
-#endif
+//#endif
         
         /// Returns the number of search records for an EXACT search matching the given criteria.
         /// @return An integer count.
