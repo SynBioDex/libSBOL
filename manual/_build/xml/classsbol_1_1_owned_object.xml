@@ -1,0 +1,831 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classsbol_1_1_owned_object" kind="class" language="C++" prot="public">
+    <compoundname>sbol::OwnedObject</compoundname>
+    <basecompoundref refid="classsbol_1_1_property" prot="public" virt="non-virtual">Property&lt; SBOLClass &gt;</basecompoundref>
+    <includes local="no">/Users/bryan/Dev/libSBOL/source/properties.h</includes>
+    <innerclass refid="classsbol_1_1_owned_object_1_1iterator" prot="public">sbol::OwnedObject::iterator</innerclass>
+    <templateparamlist>
+      <param>
+        <type>class</type>
+        <declname>SBOLClass</declname>
+        <defname>SBOLClass</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1aa206fd794c275ba7bbd5402a3af1f8d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OwnedObject</definition>
+        <argsstring>(sbol_type type_uri=UNDEFINED, SBOLObject *property_owner=NULL, std::string dummy=&quot;&quot;)</argsstring>
+        <name>OwnedObject</name>
+        <param>
+          <type><ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref></type>
+          <declname>type_uri</declname>
+          <defval>UNDEFINED</defval>
+        </param>
+        <param>
+          <type><ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> *</type>
+          <declname>property_owner</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>dummy</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="331" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="491" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1a646685d58254d4996169b96a384ab15d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OwnedObject</definition>
+        <argsstring>(sbol_type type_uri, void *property_owner, SBOLObject &amp;first_object)</argsstring>
+        <name>OwnedObject</name>
+        <param>
+          <type><ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref></type>
+          <declname>type_uri</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>property_owner</declname>
+        </param>
+        <param>
+          <type><ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> &amp;</type>
+          <declname>first_object</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="332" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="503" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1a6fdb4549d20177fb0cb00862ca1764bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void set</definition>
+        <argsstring>(SBOLClass &amp;sbol_obj)</argsstring>
+        <name>set</name>
+        <param>
+          <type>SBOLClass &amp;</type>
+          <declname>sbol_obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>SBOLClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of SBOL object contained in this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sbol_obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A child object to add to this container property. Assigns a child object to this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> container property. This method always overwrites the first <ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> in the container. appends another object to those already contained in this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property. In SBOLCompliant mode, the create method is preferred</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sbol_obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The child object Sets the first object in the container </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="337" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="511" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1a181f5df78e9d0f4002144d9239145ef6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void add</definition>
+        <argsstring>(SBOLClass &amp;sbol_obj)</argsstring>
+        <name>add</name>
+        <param>
+          <type>SBOLClass &amp;</type>
+          <declname>sbol_obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>SBOLClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of SBOL object contained in this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sbol_obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A child object to add to this container property. Adds a child object to the parent object. This method always appends another object to those already contained in this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property. In SBOLCompliant mode, the create method is preferred </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="342" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/document.h" bodystart="583" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1a1ebe14bfc3773fac734fe2b4355bec48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class SBOLSubClass</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void add</definition>
+        <argsstring>(SBOLSubClass &amp;sbol_obj)</argsstring>
+        <name>add</name>
+        <param>
+          <type>SBOLSubClass &amp;</type>
+          <declname>sbol_obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>SBOLClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of SBOL object contained in this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>SBOLSubClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A derived class of SBOLClass. Use this type specialization when adding multiple types of SBOLObjects to a container. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sbol_obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A child object to add to this container property. Adds a child object to the parent object. This method always appends another object to those already contained in this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property. In SBOLCompliant mode, the create method is preferred </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="348" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="520" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1a4d9c57c8d55a009ef25cc77fb4c731ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOLClass &amp;</type>
+        <definition>SBOLSubClass &amp; get</definition>
+        <argsstring>(const std::string uri=&quot;&quot;)</argsstring>
+        <name>get</name>
+        <param>
+          <type>const std::string</type>
+          <declname>uri</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get the child object. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>SBOLClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the child object </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The URI of the child object </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the child object By default returns the first object in this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> container property </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="355" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/document.h" bodystart="614" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1ae1f1dded6f931f1b2e2bf9d2b92357a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class SBOLSubClass</type>
+          </param>
+        </templateparamlist>
+        <type>SBOLSubClass &amp;</type>
+        <definition>SBOLSubClass&amp; get</definition>
+        <argsstring>(std::string uri=&quot;&quot;)</argsstring>
+        <name>get</name>
+        <param>
+          <type>std::string</type>
+          <declname>uri</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get the child object. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>SBOLClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the child object </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>SBOLSubClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A derived class of SBOLClass. Use this type specialization when adding multiple types of SBOLObjects to a container. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The specific URI for a child object if this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property contains multiple objects, </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the child object Returns a child object from the <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property. If no URI is specified, the first object in this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property is returned. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="363" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1af655a92abf05cc0e11ed454cbe77eaa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; SBOLClass * &gt;</type>
+        <definition>std::vector&lt; SBOLClass * &gt; getObjects</definition>
+        <argsstring>()</argsstring>
+        <name>getObjects</name>
+        <briefdescription>
+<para>Get all the objects contained in the property. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A vector of pointers to the objects </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="367" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/document.h" bodystart="393" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1ad9ca4bd667d1ba6c4373ba4225c97091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remove</definition>
+        <argsstring>(std::string uri)</argsstring>
+        <name>remove</name>
+        <param>
+          <type>std::string</type>
+          <declname>uri</declname>
+        </param>
+        <briefdescription>
+<para>Remove an object from the list of objects and destroy it. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The identity of the object to be destroyed. This can be a displayId of the object or a full URI may be provided. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="371" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/document.h" bodystart="744" bodyend="767"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1a327eb5f38c67b9840719f2c1ed81f94e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void remove</definition>
+        <argsstring>(int index=0) override</argsstring>
+        <name>remove</name>
+        <reimplements refid="classsbol_1_1_property_1ab31393d40ce20e4bbf0de65a874040d9">remove</reimplements>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Remove an object from the list of objects and destroy it. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A numerical index for the object. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="375" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/document.h" bodystart="728" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1aee7cb2065b88d21ac4ad05bc997ecf82" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <reimplements refid="classsbol_1_1_property_1ac8bb3912a3ce86b15842e79d0b421204">clear</reimplements>
+        <briefdescription>
+<para>Remove all children objects from the parent and destroy them. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="378" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/document.h" bodystart="770" bodyend="785"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1a3455e33e12f73daa5e166cbfcaf6a2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOLClass &amp;</type>
+        <definition>SBOLSubClass &amp; create</definition>
+        <argsstring>(std::string uri)</argsstring>
+        <name>create</name>
+        <param>
+          <type>std::string</type>
+          <declname>uri</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>SBOLClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of SBOL object that will be created </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If SBOLCompliance is enabled, this should be the displayId for the new child object. If not enabled, this should be a full raw URI. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the child object Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object&apos;s identity will be constructed using the supplied displayId argument. Otherwise, the user should supply a full URI.  check uniqueness of URI in <ref refid="classsbol_1_1_document" kindref="compound">Document</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="385" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/document.h" bodystart="404" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1ac411f2d6ccc5db50c9c0bb4c0fa305d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class SBOLSubClass</type>
+          </param>
+        </templateparamlist>
+        <type>SBOLSubClass &amp;</type>
+        <definition>SBOLSubClass&amp; create</definition>
+        <argsstring>(std::string uri)</argsstring>
+        <name>create</name>
+        <param>
+          <type>std::string</type>
+          <declname>uri</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>SBOLClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of SBOL object contained in this <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> property </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>SBOLSubClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A derived class of SBOLClass. Use this specialization for <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref> properties which contain multiple types of SBOLObjects. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If SBOLCompliance is enabled, this should be the displayId for the new child object. If not enabled, this should be a full raw URI. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to the child object Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object&apos;s identity will be constructed using the supplied displayId argument. Otherwise, the user should supply a full URI.  check uniqueness of URI in <ref refid="classsbol_1_1_document" kindref="compound">Document</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="393" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1a6d459511f3586418b35a9c077e216539" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOLClass &amp;</type>
+        <definition>SBOLClass &amp; operator[]</definition>
+        <argsstring>(const int nIndex)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const int</type>
+          <declname>nIndex</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a child object by numerical index. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="395" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="531" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1a53ecc619a72edb24d5e70cd6b44b80e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOLClass &amp;</type>
+        <definition>SBOLClass &amp; operator[]</definition>
+        <argsstring>(std::string uri)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>std::string</type>
+          <declname>uri</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a child object by URI. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="396" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/document.h" bodystart="659" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1ad69bd11391be1a1dba5c8202259664f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classsbol_1_1_owned_object_1_1iterator" kindref="compound">iterator</ref></type>
+        <definition>iterator begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="413" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="413" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1acad38d52497a975bfb6f2f6acd76631f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classsbol_1_1_owned_object_1_1iterator" kindref="compound">iterator</ref></type>
+        <definition>iterator end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="419" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="419" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1af4b57d21919c42d55af03391f91a1c08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int size</definition>
+        <argsstring>()</argsstring>
+        <name>size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="425" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="425" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1aaeae46cf11cccb87655dc22526bacf3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref></type>
+        <definition>virtual sbol_type getTypeURI</definition>
+        <argsstring>()</argsstring>
+        <name>getTypeURI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="78" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1a536f61dd346bda796d4b3fc116037490" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> &amp;</type>
+        <definition>virtual SBOLObject&amp; getOwner</definition>
+        <argsstring>()</argsstring>
+        <name>getOwner</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="79" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1ae73e64ddeee0dc62640d3d4a090fa07d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt;std::string&gt; getAll</definition>
+        <argsstring>()</argsstring>
+        <name>getAll</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="81" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1a78345a10e37cae70b6b1f6e295034872" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void set</definition>
+        <argsstring>(std::string new_value)</argsstring>
+        <name>set</name>
+        <param>
+          <type>std::string</type>
+          <declname>new_value</declname>
+        </param>
+        <briefdescription>
+<para>Basic setter for SBOL TextProperty and URIProperty. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A new string value for the Property. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="82" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1a60d0f67ccdc9630d89f8bb041cc0f122" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void set</definition>
+        <argsstring>(int new_value)</argsstring>
+        <name>set</name>
+        <param>
+          <type>int</type>
+          <declname>new_value</declname>
+        </param>
+        <briefdescription>
+<para>Basic setter for SBOL IntProperty, but can be used with TextProperty as well. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A new integer value for the property, which is converted to a raw string during serialization. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="83" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1a3291234026df2ae0d53fe60422952384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void add</definition>
+        <argsstring>(std::string new_value)</argsstring>
+        <name>add</name>
+        <param>
+          <type>std::string</type>
+          <declname>new_value</declname>
+        </param>
+        <briefdescription>
+<para>Appends the new value to a list of values, for properties that allow it. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A new string which will be added to a list of values. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="84" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1aac759501cf6c7895a70eecbef0226ae1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void write</definition>
+        <argsstring>()</argsstring>
+        <name>write</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="87" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1af19ecb2e26889fcc5368c661b5fbdf98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void validate</definition>
+        <argsstring>(void *arg=NULL)</argsstring>
+        <name>validate</name>
+        <param>
+          <type>void *</type>
+          <declname>arg</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="88" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classsbol_1_1_property_1a905a73fd092fbf7ef93bba047e081418" prot="protected" static="no" mutable="no">
+        <type><ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref></type>
+        <definition>sbol_type type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="62" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsbol_1_1_property_1afd14d27b979a91307d8548061c1ed76b" prot="protected" static="no" mutable="no">
+        <type><ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> *</type>
+        <definition>SBOLObject* sbol_owner</definition>
+        <argsstring></argsstring>
+        <name>sbol_owner</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="63" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsbol_1_1_property_1a6f819250a5965723e1f8110140a7ddeb" prot="protected" static="no" mutable="no">
+        <type>ValidationRules</type>
+        <definition>ValidationRules validationRules</definition>
+        <argsstring></argsstring>
+        <name>validationRules</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="64" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsbol_1_1_property_1a4fe7ea5f74433d397de3b2d5c0f145b9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;::<ref refid="classsbol_1_1_owned_object_1_1iterator" kindref="compound">iterator</ref></type>
+        <definition>std::vector&lt;std::string&gt;::iterator python_iter</definition>
+        <argsstring></argsstring>
+        <name>python_iter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="126" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsbol_1_1_property_1a8eabfd241d9b1e0acf2db965f872d64f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void initializeNamespace</definition>
+        <argsstring>(std::string ns)</argsstring>
+        <name>initializeNamespace</name>
+        <param>
+          <type>std::string</type>
+          <declname>ns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="65" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A container property that contains child objects. </para>    </briefdescription>
+    <detaileddescription>
+<para>Creates a composition out of two or more classes. In the SBOL specification, compositional relationships are indicated in class diagrams by arrows with black diamonds. A compositional relationship means that deleting the parent object will delete the child objects, and adding the parent object to a <ref refid="classsbol_1_1_document" kindref="compound">Document</ref> will also add the child object. Owned objects are stored in arbitrary order.</para><para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>SBOLClass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of child SBOL object contained by this <ref refid="classsbol_1_1_property" kindref="compound">Property</ref> </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="562">
+        <label>OwnedObject&lt; SBOLClass &gt;</label>
+        <link refid="classsbol_1_1_owned_object"/>
+        <childnode refid="563" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="563">
+        <label>Property&lt; SBOLClass &gt;</label>
+        <link refid="classsbol_1_1_property"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="564">
+        <label>OwnedObject&lt; SBOLClass &gt;</label>
+        <link refid="classsbol_1_1_owned_object"/>
+        <childnode refid="565" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="569">
+        <label>iterator</label>
+        <link refid="classsbol_1_1_property_1_1iterator"/>
+      </node>
+      <node id="568">
+        <label>Property&lt; std::string &gt;</label>
+        <link refid="classsbol_1_1_property"/>
+        <childnode refid="566" relation="usage">
+          <edgelabel>#sbol_owner</edgelabel>
+        </childnode>
+        <childnode refid="569" relation="usage">
+          <edgelabel>+python_iter</edgelabel>
+        </childnode>
+      </node>
+      <node id="566">
+        <label>SBOLObject</label>
+        <link refid="classsbol_1_1_s_b_o_l_object"/>
+        <childnode refid="567" relation="usage">
+          <edgelabel>+identity</edgelabel>
+        </childnode>
+      </node>
+      <node id="567">
+        <label>URIProperty</label>
+        <link refid="classsbol_1_1_u_r_i_property"/>
+        <childnode refid="568" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="565">
+        <label>Property&lt; SBOLClass &gt;</label>
+        <link refid="classsbol_1_1_property"/>
+        <childnode refid="566" relation="usage">
+          <edgelabel>#sbol_owner</edgelabel>
+        </childnode>
+        <childnode refid="569" relation="usage">
+          <edgelabel>+python_iter</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="328" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="327" bodyend="488"/>
+    <listofallmembers>
+      <member refid="classsbol_1_1_owned_object_1a181f5df78e9d0f4002144d9239145ef6" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>add</name></member>
+      <member refid="classsbol_1_1_owned_object_1a1ebe14bfc3773fac734fe2b4355bec48" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>add</name></member>
+      <member refid="classsbol_1_1_property_1a3291234026df2ae0d53fe60422952384" prot="public" virt="non-virtual" ambiguityscope="Property&lt; SBOLClass &gt;::"><scope>sbol::OwnedObject</scope><name>add</name></member>
+      <member refid="classsbol_1_1_owned_object_1ad69bd11391be1a1dba5c8202259664f8" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>begin</name></member>
+      <member refid="classsbol_1_1_owned_object_1aee7cb2065b88d21ac4ad05bc997ecf82" prot="public" virt="virtual"><scope>sbol::OwnedObject</scope><name>clear</name></member>
+      <member refid="classsbol_1_1_owned_object_1a3455e33e12f73daa5e166cbfcaf6a2e4" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>create</name></member>
+      <member refid="classsbol_1_1_owned_object_1ac411f2d6ccc5db50c9c0bb4c0fa305d0" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>create</name></member>
+      <member refid="classsbol_1_1_owned_object_1acad38d52497a975bfb6f2f6acd76631f" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>end</name></member>
+      <member refid="classsbol_1_1_owned_object_1a4d9c57c8d55a009ef25cc77fb4c731ca" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>get</name></member>
+      <member refid="classsbol_1_1_owned_object_1ae1f1dded6f931f1b2e2bf9d2b92357a6" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>get</name></member>
+      <member refid="classsbol_1_1_property_1ae73e64ddeee0dc62640d3d4a090fa07d" prot="public" virt="virtual"><scope>sbol::OwnedObject</scope><name>getAll</name></member>
+      <member refid="classsbol_1_1_owned_object_1af655a92abf05cc0e11ed454cbe77eaa2" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>getObjects</name></member>
+      <member refid="classsbol_1_1_property_1a536f61dd346bda796d4b3fc116037490" prot="public" virt="virtual"><scope>sbol::OwnedObject</scope><name>getOwner</name></member>
+      <member refid="classsbol_1_1_property_1aaeae46cf11cccb87655dc22526bacf3e" prot="public" virt="virtual"><scope>sbol::OwnedObject</scope><name>getTypeURI</name></member>
+      <member refid="classsbol_1_1_property_1a8eabfd241d9b1e0acf2db965f872d64f" prot="protected" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>initializeNamespace</name></member>
+      <member refid="classsbol_1_1_owned_object_1a6d459511f3586418b35a9c077e216539" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>operator[]</name></member>
+      <member refid="classsbol_1_1_owned_object_1a53ecc619a72edb24d5e70cd6b44b80e8" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>operator[]</name></member>
+      <member refid="classsbol_1_1_owned_object_1aa206fd794c275ba7bbd5402a3af1f8d3" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>OwnedObject</name></member>
+      <member refid="classsbol_1_1_owned_object_1a646685d58254d4996169b96a384ab15d" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>OwnedObject</name></member>
+      <member refid="classsbol_1_1_property_1ad8f40b0d120f2c860386c286f2f598d4" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>Property</name></member>
+      <member refid="classsbol_1_1_property_1a472abfcc949da4aa54ffd6b030ff2438" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>Property</name></member>
+      <member refid="classsbol_1_1_property_1a0f46d656d5f53af3bf202e1b8756cd0a" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>Property</name></member>
+      <member refid="classsbol_1_1_property_1a4fe7ea5f74433d397de3b2d5c0f145b9" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>python_iter</name></member>
+      <member refid="classsbol_1_1_owned_object_1ad9ca4bd667d1ba6c4373ba4225c97091" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>remove</name></member>
+      <member refid="classsbol_1_1_owned_object_1a327eb5f38c67b9840719f2c1ed81f94e" prot="public" virt="virtual"><scope>sbol::OwnedObject</scope><name>remove</name></member>
+      <member refid="classsbol_1_1_property_1afd14d27b979a91307d8548061c1ed76b" prot="protected" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>sbol_owner</name></member>
+      <member refid="classsbol_1_1_owned_object_1a6fdb4549d20177fb0cb00862ca1764bc" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>set</name></member>
+      <member refid="classsbol_1_1_property_1a78345a10e37cae70b6b1f6e295034872" prot="public" virt="virtual" ambiguityscope="Property&lt; SBOLClass &gt;::"><scope>sbol::OwnedObject</scope><name>set</name></member>
+      <member refid="classsbol_1_1_property_1a60d0f67ccdc9630d89f8bb041cc0f122" prot="public" virt="virtual" ambiguityscope="Property&lt; SBOLClass &gt;::"><scope>sbol::OwnedObject</scope><name>set</name></member>
+      <member refid="classsbol_1_1_owned_object_1af4b57d21919c42d55af03391f91a1c08" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>size</name></member>
+      <member refid="classsbol_1_1_property_1a905a73fd092fbf7ef93bba047e081418" prot="protected" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>type</name></member>
+      <member refid="classsbol_1_1_property_1af19ecb2e26889fcc5368c661b5fbdf98" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>validate</name></member>
+      <member refid="classsbol_1_1_property_1a6f819250a5965723e1f8110140a7ddeb" prot="protected" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>validationRules</name></member>
+      <member refid="classsbol_1_1_property_1aac759501cf6c7895a70eecbef0226ae1" prot="public" virt="virtual"><scope>sbol::OwnedObject</scope><name>write</name></member>
+      <member refid="classsbol_1_1_property_1aa22be1d5ed856a436d84b3d4b4cb5c8a" prot="public" virt="non-virtual"><scope>sbol::OwnedObject</scope><name>~Property</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,5 +1,7 @@
-<map id="sbol::Location" name="sbol::Location">
-<area shape="rect" id="node4" href="$classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="26,663,118,803"/>
-<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="5,300,139,480"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ doc\l+ properties\l+ list_properties\l+ owned_objects\l+ type\l+ identity\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="8,5,137,252"/>
+<map id="Location" name="Location">
+<area shape="rect" id="node4" href="$classsbol_1_1_cut.html" title="The Cut class specifies a location between two coordinates of a Sequence&#39;s elements. class Cut : public Location. " alt="" coords="5,809,76,909"/>
+<area shape="rect" id="node5" href="$classsbol_1_1_generic_location.html" title="the GenericLocation class is included as a starting point for specifying regions on Sequence objects ..." alt="" coords="99,809,246,909"/>
+<area shape="rect" id="node6" href="$classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="270,769,366,949"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="105,367,240,587"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="101,5,244,319"/>
 </map>

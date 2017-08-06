@@ -1,13 +1,22 @@
 var searchData=
 [
-  ['ownedobject',['OwnedObject',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3acomponent_20_3e',['OwnedObject&lt; sbol::Component &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3afunctionalcomponent_20_3e',['OwnedObject&lt; sbol::FunctionalComponent &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3ainteraction_20_3e',['OwnedObject&lt; sbol::Interaction &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3alocation_20_3e',['OwnedObject&lt; sbol::Location &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3amapsto_20_3e',['OwnedObject&lt; sbol::MapsTo &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3amodule_20_3e',['OwnedObject&lt; sbol::Module &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3aparticipation_20_3e',['OwnedObject&lt; sbol::Participation &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3asequenceannotation_20_3e',['OwnedObject&lt; sbol::SequenceAnnotation &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]],
-  ['ownedobject_3c_20sbol_3a_3asequenceconstraint_20_3e',['OwnedObject&lt; sbol::SequenceConstraint &gt;',['../classsbol_1_1_owned_object.html',1,'sbol']]]
+  ['major',['major',['../classsbol_1_1_version_property.html#acac7476b5a7a885093c61232bb0d7744',1,'sbol::VersionProperty']]],
+  ['mapsto',['MapsTo',['../classsbol_1_1_maps_to.html',1,'sbol']]],
+  ['mapsto',['MapsTo',['../classsbol_1_1_maps_to.html#a31ab177b54e68aa9dc7ba9fe23300f3c',1,'sbol::MapsTo']]],
+  ['mapsto_2eh',['mapsto.h',['../mapsto_8h.html',1,'']]],
+  ['mapstos',['mapsTos',['../classsbol_1_1_module.html#a4502cd9ed66367f0a2228569f6384374',1,'sbol::Module']]],
+  ['mask',['mask',['../classsbol_1_1_functional_component.html#ae3f1f46de2d7480f5b6660c36d62850b',1,'sbol::FunctionalComponent']]],
+  ['mastertemplate',['masterTemplate',['../classsbol_1_1_combinatorial_derivation.html#a15d8b6debd830506ad07f4ae0933d54f',1,'sbol::CombinatorialDerivation']]],
+  ['members',['members',['../classsbol_1_1_collection.html#abb136d9cfb8b21c76251901cfc48ba95',1,'sbol::Collection']]],
+  ['minor',['minor',['../classsbol_1_1_version_property.html#ae9afee126d2152713e611047580a3ea0',1,'sbol::VersionProperty']]],
+  ['model',['Model',['../classsbol_1_1_model.html',1,'sbol']]],
+  ['model_2eh',['model.h',['../model_8h.html',1,'']]],
+  ['models',['models',['../classsbol_1_1_module_definition.html#aa89d5d0aa863d4566c31b96ef76e549c',1,'sbol::ModuleDefinition']]],
+  ['module',['Module',['../classsbol_1_1_module.html#af47e191b0b6982eef0b9f96cf96fc079',1,'sbol::Module']]],
+  ['module',['Module',['../classsbol_1_1_module.html',1,'sbol']]],
+  ['module_2eh',['module.h',['../module_8h.html',1,'']]],
+  ['moduledefinition',['ModuleDefinition',['../classsbol_1_1_module_definition.html#a169818ec8c175a38e8178f6505d4d07a',1,'sbol::ModuleDefinition']]],
+  ['moduledefinition',['ModuleDefinition',['../classsbol_1_1_module_definition.html',1,'sbol']]],
+  ['moduledefinition_2eh',['moduledefinition.h',['../moduledefinition_8h.html',1,'']]],
+  ['modules',['modules',['../classsbol_1_1_module_definition.html#a0248a46d5c76787d2590b0d062efc792',1,'sbol::ModuleDefinition']]]
 ];

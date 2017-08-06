@@ -1,4 +1,10 @@
 var searchData=
 [
-  ['write',['write',['../classsbol_1_1_document.html#a36174c935c257c519c1a165b5c730d0c',1,'sbol::Document']]]
+  ['textproperty',['TextProperty',['../classsbol_1_1_text_property.html',1,'sbol']]],
+  ['toggleexceptions',['toggleExceptions',['../config_8h.html#ac33d994091baeab30cb4aec46468ff32',1,'sbol']]],
+  ['togglesbolcomplianttypes',['toggleSBOLCompliantTypes',['../config_8h.html#a11ca6c4d8f1587db24018cc268b34a58',1,'sbol']]],
+  ['toplevel',['TopLevel',['../classsbol_1_1_top_level.html',1,'sbol']]],
+  ['toplevel_2eh',['toplevel.h',['../toplevel_8h.html',1,'']]],
+  ['type',['type',['../classsbol_1_1_activity.html#a4ea3fae44ee4b342a6cf0c664a84563b',1,'sbol::Activity']]],
+  ['types',['types',['../classsbol_1_1_component_definition.html#ab563237ddc0363ecbd245b5f791f2900',1,'sbol::ComponentDefinition::types()'],['../classsbol_1_1_interaction.html#ab563237ddc0363ecbd245b5f791f2900',1,'sbol::Interaction::types()']]]
 ];

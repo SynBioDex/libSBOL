@@ -1,0 +1,16 @@
+<map id="/Users/bryan/Dev/libSBOL/source/componentdefinition.h" name="/Users/bryan/Dev/libSBOL/source/componentdefinition.h">
+<area shape="rect" id="node2" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="126,165,205,191"/>
+<area shape="rect" id="node20" href="$component_8h.html" title="ComponentInstance, Component, and FunctionalComponent classes. " alt="" coords="441,92,540,117"/>
+<area shape="rect" id="node22" href="$sequenceannotation_8h.html" title="SequenceAnnotation class. " alt="" coords="93,92,246,117"/>
+<area shape="rect" id="node24" href="$sequenceconstraint_8h.html" title="SequenceConstraint class. " alt="" coords="270,92,418,117"/>
+<area shape="rect" id="node3" href="$identified_8h.html" title="Identified class. " alt="" coords="326,239,412,264"/>
+<area shape="rect" id="node4" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="954,312,1022,337"/>
+<area shape="rect" id="node5" href="$validation_8h.html" title="Validation rules. " alt="" coords="812,532,900,557"/>
+<area shape="rect" id="node14" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="942,385,1034,411"/>
+<area shape="rect" id="node7" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="826,605,894,631"/>
+<area shape="rect" id="node8" href="$sbolerror_8h.html" title="SBOLError class and error codes. " alt="" coords="855,679,940,704"/>
+<area shape="rect" id="node11" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="1015,679,1105,704"/>
+<area shape="rect" id="node15" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="948,459,1028,484"/>
+<area shape="rect" id="node21" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="433,165,509,191"/>
+<area shape="rect" id="node23" href="$location_8h.html" title="Location, Cut, Range, and GenericLocation classes. " alt="" coords="229,165,307,191"/>
+</map>

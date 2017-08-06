@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['host',['Host',['../classsbol_1_1_host.html',1,'sbol']]]
+  ['genericlocation',['GenericLocation',['../classsbol_1_1_generic_location.html',1,'sbol']]]
 ];

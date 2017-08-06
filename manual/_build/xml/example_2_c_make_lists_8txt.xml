@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="example_2_c_make_lists_8txt" kind="file" language="C++">
+    <compoundname>CMakeLists.txt</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="example_2_c_make_lists_8txt_1a56d5b1d8bf34e3e95599bc17bc5ff34c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>cmake_policy</definition>
+        <argsstring>(SET CMP0015 NEW) SET(LINK_DIR $</argsstring>
+        <name>cmake_policy</name>
+        <param>
+          <type>SET CMP0015</type>
+          <declname>NEW</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" line="3" column="1" bodyfile="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" bodystart="3" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="example_2_c_make_lists_8txt_1ae53e75515b851d14ffe6ab15b1c63db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL lib</type>
+        <definition>SBOL lib SET</definition>
+        <argsstring>(HEADER_DIR ${CMAKE_INSTALL_PREFIX}/SBOL/include) find_library(xml2 NAME libxml2_a.lib PATHS $</argsstring>
+        <name>SET</name>
+        <param>
+          <type>HEADER_DIR ${CMAKE_INSTALL_PREFIX}/SBOL/</type>
+          <declname>include</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" line="9" column="1" bodyfile="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" bodystart="9" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="example_2_c_make_lists_8txt_1ad27deab370737f34b83731aaa346647e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>find_library</definition>
+        <argsstring>(zlib NAME zlib.lib PATHS ${LINK_DIR}) find_library(iconv NAME iconv_a.lib PATHS $</argsstring>
+        <name>find_library</name>
+        <param>
+          <type>zlib NAME zlib.lib PATHS ${LINK_DIR}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" line="15" column="1" bodyfile="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" bodystart="15" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="example_2_c_make_lists_8txt_1af0f0990c39f8075e81a3e7ae00f26167" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>find_library</definition>
+        <argsstring>(xml2 NAME libxml2.a PATHS ${LINK_DIR}) FIND_LIBRARY(raptor2 NAME raptor2.lib PATHS $</argsstring>
+        <name>find_library</name>
+        <param>
+          <type>xml2 NAME libxml2.a PATHS ${LINK_DIR}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" line="23" column="1" bodyfile="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="example_2_c_make_lists_8txt_1a099ece3f11a784833af6cef3c0f7b189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>find_library</definition>
+        <argsstring>(sbol NAME sbol.lib PATHS ${LINK_DIR}) SET(LINK_DIR $</argsstring>
+        <name>find_library</name>
+        <param>
+          <type>sbol NAME sbol.lib PATHS ${LINK_DIR}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" line="31" column="1" bodyfile="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="example_2_c_make_lists_8txt_1a6a46baeda4720a1d0fd7ebd6de7ba722" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>lib</type>
+        <definition>lib SET</definition>
+        <argsstring>(HEADER_DIR ${CMAKE_INSTALL_PREFIX}/include/sbol) FILE(GLOB APPLICATION_FILES&quot;*.h&quot;&quot;Source.cpp&quot;) ADD_EXECUTABLE(sbol_test $</argsstring>
+        <name>SET</name>
+        <param>
+          <type>HEADER_DIR ${CMAKE_INSTALL_PREFIX}/include/</type>
+          <declname>sbol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" line="37" column="1" bodyfile="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" bodystart="37" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="example_2_c_make_lists_8txt_1a144f1f834ae3a777071c17394a935816" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TARGET_LINK_LIBRARIES</definition>
+        <argsstring>(sbol_test ${sbol}${raptor2}${xml2}${zlib}${iconv}ws2_32) TARGET_LINK_LIBRARIES(sbol_test $</argsstring>
+        <name>TARGET_LINK_LIBRARIES</name>
+        <param>
+          <type>sbol_test ${sbol}${raptor2}${xml2}${zlib}${iconv}</type>
+          <declname>ws2_32</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" line="63" column="1" bodyfile="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt" bodystart="63" bodyend="73"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal">PROJECT(<sp/>SBOL_TEST<sp/>)</highlight></codeline>
+<codeline lineno="2"><highlight class="normal">CMAKE_MINIMUM_REQUIRED(<sp/>VERSION<sp/>2.8<sp/>)</highlight></codeline>
+<codeline lineno="3"><highlight class="normal">cmake_policy(SET<sp/>CMP0015<sp/>NEW)<sp/><sp/></highlight><highlight class="preprocessor">#<sp/>set<sp/>policy<sp/>for<sp/>using<sp/>relative<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal">SET(CMAKE_CXX_FLAGS<sp/></highlight><highlight class="stringliteral">&quot;${CMAKE_CXX_FLAGS}<sp/>-std=c++11&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">IF<sp/>(${CMAKE_SYSTEM_NAME}<sp/>MATCHES<sp/></highlight><highlight class="stringliteral">&quot;Windows&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>SET(<sp/>LINK_DIR<sp/>${CMAKE_INSTALL_PREFIX}/SBOL/lib<sp/>)<sp/><sp/>#<sp/>Windows<sp/>library<sp/>path</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>SET(<sp/>HEADER_DIR<sp/><sp/><sp/><sp/><sp/>${CMAKE_INSTALL_PREFIX}/SBOL/include<sp/><sp/><sp/>)<sp/><sp/>#<sp/>Windows<sp/>header<sp/>path</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>find_library(xml2</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NAME<sp/>libxml2_a.lib</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PATHS<sp/>${LINK_DIR}</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>find_library(zlib</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NAME<sp/>zlib.lib</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PATHS<sp/>${LINK_DIR}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>find_library(iconv</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NAME<sp/>iconv_a.lib</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PATHS<sp/>${LINK_DIR}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>find_library(xml2</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NAME<sp/>libxml2.a</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PATHS<sp/>${LINK_DIR}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>FIND_LIBRARY(raptor2</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NAME<sp/>raptor2.lib</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PATHS<sp/>${LINK_DIR}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>find_library(<ref refid="namespacesbol" kindref="compound">sbol</ref></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NAME<sp/><ref refid="namespacesbol" kindref="compound">sbol</ref>.lib</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PATHS<sp/>${LINK_DIR}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">ELSE<sp/>()</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>SET(<sp/>LINK_DIR<sp/>${CMAKE_INSTALL_PREFIX}/lib<sp/>)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>Mac<sp/>library<sp/>path</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>SET(<sp/>HEADER_DIR<sp/>${CMAKE_INSTALL_PREFIX}/include/<ref refid="namespacesbol" kindref="compound">sbol</ref><sp/>)<sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>Mac<sp/>header<sp/>path</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>FIND_LIBRARY<sp/>(<ref refid="namespacesbol" kindref="compound">sbol</ref><sp/><ref refid="namespacesbol" kindref="compound">sbol</ref>)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>FIND_LIBRARY<sp/>(raptor2<sp/>raptor2)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>FIND_LIBRARY<sp/>(xml2<sp/>xml2)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>FIND_LIBRARY<sp/>(zlib<sp/>z)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>FIND_LIBRARY<sp/>(iconv<sp/>iconv)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">ENDIF<sp/>()</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>gather<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">INCLUDE_DIRECTORIES(<sp/>${HEADER_DIR}<sp/>)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">MESSAGE(</highlight><highlight class="stringliteral">&quot;${HEADER_DIR}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>gather<sp/>source<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">FILE(<sp/>GLOB<sp/>APPLICATION_FILES</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;*.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Source.cpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>build<sp/>test<sp/>executable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">ADD_EXECUTABLE(<sp/>sbol_test</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>${APPLICATION_FILES}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">IF<sp/>(${CMAKE_SYSTEM_NAME}<sp/>MATCHES<sp/></highlight><highlight class="stringliteral">&quot;Windows&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>TARGET_LINK_LIBRARIES(<sp/>sbol_test</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${<ref refid="namespacesbol" kindref="compound">sbol</ref>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${raptor2}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${xml2}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${zlib}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${iconv}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ws2_32</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">ELSE<sp/>()</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>TARGET_LINK_LIBRARIES(<sp/>sbol_test</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${<ref refid="namespacesbol" kindref="compound">sbol</ref>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${raptor2}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${xml2}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${zlib}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${iconv}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">MESSAGE(</highlight><highlight class="stringliteral">&quot;${sbol}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">ENDIF<sp/>()</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/bryan/Dev/libSBOL/example/CMakeLists.txt"/>
+  </compounddef>
+</doxygen>

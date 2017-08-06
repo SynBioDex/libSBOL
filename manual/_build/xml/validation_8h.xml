@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="validation_8h" kind="file" language="C++">
+    <compoundname>validation.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes refid="config_8h" local="yes">config.h</includes>
+    <includedby refid="object_8h" local="yes">/Users/bryan/Dev/libSBOL/source/object.h</includedby>
+    <includedby refid="property_8h" local="yes">/Users/bryan/Dev/libSBOL/source/property.h</includedby>
+    <incdepgraph>
+      <node id="2419">
+        <label>sbolerror.h</label>
+        <link refid="sbolerror_8h"/>
+        <childnode refid="2418" relation="include">
+        </childnode>
+        <childnode refid="2420" relation="include">
+        </childnode>
+        <childnode refid="2421" relation="include">
+        </childnode>
+      </node>
+      <node id="2416">
+        <label>/Users/bryan/Dev/libSBOL/source/validation.h</label>
+        <link refid="validation.h"/>
+        <childnode refid="2417" relation="include">
+        </childnode>
+        <childnode refid="2418" relation="include">
+        </childnode>
+      </node>
+      <node id="2420">
+        <label>string</label>
+      </node>
+      <node id="2423">
+        <label>map</label>
+      </node>
+      <node id="2424">
+        <label>curl/curl.h</label>
+      </node>
+      <node id="2418">
+        <label>config.h</label>
+        <link refid="config_8h"/>
+        <childnode refid="2419" relation="include">
+        </childnode>
+        <childnode refid="2422" relation="include">
+        </childnode>
+        <childnode refid="2420" relation="include">
+        </childnode>
+        <childnode refid="2423" relation="include">
+        </childnode>
+        <childnode refid="2417" relation="include">
+        </childnode>
+        <childnode refid="2424" relation="include">
+        </childnode>
+        <childnode refid="2421" relation="include">
+        </childnode>
+      </node>
+      <node id="2417">
+        <label>vector</label>
+      </node>
+      <node id="2421">
+        <label>iostream</label>
+      </node>
+      <node id="2422">
+        <label>constants.h</label>
+        <link refid="constants_8h"/>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2429">
+        <label>/Users/bryan/Dev/libSBOL/source/componentdefinition.h</label>
+        <link refid="componentdefinition_8h"/>
+        <childnode refid="2430" relation="include">
+        </childnode>
+      </node>
+      <node id="2428">
+        <label>/Users/bryan/Dev/libSBOL/source/toplevel.h</label>
+        <link refid="toplevel_8h"/>
+        <childnode refid="2429" relation="include">
+        </childnode>
+        <childnode refid="2438" relation="include">
+        </childnode>
+        <childnode refid="2439" relation="include">
+        </childnode>
+        <childnode refid="2440" relation="include">
+        </childnode>
+        <childnode refid="2441" relation="include">
+        </childnode>
+        <childnode refid="2442" relation="include">
+        </childnode>
+      </node>
+      <node id="2425">
+        <label>/Users/bryan/Dev/libSBOL/source/validation.h</label>
+        <link refid="validation.h"/>
+        <childnode refid="2426" relation="include">
+        </childnode>
+        <childnode refid="2452" relation="include">
+        </childnode>
+      </node>
+      <node id="2426">
+        <label>/Users/bryan/Dev/libSBOL/source/object.h</label>
+        <link refid="object_8h"/>
+        <childnode refid="2427" relation="include">
+        </childnode>
+        <childnode refid="2450" relation="include">
+        </childnode>
+        <childnode refid="2451" relation="include">
+        </childnode>
+      </node>
+      <node id="2427">
+        <label>/Users/bryan/Dev/libSBOL/source/identified.h</label>
+        <link refid="identified_8h"/>
+        <childnode refid="2428" relation="include">
+        </childnode>
+        <childnode refid="2443" relation="include">
+        </childnode>
+        <childnode refid="2444" relation="include">
+        </childnode>
+        <childnode refid="2446" relation="include">
+        </childnode>
+        <childnode refid="2447" relation="include">
+        </childnode>
+        <childnode refid="2445" relation="include">
+        </childnode>
+        <childnode refid="2448" relation="include">
+        </childnode>
+        <childnode refid="2449" relation="include">
+        </childnode>
+      </node>
+      <node id="2441">
+        <label>/Users/bryan/Dev/libSBOL/source/model.h</label>
+        <link refid="model_8h"/>
+        <childnode refid="2430" relation="include">
+        </childnode>
+      </node>
+      <node id="2451">
+        <label>/Users/bryan/Dev/libSBOL/source/properties.cpp</label>
+        <link refid="properties_8cpp"/>
+      </node>
+      <node id="2450">
+        <label>/Users/bryan/Dev/libSBOL/source/object.cpp</label>
+        <link refid="object_8cpp"/>
+      </node>
+      <node id="2431">
+        <label>/Users/bryan/Dev/libSBOL/source/assembly.h</label>
+        <link refid="assembly_8h"/>
+        <childnode refid="2432" relation="include">
+        </childnode>
+        <childnode refid="2433" relation="include">
+        </childnode>
+        <childnode refid="2436" relation="include">
+        </childnode>
+      </node>
+      <node id="2440">
+        <label>/Users/bryan/Dev/libSBOL/source/moduledefinition.h</label>
+        <link refid="moduledefinition_8h"/>
+        <childnode refid="2430" relation="include">
+        </childnode>
+      </node>
+      <node id="2430">
+        <label>/Users/bryan/Dev/libSBOL/source/document.h</label>
+        <link refid="document_8h"/>
+        <childnode refid="2431" relation="include">
+        </childnode>
+        <childnode refid="2437" relation="include">
+        </childnode>
+      </node>
+      <node id="2436">
+        <label>/Users/bryan/Dev/libSBOL/source/provo.h</label>
+        <link refid="provo_8h"/>
+        <childnode refid="2434" relation="include">
+        </childnode>
+      </node>
+      <node id="2445">
+        <label>/Users/bryan/Dev/libSBOL/source/module.h</label>
+        <link refid="module_8h"/>
+        <childnode refid="2440" relation="include">
+        </childnode>
+        <childnode refid="2430" relation="include">
+        </childnode>
+      </node>
+      <node id="2452">
+        <label>/Users/bryan/Dev/libSBOL/source/property.h</label>
+        <link refid="property_8h"/>
+        <childnode refid="2453" relation="include">
+        </childnode>
+      </node>
+      <node id="2442">
+        <label>/Users/bryan/Dev/libSBOL/source/collection.h</label>
+        <link refid="collection_8h"/>
+        <childnode refid="2430" relation="include">
+        </childnode>
+      </node>
+      <node id="2432">
+        <label>/Users/bryan/Dev/libSBOL/source/assembly.cpp</label>
+        <link refid="assembly_8cpp"/>
+      </node>
+      <node id="2443">
+        <label>/Users/bryan/Dev/libSBOL/source/component.h</label>
+        <link refid="component_8h"/>
+        <childnode refid="2429" relation="include">
+        </childnode>
+        <childnode refid="2430" relation="include">
+        </childnode>
+        <childnode refid="2440" relation="include">
+        </childnode>
+      </node>
+      <node id="2437">
+        <label>/Users/bryan/Dev/libSBOL/source/document.cpp</label>
+        <link refid="document_8cpp"/>
+      </node>
+      <node id="2449">
+        <label>/Users/bryan/Dev/libSBOL/source/participation.h</label>
+        <link refid="participation_8h"/>
+        <childnode refid="2448" relation="include">
+        </childnode>
+      </node>
+      <node id="2448">
+        <label>/Users/bryan/Dev/libSBOL/source/interaction.h</label>
+        <link refid="interaction_8h"/>
+        <childnode refid="2440" relation="include">
+        </childnode>
+      </node>
+      <node id="2434">
+        <label>/Users/bryan/Dev/libSBOL/source/sbol.h</label>
+        <link refid="sbol_8h"/>
+        <childnode refid="2435" relation="include">
+        </childnode>
+      </node>
+      <node id="2453">
+        <label>/Users/bryan/Dev/libSBOL/source/properties.h</label>
+        <link refid="properties_8h"/>
+        <childnode refid="2426" relation="include">
+        </childnode>
+      </node>
+      <node id="2438">
+        <label>/Users/bryan/Dev/libSBOL/source/sequenceannotation.h</label>
+        <link refid="sequenceannotation_8h"/>
+        <childnode refid="2429" relation="include">
+        </childnode>
+        <childnode refid="2430" relation="include">
+        </childnode>
+      </node>
+      <node id="2447">
+        <label>/Users/bryan/Dev/libSBOL/source/sequenceconstraint.h</label>
+        <link refid="sequenceconstraint_8h"/>
+        <childnode refid="2429" relation="include">
+        </childnode>
+      </node>
+      <node id="2439">
+        <label>/Users/bryan/Dev/libSBOL/source/sequence.h</label>
+        <link refid="sequence_8h"/>
+        <childnode refid="2430" relation="include">
+        </childnode>
+      </node>
+      <node id="2446">
+        <label>/Users/bryan/Dev/libSBOL/source/location.h</label>
+        <link refid="location_8h"/>
+        <childnode refid="2438" relation="include">
+        </childnode>
+      </node>
+      <node id="2433">
+        <label>/Users/bryan/Dev/libSBOL/source/partshop.h</label>
+        <link refid="partshop_8h"/>
+        <childnode refid="2434" relation="include">
+        </childnode>
+      </node>
+      <node id="2444">
+        <label>/Users/bryan/Dev/libSBOL/source/mapsto.h</label>
+        <link refid="mapsto_8h"/>
+        <childnode refid="2443" relation="include">
+        </childnode>
+        <childnode refid="2445" relation="include">
+        </childnode>
+      </node>
+      <node id="2435">
+        <label>/Users/bryan/Dev/libSBOL/source/validation.cpp</label>
+        <link refid="validation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacesbol">sbol</innernamespace>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="validation_8h_1a7d05de5cd32058c4ac72a9cd619c871f" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* ValidationRule) (void *, void *)</definition>
+        <argsstring>)(void *, void *)</argsstring>
+        <name>ValidationRule</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/validation.h" line="32" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/validation.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="validation_8h_1a0d6ef1d8dcbb375ec41770cb5586ce88" prot="public" static="no">
+        <type>std::vector&lt; ValidationRule &gt;</type>
+        <definition>typedef std::vector&lt;ValidationRule&gt; ValidationRules</definition>
+        <argsstring></argsstring>
+        <name>ValidationRules</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/validation.h" line="33" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/validation.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Validation rules. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Bryan Bartley  <ulink url="mailto:bartleyba@sbolstandard.org">bartleyba@sbolstandard.org</ulink> </para></simplesect>
+</para>    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="26"><highlight class="preprocessor">#ifndef<sp/>VALIDATION_RULE_INCLUDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>VALIDATION_RULE_INCLUDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="config_8h" kindref="compound">config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void(*ValidationRule)(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*);<sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>defines<sp/>the<sp/>signature<sp/>for<sp/>validation<sp/>rules.<sp/><sp/>The<sp/>first<sp/>argument<sp/>is<sp/>an<sp/>SBOLObject,<sp/>and<sp/>the<sp/>second<sp/>argument<sp/>is<sp/>arbitrary<sp/>data<sp/>passed<sp/>through<sp/>to<sp/>the<sp/>handler<sp/>function<sp/>for<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;ValidationRule&gt;<sp/>ValidationRules;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>These<sp/>validation<sp/>rules<sp/>are<sp/>explicitly<sp/>defined<sp/>in<sp/>the<sp/>SBOL<sp/>2.0<sp/>specification<sp/>document<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SBOL_DECLSPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sbolRule10101(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*sbol_obj,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*arg);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SBOL_DECLSPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sbolRule10102(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*sbol_obj,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*arg);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SBOL_DECLSPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sbol_rule_10202(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*sbol_obj,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*arg);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>These<sp/>validation<sp/>rules<sp/>are<sp/>internal<sp/>to<sp/>libSBOL<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SBOL_DECLSPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>libsbol_rule_1(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*sbol_obj,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*arg);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>These<sp/>validation<sp/>rules<sp/>are<sp/>internal<sp/>to<sp/>libSBOL<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>SBOL_DECLSPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>libsbol_rule_2(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*sbol_obj,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*arg);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>The<sp/>following<sp/>class<sp/>is<sp/>an<sp/>experimental<sp/>wrapper<sp/>class<sp/>for<sp/>a<sp/>validation<sp/>callback<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>See<sp/>http://stackoverflow.com/questions/879408/c-function-wrapper-that-behaves-just-like-the-function-itself</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>class<sp/>_ValidationRule</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>private:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>void<sp/>(*validation_rule)(void<sp/>*,<sp/>void*);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>public:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ValidationRule(void<sp/>(*validation_rule_arg)(void*,<sp/>void*))<sp/>:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validation_rule(validation_rule_arg)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~_ValidationRule();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>};</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="/Users/bryan/Dev/libSBOL/source/validation.h"/>
+  </compounddef>
+</doxygen>

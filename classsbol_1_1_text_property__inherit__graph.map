@@ -1,3 +1,5 @@
-<map id="sbol::TextProperty" name="sbol::TextProperty">
-<area shape="rect" id="node2" href="$classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="5,5,138,265"/>
+<map id="TextProperty" name="TextProperty">
+<area shape="rect" id="node3" href="$classsbol_1_1_date_time_property.html" title="Contains a DateTime string following XML Schema. " alt="" coords="5,501,155,588"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_version_property.html" title="Contains a version number for an SBOL object. " alt="" coords="179,448,317,641"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_property.html" title="{Property\&lt; std::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ getAll()\l+ set()\l+ set()\l+ add()\land 8 more...\l# initializeNamespace()\l}" alt="" coords="84,5,244,265"/>
 </map>

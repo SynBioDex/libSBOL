@@ -1,0 +1,16 @@
+<map id="/Users/bryan/Dev/libSBOL/source/moduledefinition.h" name="/Users/bryan/Dev/libSBOL/source/moduledefinition.h">
+<area shape="rect" id="node2" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="5,165,84,191"/>
+<area shape="rect" id="node20" href="$module_8h.html" title="Module class. " alt="" coords="244,92,320,117"/>
+<area shape="rect" id="node22" href="$component_8h.html" title="ComponentInstance, Component, and FunctionalComponent classes. " alt="" coords="122,92,220,117"/>
+<area shape="rect" id="node23" href="$interaction_8h.html" title="Interaction class. " alt="" coords="344,92,438,117"/>
+<area shape="rect" id="node3" href="$identified_8h.html" title="Identified class. " alt="" coords="243,239,329,264"/>
+<area shape="rect" id="node4" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="596,312,664,337"/>
+<area shape="rect" id="node5" href="$validation_8h.html" title="Validation rules. " alt="" coords="953,532,1042,557"/>
+<area shape="rect" id="node14" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="584,385,676,411"/>
+<area shape="rect" id="node7" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="663,605,731,631"/>
+<area shape="rect" id="node8" href="$sbolerror_8h.html" title="SBOLError class and error codes. " alt="" coords="654,679,739,704"/>
+<area shape="rect" id="node11" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="489,679,579,704"/>
+<area shape="rect" id="node15" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="667,459,747,484"/>
+<area shape="rect" id="node21" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="209,165,285,191"/>
+<area shape="rect" id="node24" href="$participation_8h.html" title="Participation class. " alt="" coords="411,165,515,191"/>
+</map>

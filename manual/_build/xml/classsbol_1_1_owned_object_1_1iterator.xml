@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classsbol_1_1_owned_object_1_1iterator" kind="class" language="C++" prot="public">
+    <compoundname>sbol::OwnedObject::iterator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::vector::iterator&lt; SBOLObject * &gt;</basecompoundref>
+    <includes local="no">/Users/bryan/Dev/libSBOL/source/properties.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1_1iterator_1a0b119185d1417da190dcd5c529e0b725" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>iterator</definition>
+        <argsstring>(typename std::vector&lt; SBOLObject * &gt;::iterator i_object=std::vector&lt; SBOLObject * &gt;::iterator())</argsstring>
+        <name>iterator</name>
+        <param>
+          <type>typename std::vector&lt; <ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> * &gt;::<ref refid="classsbol_1_1_owned_object_1_1iterator" kindref="compound">iterator</ref></type>
+          <declname>i_object</declname>
+          <defval>std::vector&lt; <ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> * &gt;::<ref refid="classsbol_1_1_owned_object_1_1iterator" kindref="compound">iterator</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="403" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="403" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_owned_object_1_1iterator_1a978d1a084b31b75630c71f1ffe46ebe8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>SBOLClass &amp;</type>
+        <definition>SBOLClass&amp; operator*</definition>
+        <argsstring>()</argsstring>
+        <name>operator*</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="407" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="407" bodyend="410"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Provides iterator functionality for SBOL properties that contain multiple objects. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="468">
+        <label>OwnedObject&lt; SBOLClass &gt;::iterator</label>
+        <link refid="classsbol_1_1_owned_object_1_1iterator"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="400" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="399" bodyend="411"/>
+    <listofallmembers>
+      <member refid="classsbol_1_1_owned_object_1_1iterator_1a0b119185d1417da190dcd5c529e0b725" prot="public" virt="non-virtual"><scope>sbol::OwnedObject::iterator</scope><name>iterator</name></member>
+      <member refid="classsbol_1_1_owned_object_1_1iterator_1a978d1a084b31b75630c71f1ffe46ebe8" prot="public" virt="non-virtual"><scope>sbol::OwnedObject::iterator</scope><name>operator*</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

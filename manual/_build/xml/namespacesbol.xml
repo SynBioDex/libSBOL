@@ -1,0 +1,481 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="namespacesbol" kind="namespace" language="C++">
+    <compoundname>sbol</compoundname>
+    <innerclass refid="classsbol_1_1_activity" prot="public">sbol::Activity</innerclass>
+    <innerclass refid="classsbol_1_1_agent" prot="public">sbol::Agent</innerclass>
+    <innerclass refid="classsbol_1_1_association" prot="public">sbol::Association</innerclass>
+    <innerclass refid="classsbol_1_1_collection" prot="public">sbol::Collection</innerclass>
+    <innerclass refid="classsbol_1_1_combinatorial_derivation" prot="public">sbol::CombinatorialDerivation</innerclass>
+    <innerclass refid="classsbol_1_1_component" prot="public">sbol::Component</innerclass>
+    <innerclass refid="classsbol_1_1_component_definition" prot="public">sbol::ComponentDefinition</innerclass>
+    <innerclass refid="classsbol_1_1_component_instance" prot="public">sbol::ComponentInstance</innerclass>
+    <innerclass refid="classsbol_1_1_config" prot="public">sbol::Config</innerclass>
+    <innerclass refid="classsbol_1_1_cut" prot="public">sbol::Cut</innerclass>
+    <innerclass refid="classsbol_1_1_date_time_property" prot="public">sbol::DateTimeProperty</innerclass>
+    <innerclass refid="classsbol_1_1_document" prot="public">sbol::Document</innerclass>
+    <innerclass refid="classsbol_1_1_functional_component" prot="public">sbol::FunctionalComponent</innerclass>
+    <innerclass refid="classsbol_1_1_generic_location" prot="public">sbol::GenericLocation</innerclass>
+    <innerclass refid="classsbol_1_1_identified" prot="public">sbol::Identified</innerclass>
+    <innerclass refid="classsbol_1_1_interaction" prot="public">sbol::Interaction</innerclass>
+    <innerclass refid="classsbol_1_1_int_property" prot="public">sbol::IntProperty</innerclass>
+    <innerclass refid="classsbol_1_1_list" prot="public">sbol::List</innerclass>
+    <innerclass refid="classsbol_1_1_location" prot="public">sbol::Location</innerclass>
+    <innerclass refid="classsbol_1_1_maps_to" prot="public">sbol::MapsTo</innerclass>
+    <innerclass refid="classsbol_1_1_model" prot="public">sbol::Model</innerclass>
+    <innerclass refid="classsbol_1_1_module" prot="public">sbol::Module</innerclass>
+    <innerclass refid="classsbol_1_1_module_definition" prot="public">sbol::ModuleDefinition</innerclass>
+    <innerclass refid="classsbol_1_1_owned_object" prot="public">sbol::OwnedObject</innerclass>
+    <innerclass refid="classsbol_1_1_participation" prot="public">sbol::Participation</innerclass>
+    <innerclass refid="classsbol_1_1_part_shop" prot="public">sbol::PartShop</innerclass>
+    <innerclass refid="classsbol_1_1_plan" prot="public">sbol::Plan</innerclass>
+    <innerclass refid="classsbol_1_1_property" prot="public">sbol::Property</innerclass>
+    <innerclass refid="classsbol_1_1_range" prot="public">sbol::Range</innerclass>
+    <innerclass refid="classsbol_1_1_referenced_object" prot="public">sbol::ReferencedObject</innerclass>
+    <innerclass refid="classsbol_1_1_s_b_o_l_error" prot="public">sbol::SBOLError</innerclass>
+    <innerclass refid="classsbol_1_1_s_b_o_l_object" prot="public">sbol::SBOLObject</innerclass>
+    <innerclass refid="classsbol_1_1_search_query" prot="public">sbol::SearchQuery</innerclass>
+    <innerclass refid="classsbol_1_1_search_response" prot="public">sbol::SearchResponse</innerclass>
+    <innerclass refid="classsbol_1_1_sequence" prot="public">sbol::Sequence</innerclass>
+    <innerclass refid="classsbol_1_1_sequence_annotation" prot="public">sbol::SequenceAnnotation</innerclass>
+    <innerclass refid="classsbol_1_1_sequence_constraint" prot="public">sbol::SequenceConstraint</innerclass>
+    <innerclass refid="classsbol_1_1_text_property" prot="public">sbol::TextProperty</innerclass>
+    <innerclass refid="classsbol_1_1_top_level" prot="public">sbol::TopLevel</innerclass>
+    <innerclass refid="classsbol_1_1_u_r_i_property" prot="public">sbol::URIProperty</innerclass>
+    <innerclass refid="classsbol_1_1_usage" prot="public">sbol::Usage</innerclass>
+    <innerclass refid="classsbol_1_1_variable_component" prot="public">sbol::VariableComponent</innerclass>
+    <innerclass refid="classsbol_1_1_version_property" prot="public">sbol::VersionProperty</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7" prot="public" static="no">
+        <name>SBOLErrorCode</name>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7accacb6f1df85030d0ea812c6ef43f0e0" prot="public">
+          <name>DUPLICATE_URI_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a513a53522eb4741e8910f010e0ff9530" prot="public">
+          <name>NOT_FOUND_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a82c526d77ded97aab1a8e2a0c6dd7a43" prot="public">
+          <name>SBOL_ERROR_NOT_FOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a042cfdd3c0b3a56504de1947fa41281c" prot="public">
+          <name>END_OF_LIST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a079cd69aff94ede6f590b0c133188227" prot="public">
+          <name>SBOL_ERROR_END_OF_LIST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a191f5f8fd5422633954790e929dc43f8" prot="public">
+          <name>SBOL_ERROR_SERIALIZATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7acc348617030550a9a9aafec2c432bfc6" prot="public">
+          <name>SBOL_ERROR_PARSE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a5305f9ab49d4f21eae93144edb0225a6" prot="public">
+          <name>SBOL_ERROR_MISSING_NAMESPACE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a78757ed9d9433e1885b01e1d247c7e8b" prot="public">
+          <name>SBOL_ERROR_NONCOMPLIANT_VERSION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a742595d560bca05fef954fca4e643ab8" prot="public">
+          <name>SBOL_ERROR_COMPLIANCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7ad97b6de02bef8d5a11de51a97d5396ea" prot="public">
+          <name>SBOL_ERROR_MISSING_DOCUMENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7ad44f7ce4a0d1e721fb255024283834ab" prot="public">
+          <name>SBOL_ERROR_INVALID_ARGUMENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7ac0a01cd079b401e6b0741fcad4670db7" prot="public">
+          <name>SBOL_ERROR_FILE_NOT_FOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a711a2bcca666363a06ffb299c68d18fe" prot="public">
+          <name>SBOL_ERROR_ORPHAN_OBJECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7ade32087bbaade8a890664dd9a3f5c2aa" prot="public">
+          <name>SBOL_ERROR_TYPE_MISMATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a8841eb6d787e52cf0bf978e5ea635445" prot="public">
+          <name>SBOL_ERROR_BAD_HTTP_REQUEST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="sbolerror_8h_1aba990797bb7f745390381e05156a65b7a89d26b5468f9c71a388ad89c9360a1a1" prot="public">
+          <name>SBOL_ERROR_URI_NOT_UNIQUE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/sbolerror.h" line="36" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/sbolerror.h" bodystart="36" bodyend="53"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="property_8h_1addc3413015529a8d51e055f32748821f" prot="public" static="no">
+        <type>std::string</type>
+        <definition>typedef std::string sbol_type</definition>
+        <argsstring></argsstring>
+        <name>sbol_type</name>
+        <briefdescription>
+<para>This string type is assigned URI strings (see <ref refid="constants_8h" kindref="compound">constants.h</ref> for default values). This URI controls the tags of RDF/XML nodes. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="48" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="config_8h_1a86dfc8d38e1b3806a462e76b8bf3c9e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC void</type>
+        <definition>void setHomespace</definition>
+        <argsstring>(std::string ns)</argsstring>
+        <name>setHomespace</name>
+        <param>
+          <type>std::string</type>
+          <declname>ns</declname>
+        </param>
+        <briefdescription>
+<para>Global methods. </para>        </briefdescription>
+        <detaileddescription>
+<para>Set the default namespace for autocreation of URIs when a new SBOL object is created </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="119" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="287" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="config_8h_1a0989ebb5d39a3d419982e96bd2470c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC std::string</type>
+        <definition>string getHomespace</definition>
+        <argsstring>()</argsstring>
+        <name>getHomespace</name>
+        <briefdescription>
+<para>Get the current default namespace for autocreation of URIs when a new SBOL object is created. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="120" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="292" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="config_8h_1a1ad1838a31bd698e590032e6eeb0731f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC int</type>
+        <definition>int hasHomespace</definition>
+        <argsstring>()</argsstring>
+        <name>hasHomespace</name>
+        <briefdescription>
+<para>Checks if a valid default namespace has been defined. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="121" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="297" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="config_8h_1a11ca6c4d8f1587db24018cc268b34a58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC void</type>
+        <definition>void toggleSBOLCompliantTypes</definition>
+        <argsstring>(bool is_toggled=false)</argsstring>
+        <name>toggleSBOLCompliantTypes</name>
+        <param>
+          <type>bool</type>
+          <declname>is_toggled</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Allows SBOL-compliant URIs. Accepts boolean. The default value is false. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="122" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="305" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="config_8h_1a4d77997e18845631ed61557c158e39ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC int</type>
+        <definition>int compliantTypesEnabled</definition>
+        <argsstring>()</argsstring>
+        <name>compliantTypesEnabled</name>
+        <briefdescription>
+<para>Checks if an object&apos;s type is included in SBOL-compliant URIs. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="123" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="310" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="config_8h_1a686e9ba3c4bffa5aa85f927d02223df1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC void</type>
+        <definition>void setFileFormat</definition>
+        <argsstring>(std::string file_format)</argsstring>
+        <name>setFileFormat</name>
+        <param>
+          <type>std::string</type>
+          <declname>file_format</declname>
+        </param>
+        <briefdescription>
+<para>Sets file format to use. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="124" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="339" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="config_8h_1a4cb4a2883e41b4a29054aae96f23a7bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string SBOL_DECLSPEC</type>
+        <definition>std::string getFileFormat</definition>
+        <argsstring>()</argsstring>
+        <name>getFileFormat</name>
+        <briefdescription>
+<para>Returns currently accepted file format. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="125" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="344" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="config_8h_1ac33d994091baeab30cb4aec46468ff32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC void</type>
+        <definition>void toggleExceptions</definition>
+        <argsstring>(bool is_toggled=false)</argsstring>
+        <name>toggleExceptions</name>
+        <param>
+          <type>bool</type>
+          <declname>is_toggled</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Function to toggle exception handling. Accepts boolean. The default value is false. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="126" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="316" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="config_8h_1a18596d0e5b84674e8a208c9201063054" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC int</type>
+        <definition>int exceptionsEnabled</definition>
+        <argsstring>()</argsstring>
+        <name>exceptionsEnabled</name>
+        <briefdescription>
+<para>Checks if exception is enabled. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="127" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="329" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="document_8h_1aecdfdeb593ab31d00fea74ee76e99ddd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class SBOLClass</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">sbol::SBOLObject</ref> &amp;</type>
+        <definition>sbol::SBOLObject&amp; sbol::create</definition>
+        <argsstring>()</argsstring>
+        <name>create</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/document.h" line="346" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/document.h" bodystart="346" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="object_8h_1af36a8cde35c6b467d930fdf686991528" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool operator!=</definition>
+        <argsstring>(const SBOLObject &amp;a, const SBOLObject &amp;b)</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/object.h" line="291" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/object.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a667c10a5df934e787e8b9f678ea140d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC void</type>
+        <definition>void sbolRule10101</definition>
+        <argsstring>(void *sbol_obj, void *arg)</argsstring>
+        <name>sbolRule10101</name>
+        <param>
+          <type>void *</type>
+          <declname>sbol_obj</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/validation.h" line="38" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/validation.cpp" bodystart="35" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1af1c9f2aefa03b46c75df2658868c0585" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC void</type>
+        <definition>void sbolRule10102</definition>
+        <argsstring>(void *sbol_obj, void *arg)</argsstring>
+        <name>sbolRule10102</name>
+        <param>
+          <type>void *</type>
+          <declname>sbol_obj</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/validation.h" line="39" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/validation.cpp" bodystart="49" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a6aa9d1cd546ad6838eeffde22f6baf08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC void</type>
+        <definition>void sbol_rule_10202</definition>
+        <argsstring>(void *sbol_obj, void *arg)</argsstring>
+        <name>sbol_rule_10202</name>
+        <param>
+          <type>void *</type>
+          <declname>sbol_obj</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/validation.h" line="40" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/validation.cpp" bodystart="63" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a9b801e687369ddeac1bd652243674b3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC void</type>
+        <definition>void libsbol_rule_1</definition>
+        <argsstring>(void *sbol_obj, void *arg)</argsstring>
+        <name>libsbol_rule_1</name>
+        <param>
+          <type>void *</type>
+          <declname>sbol_obj</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/validation.h" line="43" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/validation.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a2ca8b55c28900a8f9871c0a23697adda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBOL_DECLSPEC void</type>
+        <definition>void libsbol_rule_2</definition>
+        <argsstring>(void *sbol_obj, void *arg)</argsstring>
+        <name>libsbol_rule_2</name>
+        <param>
+          <type>void *</type>
+          <declname>sbol_obj</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/validation.h" line="46" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/validation.cpp" bodystart="94" bodyend="118"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/bryan/Dev/libSBOL/source/assembly.h" line="34" column="1"/>
+  </compounddef>
+</doxygen>

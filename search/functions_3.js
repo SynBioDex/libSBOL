@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['read',['read',['../classsbol_1_1_document.html#a9143ae31ea81f79a53f18fac75b62843',1,'sbol::Document']]]
+  ['exceptionsenabled',['exceptionsEnabled',['../config_8h.html#a18596d0e5b84674e8a208c9201063054',1,'sbol']]],
+  ['extend',['extend',['../classsbol_1_1_search_response.html#a16fc11a837bf7603bdf0c4bf54f9bb56',1,'sbol::SearchResponse']]]
 ];
