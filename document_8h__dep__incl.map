@@ -1,9 +1,0 @@
-<map id="document.h" name="document.h">
-<area shape="rect" id="node2" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="126,80,213,107"/>
-<area shape="rect" id="node8" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="237,80,339,107"/>
-<area shape="rect" id="node3" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,155,104,181"/>
-<area shape="rect" id="node4" href="$partshop_8h.html" title="API front&#45;end for online bioparts repositories. " alt="" coords="128,155,211,181"/>
-<area shape="rect" id="node7" href="$provo_8h.html" title="PROV&#45;O ontology for provenance relationships. " alt="" coords="235,155,301,181"/>
-<area shape="rect" id="node5" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="191,229,247,256"/>
-<area shape="rect" id="node6" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="169,304,269,331"/>
-</map>

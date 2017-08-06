@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['activity',['Activity',['../classsbol_1_1_activity.html',1,'sbol']]],
-  ['agent',['Agent',['../classsbol_1_1_agent.html',1,'sbol']]],
-  ['association',['Association',['../classsbol_1_1_association.html',1,'sbol']]]
+  ['component',['Component',['../classsbol_1_1_component.html',1,'sbol']]],
+  ['componentdefinition',['ComponentDefinition',['../classsbol_1_1_component_definition.html',1,'sbol']]],
+  ['componentinstance',['ComponentInstance',['../classsbol_1_1_component_instance.html',1,'sbol']]]
 ];

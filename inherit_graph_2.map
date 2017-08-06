@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside..." alt="" coords="5,5,151,32"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_owned_object_1_1iterator.html" title="sbol::OwnedObject\&lt;\l SBOLClass \&gt;::iterator" alt="" coords="129,5,283,44"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_property_1_1iterator.html" title="sbol::Property\&lt; LiteralType\l \&gt;::iterator" alt="" coords="116,68,296,107"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_referenced_object_1_1iterator.html" title="sbol::ReferencedObject\l::iterator" alt="" coords="126,131,287,169"/>
 </map>

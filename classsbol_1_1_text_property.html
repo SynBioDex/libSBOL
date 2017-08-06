@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: TextProperty Class Reference</title>
+<title>libSBOL: sbol::TextProperty Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.2.0</span>
+   &#160;<span id="projectnumber">2.0.1</span>
    </div>
   </td>
  </tr>
@@ -39,12 +39,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
-      <li><a href="installation.html"><span>Installation</span></a></li>
-      <li><a href="getting_started.html"><span>Getting&#160;Started&#160;with&#160;SBOL</span></a></li>
-      <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
-      <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
+      <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -94,204 +91,106 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classsbol_1_1_text_property-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">TextProperty Class Reference<div class="ingroups"><a class="el" href="group__extension__layer.html">Extension Interface</a></div></div>  </div>
+<div class="title">sbol::TextProperty Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classsbol_1_1_text_property.html" title="TextProperty objects are used to contain string literals. ">TextProperty</a> objects are used to contain string literals. </p>
-<p>They can be used as member objects inside custom SBOL Extension classes. </p>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a4879b26a87a0b49f7d535c7a669620f6"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_text_property.html#a4879b26a87a0b49f7d535c7a669620f6">get</a> ()</td></tr>
-<tr class="memdesc:a4879b26a87a0b49f7d535c7a669620f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic getter for all SBOL literal properties.  <a href="#a4879b26a87a0b49f7d535c7a669620f6">More...</a><br /></td></tr>
-<tr class="separator:a4879b26a87a0b49f7d535c7a669620f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78345a10e37cae70b6b1f6e295034872"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872">set</a> (std::string new_value)</td></tr>
-<tr class="memdesc:a78345a10e37cae70b6b1f6e295034872"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic setter for SBOL TextProperty and URIProperty.  <a href="#a78345a10e37cae70b6b1f6e295034872">More...</a><br /></td></tr>
-<tr class="separator:a78345a10e37cae70b6b1f6e295034872"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60d0f67ccdc9630d89f8bb041cc0f122"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_property.html#a60d0f67ccdc9630d89f8bb041cc0f122">set</a> (int new_value)</td></tr>
-<tr class="memdesc:a60d0f67ccdc9630d89f8bb041cc0f122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic setter for SBOL IntProperty, but can be used with TextProperty as well.  <a href="#a60d0f67ccdc9630d89f8bb041cc0f122">More...</a><br /></td></tr>
-<tr class="separator:a60d0f67ccdc9630d89f8bb041cc0f122"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3291234026df2ae0d53fe60422952384"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_property.html#a3291234026df2ae0d53fe60422952384">add</a> (std::string new_value)</td></tr>
-<tr class="memdesc:a3291234026df2ae0d53fe60422952384"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the new value to a list of values, for properties that allow it.  <a href="#a3291234026df2ae0d53fe60422952384">More...</a><br /></td></tr>
-<tr class="separator:a3291234026df2ae0d53fe60422952384"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f759a6148161a88c97375716a176b4d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_property.html#a3f759a6148161a88c97375716a176b4d">operator[]</a> (const int nIndex)</td></tr>
-<tr class="memdesc:a3f759a6148161a88c97375716a176b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the indexed value in a list container.  <a href="#a3f759a6148161a88c97375716a176b4d">More...</a><br /></td></tr>
-<tr class="separator:a3f759a6148161a88c97375716a176b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3291234026df2ae0d53fe60422952384"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void add </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>new_value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Appends the new value to a list of values, for properties that allow it. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">new_value</td><td>A new string which will be added to a list of values. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a4879b26a87a0b49f7d535c7a669620f6"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string get </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Basic getter for all SBOL literal properties. </p>
-<dl class="section return"><dt>Returns</dt><dd>A string literal </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a3f759a6148161a88c97375716a176b4d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string operator[] </td>
-          <td>(</td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>nIndex</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Retrieve the indexed value in a list container. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">nIndex</td><td>A numerical index </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a78345a10e37cae70b6b1f6e295034872"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void set </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>new_value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Basic setter for SBOL TextProperty and URIProperty. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">new_value</td><td>A new string value for the Property. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a60d0f67ccdc9630d89f8bb041cc0f122"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void set </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>new_value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Basic setter for SBOL IntProperty, but can be used with TextProperty as well. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">new_value</td><td>A new integer value for the property, which is converted to a raw string during serialization. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="properties_8h.html">properties.h</a></li>
-<li><a class="el" href="properties_8cpp.html">properties.cpp</a></li>
-</ul>
 <div class="dynheader">
-Inheritance diagram for TextProperty:</div>
+Inheritance diagram for sbol::TextProperty:</div>
 <div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_text_property__inherit__graph.png" border="0" usemap="#_text_property_inherit__map" alt="Inheritance graph"/></div>
-<map name="_text_property_inherit__map" id="_text_property_inherit__map">
-<area shape="rect" id="node3" href="classsbol_1_1_date_time_property.html" title="Contains a DateTime string following XML Schema. " alt="" coords="5,608,152,700"/>
-<area shape="rect" id="node4" href="classsbol_1_1_version_property.html" title="Contains a version number for an SBOL object. " alt="" coords="176,549,315,759"/>
-<area shape="rect" id="node2" href="classsbol_1_1_property.html" title="{Property\&lt; std::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ getAll()\l+ set()\l+ set()\l+ add()\land 8 more...\l# initializeNamespace()\l}" alt="" coords="83,5,240,288"/>
+<div class="center"><img src="classsbol_1_1_text_property__inherit__graph.png" border="0" usemap="#sbol_1_1_text_property_inherit__map" alt="Inheritance graph"/></div>
+<map name="sbol_1_1_text_property_inherit__map" id="sbol_1_1_text_property_inherit__map">
+<area shape="rect" id="node2" href="classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="5,5,138,265"/>
 </map>
 </div>
+<div class="dynheader">
+Collaboration diagram for sbol::TextProperty:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_text_property__coll__graph.png" border="0" usemap="#sbol_1_1_text_property_coll__map" alt="Collaboration graph"/></div>
+<map name="sbol_1_1_text_property_coll__map" id="sbol_1_1_text_property_coll__map">
+<area shape="rect" id="node2" href="classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="335,289,468,523"/>
+<area shape="rect" id="node4" href="classsbol_1_1_u_r_i_property.html" title="{sbol::URIProperty\n||+ URIProperty()\l}" alt="" coords="338,659,465,732"/>
+<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ properties\l+ list_properties\l+ owned_objects\l+ type\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="337,880,466,1100"/>
+<area shape="rect" id="node5" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="5,572,163,819"/>
+<area shape="rect" id="node6" href="classsbol_1_1_property_1_1iterator.html" title="{sbol::Property\&lt; LiteralType\l \&gt;::iterator\n||+ iterator()\l}" alt="" coords="311,141,491,228"/>
+</map>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a2f023e0e31cb40704cd1fc215516a803"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f023e0e31cb40704cd1fc215516a803"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TextProperty</b> (sbol_type type_uri, void *property_owner, std::string initial_value=&quot;&quot;)</td></tr>
+<tr class="separator:a2f023e0e31cb40704cd1fc215516a803"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsbol_1_1_property"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsbol_1_1_property')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classsbol_1_1_property.html">sbol::Property&lt; std::string &gt;</a></td></tr>
+<tr class="memitem:a35158250c29268842d42decf28e9e4fd inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35158250c29268842d42decf28e9e4fd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Property</b> (sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules={})</td></tr>
+<tr class="separator:a35158250c29268842d42decf28e9e4fd inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f3fb9c5627f2a4e72c07353373bcbe5 inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7f3fb9c5627f2a4e72c07353373bcbe5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Property</b> (sbol_type type_uri, void *property_owner, int initial_value, ValidationRules validation_rules={})</td></tr>
+<tr class="separator:a7f3fb9c5627f2a4e72c07353373bcbe5 inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a862d3f36b977f1c55144e690aea6cb0b inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a862d3f36b977f1c55144e690aea6cb0b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Property</b> (sbol_type type_uri=UNDEFINED, void *property_owner=NULL, ValidationRules validation_rules={})</td></tr>
+<tr class="separator:a862d3f36b977f1c55144e690aea6cb0b inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd6d9b73e0e691534c1926c311164d84 inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd6d9b73e0e691534c1926c311164d84"></a>
+virtual sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>getTypeURI</b> ()</td></tr>
+<tr class="separator:acd6d9b73e0e691534c1926c311164d84 inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bed9afe4a2df929511f52ae0f7cfed3 inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3bed9afe4a2df929511f52ae0f7cfed3"></a>
+virtual <a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getOwner</b> ()</td></tr>
+<tr class="separator:a3bed9afe4a2df929511f52ae0f7cfed3 inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad80d20995be0a8bde236997dd7dcbeff inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad80d20995be0a8bde236997dd7dcbeff"></a>
+virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get</b> ()</td></tr>
+<tr class="separator:ad80d20995be0a8bde236997dd7dcbeff inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf9ad92b9e820318de0b2f3837004c8c inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf9ad92b9e820318de0b2f3837004c8c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add</b> (std::string new_value)</td></tr>
+<tr class="separator:aaf9ad92b9e820318de0b2f3837004c8c inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32f483f6c03ae38e0e338c7b4980c291 inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a32f483f6c03ae38e0e338c7b4980c291"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>set</b> (std::string new_value)</td></tr>
+<tr class="separator:a32f483f6c03ae38e0e338c7b4980c291 inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58c5849f3b7b58cd080aacfc25c48bc8 inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58c5849f3b7b58cd080aacfc25c48bc8"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>set</b> (int new_value)</td></tr>
+<tr class="separator:a58c5849f3b7b58cd080aacfc25c48bc8 inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed896e5c35ca569b805ab9e132f86ea7 inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aed896e5c35ca569b805ab9e132f86ea7"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>write</b> ()</td></tr>
+<tr class="separator:aed896e5c35ca569b805ab9e132f86ea7 inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f15c08ffbbb2f2f24b593ca28dbe940 inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f15c08ffbbb2f2f24b593ca28dbe940"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>validate</b> (void *arg=NULL)</td></tr>
+<tr class="separator:a5f15c08ffbbb2f2f24b593ca28dbe940 inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2b57be3d88adb6c3a9e16b3bccf5cf5 inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2b57be3d88adb6c3a9e16b3bccf5cf5"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (const int nIndex)</td></tr>
+<tr class="separator:ae2b57be3d88adb6c3a9e16b3bccf5cf5 inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dd0fb2cdd1b050dc9f2ebe456db3afb inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0dd0fb2cdd1b050dc9f2ebe456db3afb"></a>
+iterator&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> ()</td></tr>
+<tr class="separator:a0dd0fb2cdd1b050dc9f2ebe456db3afb inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a493d38ad6a11b2d42afb3154d47f6dcb inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a493d38ad6a11b2d42afb3154d47f6dcb"></a>
+iterator&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> ()</td></tr>
+<tr class="separator:a493d38ad6a11b2d42afb3154d47f6dcb inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5e24bcb058e4e2fe3693c527f9bdc38 inherit pub_methods_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5e24bcb058e4e2fe3693c527f9bdc38"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> ()</td></tr>
+<tr class="separator:af5e24bcb058e4e2fe3693c527f9bdc38 inherit pub_methods_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_attribs_classsbol_1_1_property"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsbol_1_1_property')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classsbol_1_1_property.html">sbol::Property&lt; std::string &gt;</a></td></tr>
+<tr class="memitem:ac5e8992656bcb7c4b86265868c255331 inherit pub_attribs_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac5e8992656bcb7c4b86265868c255331"></a>
+std::vector&lt; std::string &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><b>python_iter</b></td></tr>
+<tr class="separator:ac5e8992656bcb7c4b86265868c255331 inherit pub_attribs_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classsbol_1_1_property"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classsbol_1_1_property')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classsbol_1_1_property.html">sbol::Property&lt; std::string &gt;</a></td></tr>
+<tr class="memitem:a6abccd5299d17ce142a77fd7051696fb inherit pro_attribs_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6abccd5299d17ce142a77fd7051696fb"></a>
+sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
+<tr class="separator:a6abccd5299d17ce142a77fd7051696fb inherit pro_attribs_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acac66938c5acf895a4c1a7c0615d17fb inherit pro_attribs_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acac66938c5acf895a4c1a7c0615d17fb"></a>
+<a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>sbol_owner</b></td></tr>
+<tr class="separator:acac66938c5acf895a4c1a7c0615d17fb inherit pro_attribs_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac59ab204841ef6d58b4ea0ce9129a93a inherit pro_attribs_classsbol_1_1_property"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac59ab204841ef6d58b4ea0ce9129a93a"></a>
+ValidationRules&#160;</td><td class="memItemRight" valign="bottom"><b>validationRules</b></td></tr>
+<tr class="separator:ac59ab204841ef6d58b4ea0ce9129a93a inherit pro_attribs_classsbol_1_1_property"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>/Users/bryan/Dev/libSBOL/source/properties.h</li>
+</ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 11 2017 23:04:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 18 2016 07:57:31 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

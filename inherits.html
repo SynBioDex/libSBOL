@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.2.0</span>
+   &#160;<span id="projectnumber">2.0.1</span>
    </div>
   </td>
  </tr>
@@ -39,12 +39,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
-      <li><a href="installation.html"><span>Installation</span></a></li>
-      <li><a href="getting_started.html"><span>Getting&#160;Started&#160;with&#160;SBOL</span></a></li>
-      <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
-      <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
+      <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -93,217 +90,158 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock">
 <p><a href="hierarchy.html">Go to the textual class hierarchy</a></p>
 </div><table border="0" cellspacing="10" cellpadding="0">
-<tr><td><img src="inherit_graph_0.png" border="0" alt="" usemap="#_component"/>
-<map name="_component" id="_component">
-<area shape="rect" id="node1" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy..." alt="" coords="5,5,92,32"/>
+<tr><td><img src="inherit_graph_0.png" border="0" alt="" usemap="#sbol_1_1_document"/>
+<map name="sbol_1_1_document" id="sbol_1_1_document">
+<area shape="rect" id="node1" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="5,5,119,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_1.png" border="0" alt="" usemap="#_config"/>
-<map name="_config" id="_config">
-<area shape="rect" id="node1" href="classsbol_1_1_config.html" title="A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the Config::setOptions and Config::getOptions methods. " alt="" coords="5,5,64,32"/>
+<tr><td><img src="inherit_graph_1.png" border="0" alt="" usemap="#sbol_1_1_list_3_01_property_type_01_4"/>
+<map name="sbol_1_1_list_3_01_property_type_01_4" id="sbol_1_1_list_3_01_property_type_01_4">
+<area shape="rect" id="node2" href="classsbol_1_1_list.html" title="sbol::List\&lt; PropertyType \&gt;" alt="" coords="154,5,330,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_2.png" border="0" alt="" usemap="#_functional_component"/>
-<map name="_functional_component" id="_functional_component">
-<area shape="rect" id="node1" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside..." alt="" coords="5,5,151,32"/>
+<tr><td><img src="inherit_graph_2.png" border="0" alt="" usemap="#sbol_1_1_owned_object_3_01_s_b_o_l_class_01_4_1_1iterator"/>
+<map name="sbol_1_1_owned_object_3_01_s_b_o_l_class_01_4_1_1iterator" id="sbol_1_1_owned_object_3_01_s_b_o_l_class_01_4_1_1iterator">
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object_1_1iterator.html" title="sbol::OwnedObject\&lt;\l SBOLClass \&gt;::iterator" alt="" coords="129,5,283,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_property_1_1iterator.html" title="sbol::Property\&lt; LiteralType\l \&gt;::iterator" alt="" coords="116,68,296,107"/>
+<area shape="rect" id="node4" href="classsbol_1_1_referenced_object_1_1iterator.html" title="sbol::ReferencedObject\l::iterator" alt="" coords="126,131,287,169"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_3.png" border="0" alt="" usemap="#_list_3_01_property_type_01_4"/>
-<map name="_list_3_01_property_type_01_4" id="_list_3_01_property_type_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_list.html" title="Provides interface for an SBOL container Property that is allowed to have more than one object or val..." alt="" coords="5,5,148,32"/>
+<tr><td><img src="inherit_graph_3.png" border="0" alt="" usemap="#sbol_1_1_property_3_01int_01_4"/>
+<map name="sbol_1_1_property_3_01int_01_4" id="sbol_1_1_property_3_01int_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; int \&gt;" alt="" coords="5,5,146,31"/>
+<area shape="rect" id="node2" href="classsbol_1_1_int_property.html" title="sbol::IntProperty" alt="" coords="194,5,312,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_4.png" border="0" alt="" usemap="#_owned_object_3_01_s_b_o_l_class_01_4_1_1iterator"/>
-<map name="_owned_object_3_01_s_b_o_l_class_01_4_1_1iterator" id="_owned_object_3_01_s_b_o_l_class_01_4_1_1iterator">
-<area shape="rect" id="node1" href="classsbol_1_1_owned_object_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple objects. " alt="" coords="5,5,177,47"/>
+<tr><td><img src="inherit_graph_4.png" border="0" alt="" usemap="#sbol_1_1_property_3_01_literal_type_01_4"/>
+<map name="sbol_1_1_property_3_01_literal_type_01_4" id="sbol_1_1_property_3_01_literal_type_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="metafunction for generation of a map of message types to their associated callbacks. " alt="" coords="5,5,197,31"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_5.png" border="0" alt="" usemap="#_part_shop"/>
-<map name="_part_shop" id="_part_shop">
-<area shape="rect" id="node1" href="classsbol_1_1_part_shop.html" title="A class which provides an API front&#45;end for online bioparts repositories. " alt="" coords="5,5,80,32"/>
+<tr><td><img src="inherit_graph_5.png" border="0" alt="" usemap="#sbol_1_1_property_3_01sbol_1_1_component_01_4"/>
+<map name="sbol_1_1_property_3_01sbol_1_1_component_01_4" id="sbol_1_1_property_3_01sbol_1_1_component_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::Component \&gt;" alt="" coords="5,5,145,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::Component \&gt;" alt="" coords="193,5,335,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::Component \&gt; \&gt;" alt="" coords="383,5,581,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_6.png" border="0" alt="" usemap="#_property_3_01int_01_4"/>
-<map name="_property_3_01int_01_4" id="_property_3_01int_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; int \&gt;" alt="" coords="5,5,116,32"/>
-<area shape="rect" id="node2" href="classsbol_1_1_int_property.html" title="IntProperty objects are used to contain integers. " alt="" coords="164,5,249,32"/>
+<tr><td><img src="inherit_graph_6.png" border="0" alt="" usemap="#sbol_1_1_property_3_01sbol_1_1_functional_component_01_4"/>
+<map name="sbol_1_1_property_3_01sbol_1_1_functional_component_01_4" id="sbol_1_1_property_3_01sbol_1_1_functional_component_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::FunctionalComponent \&gt;" alt="" coords="5,5,176,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::FunctionalComponent \&gt;" alt="" coords="224,5,423,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::FunctionalComponent \&gt; \&gt;" alt="" coords="471,5,689,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_7.png" border="0" alt="" usemap="#_property_3_01_literal_type_01_4"/>
-<map name="_property_3_01_literal_type_01_4" id="_property_3_01_literal_type_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Member properties of all SBOL objects are defined using a Property object. " alt="" coords="5,5,164,32"/>
+<tr><td><img src="inherit_graph_7.png" border="0" alt="" usemap="#sbol_1_1_property_3_01sbol_1_1_interaction_01_4"/>
+<map name="sbol_1_1_property_3_01sbol_1_1_interaction_01_4" id="sbol_1_1_property_3_01sbol_1_1_interaction_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::Interaction \&gt;" alt="" coords="5,5,145,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::Interaction \&gt;" alt="" coords="193,5,335,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::Interaction \&gt; \&gt;" alt="" coords="383,5,581,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_8.png" border="0" alt="" usemap="#_property_3_01_literal_type_01_4_1_1iterator"/>
-<map name="_property_3_01_literal_type_01_4_1_1iterator" id="_property_3_01_literal_type_01_4_1_1iterator">
-<area shape="rect" id="node1" href="classsbol_1_1_property_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple values. ..." alt="" coords="5,5,152,47"/>
+<tr><td><img src="inherit_graph_8.png" border="0" alt="" usemap="#sbol_1_1_property_3_01sbol_1_1_location_01_4"/>
+<map name="sbol_1_1_property_3_01sbol_1_1_location_01_4" id="sbol_1_1_property_3_01sbol_1_1_location_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::Location \&gt;" alt="" coords="5,5,145,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::Location \&gt;" alt="" coords="193,5,335,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::Location \&gt; \&gt;" alt="" coords="383,5,581,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_9.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_association_01_4"/>
-<map name="_property_3_01sbol_1_1_association_01_4" id="_property_3_01sbol_1_1_association_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Association \&gt;" alt="" coords="5,13,199,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lAssociation \&gt;" alt="" coords="247,5,392,47"/>
+<tr><td><img src="inherit_graph_9.png" border="0" alt="" usemap="#sbol_1_1_property_3_01sbol_1_1_maps_to_01_4"/>
+<map name="sbol_1_1_property_3_01sbol_1_1_maps_to_01_4" id="sbol_1_1_property_3_01sbol_1_1_maps_to_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::MapsTo \&gt;" alt="" coords="5,5,145,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::MapsTo \&gt;" alt="" coords="193,5,335,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::MapsTo \&gt; \&gt;" alt="" coords="383,5,581,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_10.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_component_01_4"/>
-<map name="_property_3_01sbol_1_1_component_01_4" id="_property_3_01sbol_1_1_component_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Component \&gt;" alt="" coords="5,13,200,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lComponent \&gt;" alt="" coords="248,5,393,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Component \&gt; \&gt;" alt="" coords="441,5,605,47"/>
+<tr><td><img src="inherit_graph_10.png" border="0" alt="" usemap="#sbol_1_1_property_3_01sbol_1_1_module_01_4"/>
+<map name="sbol_1_1_property_3_01sbol_1_1_module_01_4" id="sbol_1_1_property_3_01sbol_1_1_module_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::Module \&gt;" alt="" coords="5,5,145,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::Module \&gt;" alt="" coords="193,5,335,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::Module \&gt; \&gt;" alt="" coords="383,5,581,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_11.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_component_definition_01_4"/>
-<map name="_property_3_01sbol_1_1_component_definition_01_4" id="_property_3_01sbol_1_1_component_definition_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Component\lDefinition \&gt;" alt="" coords="5,5,187,47"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lComponentDefinition \&gt;" alt="" coords="235,5,388,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::ComponentDefinition \&gt; \&gt;" alt="" coords="436,5,648,47"/>
+<tr><td><img src="inherit_graph_11.png" border="0" alt="" usemap="#sbol_1_1_property_3_01sbol_1_1_participation_01_4"/>
+<map name="sbol_1_1_property_3_01sbol_1_1_participation_01_4" id="sbol_1_1_property_3_01sbol_1_1_participation_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::Participation \&gt;" alt="" coords="5,5,145,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::Participation \&gt;" alt="" coords="193,5,335,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::Participation \&gt; \&gt;" alt="" coords="383,5,581,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_12.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_functional_component_01_4"/>
-<map name="_property_3_01sbol_1_1_functional_component_01_4" id="_property_3_01sbol_1_1_functional_component_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Functional\lComponent \&gt;" alt="" coords="5,5,180,47"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lFunctionalComponent \&gt;" alt="" coords="228,5,387,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::FunctionalComponent \&gt; \&gt;" alt="" coords="435,5,652,47"/>
+<tr><td><img src="inherit_graph_12.png" border="0" alt="" usemap="#sbol_1_1_property_3_01sbol_1_1_sequence_annotation_01_4"/>
+<map name="sbol_1_1_property_3_01sbol_1_1_sequence_annotation_01_4" id="sbol_1_1_property_3_01sbol_1_1_sequence_annotation_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::SequenceAnnotation \&gt;" alt="" coords="5,5,169,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::SequenceAnnotation \&gt;" alt="" coords="217,5,410,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::SequenceAnnotation \&gt; \&gt;" alt="" coords="458,5,669,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_13.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_identified_01_4"/>
-<map name="_property_3_01sbol_1_1_identified_01_4" id="_property_3_01sbol_1_1_identified_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Identified \&gt;" alt="" coords="5,13,188,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lIdentified \&gt;" alt="" coords="236,5,381,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Identified \&gt; \&gt;" alt="" coords="429,5,593,47"/>
+<tr><td><img src="inherit_graph_13.png" border="0" alt="" usemap="#sbol_1_1_property_3_01sbol_1_1_sequence_constraint_01_4"/>
+<map name="sbol_1_1_property_3_01sbol_1_1_sequence_constraint_01_4" id="sbol_1_1_property_3_01sbol_1_1_sequence_constraint_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; sbol\l::SequenceConstraint \&gt;" alt="" coords="5,5,166,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l sbol::SequenceConstraint \&gt;" alt="" coords="214,5,404,44"/>
+<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::OwnedObject\l\&lt; sbol::SequenceConstraint \&gt; \&gt;" alt="" coords="452,5,660,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_14.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_interaction_01_4"/>
-<map name="_property_3_01sbol_1_1_interaction_01_4" id="_property_3_01sbol_1_1_interaction_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Interaction \&gt;" alt="" coords="5,13,196,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lInteraction \&gt;" alt="" coords="244,5,389,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Interaction \&gt; \&gt;" alt="" coords="437,5,601,47"/>
+<tr><td><img src="inherit_graph_14.png" border="0" alt="" usemap="#sbol_1_1_property_3_01_s_b_o_l_class_01_4"/>
+<map name="sbol_1_1_property_3_01_s_b_o_l_class_01_4" id="sbol_1_1_property_3_01_s_b_o_l_class_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; SBOLClass \&gt;" alt="" coords="5,12,201,37"/>
+<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="sbol::OwnedObject\&lt;\l SBOLClass \&gt;" alt="" coords="249,5,391,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_15.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_location_01_4"/>
-<map name="_property_3_01sbol_1_1_location_01_4" id="_property_3_01sbol_1_1_location_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Location \&gt;" alt="" coords="5,13,181,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lLocation \&gt;" alt="" coords="229,5,375,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Location \&gt; \&gt;" alt="" coords="423,5,587,47"/>
+<tr><td><img src="inherit_graph_15.png" border="0" alt="" usemap="#sbol_1_1_property_3_01std_1_1string_01_4"/>
+<map name="sbol_1_1_property_3_01std_1_1string_01_4" id="sbol_1_1_property_3_01std_1_1string_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="sbol::Property\&lt; std\l::string \&gt;" alt="" coords="5,24,138,63"/>
+<area shape="rect" id="node2" href="classsbol_1_1_text_property.html" title="sbol::TextProperty" alt="" coords="186,5,314,31"/>
+<area shape="rect" id="node3" href="classsbol_1_1_u_r_i_property.html" title="sbol::URIProperty" alt="" coords="187,55,314,80"/>
+<area shape="rect" id="node4" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::URIProperty \&gt;" alt="" coords="362,29,564,55"/>
+<area shape="rect" id="node5" href="classsbol_1_1_referenced_object.html" title="sbol::ReferencedObject" alt="" coords="383,79,544,104"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_16.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_maps_to_01_4"/>
-<map name="_property_3_01sbol_1_1_maps_to_01_4" id="_property_3_01sbol_1_1_maps_to_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::MapsTo \&gt;" alt="" coords="5,13,180,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lMapsTo \&gt;" alt="" coords="228,5,373,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::MapsTo \&gt; \&gt;" alt="" coords="421,5,585,47"/>
+<tr><td><img src="inherit_graph_16.png" border="0" alt="" usemap="#sbol_1_1_referenced_object_3_01sbol_1_1_component_definition_01_4"/>
+<map name="sbol_1_1_referenced_object_3_01sbol_1_1_component_definition_01_4" id="sbol_1_1_referenced_object_3_01sbol_1_1_component_definition_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_referenced_object.html" title="sbol::ReferencedObject\l\&lt; sbol::ComponentDefinition \&gt;" alt="" coords="5,5,206,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_17.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_model_01_4"/>
-<map name="_property_3_01sbol_1_1_model_01_4" id="_property_3_01sbol_1_1_model_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Model \&gt;" alt="" coords="5,13,168,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lModel \&gt;" alt="" coords="216,5,361,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Model \&gt; \&gt;" alt="" coords="409,5,573,47"/>
+<tr><td><img src="inherit_graph_17.png" border="0" alt="" usemap="#sbol_1_1_referenced_object_3_01sbol_1_1_host_01_4"/>
+<map name="sbol_1_1_referenced_object_3_01sbol_1_1_host_01_4" id="sbol_1_1_referenced_object_3_01sbol_1_1_host_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_referenced_object.html" title="sbol::ReferencedObject\l\&lt; sbol::Host \&gt;" alt="" coords="5,5,166,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_18.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_module_01_4"/>
-<map name="_property_3_01sbol_1_1_module_01_4" id="_property_3_01sbol_1_1_module_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Module \&gt;" alt="" coords="5,13,176,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lModule \&gt;" alt="" coords="224,5,369,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Module \&gt; \&gt;" alt="" coords="417,5,581,47"/>
+<tr><td><img src="inherit_graph_18.png" border="0" alt="" usemap="#sbol_1_1_referenced_object_3_01sbol_1_1_module_definition_01_4"/>
+<map name="sbol_1_1_referenced_object_3_01sbol_1_1_module_definition_01_4" id="sbol_1_1_referenced_object_3_01sbol_1_1_module_definition_01_4">
+<area shape="rect" id="node1" href="classsbol_1_1_referenced_object.html" title="sbol::ReferencedObject\l\&lt; sbol::ModuleDefinition \&gt;" alt="" coords="5,5,181,44"/>
+<area shape="rect" id="node2" href="classsbol_1_1_list.html" title="sbol::List\&lt; sbol::Referenced\lObject\&lt; sbol::ModuleDefinition \&gt; \&gt;" alt="" coords="229,5,454,44"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_19.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_module_definition_01_4"/>
-<map name="_property_3_01sbol_1_1_module_definition_01_4" id="_property_3_01sbol_1_1_module_definition_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::ModuleDefinition \&gt;" alt="" coords="5,13,228,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lModuleDefinition \&gt;" alt="" coords="276,5,421,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::ModuleDefinition \&gt; \&gt;" alt="" coords="469,5,657,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_20.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_participation_01_4"/>
-<map name="_property_3_01sbol_1_1_participation_01_4" id="_property_3_01sbol_1_1_participation_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Participation \&gt;" alt="" coords="5,13,204,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lParticipation \&gt;" alt="" coords="252,5,397,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Participation \&gt; \&gt;" alt="" coords="445,5,609,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_21.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_sequence_01_4"/>
-<map name="_property_3_01sbol_1_1_sequence_01_4" id="_property_3_01sbol_1_1_sequence_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Sequence \&gt;" alt="" coords="5,13,191,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lSequence \&gt;" alt="" coords="239,5,384,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::Sequence \&gt; \&gt;" alt="" coords="432,5,596,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_22.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_sequence_annotation_01_4"/>
-<map name="_property_3_01sbol_1_1_sequence_annotation_01_4" id="_property_3_01sbol_1_1_sequence_annotation_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Sequence\lAnnotation \&gt;" alt="" coords="5,5,177,47"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lSequenceAnnotation \&gt;" alt="" coords="225,5,377,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::SequenceAnnotation \&gt; \&gt;" alt="" coords="425,5,636,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_23.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_sequence_constraint_01_4"/>
-<map name="_property_3_01sbol_1_1_sequence_constraint_01_4" id="_property_3_01sbol_1_1_sequence_constraint_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Sequence\lConstraint \&gt;" alt="" coords="5,5,177,47"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lSequenceConstraint \&gt;" alt="" coords="225,5,375,47"/>
-<area shape="rect" id="node3" href="classsbol_1_1_list.html" title="List\&lt; sbol::OwnedObject\l\&lt; sbol::SequenceConstraint \&gt; \&gt;" alt="" coords="423,5,631,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_24.png" border="0" alt="" usemap="#_property_3_01sbol_1_1_usage_01_4"/>
-<map name="_property_3_01sbol_1_1_usage_01_4" id="_property_3_01sbol_1_1_usage_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; sbol::Usage \&gt;" alt="" coords="5,13,169,39"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="OwnedObject\&lt; sbol::\lUsage \&gt;" alt="" coords="217,5,363,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_25.png" border="0" alt="" usemap="#_property_3_01_s_b_o_l_class_01_4"/>
-<map name="_property_3_01_s_b_o_l_class_01_4" id="_property_3_01_s_b_o_l_class_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; SBOLClass \&gt;" alt="" coords="5,5,161,32"/>
-<area shape="rect" id="node2" href="classsbol_1_1_owned_object.html" title="A container property that contains child objects. " alt="" coords="209,5,395,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_26.png" border="0" alt="" usemap="#_property_3_01std_1_1string_01_4"/>
-<map name="_property_3_01std_1_1string_01_4" id="_property_3_01std_1_1string_01_4">
-<area shape="rect" id="node1" href="classsbol_1_1_property.html" title="Property\&lt; std::string \&gt;" alt="" coords="5,81,160,108"/>
-<area shape="rect" id="node2" href="classsbol_1_1_text_property.html" title="TextProperty objects are used to contain string literals. " alt="" coords="208,56,303,83"/>
-<area shape="rect" id="node5" href="classsbol_1_1_u_r_i_property.html" title="A URIProperty may contain a restricted type of string that conforms to the specification for a Unifor..." alt="" coords="210,107,301,133"/>
-<area shape="rect" id="node3" href="classsbol_1_1_date_time_property.html" title="Contains a DateTime string following XML Schema. " alt="" coords="372,5,497,32"/>
-<area shape="rect" id="node4" href="classsbol_1_1_version_property.html" title="Contains a version number for an SBOL object. " alt="" coords="378,56,491,83"/>
-<area shape="rect" id="node6" href="classsbol_1_1_list.html" title="List\&lt; sbol::URIProperty \&gt;" alt="" coords="351,107,519,133"/>
-<area shape="rect" id="node7" href="classsbol_1_1_referenced_object.html" title="A reference to another SBOL object Contains a Uniform Resource Identifier (URI) that refers to an an ..." alt="" coords="373,157,497,184"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_27.png" border="0" alt="" usemap="#_referenced_object_1_1iterator"/>
-<map name="_referenced_object_1_1iterator" id="_referenced_object_1_1iterator">
-<area shape="rect" id="node1" href="classsbol_1_1_referenced_object_1_1iterator.html" title="Provides iterator functionality for SBOL properties that contain multiple references. " alt="" coords="5,5,181,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_28.png" border="0" alt="" usemap="#_s_b_o_l_object"/>
-<map name="_s_b_o_l_object" id="_s_b_o_l_object">
-<area shape="rect" id="node1" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="5,259,95,285"/>
-<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="143,259,217,285"/>
-<area shape="rect" id="node3" href="classsbol_1_1_association.html" title="An Association is linked to an Agent through the agent relationship. The Association includes the had..." alt="" coords="291,5,378,32"/>
-<area shape="rect" id="node4" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="295,56,374,83"/>
-<area shape="rect" id="node5" href="classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="293,107,376,133"/>
-<area shape="rect" id="node6" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="300,157,369,184"/>
-<area shape="rect" id="node10" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance..." alt="" coords="301,208,368,235"/>
-<area shape="rect" id="node11" href="classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="303,259,366,285"/>
-<area shape="rect" id="node12" href="classsbol_1_1_participation.html" title="Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction..." alt="" coords="289,309,381,336"/>
-<area shape="rect" id="node13" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="265,360,404,387"/>
-<area shape="rect" id="node14" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="267,411,403,437"/>
-<area shape="rect" id="node15" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="298,461,371,488"/>
-<area shape="rect" id="node24" href="classsbol_1_1_usage.html" title="How different entities are used in an Activity is specified with the Usage class, which is linked fro..." alt="" coords="306,512,363,539"/>
-<area shape="rect" id="node7" href="classsbol_1_1_cut.html" title="The Cut class specifies a location between two coordinates of a Sequence&#39;s elements. class Cut : public Location. " alt="" coords="501,107,543,133"/>
-<area shape="rect" id="node8" href="classsbol_1_1_generic_location.html" title="the GenericLocation class is included as a starting point for specifying regions on Sequence objects ..." alt="" coords="466,157,578,184"/>
-<area shape="rect" id="node9" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="493,208,551,235"/>
-<area shape="rect" id="node16" href="classsbol_1_1_activity.html" title="A generated Entity is linked through a wasGeneratedBy relationship to an Activity, which is used to describe how different Agents and other entities were used. An Activity is linked through a qualifiedAssociation to Associations, to describe the role of agents, and is linked through qualifiedUsage to Usages to describe the role of other entities used as part of the activity. Moreover, each Activity includes optional startedAtTime and endedAtTime properties. When using Activity to capture how an entity was derived, it is expected that any additional information needed will be attached as annotations. This may include software settings or textual notes. Activities can also be linked together using the wasInformedBy relationship to provide dependency without explicitly specifying start and end times. " alt="" coords="491,284,553,311"/>
-<area shape="rect" id="node17" href="classsbol_1_1_agent.html" title="Examples of agents are person, organisation or software. These agents should be annotated with additi..." alt="" coords="495,335,549,361"/>
-<area shape="rect" id="node18" href="classsbol_1_1_collection.html" title="The Collection class is a class that groups together a set of TopLevel objects that have something in..." alt="" coords="483,385,561,412"/>
-<area shape="rect" id="node19" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="452,436,592,463"/>
-<area shape="rect" id="node20" href="classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="494,487,550,513"/>
-<area shape="rect" id="node21" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="464,537,580,564"/>
-<area shape="rect" id="node22" href="classsbol_1_1_plan.html" title="Examples of agents are person, organisation or software. These agents should be annotated with additi..." alt="" coords="499,588,545,615"/>
-<area shape="rect" id="node23" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="483,639,561,665"/>
+<tr><td><img src="inherit_graph_19.png" border="0" alt="" usemap="#sbol_1_1_s_b_o_l_object"/>
+<map name="sbol_1_1_s_b_o_l_object" id="sbol_1_1_s_b_o_l_object">
+<area shape="rect" id="node1" href="classsbol_1_1_s_b_o_l_object.html" title="sbol::SBOLObject" alt="" coords="5,227,133,252"/>
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="181,227,288,252"/>
+<area shape="rect" id="node3" href="classsbol_1_1_component_instance.html" title="sbol::ComponentInstance" alt="" coords="338,29,511,55"/>
+<area shape="rect" id="node6" href="classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="367,79,482,104"/>
+<area shape="rect" id="node7" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="373,128,476,153"/>
+<area shape="rect" id="node9" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. " alt="" coords="375,177,474,203"/>
+<area shape="rect" id="node10" href="classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="376,227,473,252"/>
+<area shape="rect" id="node11" href="classsbol_1_1_participation.html" title="sbol::Participation" alt="" coords="361,276,488,301"/>
+<area shape="rect" id="node12" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="336,325,513,351"/>
+<area shape="rect" id="node14" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="337,375,511,400"/>
+<area shape="rect" id="node15" href="classsbol_1_1_top_level.html" title="sbol::TopLevel" alt="" coords="371,448,478,473"/>
+<area shape="rect" id="node4" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy..." alt="" coords="598,5,720,31"/>
+<area shape="rect" id="node5" href="classsbol_1_1_functional_component.html" title="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside..." alt="" coords="567,55,751,80"/>
+<area shape="rect" id="node8" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="613,128,705,153"/>
+<area shape="rect" id="node13" href="classsbol_1_1_sequence_annotation_ext.html" title="sbol::SequenceAnnotationExt" alt="" coords="561,312,757,337"/>
+<area shape="rect" id="node16" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. The primary usage of this class is to represent structural entities with designed sequences, such as DNA, RNA, and proteins, but it can also be used to represent any other entity that is part of a design, such as small molecules, molecular complexes, and light. " alt="" coords="570,361,748,387"/>
+<area shape="rect" id="node18" href="classsbol_1_1_generic_top_level.html" title="sbol::GenericTopLevel" alt="" coords="582,411,736,436"/>
+<area shape="rect" id="node19" href="classsbol_1_1_model.html" title="sbol::Model" alt="" coords="614,460,704,485"/>
+<area shape="rect" id="node20" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="583,509,735,535"/>
+<area shape="rect" id="node21" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="602,559,716,584"/>
+<area shape="rect" id="node17" href="classsbol_1_1_host.html" title="sbol::Host" alt="" coords="805,436,886,461"/>
 </map>
 </td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 11 2017 23:04:38 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 18 2016 07:57:31 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: List&lt; PropertyType &gt; Class Template Reference</title>
+<title>libSBOL: sbol::List&lt; PropertyType &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.2.0</span>
+   &#160;<span id="projectnumber">2.0.1</span>
    </div>
   </td>
  </tr>
@@ -39,12 +39,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
-      <li><a href="installation.html"><span>Installation</span></a></li>
-      <li><a href="getting_started.html"><span>Getting&#160;Started&#160;with&#160;SBOL</span></a></li>
-      <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
-      <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
+      <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -91,31 +88,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classsbol_1_1_list-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">List&lt; PropertyType &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__extension__layer.html">Extension Interface</a></div></div>  </div>
+<div class="title">sbol::List&lt; PropertyType &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;class PropertyType&gt;<br />
-class sbol::List&lt; PropertyType &gt;</h3>
-
-<p>Provides interface for an SBOL container <a class="el" href="classsbol_1_1_property.html" title="Member properties of all SBOL objects are defined using a Property object. ">Property</a> that is allowed to have more than one object or value. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">PropertyType</td><td>The type of SBOL <a class="el" href="classsbol_1_1_property.html" title="Member properties of all SBOL objects are defined using a Property object. ">Property</a>, eg, Text, Int, <a class="el" href="classsbol_1_1_owned_object.html" title="A container property that contains child objects. ">OwnedObject</a>, etc </td></tr>
-  </table>
-  </dd>
-</dl>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="properties_8h.html">properties.h</a></li>
+<div class="dynheader">
+Inheritance diagram for sbol::List&lt; PropertyType &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_list__inherit__graph.png" border="0" usemap="#sbol_1_1_list_3_01_property_type_01_4_inherit__map" alt="Inheritance graph"/></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for sbol::List&lt; PropertyType &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_list__coll__graph.png" border="0" usemap="#sbol_1_1_list_3_01_property_type_01_4_coll__map" alt="Collaboration graph"/></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a86e7498875c34252eda5c1890c35a494"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86e7498875c34252eda5c1890c35a494"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> (sbol_type type_uri, <a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *property_owner, std::string initial_value=&quot;&quot;)</td></tr>
+<tr class="separator:a86e7498875c34252eda5c1890c35a494"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9649e1cdfbae7fb93c5e705473467efc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9649e1cdfbae7fb93c5e705473467efc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>remove</b> (int index)</td></tr>
+<tr class="separator:a9649e1cdfbae7fb93c5e705473467efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>/Users/bryan/Dev/libSBOL/source/properties.h</li>
 </ul>
-
-<p>Inherits PropertyType.</p>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 11 2017 23:04:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 18 2016 07:57:31 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

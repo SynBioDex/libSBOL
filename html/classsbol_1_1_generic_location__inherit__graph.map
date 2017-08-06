@@ -1,0 +1,5 @@
+<map id="GenericLocation" name="GenericLocation">
+<area shape="rect" id="node2" href="$classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="29,635,129,721"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="11,367,146,587"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="7,5,151,319"/>
+</map>

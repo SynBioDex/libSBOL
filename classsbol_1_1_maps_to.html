@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>libSBOL: MapsTo Class Reference</title>
+<title>libSBOL: sbol::MapsTo Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.2.0</span>
+   &#160;<span id="projectnumber">2.0.1</span>
    </div>
   </td>
  </tr>
@@ -39,12 +39,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Introduction</span></a></li>
-      <li><a href="installation.html"><span>Installation</span></a></li>
-      <li><a href="getting_started.html"><span>Getting&#160;Started&#160;with&#160;SBOL</span></a></li>
-      <li><a href="sequences.html"><span>Sequence&#160;Assembly</span></a></li>
-      <li><a href="modular_design.html"><span>Biosystem&#160;Design</span></a></li>
+      <li><a href="getting_started.html"><span>Getting&#160;Started</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -91,591 +88,162 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classsbol_1_1_maps_to-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">MapsTo Class Reference</div>  </div>
+<div class="title">sbol::MapsTo Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The purpose of the <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a> class is to make identity relationships between different ComponentInstances in functional and structural hierarchies more clear. For example, a <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a> object may be used to connect outputs and inputs between different low-level ModuleDefinitions contained in a higher level <a class="el" href="classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design...">Module</a> Definition. A <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a> object may also be used to override a generic <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in a low-level <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> with an explicit <a class="el" href="classsbol_1_1_component.html" title="The Component class is used to compose ComponentDefinition objects into a structural hierarchy...">Component</a> in a high-level <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a>, for example mapping a generic gene to an explicit component with a name and sequence. </p>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a737c426874868b98f1d0263f08845ffb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_maps_to.html#a737c426874868b98f1d0263f08845ffb">refinement</a></td></tr>
-<tr class="memdesc:a737c426874868b98f1d0263f08845ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Each <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a> object MUST specify the relationship between its local and remote ComponentInstance objects using one of the REQUIRED refinement URIs provided in the table below.  <a href="#a737c426874868b98f1d0263f08845ffb">More...</a><br /></td></tr>
-<tr class="separator:a737c426874868b98f1d0263f08845ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cd51e80d2720db8c50e97479e98f073"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7cd51e80d2720db8c50e97479e98f073"></a>
-<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_maps_to.html#a7cd51e80d2720db8c50e97479e98f073">local</a></td></tr>
-<tr class="memdesc:a7cd51e80d2720db8c50e97479e98f073"><td class="mdescLeft">&#160;</td><td class="mdescRight">The identity of the lower level ComponentInstance. <br /></td></tr>
-<tr class="separator:a7cd51e80d2720db8c50e97479e98f073"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac97b0a52274d39496f09c0cd4cfe062c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac97b0a52274d39496f09c0cd4cfe062c"></a>
-<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_maps_to.html#ac97b0a52274d39496f09c0cd4cfe062c">remote</a></td></tr>
-<tr class="memdesc:ac97b0a52274d39496f09c0cd4cfe062c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The identity of the higher level ComponentInstance. <br /></td></tr>
-<tr class="separator:ac97b0a52274d39496f09c0cd4cfe062c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7931f7b2727acb83c549e08550707713"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7931f7b2727acb83c549e08550707713"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a7931f7b2727acb83c549e08550707713">persistentIdentity</a></td></tr>
-<tr class="memdesc:a7931f7b2727acb83c549e08550707713"><td class="mdescLeft">&#160;</td><td class="mdescRight">The persistentIdentity property is OPTIONAL and has a data type of URI. This URI serves to uniquely refer to a set of SBOL objects that are different versions of each other. An <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object MUST be referred to using either its identity URI or its persistentIdentity URI. <br /></td></tr>
-<tr class="separator:a7931f7b2727acb83c549e08550707713"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3190523b5224923d54bdd3a36fb944c3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3190523b5224923d54bdd3a36fb944c3"></a>
-<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a3190523b5224923d54bdd3a36fb944c3">displayId</a></td></tr>
-<tr class="memdesc:a3190523b5224923d54bdd3a36fb944c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The displayId property is an OPTIONAL identifier with a data type of String. This property is intended to be an intermediate between name and identity that is machine-readable, but more human-readable than the full URI of an identity. If the displayId property is used, then its String value SHOULD be locally unique (global uniqueness is not necessary) and MUST be composed of only alphanumeric or underscore characters and MUST NOT begin with a digit. <br /></td></tr>
-<tr class="separator:a3190523b5224923d54bdd3a36fb944c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5079b9e48247695504e3705983b06ab5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5079b9e48247695504e3705983b06ab5"></a>
-<a class="el" href="classsbol_1_1_version_property.html">VersionProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a5079b9e48247695504e3705983b06ab5">version</a></td></tr>
-<tr class="memdesc:a5079b9e48247695504e3705983b06ab5"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the version property is used, then it is RECOMMENDED that version numbering follow the conventions of <a href="http://semver.org/">semantic versioning</a>, particularly as implemented by <a href="http://maven.apache.org/">Maven</a>. This convention represents versions as sequences of numbers and qualifiers that are separated by the characters “.” and “-” and are compared in lexicographical order (for example, 1 &lt; 1.3.1 &lt; 2.0-beta). For a full explanation, see the linked resources. <br /></td></tr>
-<tr class="separator:a5079b9e48247695504e3705983b06ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc70a7be39e8fb18e4b82ec8069cefd7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc70a7be39e8fb18e4b82ec8069cefd7"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#acc70a7be39e8fb18e4b82ec8069cefd7">wasDerivedFrom</a></td></tr>
-<tr class="memdesc:acc70a7be39e8fb18e4b82ec8069cefd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The wasDerivedFrom property is OPTIONAL and has a data type of URI. An SBOL object with this property refers to another SBOL object or non-SBOL resource from which this object was derived. If the wasDerivedFrom property of an SBOL object A that refers to an SBOL object B has an identical persistentIdentity, and both A and B have a version, then the version of B MUST precede that of A. In addition, an SBOL object MUST NOT refer to itself via its own wasDerivedFrom property or form a cyclical chain of references via its wasDerivedFrom property and those of other SBOL objects. For example, the reference chain “ A was derived from B and B was derived from A” is cyclical. <br /></td></tr>
-<tr class="separator:acc70a7be39e8fb18e4b82ec8069cefd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09b31bcba9970529f7c5e5cf8d80177a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09b31bcba9970529f7c5e5cf8d80177a"></a>
-<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a09b31bcba9970529f7c5e5cf8d80177a">wasGeneratedBy</a></td></tr>
-<tr class="memdesc:a09b31bcba9970529f7c5e5cf8d80177a"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <a class="el" href="classsbol_1_1_activity.html" title="A generated Entity is linked through a wasGeneratedBy relationship to an Activity, which is used to describe how different Agents and other entities were used. An Activity is linked through a qualifiedAssociation to Associations, to describe the role of agents, and is linked through qualifiedUsage to Usages to describe the role of other entities used as part of the activity. Moreover, each Activity includes optional startedAtTime and endedAtTime properties. When using Activity to capture how an entity was derived, it is expected that any additional information needed will be attached as annotations. This may include software settings or textual notes. Activities can also be linked together using the wasInformedBy relationship to provide dependency without explicitly specifying start and end times. ">Activity</a> which generated this <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>, eg., a design process like codon-optimization or a construction process like Gibson Assembly. <br /></td></tr>
-<tr class="separator:a09b31bcba9970529f7c5e5cf8d80177a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47492e4ca2acc9db3be38b80b380ec43"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47492e4ca2acc9db3be38b80b380ec43"></a>
-<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a47492e4ca2acc9db3be38b80b380ec43">name</a></td></tr>
-<tr class="memdesc:a47492e4ca2acc9db3be38b80b380ec43"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name property is OPTIONAL and has a data type of String. This property is intended to be displayed to a human when visualizing an <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object. If an <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object lacks a name, then software tools SHOULD instead display the object’s displayId or identity. It is RECOMMENDED that software tools give users the ability to switch perspectives between name properties that are human-readable and displayId properties that are less human-readable, but are more likely to be unique. <br /></td></tr>
-<tr class="separator:a47492e4ca2acc9db3be38b80b380ec43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5429303f21e7bc531219954eddca1971"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5429303f21e7bc531219954eddca1971"></a>
-<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a5429303f21e7bc531219954eddca1971">description</a></td></tr>
-<tr class="memdesc:a5429303f21e7bc531219954eddca1971"><td class="mdescLeft">&#160;</td><td class="mdescRight">The description property is OPTIONAL and has a data type of String. This property is intended to contain a more thorough text description of an <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object. <br /></td></tr>
-<tr class="separator:a5429303f21e7bc531219954eddca1971"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff815c97277df80818d4f77c1eec9ac6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff815c97277df80818d4f77c1eec9ac6"></a>
-<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#aff815c97277df80818d4f77c1eec9ac6">identity</a></td></tr>
-<tr class="memdesc:aff815c97277df80818d4f77c1eec9ac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The identity property is REQUIRED by all <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> objects and has a data type of URI. A given <a class="el" href="classsbol_1_1_identified.html" title="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class...">Identified</a> object’s identity URI MUST be globally unique among all other identity URIs. The identity of a compliant SBOL object MUST begin with a URI prefix that maps to a domain over which the user has control. Namely, the user can guarantee uniqueness of identities within this domain. For other best practices regarding URIs see Section 11.2 of the <a href="http://sbolstandard.org/wp-content/uploads/2015/08/SBOLv2.0.1.pdf">SBOL specification doucment</a>. <br /></td></tr>
-<tr class="separator:aff815c97277df80818d4f77c1eec9ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+
+<p><a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects provide a means to connect outputs and inputs of ModuleDefinitions.  
+ <a href="classsbol_1_1_maps_to.html#details">More...</a></p>
+
+<p><code>#include &lt;mapsto.h&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for sbol::MapsTo:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_maps_to__inherit__graph.png" border="0" usemap="#sbol_1_1_maps_to_inherit__map" alt="Inheritance graph"/></div>
+<map name="sbol_1_1_maps_to_inherit__map" id="sbol_1_1_maps_to_inherit__map">
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="5,300,139,480"/>
+<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ doc\l+ properties\l+ list_properties\l+ owned_objects\l+ type\l+ identity\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="8,5,137,252"/>
+</map>
+</div>
+<div class="dynheader">
+Collaboration diagram for sbol::MapsTo:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsbol_1_1_maps_to__coll__graph.png" border="0" usemap="#sbol_1_1_maps_to_coll__map" alt="Collaboration graph"/></div>
+<map name="sbol_1_1_maps_to_coll__map" id="sbol_1_1_maps_to_coll__map">
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="60,1125,167,1239"/>
+<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="{sbol::SBOLObject\n|+ properties\l+ list_properties\l+ owned_objects\l+ type\l|+ SBOLObject()\l+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ serialize()\l+ nest()\l+ getClassName()\l# SBOLObject()\l# SBOLObject()\l}" alt="" coords="19,313,149,533"/>
+<area shape="rect" id="node5" href="classsbol_1_1_property.html" title="{sbol::Property\&lt; std\l::string \&gt;\n|# type\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ get()\l+ add()\l+ set()\l+ set()\land 6 more...\l}" alt="" coords="176,595,309,828"/>
+<area shape="rect" id="node4" href="classsbol_1_1_u_r_i_property.html" title="{sbol::URIProperty\n||+ URIProperty()\l}" alt="" coords="55,884,182,957"/>
+<area shape="rect" id="node10" href="classsbol_1_1_referenced_object.html" title="{sbol::ReferencedObject\n|# reference_type_uri\l|+ ReferencedObject()\l+ ReferencedObject()\l+ set()\l+ operator[]()\l+ addReference()\l+ addReference()\l+ addReference()\l+ setReference()\l+ setReference()\l+ setReference()\l+ begin()\l+ end()\l+ size()\l}" alt="" coords="396,1065,556,1299"/>
+<area shape="rect" id="node9" href="classsbol_1_1_text_property.html" title="{sbol::TextProperty\n||+ TextProperty()\l}" alt="" coords="205,884,333,957"/>
+<area shape="rect" id="node6" href="classsbol_1_1_property_1_1iterator.html" title="{sbol::Property\&lt; LiteralType\l \&gt;::iterator\n||+ iterator()\l}" alt="" coords="173,380,353,467"/>
+<area shape="rect" id="node8" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="5,5,163,252"/>
+<area shape="rect" id="node11" href="classsbol_1_1_referenced_object_1_1iterator.html" title="{sbol::ReferencedObject\l::iterator\n||+ iterator()\l}" alt="" coords="396,877,556,964"/>
+</map>
+</div>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a31ab177b54e68aa9dc7ba9fe23300f3c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_maps_to.html#a31ab177b54e68aa9dc7ba9fe23300f3c">MapsTo</a> (std::string uri=DEFAULT_NS&quot;/MapsTo/example&quot;, std::string <a class="el" href="classsbol_1_1_maps_to.html#a7cd51e80d2720db8c50e97479e98f073">local</a>=&quot;&quot;, std::string <a class="el" href="classsbol_1_1_maps_to.html#ac97b0a52274d39496f09c0cd4cfe062c">remote</a>=&quot;&quot;, std::string <a class="el" href="classsbol_1_1_maps_to.html#a737c426874868b98f1d0263f08845ffb">refinement</a>=<a class="el" href="constants_8h.html#a5aed8ed431905abe171b1b71957b336c">SBOL_REFINEMENT_VERIFY_IDENTICAL</a>)</td></tr>
-<tr class="memdesc:a31ab177b54e68aa9dc7ba9fe23300f3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a>.  <a href="#a31ab177b54e68aa9dc7ba9fe23300f3c">More...</a><br /></td></tr>
-<tr class="separator:a31ab177b54e68aa9dc7ba9fe23300f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaeae46cf11cccb87655dc22526bacf3e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="property_8h.html#addc3413015529a8d51e055f32748821f">sbol_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#aaeae46cf11cccb87655dc22526bacf3e">getTypeURI</a> ()</td></tr>
-<tr class="separator:aaeae46cf11cccb87655dc22526bacf3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31646e8a2306697fd0a183eeb7313271"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a31646e8a2306697fd0a183eeb7313271">getClassName</a> (std::string type)</td></tr>
-<tr class="separator:a31646e8a2306697fd0a183eeb7313271"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ad2b19c3408c3dd28816c2329d6ef7d07">find</a> (std::string uri)</td></tr>
-<tr class="memdesc:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search this object recursively to see if an object with the URI already exists.  <a href="#ad2b19c3408c3dd28816c2329d6ef7d07">More...</a><br /></td></tr>
-<tr class="separator:ad2b19c3408c3dd28816c2329d6ef7d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae38856f1013ce2e9171c8f898833e0ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ae38856f1013ce2e9171c8f898833e0ab">find_property</a> (std::string uri)</td></tr>
-<tr class="memdesc:ae38856f1013ce2e9171c8f898833e0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search this object recursively to see if it contains a member property with the given RDF type.  <a href="#ae38856f1013ce2e9171c8f898833e0ab">More...</a><br /></td></tr>
-<tr class="separator:ae38856f1013ce2e9171c8f898833e0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad593fa86924521afaff0e888083da20d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ad593fa86924521afaff0e888083da20d">compare</a> (<a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *comparand)</td></tr>
-<tr class="memdesc:ad593fa86924521afaff0e888083da20d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two SBOL objects or Documents.  <a href="#ad593fa86924521afaff0e888083da20d">More...</a><br /></td></tr>
-<tr class="separator:ad593fa86924521afaff0e888083da20d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a473e3642b7aae350da342aed2aba8063"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a473e3642b7aae350da342aed2aba8063">getPropertyValue</a> (std::string property_uri)</td></tr>
-<tr class="memdesc:a473e3642b7aae350da342aed2aba8063"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a custom annotation property by its URI.  <a href="#a473e3642b7aae350da342aed2aba8063">More...</a><br /></td></tr>
-<tr class="separator:a473e3642b7aae350da342aed2aba8063"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac77c72928e1e50863f519c049b1c05c4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#ac77c72928e1e50863f519c049b1c05c4">getPropertyValues</a> (std::string property_uri)</td></tr>
-<tr class="memdesc:ac77c72928e1e50863f519c049b1c05c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all values of a custom annotation property by its URI.  <a href="#ac77c72928e1e50863f519c049b1c05c4">More...</a><br /></td></tr>
-<tr class="separator:ac77c72928e1e50863f519c049b1c05c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35bda67dde48ab7e2ad5444854c59115"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a35bda67dde48ab7e2ad5444854c59115">getProperties</a> ()</td></tr>
-<tr class="memdesc:a35bda67dde48ab7e2ad5444854c59115"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets URIs for all properties contained by this object.  <a href="#a35bda67dde48ab7e2ad5444854c59115">More...</a><br /></td></tr>
-<tr class="separator:a35bda67dde48ab7e2ad5444854c59115"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ae591df94fc66ccb85cbb6565368bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a5ae591df94fc66ccb85cbb6565368bca">close</a> ()</td></tr>
-<tr class="memdesc:a5ae591df94fc66ccb85cbb6565368bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>.  <a href="#a5ae591df94fc66ccb85cbb6565368bca">More...</a><br /></td></tr>
-<tr class="separator:a5ae591df94fc66ccb85cbb6565368bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3623622d1dedfc34eccd64fc3525402"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa3623622d1dedfc34eccd64fc3525402"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MapsTo</b> (std::string uri=DEFAULT_NS&quot;/MapsTo/example&quot;, std::string local=&quot;&quot;, std::string remote=&quot;&quot;, std::string refinement=SBOL_REFINEMENT_VERIFY_IDENTICAL)</td></tr>
+<tr class="separator:aa3623622d1dedfc34eccd64fc3525402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7236b9599b53e76c526449c246d38204"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7236b9599b53e76c526449c246d38204"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MapsTo</b> (std::string uri_prefix, std::string display_id, std::string version, std::string local, std::string remote, std::string refinement)</td></tr>
+<tr class="separator:a7236b9599b53e76c526449c246d38204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsbol_1_1_identified"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsbol_1_1_identified')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classsbol_1_1_identified.html">sbol::Identified</a></td></tr>
+<tr class="memitem:a4ea67ab760893785b4c49c738a5f1c42 inherit pub_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ea67ab760893785b4c49c738a5f1c42"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (std::string uri=DEFAULT_NS&quot;/Identified/example&quot;)</td></tr>
+<tr class="separator:a4ea67ab760893785b4c49c738a5f1c42 inherit pub_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54678f03ec03a1e4d27023fa3dd4eaee inherit pub_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54678f03ec03a1e4d27023fa3dd4eaee"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (std::string prefix, std::string display_id, std::string version)</td></tr>
+<tr class="separator:a54678f03ec03a1e4d27023fa3dd4eaee inherit pub_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
+<tr class="memitem:a0318030da9c3e504120ac220f20ce849 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0318030da9c3e504120ac220f20ce849"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri=DEFAULT_NS&quot;/SBOLObject/example&quot;)</td></tr>
+<tr class="separator:a0318030da9c3e504120ac220f20ce849 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a946ab4b90ca7240713fdf1b09d5e815f inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a946ab4b90ca7240713fdf1b09d5e815f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (std::string uri_prefix, std::string display_id, std::string version)</td></tr>
+<tr class="separator:a946ab4b90ca7240713fdf1b09d5e815f inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ebeb47e6e84385e677797162fb02380 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ebeb47e6e84385e677797162fb02380"></a>
+virtual sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>getTypeURI</b> ()</td></tr>
+<tr class="separator:a4ebeb47e6e84385e677797162fb02380 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a309d5c49984210d52b1dbb9b0ec8a814 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a309d5c49984210d52b1dbb9b0ec8a814"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>serialize</b> (raptor_serializer *sbol_serializer, raptor_world *sbol_world=NULL)</td></tr>
+<tr class="separator:a309d5c49984210d52b1dbb9b0ec8a814 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d6a7ec0dd60d18609cab6da7108473c inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d6a7ec0dd60d18609cab6da7108473c"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>nest</b> (std::string &amp;rdfxml_buffer)</td></tr>
+<tr class="separator:a5d6a7ec0dd60d18609cab6da7108473c inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa22686b68fc779e021761cfdb8cc42b1 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa22686b68fc779e021761cfdb8cc42b1"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getClassName</b> (std::string type)</td></tr>
+<tr class="separator:aa22686b68fc779e021761cfdb8cc42b1 inherit pub_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a5f106ae913853d6316e0789464c5d1df"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f106ae913853d6316e0789464c5d1df"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>refinement</b></td></tr>
+<tr class="separator:a5f106ae913853d6316e0789464c5d1df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5efb287aab83732937c480cc85ffef8f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5efb287aab83732937c480cc85ffef8f"></a>
+<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><b>local</b></td></tr>
+<tr class="separator:a5efb287aab83732937c480cc85ffef8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacfcd85903cde184b049f704822e51c4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aacfcd85903cde184b049f704822e51c4"></a>
+<a class="el" href="classsbol_1_1_referenced_object.html">ReferencedObject</a>&#160;</td><td class="memItemRight" valign="bottom"><b>remote</b></td></tr>
+<tr class="separator:aacfcd85903cde184b049f704822e51c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsbol_1_1_identified"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsbol_1_1_identified')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classsbol_1_1_identified.html">sbol::Identified</a></td></tr>
+<tr class="memitem:a12edc730fbaee12d2385527299dbb71f inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12edc730fbaee12d2385527299dbb71f"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>persistentIdentity</b></td></tr>
+<tr class="separator:a12edc730fbaee12d2385527299dbb71f inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0930562e288a9b060d493436cf6a9722 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0930562e288a9b060d493436cf6a9722"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>displayId</b></td></tr>
+<tr class="separator:a0930562e288a9b060d493436cf6a9722 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e24c7627b548aa1f4edeebb1ec49046 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7e24c7627b548aa1f4edeebb1ec49046"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>version</b></td></tr>
+<tr class="separator:a7e24c7627b548aa1f4edeebb1ec49046 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13a57a7e9749a84cec8e6d8ec6d86b3e inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13a57a7e9749a84cec8e6d8ec6d86b3e"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>wasDerivedFrom</b></td></tr>
+<tr class="separator:a13a57a7e9749a84cec8e6d8ec6d86b3e inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cfbf52b4e6ca68258fc3b4f77875254 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8cfbf52b4e6ca68258fc3b4f77875254"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
+<tr class="separator:a8cfbf52b4e6ca68258fc3b4f77875254 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac33cb2db15ddd6c56d91601ea29f1551 inherit pub_attribs_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac33cb2db15ddd6c56d91601ea29f1551"></a>
+<a class="el" href="classsbol_1_1_text_property.html">TextProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>description</b></td></tr>
+<tr class="separator:ac33cb2db15ddd6c56d91601ea29f1551 inherit pub_attribs_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
+<tr class="memitem:aa1ad14a6466e0c2bd37cc92f3d66f8d8 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1ad14a6466e0c2bd37cc92f3d66f8d8"></a>
+<a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>doc</b> = NULL</td></tr>
+<tr class="separator:aa1ad14a6466e0c2bd37cc92f3d66f8d8 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5b9f99c85f8e1713b38182d3d6dea68 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5b9f99c85f8e1713b38182d3d6dea68"></a>
+std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>properties</b></td></tr>
+<tr class="separator:ae5b9f99c85f8e1713b38182d3d6dea68 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a412f3a98b004397de1a2d87af2a6b83e inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a412f3a98b004397de1a2d87af2a6b83e"></a>
+std::map&lt; sbol::sbol_type, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>list_properties</b></td></tr>
+<tr class="separator:a412f3a98b004397de1a2d87af2a6b83e inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b57fcdb5a116837d99c4fc0d69ca732 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b57fcdb5a116837d99c4fc0d69ca732"></a>
+std::map&lt; sbol::sbol_type, std::vector&lt; <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a> * &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>owned_objects</b></td></tr>
+<tr class="separator:a4b57fcdb5a116837d99c4fc0d69ca732 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bb846d3814e125caa2a2504d9306ac0 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bb846d3814e125caa2a2504d9306ac0"></a>
+sbol_type&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
+<tr class="separator:a8bb846d3814e125caa2a2504d9306ac0 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f837ccef79ed4923fbaf4e12e8412b5 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f837ccef79ed4923fbaf4e12e8412b5"></a>
+<a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><b>identity</b></td></tr>
+<tr class="separator:a9f837ccef79ed4923fbaf4e12e8412b5 inherit pub_attribs_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a8988d8dfebd351ebbf2d323289d44b6f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsbol_1_1_identified.html">Identified</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_identified.html#a8988d8dfebd351ebbf2d323289d44b6f">copy</a> (<a class="el" href="classsbol_1_1_document.html">Document</a> *target_doc=NULL, std::string ns=&quot;&quot;, std::string <a class="el" href="classsbol_1_1_identified.html#a5079b9e48247695504e3705983b06ab5">version</a>=&quot;&quot;)</td></tr>
-<tr class="memdesc:a8988d8dfebd351ebbf2d323289d44b6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy an object and automatically increment its version.  <a href="#a8988d8dfebd351ebbf2d323289d44b6f">More...</a><br /></td></tr>
-<tr class="separator:a8988d8dfebd351ebbf2d323289d44b6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05b892a9ebcc8529df597d3578560ccf"><td class="memTemplParams" colspan="2">template&lt;class ExtensionClass &gt; </td></tr>
-<tr class="memitem:a05b892a9ebcc8529df597d3578560ccf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsbol_1_1_s_b_o_l_object.html#a05b892a9ebcc8529df597d3578560ccf">register_extension_class</a> (std::string ns, std::string ns_prefix, std::string class_name)</td></tr>
-<tr class="memdesc:a05b892a9ebcc8529df597d3578560ccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an extension class and its namespace, so custom data can be embedded into and read from SBOL files.  <a href="#a05b892a9ebcc8529df597d3578560ccf">More...</a><br /></td></tr>
-<tr class="separator:a05b892a9ebcc8529df597d3578560ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a655b75aff1f69e97d42510874458158b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a655b75aff1f69e97d42510874458158b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MapsTo</b> (sbol_type type, std::string uri, std::string local, std::string remote, std::string refinement)</td></tr>
+<tr class="separator:a655b75aff1f69e97d42510874458158b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64755d9db9acac01cb2cdcaca4482bd0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a64755d9db9acac01cb2cdcaca4482bd0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MapsTo</b> (sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string local, std::string remote, std::string refinement)</td></tr>
+<tr class="separator:a64755d9db9acac01cb2cdcaca4482bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classsbol_1_1_identified"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsbol_1_1_identified')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classsbol_1_1_identified.html">sbol::Identified</a></td></tr>
+<tr class="memitem:ae247f9570f97eafdddfe607c1e703f67 inherit pro_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae247f9570f97eafdddfe607c1e703f67"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (sbol_type type_uri, std::string uri)</td></tr>
+<tr class="separator:ae247f9570f97eafdddfe607c1e703f67 inherit pro_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04b54e247ce4cd5a51d3dc9aedb64d81 inherit pro_methods_classsbol_1_1_identified"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a04b54e247ce4cd5a51d3dc9aedb64d81"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Identified</b> (sbol_type type_uri, std::string prefix, std::string display_id, std::string version)</td></tr>
+<tr class="separator:a04b54e247ce4cd5a51d3dc9aedb64d81 inherit pro_methods_classsbol_1_1_identified"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classsbol_1_1_s_b_o_l_object"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsbol_1_1_s_b_o_l_object')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classsbol_1_1_s_b_o_l_object.html">sbol::SBOLObject</a></td></tr>
+<tr class="memitem:a3175a8bed6d61db88f681a72fced8c3f inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3175a8bed6d61db88f681a72fced8c3f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri)</td></tr>
+<tr class="separator:a3175a8bed6d61db88f681a72fced8c3f inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a321a8b8c49831e62e8d97cab2463610b inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a321a8b8c49831e62e8d97cab2463610b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SBOLObject</b> (sbol_type type, std::string uri_prefix, std::string display_id, std::string version)</td></tr>
+<tr class="separator:a321a8b8c49831e62e8d97cab2463610b inherit pro_methods_classsbol_1_1_s_b_o_l_object"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a31ab177b54e68aa9dc7ba9fe23300f3c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsbol_1_1_maps_to.html">MapsTo</a> </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>uri</em> = <code>DEFAULT_NS&#160;&quot;/MapsTo/example&quot;</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>local</em> = <code>&quot;&quot;</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>remote</em> = <code>&quot;&quot;</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>refinement</em> = <code><a class="el" href="constants_8h.html#a5aed8ed431905abe171b1b71957b336c">SBOL_REFINEMENT_VERIFY_IDENTICAL</a></code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Construct a <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a>. </p>
-<p>If operating in SBOL-compliant mode, use ModuleDefinition::mapsTos::create instead. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">uri</td><td>If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier. If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed. </td></tr>
-    <tr><td class="paramname">local</td><td>The identity of the lower level ComponentInstance </td></tr>
-    <tr><td class="paramname">remote</td><td>The identity of the higher level ComponentInstance </td></tr>
-    <tr><td class="paramname">restriction</td><td>Flag indicating the relationship between high- and low-level ComponentInstances. By default, this is set to SBOL_REFINEMENT_VERIFY_IDENTICAL </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a5ae591df94fc66ccb85cbb6565368bca"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void close </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Use this method to destroy an SBOL object that is not contained by a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. </p>
-<p>If the object does have a parent <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>, instead use doc.close() with the object's URI identity as an argument.  Recurse through child objects and delete them. </p>
-
-</div>
-</div>
-<a class="anchor" id="ad593fa86924521afaff0e888083da20d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int compare </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> *&#160;</td>
-          <td class="paramname"><em>comparand</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Compare two SBOL objects or Documents. </p>
-<p>The behavior is currently undefined for objects with custom annotations or extension classes. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">comparand</td><td>A pointer to the object being compared to this one. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if the objects are identical, 0 if they are different </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a8988d8dfebd351ebbf2d323289d44b6f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsbol_1_1_identified.html">Identified</a>&amp; copy </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsbol_1_1_document.html">Document</a> *&#160;</td>
-          <td class="paramname"><em>target_doc</em> = <code>NULL</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>ns</em> = <code>&quot;&quot;</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>version</em> = <code>&quot;&quot;</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Copy an object and automatically increment its version. </p>
-<p>If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">SBOLClass</td><td>The type of SBOL object being copied </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">new_doc</td><td>The new copies will be attached to this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. NULL by default. </td></tr>
-    <tr><td class="paramname">ns</td><td>This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs. </td></tr>
-    <tr><td class="paramname">version</td><td>A new version </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The full URI of the created object. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ad2b19c3408c3dd28816c2329d6ef7d07"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> * find </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>uri</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Search this object recursively to see if an object with the URI already exists. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">uri</td><td>The URI to search for. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to theobject with this URI if it exists, NULL otherwise </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ae38856f1013ce2e9171c8f898833e0ab"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsbol_1_1_s_b_o_l_object.html">SBOLObject</a> * find_property </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>uri</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Search this object recursively to see if it contains a member property with the given RDF type. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">uri</td><td>The RDF type of the property to search for. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the object that contains a member property with the specified RDF type, NULL otherwise </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a31646e8a2306697fd0a183eeb7313271"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string getClassName </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>type</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Parses a local class name from the RDF-type of this SBOL Object </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a35bda67dde48ab7e2ad5444854c59115"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; std::string &gt; getProperties </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets URIs for all properties contained by this object. </p>
-<p>This includes SBOL core properties as well as custom annotations. Use this to find custom extension data in an SBOL file. </p><dl class="section return"><dt>Returns</dt><dd>A vector of URIs that identify the properties contained in this object </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a473e3642b7aae350da342aed2aba8063"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string getPropertyValue </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>property_uri</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the value of a custom annotation property by its URI. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">property_uri</td><td>The URI for the property </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The value of the property or SBOL_ERROR_NOT_FOUND </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ac77c72928e1e50863f519c049b1c05c4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; std::string &gt; getPropertyValues </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>property_uri</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get all values of a custom annotation property by its URI. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">property_uri</td><td>The URI for the property </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A vector of property values or SBOL_ERROR_NOT_FOUND </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="aaeae46cf11cccb87655dc22526bacf3e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="property_8h.html#addc3413015529a8d51e055f32748821f">sbol_type</a> getTypeURI </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>The uniform resource identifier that describes the RDF-type of this SBOL Object </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a05b892a9ebcc8529df597d3578560ccf"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void register_extension_class </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>ns</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>ns_prefix</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>class_name</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Register an extension class and its namespace, so custom data can be embedded into and read from SBOL files. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">ExtensionClass</td><td>The new class </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ns</td><td>The extension namespace, eg, <a href="http://myhome.org/my_extension#">http://myhome.org/my_extension#</a>. It's important that the namespace ends in a forward-slash or hash </td></tr>
-    <tr><td class="paramname">ns_prefix</td><td>A shorthand symbol for the full namespace as it will appear in the output file, eg, my_extension </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a737c426874868b98f1d0263f08845ffb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsbol_1_1_u_r_i_property.html">URIProperty</a> refinement</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Each <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a> object MUST specify the relationship between its local and remote ComponentInstance objects using one of the REQUIRED refinement URIs provided in the table below. </p>
-<table class="doxtable">
-<tr>
-<th align="left">Refinement URI </th><th align="left">libSBOL Symbol </th><th align="left">Description  </th></tr>
-<tr>
-<td align="left"><a href="http://sbols.org/v2#useRemote">http://sbols.org/v2#useRemote</a> </td><td align="left">SBOL_REFINEMENT_USE_REMOTE </td><td align="left">All references to the local ComponentInstance MUST dereference to the<br />
-remote ComponentInstance instead. </td></tr>
-<tr>
-<td align="left"><a href="http://sbols.org/v2#useLocal">http://sbols.org/v2#useLocal</a> </td><td align="left">SBOL_REFINEMENT_USE_LOCAL </td><td align="left">In the context of the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> or <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> that contains<br />
-the owner of the <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a>, all references to the remote ComponentInstance<br />
-MUST dereference to the local ComponentInstance instead. </td></tr>
-<tr>
-<td align="left"><a href="http://sbols.org/v2#verifyIdentical">http://sbols.org/v2#verifyIdentical</a> </td><td align="left">SBOL_REFINEMENT_VERIFY_IDENTICAL </td><td align="left">The definition properties of the local and remoteComponentInstance objects<br />
-MUST refer to the same <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a>. </td></tr>
-<tr>
-<td align="left"><a href="http://sbols.org/v2#mergeDescription">http://sbols.org/v2#mergeDescription</a> </td><td align="left">SBOL_REFINEMENT_MERGE_DESCRIPTION </td><td align="left">In the context of the <a class="el" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. ">ComponentDefinition</a> or <a class="el" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica...">ModuleDefinition</a> that<br />
-contains the owner of the <a class="el" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance...">MapsTo</a>, all references to the local<br />
-ComponentInstance or the remote ComponentInstance MUST dereference<br />
-to both objects. </td></tr>
-</table>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="mapsto_8h.html">mapsto.h</a></li>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classsbol_1_1_maps_to.html" title="MapsTo objects provide a means to connect outputs and inputs of ModuleDefinitions. ">MapsTo</a> objects provide a means to connect outputs and inputs of ModuleDefinitions. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
+<li>/Users/bryan/Dev/libSBOL/source/mapsto.h</li>
 </ul>
-<div class="dynheader">
-Inheritance diagram for MapsTo:</div>
-<div class="dyncontent">
-<div class="center"><img src="classsbol_1_1_maps_to__inherit__graph.png" border="0" usemap="#_maps_to_inherit__map" alt="Inheritance graph"/></div>
-<map name="_maps_to_inherit__map" id="_maps_to_inherit__map">
-<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="13,424,145,648"/>
-<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="5,5,153,376"/>
-</map>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 11 2017 23:04:37 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 18 2016 07:57:31 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

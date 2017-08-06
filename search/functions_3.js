@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['exceptionsenabled',['exceptionsEnabled',['../config_8h.html#a18596d0e5b84674e8a208c9201063054',1,'sbol']]]
+  ['read',['read',['../classsbol_1_1_document.html#a9143ae31ea81f79a53f18fac75b62843',1,'sbol::Document']]]
 ];
