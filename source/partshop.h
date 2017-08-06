@@ -37,13 +37,21 @@
 
 namespace sbol
 {
+    /// A SearchQuery object is used to configure advanced searches for bioparts in a PartShop. Advanced searches are useful for matching values across multiple fields, or to specify multiple values in a single field.
     class SBOL_DECLSPEC SearchQuery : public TopLevel
     {
     public:
+        /// Set this property to indicate the type of SBOL object to search for. Set to SBOL_COMPONENT_DEFINITION by default
         URIProperty objectType;
-        IntProperty offset;
+
+        /// Set this property to specify the total number of records to retrieve from a search request. By default 25 records are retrieved.
         IntProperty limit;
+
+        /// When the number of search hits exceeds the limit, the offset property can be used to retrieve more records.
+        IntProperty offset;
         
+        /// Used to set search criteria for a search request.
+        /// @param uri A URI indicating the SBOL property to search for, eg, SBOL_ROLES will search the roles property of a ComponentDefinition
         TextProperty operator[] (std::string uri)
         {
             // If the URI has a namespace, treat the function argument as a full URI
@@ -53,6 +61,8 @@ namespace sbol
                 return TextProperty(uri, this);
         };  ///< Retrieve a child object by URI
 
+        /// SearchQuery constructor
+        /// @param type The type of SBOL object to search for, indicated using a URI. Set to SBOL_COMPONENT_DEFINITION by default.
         SearchQuery(sbol_type type = SBOL_COMPONENT_DEFINITION) :
             TopLevel(SBOL_URI "#SearchQuery", "example"),
             objectType(SBOL_URI "#objectType", this, type),
@@ -64,18 +74,43 @@ namespace sbol
             persistentIdentity.set("");
             version.set("");
         };
+        
+        ~SearchQuery() {};
+
     };
 
+    /// A SearchResponse is a container of search records returned by a search request
     class SBOL_DECLSPEC SearchResponse : public TopLevel
     {
-    friend class PartShop;
-    
     public:
+        std::vector < sbol::Identified* > records;
+
+        /// Adds more search records to an existing SearchResponse
+        /// @param records A SearchResponse object
+        void extend(SearchResponse& response);
+        
+        SearchResponse() :
+            records()
+        {
+        };
+        
+        ~SearchResponse()
+        {
+            for (auto & record : records)
+            {
+                record->close();
+            }
+            records.clear();
+        };
+        
+        /// Returns the number of records contained in a search response
         int size()
         {
             return (int)records.size();
         }
         
+        /// Returns an individual record from a SearchResponse
+        /// @param i The integer index of the record to return
         Identified& operator[] (int i)
         {
             // If the URI has a namespace, treat the function argument as a full URI
@@ -110,51 +145,7 @@ namespace sbol
             return iterator(records.end());
         };
         
-        Identified* next()
-        {
-            if (this->python_iter != this->end())
-            {
-                Identified* obj = *this->python_iter;
-                this->python_iter++;
-                if (this->python_iter == this->end())
-                {
-                    PyErr_SetNone(PyExc_StopIteration);
-                }
-                return obj;
-            }
-            throw SBOLError(END_OF_LIST, "");
-            return NULL;
-        }
-        
-        Identified* __next__()
-        {
-            if (this->python_iter != this->end())
-            {
-                
-                Identified* obj = *this->python_iter;
-                this->python_iter++;
-                
-                return obj;
-            }
-            
-            throw SBOLError(END_OF_LIST, "");;
-            return NULL;
-        }
-        
         std::vector<Identified*>::iterator python_iter;
-
-        
-    protected:
-        std::vector < sbol::Identified* > records;
-
-        SearchResponse() :
-            records()
-        {
-        };
-        
-        ~SearchResponse()
-        {
-        };
     };
     
 //    class SBOL_DECLSPEC SearchQuery : public Json::Value
@@ -241,16 +232,6 @@ namespace sbol
         /// @param uri The URI of a Collection of Collections
         /// @param doc A Document to add the subcollections to
         std::string searchSubCollections(std::string uri);
-
-//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-//        
-//        std::string search(std::string search_text, std::string object_type, std::string property_uri, int offset = 0, int limit = 25);
-//        
-//        std::string search(std::string search_text, std::string object_type = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25);
-//
-//        std::string search(SearchQuery& q);
-//
-//#else
 
         /// An EXACT search. Scan the parts repository for objects that exactly match the specified criteria. In most uses of this function, LibSBOL's built-in RDF type constants (see @ref constants.h) will come in handy. For instance, searching for all SBOL_COMPONENT_DEFINITION of type BIOPAX_DNA. (These constants follow a fairly systematic and consistent naming scheme (see @ref constants.h). The number of records returned in the search is specified by offset and limit parameters.
         /// @param search_text This may be a literal text value or it may be a URI.

@@ -650,6 +650,37 @@ PROPERTY_MACRO(IntProperty)
         $self->python_iter = SearchResponse::iterator($self->begin());
         return $self;
     }
+    
+    Identified* next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            Identified* obj = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return obj;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    Identified* __next__()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            
+            Identified* obj = *$self->python_iter;
+            $self->python_iter++;
+            
+            return obj;
+        }
+        
+        throw SBOLError(END_OF_LIST, "");;
+        return NULL;
+    }
 }
     
 %pythonbegin %{
