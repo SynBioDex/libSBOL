@@ -40,8 +40,19 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+#include "Python.h"
+#endif
+
 using namespace sbol;
 using namespace std;
+
+
+// Remove this, no longer needed
+void Document::parse_extension_objects()
+{
+
+};
 
 Document::~Document()
 {
@@ -460,8 +471,23 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
     // Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
 	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
-		// Checks if the object has already been created and whether a constructor for this type of object exists
-		//if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
+//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+//        // Instantiate Python extension objects
+//        if ((doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
+//        {
+//            PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
+//            PyObject* py_obj = PyObject_CallObject(constructor, PyString_FromString(subject.c_str()));
+//            SBOLObject* new_obj = (SBOLObject*) PyObject_GetAttrString(py_obj, "this");
+//            new_obj->identity.set(subject);
+//            
+//            // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
+//            // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
+//            //doc->add<SBOLObject>(new_obj);
+//            doc->SBOLObjects[new_obj->identity.get()] = new_obj;
+//            new_obj->doc = doc;  //  Set's the objects back-pointer to the parent Document
+//        }
+//#endif
+        // Checks if the object has already been created and whether a constructor for this type of object exists
         if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{
             SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();  // Call constructor for the appropriate SBOLObject
@@ -825,7 +851,7 @@ void Document::append(std::string filename)
     parse_annotation_objects();
 
     // A dummy parser which can be extended by SWIG to attach Python extension code
-    Config::parse_extension_objects();
+    parse_extension_objects();
 //@TODO fix validation on read
 //    this->validate();
 
@@ -866,7 +892,7 @@ void Document::readString(std::string& sbol)
     parse_annotation_objects();
     
     // A dummy parser which can be extended by SWIG to attach Python extension code
-    Config::parse_extension_objects();
+    parse_extension_objects();
     //@TODO fix validation on read
     //    this->validate();
     
@@ -1339,6 +1365,60 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
     }
     return new_obj;
 };
+
+Identified& Identified::simpleCopy(string uri)
+{
+    // Call constructor for the copy
+    Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ this->type ]();
+ 
+    // Copy properties
+    for (auto i_store = properties.begin(); i_store != properties.end(); ++i_store)
+    {
+        string store_uri = i_store->first;
+        vector < string > property_store = i_store->second;
+        vector < string > property_store_copy = property_store;
+        for (int i_property_val = 0; i_property_val < property_store_copy.size(); ++i_property_val)
+        {
+            string property_val = property_store_copy[i_property_val];
+            property_store_copy[i_property_val] = property_val;
+        }
+        new_obj.properties[store_uri] = property_store_copy;
+    }
+    
+    // Initialize the object's URI, this code is same as Identified's constructor
+    if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
+    {
+        if (compliantTypesEnabled())
+        {
+            new_obj.identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + VERSION_STRING);
+            new_obj.persistentIdentity.set(getHomespace() + "/" + uri);
+        }
+        else
+        {
+            new_obj.identity.set(getHomespace() + "/" + uri + "/" + VERSION_STRING);
+            new_obj.persistentIdentity.set(getHomespace() + "/" + uri);
+        }
+    }
+    else if (hasHomespace())
+    {
+        new_obj.identity.set(getHomespace() + "/" + uri);
+        new_obj.persistentIdentity.set(getHomespace() + "/" + uri);
+    }
+
+    new_obj.type = this->type;
+    
+    // Record provenance of object
+    new_obj.wasDerivedFrom.set(this->identity.get());
+    
+    return new_obj;
+};
+
+
+
+
+
+
+
 
 std::string Document::request_validation(std::string& sbol)
 {

@@ -210,70 +210,86 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
 {
     if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "Assemble methods require SBOL-compliance enabled");
-    if (list_of_components.size() < 2)
-    {
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Assemble method expects at least two ComponentDefinitions");
-    }
-    else
-    {
-        ComponentDefinition& parent_component = *this;
-        if (parent_component.doc == NULL)
-            doc.add<ComponentDefinition>(parent_component);
+
+    ComponentDefinition& parent_component = *this;
+    if (parent_component.doc == NULL)
+        doc.add<ComponentDefinition>(parent_component);
         
-        vector<Component*> list_of_instances = {};
-        for (auto i_com = 0; i_com != list_of_components.size(); i_com++)
+    vector<Component*> list_of_instances = {};
+    for (auto i_com = 0; i_com != list_of_components.size(); i_com++)
+    {
+        // Instantiate the Component defined by the ComponentDefinition
+        ComponentDefinition& cdef = *list_of_components[i_com];
+        int instance_count = 0;
+            
+        if (cdef.doc == NULL)
+            doc.add<ComponentDefinition>(cdef);
+        else if (cdef.doc != &doc)
+            throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + cdef.identity.get() + " cannot be assembled because it belongs to a different Document than the calling object.");
+            
+            
+        // Generate URI of new Component.  Check if an object with that URI is already instantiated.
+        string component_id;
+        component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "/" + to_string(instance_count) + "/" + parent_component.version.get();
+
+        while (parent_component.find(component_id) != NULL)
         {
-            // Instantiate the Component defined by the ComponentDefinition
-            ComponentDefinition& cdef = *list_of_components[i_com];
-            int instance_count = 0;
-            
-            if (cdef.doc == NULL)
-                doc.add<ComponentDefinition>(cdef);
-            else if (cdef.doc != &doc)
-                throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + cdef.identity.get() + " cannot be assembled because it belongs to a different Document than the calling object.");
-            
-            
-            // Generate URI of new Component.  Check if an object with that URI is already instantiated.
-            string component_id;
+            // Find the last instance assigned
+            ++instance_count;
             component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "/" + to_string(instance_count) + "/" + parent_component.version.get();
-
-            while (parent_component.find(component_id) != NULL)
-            {
-                // Find the last instance assigned
-                ++instance_count;
-                component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "/" + to_string(instance_count) + "/" + parent_component.version.get();
-            }
-
-            Component& c = parent_component.components.create(cdef.displayId.get() + "/" + to_string(instance_count));
-            c.definition.set(cdef.identity.get());
-            list_of_instances.push_back(&c);
         }
-        for (auto i_com = 1; i_com != list_of_components.size(); i_com++)
-        {
-            ComponentDefinition& cd_upstream = *list_of_components[i_com - 1];
-            ComponentDefinition& cd_downstream = *list_of_components[i_com];
+
+        Component& c = parent_component.components.create(cdef.displayId.get() + "/" + to_string(instance_count));
+        c.definition.set(cdef.identity.get());
+        list_of_instances.push_back(&c);
+    }
+    for (auto i_com = 1; i_com != list_of_components.size(); i_com++)
+    {
+        ComponentDefinition& cd_upstream = *list_of_components[i_com - 1];
+        ComponentDefinition& cd_downstream = *list_of_components[i_com];
             
-            Component& constraint_subject = *list_of_instances[i_com - 1];
-            Component& constraint_object = *list_of_instances[i_com];
+        Component& constraint_subject = *list_of_instances[i_com - 1];
+        Component& constraint_object = *list_of_instances[i_com];
             
-            SequenceConstraint& sc = parent_component.sequenceConstraints.create("constraint" + to_string(i_com));
-            sc.subject.set(constraint_subject.identity.get());
-            sc.object.set(constraint_object.identity.get());
-            sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
-        }
+        SequenceConstraint& sc = parent_component.sequenceConstraints.create("constraint" + to_string(i_com));
+        sc.subject.set(constraint_subject.identity.get());
+        sc.object.set(constraint_object.identity.get());
+        sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
     }
 }
+
 
 void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_components)
 {
     // Throw an error if this ComponentDefinition is not attached to a Document
     if (doc == NULL)
     {
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "This ComponentDefinition cannot be assembled because it does not belong to a Document. Add it to a Document.");
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot perform assembly operation on ComponentDefinition because it does not belong to a Document. You may pass a Document as an optional second argument to this method. Otherwise add this ComponentDefinition to a Document");
     }
     assemble(list_of_components, *doc);
 }
 
+void Sequence::compile()
+{
+    assemble();
+}
+
+ComponentDefinition& Sequence::synthesize(std::string clone_id)
+{
+    // Throw an error if this Sequence is not attached to a Document
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Sequence cannot be synthesized because it does not belong to a Document. Add the Sequence to a Document.");
+    }
+    ComponentDefinition* target;
+    for (auto & cd : doc->componentDefinitions)
+        if (cd.sequences.get().compare(identity.get()) == 0)
+            target = &cd;
+    ComponentDefinition& design = *target;
+    ComponentDefinition& build = design.simpleCopy < ComponentDefinition > (clone_id);
+    build.wasDerivedFrom.set(design.identity.get());
+    return build;
+}
 
 std::string Sequence::assemble(std::string composite_sequence)
 {
@@ -1257,15 +1273,17 @@ void ComponentDefinition::addDownstreamFlank(Component& upstream, std::string el
     insertDownstream(upstream, *flank);
 };
 
-std::vector<Component*> ComponentDefinition::getPrimaryStructure()
+std::vector<ComponentDefinition*> ComponentDefinition::getPrimaryStructure()
 {
-    std::vector<Component*> primary_structure;
+    std::vector<ComponentDefinition*> primary_structure;
     Component* c = &getFirstComponent();
-    primary_structure.push_back(c);
+    ComponentDefinition* cd = &c->doc->componentDefinitions.get(c->definition.get());
+    primary_structure.push_back(cd);
     while (hasDownstreamComponent(*c))
     {
         c = &getDownstreamComponent(*c);
-        primary_structure.push_back(c);
+        ComponentDefinition* cd = &c->doc->componentDefinitions.get(c->definition.get());
+        primary_structure.push_back(cd);
     }
     return primary_structure;
 };

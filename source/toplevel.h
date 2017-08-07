@@ -60,14 +60,17 @@ namespace sbol
         void addToDocument(sbol::Document&);
         virtual ~TopLevel() {};
         
-        /// Copy an object and automatically increment its version. If the optional version argument is specified, it will be used instead of incrementing the copied object's version. An object may also be copied into a new document and a new namespace, assuming compliant URIs.
+        /// Recursively copies an object. Use this to copy an object to a new document, a new namespace, or to increment its version recursively. An object be recursively copied into a new document and a new namespace, assuming compliant URIs. If the optional version argument is specified, it will be used instead of incrementing the copied object's version (this can be used when using a custom versioning scheme other than libSBOL's default).
         /// @tparam SBOLClass The type of SBOL object being copied
         /// @param new_doc The new copies will be attached to this Document.  NULL by default.
-        /// @param ns This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliat URIs.
+        /// @param ns This namespace will be substituted for the current namespace (as configured by setHomespace) in all SBOL-compliant URIs.
         /// @param version A new version
-        /// @return The full URI of the created object.
+        /// @return The copied object.
         template < class SBOLClass > SBOLClass& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "");
 
+        /// Copies an object. No child objects are copied.
+        /// @param uri A URI for the new object, or a displayId if operating in SBOLCompliant mode
+        template < class SBOLClass > SBOLClass& simpleCopy(std::string uri);
     };
     
 

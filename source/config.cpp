@@ -39,7 +39,6 @@ using namespace std;
 extern Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
 //Config& config = * new sbol::Config();  ///<  Global configuration object that governs library behavior, especially with regards to URI generation
 
-
 std::map<std::string, std::string> sbol::Config::options {
     {"homespace", "http://examples.org"},
     {"sbol_compliant_uris", "True"},
@@ -108,6 +107,46 @@ void sbol::Config::setOption(std::string option, std::string value)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, option + " not a valid configuration option for libSBOL");
     }
 };
+
+void sbol::Config::setOption(std::string option, bool value)
+{
+    string val_str;
+    if (value == true)
+    {
+        val_str = "True";
+    }
+    else if (value == false)
+    {
+        val_str = "False";
+    }
+    if (options.find(option) != options.end())
+    {
+        // Check if this option has valid arguments to validate against
+        if (valid_options.find(option) != valid_options.end())
+        {
+            // Set the option if a valid argument is provided
+            if (std::find(valid_options[option].begin(), valid_options[option].end(), val_str) != valid_options[option].end())
+                options[option] = val_str;
+            else
+            {
+                // Format error message
+                std::string msg;
+                for (auto const& arg : valid_options[option]) { msg += arg + ", "; }
+                msg[msg.size()-2] = '.';  // Replace last , with a .
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, val_str + " not a valid value for this option. Valid options are " + msg);
+                
+            }
+        }
+        else
+            // Any argument is valid, eg uriPrefix
+            options[option] = val_str;
+    }
+    else
+    {
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, option + " not a valid configuration option for libSBOL");
+    }
+}
+
 
 std::string sbol::Config::getOption(std::string option)
 {
@@ -352,10 +391,6 @@ std::string Config::getFileFormat()
     return format;
 };
 
-void Config::parse_extension_objects()
-{
-    
-};
 
 /* This callback is necessary to get the HTTP response as a string */
 size_t sbol::CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_t nmemb, std::string *s)

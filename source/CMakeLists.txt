@@ -9,11 +9,13 @@ if( SBOL_BUILD_PYTHON2 )
     find_package( SWIG REQUIRED )
     find_package( PythonLibs 2 EXACT)
     include_directories( ${PYTHON_INCLUDE_DIR} )
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)
 endif()
 if( SBOL_BUILD_PYTHON3 )
     find_package( SWIG REQUIRED )
     find_package( PythonLibs 3)
     include_directories( ${PYTHON_INCLUDE_DIR} )
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
 endif()
 
 # gather source files
@@ -44,6 +46,7 @@ FILE(GLOB SBOL_HEADER_FILES
   assembly.h
   provo.h
   partshop.h
+    combinatorialderivation.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
 	sbolerror.cpp
@@ -77,7 +80,7 @@ ENDIF()
 # link against raptor
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR "Darwin")
     if(NOT SBOL_BUILD_SHARED)
-        ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC -DCURL_STATICLIB)
+        ADD_DEFINITIONS(-DRAPTOR_STATIC)
     endif()
 endif()
 
@@ -93,7 +96,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     include_directories( ${CURL_INCLUDE_DIR}/..)
     if(SBOL_BUILD_32)
         message("Configuring for x86")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /EHsc")
         #Always build static
         if(SBOL_BUILD_SHARED)
             add_library( sbol32-shared
@@ -140,7 +143,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     endif()
     if(SBOL_BUILD_64)
         message("Configuring for x64")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /EHsc")
         #Always build static
         if(SBOL_BUILD_SHARED)
             add_library( sbol64-shared

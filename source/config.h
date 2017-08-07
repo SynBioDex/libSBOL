@@ -44,6 +44,11 @@
 #include <curl/curl.h>
 #include <iostream>
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+#include "Python.h"
+#undef tolower
+#endif
+
 namespace sbol
 {
     /// A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the Config::setOptions and Config::getOptions methods.
@@ -56,6 +61,12 @@ namespace sbol
         int SBOLCompliantTypes; ///< Flag indicating whether an object's type is included in SBOL-compliant URIs
         int catch_exceptions = 0;
         std::string format = "rdfxml";
+//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+//        // This is the global SBOL register for Python extension classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a Python constructor
+////        static PyObject* PYTHON_DATA_MODEL_REGISTER = PyDict_New();
+//        std::map<std::string, PythonObject*> PYTHON_DATA_MODEL_REGISTER;
+//#endif
+        
     public:
         Config() :
         SBOLCompliantTypes(1)
@@ -96,13 +107,14 @@ namespace sbol
         /// @param value The option value
         static void setOption(std::string option, std::string value);
         
+        static void setOption(std::string option, bool value);
+
         /// Get current option value for online validation and conversion
         /// @param option The option key
         static std::string getOption(std::string option);
         
-        static void parse_extension_objects();
     };
-
+    
     /// Global methods
 	SBOL_DECLSPEC void setHomespace(std::string ns); ///< Set the default namespace for autocreation of URIs when a new SBOL object is created
 	SBOL_DECLSPEC extern std::string getHomespace(); ///< Get the current default namespace for autocreation of URIs when a new SBOL object is created

@@ -28,6 +28,9 @@
     #include "model.h"
     #include "collection.h"
     #include "assembly.h"
+    #include "provo.h"
+    #include "partshop.h"
+    #include "combinatorialderivation.h"
     #include "sbol.h"
 
     #include <vector>
@@ -40,7 +43,6 @@
 %}
 
 %include "python_docs.i"
-
 
 #ifdef SWIGWIN
     %include <windows.i>
@@ -99,10 +101,10 @@
 %ignore sbol::SBOLObject::list_properties;
 %ignore sbol::SBOLObject::owned_objects;
 %ignore sbol::SBOLObject::begin;
-%ignore sbol::SBOLObject::end;
+// %ignore sbol::SBOLObject::end;
 %ignore sbol::SBOLObject::size;
 %ignore sbol::OwnedObject::begin;
-%ignore sbol::OwnedObject::end;
+// %ignore sbol::OwnedObject::end;
 %ignore sbol::OwnedObject::size;
 %ignore sbol::ReferencedObject::begin;
 %ignore sbol::ReferencedObject::end;
@@ -120,6 +122,19 @@
 %include "std_vector.i"
 %include "std_map.i"
 
+// This typemap is here in order to convert the return type of ComponentDefinition::getPrimaryStructure into a Python list. (The typemaps defined later in this file work on other methods, but did not work on this method specifically)
+%typemap(out) std::vector<sbol::ComponentDefinition*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::ComponentDefinition*), 0 |  0 );
+        PyList_Append(list, elem);
+    }
+    $result  = list;
+    $1.clear();
+}
+
 %template(_IntVector) std::vector<int>;
 %template(_StringVector) std::vector<std::string>;
 %template(_SBOLObjectVector) std::vector<sbol::SBOLObject*>;
@@ -136,6 +151,7 @@
 %template(_StringProperty) sbol::Property<std::string>;  // These template instantiations are private, hence the underscore...
 %template(_IntProperty) sbol::Property<int>;
 
+
     
 %pythonappend add
 %{
@@ -147,7 +163,16 @@
     self.thisown = False
 %}
 
+%pythonappend addToDocument
+%{
+    arg2.thisown = False
+%}
+    
 /* @TODO remove methods should change thisown flag back to True */
+%pythonappend remove
+%{
+    self.thisown = True
+%}
     
 %include "properties.h"
 %include "object.h"
@@ -187,6 +212,22 @@
         return val
 %}
 
+%pythonappend sbol::PartShop::searchRootCollections
+%{
+    true = True
+    false = False
+    exec('val = ' + val)
+    return val
+%}
+
+%pythonappend sbol::PartShop::searchSubCollections
+%{
+    true = True
+    false = False
+    exec('val = ' + val)
+    return val
+%}
+    
 %include "partshop.h"
 
 %pythonappend addComponentDefinition
@@ -228,6 +269,16 @@
     else:
         args[0].thisown = False
 %}
+  
+%pythonappend addCollection
+%{
+    # addCollection is overloaded, it can take a list or single object as an argument
+    if type(args[0]) is list:
+        for obj in args[0]:
+            obj.thisown = False
+        else:
+            args[0].thisown = False
+%}
     
 %include "document.h"
 
@@ -238,7 +289,7 @@ typedef std::string sbol::sbol_type;
     %template(add ## SBOLClass) sbol::OwnedObject::add<SBOLClass>;
     %template(create ## SBOLClass) sbol::OwnedObject::create<SBOLClass>;
     %template(get ## SBOLClass) sbol::OwnedObject::get<SBOLClass>;
-
+    
 %enddef
 
 /* This macro is used to instantiate container properties (OwnedObjects) that can contain a single type of object, eg, ComponentDefinition::sequenceAnnotations */
@@ -254,6 +305,7 @@ typedef std::string sbol::sbol_type;
             PyList_Append(list, elem);
         }
         $result  = list;
+        $1.clear();
     }
     
     /* Instantiate templates */
@@ -304,13 +356,17 @@ TEMPLATE_MACRO_1(ComponentDefinition);
 TEMPLATE_MACRO_1(ModuleDefinition);
 TEMPLATE_MACRO_1(Sequence);
 TEMPLATE_MACRO_1(Model);
+TEMPLATE_MACRO_1(Collection);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
 TEMPLATE_MACRO_2(Sequence)
 TEMPLATE_MACRO_2(Model)
-    
+TEMPLATE_MACRO_2(Collection)
 
+
+%template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
+    
 // Template functions used by PartShop
 //%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
 //%template(pullComponentDefinition) sbol::PartShop::pull < ComponentDefinition >;
@@ -320,20 +376,89 @@ TEMPLATE_MACRO_2(Model)
 %template(countComponentDefinition) sbol::PartShop::count < ComponentDefinition >;
 %template(countCollection) sbol::PartShop::count < Collection >;
 
-
-%extend sbol::SBOLObject
+%define PROPERTY_MACRO(SBOLClass)
+%extend sbol::SBOLClass
 {
-    std::string __repr__()
+    std::string __getitem__(const int nIndex)
     {
-        return $self->type;
+        return $self->operator[](nIndex);
     }
-
-    std::string __str__()
+    
+    SBOLClass* __iter__()
     {
-        return $self->identity.get();
+        $self->python_iter = SBOLClass::iterator($self->begin());
+        return $self;
+    }
+    
+    // Built-in iterator function for Python 2
+    std::string next()
+    {
+        if ($self->size() == 0)
+            throw SBOLError(END_OF_LIST, "");
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    // Built-in iterator function for Python 3
+    std::string __next__()
+    {
+        if ($self->size() == 0)
+            throw SBOLError(END_OF_LIST, "");
+        if ($self->python_iter != $self->end())
+        {
+            std::string ref = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return ref;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    int __len__()
+    {
+        return $self->size();
     }
 }
+%enddef
 
+%extend sbol::Config
+{
+    // This is the global SBOL register for Python extension classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a Python constructor
+    //        static PyObject* PYTHON_DATA_MODEL_REGISTER = PyDict_New();
+//    static std::map<std::string, PyObject*> PYTHON_DATA_MODEL_REGISTER;
+}
+    
+%extend sbol::SBOLObject
+{
+    void register_extension(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor)
+    {
+//        std::string uri = ns + class_name;
+//        Config::PYTHON_DATA_MODEL_REGISTER[uri] = constructor;
+//        namespaces[ns_prefix] = ns;
+    };
+}
+
+PROPERTY_MACRO(URIProperty)
+PROPERTY_MACRO(TextProperty)
+PROPERTY_MACRO(IntProperty)
+
+    
+    
+    
 //%extend sbol::ReferencedObject
 //{
 //    std::string __getitem__(const int nIndex)
@@ -384,6 +509,11 @@ TEMPLATE_MACRO_2(Model)
 //        return $self->size();
 //    }
 //};
+
+%include "assembly.h"
+%include "provo.h"
+%include "combinatorialderivation.h"
+
     
 %extend sbol::ComponentDefinition
 {
@@ -494,22 +624,78 @@ TEMPLATE_MACRO_2(Model)
     }
 }
 
+%extend sbol::SearchQuery
+{
+    sbol::TextProperty __getitem__(std::string uri)
+    {
+        return $self->operator[](uri);
+    }
+    
+}
+
+%extend sbol::SearchResponse
+{
+    sbol::Identified& __getitem__(int i)
+    {
+        return $self->operator[](i);
+    }
+    
+    int __len__()
+    {
+        return $self->size();
+    }
+    
+    SearchResponse* __iter__()
+    {
+        $self->python_iter = SearchResponse::iterator($self->begin());
+        return $self;
+    }
+    
+    Identified* next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            Identified* obj = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return obj;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    Identified* __next__()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            
+            Identified* obj = *$self->python_iter;
+            $self->python_iter++;
+            
+            return obj;
+        }
+        
+        throw SBOLError(END_OF_LIST, "");;
+        return NULL;
+    }
+}
+    
+%pythonbegin %{
+from __future__ import absolute_import
+%}
     
 %pythoncode
 %{
-    def register_extension_class(ns, ns_prefix, class_name, constructor ):
-        uri = ns + class_name
-        Config.__extensionclass__[uri] = constructor
-
+    
     def testSBOL():
         """
         Function to run test suite for pySBOL
         """
-        import unit_tests
+        import sbol.unit_tests as unit_tests
         unit_tests.runTests()
-    
-    ### Add PYTHON_DATA_MODEL_REGISTER as a static variable in Config. This dictionary contains key : value pairs consisting of a Python extension class URI and the corresponding constructor callbacks for Python extension classes
-    Config.__extensionclass__ = {}
 %}
     
 //%inline

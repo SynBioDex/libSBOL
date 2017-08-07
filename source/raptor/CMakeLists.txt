@@ -86,20 +86,19 @@ ELSE ()  # If Mac OSX or Linux
     if(NOT SBOL_BUILD_SHARED)
         # Search for Raptor as a static library
         set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
-        add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC)
+        add_definitions(-DRAPTOR_STATIC)
         find_package( RAPTOR)
-        find_package( CURL )
-        find_package( LibXslt )
         find_package( JsonCpp )
     endif()
     if(SBOL_BUILD_SHARED)
         # Search for Raptor as a dynamic dependency
         set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
         find_package( RAPTOR )
-        find_package( CURL )
-        find_package( LibXslt )
         find_package( JsonCpp )
     endif(SBOL_BUILD_SHARED)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
+    find_package( LibXslt )
+    find_package( CURL )
 ENDIF ()
 
 

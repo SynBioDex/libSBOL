@@ -167,9 +167,9 @@ void VersionProperty::incrementMajor()
     pair< vector<string>, vector<string> > v = this->split();
     vector< string > v_tokens = v.first;
     vector< string > v_delimiters = v.second;
-    
+
     if (v_tokens.size() < 1)
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Maven version string does not have a minor version");
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Maven version string does not have a valid major version");
     
     // Increment major version
     regex d("([0-9]+)");
@@ -180,13 +180,19 @@ void VersionProperty::incrementMajor()
     
     // Concatenate new version string
     string new_version;
-    unsigned int i_v = 0;
-    do
+    if (v_tokens.size() == 1)
+        new_version = v_tokens[0];
+    else
     {
-        new_version += v_tokens[i_v] + v_delimiters[i_v];
-        ++i_v;
-    } while (i_v < v_tokens.size() - 1);
-    new_version += v_tokens[i_v];
+        // Insert delimiters
+        unsigned int i_v = 0;
+        do
+        {
+            new_version += v_tokens[i_v] + v_delimiters[i_v];
+            ++i_v;
+        } while (i_v < v_tokens.size() - 1);
+        new_version += v_tokens[i_v];
+    }
     this->set(new_version);
     
     /// Update the identity if SBOLCompliant

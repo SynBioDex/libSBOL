@@ -43,7 +43,14 @@
 
 namespace sbol {
 
-	
+    /* <!--- Methods for SBOL extension classes ---> */
+    
+    /// @cond
+    // This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
+    extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
+    /// @endcond
+
+    
     /// Read and write SBOL using a Document class.  The Document is a container for Components, Modules, and all other SBOLObjects
     class SBOL_DECLSPEC Document : public Identified
     {
@@ -68,6 +75,7 @@ namespace sbol {
             models(SBOL_MODEL, this, ""),
             sequences(SBOL_SEQUENCE, this, ""),
             sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, ""),
+            collections(SBOL_COLLECTION, this, ""),
             citations(PURL_URI "bibliographicCitation", this),
             keywords(PURL_URI "elements/1.1/subject", this)
         
@@ -76,6 +84,13 @@ namespace sbol {
                 namespaces["dcterms"] = PURL_URI;
                 namespaces["prov"] = PROV_URI "#";
 			};
+        
+        Document(std::string filename) :
+            Document()
+        {
+            read(filename);
+        }
+        
         ~Document() override;
         
         /// @cond
@@ -90,7 +105,8 @@ namespace sbol {
         List<OwnedObject<Model>> models;
         List<OwnedObject<Sequence>> sequences;
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
-        
+        List<OwnedObject<Collection>> collections;
+
         URIProperty citations;
         URIProperty keywords;
         
@@ -173,6 +189,8 @@ namespace sbol {
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
         void parse_annotation_objects();
+        void parse_extension_objects();
+
         SBOLObject* find_property(std::string uri);
         std::vector<SBOLObject*> find_reference(std::string uri);
         /// @endcond
@@ -322,13 +340,6 @@ namespace sbol {
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
 	};
     
-    /* <!--- Methods for SBOL extension classes ---> */
-    
-    /// @cond
-    // This is the global SBOL register for classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a constructor
-    extern std::unordered_map<std::string, sbol::SBOLObject&(*)()> SBOL_DATA_MODEL_REGISTER;
-    /// @endcond
-
     
     // This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
     template < class SBOLClass >
@@ -339,16 +350,6 @@ namespace sbol {
         SBOLClass* a = new (mem) SBOLClass;
         return (sbol::SBOLObject&)*a;
     };
-    
-    template < class ExtensionClass >
-    void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)
-    {
-        std::string uri = ns + class_name;
-        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<ExtensionClass>));
-        namespaces[ns_prefix] = ns;  // Register extension namespace
-    };
-    
-
     
 //    /// @TODO Deprecate this
 //    template <class SBOLClass>
@@ -676,17 +677,23 @@ namespace sbol {
             std::string persistentIdentity;
             std::string version;
             
-            // Check to see if the parent object has a persistent identity
-            if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+            SBOLClass dummy_obj = SBOLClass();  // This is unfortunately a necessary hack in order to infer what the compliant URI should be
+            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&dummy_obj);
+            if (!check_top_level)
             {
-                persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
-                persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+                // Check to see if the parent object has a persistent identity
+                if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+                {
+                    persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+                    persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+                }
             }
             // If the parent object doesn't have a persistent identity then it is TopLevel
             else if (compliantTypesEnabled())
             {
-                SBOLClass obj = SBOLClass();  // This is unfortunately a necessary hack in order to infer what the compliant URI should be
-                persistentIdentity = getHomespace() + "/" + parseClassName(obj.getTypeURI());
+
+                persistentIdentity = getHomespace() + "/" + parseClassName(dummy_obj.getTypeURI());
+
             }
             else
             {
@@ -701,13 +708,13 @@ namespace sbol {
             {
                 version = VERSION_STRING;
             }
-            uri = persistentIdentity + "/" + uri + "/" + version;
+            std::string compliant_uri = persistentIdentity + "/" + uri + "/" + version;
 
             // Search this property's object store for the uri
             for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
             {
                 SBOLObject* obj = *i_obj;
-                if (uri.compare(obj->identity.get()) == 0)
+                if (compliant_uri.compare(obj->identity.get()) == 0)
                 {
                     return (SBOLClass&)*obj;
                 }
@@ -726,7 +733,9 @@ namespace sbol {
             {
                 if (index >= this->sbol_owner->owned_objects[this->type].size())
                     throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
-                this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
+                SBOLObject* target = this->sbol_owner->owned_objects[this->type][ index ];
+                this->remove(target->identity.get());
+                //this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
             }
         }
     };
@@ -745,12 +754,14 @@ namespace sbol {
                     SBOLObject& obj = *object_store[i_obj];
                     if (uri.compare(obj.identity.get()) == 0)
                     {
-                        this->remove(i_obj);
+                        this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + i_obj);
+                        //this->remove(i_obj);
+                        TopLevel* check_top_level = dynamic_cast<TopLevel*>(&obj);
+                        if (check_top_level)
+                            obj.doc->SBOLObjects.erase(uri);
                         break;
                     }
                 }
-//                if (i_obj < object_store.size())
-//                    this->remove(i_obj);
             }
         }
     };
@@ -787,6 +798,25 @@ namespace sbol {
         if (target_doc)
             target_doc->add < SBOLClass > (new_obj);
         return new_obj;
+    };
+
+    template <class SBOLClass>
+    SBOLClass& TopLevel::simpleCopy(std::string uri)
+    {
+        Identified& obj_copy = Identified::simpleCopy(uri);
+        SBOLClass& new_obj = (SBOLClass&)obj_copy;
+        if (doc)
+            doc->add < SBOLClass > (new_obj);
+        return new_obj;
+    };
+
+    
+    template < class ExtensionClass >
+    void SBOLObject::register_extension_class(std::string ns, std::string ns_prefix, std::string class_name)
+    {
+        std::string uri = ns + class_name;
+        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<ExtensionClass>));
+        namespaces[ns_prefix] = ns;  // Register extension namespace
     };
 }
 

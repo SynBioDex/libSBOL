@@ -38,7 +38,8 @@ namespace sbol
     /// All SBOL-defined classes are directly or indirectly derived from the Identified abstract class. An Identified object is identified using a Uniform Resource Identifier (URI), a unique string that identifies and refers to a specific object in an SBOL document or in an online resource such as a DNA repository.
 	class SBOL_DECLSPEC Identified : public SBOLObject
     {
-	
+	friend class PartShop;
+        
 	public:
         /// The persistentIdentity property is OPTIONAL and has a data type of URI. This URI serves to uniquely refer to a set of SBOL objects that are different versions of each other. An Identified object MUST be referred to using either its identity URI or its persistentIdentity URI.
 		URIProperty persistentIdentity;
@@ -73,6 +74,7 @@ namespace sbol
         /// @return The full URI of the created object.
         Identified& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "");
 
+        Identified& simpleCopy(std::string uri);
         
         Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
             SBOLObject(type_uri, uri),
@@ -118,17 +120,6 @@ namespace sbol
             identity.validate();
 		}
         
-//        Identified(sbol_type type_uri, std::string uri) :
-//            SBOLObject(type_uri, prefix, display_id),
-//            persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, prefix + "/" + display_id),
-//            displayId(SBOL_DISPLAY_ID, this, display_id),
-//            version(SBOL_VERSION, this, version),
-//            wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this, ""),
-//            name(SBOL_NAME, this, name),
-//            description(SBOL_DESCRIPTION, this, description)
-//        {
-//            identity.validate();
-//        }
 	};
   
     template <class SBOLClass>
@@ -137,12 +128,7 @@ namespace sbol
         return (SBOLClass&)this->copy(NULL, ns, version);
     };
   
-//    ///
-//    template <class SBOLClass>
-//    SBOLClass& Identified::copy(Document& doc)
-//    {
-//        return (SBOLClass&)&copy();
-//    };
+
 };
 
 #endif

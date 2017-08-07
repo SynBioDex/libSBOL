@@ -48,10 +48,16 @@ namespace sbol
         /// | Small Molecule            | SMILES         | SBOL_ENCODING_SMILES        | http://www.opensmiles.org/opensmiles.html        |
         URIProperty encoding;
 
-        /// Calculates the complete sequence of a high-level Component from the sequence of its subcomponents. {rior to assembling the the complete sequence, you must assemble a template design by calling ComponentDefinition::assemble for the ComponentDefinition that references this Sequence.
+        /// Calculates the complete sequence of a high-level Component from the sequence of its subcomponents. Pior to assembling the the complete sequence, you must assemble a template design by calling ComponentDefinition::assemble for the ComponentDefinition that references this Sequence.
         /// @param composite_sequence Typically no value for the composite sequence should be specified by the user. This parameter is used to hold the composite sequence as it is passed to function calls at a higher-level of the recursion stack.
         std::string assemble(std::string composite_sequence = "");
 
+        /// Synonomous with Sequence::assemble. Calculates the complete sequence of a high-level Component from the sequence of its subcomponents. Prior to assembling the the complete sequence, you must assemble a template design by calling ComponentDefinition::assemble for the ComponentDefinition that references this Sequence.
+        void compile();
+        
+        /// @param clone_id A URI for the build, or displayId if working in SBOLCompliant mode.
+        ComponentDefinition& synthesize(std::string clone_id);
+        
         /// Construct a ComponentDefinition
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param elements A string representation of the primary structure of DNA, RNA, protein, or a SMILES string for small molecules.

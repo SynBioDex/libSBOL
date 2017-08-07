@@ -39,6 +39,8 @@
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
+#undef tolower    // This macro is defined in pyport.h and causes a symbol conflict with another macro in regex standard library on OS X
+
 #endif
 
 namespace sbol
@@ -78,6 +80,7 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {
@@ -97,6 +100,7 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {
@@ -143,6 +147,7 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking quotations from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {
@@ -162,6 +167,7 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking quotations from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {

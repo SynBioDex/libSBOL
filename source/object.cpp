@@ -30,6 +30,10 @@
 #include <functional>
 #include <iostream>
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+#include "Python.h"
+#endif
+
 using namespace std;
 using namespace sbol;
 
@@ -46,6 +50,15 @@ SBOLObject::~SBOLObject()
         }
     }
 }
+
+//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+//void SBOLObject::register_extension(std::string ns, std::string ns_prefix, std::string class_name, PythonObject* constructor)
+//{
+//    std::string uri = ns + class_name;
+//    PYTHON_DATA_MODEL_REGISTER[uri] = constructor;
+//    namespaces[ns_prefix] = ns;
+//};
+//#endif
 
 bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
 {
@@ -315,6 +328,20 @@ std::string SBOLObject::getPropertyValue(std::string property_uri)
     else throw SBOLError(SBOL_ERROR_NOT_FOUND, property_uri + " not contained in this object.");
 };
 
+void SBOLObject::setPropertyValue(std::string property_uri, std::string val)
+{
+
+        if (val[0] == '<' && val[val.length() - 1] == '>')
+        {
+            // Check if new value is a URI...
+            properties[property_uri].push_back(val);
+        }
+        else
+        {
+            // ...else treat the value as a literal
+            properties[property_uri].push_back("\"" + val + "\"");
+        }
+};
 
 std::vector < std::string > SBOLObject::getPropertyValues(std::string property_uri)
 {
@@ -342,5 +369,21 @@ std::vector < std::string > SBOLObject::getProperties()
     }
     return property_uris;
 };
+
+void SBOLObject::setAnnotation(std::string property_uri, std::string val)
+{
+    setPropertyValue(property_uri, val);
+};
+
+std::string SBOLObject::getAnnotation(std::string property_uri)
+{
+    return getPropertyValue(property_uri);
+};
+
+// Python extension method
+std::string SBOLObject::__str__()
+{
+    return identity.get();
+}
 
 

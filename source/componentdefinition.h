@@ -87,7 +87,7 @@ namespace sbol
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param type A BioPAX ontology term that indicates whether the ComponentDefinition is DNA, RNA, protein, or some other molecule type.
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
-        ComponentDefinition(std::string uri = DEFAULT_NS "/ComponentDefinition/example", std::string type = BIOPAX_DNA, std::string version = "1.0.0") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
+        ComponentDefinition(std::string uri = "example", std::string type = BIOPAX_DNA, std::string version = "1.0.0") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
         
         
         /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is an abstract design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble(). This method assumes all arguments are already contained in a Document.
@@ -141,7 +141,7 @@ namespace sbol
         std::vector<ComponentDefinition*> applyToComponentHierarchy(void (*callback_fn)(ComponentDefinition *, void *) = NULL, void * user_data = NULL);
 
         /// Get the primary sequence of a design in terms of its sequentially ordered Components
-        std::vector<Component*> getPrimaryStructure();
+        std::vector<ComponentDefinition*> getPrimaryStructure();
 
         /// Insert a Component downstream of another in a primary sequence, shifting any adjacent Components dowstream as well
         /// @param target The target Component will be upstream of the insert Component after this operation.

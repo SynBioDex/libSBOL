@@ -11,7 +11,11 @@ IF( SWIG_FOUND )
     include( ${SWIG_USE_FILE} )
     set( CMAKE_SWIG_FLAGS "-c++" )
     set_source_files_properties(libsbol.i PROPERTIES CPLUSPLUS ON)
-    add_definitions(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC -DCURL_STATICLIB)
+    add_definitions(-DRAPTOR_STATIC)
+
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+        add_definitions(-DLIBXML_STATIC -DLIBXSLT_STATIC -DCURL_STATICLIB -DCURL_STATIC)
+    endif()
 
     include_directories(
         ${SBOL_SOURCE_DIR}
@@ -46,6 +50,9 @@ IF (SBOL_BUILD_PYTHON3)
     message( "PYTHON INCLUDE DIRS = ${PYTHON_INCLUDE_DIRS}")
     message( "FOUND PYTHON VERSION ${PYTHONLIBS_VERSION_STRING}")
     INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
+    set(CMAKE_SWIG_FLAGS -DSBOL_BUILD_PYTHON3)
+
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
         ###### Python 3 for Mac 32x ######
@@ -239,7 +246,7 @@ IF (SBOL_BUILD_PYTHON3)
         include_directories( ${CURL_INCLUDE_DIR}/..)
         if (SBOL_BUILD_32)
             set(PYSBOL_TARGET_DIR "Win_32_3")
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
             swig_add_module( libsbol
                 python
                 libsbol.i )		
@@ -273,7 +280,7 @@ IF (SBOL_BUILD_PYTHON3)
         ##### Python 3 for Windows 64x #####
         if (SBOL_BUILD_64)
 			set(PYSBOL_TARGET_DIR "Win_64_3")
-			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
             swig_add_module( libsbol
                 python
                 libsbol.i )	
@@ -328,7 +335,8 @@ IF (SBOL_BUILD_PYTHON2)
     message( "FOUND PYTHON VERSION ${PYTHONLIBS_VERSION_STRING}")
 
     INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
-
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)
+    set(CMAKE_SWIG_FLAGS -DSBOL_BUILD_PYTHON2)
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
          ##### Python 2 wrappers for Mac 32x #####
         if (SBOL_BUILD_32)
@@ -514,7 +522,7 @@ IF (SBOL_BUILD_PYTHON2)
         include_directories( ${CURL_INCLUDE_DIR}/..)
         if (SBOL_BUILD_32)
             set(PYSBOL_TARGET_DIR "Win_32_2")
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
             swig_add_module( libsbol
                 python
                 libsbol.i )
@@ -547,7 +555,7 @@ IF (SBOL_BUILD_PYTHON2)
          ##### Python 2 for Win 64x ######
         if (SBOL_BUILD_64)
             set(PYSBOL_TARGET_DIR "Win_64_2")
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
             swig_add_module( libsbol
                 python
                 libsbol.i )
