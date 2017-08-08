@@ -395,7 +395,7 @@ class TestComponentDefinitions(unittest.TestCase):
         doc = Document()
         doc.addComponentDefinition(test_CD)
         doc.componentDefinitions.remove(0)
-        self.assertRaises(RuntimeError, lambda: doc.sequences.get("BB0001"))
+        self.assertRaises(RuntimeError, lambda: doc.componentDefinitions.get("BB0001"))
         
     def testCDDisplayId(self):
         listCD_read = []
@@ -681,15 +681,6 @@ class TestMemory(unittest.TestCase):
 # List of tests
 test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory]
 
-def delete_files():
-    TEST_FILES_SBOL2_OUT = os.listdir(TEST_LOC_SBOL2)
-    for i in range(len(TEST_FILES_SBOL2_OUT)):
-        split_path = os.path.splitext(TEST_FILES_SBOL2_OUT[i])
-        if os.path.exists(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1])):
-            os.remove(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1]))
-        else:
-            pass
-
 def runTests():
     print("Setting up")
     suite_list = []
@@ -700,7 +691,6 @@ def runTests():
    
     full_test_suite = unittest.TestSuite(suite_list)
     unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(full_test_suite)
-    delete_files()
     
 if __name__ == '__main__':
     runTests()
