@@ -171,7 +171,7 @@
 /* @TODO remove methods should change thisown flag back to True */
 %pythonappend remove
 %{
-    self.thisown = True
+    #self.thisown = True
 %}
     
 %include "properties.h"
