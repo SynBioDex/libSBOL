@@ -8,6 +8,9 @@
 # JsonCpp_LIBRARIES - the libraries to link against to use JsonCpp
 # JsonCpp_FOUND - if false the library was not found.
 
+
+# Check if we have cached results in case the last round was successful.
+if (NOT (JsonCpp_INCLUDE_DIR AND JsonCpp_LIBRARY))
 find_path(JsonCpp_INCLUDE_DIR "json/json.h"
   PATHS ~/.linuxbrew/include
   PATH_SUFFIXES "jsoncpp"
@@ -48,3 +51,5 @@ find_package_handle_standard_args(JsonCpp
   ${_JsonCpp_version_args})
 
 mark_as_advanced(JsonCpp_INCLUDE_DIR JsonCpp_LIBRARY)
+endif ()
+
