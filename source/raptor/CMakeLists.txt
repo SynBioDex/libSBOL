@@ -75,12 +75,53 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     find_path(CURL_INCLUDE_DIR curl.h
         PATHS ${CMAKE_CURRENT_SOURCE_DIR}/include/curl
         )
-    #MESSAGE(${raptor2})
 
-ELSE ()  # If Mac OSX or Linux
-
+ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
     set(CMAKE_MODULE_PATH "${SBOL_SOURCE_DIR}/raptor")
+    if(NOT SBOL_BUILD_SHARED)
+        # Workaround for issue with dependencies built without PIC support
+        # Search for Raptor and JsonCpp as a static library
+        message("Using precompiled dependencies")
+        unset(JsonCpp_LIBRARY CACHE)
+        unset(RAPTOR_LIBRARY CACHE)
+        unset(JsonCpp_INCLUDE_DIR CACHE)
+        unset(RAPTOR_INCLUDE_DIR CACHE)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
+        add_definitions(-DRAPTOR_STATIC)
+        FIND_LIBRARY(RAPTOR_LIBRARY
+            NAME libraptor2.a
+            PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/raptor2/lib/
+            NO_DEFAULT_PATH
+            )
+        FIND_LIBRARY(JsonCpp_LIBRARY
+            NAME libjsoncpp.a
+            PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/jsoncpp/lib
+            NO_DEFAULT_PATH
+            )
+        find_path(RAPTOR_INCLUDE_DIR raptor2.h
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/raptor2/include/raptor2
+        )
+        find_path(JsonCpp_INCLUDE_DIR json
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/jsoncpp/include
+        )
+    endif()
+    if(SBOL_BUILD_SHARED)
+        # Search for Raptor and JsonCpp as a dynamic dependency
+        unset(JsonCpp_LIBRARY CACHE)
+        unset(RAPTOR_LIBRARY CACHE)
+        unset(JsonCpp_INCLUDE_DIR CACHE)
+        unset(RAPTOR_INCLUDE_DIR CACHE)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
+        find_package( RAPTOR )
+        find_package( JsonCpp )
+    endif(SBOL_BUILD_SHARED)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
+    find_package( LibXslt )
+    find_package( CURL )
 
+
+ELSE ()  # If Mac OSX
+    set(CMAKE_MODULE_PATH "${SBOL_SOURCE_DIR}/raptor")
     # Search for raptor library.  It is non-native on Mac OSX and must be downloaded from a package installer like Homebrew
     # Search for curl and libxslt dependencies.  These are native system libraries on Mac OSX and can be linked dynamically.
     if(NOT SBOL_BUILD_SHARED)
