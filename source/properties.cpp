@@ -465,6 +465,11 @@ void ReferencedObject::set(std::string uri)
     //validate((void *)&uri);
 };
 
+void ReferencedObject::set(SBOLObject& obj)
+{
+    set(obj.identity.get());
+};
+
 
 // For compliant URIs
 void ReferencedObject::setReference(const std::string uri)

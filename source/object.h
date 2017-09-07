@@ -196,6 +196,7 @@ namespace sbol
 
         //void add(SBOLClass& sbol_obj);
         void set(std::string uri);
+        void set(SBOLObject& obj);
 
         //void set(SBOLClass& sbol_obj);
         //SBOLClass& get(std::string object_id);
