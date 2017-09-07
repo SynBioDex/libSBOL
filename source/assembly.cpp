@@ -230,16 +230,16 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
             
         // Generate URI of new Component.  Check if an object with that URI is already instantiated.
         string component_id;
-        component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "/" + to_string(instance_count) + "/" + parent_component.version.get();
+        component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "_" + to_string(instance_count) + "/" + parent_component.version.get();
 
         while (parent_component.find(component_id) != NULL)
         {
             // Find the last instance assigned
             ++instance_count;
-            component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "/" + to_string(instance_count) + "/" + parent_component.version.get();
+            component_id = persistentIdentity.get() + "/" + cdef.displayId.get() + "_" + to_string(instance_count) + "/" + parent_component.version.get();
         }
 
-        Component& c = parent_component.components.create(cdef.displayId.get() + "/" + to_string(instance_count));
+        Component& c = parent_component.components.create(cdef.displayId.get() + "_" + to_string(instance_count));
         c.definition.set(cdef.identity.get());
         list_of_instances.push_back(&c);
     }
