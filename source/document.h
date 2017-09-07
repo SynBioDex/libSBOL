@@ -668,7 +668,6 @@ namespace sbol {
                 return (SBOLClass&)*obj;
             }
         }
-        
         // In SBOLCompliant mode, the user may retrieve an object by displayId as well
         if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
@@ -689,7 +688,7 @@ namespace sbol {
                 }
             }
             // If the parent object doesn't have a persistent identity then it is TopLevel
-            else if (compliantTypesEnabled())
+            else if (Config::getOption("sbol_typed_uris").compare("True") == 0)
             {
 
                 persistentIdentity = getHomespace() + "/" + parseClassName(dummy_obj.getTypeURI());
@@ -709,7 +708,6 @@ namespace sbol {
                 version = VERSION_STRING;
             }
             std::string compliant_uri = persistentIdentity + "/" + uri + "/" + version;
-
             // Search this property's object store for the uri
             for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
             {
@@ -719,6 +717,7 @@ namespace sbol {
                     return (SBOLClass&)*obj;
                 }
             }
+            throw SBOLError(NOT_FOUND_ERROR, "Object " + compliant_uri + " not found");
             
         }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");

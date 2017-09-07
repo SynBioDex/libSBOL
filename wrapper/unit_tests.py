@@ -623,6 +623,8 @@ class TestSequences(unittest.TestCase):
             self.assertCountEqual(listseq_read, listseq)
             
     def testSequenceElement(self):
+        setHomespace('http://sbols.org/CRISPR_Example')
+        Config.setOption('sbol_typed_uris', False)
         doc = Document()
         doc.read(os.path.join(TEST_LOC_SBOL2, 'roundTrip.xml'))
         # Sequence to test against
