@@ -51,14 +51,24 @@ SBOLObject::~SBOLObject()
     }
 }
 
-//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-//void SBOLObject::register_extension(std::string ns, std::string ns_prefix, std::string class_name, PythonObject* constructor)
-//{
-//    std::string uri = ns + class_name;
-//    PYTHON_DATA_MODEL_REGISTER[uri] = constructor;
-//    namespaces[ns_prefix] = ns;
-//};
-//#endif
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+void SBOLObject::register_extension_class(PyObject* python_class, std::string extension_name)
+{
+    if (namespaces.count(extension_name) == 0)
+    {
+        // Parse class name from Python __repr__
+        std::string repr_name = PyString_AsString(PyObject_Repr(python_class));
+        size_t left_class_name = repr_name.find_last_of('.') + 1;
+        size_t len_class_name = repr_name.size() - left_class_name - 2;  // eg, <class '__main__.ComponentDerivation'>
+        std::string class_name = repr_name.substr(left_class_name, len_class_name);
+        
+        // Register namespace and its prefix (extension name)
+        Config::PYTHON_DATA_MODEL_REGISTER[getTypeURI()] = python_class;
+        std::string ns = parseNamespace(getTypeURI());
+        namespaces[extension_name] = ns;
+    }
+};
+#endif
 
 bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
 {

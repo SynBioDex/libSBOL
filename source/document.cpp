@@ -471,22 +471,51 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
     // Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
 	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
-//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-//        // Instantiate Python extension objects
-//        if ((doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
-//        {
-//            PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
-//            PyObject* py_obj = PyObject_CallObject(constructor, PyString_FromString(subject.c_str()));
-//            SBOLObject* new_obj = (SBOLObject*) PyObject_GetAttrString(py_obj, "this");
-//            new_obj->identity.set(subject);
-//            
-//            // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
-//            // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
-//            //doc->add<SBOLObject>(new_obj);
-//            doc->SBOLObjects[new_obj->identity.get()] = new_obj;
-//            new_obj->doc = doc;  //  Set's the objects back-pointer to the parent Document
-//        }
-//#endif
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        
+        typedef struct {
+            PyObject_HEAD
+            void *ptr; // This is the pointer to the actual C++ instance
+            void *ty;  // swig_type_info originally, but shouldn't matter
+            int own;
+            PyObject *next;
+        } SwigPyObject;
+        
+        // Instantiate Python extension objects
+        if ((doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
+        {
+            PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
+            PyObject* py_obj = PyObject_CallObject(constructor, NULL);
+            SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyString_FromString("this"));
+            SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
+            
+            // Wipe default property values passed from default constructor. New property values will be added as properties are parsed from the input file
+            for (auto it = new_obj->properties.begin(); it != new_obj->properties.end(); it++)
+            {
+                std::string token = it->second.front();
+                if (token[0] == '<')  // clear defaults and re-initialize this property as a URI
+                {
+                    new_obj->properties[it->first].clear();
+                    new_obj->properties[it->first].push_back("<>");
+                }
+                else if (token[0] == '"')  // clear defaults and re-initialize as a literal
+                {
+                    new_obj->properties[it->first].clear();
+                    new_obj->properties[it->first].push_back("\"\"");
+                }
+            }
+            
+            // Set identity
+            new_obj->identity.set(subject);
+
+            // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
+            // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
+            doc->SBOLObjects[new_obj->identity.get()] = new_obj;
+            new_obj->doc = doc;  //  Set's the objects back-pointer to the parent Document
+            
+            Py_DECREF(py_obj); // Clean up
+        }
+#endif
         // Checks if the object has already been created and whether a constructor for this type of object exists
         if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{

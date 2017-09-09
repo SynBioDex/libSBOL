@@ -435,23 +435,6 @@ TEMPLATE_MACRO_2(Collection)
 }
 %enddef
 
-%extend sbol::Config
-{
-    // This is the global SBOL register for Python extension classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a Python constructor
-    //        static PyObject* PYTHON_DATA_MODEL_REGISTER = PyDict_New();
-//    static std::map<std::string, PyObject*> PYTHON_DATA_MODEL_REGISTER;
-}
-    
-%extend sbol::SBOLObject
-{
-    void register_extension(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor)
-    {
-//        std::string uri = ns + class_name;
-//        Config::PYTHON_DATA_MODEL_REGISTER[uri] = constructor;
-//        namespaces[ns_prefix] = ns;
-    };
-}
-
 PROPERTY_MACRO(URIProperty)
 PROPERTY_MACRO(TextProperty)
 PROPERTY_MACRO(IntProperty)
@@ -698,22 +681,7 @@ from __future__ import absolute_import
         unit_tests.runTests()
 %}
     
-//%inline
-//%{
-//    // SBOLObject&(*constructor)()
-//    PyObject* register_extension_class(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor )
-//    {
-//        std::string uri = ns + class_name;
-////        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())constructor));
-//        //namespaces[ns_prefix] = ns;  // Register extension namespace
-//        std::cout << "Registering " << uri << endl;
-//        std::cout << "Constructing " << uri << endl;
-//        PyObject* obj = PyObject_CallFunction(constructor, NULL);
-//        std::cout << "Constructed " << uri << endl;
-//        return obj;
-//    };
-//    
-//%}
+
         
         //%extend sbol::Document
         //{

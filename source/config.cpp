@@ -78,6 +78,10 @@ std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"return_file", { "True", "False" }}
 };
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+std::map<std::string, PyObject*> sbol::Config::PYTHON_DATA_MODEL_REGISTER {};
+#endif
+
 void sbol::Config::setOption(std::string option, std::string value)
 {
     if (options.find(option) != options.end())

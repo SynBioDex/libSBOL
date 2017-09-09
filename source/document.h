@@ -96,6 +96,12 @@ namespace sbol {
         /// @cond
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
+
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        // Register of Python objects, for use when building Python bindings
+        std::unordered_map<std::string, PyObject*> PythonObjects;
+#endif
+        
         TopLevel& getTopLevel(std::string);
         raptor_world* getWorld();
         /// @endcond
