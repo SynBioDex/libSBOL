@@ -45,7 +45,7 @@ before_script: true
 script:
   - cd ~/build/libSBOL
   - make -j2 && make install
-  - cd ~/install_x64/test
+  #- cd ~/install_x64/test
   #- ./sbol_test
   - cd ~/install_x64/wrapper/sbol
   - python unit_tests.py
