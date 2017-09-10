@@ -20,6 +20,13 @@ elseif(TARGET sbol64-shared)
     add_library(sbol ALIAS sbol64-shared)
 endif()
 
+#temporary fix
+IF (SBOL_BUILD_PYTHON3)
+find_package( PythonLibs 3 )
+ELSEIF(SBOL_BUILD_PYTHON2)
+find_package( PythonLibs 2 )
+ENDIF()
+message( "FOUND PYTHON = ${PYTHON_LIBRARIES}")
 
 IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
     # build test executable
@@ -35,6 +42,7 @@ IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
         ${iconv}
         ${jsoncpp}
         ${libcurl}
+        ${PYTHON_LIBRARIES} #temporary fix
         Ws2_32.lib
         )
     file(MAKE_DIRECTORY "${CMAKE_INSTALL_PREFIX}/test")
@@ -50,6 +58,7 @@ ELSE ()
         ${CURL_LIBRARY}
         ${LIBXSLT_LIBRARIES}
         ${JsonCpp_LIBRARY}
+        ${PYTHON_LIBRARIES} #temporary fix
         )
     file(MAKE_DIRECTORY "${CMAKE_INSTALL_PREFIX}/test")
     add_custom_command(TARGET sbol_test PRE_BUILD COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/roundtrip ${CMAKE_INSTALL_PREFIX}/test/roundtrip)
