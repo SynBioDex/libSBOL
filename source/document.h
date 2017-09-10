@@ -41,6 +41,11 @@
 #include <istream>
 #include <algorithm>
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+#include "Python.h"
+#undef tolower
+#endif
+
 namespace sbol {
 
     /* <!--- Methods for SBOL extension classes ---> */
