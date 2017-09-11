@@ -418,6 +418,30 @@ class TestComponentDefinitions(unittest.TestCase):
             self.assertItemsEqual(listCD_read, listCD)
         else:
             self.assertCountEqual(listCD_read, listCD)
+            
+    def testPrimarySequenceIteration(self):
+        listCD = []
+        listCD_true = ["R0010", "E0040", "B0032", "B0012"]
+        doc = Document()
+        gene = ComponentDefinition("BB0001")
+        promoter = ComponentDefinition("R0010")
+        CDS = ComponentDefinition("B0032")
+        RBS = ComponentDefinition("E0040")
+        terminator = ComponentDefinition("B0012")
+        
+        doc.addComponentDefinition([gene, promoter, CDS, RBS, terminator])
+        
+        gene.assemble([ promoter, RBS, CDS, terminator ])
+        primary_sequence = gene.getPrimaryStructure()
+        for component in primary_sequence:
+            listCD.append(component.displayId.get())
+        
+        # Python 3 compatability
+        if sys.version_info[0] < 3:
+            self.assertItemsEqual(listCD, listCD_true)
+        else:
+            self.assertCountEqual(listCD, listCD_true)
+
              
     #def testCDSeq(self):
     #    doc = Document()
