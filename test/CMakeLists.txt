@@ -23,8 +23,12 @@ endif()
 #temporary fix
 IF (SBOL_BUILD_PYTHON3)
 find_package( PythonLibs 3 )
+ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
+include_directories( ${PYTHON_INCLUDE_DIR} )
 ELSEIF(SBOL_BUILD_PYTHON2)
 find_package( PythonLibs 2 )
+ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)
+include_directories( ${PYTHON_INCLUDE_DIR} )
 ENDIF()
 message( "FOUND PYTHON = ${PYTHON_LIBRARIES}")
 
@@ -36,13 +40,13 @@ IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
     set_target_properties(sbol_test PROPERTIES LINKER_LANGUAGE CXX)
     target_link_libraries( sbol_test
         sbol
+        ${PYTHON_LIBRARIES} #temporary fix
         ${raptor2}
         ${xml2}
         ${zlib}
         ${iconv}
         ${jsoncpp}
         ${libcurl}
-        ${PYTHON_LIBRARIES} #temporary fix
         Ws2_32.lib
         )
     file(MAKE_DIRECTORY "${CMAKE_INSTALL_PREFIX}/test")
@@ -54,11 +58,11 @@ ELSE ()
     set_target_properties(sbol_test PROPERTIES LINKER_LANGUAGE CXX)
     target_link_libraries( sbol_test
         sbol
+        ${PYTHON_LIBRARIES} #temporary fix
         ${RAPTOR_LIBRARY}
         ${CURL_LIBRARY}
         ${LIBXSLT_LIBRARIES}
         ${JsonCpp_LIBRARY}
-        ${PYTHON_LIBRARIES} #temporary fix
         )
     file(MAKE_DIRECTORY "${CMAKE_INSTALL_PREFIX}/test")
     add_custom_command(TARGET sbol_test PRE_BUILD COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/roundtrip ${CMAKE_INSTALL_PREFIX}/test/roundtrip)
