@@ -45,15 +45,15 @@ find_path(LIBXSLT_INCLUDE_DIR
                 )
 #find_path(LIBXSLT_EXSLT_INCLUDE_DIR NAMES exslt.h HINTS /usr/local/opt/libxslt/include/libexslt)
 
-# if(SBOL_BUILD_SHARED)
-# if(LIBXSLT_LIBRARIES MATCHES "(.*).(a|lib)")
-# unset(LIBXSLT_LIBRARIES CACHE)
-# endif()
-# else()
-# if(LIBXSLT_LIBRARIES MATCHES "(.*).(so|dylib|dll)")
-# unset(LIBXSLT_LIBRARIES CACHE)
-# endif()
-# endif()
+if(SBOL_BUILD_SHARED)
+if(LIBXSLT_LIBRARIES MATCHES "(.*).(a|lib)")
+unset(LIBXSLT_LIBRARIES CACHE)
+endif()
+else()
+if(LIBXSLT_LIBRARIES MATCHES "(.*).(so|dylib|dll)")
+unset(LIBXSLT_LIBRARIES CACHE)
+endif()
+endif()
 
 find_library(LIBXSLT_LIBRARIES 
              NAMES xslt libxslt 

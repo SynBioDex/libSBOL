@@ -5,6 +5,8 @@ add_subdirectory( raptor )
 include_directories( ${RAPTOR_INCLUDE_DIR})
 include_directories( ${JsonCpp_INCLUDE_DIR})
 include_directories( ${CURL_INCLUDE_DIR})
+include_directories( ${LIBBOOST_INCLUDE_DIR})
+include_directories( ${LIBXSLT_INCLUDE_DIR})
 if( SBOL_BUILD_PYTHON2 )
     find_package( SWIG REQUIRED )
     find_package( PythonLibs 2 EXACT)
@@ -80,7 +82,7 @@ ENDIF()
 # link against raptor
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR "Darwin")
     if(NOT SBOL_BUILD_SHARED)
-        ADD_DEFINITIONS(-DRAPTOR_STATIC)
+        add_definitions(-DRAPTOR_STATIC)
     endif()
 endif()
 
@@ -193,7 +195,7 @@ else ()  # If Mac OSX or Linux
     if(SBOL_BUILD_32)
         message("Configuring for x86")
         set(CMAKE_OSX_ARCHITECTURES "i386")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
         if(SBOL_BUILD_SHARED)
             add_library( sbol32-shared
                 SHARED
@@ -235,7 +237,7 @@ else ()  # If Mac OSX or Linux
     if(SBOL_BUILD_64)
         message("Configuring for x64")
         set(CMAKE_OSX_ARCHITECTURES "x86_64")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
         get_directory_property( DirDefs COMPILE_DEFINITIONS )
         message( "COMPILE_DEFINITIONS = ${DirDefs}" )
         if(SBOL_BUILD_SHARED)
@@ -263,10 +265,11 @@ else ()  # If Mac OSX or Linux
                 ${SBOL_SOURCE_FILES})
             set_target_properties(sbol64 PROPERTIES LINKER_LANGUAGE CXX)
             target_link_libraries(sbol64
+                ${LIBBOOST_LIBRARY}
                 ${RAPTOR_LIBRARY}
-                ${CURL_LIBRARY}
+                ${JsonCpp_LIBRARY}
                 ${LIBXSLT_LIBRARIES}
-                ${JsonCpp_LIBRARY})
+                ${CURL_LIBRARY})
             set_target_properties(sbol64 PROPERTIES
                 ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib"
                 LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib"

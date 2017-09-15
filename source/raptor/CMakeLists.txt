@@ -88,6 +88,7 @@ ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
         unset(RAPTOR_INCLUDE_DIR CACHE)
         set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
         add_definitions(-DRAPTOR_STATIC)
+
         FIND_LIBRARY(RAPTOR_LIBRARY
             NAME libraptor2.a
             PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/raptor2/lib/
@@ -103,7 +104,15 @@ ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
         )
         find_path(JsonCpp_INCLUDE_DIR json
         PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/jsoncpp/include
-        )
+        )   
+        #FIND_LIBRARY(LIBBOOST_LIBRARY
+        #    NAME libboost_regex.a
+        #    PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/boost/lib
+        #    NO_DEFAULT_PATH
+        #    )
+        #find_path(LIBBOOST_INCLUDE_DIR regex.hpp
+        #PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/boost/include/boost
+        #)
     endif()
     if(SBOL_BUILD_SHARED)
         # Search for Raptor and JsonCpp as a dynamic dependency
@@ -117,8 +126,8 @@ ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
     endif(SBOL_BUILD_SHARED)
     set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
     find_package( LibXslt )
-    find_package( CURL )
-
+    find_package( CURL ) 
+    find_package( Boost )
 
 ELSE ()  # If Mac OSX
     set(CMAKE_MODULE_PATH "${SBOL_SOURCE_DIR}/raptor")

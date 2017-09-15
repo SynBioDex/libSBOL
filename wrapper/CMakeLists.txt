@@ -11,7 +11,6 @@ IF( SWIG_FOUND )
     include( ${SWIG_USE_FILE} )
     set( CMAKE_SWIG_FLAGS "-c++" )
     set_source_files_properties(libsbol.i PROPERTIES CPLUSPLUS ON)
-    add_definitions(-DRAPTOR_STATIC)
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         add_definitions(-DLIBXML_STATIC -DLIBXSLT_STATIC -DCURL_STATICLIB -DCURL_STATIC)
@@ -22,6 +21,8 @@ IF( SWIG_FOUND )
         ${RAPTOR_INCLUDE_DIR}
         ${CURL_INCLUDE_DIR}
         ${JsonCpp_INCLUDE_DIR}
+        ${LIBXSLT_INCLUDE_DIR}
+        ${LIBBOOST_INCLUDE_DIR}
 
         # ${LIBXSLT_INCLUDE_DIR}
         # ${LIBXML2_INCLUDE_DIR}
@@ -486,15 +487,17 @@ IF (SBOL_BUILD_PYTHON2)
                 swig_link_libraries( libsbol
                     ${PYTHON_LIBRARIES}
                     ${RAPTOR_LIBRARY}
+                    ${LIBBOOST_LIBRARY}
                     ${CURL_LIBRARY}
                     ${LIBXSLT_LIBRARIES}
                     sbol64-shared)
             else()
                 swig_link_libraries( libsbol
                     ${PYTHON_LIBRARIES}
-                    ${RAPTOR_LIBRARY}
-                    ${CURL_LIBRARY}
-                    ${LIBXSLT_LIBRARIES}
+#                    ${RAPTOR_LIBRARY}
+#                    ${LIBXSLT_LIBRARIES}
+#                    ${CURL_LIBRARY}
+#                    ${LIBBOOST_LIBRARY}
                     sbol64)
             ENDIF()
 

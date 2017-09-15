@@ -38,15 +38,15 @@ find_path(CURL_INCLUDE_DIR NAMES curl.h
 find_path(CURL_INCLUDE_DIR NAMES curl/curl.h)
 mark_as_advanced(CURL_INCLUDE_DIR)
 
-# if(SBOL_BUILD_SHARED)
-# if(CURL_LIBRARY MATCHES "(.*).(a|lib)")
-# unset(CURL_LIBRARY CACHE)
-# endif()
-# else()
-# if(CURL_LIBRARY MATCHES "(.*).(so|dylib|dll)")
-# unset(CURL_LIBRARY CACHE)
-# endif()
-# endif()
+if(SBOL_BUILD_SHARED)
+if(CURL_LIBRARY MATCHES "(.*).(a|lib)")
+unset(CURL_LIBRARY CACHE)
+endif()
+else()
+if(CURL_LIBRARY MATCHES "(.*).(so|dylib|dll)")
+unset(CURL_LIBRARY CACHE)
+endif()
+endif()
 
 # Look for the library (sorted from most current/relevant entry to least).
 find_library(CURL_LIBRARY NAMES
