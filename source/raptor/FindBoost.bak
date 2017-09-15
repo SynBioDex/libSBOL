@@ -35,6 +35,7 @@ find_path(LIBBOOST_INCLUDE_DIR NAMES regex.hpp
     /usr/include/boost  # Linux
     NO_DEFAULT_PATH )
 
+message("LIBBOOST_INCLUDE_DIR: ${LIBBOOST_INCLUDE_DIR}")    
 mark_as_advanced(LIBBOOST_INCLUDE_DIR)
 
 if(SBOL_BUILD_SHARED)
@@ -56,7 +57,10 @@ find_library(LIBBOOST_LIBRARY NAMES
     ~/.linuxbrew/lib
     /usr/lib/i386-linux-gnu  #Linux 32
     /usr/lib/x86_64-linux-gnu #Linux 64
+    /usr/lib64 #CentOS 5 - manylinux
     NO_DEFAULT_PATH )
+    
+message("LIBBOOST_LIBRARY: ${LIBBOOST_LIBRARY}")    
 
 mark_as_advanced(LIBBOOST_LIBRARY)
 
