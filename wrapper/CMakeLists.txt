@@ -37,6 +37,10 @@ IF( SWIG_FOUND )
 #message(STATUS "dir='${dir}'")
 #endforeach()
 
+LINK_DIRECTORIES(additions/libstdc)
+ADD_DEFINITIONS(-static-libgcc)
+SET(CMAKE_CXX_LINK_EXECUTABLE “${CMAKE_CXX_LINK_EXECUTABLE} -static-libgcc”)
+
 # gather source files
 FILE( GLOB SBOL_SOURCE_FILES
     ${SBOL_SOURCE_DIR}/*.h
