@@ -37,7 +37,8 @@ IF( SWIG_FOUND )
 #message(STATUS "dir='${dir}'")
 #endforeach()
 
-LINK_DIRECTORIES(additions/libstdc)
+# CentOS 5 specific
+LINK_DIRECTORIES(/opt/devtools-6.3/lib64)
 ADD_DEFINITIONS(-static-libgcc)
 SET(CMAKE_CXX_LINK_EXECUTABLE “${CMAKE_CXX_LINK_EXECUTABLE} -static-libgcc”)
 
