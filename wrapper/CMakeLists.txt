@@ -514,6 +514,10 @@ IF (SBOL_BUILD_PYTHON2)
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/test/* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/setup.py ${CMAKE_INSTALL_PREFIX}/wrapper)
+            add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/DESCRIPTION.rst ${CMAKE_INSTALL_PREFIX}/wrapper)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND cp -r ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
