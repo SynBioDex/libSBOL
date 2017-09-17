@@ -264,12 +264,14 @@ else ()  # If Mac OSX or Linux
                 ${SBOL_HEADER_FILES}
                 ${SBOL_SOURCE_FILES})
             set_target_properties(sbol64 PROPERTIES LINKER_LANGUAGE CXX)
+            set(CMAKE_EXE_LINKER_FLAGS " -static")
             target_link_libraries(sbol64
                 ${LIBBOOST_LIBRARY}
                 ${RAPTOR_LIBRARY}
                 ${JsonCpp_LIBRARY}
                 ${LIBXSLT_LIBRARIES}
-                ${CURL_LIBRARY})
+                ${CURL_LIBRARY}
+                -static-libgcc -static-libstdc++)
             set_target_properties(sbol64 PROPERTIES
                 ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib"
                 LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib"

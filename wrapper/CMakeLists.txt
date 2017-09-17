@@ -37,11 +37,6 @@ IF( SWIG_FOUND )
 #message(STATUS "dir='${dir}'")
 #endforeach()
 
-# CentOS 5 specific
-LINK_DIRECTORIES(/opt/devtools-6.3/lib64)
-ADD_DEFINITIONS(-static-libgcc)
-SET(CMAKE_CXX_LINK_EXECUTABLE “${CMAKE_CXX_LINK_EXECUTABLE} -static-libgcc”)
-
 # gather source files
 FILE( GLOB SBOL_SOURCE_FILES
     ${SBOL_SOURCE_DIR}/*.h
