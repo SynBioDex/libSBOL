@@ -36,8 +36,7 @@
 #include <functional>
 #include <vector>
 #include <unordered_map>
-//#include <regex>
-#include <boost/regex.hpp>
+#include <regex>
 #include <stdio.h>
 #include <ctype.h>
 
@@ -402,8 +401,8 @@ void sbol::indent(std::string& text, int indentation)
 
 string sbol::convert_ntriples_encoding_to_ascii(string s)
 {
-    s = boost::regex_replace(s, boost::regex("\\\\\""), "\"");
-    s = boost::regex_replace(s, boost::regex("\\\\\\\\"), "\\");
+    s = regex_replace(s, regex("\\\\\""), "\"");
+    s = regex_replace(s, regex("\\\\\\\\"), "\\");
 //    s = regex_replace(s, regex("\\\""), "x");
 //    s = regex_replace(s, regex("\\\\"), "\\");
     return s;
