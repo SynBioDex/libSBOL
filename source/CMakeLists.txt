@@ -5,8 +5,9 @@ add_subdirectory( raptor )
 include_directories( ${RAPTOR_INCLUDE_DIR})
 include_directories( ${JsonCpp_INCLUDE_DIR})
 include_directories( ${CURL_INCLUDE_DIR})
-include_directories( ${LIBBOOST_INCLUDE_DIR})
 include_directories( ${LIBXSLT_INCLUDE_DIR})
+include_directories( ${LIBXML_INCLUDE_DIR})
+include_directories( ${ZLIB_INCLUDE_DIR})
 if( SBOL_BUILD_PYTHON2 )
     find_package( SWIG REQUIRED )
     find_package( PythonLibs 2)
@@ -82,7 +83,7 @@ ENDIF()
 # link against raptor
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR "Darwin")
     if(NOT SBOL_BUILD_SHARED)
-        add_definitions(-DRAPTOR_STATIC)
+        ADD_DEFINITIONS(-DLIBXML_STATIC -DRAPTOR_STATIC -DLIBXSLT_STATIC -DCURL_STATIC -DCURL_STATICLIB)
     endif()
 endif()
 
@@ -266,11 +267,12 @@ else ()  # If Mac OSX or Linux
             set_target_properties(sbol64 PROPERTIES LINKER_LANGUAGE CXX)
             set(CMAKE_EXE_LINKER_FLAGS " -static")
             target_link_libraries(sbol64
-                ${LIBBOOST_LIBRARY}
                 ${RAPTOR_LIBRARY}
                 ${JsonCpp_LIBRARY}
                 ${LIBXSLT_LIBRARIES}
                 ${CURL_LIBRARY}
+                ${LIBXML_LIBRARY}
+                ${ZLIB_LIBRARY}
                 -static-libgcc -static-libstdc++)
             set_target_properties(sbol64 PROPERTIES
                 ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib"

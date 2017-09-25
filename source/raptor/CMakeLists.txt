@@ -86,12 +86,18 @@ ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
         unset(RAPTOR_LIBRARY CACHE)
         unset(JsonCpp_INCLUDE_DIR CACHE)
         unset(RAPTOR_INCLUDE_DIR CACHE)
+        unset(ZLIB_LIBRARY CACHE)
+        unset(LIBXML_LIBRARY CACHE)
+        unset(LIBXSLT_LIBRARY CACHE)
+        unset(ZLIB_INCLUDE_DIR CACHE)
+        unset(LIBXML_INCLUDE_DIR CACHE)
+        unset(LIBXSLT_INCLUDE_DIR CACHE)
         set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
         add_definitions(-DRAPTOR_STATIC)
 
         FIND_LIBRARY(RAPTOR_LIBRARY
             NAME libraptor2.a
-            PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/raptor2/lib/
+            PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/raptor2/lib
             NO_DEFAULT_PATH
             )
         FIND_LIBRARY(JsonCpp_LIBRARY
@@ -101,10 +107,39 @@ ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
             )
         find_path(RAPTOR_INCLUDE_DIR raptor2.h
         PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/raptor2/include/raptor2
+            NO_DEFAULT_PATH
         )
         find_path(JsonCpp_INCLUDE_DIR json
         PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/jsoncpp/include
+            NO_DEFAULT_PATH
         )   
+        FIND_LIBRARY(ZLIB_LIBRARY
+            NAME libz.a
+            PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/zlib/lib
+            NO_DEFAULT_PATH
+            )
+        find_path(ZLIB_INCLUDE_DIR zlib.h
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/zlib/include
+        NO_DEFAULT_PATH
+        )
+        FIND_LIBRARY(LIBXML_LIBRARY
+            NAME libxml2.a
+            PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/libxml2/lib
+            NO_DEFAULT_PATH
+            )
+        find_path(LIBXML_INCLUDE_DIR libxml2
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/libxml2/include
+            NO_DEFAULT_PATH
+        )
+        FIND_LIBRARY(LIBXSLT_LIBRARIES
+            NAME libxslt.a
+            PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/libxslt/lib
+            NO_DEFAULT_PATH
+            )
+        find_path(LIBXSLT_INCLUDE_DIR libxslt
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/libxslt/include
+            NO_DEFAULT_PATH
+        )
     endif()
     if(SBOL_BUILD_SHARED)
         # Search for Raptor and JsonCpp as a dynamic dependency
@@ -116,9 +151,8 @@ ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
         find_package( RAPTOR )
         find_package( JsonCpp )
     endif(SBOL_BUILD_SHARED)
-    set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
-    find_package( LibXslt )
-    find_package( CURL ) 
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
+        find_package( CURL ) 
 
 ELSE ()  # If Mac OSX
     set(CMAKE_MODULE_PATH "${SBOL_SOURCE_DIR}/raptor")
