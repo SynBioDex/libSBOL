@@ -1351,6 +1351,16 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         vector < string > property_store = i_store->second;
         vector < string > property_store_copy = property_store;   // Copy properties
         
+        // Add the property namespace to the target document if not present
+        string property_ns = parseNamespace(store_uri);
+        for (auto i_document_ns : this->doc->namespaces)
+        {
+            string prefix = i_document_ns.first;
+            string document_ns = i_document_ns.second;
+            if (!document_ns.compare(property_ns))
+                target_doc->namespaces[prefix] = property_ns;
+        }
+        
         // If caller specified a namespace argument, then replace namespace in URIs
         // Don't overwrite namespaces for the wasDerivedFrom field, which points back to the original object
         if (ns.compare("") != 0 && store_uri.compare(SBOL_WAS_DERIVED_FROM) != 0)
