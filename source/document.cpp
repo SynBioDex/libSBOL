@@ -824,7 +824,7 @@ void Document::read(std::string filename)
     SBOLObjects.clear();
     properties.clear();  // This may cause problems later because the Document object will lose all properties of an SBOLObject
     properties[SBOL_IDENTITY].push_back("<>");  // Re-initialize the identity property. The SBOLObject::compare method needs to get the Document's identity
-    list_properties.clear();
+    //list_properties.clear();
     owned_objects.clear();
     namespaces.clear();
     
