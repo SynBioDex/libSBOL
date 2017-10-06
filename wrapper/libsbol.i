@@ -585,6 +585,15 @@ PROPERTY_MACRO(IntProperty)
 			$self->add(list_of_mds);
         };                
     }
+    
+    PyObject* getExtension(std::string id)
+    {
+        // Search the Document's object store for the uri
+        if ($self->PythonObjects.find(id) != $self->PythonObjects.end())
+            return $self->PythonObjects[id];
+        throw SBOLError(NOT_FOUND_ERROR, "Object " + id + " not found");
+    }
+    
 }
 
     
