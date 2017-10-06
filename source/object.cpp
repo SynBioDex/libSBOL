@@ -68,6 +68,45 @@ void SBOLObject::register_extension_class(PyObject* python_class, std::string ex
         namespaces[extension_name] = ns;
     }
 };
+
+
+PyObject* SBOLObject::cast(PyObject* python_class)
+{
+    typedef struct {
+        PyObject_HEAD
+        void *ptr; // This is the pointer to the actual C++ instance
+        void *ty;  // swig_type_info originally, but shouldn't matter
+        int own;
+        PyObject *next;
+    } SwigPyObject;
+    
+    PyObject* py_obj = PyObject_CallObject(python_class, NULL);  // Call constructor
+    PyObject* temp_py_object = PyObject_GetAttr(py_obj, PyString_FromString("this"));
+    SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyString_FromString("this"));
+    SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
+    
+    // Set identity
+    new_obj->identity.set(this->identity.get());
+    
+    // Copy properties
+    for (auto it = this->properties.begin(); it != this->properties.end(); it++)
+    {
+        new_obj->properties[it->first] = this->properties[it->first];
+    }
+    for (auto it = this->owned_objects.begin(); it != this->owned_objects.end(); it++)
+    {
+        new_obj->owned_objects[it->first] = this->owned_objects[it->first];
+    }
+    for (auto it = this->namespaces.begin(); it != this->namespaces.end(); it++)
+    {
+        new_obj->namespaces[it->first] = this->namespaces[it->first];
+    }
+    new_obj->parent = this->parent;
+    new_obj->doc = this->doc;
+    
+    return py_obj;
+};
+
 #endif
 
 bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
@@ -80,7 +119,7 @@ void SBOLObject::close()
     delete this;
 };
 
-sbol_type SBOLObject::getTypeURI() 
+sbol_type SBOLObject::getTypeURI()
 {
 	return type;
 };

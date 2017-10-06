@@ -71,6 +71,8 @@ namespace sbol
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         void register_extension_class(PyObject* python_class, std::string extension_name);
+        
+        PyObject* cast(PyObject* python_class);
 #endif
 
         
@@ -78,12 +80,12 @@ namespace sbol
         Document *doc = NULL;
         sbol_type type;
         SBOLObject* parent;
-        void * proxy;
+        //void * proxy;
         
         std::map<sbol::sbol_type, std::vector< std::string > > properties;
-        std::map<sbol::sbol_type, std::vector< std::string > > list_properties;
+        //std::map<sbol::sbol_type, std::vector< std::string > > list_properties;
         std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
-        std::map<sbol::sbol_type, std::vector< void* > > extension_objects;
+        //std::map<sbol::sbol_type, std::vector< void* > > extension_objects;
         /// @endcond
         
         /// The identity property is REQUIRED by all Identified objects and has a data type of URI. A given Identified object’s identity URI MUST be globally unique among all other identity URIs. The identity of a compliant SBOL object MUST begin with a URI prefix that maps to a domain over which the user has control. Namely, the user can guarantee uniqueness of identities within this domain.  For other best practices regarding URIs see Section 11.2 of the [SBOL specification doucment](http://sbolstandard.org/wp-content/uploads/2015/08/SBOLv2.0.1.pdf).
