@@ -138,7 +138,7 @@ namespace sbol
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         void addValidationRule(PyObject* property_object, PyObject* validation_fx)
         {
-            pythonValidationRules.push_back(std::make_pair(validation_fx, property_object));   
+            pythonValidationRules.push_back(std::make_pair(validation_fx, property_object));
         };
     
 #endif
@@ -361,7 +361,7 @@ namespace sbol
     template <class LiteralType>
     void Property<LiteralType>::validate(void * arg)
     {
-        // If no argument is specified, validate the property values already in the store.  The constructor does this, for example, to validate the initial value.
+        // Validate the argument, if one is specified. The setters do this
         if (arg)
         {
             // Validate the argument, if one is specified. The setters do this
@@ -379,9 +379,24 @@ namespace sbol
                 PyObject* py_tuple = PyTuple_New(1);
                 PyTuple_SetItem(py_tuple, 0, property_to_validate);
                 PyObject_CallObject(validate_fx, py_tuple);
+                if (PyErr_Occurred() != NULL)
+                {
+                    PyErr_Clear();
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Validation failed.");
+                }
             }
 #endif
         }
+//        // If no argument is specified, validate the property values already in the store.  The constructor does this, for example, to validate the initial value.
+//        else
+//        {
+//            std::string val = this->get();
+//            for (ValidationRules::iterator i_rule = validationRules.begin(); i_rule != validationRules.end(); ++i_rule)
+//            {
+//                ValidationRule& validate_fx = *i_rule;
+//                validate_fx(sbol_owner, &val);
+//            }
+//        }
     };
     
     /// @param new_value A new string which will be added to a list of values.

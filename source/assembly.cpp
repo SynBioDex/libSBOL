@@ -242,6 +242,8 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
         Component& c = parent_component.components.create(cdef.displayId.get() + "_" + to_string(instance_count));
         c.definition.set(cdef.identity.get());
         list_of_instances.push_back(&c);
+        string def = cdef.identity.get();
+        parent_component.components.validate(&def);   // Validate.  This is useful for extension methods which use the assemble method
     }
     for (auto i_com = 1; i_com != list_of_components.size(); i_com++)
     {

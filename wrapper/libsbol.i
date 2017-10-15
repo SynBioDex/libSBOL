@@ -681,6 +681,34 @@ from __future__ import absolute_import
     
 %pythoncode
 %{
+    def applyToComponentHierarchy(self, callback_fn, user_data):
+        # Assumes parent_component is an SBOL data structure of the general form ComponentDefinition(->Component->ComponentDefinition)n where n+1 is an integer describing how many hierarchical levels are in the SBOL structure
+        # Look at each of the ComponentDef's SequenceAnnotations, is the target base there?
+        if not self.doc:
+            raise Exception('Cannot traverse Component hierarchy without a Document')
+    
+        GET_ALL = True
+        component_nodes = []
+        if len(self.components) == 0:
+            component_nodes.append(self)  # Add leaf components
+            if (callback_fn):
+                callback_fn(self, user_data)
+        else:
+            if GET_ALL:
+                component_nodes.append(self)  # Add components with children
+                if callback_fn:
+                    callback_fn(self, user_data)
+            for subc in self.components:
+                if not self.doc.find(subc.definition.get()):
+                    raise Exception(subc.definition.get() + 'not found')
+                subcdef = self.doc.getComponentDefinition(subc.definition.get())
+                subcomponents = subcdef.applyToComponentHierarchy(callback_fn, user_data)
+                component_nodes.extend(subcomponents)
+        return component_nodes
+
+    
+    ComponentDefinition.applyToComponentHierarchy = applyToComponentHierarchy
+    
     
     def testSBOL():
         """
