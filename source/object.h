@@ -140,6 +140,9 @@ namespace sbol
         std::string getAnnotation(std::string property_uri);
         
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+//        std::unordered_map<sbol::sbol_type, std::vector< PyObject* >> PythonObjects;
+        std::unordered_map<std::string, PyObject* > PythonObjects;
+
         void register_extension_class(PyObject* python_class, std::string extension_name);
         
         PyObject* cast(PyObject* python_class);

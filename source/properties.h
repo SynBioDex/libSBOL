@@ -557,8 +557,6 @@ namespace sbol
 
 		//std::vector<PropertyType> copy();
 	};
-
-
     
 //    template <class ReferencedObject>
 //    List<ReferencedObject>::List(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :

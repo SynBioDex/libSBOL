@@ -515,6 +515,7 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
             
             Py_DECREF(py_obj); // Clean up
         }
+        else
 #endif
         // Checks if the object has already been created and whether a constructor for this type of object exists
         if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
@@ -859,7 +860,7 @@ void Document::append(std::string filename)
 	raptor_uri *uri, *base_uri;
     base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
     void *user_data = this;
-
+    
     // Read the triple store. On the first pass through the triple store, new SBOLObjects are constructed by the parse_objects handler
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
 	//base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
@@ -936,7 +937,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 	// The only other type of SBOL Object that can serialize besides TopLevel are objects
 	// that form a composite with a TopLevel object.  In this case, the TopLevel object will pass the
 	// pointer to the RDF graph to its composite objects
-
 
 	if (doc)
 	{

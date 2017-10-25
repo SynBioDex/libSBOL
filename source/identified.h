@@ -41,6 +41,50 @@ namespace sbol
 	friend class PartShop;
         
 	public:
+        Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
+        SBOLObject(type_uri, uri),
+        persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, uri),
+        displayId(SBOL_DISPLAY_ID, this, uri),
+        version(SBOL_VERSION, this, version),
+        wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
+        wasGeneratedBy(PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, this),
+        name(SBOL_NAME, this),
+        description(SBOL_DESCRIPTION, this)
+        {
+            if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
+            {
+                if (compliantTypesEnabled())
+                {
+                    identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
+                    persistentIdentity.set(getHomespace() + "/" + uri);
+                }
+                else
+                {
+                    identity.set(getHomespace() + "/" + uri + "/" + version);
+                    persistentIdentity.set(getHomespace() + "/" + uri);
+                }
+            }
+            else if (hasHomespace())
+            {
+                identity.set(getHomespace() + "/" + uri);
+                persistentIdentity.set(getHomespace() + "/" + uri);
+            }
+            identity.validate();
+        }
+        
+        //        Identified(sbol_type type_uri, std::string prefix, std::string display_id, std::string version) :
+        //			SBOLObject(type_uri, prefix, display_id, version),
+        //			persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, prefix + "/" + display_id),
+        //			displayId(SBOL_DISPLAY_ID, this, display_id),
+        //			version(SBOL_VERSION, this, version),
+        //			wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
+        //            wasGeneratedBy(PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, this),
+        //			name(SBOL_NAME, this),
+        //			description(SBOL_DESCRIPTION, this)
+        //		{
+        //            identity.validate();
+        //		}
+        
         /// The persistentIdentity property is OPTIONAL and has a data type of URI. This URI serves to uniquely refer to a set of SBOL objects that are different versions of each other. An Identified object MUST be referred to using either its identity URI or its persistentIdentity URI.
 		URIProperty persistentIdentity;
         
@@ -75,50 +119,6 @@ namespace sbol
         Identified& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "");
 
         Identified& simpleCopy(std::string uri);
-        
-        Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
-            SBOLObject(type_uri, uri),
-            persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, uri),
-            displayId(SBOL_DISPLAY_ID, this, uri),
-            version(SBOL_VERSION, this, version),
-            wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
-            wasGeneratedBy(PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, this),
-            name(SBOL_NAME, this),
-            description(SBOL_DESCRIPTION, this)
-        {
-            if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
-            {
-                if (compliantTypesEnabled())
-                {
-                    identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
-                    persistentIdentity.set(getHomespace() + "/" + uri);
-                }
-                else
-                {
-                    identity.set(getHomespace() + "/" + uri + "/" + version);
-                    persistentIdentity.set(getHomespace() + "/" + uri);
-                }
-            }
-            else if (hasHomespace())
-            {
-                identity.set(getHomespace() + "/" + uri);
-                persistentIdentity.set(getHomespace() + "/" + uri);
-            }
-            identity.validate();
-        }
-        
-        Identified(sbol_type type_uri, std::string prefix, std::string display_id, std::string version) :
-			SBOLObject(type_uri, prefix, display_id, version),
-			persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, prefix + "/" + display_id),
-			displayId(SBOL_DISPLAY_ID, this, display_id),
-			version(SBOL_VERSION, this, version),
-			wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
-            wasGeneratedBy(PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, this),
-			name(SBOL_NAME, this),
-			description(SBOL_DESCRIPTION, this)
-		{
-            identity.validate();
-		}
         
 	};
   
