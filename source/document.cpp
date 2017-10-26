@@ -485,8 +485,8 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
         if ((doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
         {
             PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
-            PyObject* py_obj = PyObject_CallObject(constructor, NULL);
-            SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyString_FromString("this"));
+            PyObject* py_obj = PyObject_CallFunction(constructor, "s", subject.c_str());
+            SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
             SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
             
             // Wipe default property values passed from default constructor. New property values will be added as properties are parsed from the input file

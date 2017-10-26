@@ -57,10 +57,10 @@ void SBOLObject::register_extension_class(PyObject* python_class, std::string ex
     if (namespaces.count(extension_name) == 0)
     {
         // Parse class name from Python __repr__
-        std::string repr_name = PyString_AsString(PyObject_Repr(python_class));
-        size_t left_class_name = repr_name.find_last_of('.') + 1;
-        size_t len_class_name = repr_name.size() - left_class_name - 2;  // eg, <class '__main__.ComponentDerivation'>
-        std::string class_name = repr_name.substr(left_class_name, len_class_name);
+//        std::string repr_name = PyBytes_AsString(PyObject_Repr(python_class));
+//        size_t left_class_name = repr_name.find_last_of('.') + 1;
+//        size_t len_class_name = repr_name.size() - left_class_name - 2;  // eg, <class '__main__.ComponentDerivation'>
+//        std::string class_name = repr_name.substr(left_class_name, len_class_name);
         
         // Register namespace and its prefix (extension name)
         Config::PYTHON_DATA_MODEL_REGISTER[getTypeURI()] = python_class;
@@ -81,8 +81,8 @@ PyObject* SBOLObject::cast(PyObject* python_class)
     } SwigPyObject;
     
     PyObject* py_obj = PyObject_CallObject(python_class, NULL);  // Call constructor
-    PyObject* temp_py_object = PyObject_GetAttr(py_obj, PyString_FromString("this"));
-    SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyString_FromString("this"));
+    PyObject* temp_py_object = PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
+    SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
     SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
     
     // Set identity

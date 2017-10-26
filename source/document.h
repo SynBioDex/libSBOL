@@ -755,7 +755,7 @@ namespace sbol {
             {
                 PyObject* py_obj = i_py_obj.second;
                 // Instantiate Python extension objects
-                SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyString_FromString("this"));
+                SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj,  PyUnicode_FromString("this"));
                 if (swig_py_object->ptr == sbol_obj)
                     return py_obj;
             }
@@ -779,7 +779,7 @@ namespace sbol {
             SBOLObject* sbol_obj = NULL;
             try
             {
-                SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyString_FromString("this"));
+                SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj,  PyUnicode_FromString("this"));
                 sbol_obj = (SBOLObject *)swig_py_object->ptr;
             } catch (...)
             {
@@ -944,7 +944,7 @@ namespace sbol {
             
             if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
-                PyObject* py_obj = PyObject_CallObject(this->constructor_for_owned_object, NULL);
+                PyObject* py_obj = PyObject_CallFunction(this->constructor_for_owned_object, "s", uri.c_str());
                 Identified* child_obj = (Identified *)getSwigClient(py_obj);
                 
                 // Form compliant URI for child object
