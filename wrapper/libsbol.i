@@ -150,6 +150,7 @@
 
 %template(_StringProperty) sbol::Property<std::string>;  // These template instantiations are private, hence the underscore...
 %template(_IntProperty) sbol::Property<int>;
+%template(_FloatProperty) sbol::Property<double>;
 
 
     

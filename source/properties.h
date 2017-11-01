@@ -262,6 +262,74 @@ namespace sbol
 
 	};
 
+    /// @ingroup extension_layer
+    /// FloatProperty objects are used to contain floats.  They can be used as member objects inside custom SBOL Extension classes.
+    class SBOL_DECLSPEC FloatProperty : public Property<double>
+    {
+    public:
+        virtual double get();                  ///< Basic getter for all SBOL literal properties.
+        
+        FloatProperty(sbol_type type_uri, void *property_owner, double initial_value = 0.0) :
+            Property(type_uri, property_owner, initial_value)
+        {
+        };
+        
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        std::string __getitem__(const int nIndex)
+        {
+            return this->operator[](nIndex);
+        }
+        
+        FloatProperty* __iter__()
+        {
+            this->python_iter = FloatProperty::iterator(this->begin());
+            return this;
+        }
+        
+        // Built-in iterator function for Python 2
+        std::string next()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        // Built-in iterator function for Python 3
+        std::string __next__()
+        {
+            if (size() == 0)
+                throw SBOLError(END_OF_LIST, "");
+            if (this->python_iter != this->end())
+            {
+                std::string ref = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                return ref;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        int __len__()
+        {
+            return this->size();
+        }
+#endif
+    };
 
     
     /// @ingroup extension_layer
@@ -533,9 +601,6 @@ namespace sbol
 		std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
 		return (SBOLClass&)*object_store->at(nIndex);
 	};
-    
-    
-
 
     /// Provides interface for an SBOL container Property that is allowed to have more than one object or value
     /// @tparam PropertyType The type of SBOL Property, eg, Text, Int, OwnedObject, etc

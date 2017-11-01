@@ -78,6 +78,8 @@ namespace sbol
 
 		Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules validation_rules = {});
 
+        Property(sbol_type type_uri, void *property_owner, double initial_value, ValidationRules validation_rules = {});
+
 		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, ValidationRules validation_rules = {}) :
 			type(type_uri),
 			sbol_owner((SBOLObject *)property_owner),
@@ -91,7 +93,8 @@ namespace sbol
         virtual std::vector<std::string> getAll();
         virtual void set(std::string new_value);    ///< Basic setter for SBOL TextProperty and URIProperty.
         virtual void set(int new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
-		void add(std::string new_value);            ///< Appends the new value to a list of values, for properties that allow it.
+        virtual void set(double new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
+        void add(std::string new_value);            ///< Appends the new value to a list of values, for properties that allow it.
         virtual void remove(int index = 0);
         virtual void clear();
 		virtual void write();
@@ -178,7 +181,18 @@ namespace sbol
 		}
 	}
 
-
+    /* Constructor for FloatProperty */
+    template <class LiteralType>
+    Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, double initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
+    {
+        // Register Property in owner Object
+        if (this->sbol_owner != NULL)
+        {
+            std::vector<std::string> property_store;
+            property_store.push_back("\"" + std::to_string(initial_value) + "\"");
+            this->sbol_owner->properties.insert({ type_uri, property_store });
+        }
+    }
 	//typedef std::map<sbol_type, PropertyBase> PropertyStore;
 
 	//extern PropertyStore* global_property_buffer;
@@ -321,6 +335,19 @@ namespace sbol
         }
         validate((void *)&new_value);  //  Call validation rules associated with this Property
     };
+    
+    /// @param new_value A new integer value for the property, which is converted to a raw string during serialization.
+    template <class LiteralType>
+    void Property<LiteralType>::set(double new_value)
+    {
+        if (new_value)
+        {
+            // TODO:  need to convert new_value to string
+            this->sbol_owner->properties[type][0] = "\"" + std::to_string(new_value) + "\"";
+        }
+        validate((void *)&new_value);  //  Call validation rules associated with this Property
+    };
+    
     
     /// @param nIndex A numerical index
     template <class LiteralType>

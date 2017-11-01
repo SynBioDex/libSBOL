@@ -944,7 +944,7 @@ namespace sbol {
             
             if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
-                PyObject* py_obj = PyObject_CallFunction(this->constructor_for_owned_object, "s", uri.c_str());
+                PyObject* py_obj = PyObject_CallFunction(this->constructor_for_owned_object, (char *)"s", uri.c_str());
                 Identified* child_obj = (Identified *)getSwigClient(py_obj);
                 
                 // Form compliant URI for child object
