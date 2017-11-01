@@ -439,6 +439,7 @@ TEMPLATE_MACRO_2(Collection)
 PROPERTY_MACRO(URIProperty)
 PROPERTY_MACRO(TextProperty)
 PROPERTY_MACRO(IntProperty)
+PROPERTY_MACRO(FloatProperty)
 
     
     
@@ -497,6 +498,7 @@ PROPERTY_MACRO(IntProperty)
 %include "assembly.h"
 %include "provo.h"
 %include "combinatorialderivation.h"
+%include "dblt.h"
 
     
 %extend sbol::ComponentDefinition
