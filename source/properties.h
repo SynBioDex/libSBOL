@@ -102,16 +102,13 @@ namespace sbol
                 std::string ref = *this->python_iter;
                 ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
-                if (this->python_iter == this->end())
-                {
-                    PyErr_SetNone(PyExc_StopIteration);
-                }
+
                 return ref;
             }
             throw SBOLError(END_OF_LIST, "");
             return NULL;
         }
-
+      
         int __len__()
         {
             return this->size();
@@ -167,12 +164,9 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
-                ref = ref.substr(1, ref.size() - 2);  // Removes flanking quotations from the field
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
-                if (this->python_iter == this->end())
-                {
-                    PyErr_SetNone(PyExc_StopIteration);
-                }
+                
                 return ref;
             }
             throw SBOLError(END_OF_LIST, "");
@@ -200,9 +194,9 @@ namespace sbol
         virtual int get();                  ///< Basic getter for all SBOL literal properties.
 
         #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-        std::string __getitem__(const int nIndex)
+        int __getitem__(const int nIndex)
         {
-            return this->operator[](nIndex);
+            return stoi(this->operator[](nIndex));
         }
         
         IntProperty* __iter__()
@@ -212,7 +206,7 @@ namespace sbol
         }
         
         // Built-in iterator function for Python 2
-        std::string next()
+        int next()
         {
             if (size() == 0)
                 throw SBOLError(END_OF_LIST, "");
@@ -224,29 +218,25 @@ namespace sbol
                 {
                     PyErr_SetNone(PyExc_StopIteration);
                 }
-                return ref;
+                return stoi(ref);
             }
             throw SBOLError(END_OF_LIST, "");
-            return NULL;
         }
         
         // Built-in iterator function for Python 3
-        std::string __next__()
+        int __next__()
         {
             if (size() == 0)
                 throw SBOLError(END_OF_LIST, "");
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
+                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
-                if (this->python_iter == this->end())
-                {
-                    PyErr_SetNone(PyExc_StopIteration);
-                }
-                return ref;
+                
+                return stoi(ref);
             }
             throw SBOLError(END_OF_LIST, "");
-            return NULL;
         }
         
         int __len__()
@@ -275,9 +265,9 @@ namespace sbol
         };
         
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-        std::string __getitem__(const int nIndex)
+        double __getitem__(const int nIndex)
         {
-            return this->operator[](nIndex);
+            return stod(this->operator[](nIndex));
         }
         
         FloatProperty* __iter__()
@@ -287,7 +277,7 @@ namespace sbol
         }
         
         // Built-in iterator function for Python 2
-        std::string next()
+        double next()
         {
             if (size() == 0)
                 throw SBOLError(END_OF_LIST, "");
@@ -299,14 +289,13 @@ namespace sbol
                 {
                     PyErr_SetNone(PyExc_StopIteration);
                 }
-                return ref;
+                return stod(ref);
             }
             throw SBOLError(END_OF_LIST, "");
-            return NULL;
         }
         
         // Built-in iterator function for Python 3
-        std::string __next__()
+        double __next__()
         {
             if (size() == 0)
                 throw SBOLError(END_OF_LIST, "");
@@ -318,10 +307,9 @@ namespace sbol
                 {
                     PyErr_SetNone(PyExc_StopIteration);
                 }
-                return ref;
+                return stod(ref);
             }
             throw SBOLError(END_OF_LIST, "");
-            return NULL;
         }
         
         int __len__()
@@ -396,8 +384,8 @@ namespace sbol
 	{
 
 	public:
-        OwnedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string dummy = "");  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
-		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object);
+        OwnedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string dummy = "", ValidationRules validation_rules = { });  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
+		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object, ValidationRules validation_rules = {  });
 
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @param sbol_obj A child object to add to this container property.
@@ -496,7 +484,7 @@ namespace sbol
             return (int)size;
         }
 
-        #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         
         std::vector<SBOLObject*>::iterator python_iter;
         
@@ -556,8 +544,8 @@ namespace sbol
 	};
 
 	template <class SBOLClass >
-    OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy) :
-		Property<SBOLClass>(type_uri, property_owner)
+    OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy, ValidationRules validation_rules) :
+		Property<SBOLClass>(type_uri, property_owner, validation_rules)
 		{
 			// Register Property in owner Object
 			if (this->sbol_owner != NULL)
@@ -568,7 +556,7 @@ namespace sbol
 		};
 
 	template <class SBOLClass>
-	OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object)
+	OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object, ValidationRules validation_rules)
 	{
 
     };
@@ -581,6 +569,7 @@ namespace sbol
         /// @TODO This could cause a memory leak if the overwritten object is not freed!
         sbol_obj.parent = this->sbol_owner;
         this->sbol_owner->owned_objects[this->type][0] = ((SBOLObject *)&sbol_obj);
+        this->validate(&sbol_obj);
     };
 
     template <class SBOLClass>
@@ -592,6 +581,7 @@ namespace sbol
         // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
         sbol_obj.parent = this->sbol_owner;
         this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
+        this->validate(&sbol_obj);
     };
 
     
