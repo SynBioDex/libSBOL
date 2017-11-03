@@ -26,7 +26,7 @@
 #ifndef PART_SHOP_INCLUDED
 #define PART_SHOP_INCLUDED
 
-#include "provo.h"
+#include "assembly.h"
 #include <string>
 #include <map>
 #include <vector>

@@ -189,6 +189,7 @@
 %include "model.h"
 %include "collection.h"
 %include "moduledefinition.h"
+%include "provo.h"
 
 // Converts json-formatted text into Python data structures, eg, lists, dictionaries
 %pythonappend sbol::PartShop::search
@@ -317,7 +318,7 @@ typedef std::string sbol::sbol_type;
 /* This macro is used to instantiate special adders and getters for the Document class */
 %define TEMPLATE_MACRO_2(SBOLClass)
     
-//    %template(add ## SBOLClass) sbol::Document::add<SBOLClass>;
+    %template(add ## SBOLClass) sbol::Document::add<SBOLClass>;
     %template(get ## SBOLClass) sbol::Document::get<SBOLClass>;
     
 %enddef
@@ -355,13 +356,18 @@ TEMPLATE_MACRO_1(ModuleDefinition);
 TEMPLATE_MACRO_1(Sequence);
 TEMPLATE_MACRO_1(Model);
 TEMPLATE_MACRO_1(Collection);
+TEMPLATE_MACRO_1(Activity);
+TEMPLATE_MACRO_1(Plan);
+TEMPLATE_MACRO_1(Agent);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
 TEMPLATE_MACRO_2(Sequence)
 TEMPLATE_MACRO_2(Model)
 TEMPLATE_MACRO_2(Collection)
-
+TEMPLATE_MACRO_2(Activity);
+TEMPLATE_MACRO_2(Plan);
+TEMPLATE_MACRO_2(Agent);
 
 %template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
     
@@ -428,7 +434,6 @@ TEMPLATE_MACRO_2(Collection)
 //};
 
 %include "assembly.h"
-%include "provo.h"
 %include "combinatorialderivation.h"
 %include "dblt.h"
 

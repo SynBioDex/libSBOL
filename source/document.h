@@ -35,6 +35,7 @@
 #include "module.h"
 #include "model.h"
 #include "collection.h"
+#include "provo.h"
 
 #include <raptor2.h>
 #include <unordered_map>
@@ -81,9 +82,11 @@ namespace sbol {
             sequences(SBOL_SEQUENCE, this, ""),
             sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, ""),
             collections(SBOL_COLLECTION, this, ""),
+            activities(PROVO_ACTIVITY, this, ""),
+            plans(PROVO_PLAN, this, ""),
+            agents(PROVO_AGENT, this, ""),
             citations(PURL_URI "bibliographicCitation", this),
             keywords(PURL_URI "elements/1.1/subject", this)
-        
 			{
                 namespaces["sbol"] = SBOL_URI "#";
                 namespaces["dcterms"] = PURL_URI;
@@ -117,6 +120,9 @@ namespace sbol {
         List<OwnedObject<Sequence>> sequences;
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
         List<OwnedObject<Collection>> collections;
+        List<OwnedObject<Activity>> activities;
+        List<OwnedObject<Plan>> plans;
+        List<OwnedObject<Agent>> agents;
 
         URIProperty citations;
         URIProperty keywords;
@@ -321,7 +327,7 @@ namespace sbol {
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
                 sbol_obj.parent = this;  // Set back-pointer to parent object
-                this->owned_objects[sbol_obj.type].push_back((SBOLClass*)&sbol_obj);  // Add the object to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc.
+                this->owned_objects[sbol_obj.getTypeURI()].push_back((SBOLClass*)&sbol_obj);  // Add the object to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc.
             }
             sbol_obj.doc = this;
             
