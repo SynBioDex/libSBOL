@@ -88,9 +88,6 @@
     catch(SBOLError e)
     {
         PyErr_SetNone(PyExc_StopIteration);
-        
-        //        PyErr_SetObject(PyExc_StopIteration, Py_None);
-        //PyErr_Clear()
         return NULL;
     }
 }
@@ -377,71 +374,6 @@ TEMPLATE_MACRO_2(Collection)
 %template(countComponentDefinition) sbol::PartShop::count < ComponentDefinition >;
 %template(countCollection) sbol::PartShop::count < Collection >;
 
-%define PROPERTY_MACRO(SBOLClass)
-%extend sbol::SBOLClass
-{
-    std::string __getitem__(const int nIndex)
-    {
-        return $self->operator[](nIndex);
-    }
-    
-    SBOLClass* __iter__()
-    {
-        $self->python_iter = SBOLClass::iterator($self->begin());
-        return $self;
-    }
-    
-    // Built-in iterator function for Python 2
-    std::string next()
-    {
-        if ($self->size() == 0)
-            throw SBOLError(END_OF_LIST, "");
-        if ($self->python_iter != $self->end())
-        {
-            std::string ref = *$self->python_iter;
-            $self->python_iter++;
-            if ($self->python_iter == $self->end())
-            {
-                PyErr_SetNone(PyExc_StopIteration);
-            }
-            return ref;
-        }
-        throw SBOLError(END_OF_LIST, "");
-        return NULL;
-    }
-    
-    // Built-in iterator function for Python 3
-    std::string __next__()
-    {
-        if ($self->size() == 0)
-            throw SBOLError(END_OF_LIST, "");
-        if ($self->python_iter != $self->end())
-        {
-            std::string ref = *$self->python_iter;
-            $self->python_iter++;
-            if ($self->python_iter == $self->end())
-            {
-                PyErr_SetNone(PyExc_StopIteration);
-            }
-            return ref;
-        }
-        throw SBOLError(END_OF_LIST, "");
-        return NULL;
-    }
-    
-    int __len__()
-    {
-        return $self->size();
-    }
-}
-%enddef
-
-PROPERTY_MACRO(URIProperty)
-PROPERTY_MACRO(TextProperty)
-PROPERTY_MACRO(IntProperty)
-PROPERTY_MACRO(FloatProperty)
-
-    
     
     
 //%extend sbol::ReferencedObject
@@ -595,6 +527,48 @@ PROPERTY_MACRO(FloatProperty)
         if ($self->PythonObjects.find(id) != $self->PythonObjects.end())
             return $self->PythonObjects[id];
         throw SBOLError(NOT_FOUND_ERROR, "Object " + id + " not found");
+    }
+    
+    Document* __iter__()
+    {
+        $self->python_iter = std::vector<sbol::SBOLObject*>::iterator($self->begin());
+        return $self;
+    }
+    
+    SBOLObject* next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            SBOLObject* obj = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return (SBOLObject*)obj;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    SBOLObject* __next__()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            
+            SBOLObject* obj = *$self->python_iter;
+            $self->python_iter++;
+            
+            return (SBOLObject*)obj;
+        }
+        
+        throw SBOLError(END_OF_LIST, "");;
+        return NULL;
+    }
+    
+    int __len__()
+    {
+        return $self->size();
     }
     
 }
