@@ -188,6 +188,39 @@ namespace sbol {
             return this->size();
         }
         
+        /// Provides iterator functionality for SBOL properties that contain multiple objects
+        class iterator : public std::vector<SBOLObject*>::iterator
+        {
+        public:
+            
+            iterator(typename std::vector<SBOLObject*>::iterator i_object = std::vector<SBOLObject*>::iterator()) : std::vector<SBOLObject*>::iterator(i_object)
+            {
+            }
+            
+            SBOLObject& operator*()
+            {
+                return (SBOLObject&) *std::vector<SBOLObject*>::iterator::operator *();
+            }
+        };
+        
+        iterator begin()
+        {
+            std::vector<SBOLObject*> object_store;
+            for (auto & entry : SBOLObjects)
+                object_store.push_back(entry.second);
+            return iterator(object_store.begin());
+        };
+        
+        iterator end()
+        {
+            std::vector<SBOLObject*> object_store;
+            for (auto & entry : SBOLObjects)
+                object_store.push_back(entry.second);
+            return iterator(object_store.end());
+        };
+        
+        std::vector<SBOLObject*>::iterator python_iter;
+        
         /// Search recursively for an SBOLObject in this Document that matches the uri
         /// @param uri The identity of the object to search for
         /// @return A pointer to the SBOLObject, or NULL if an object with this identity doesn't exist
@@ -482,6 +515,8 @@ namespace sbol {
                 child_obj->doc = parent_doc;
             if (CHECK_TOP_LEVEL)
                 parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
+            
+            this->validate(child_obj);
             return *child_obj;
         }
         else
@@ -500,6 +535,8 @@ namespace sbol {
             this->add(*child_obj);
             if (parent_obj->doc)
                 child_obj->doc = parent_obj->doc;
+            
+            this->validate(child_obj);
             return *child_obj;
         }
     };
@@ -569,6 +606,8 @@ namespace sbol {
                 child_obj->doc = parent_doc;
             if (CHECK_TOP_LEVEL)
                 parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
+
+            this->validate(child_obj);
             return *child_obj;
         }
         else
@@ -586,6 +625,8 @@ namespace sbol {
             this->add(*child_obj);
             if (parent_obj->doc)
                 child_obj->doc = parent_obj->doc;
+            
+            this->validate(child_obj);
             return *child_obj;
         }
     };
