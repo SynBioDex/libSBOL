@@ -680,10 +680,37 @@ class TestMemory(unittest.TestCase):
         bool2 = cd.thisown
         self.assertNotEquals(bool1, bool2)
 
-# List of tests
-test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory]
+class TestIterators(unittest.TestCase):
 
-def runTests():
+    def setUp(self):
+        pass
+    
+    def testTextPropertyIterator(self):
+        cd = ComponentDefinition()
+        cd.description.add('lorem')
+        cd.description.add('ipsum')
+        descriptions = []
+        for d in cd.description:
+            descriptions.append(d)
+        self.assertEquals(descriptions, ['lorem', 'ipsum'])
+
+    def testURIPropertyIterator(self):
+        cd = ComponentDefinition()
+        cd.roles.add(SO_PROMOTER)
+        cd.roles.add(SO_GENE)
+        roles = []
+        for r in cd.roles:
+            roles.append(r)
+        self.assertEquals(roles, [SO_PROMOTER, SO_GENE])
+
+    def testDocumentIterator(self):
+        pass
+
+                           
+# List of tests
+default_test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory, TestIterators]
+
+def runTests(test_list = default_test_list):
     print("Setting up")
     suite_list = []
     loader = unittest.TestLoader()
@@ -693,7 +720,8 @@ def runTests():
    
     full_test_suite = unittest.TestSuite(suite_list)
     unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(full_test_suite)
-    
+
+
 if __name__ == '__main__':
     runTests()
 
