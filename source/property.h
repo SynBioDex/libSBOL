@@ -172,6 +172,7 @@ namespace sbol
 	template <class LiteralType>
 	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
 	{
+        validate(&initial_value);
 		// Register Property in owner Object
 		if (this->sbol_owner != NULL)
 		{
@@ -185,6 +186,7 @@ namespace sbol
     template <class LiteralType>
     Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, double initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
     {
+        validate(&initial_value);
         // Register Property in owner Object
         if (this->sbol_owner != NULL)
         {
@@ -435,11 +437,17 @@ namespace sbol
             std::string current_value = this->sbol_owner->properties[this->type][0];
             if (current_value[0] == '<')  //  this property is a uri
             {
-                this->sbol_owner->properties[this->type].push_back("<" + new_value + ">");
+                if (current_value[1] == '>')
+                    this->sbol_owner->properties[this->type][0] = "<" + new_value + ">";
+                else
+                    this->sbol_owner->properties[this->type].push_back("<" + new_value + ">");
             }
             else if (current_value[0] == '"') // this property is a literal
             {
-                this->sbol_owner->properties[this->type].push_back("\"" + new_value + "\"");
+                if (current_value[1] == '"')
+                    this->sbol_owner->properties[this->type][0] = "\"" + new_value + "\"";
+                else
+                    this->sbol_owner->properties[this->type].push_back("\"" + new_value + "\"");
             }
             validate((void *)&new_value);  //  Call validation rules associated with this Property
         }
