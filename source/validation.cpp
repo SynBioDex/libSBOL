@@ -85,17 +85,15 @@ the ComponentInstance objects A and B and the ComponentDefinition objects X and 
 contains A, A is defined by Y, Y contains B, and B is defined by X" is cyclical. */
 
 
-
+// Print a test message
 void sbol::libsbol_rule_1(void *sbol_obj, void *arg)
 {
 	cout << "Testing internal validation rules" << endl;
 };
 
+// Validate XSD date-time format
 void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
 {
-
-        //string& date_time = (string&)*arg;
-		//char *date_time[] = (char *[])arg;
 		const char *c_date_time = (const char *)arg;
 		string date_time = string(c_date_time);
         if (date_time.compare("") != 0)
@@ -115,4 +113,55 @@ void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
             if (!(DATETIME_MATCH_1 || DATETIME_MATCH_2 || DATETIME_MATCH_3))
                 throw SBOLError(SBOL_ERROR_NONCOMPLIANT_VERSION, "Invalid datetime format. Datetimes are based on XML Schema dateTime datatype. For example 2016-03-16T20:12:00Z");
         }
+};
+
+// Validate Design.structure and Design.function are compatible
+void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
+{
+    ComponentDefinition& structure = (ComponentDefinition&)*arg;
+    std::cout << "Validating " << structure.identity.get() << std::endl;
+
+    Design& design = (Design&)(*structure.parent);
+    if (design.function.size() > 0)
+    {
+        std::cout << "Function is defined" << std::endl;
+        ModuleDefinition& fx = design.function.get();
+        bool STRUCTURE_FUNCTION_CORRELATED = false;
+        for (auto & fc : fx.functionalComponents)
+        {
+            if (fc.definition.get().compare(structure.identity.get()))
+                STRUCTURE_FUNCTION_CORRELATED = true;
+                break;
+        }
+        if (!STRUCTURE_FUNCTION_CORRELATED)
+            FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+    }
+    else
+        std::cout << "Function is not defined" << std::endl;
+
+};
+
+void sbol::libsbol_rule_4(void *sbol_obj, void *arg)
+{
+    ModuleDefinition& fx = (ModuleDefinition&)*arg;
+    std::cout << "Validating " << fx.identity.get() << std::endl;
+
+    Design& design = (Design&)(*fx.parent);
+    if (design.structure.size() > 0)
+    {
+        std::cout << "Function is defined" << std::endl;
+        ComponentDefinition& structure = design.structure.get();
+        bool STRUCTURE_FUNCTION_CORRELATED = false;
+        for (auto & fc : fx.functionalComponents)
+        {
+            if (fc.definition.get().compare(structure.identity.get()))
+                STRUCTURE_FUNCTION_CORRELATED = true;
+            break;
+        }
+        if (!STRUCTURE_FUNCTION_CORRELATED)
+            FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+    }
+    else
+        std::cout << "Structure is not defined" << std::endl;
+
 };

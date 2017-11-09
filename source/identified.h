@@ -100,6 +100,9 @@ namespace sbol
         /// An Activity which generated this ComponentDefinition, eg., a design process like codon-optimization or a construction process like Gibson Assembly
         ReferencedObject wasGeneratedBy;
         
+        template<class SBOLClass>
+        SBOLClass& generate();
+        
         /// The name property is OPTIONAL and has a data type of String. This property is intended to be displayed to a human when visualizing an Identified object. If an Identified object lacks a name, then software tools SHOULD instead display the object’s displayId or identity. It is RECOMMENDED that software tools give users the ability to switch perspectives between name properties that are human-readable and displayId properties that are less human-readable, but are more likely to be unique.
 		TextProperty name;
         
@@ -128,7 +131,6 @@ namespace sbol
         return (SBOLClass&)this->copy(NULL, ns, version);
     };
   
-
 };
 
 #endif
