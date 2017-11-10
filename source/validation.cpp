@@ -118,7 +118,9 @@ void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
 // Validate Design.structure and Design.function are compatible
 void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
 {
-    ComponentDefinition& structure = (ComponentDefinition&)*arg;
+//    ComponentDefinition& structure = *(ComponentDefinition*)arg;
+    ComponentDefinition& structure = *static_cast<ComponentDefinition*>(arg);
+
     std::cout << "Validating " << structure.identity.get() << std::endl;
 
     Design& design = (Design&)(*structure.parent);
@@ -143,7 +145,9 @@ void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
 
 void sbol::libsbol_rule_4(void *sbol_obj, void *arg)
 {
-    ModuleDefinition& fx = (ModuleDefinition&)*arg;
+//    ModuleDefinition& fx = *(ModuleDefinition*)arg;
+    ModuleDefinition& fx = *static_cast<ModuleDefinition*>(arg);
+
     std::cout << "Validating " << fx.identity.get() << std::endl;
 
     Design& design = (Design&)(*fx.parent);
