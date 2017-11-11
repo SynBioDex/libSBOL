@@ -28,8 +28,10 @@
 using namespace std;
 using namespace sbol;
 
+namespace sbol
+{
 template<>
-void sbol::Document::add<Design>(Design& sbol_obj)
+void Document::add<Design>(Design& sbol_obj)
 {
     
 };
@@ -101,7 +103,7 @@ void TopLevel::initialize(std::string uri)
 
 
 template<>
-Build& sbol::TopLevel::generate<Build>(std::string uri)
+Build& TopLevel::generate<Build>(std::string uri)
 {
     if (doc == NULL)
         throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Generate method requires the progenitor object belong to a Document.");
@@ -129,4 +131,6 @@ Build& sbol::TopLevel::generate<Build>(std::string uri)
 //    // Validate that the generated object is TopLevel
 //    if (dynamic_cast<TopLevel*>(&new_obj) == NULL)
 //        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid template argument. Generate method must generate a TopLevel object");
+};
+
 };
