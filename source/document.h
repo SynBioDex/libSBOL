@@ -604,6 +604,7 @@ namespace sbol {
             
             // Add the new object to this OwnedObject property
             // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
+            child_obj->parent = parent_obj;  // Set back-pointer to parent object
             std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
             object_store.push_back(child_obj);
             
@@ -1094,10 +1095,12 @@ namespace sbol {
                 //this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
             }
         }
+        throw std::runtime_error("This property is not defined in the parent object");
+
     };
-    
+
     template <class SBOLClass>
-    void OwnedObject<SBOLClass>::remove(std::string uri)
+    SBOLClass& OwnedObject<SBOLClass>::remove(std::string uri)
     {
         if (this->sbol_owner)
         {
@@ -1107,20 +1110,50 @@ namespace sbol {
                 int i_obj = 0;
                 for (; i_obj < object_store.size(); ++i_obj)
                 {
-                    SBOLObject& obj = *object_store[i_obj];
-                    if (uri.compare(obj.identity.get()) == 0)
+                    SBOLObject* obj = object_store[i_obj];
+                    if (uri.compare(obj->identity.get()) == 0)
                     {
                         this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + i_obj);
                         //this->remove(i_obj);
-                        TopLevel* check_top_level = dynamic_cast<TopLevel*>(&obj);
+                        TopLevel* check_top_level = dynamic_cast<TopLevel*>(obj);
                         if (check_top_level)
-                            obj.doc->SBOLObjects.erase(uri);
-                        break;
+                            obj->doc->SBOLObjects.erase(uri);
+                        SBOLClass* cast_obj = dynamic_cast<SBOLClass*>(cast_obj);
+                        return *cast_obj;
                     }
                 }
+                
             }
         }
+        throw std::runtime_error("This property is not defined in the parent object");
+
     };
+    
+//    template <class SBOLClass>
+//    void OwnedObject<SBOLClass>::remove(std::string uri)
+//    {
+//        if (this->sbol_owner)
+//        {
+//            if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
+//            {
+//                std::vector<SBOLObject*>& object_store = this->sbol_owner->owned_objects[this->type];
+//                int i_obj = 0;
+//                for (; i_obj < object_store.size(); ++i_obj)
+//                {
+//                    SBOLObject& obj = *object_store[i_obj];
+//                    if (uri.compare(obj.identity.get()) == 0)
+//                    {
+//                        this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + i_obj);
+//                        //this->remove(i_obj);
+//                        TopLevel* check_top_level = dynamic_cast<TopLevel*>(&obj);
+//                        if (check_top_level)
+//                            obj.doc->SBOLObjects.erase(uri);
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//    };
     
     template <class SBOLClass>
     void OwnedObject<SBOLClass>::clear()
