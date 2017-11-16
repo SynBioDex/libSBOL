@@ -480,9 +480,12 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
             int own;
             PyObject *next;
         } SwigPyObject;
-        
+//        if (!doc->find(subject))
+//        {
+//                std::cout << "Skipping object: " << subject << "\t" << predicate << "\t" << object << std::endl;
+//        }
         // Instantiate Python extension objects
-        if ((doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
+        if ((!doc->find(subject)) && (doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
         {
             PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
             PyObject* py_obj = PyObject_CallFunction(constructor, (char *)"s", subject.c_str());
@@ -518,7 +521,7 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
         else
 #endif
         // Checks if the object has already been created and whether a constructor for this type of object exists
-        if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
+        if ((!doc->find(subject)) && (doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{
             SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();  // Call constructor for the appropriate SBOLObject
 
@@ -551,7 +554,7 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
                 doc->owned_objects[new_obj.type].push_back(&new_obj);  // Adds objects to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc
 		}
         // Generic TopLevels
-        else if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 0))
+        else if ((!doc->find(subject)) && (doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 0))
         {
             SBOLObject& new_obj = *new SBOLObject();  // Call constructor for the appropriate SBOLObject
             new_obj.identity.set(subject);
@@ -587,9 +590,14 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 	{
 		string property_ns = property_uri.substr(0, found);
 		string property_name = property_uri.substr(found + 1, subject.length() - 1);
+
 		// If property name is something other than "type" than the triple matches the pattern for defining properties
 		if (property_uri.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") != 0)
 		{
+//            if (!doc->find(owned_obj_id))
+//            {
+//                    std::cout << "Skipping property: " << subject << "\t" << predicate << "\t" << object << std::endl;
+//            }
 			// Checks if the object to which this property belongs already exists
 			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
 			{
@@ -606,19 +614,22 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 				}
 				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
 				{
-					// Strip off the angle brackets from the URI value.  Note that a Document's object_store
-					// and correspondingly, an SBOLObject's property_store uses stripped URIs as keys,
-					// while libSBOL uses as a convention angle brackets or quotes for Literal values
-					string owned_obj_id = property_value.substr(1, property_value.length() - 2);
-					
-					// Form a composite SBOL data structure.  The owned object is added to its parent
-					// TopLevel object.  The owned object is then removed from its temporary location in the Document's object store
-					// and is now associated only with it's parent TopLevel object.
-					SBOLObject *owned_obj = doc->SBOLObjects[owned_obj_id];
-					sbol_obj->owned_objects[property_uri].push_back(owned_obj);
-                    owned_obj->parent = sbol_obj;
-					doc->SBOLObjects.erase(owned_obj_id);
-                    // doc->owned_objects.erase(owned_object->type);  // Remove temporary, non-toplevel objects from the Document's property store
+                    // Strip off the angle brackets from the URI value.  Note that a Document's object_store
+                    // and correspondingly, an SBOLObject's property_store uses stripped URIs as keys,
+                    // while libSBOL uses as a convention angle brackets or quotes for Literal values
+                    string owned_obj_id = property_value.substr(1, property_value.length() - 2);
+                    
+                    // Form a composite SBOL data structure.  The owned object is added to its parent
+                    // TopLevel object.  The owned object is then removed from its temporary location in the Document's object store
+                    // and is now associated only with it's parent TopLevel object.
+                    if (doc->SBOLObjects.find(owned_obj_id) != doc->SBOLObjects.end())
+                    {
+                        SBOLObject *owned_obj = doc->SBOLObjects[owned_obj_id];
+                        sbol_obj->owned_objects[property_uri].push_back(owned_obj);
+                        owned_obj->parent = sbol_obj;
+                        doc->SBOLObjects.erase(owned_obj_id);
+                        // doc->owned_objects.erase(owned_object->type);  // Remove temporary, non-toplevel objects from the Document's property store
+                    }
 				}
                 // Extension data
                 else
@@ -704,7 +715,7 @@ void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
         if (message->locator->file) cout << message->locator->file;
         if (message->locator->uri) cout << raptor_uri_as_string(message->locator->uri) << endl;
         }
-    throw SBOLError(SBOL_ERROR_SERIALIZATION, "An error occurred while parsing or serializing. The file may not contain valid RDF/XML");
+    throw SBOLError(SBOL_ERROR_SERIALIZATION, "An error occurred while parsing or serializing. The file may not contain valid SBOL");
 }
 
 /**
@@ -1365,7 +1376,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         // Don't overwrite namespaces for the wasDerivedFrom field, which points back to the original object
         if (ns.compare("") != 0 && store_uri.compare(SBOL_WAS_DERIVED_FROM) != 0)
         {
-            string old_ns = getHomespace();
+            string old_ns = ns;
             for (int i_property_val = 0; i_property_val < property_store_copy.size(); ++i_property_val)
             {
                 string property_val = property_store_copy[i_property_val];
@@ -1374,7 +1385,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
                 if (pos != std::string::npos)
                 {
                     property_val.erase(pos, old_ns.size());
-                    property_val.insert(pos, ns);
+                    property_val.insert(pos, getHomespace());
                 }
                 property_store_copy[i_property_val] = property_val;
             }
