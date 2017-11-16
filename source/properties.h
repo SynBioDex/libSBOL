@@ -422,10 +422,14 @@ namespace sbol
         /// @return A vector of pointers to the objects
         std::vector<SBOLClass*> getObjects();
         
-        /// Remove an object from the list of objects and destroy it.
-        /// @param uri The identity of the object to be destroyed. This can be a displayId of the object or a full URI may be provided.
-        void remove(std::string uri);
-        
+//        /// Remove an object from the list of objects and destroy it.
+//        /// @param uri The identity of the object to be destroyed. This can be a displayId of the object or a full URI may be provided.
+//        void remove(std::string uri);
+
+        /// Remove an object from the list of objects.
+        /// @param uri This can be a displayId of the object or a full URI may be provided.
+        SBOLClass& remove(std::string uri);
+
         /// Remove an object from the list of objects and destroy it.
         /// @param index A numerical index for the object.
         void remove(int index = 0) override;
