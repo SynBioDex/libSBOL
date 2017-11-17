@@ -163,6 +163,29 @@ namespace sbol
         /// @param elements The primary sequence elements will be assigned to the autoconstructed Sequence object. The encoding is inferred
         void addDownstreamFlank(Component& target, std::string elements);
 
+        /// Use this diagnose an irregular design. Recursively checks if this ComponentDefinition defines a SequenceAnnotation and Range for every Sequence. Regularity is more stringent than completeness. A design must be complete to be regular.
+        /// @param msg A message for diagnosing the irregularity, if any is found. The message is returned through an argument of type std::string&
+        /// @return true if the abstraction hierarchy is regular, false otherwise.
+        bool isRegular(std::string &msg);
+
+        /// Recursively checks if this ComponentDefinition defines a SequenceAnnotation and Range for every Sequence. Regularity is more stringent than completeness. A design must be complete to be regular. If the Component is irregular, diagnose with isRegular(std::string &msg)
+        /// @return true if the abstraction hierarchy is regular, false otherwise.
+        bool isRegular();
+
+        /// Use this diagnose an incomplete design. Recursively checks if this ComponentDefinition defines a SequenceAnnotation and Range for every Sequence. Completeness does not guarantee regularity
+        /// @param msg A message for diagnosing the irregularity, if any is found. The message is returned through an argument of type std::string&
+        /// @return true if the abstraction hierarchy is regular, false otherwise.
+        bool isComplete(std::string &msg);
+        
+        /// Recursively verifies that the parent Document contains a ComponentDefinition and Sequence for each and every ComponentDefinition in the abstraction hierarchy. If a ComponentDefinition is not complete, some objects are missing from the Document or externally linked. Diagnose with isComplete(std::string &msg)
+        /// @return true if the abstraction hierarchy is complete, false otherwise.
+        bool isComplete();
+
+//        /// Instantiates a Component for every SequenceAnnotation. When converting from a flat GenBank file to a flat SBOL file, the result is a ComponentDefinition with SequenceAnnotations. This method will convert the flat SBOL file into hierarchical SBOL.
+//        void dissemble();
+
+        /// Instantiates a Component for every SequenceAnnotation. When converting from a flat GenBank file to a flat SBOL file, the result is a ComponentDefinition with SequenceAnnotations. This method will convert the flat SBOL file into hierarchical SBOL.
+        void dissemble(int range_start = 1);
         
         ComponentDefinition& build();
         

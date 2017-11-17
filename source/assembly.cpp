@@ -26,6 +26,7 @@
 #include "assembly.h"
 
 #include <stdio.h>
+#include <algorithm>
 
 using namespace std;
 using namespace sbol;
@@ -710,7 +711,6 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
                 {
                     subject_mdef = mdef;
                 }
-
             }
         }
     }
@@ -927,7 +927,7 @@ bool SequenceAnnotation::overlaps(SequenceAnnotation& comparand)
 int Range::precedes(Range& comparand)
 {
     if (end.get() < comparand.start.get())
-        return comparand.start.get() + 1 - end.get();
+        return comparand.start.get() - end.get();
     else
         return 0;
 }
@@ -935,15 +935,26 @@ int Range::precedes(Range& comparand)
 int Range::follows(Range& comparand)
 {
     if (start.get() > comparand.end.get())
-        return comparand.end.get() + 1 - start.get();
+        return comparand.end.get() - start.get();
     else
         return 0;
+}
+
+int Range::adjoins(Range& comparand)
+{
+    if (comparand.end.get() + 1 == start.get())
+        return 1;
+    if (end.get() + 1 == comparand.start.get())
+        return 1;
+    return 0;
 }
 
 int Range::contains(Range& comparand)
 {
     if (start.get() <= comparand.start.get() && end.get() >= comparand.end.get())
+    {
         return comparand.length();
+    }
     else
         return 0;
 }
@@ -1289,3 +1300,1335 @@ std::vector<ComponentDefinition*> ComponentDefinition::getPrimaryStructure()
     }
     return primary_structure;
 };
+
+
+
+int Sequence::length()
+{
+    return elements.get().length();
+};
+
+// Driver function to sort the Ranges
+// by start coordinate then by second element of pairs
+bool compare_ranges(sbol::Range *a, sbol::Range *b)
+{
+    if (a->start.get() < b->start.get()) return true;
+    if (a->start.get() > b->start.get()) return false;
+    
+    if (a->end.get() < b->end.get()) return true;
+    return false;
+}
+
+void is_regular(ComponentDefinition* cdef_node, void * user_data)
+{
+    // Assumes is_complete
+
+    struct ARG_LIST { bool * IS_REGULAR; string* msg; } args = *(struct ARG_LIST *)user_data;
+    
+    Sequence& seq = cdef_node->doc->get<Sequence>(cdef_node->sequences.get());
+    
+    std::vector< sbol::Range* > ranges;  // Contains a list of primary sequence intervals for which new Components, CDefs, and Sequences will be instantiated
+    for (auto & ann : cdef_node->sequenceAnnotations)
+    {
+        if ((ann.locations.size() == 0) || (ann.locations.size() > 1) || (ann.locations[0].type.compare(SBOL_RANGE)))
+        {
+            *args.msg = *args.msg + "SequenceAnnotation " + ann.identity.get() + " is irregular. A regular SequenceAnnotation contains a single Range.\n";
+            *args.IS_REGULAR = false;
+        }
+        else
+        {
+            Range& r = ann.locations.get<Range>();
+            r.parent = &ann;  // This is a kludge.  For some reason the parent is not properly set, perhaps when copying the parent ComponentDefinition
+            ranges.push_back(&r);
+        }
+    }
+    
+    sort(ranges.begin(), ranges.end(), compare_ranges);
+
+    if (ranges.size() > 1)
+    {
+        std::vector < sbol::Range* > nested_ranges;
+        for (auto i_r = ranges.begin(); i_r != std::prev(ranges.end()); ++i_r)
+        {
+            Range& r_a = **i_r;
+            Range& r_b = **(std::next(i_r));
+            if (r_b.contains(r_a))
+            {
+                *args.msg = *args.msg + "Found nested Ranges. Range " + r_b.identity.get() + " contains " + r_a.identity.get() + "\n";
+                *args.IS_REGULAR = false;
+            }
+            else if (r_a.contains(r_b))
+            {
+                *args.msg = *args.msg + "Found nested Ranges. Range " + r_a.identity.get() + " contains " + r_b.identity.get() + "\n";
+                *args.IS_REGULAR = false;
+            }
+            else if (r_a.overlaps(r_b))
+            {
+                *args.msg = *args.msg + "Found overlappings Ranges. Range " + r_a.identity.get() + " and " + r_b.identity.get() + " overlap.\n";
+                *args.IS_REGULAR = false;
+            }
+            else if (!r_a.adjoins(r_b))
+            {
+                *args.msg = *args.msg + "Found gap between Ranges. Range " + r_a.identity.get() + " and " + r_b.identity.get() + " are separated by a gap.\n";
+                *args.IS_REGULAR = false;
+            }
+        }
+    }
+    
+    // Validate sum of Range intervals is equal to primary sequence length, in case there is a gap at the end or a Range's interval exceeds the primary sequence length
+    int sum_of_ranges = 0;
+    for (auto & r : ranges)
+    {
+        sum_of_ranges += r->length();
+    }
+    if (seq.length() != sum_of_ranges)
+    {
+        *args.msg = *args.msg + "The sum of Range lengths is inconsistent with the Sequence length. (" + to_string(sum_of_ranges) + " != " + to_string(seq.length()) + ")\n";
+        *args.IS_REGULAR = false;
+    }
+    
+    // Check if Range's interval exceeds the primary sequence length
+    Range& r_last = **std::prev(ranges.end());
+    if (r_last.end.get() > seq.length())
+    {
+        *args.msg = *args.msg + "The end coordinate of the last Range exceeds the end coordinate of the Sequence. (" + to_string(r_last.end.get()) + " != " + to_string(seq.length()) + ")\n";
+        *args.IS_REGULAR = false;
+    }
+    
+    if (!*args.IS_REGULAR)
+    {
+        args.msg->erase(args.msg->length() - 1);  // Remove trailing newline
+        return;
+    }
+    
+    // Confirm regularity
+    *args.msg = "Regular.";
+    *args.IS_REGULAR = true;
+    return;
+
+};
+
+void is_complete(ComponentDefinition* cdef_node, void * user_data)
+{
+    
+    struct ARG_LIST { bool * IS_COMPLETE; string* msg; } args = *(struct ARG_LIST *)user_data;
+
+    if (cdef_node->doc->find(cdef_node->sequences.get()))
+    {
+        *args.msg = "Complete.";
+        *args.IS_COMPLETE = true;
+
+    }
+    else
+    {
+        *args.msg = "Incomplete.";
+        *args.IS_COMPLETE = false;
+        return;
+    }
+};
+
+
+bool ComponentDefinition::isRegular()
+{
+    string dummy;
+    isRegular(dummy);
+    std::cout << dummy << std::endl;
+    return isRegular(dummy);
+}
+
+bool ComponentDefinition::isRegular(std::string &msg)
+{
+    if (doc == NULL)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Cannot verify complete.");
+    
+    if (!isComplete())
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Incomplete. Cannot verify regular.");
+    
+    bool IS_REGULAR;
+    struct ARG_LIST { bool * IS_REGULAR; string *msg; } args = { &IS_REGULAR, &msg };
+    vector<ComponentDefinition*> cdefs = this->applyToComponentHierarchy(is_regular,  &args);
+    msg = *args.msg;
+    return IS_REGULAR;
+};
+
+bool ComponentDefinition::isComplete()
+{
+    string dummy;
+    isComplete(dummy);
+    cout << dummy << endl;
+    return isComplete(dummy);
+}
+
+bool ComponentDefinition::isComplete(std::string &msg)
+{
+    if (doc == NULL)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot verify complete. ComponentDefinition " + identity.get() + " does not belong to a Document.");
+    
+    bool IS_COMPLETE;
+    struct ARG_LIST { bool * IS_COMPLETE; string *msg; } args = { &IS_COMPLETE, &msg };
+    vector<ComponentDefinition*> cdefs = this->applyToComponentHierarchy(is_complete,  &args);
+    msg = *args.msg;
+    return IS_COMPLETE;
+};
+
+//bool ComponentDefinition::dissemble()
+//{
+//    string dummy;
+//    dissemble(dummy);
+//    cout << dummy << endl;
+//    return dissemble(dummy);
+//}
+
+void nest_ranges(std::vector < sbol::Range* > ranges)
+{
+    std::vector < sbol::Range* > processed_ranges;
+    
+    
+}
+
+void dissemble(ComponentDefinition * cdef_node, int range_start)
+{
+    std::cout << "Getting sequence" << std::endl;
+    Sequence& seq = cdef_node->doc->get<Sequence>(cdef_node->sequences.get());
+    std::string nucleotides = seq.elements.get();
+    int start_reference = range_start;
+    int end_reference = start_reference + nucleotides.length() - 1;
+    
+    // Validate only one Range per SequenceAnnotation
+    std::cout << "Validating ranges" << std::endl;
+    std::vector< sbol::Range* > ranges;
+    for (auto & ann : cdef_node->sequenceAnnotations)
+    {
+        Range& r = ann.locations. template get<Range>();
+        r.parent = &ann;  // This is a kludge.  For some reason the parent is not properly set, perhaps when copying the parent ComponentDefinition
+        ranges.push_back(&r);
+    }
+    
+    std::cout << "Sorting " << to_string(ranges.size()) << " ranges" << std::endl;
+    sort(ranges.begin(), ranges.end(), compare_ranges);
+    
+    std::cout << "Ranges sorted " << std::endl;
+    // Check if Ranges are ordered
+    for (auto & r : ranges)
+        std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+
+    if (ranges.size() == 1)
+    {
+        std::cout << "Only one Range found" << std::endl;
+
+        // This needs to be fixed as the start and end depending where in the hierarchy the Range is located
+        Range& r = *ranges[0];
+        r.start.set(start_reference);
+        r.end.set(seq.length());
+    }
+    else
+    {
+        // Remove nested and overlapping ranges
+        std::cout << "Processing irregular Ranges (nested and overlapping)" << std::endl;
+//        for (auto i_a = ranges.begin(); i_a != std::prev(ranges.end()); ++i_a)
+        bool STOP_ITER = false;
+        std::vector < sbol::Range* > irregular_ranges = ranges;
+        std::cout << "Checking for overlaps" << std::endl;
+        ranges.clear();
+        for (auto & r : irregular_ranges)
+        {
+
+            Range& r_a = **irregular_ranges.begin();
+            Range& r_b = **std::next(irregular_ranges.begin());
+            if (r_a.overlaps(r_b))
+            {
+                std::cout << "Overlapping ranges for Remove A or B?" << std::endl;
+                std::cout << r_a.start.get() << "\t" << r_a.end.get() << "\t" << r_b.start.get() << "\t" << r_b.end.get() << std::endl;
+                
+                SequenceAnnotation* ann_a = (SequenceAnnotation*)r_a.parent;
+                SequenceAnnotation* ann_b = (SequenceAnnotation*)r_b.parent;
+                std::cout << "A: " << ann_a->name.get() << "\t" << "B: " << ann_b->name.get() << std::endl;
+                char c = getchar();
+                if (c == 'A')
+                {
+                    ranges.push_back(&r_a);
+                    Location& loc = ann_a->locations.remove(r_a.identity.get());
+                    Range& r_loc = (Range&)loc;
+                    r_loc.close();  // Should destructor be called on Range?  Is this a memory leak?
+                }
+                else if (c == 'B')
+                {
+                    ranges.push_back(&r_b);
+                    Location& loc = ann_b->locations.remove(r_b.identity.get());
+                    Range& r_loc = (Range&)loc;
+                    r_loc.close();  // Should destructor be called on Range?  Is this a memory leak?
+                }
+                // Should call recursive function here
+            }
+        }
+        irregular_ranges = ranges;
+        for (auto & r : ranges)
+            std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+
+        std::cout << "Checking for nested annotations" << std::endl;
+        while (!STOP_ITER)
+        {
+            std::cout << "Iterating pairwise through Ranges" << std::endl;
+            Range& r_a = *irregular_ranges[0];
+            Range& r_b = *irregular_ranges[1];
+            
+            if (r_b.contains(r_a))
+            {
+                // Nest ranges
+                std::cout << "Nesting Range A inside B" << std::endl;
+                std::cout << r_a.start.get() << "\t"  << r_a.end.get() << "\t"  << r_b.start.get() << "\t"  << r_b.end.get() << std::endl;
+
+                SequenceAnnotation& ann_a = *(SequenceAnnotation*)r_a.parent;
+                SequenceAnnotation& ann_b = *(SequenceAnnotation*)r_b.parent;
+                
+                std::cout << "Removing old Annotation and Range" << std::endl;
+                ann_a.locations.remove(r_a.identity.get());
+                cdef_node->sequenceAnnotations.remove(ann_a.identity.get());
+                
+                if (ann_b.component.size() == 0)
+                {
+//                    std::cout << "No subcomponent found. Instantiating." << std::endl;
+                    
+                    std::string display_id = ann_b.displayId.get();
+                    size_t index = display_id.find("annotation");
+                    if (index != std::string::npos)
+                    {
+                        display_id.replace(index, 10, "component");
+                    }
+//                    std::cout << "Instantiating Sequence " << display_id << std::endl;
+                    Sequence& subseq = cdef_node->doc->sequences.create(display_id + "seq");
+                    subseq.elements.set(nucleotides.substr(r_b.start.get() - 1, r_b.end.get() - r_b.start.get() + 1));
+                    
+//                    std::cout << "Instantiating ComponentDefinition " << display_id << std::endl;
+                    ComponentDefinition& cd = cdef_node->doc->componentDefinitions.create(display_id);
+                    cd.name.set(ann_b.name.get());
+                    cd.sequences.set(subseq);
+                    
+                    Component& c = cdef_node->components.create(display_id);
+                    c.definition.set(cd);
+                    c.name.set(ann_b.name.get());
+                    
+                    ann_b.component.set(c.identity.get());
+                    
+//                    std::cout << "Created subcomponent has been instantiated, creating nested Range" << std::endl;
+                    SequenceAnnotation& new_ann = cd.sequenceAnnotations.create(ann_a.displayId.get());
+                    Range& new_range = new_ann.locations.create<Range>(r_a.displayId.get());
+                    new_range.start.set(r_a.start.get());
+                    new_range.end.set(r_a.end.get());
+                    std::cout << "Created nested Range " << new_range.start.get() << new_range.end.get() << std::endl;
+                    
+                }
+                else
+                {
+//                    std::cout << "Subcomponent already instantiated. Creating nested Range" << std::endl;
+                    Component& c = cdef_node->components.get(ann_b.component.get());
+                    ComponentDefinition& cd = cdef_node->doc->get<ComponentDefinition>(c.definition.get());
+                    SequenceAnnotation& new_ann = cd.sequenceAnnotations.create(ann_a.displayId.get());
+                    Range& new_range = new_ann.locations.create<Range>(r_a.displayId.get());
+                    new_range.start.set(r_a.start.get());
+                    new_range.end.set(r_a.end.get());
+                    std::cout << "Created nested Range " << new_range.start.get() << new_range.end.get() << std::endl;
+
+                    // Should call recursive function here
+                }
+                
+                std::cout << "Freeing old Annotation and Range" << std::endl;
+                irregular_ranges.erase(irregular_ranges.begin());
+
+                r_a.close();
+                ann_a.close();
+            }
+            else if (r_a.contains(r_b))
+            {
+                std::cout << "Nesting Range B inside A" << std::endl;
+                std::cout << r_a.start.get() << "\t"  << r_a.end.get() << "\t"  << r_b.start.get() << "\t"  << r_b.end.get() << std::endl;
+
+                SequenceAnnotation& ann_a = *(SequenceAnnotation*)r_a.parent;
+                SequenceAnnotation& ann_b = *(SequenceAnnotation*)r_b.parent;
+                
+//                std::cout << "Removing old Annotation and Range" << std::endl;
+                ann_b.locations.remove(r_b.identity.get());
+                cdef_node->sequenceAnnotations.remove(ann_b.identity.get());
+                
+                if (ann_a.component.size() == 0)
+                {
+//                    std::cout << "No subcomponent found. Instantiating." << std::endl;
+                    
+                    std::string display_id = ann_a.displayId.get();
+                    size_t index = display_id.find("annotation");
+                    if (index != std::string::npos)
+                    {
+                        display_id.replace(index, 10, "component");
+                    }
+//                    std::cout << "Instantiating Sequence " << display_id << std::endl;
+                    Sequence& subseq = cdef_node->doc->sequences.create(display_id + "seq");
+                    subseq.elements.set(nucleotides.substr(r_a.start.get() - 1, r_a.end.get() - r_a.start.get() + 1));
+                    
+//                    std::cout << "Instantiating ComponentDefinition " << display_id << std::endl;
+                    ComponentDefinition& cd = cdef_node->doc->componentDefinitions.create(display_id);
+                    cd.name.set(ann_a.name.get());
+                    cd.sequences.set(subseq);
+                    
+                    Component& c = cdef_node->components.create(display_id);
+                    c.definition.set(cd);
+                    c.name.set(ann_a.name.get());
+                    
+                    ann_a.component.set(c.identity.get());
+                    
+//                    std::cout << "Now that subcompnent has been instantiated, creating nested Range" << std::endl;
+                    SequenceAnnotation& new_ann = cd.sequenceAnnotations.create(ann_b.displayId.get());
+                    Range& new_range = new_ann.locations.create<Range>(r_b.displayId.get());
+                    new_range.start.set(r_b.start.get());
+                    new_range.end.set(r_b.end.get());
+                    std::cout << "Created nested Range " << new_range.start.get() << "\t" << new_range.end.get() << std::endl;
+                    
+                }
+                else
+                {
+//                    std::cout << "Subcomponent already instantiated. Creating nested Range" << std::endl;
+                    Component& c = cdef_node->components.get(ann_a.component.get());
+                    ComponentDefinition& cd = cdef_node->doc->get<ComponentDefinition>(c.definition.get());
+                    SequenceAnnotation& new_ann = cd.sequenceAnnotations.create(ann_b.displayId.get());
+                    Range& new_range = new_ann.locations.create<Range>(r_b.displayId.get());
+                    new_range.start.set(r_b.start.get());
+                    new_range.end.set(r_b.end.get());
+                    std::cout << "Created nested Range " << new_range.start.get() << "\t" << new_range.end.get() << std::endl;
+
+                    // Should call recursive function here
+                }
+                
+                std::cout << "Freeing old Annotation and Range" << std::endl;
+                irregular_ranges.erase(irregular_ranges.begin() + 1);
+                r_b.close();
+                ann_b.close();
+                // Should call recursive function here
+            }
+            else
+            {
+                std::cout << "Range " << r_a.start.get() << "\t" << r_a.end.get() << " is Regular" << std::endl;
+                irregular_ranges.erase(irregular_ranges.begin());
+            }
+            if (irregular_ranges.size() == 1)
+            {
+                std::cout << "Stopping iteration" << std::endl;
+                STOP_ITER = true;
+            }
+        }
+    }
+    
+    ranges.clear();
+    for (auto & ann : cdef_node->sequenceAnnotations)
+    {
+        Range& r = ann.locations. template get<Range>();
+        r.parent = &ann;  // This is a kludge.  For some reason the parent is not properly set, perhaps when copying the parent ComponentDefinition
+        ranges.push_back(&r);
+    }
+    
+    std::cout << "Sorting " << to_string(ranges.size()) << " ranges" << std::endl;
+    sort(ranges.begin(), ranges.end(), compare_ranges);
+
+    for (auto & r : ranges)
+        std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+
+    std::cout << "Filling initial gap" << std::endl;
+    // Fill gap if first Range does not begin at the Sequence start
+    Range& r_first = **ranges.begin();
+    if (r_first.start.get() > start_reference)
+    {
+        int r_new_start = start_reference;
+        int r_new_end = r_first.start.get() - 1;
+        int l = r_new_end - r_new_start + 1;
+        string flanking_seq = nucleotides.substr(r_new_start - 1, l);
+        std::cout << "Adding initial Range from " << r_new_start << " to " << r_new_end << std::endl;
+
+        // Generate URI of new SequenceAnnotation.  Check if an object with that URI is already instantiated.
+        int instance_count = 1;
+        string annotation_id = cdef_node->persistentIdentity.get() + "/annotation_" + to_string(instance_count) + "/" + cdef_node->version.get();
+        while (cdef_node->doc->find(annotation_id) != NULL)
+        {
+            // Find the last instance assigned
+            ++instance_count;
+            annotation_id = cdef_node->persistentIdentity.get() +  "/annotation_" + to_string(instance_count) + "/" + cdef_node->version.get();
+        }
+        SequenceAnnotation& new_ann = cdef_node->sequenceAnnotations.create("annotation_" + to_string(instance_count));
+        Range& new_range = new_ann.locations.create<Range>("range_" + to_string(instance_count));
+        new_range.start.set(r_new_start);
+        new_range.end.set(r_new_end);
+        
+        // Append in order in the list of Ranges
+        ranges.insert(ranges.begin(), &new_range);
+    }
+    
+    // Check if Ranges are ordered
+    for (auto & r : ranges)
+        std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+
+    // Fill in gaps with flanking SequenceAnnotations / Ranges
+    std::cout << "Filling gaps with flanking sequences" << std::endl;
+
+    std::vector < sbol::Range* > gapped_ranges = ranges;
+    ranges.clear();
+    for (auto i_r = gapped_ranges.begin(); i_r != std::prev(gapped_ranges.end()); ++i_r)
+    {
+        std::cout << "Iterating through Ranges" << std::endl;
+        Range& r_a = **i_r;
+        Range& r_b = **(std::next(i_r));
+        ranges.push_back(&r_a);
+        
+        if (!r_a.adjoins(r_b))
+        {
+            std::cout << "Calculating gap" << std::endl;
+            int r_new_start = r_a.end.get() + 1;
+            int r_new_end = r_b.start.get() - 1;
+            int l = r_new_end - r_new_start + 1;
+            string flanking_seq = nucleotides.substr(r_new_start - 1, l);
+            std::cout << "Start: " << r_new_start << std::endl;
+            std::cout << "End: " << r_new_end << std::endl;
+
+            std::cout << "Autoconstructing SequenceAnnotation" << std::endl;
+
+            // Generate URI of new SequenceAnnotation.  Check if an object with that URI is already instantiated.
+            int instance_count = 1;
+            string annotation_id = cdef_node->persistentIdentity.get() + "/annotation_" + to_string(instance_count) + "/" + cdef_node->version.get();
+            while (cdef_node->doc->find(annotation_id) != NULL)
+            {
+                // Find the last instance assigned
+                ++instance_count;
+                annotation_id = cdef_node->persistentIdentity.get() +  "/annotation_" + to_string(instance_count) + "/" + cdef_node->version.get();
+            }
+            SequenceAnnotation& new_ann = cdef_node->sequenceAnnotations.create("annotation_" + to_string(instance_count));
+            
+            std::cout << "Autoconstructing Range" << std::endl;
+
+            Range& new_range = new_ann.locations.create<Range>("range_" + to_string(instance_count));
+            new_range.start.set(r_new_start);
+            new_range.end.set(r_new_end);
+            
+            // Append in order in the list of Ranges
+            std::cout << "Inserting new range " << std::endl;
+            ranges.push_back(&new_range);
+
+        }
+    }
+    ranges.push_back(gapped_ranges[gapped_ranges.size() - 1]); // Terminal range
+
+    for (auto & r : ranges)
+        std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+
+    std::cout << "Checking that the Range interval exceeds primary sequence length" << std::endl;
+
+    // Trim Range if Range's interval exceeds the primary sequence length
+    Range& r_last = **std::prev(ranges.end());
+    if (r_last.end.get() > seq.length())
+    {
+        std::cout << "Trimming end" << std::endl;
+
+        r_last.end.set(seq.length());
+    }
+
+    std::cout << "Checking for end gap" << std::endl;
+
+    // Another edge case: There is a gap in SequenceAnnotations / Ranges at the very end
+    if (r_last.end.get() < seq.length())
+    {
+        std::cout << "Filling end" << std::endl;
+
+        int r_new_start = r_last.end.get() + 1;  // Shift index by one to convert to zero-indexing
+        int r_new_end = seq.length();
+        int l = r_new_end - r_new_start + 1;
+        string flanking_seq = nucleotides.substr(r_new_start - 1, l);
+        
+        // Insert flanking Component
+        int instance_count = 1;
+        string component_id = cdef_node->persistentIdentity.get() + "/component" + to_string(instance_count) + "/" + cdef_node->version.get();
+        
+        // Generate URI of new Component.  Check if an object with that URI is already instantiated.
+        instance_count = 1;
+        string annotation_id = cdef_node->persistentIdentity.get() + "/annotation" + to_string(instance_count) + "/" + cdef_node->version.get();
+        while (cdef_node->doc->find(annotation_id) != NULL)
+        {
+            // Find the last instance assigned
+            ++instance_count;
+            annotation_id = cdef_node->persistentIdentity.get() +  "/annotation" + to_string(instance_count) + "/" + cdef_node->version.get();
+        }
+        SequenceAnnotation& new_ann = cdef_node->sequenceAnnotations.create("annotation" + to_string(instance_count));
+        new_ann.roles.set(SO "0000239");  // Set to Sequence Ontology "flanking_sequence"
+        
+        Range& new_range = new_ann.locations.create<Range>("range" + to_string(instance_count));
+        new_range.start.set(r_new_start);
+        new_range.end.set(r_new_end);
+        
+        // Append to end of list of Ranges
+        ranges.insert(ranges.end(), &new_range);
+    }
+    
+    // Check if Ranges are ordered
+    for (auto & r : ranges)
+        std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+
+    std::cout << "Dissembling" << std::endl;
+    cdef_node->doc->write("test.xml");
+    // Now that Ranges are regularized, instantiate Components and dissemble the Sequence
+    std::vector < ComponentDefinition* > primary_structure;
+    std::vector < Component* > primary_structure_instances;
+    for (auto & i_r : ranges)
+    {
+        Range& r = *i_r;
+        SequenceAnnotation& ann = *(SequenceAnnotation*)r.parent;
+        
+        std::cout << r.start.get() << "\t" << r.end.get() << std::endl;
+
+        // If no corresponding Component for this SequenceAnnotation is defined, create a new one
+        if (ann.component.size() == 0)
+        {
+            std::string display_id = ann.displayId.get();
+            size_t index = display_id.find("annotation");
+            if (index != std::string::npos)
+            {
+                display_id.replace(index, 10, "component");
+            }
+            
+            std::cout << "Instantiating Sequence " << display_id << std::endl;
+            Sequence& subseq = cdef_node->doc->sequences.create(display_id + "seq");
+            subseq.elements.set(nucleotides.substr(r.start.get() - 1, r.end.get() - r.start.get() + 1));
+            
+            std::cout << "Instantiating ComponentDefinition " << display_id << std::endl;
+            ComponentDefinition& cd = cdef_node->doc->componentDefinitions.create(display_id);
+            cd.name.set(ann.name.get());
+            cd.sequences.set(subseq);
+            
+            Component& c = cdef_node->components.create(display_id);
+            c.definition.set(cd);
+            c.name.set(ann.name.get());
+            
+            ann.component.set(c.identity.get());
+            
+            primary_structure.push_back(&cd);
+            primary_structure_instances.push_back(&c);
+        }
+        else
+        {
+            std::cout << "Component already instantiated. Retrieving from document" << std::endl;
+            Component& c = cdef_node->components.get(ann.component.get());
+            ComponentDefinition& cd = cdef_node->doc->get<ComponentDefinition>(c.definition.get());
+            primary_structure.push_back(&cd);
+            primary_structure_instances.push_back(&c);
+            
+            // Recurse into subcomponent, shift primary sequence start reference
+            int start_reference = i_r->start.get();
+            dissemble(&cd, start_reference);
+        }
+    }
+
+    // Check if Ranges are ordered
+    for (auto & r : ranges)
+        std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+
+    // Factor out into ligate function
+    for (auto i_com = 1; i_com != primary_structure.size(); i_com++)
+    {
+        ComponentDefinition& cd_upstream = *primary_structure[i_com - 1];
+        ComponentDefinition& cd_downstream = *primary_structure[i_com];
+        
+        Component& constraint_subject = *primary_structure_instances[i_com - 1];
+        Component& constraint_object = *primary_structure_instances[i_com];
+        
+        SequenceConstraint& sc = cdef_node->sequenceConstraints.create("constraint" + to_string(i_com));
+        sc.subject.set(constraint_subject.identity.get());
+        sc.object.set(constraint_object.identity.get());
+        sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
+    }
+};
+
+void ComponentDefinition::dissemble(int range_start)
+{
+    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
+        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+
+    if (doc == NULL)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot dissemble. ComponentDefinition " + identity.get() + " does not belong to a Document.");
+    
+    if (!isComplete())
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot dissemble. The design is incomplete, meaning some ComponentDefinitions or their Sequences are missing from the Document.");
+    
+    ::dissemble(this,  range_start);
+    return;
+};
+
+
+
+//void ComponentDefinition::dissemble()
+//{
+//    
+//    std::cout << "Dissembling" << std::endl;
+//    std::cout << "Checking compliance" << std::endl;
+//    
+//    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
+//        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+//    std::cout << "Checking document" << std::endl;
+//    
+//    if (doc == NULL)
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before attempting to dissemble");
+//    
+//    if (!isComplete())
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot dissemble. The design is incomplete, meaning some ComponentDefinitions or their Sequences are missing from the Document.");
+//    std::cout << "Getting sequence" << std::endl;
+//    
+//    //    std::vector < std::string > sequence_list = doc->sequences.getAll();
+//    //    std::cout << "Searching for sequence" << std::endl;
+//    //
+//    //    if (std::find(sequence_list.begin(), sequence_list.end(), this->sequences.get()) == sequence_list.end())
+//    //        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot dissemble ComponentDefinition " + identity.get() + "because its corresponding Sequence is not found in the Document");
+//    
+//    Sequence& seq = doc->get<Sequence>(sequences.get());
+//    std::string nucleotides = seq.elements.get();
+//    
+//    // Validate only one Range per SequenceAnnotation
+//    std::cout << "Validating ranges" << std::endl;
+//    std::vector< sbol::Range* > ranges;
+//    for (auto & ann : sequenceAnnotations)
+//    {
+//        Range& r = ann.locations.get<Range>();
+//        r.parent = &ann;  // This is a kludge.  For some reason the parent is not properly set, perhaps when copying the parent ComponentDefinition
+//        ranges.push_back(&r);
+//    }
+//    
+//    std::cout << "Sorting ranges " << std::endl;
+//    sort(ranges.begin(), ranges.end(), compare_ranges);
+//
+//    if (ranges.size() == 1)
+//    {
+//        // This needs to be fixed as the start and end depending where in the hierarchy the Range is located
+//        Range& r = *ranges[0];
+//        r.start.set(1);
+//        r.end.set(seq.length());
+//    }
+//    else
+//    {
+//        sort(ranges.begin(), ranges.end(), compare_ranges);
+//        
+//        // Remove nested and overlapping ranges
+//        std::cout << "Ignoring nested and overlapping ranges" << std::endl;
+//        
+//        for (auto i_r = ranges.begin(); i_r != std::prev(ranges.end()); ++i_r)
+//        {
+//            Range& r_a = **i_r;
+//            Range& r_b = **(std::next(i_r));
+//            if (r_b.contains(r_a))
+//            {
+//                std::cout << "Ignoring nested range, B contains A" << std::endl;
+//                ranges.erase(i_r);
+//                // Should call recursive function here
+//            }
+//            else if (r_a.contains(r_b))
+//            {
+//                std::cout << "Ignoring nested range, A contains B" << std::endl;
+//                ranges.erase(std::next(i_r));
+//                // Should call recursive function here
+//            }
+//            else if (r_a.overlaps(r_b))
+//            {
+//                std::cout << "Overlapping ranges for Remove A or B?" << std::endl;
+//                std::cout << r_a.start.get() << "\t" << r_a.end.get() << "\t" << r_b.start.get() << "\t" << r_b.end.get() << std::endl;
+//                
+//                SequenceAnnotation* ann_a = (SequenceAnnotation*)r_a.parent;
+//                SequenceAnnotation* ann_b = (SequenceAnnotation*)r_b.parent;
+//                std::cout << "A: " << ann_a->name.get() << "\t" << "B: " << ann_b->name.get() << std::endl;
+//                char c = getchar();
+//                if (c == 'A')
+//                {
+//                    ranges.erase(i_r);
+//                }
+//                else if (c == 'B')
+//                {
+//                    ranges.erase(std::next(i_r));
+//                }
+//                // Should call recursive function here
+//            }
+//        }
+//    }
+//    
+//    
+//    // Fill gap if first Range does not begin at the Sequence start
+//    Range& r_first = **ranges.begin();
+//    if (r_first.start.get() > 1)
+//    {
+//        int r_new_start = 1;
+//        int r_new_end = r_first.start.get() - 1;
+//        int l = r_new_end - r_new_start + 1;
+//        string flanking_seq = nucleotides.substr(r_new_start - 1, l);
+//        
+//        // Generate URI of new SequenceAnnotation.  Check if an object with that URI is already instantiated.
+//        int instance_count = 1;
+//        string annotation_id = persistentIdentity.get() + "/annotation_" + to_string(instance_count) + "/" + version.get();
+//        while (doc->find(annotation_id) != NULL)
+//        {
+//            // Find the last instance assigned
+//            ++instance_count;
+//            annotation_id = persistentIdentity.get() +  "/annotation_" + to_string(instance_count) + "/" + version.get();
+//        }
+//        SequenceAnnotation& new_ann = sequenceAnnotations.create("annotation_" + to_string(instance_count));
+//        Range& new_range = new_ann.locations.create<Range>("range_" + to_string(instance_count));
+//        new_range.start.set(r_new_start);
+//        new_range.end.set(r_new_end);
+//        
+//        // Append in order in the list of Ranges
+//        ranges.insert(ranges.begin(), &new_range);
+//    }
+//    
+//    // Fill in gaps with flanking SequenceAnnotations / Ranges
+//    for (auto i_r = ranges.begin(); i_r != std::prev(ranges.end()); ++i_r)
+//    {
+//        Range& r_a = **i_r;
+//        Range& r_b = **(std::next(i_r));
+//        if (!r_a.adjoins(r_b))
+//        {
+//            int r_new_start = r_a.end.get() + 1;
+//            int r_new_end = r_b.start.get() - 1;
+//            int l = r_new_end - r_new_start + 1;
+//            string flanking_seq = nucleotides.substr(r_new_start - 1, l);
+//            
+//            // Generate URI of new SequenceAnnotation.  Check if an object with that URI is already instantiated.
+//            int instance_count = 1;
+//            string annotation_id = persistentIdentity.get() + "/annotation_" + to_string(instance_count) + "/" + version.get();
+//            while (doc->find(annotation_id) != NULL)
+//            {
+//                // Find the last instance assigned
+//                ++instance_count;
+//                annotation_id = persistentIdentity.get() +  "/annotation_" + to_string(instance_count) + "/" + version.get();
+//            }
+//            SequenceAnnotation& new_ann = sequenceAnnotations.create("annotation_" + to_string(instance_count));
+//            Range& new_range = new_ann.locations.create<Range>("range_" + to_string(instance_count));
+//            new_range.start.set(r_new_start);
+//            new_range.end.set(r_new_end);
+//            
+//            // Append in order in the list of Ranges
+//            ranges.insert(std::next(i_r), &new_range);
+//        }
+//    }
+//    
+//    // Trim Range if Range's interval exceeds the primary sequence length
+//    Range& r_last = **std::prev(ranges.end());
+//    if (r_last.end.get() > seq.length())
+//    {
+//        r_last.end.set(seq.length());
+//    }
+//    
+//    // Another edge case: There is a gap in SequenceAnnotations / Ranges at the very end
+//    if (r_last.end.get() < seq.length())
+//    {
+//        int r_new_start = r_last.end.get() + 1;  // Shift index by one to convert to zero-indexing
+//        int r_new_end = seq.length();
+//        int l = r_new_end - r_new_start + 1;
+//        string flanking_seq = nucleotides.substr(r_new_start - 1, l);
+//        
+//        // Insert flanking Component
+//        int instance_count = 1;
+//        string component_id = persistentIdentity.get() + "/component" + to_string(instance_count) + "/" + version.get();
+//        
+//        // Generate URI of new Component.  Check if an object with that URI is already instantiated.
+//        instance_count = 1;
+//        string annotation_id = persistentIdentity.get() + "/annotation" + to_string(instance_count) + "/" + version.get();
+//        while (doc->find(annotation_id) != NULL)
+//        {
+//            // Find the last instance assigned
+//            ++instance_count;
+//            annotation_id = persistentIdentity.get() +  "/annotation" + to_string(instance_count) + "/" + version.get();
+//        }
+//        SequenceAnnotation& new_ann = sequenceAnnotations.create("annotation" + to_string(instance_count));
+//        new_ann.roles.set(SO "0000239");  // Set to Sequence Ontology "flanking_sequence"
+//        
+//        Range& new_range = new_ann.locations.create<Range>("range" + to_string(instance_count));
+//        new_range.start.set(r_new_start);
+//        new_range.end.set(r_new_end);
+//        
+//        // Append to end of list of Ranges
+//        ranges.insert(ranges.end(), &new_range);
+//    }
+//    
+//    // Check if Ranges are ordered
+//    for (auto & r : ranges)
+//        std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+//    
+//    // Nest hierarchical
+//    for (auto i_r = ranges.begin(); i_r != std::prev(ranges.end()); ++i_r)
+//    {
+//        Range& r_a = **i_r;
+//        Range& r_b = **(std::next(i_r));
+//        if (r_b.contains(r_a))
+//        {
+//            std::cout << "Ignoring nested range, B contains A" << std::endl;
+//            ranges.erase(i_r);
+//            // Should call recursive function here
+//        }
+//        else if (r_a.contains(r_b))
+//        {
+//            std::cout << "Ignoring nested range, A contains B" << std::endl;
+//            
+//            nested_ranges.push_back(&r_b);
+//            ranges.erase(std::next(i_r));
+//            // Should call recursive function here
+//        }
+//    }
+//    
+//    // Now that Ranges are regularized, instantiate Components and dissemble the Sequence
+//    std::vector < ComponentDefinition* > primary_structure;
+//    std::vector < Component* > primary_structure_instances;
+//    for (auto & i_r : ranges)
+//    {
+//        Range& r = *i_r;
+//        SequenceAnnotation& ann = *(SequenceAnnotation*)r.parent;
+//        
+//        // If no corresponding Component for this SequenceAnnotation is defined, create a new one
+//        if (ann.component.size() == 0)
+//        {
+//            std::string display_id = ann.displayId.get();
+//            size_t index = display_id.find("annotation");
+//            if (index != std::string::npos)
+//            {
+//                display_id.replace(index, 10, "component");
+//            }
+//            std::cout << "Instantiating Sequence " << display_id << std::endl;
+//            Sequence& subseq = doc->sequences.create(display_id + "seq");
+//            subseq.elements.set(nucleotides.substr(r.start.get() - 1, r.end.get() - r.start.get() + 1));
+//            
+//            std::cout << "Instantiating ComponentDefinition " << display_id << std::endl;
+//            ComponentDefinition& cd = doc->componentDefinitions.create(display_id);
+//            cd.name.set(ann.name.get());
+//            cd.sequences.set(subseq);
+//            
+//            Component& c = components.create(display_id);
+//            c.definition.set(cd);
+//            c.name.set(ann.name.get());
+//            
+//            ann.component.set(c.identity.get());
+//            
+//            primary_structure.push_back(&cd);
+//            primary_structure_instances.push_back(&c);
+//        }
+//        else
+//        {
+//            std::cout << "Component already instantiated. Retrieving from document" << std::endl;
+//            Component& c = components.get(ann.component.get());
+//            ComponentDefinition& cd = doc->get<ComponentDefinition>(c.definition.get());
+//            primary_structure.push_back(&cd);
+//            primary_structure_instances.push_back(&c);
+//        }
+//    }
+//    
+//    // Factor out into ligate function
+//    for (auto i_com = 1; i_com != primary_structure.size(); i_com++)
+//    {
+//        ComponentDefinition& cd_upstream = *primary_structure[i_com - 1];
+//        ComponentDefinition& cd_downstream = *primary_structure[i_com];
+//        
+//        Component& constraint_subject = *primary_structure_instances[i_com - 1];
+//        Component& constraint_object = *primary_structure_instances[i_com];
+//        
+//        SequenceConstraint& sc = sequenceConstraints.create("constraint" + to_string(i_com));
+//        sc.subject.set(constraint_subject.identity.get());
+//        sc.object.set(constraint_object.identity.get());
+//        sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
+//    }
+//};
+//
+//bool ComponentDefinition::isRegular()
+//{
+//    if (doc == NULL)
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Cannot verify complete.");
+//    
+//    Sequence* seq_p = NULL;
+//    try
+//    {
+//        seq_p = &(doc->get<Sequence>(sequences.get()));
+//    }
+//    catch(...)
+//    {
+//        std::cout << "The ComponentDefinition's Sequence is not contained in this Document" << std::endl;
+//        return false;
+//    }
+//    
+//    std::vector< sbol::Range* > ranges;
+//    for (auto & ann : sequenceAnnotations)
+//    {
+//        if ((ann.locations.size() == 0) || (ann.locations.size() > 1) || (ann.locations[0].type.compare(SBOL_RANGE)))
+//        {
+//            std::cout << "SequenceAnnotation " << ann.identity.get() << " is irregular" << std::endl;
+//            return false;
+//        }
+//        Range& r = ann.locations.get<Range>();
+//        r.parent = &ann;  // This is a kludge.  For some reason the parent is not properly set, perhaps when copying the parent ComponentDefinition
+//        
+//        // Check if Component is defined for this Range
+//        if (ann.component.size() == 1)
+//            ranges.push_back(&r);
+//    }
+//    
+//    if (ranges.size() > 1)
+//    {
+//        sort(ranges.begin(), ranges.end(), compare_ranges);
+//        std::vector < sbol::Range* > nested_ranges;
+//
+//        for (auto i_r = ranges.begin(); i_r != std::prev(ranges.end()); ++i_r)
+//        {
+//            Range& r_a = **i_r;
+//            Range& r_b = **(std::next(i_r));
+//            if (r_b.contains(r_a))
+//            {
+//                std::cout << "Range " << r_b.identity.get() << " contains " << r_a.identity.get() << std::endl;
+//                return false;
+//            }
+//            else if (r_a.contains(r_b))
+//            {
+//                std::cout << "Range " << r_a.identity.get() << " contains " << r_b.identity.get() << std::endl;
+//                return false;
+//            }
+//            else if (r_a.overlaps(r_b))
+//            {
+//                std::cout << "Range " << r_a.identity.get() << " and " << r_b.identity.get() << " overlap." << std::endl;
+//                return false;
+//            }
+//            else if (!r_a.adjoins(r_b))
+//            {
+//                std::cout << "Range " << r_a.identity.get() << " and " << r_b.identity.get() << " are separated by a gap." << std::endl;
+//                return false;
+//            }
+//        }
+//    }
+//    
+//    // Validate sum of ranges is equal to sequence length
+//    int sequence_length = 0;
+//    for (auto & r : ranges)
+//    {
+//        sequence_length += r->length();
+//    }
+//    if (seq_p->length() != sequence_length)
+//    {
+//        std::cout << "Range lengths are inconsistent with the Sequence length" << std::endl;
+//        return false;
+//    }
+//    return true;
+//};
+//
+//
+//bool ComponentDefinition::isRegular(std::string &msg)
+//{
+//    if (doc == NULL)
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot verify regular. ComponentDefinition " + identity.get() + " does not belong to a Document.");
+//
+//    Sequence* seq_p = NULL;
+//    try
+//    {
+//        seq_p = &(doc->get<Sequence>(sequences.get()));
+//    }
+//    catch(...)
+//    {
+//        msg = "The ComponentDefinition's Sequence is not contained in this Document";
+//        return false;
+//    }
+//
+//    std::vector< sbol::Range* > ranges;
+//    for (auto & ann : sequenceAnnotations)
+//    {
+//        if ((ann.locations.size() == 0) || (ann.locations.size() > 1) || (ann.locations[0].type.compare(SBOL_RANGE)))
+//        {
+//            msg = "SequenceAnnotation " + ann.identity.get() + " is irregular";
+//            return false;
+//        }
+//        Range& r = ann.locations.get<Range>();
+//        r.parent = &ann;  // This is a kludge.  For some reason the parent is not properly set, perhaps when copying the parent ComponentDefinition
+//
+//        // Check if Component is defined for this Range
+//        if (ann.component.size() == 1)
+//            ranges.push_back(&r);
+//    }
+//
+//    if (ranges.size() > 1)
+//    {
+//        sort(ranges.begin(), ranges.end(), compare_ranges);
+//        std::vector < sbol::Range* > nested_ranges;
+//
+//        for (auto i_r = ranges.begin(); i_r != std::prev(ranges.end()); ++i_r)
+//        {
+//            Range& r_a = **i_r;
+//            Range& r_b = **(std::next(i_r));
+//            if (r_b.contains(r_a))
+//            {
+//                msg = "Range " + r_b.identity.get() + " contains " + r_a.identity.get();
+//                return false;
+//            }
+//            else if (r_a.contains(r_b))
+//            {
+//                msg = "Range " + r_a.identity.get() + " contains " + r_b.identity.get();
+//                return false;
+//            }
+//            else if (r_a.overlaps(r_b))
+//            {
+//                msg = "Range " + r_a.identity.get() + " and " + r_b.identity.get() + " overlap.";
+//                return false;
+//            }
+//            else if (!r_a.adjoins(r_b))
+//            {
+//                msg = "Range " + r_a.identity.get() + " and " + r_b.identity.get() + " are separated by a gap.";
+//                return false;
+//            }
+//        }
+//    }
+//
+//    // Validate sum of ranges is equal to sequence length
+//    int sequence_length = 0;
+//    for (auto & r : ranges)
+//    {
+//        sequence_length += r->length();
+//    }
+//    if (seq_p->length() != sequence_length)
+//    {
+//        msg = "Range lengths are inconsistent with the Sequence length";
+//        return false;
+//    }
+//    return true;
+//};
+
+//void ComponentDefinition::dissemble()
+//{
+//
+//    std::cout << "Dissembling" << std::endl;
+//    std::cout << "Checking compliance" << std::endl;
+//
+//    if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
+//        throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
+//    std::cout << "Checking document" << std::endl;
+//
+//    if (doc == NULL)
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before attempting to dissemble");
+//    std::cout << "Getting sequence" << std::endl;
+//
+////    std::vector < std::string > sequence_list = doc->sequences.getAll();
+////    std::cout << "Searching for sequence" << std::endl;
+////
+////    if (std::find(sequence_list.begin(), sequence_list.end(), this->sequences.get()) == sequence_list.end())
+////        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot dissemble ComponentDefinition " + identity.get() + "because its corresponding Sequence is not found in the Document");
+//
+//    Sequence* seq_p = NULL;
+//    try
+//    {
+//        seq_p = &(doc->get<Sequence>(sequences.get()));
+//    }
+//    catch(...)
+//    {
+//        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot dissemble ComponentDefinition " + identity.get() + " because its corresponding Sequence is not found in the Document");
+//    }
+//    Sequence& seq = *seq_p;
+//    std::string nucleotides = seq.elements.get();
+//    
+//    // Validate only one Range per SequenceAnnotation
+//    std::cout << "Validating ranges" << std::endl;
+//    std::vector< sbol::Range* > ranges;
+//    for (auto & ann : sequenceAnnotations)
+//    {
+//        if ((ann.locations.size() == 0) || (ann.locations.size() > 1) || (ann.locations[0].type.compare(SBOL_RANGE)))
+//            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The dissemble method currently requires that each SequenceAnnotation have only a single Range defined");
+//        Range& r = ann.locations.get<Range>();
+//        r.parent = &ann;  // This is a kludge.  For some reason the parent is not properly set, perhaps when copying the parent ComponentDefinition
+//        ranges.push_back(&r);
+//    }
+//    
+//    std::cout << "Sorting ranges " << std::endl;
+//    if (ranges.size() == 1)
+//    {
+//        
+//    }
+//    else
+//    {
+//        sort(ranges.begin(), ranges.end(), compare_ranges);
+//        std::vector < sbol::Range* > nested_ranges;
+//        for (auto & r : ranges)
+//            std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+//
+//        // Remove nested and overlapping ranges
+//        std::cout << "Ignoring nested and overlapping ranges" << std::endl;
+//
+//        for (auto i_r = ranges.begin(); i_r != std::prev(ranges.end()); ++i_r)
+//        {
+//            Range& r_a = **i_r;
+//            Range& r_b = **(std::next(i_r));
+//            if (r_b.contains(r_a))
+//            {
+//                std::cout << "Ignoring nested range, B contains A" << std::endl;
+//                std::cout << r_a.start.get() << "\t" << r_a.end.get() << "\t" << r_b.start.get() << "\t" << r_b.end.get() << std::endl;
+//                nested_ranges.push_back(&r_a);
+//                ranges.erase(i_r);
+//                // Should call recursive function here
+//            }
+//            else if (r_a.contains(r_b))
+//            {
+//                std::cout << "Ignoring nested range, A contains B" << std::endl;
+//                std::cout << r_a.start.get() << "\t" << r_a.end.get() << "\t" << r_b.start.get() << "\t" << r_b.end.get() << std::endl;
+//
+//                nested_ranges.push_back(&r_b);
+//                ranges.erase(std::next(i_r));
+//                // Should call recursive function here
+//            }
+//            else if (r_a.overlaps(r_b))
+//            {
+//                std::cout << "Overlapping ranges for Remove A or B?" << std::endl;
+//                std::cout << r_a.start.get() << "\t" << r_a.end.get() << "\t" << r_b.start.get() << "\t" << r_b.end.get() << std::endl;
+//
+//                SequenceAnnotation* ann_a = (SequenceAnnotation*)r_a.parent;
+//                SequenceAnnotation* ann_b = (SequenceAnnotation*)r_b.parent;
+//                std::cout << "A: " << ann_a->name.get() << "\t" << "B: " << ann_b->name.get() << std::endl;
+//                char c = getchar();
+//                if (c == 'A')
+//                {
+//                    nested_ranges.push_back(&r_a);
+//                    ranges.erase(i_r);
+//                }
+//                else if (c == 'B')
+//                {
+//                    nested_ranges.push_back(&r_b);
+//                    ranges.erase(std::next(i_r));
+//                }
+//                // Should call recursive function here
+//            }
+//        }
+//    }
+//
+//    // Fill in gaps with flanking SequenceAnnotations / Ranges
+//    for (auto i_r = ranges.begin(); i_r != std::prev(ranges.end()); ++i_r)
+//    {
+//        Range& r_a = **i_r;
+//        Range& r_b = **(std::next(i_r));
+//        if (!r_a.adjoins(r_b))
+//        {
+//            int r_new_start = r_a.end.get() + 1;
+//            int r_new_end = r_b.start.get() - 1;
+//            int l = r_new_end - r_new_start + 1;
+//            string flanking_seq = nucleotides.substr(r_new_start - 1, l);
+//            
+//            // Generate URI of new SequenceAnnotation.  Check if an object with that URI is already instantiated.
+//            int instance_count = 1;
+//            string annotation_id = persistentIdentity.get() + "/annotation_" + to_string(instance_count) + "/" + version.get();
+//            while (doc->find(annotation_id) != NULL)
+//            {
+//                // Find the last instance assigned
+//                ++instance_count;
+//                annotation_id = persistentIdentity.get() +  "/annotation_" + to_string(instance_count) + "/" + version.get();
+//            }
+//            SequenceAnnotation& new_ann = sequenceAnnotations.create("annotation_" + to_string(instance_count));
+//            Range& new_range = new_ann.locations.create<Range>("range_" + to_string(instance_count));
+//            new_range.start.set(r_new_start);
+//            new_range.end.set(r_new_end);
+//            
+//            // Append in order in the list of Ranges
+//            ranges.insert(std::next(i_r), &new_range);
+//        }
+//    }
+//
+//    // An edge case: There is a gap in SequenceAnnotations / Ranges at the very end
+//    Range& r_last = **std::prev(ranges.end());
+//    if (r_last.end.get() != seq.length())
+//    {
+//        int r_new_start = r_last.end.get() + 1;  // Shift index by one to convert to zero-indexing
+//        int r_new_end = seq.length();
+//        int l = r_new_end - r_new_start + 1;
+//        string flanking_seq = nucleotides.substr(r_new_start - 1, l);
+//        
+//        // Insert flanking Component
+//        int instance_count = 1;
+//        string component_id = persistentIdentity.get() + "/component" + to_string(instance_count) + "/" + version.get();
+//        
+//        // Generate URI of new Component.  Check if an object with that URI is already instantiated.
+//        instance_count = 1;
+//        string annotation_id = persistentIdentity.get() + "/annotation" + to_string(instance_count) + "/" + version.get();
+//        while (doc->find(annotation_id) != NULL)
+//        {
+//            // Find the last instance assigned
+//            ++instance_count;
+//            annotation_id = persistentIdentity.get() +  "/annotation" + to_string(instance_count) + "/" + version.get();
+//        }
+//        SequenceAnnotation& new_ann = sequenceAnnotations.create("annotation" + to_string(instance_count));
+//        new_ann.roles.set(SO "0000239");  // Set to Sequence Ontology "flanking_sequence"
+//        
+//        Range& new_range = new_ann.locations.create<Range>("range" + to_string(instance_count));
+//        new_range.start.set(r_new_start);
+//        new_range.end.set(r_new_end);
+//
+//        // Append to end of list of Ranges
+//        ranges.insert(ranges.end(), &new_range);
+//    }
+//    
+//    // Check if Ranges are ordered
+//    for (auto & r : ranges)
+//        std::cout << r->start.get() << "\t" << r->end.get() << std::endl;
+//    
+//    
+//    // Now that Ranges are regularized, instantiate Components and dissemble the Sequence
+//    std::vector < ComponentDefinition* > primary_structure;
+//    std::vector < Component* > primary_structure_instances;
+//    for (auto & i_r : ranges)
+//    {
+//        Range& r = *i_r;
+//        SequenceAnnotation& ann = *(SequenceAnnotation*)r.parent;
+//
+//        // If no corresponding Component for this SequenceAnnotation is defined, create a new one
+//        if (ann.component.size() == 0)
+//        {
+//            std::string display_id = ann.displayId.get();
+//            size_t index = display_id.find("annotation");
+//            if (index != std::string::npos)
+//            {
+//                display_id.replace(index, 10, "component");
+//            }
+//            std::cout << "Instantiating Sequence " << display_id << std::endl;
+//            Sequence& subseq = doc->sequences.create(display_id + "seq");
+//            subseq.elements.set(nucleotides.substr(r.start.get() - 1, r.end.get() - r.start.get() + 1));
+//            
+//            std::cout << "Instantiating ComponentDefinition " << display_id << std::endl;
+//            ComponentDefinition& cd = doc->componentDefinitions.create(display_id);
+//            cd.name.set(ann.name.get());
+//            cd.sequences.set(subseq);
+//            
+//            Component& c = components.create(display_id);
+//            c.definition.set(cd);
+//            c.name.set(ann.name.get());
+//            
+//            ann.component.set(c.identity.get());
+//            
+//            primary_structure.push_back(&cd);
+//            primary_structure_instances.push_back(&c);
+//        }
+//        else
+//        {
+//            std::cout << "Component already instantiated. Retrieving from document" << std::endl;
+//            Component& c = components.get(ann.component.get());
+//            ComponentDefinition* cd_p = NULL;
+//            try
+//            {
+//                cd_p = &(doc->get<ComponentDefinition>(c.definition.get()));
+//            }
+//            catch(...)
+//            {
+//                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot find ComponentDefinition " + c.definition.get() + " referenced by Component " + ann.component.get());
+//                
+//            }
+//            ComponentDefinition& cd = *cd_p;
+//            primary_structure.push_back(&cd);
+//            primary_structure_instances.push_back(&c);
+//        }
+//    }
+//    
+//    // Factor out into ligate function
+//    for (auto i_com = 1; i_com != primary_structure.size(); i_com++)
+//    {
+//        ComponentDefinition& cd_upstream = *primary_structure[i_com - 1];
+//        ComponentDefinition& cd_downstream = *primary_structure[i_com];
+//        
+//        Component& constraint_subject = *primary_structure_instances[i_com - 1];
+//        Component& constraint_object = *primary_structure_instances[i_com];
+//        
+//        SequenceConstraint& sc = sequenceConstraints.create("constraint" + to_string(i_com));
+//        sc.subject.set(constraint_subject.identity.get());
+//        sc.object.set(constraint_object.identity.get());
+//        sc.restriction.set(SBOL_RESTRICTION_PRECEDES);
+//    }
+//};

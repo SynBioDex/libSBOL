@@ -36,6 +36,7 @@
 #include <iostream>
 #include <map>
 #include <unordered_map>
+#include <stdexcept>
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
@@ -255,13 +256,14 @@ namespace sbol
             if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
             {
                 // not found
-                throw;
+                throw std::runtime_error("This property is not defined in the parent object");
             }
             else
             {
                 // found
                 if (this->sbol_owner->properties[type].size() == 0)
-                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+                    return std::vector < std::string >(0);
+//                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
                 else
                 {
                     std::vector<std::string> values;
@@ -277,7 +279,7 @@ namespace sbol
             }
         }	else
         {
-            throw;
+            throw std::runtime_error("This property is not associated with a parent object");
         }
     };
     

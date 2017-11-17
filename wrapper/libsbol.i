@@ -370,12 +370,16 @@ TEMPLATE_MACRO_2(Plan);
 TEMPLATE_MACRO_2(Agent);
 
 %template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
+%template(copySequence) sbol::TopLevel::copy < Sequence >;
+%template(copyModel) sbol::TopLevel::copy < Model >;
+%template(copyModuleDefinition) sbol::TopLevel::copy < ModuleDefinition >;
+%template(copyModuleDefinition) sbol::TopLevel::copy < ModuleDefinition >;
     
 // Template functions used by PartShop
 //%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
-//%template(pullComponentDefinition) sbol::PartShop::pull < ComponentDefinition >;
-//%template(pullCollection) sbol::PartShop::pull < Collection >;
-//%template(pullSequence) sbol::PartShop::pull < Sequence >;
+%template(pullComponentDefinition) sbol::PartShop::pull < ComponentDefinition >;
+%template(pullCollection) sbol::PartShop::pull < Collection >;
+%template(pullSequence) sbol::PartShop::pull < Sequence >;
 //%template(pullDocument) sbol::PartShop::pull < Document >;
 %template(countComponentDefinition) sbol::PartShop::count < ComponentDefinition >;
 %template(countCollection) sbol::PartShop::count < Collection >;
@@ -474,6 +478,15 @@ TEMPLATE_MACRO_2(Agent);
             $self->assemble(list_of_cdefs, *cpp_doc);
         };
     }
+    
+    bool isRegular(PyObject* py_string)
+    {
+        std::string msg;
+        bool IS_REGULAR;
+        IS_REGULAR = $self->isRegular(msg);
+        py_string = PyUnicode_FromString(msg.c_str());
+        return IS_REGULAR;
+    };
 }
 
 %extend sbol::Document
@@ -533,6 +546,18 @@ TEMPLATE_MACRO_2(Agent);
             return $self->PythonObjects[id];
         throw SBOLError(NOT_FOUND_ERROR, "Object " + id + " not found");
     }
+    
+    Document& copy(std::string ns)
+    {
+        Document& new_doc = *new Document();
+        /// @TODO Need to copy Python extension objects
+        for (auto & id_and_obj_pair : $self->SBOLObjects)
+        {
+            TopLevel& tl = *(TopLevel*)id_and_obj_pair.second;
+            tl.copy<TopLevel>(&new_doc, ns, VERSION_STRING);
+        }
+        return new_doc;
+    };
     
     Document* __iter__()
     {

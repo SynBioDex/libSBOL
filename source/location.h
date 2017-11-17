@@ -83,6 +83,11 @@ namespace sbol
         /// Returns the length of a Range
         int length();
 
+        /// Indicate if these Ranges represent adjacent intervals.
+        /// @comparand Another Range object
+        /// @return 1 if these Ranges adjoin or border each other, 0 if they are separated by an intervening Range
+        int adjoins(Range& comparand);
+
         
         /// Construct a Range. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < Range > instead.
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
