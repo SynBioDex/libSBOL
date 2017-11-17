@@ -902,3 +902,18 @@ void SearchResponse::extend(SearchResponse& response)
         records.push_back(&record);
     }
 };
+
+template<>
+void sbol::PartShop::pull<ComponentDefinition>(std::string uri, Document& doc, bool recursive)
+{
+    pull(uri, doc);
+    ComponentDefinition& cd = doc.get<ComponentDefinition>(uri);
+    
+    if (recursive)
+    {
+        pull(cd.sequences.get(), doc);
+        for (auto & c : cd.components)
+            pull(c.definition.get(), doc);
+    }
+};
+
