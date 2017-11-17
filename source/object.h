@@ -105,6 +105,13 @@ namespace sbol
         /// @return A pointer to the object that contains a member property with the specified RDF type, NULL otherwise
         SBOLObject* find_property(std::string uri);
         
+        
+        /// Search this object recursively to see if it contains a member property with the given RDF type and indicated property value.
+        /// @param uri The RDF type of the property to search for.
+        /// @param uri The property value to match
+        /// @return A pointer to the object that contains a member property with the specified RDF type, NULL otherwise
+        std::vector<SBOLObject*> find_property_value(std::string uri, std::string value);
+        
         std::vector<SBOLObject*> find_reference(std::string uri);
         
         /// Compare two SBOL objects or Documents. The behavior is currently undefined for objects with custom annotations or extension classes.

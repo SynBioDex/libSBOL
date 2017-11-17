@@ -315,7 +315,7 @@ SBOLObject* SBOLObject::find(string uri)
 
 SBOLObject* SBOLObject::find_property(string uri)
 {
-    if (owned_objects.find(uri) != owned_objects.end())
+    if (owned_objects.find(uri) != owned_objects.end() && properties.find(uri) != properties.end())
         return this;
     for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
     {
@@ -328,6 +328,54 @@ SBOLObject* SBOLObject::find_property(string uri)
         }
     }
     return NULL;
+};
+
+//std::vector < SBOLObject* > SBOLObject::find_property_value(string uri, string value)
+//{
+//    std::vector < SBOLObject* > = found_objects;
+//    if (owned_objects.find(uri) != owned_objects.end() && properties.find(uri) != properties.end() && !value.compare(comparand))
+//    {
+//        found_objects.push_back(this);
+//        return found_objects;
+//    }
+//    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+//    {
+//        vector<SBOLObject*>& store = i_store->second;
+//        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+//        {
+//            SBOLObject& obj = **i_obj;
+//            if (obj.find_property_value(uri, value).size() > 0)
+//            {
+//                std::vector < SBOLObject* > = more_found_objects = obj.find_property(uri, value);
+//                std::vector < SBOLObject* > = found_objects.insert( found_objects.end(), more_found_objects.begin(), more_found_objects.end() );
+//            }
+//        }
+//    }
+//    return found_objects;
+//};
+
+vector<SBOLObject*> SBOLObject::find_property_value(string uri, string value)
+{
+    vector<SBOLObject*> matches = {};
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        vector<SBOLObject*>& store = i_store->second;
+        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+        {
+            SBOLObject& obj = **i_obj;
+            matches = obj.find_property_value(uri, value);
+        }
+    }
+    for (auto &i_p : properties)
+    {
+        string val = i_p.second.front();
+        if (val.compare("\"" + value + "\"") == 0)
+        {
+            matches.push_back(this);
+            break;
+        }
+    }
+    return matches;
 };
 
 vector<SBOLObject*> SBOLObject::find_reference(string uri)
@@ -353,6 +401,7 @@ vector<SBOLObject*> SBOLObject::find_reference(string uri)
     }
     return matches;
 };
+
 
 string SBOLObject::makeQName(string uri)
 {
