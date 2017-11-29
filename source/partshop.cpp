@@ -878,13 +878,16 @@ void PartShop::pull(std::string uri, Document& doc)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + std::string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, std::string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
     curl_slist_free_all(headers);
     curl_global_cleanup();
+    
+    if (response.find("<title>Error</title>") != std::string::npos)
+        throw SBOLError(SBOL_INVALID_ARGUMENT, "Part not found. Unable to pull " + uri);
     
     doc.readString(response);
 };
