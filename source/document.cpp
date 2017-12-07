@@ -83,7 +83,11 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_MAPS_TO, (SBOLObject&(*)()) &create<MapsTo>),
     make_pair(SBOL_CUT, (SBOLObject&(*)()) &create<Cut>),
     make_pair(SBOL_COLLECTION, (SBOLObject&(*)()) &create<Collection>),
-    make_pair(SBOL_GENERIC_LOCATION, (SBOLObject&(*)()) &create<GenericLocation>)
+    make_pair(SBOL_GENERIC_LOCATION, (SBOLObject&(*)()) &create<GenericLocation>),
+    make_pair(PROVO_PLAN, (SBOLObject&(*)()) &create<Plan>),
+    make_pair(PROVO_ACTIVITY, (SBOLObject&(*)()) &create<Activity>),
+    make_pair(PROVO_AGENT, (SBOLObject&(*)()) &create<Agent> )
+
 };
 
 
@@ -1380,14 +1384,31 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
             for (int i_property_val = 0; i_property_val < property_store_copy.size(); ++i_property_val)
             {
                 string property_val = property_store_copy[i_property_val];
-                size_t pos = 0;
-                pos = property_val.find(old_ns, pos);
-                if (pos != std::string::npos)
+                if (property_val[0] == '<')
                 {
-                    property_val.erase(pos, old_ns.size());
-                    property_val.insert(pos, getHomespace());
+                    string uri = property_val.substr(1, property_val.length() - 2);  // Removes flanking < and > from uri
+                    size_t pos = 0;
+                    pos = property_val.find(old_ns, pos);
+                    if (pos != std::string::npos)
+                    {
+                        SBOLObject* referenced_obj = doc->find(uri);  // Distinguish between a referenced object versus an ontology URI
+                        if (referenced_obj || store_uri == SBOL_PERSISTENT_IDENTITY)
+                        {
+                            // Copy object reference to new namespace and insert type
+                            if (Config::getOption("sbol_typed_uris").compare("True") == 0 && dynamic_cast<TopLevel*>(referenced_obj))
+                            {
+                                property_val.erase(pos, old_ns.size());
+                                property_val.insert(pos, getHomespace() + "/" + parseClassName(referenced_obj->getTypeURI()));
+                            }
+                            else
+                            {
+                                property_val.erase(pos, old_ns.size());
+                                property_val.insert(pos, getHomespace());
+                            }
+                        }
+                        property_store_copy[i_property_val] = property_val;
+                    }
                 }
-                property_store_copy[i_property_val] = property_val;
             }
         }
         new_obj.properties[store_uri] = property_store_copy;
@@ -1411,6 +1432,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
             // Recurse into child objects and copy.  This should be after all other object properties are set, to ensure proper generation of new URIs with updated namespace and version
             Identified& child_obj_copy = child_obj.copy(target_doc, ns, version);
             new_obj.owned_objects[store_uri].push_back((SBOLObject*)&child_obj_copy);  // Copy child object
+            child_obj_copy.parent = &new_obj;
         }
     }
     return new_obj;
@@ -1738,4 +1760,15 @@ std::string Document::search_metadata(std::string role, std::string type, std::s
 };
 
 
-
+Document& Document::copy(std::string ns, Document* doc)
+{
+    if (!doc)
+        doc = new Document();
+    /// @TODO Need to copy Python extension objects
+    for (auto & id_and_obj_pair : SBOLObjects)
+    {
+        TopLevel& tl = *(TopLevel*)id_and_obj_pair.second;
+        tl.copy<TopLevel>(doc, ns, VERSION_STRING);
+    }
+    return *doc;
+};

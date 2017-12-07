@@ -547,17 +547,6 @@ TEMPLATE_MACRO_2(Agent);
         throw SBOLError(NOT_FOUND_ERROR, "Object " + id + " not found");
     }
     
-    Document& copy(std::string ns)
-    {
-        Document& new_doc = *new Document();
-        /// @TODO Need to copy Python extension objects
-        for (auto & id_and_obj_pair : $self->SBOLObjects)
-        {
-            TopLevel& tl = *(TopLevel*)id_and_obj_pair.second;
-            tl.copy<TopLevel>(&new_doc, ns, VERSION_STRING);
-        }
-        return new_doc;
-    };
     
     Document* __iter__()
     {
