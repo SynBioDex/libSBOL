@@ -224,6 +224,11 @@ namespace sbol
         /// @param doc A document to add the data to
         void pull(std::string uri, Document& doc);
 
+        /// Retrieve an object from an online resource
+        /// @param uris A vector of URIs for multiple SBOL objects you want to retrieve
+        /// @param doc A document to add the data to
+        void pull(std::vector<std::string> uris, Document& doc);
+
         
         template < class SBOLClass > void pull(std::string uri, Document& doc, bool recursive = true);
 
@@ -277,7 +282,7 @@ namespace sbol
         /// Submit a Document to SynBioHub
         /// @param doc The Document to submit
         /// @param overwrite An integer code: 0(default) - do not overwrite, 1 - overwrite, 2 - merge
-        std::string submit(Document& doc, int overwrite = 0);
+        std::string submit(Document& doc, std::string collection = "", int overwrite = 0);
         
         /// In order to submit to a PartShop, you must login first. Register on [SynBioHub](http://synbiohub.org) to obtain account credentials.
         /// @param email The email associated with the user's SynBioHub account

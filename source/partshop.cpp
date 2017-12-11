@@ -573,7 +573,7 @@ void sbol::PartShop::login(std::string email, std::string password)
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/remoteLogin");
+        curl_easy_setopt(curl, CURLOPT_URL, "https://synbiohub.org/remoteLogin");
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */
@@ -596,10 +596,13 @@ void sbol::PartShop::login(std::string email, std::string password)
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    key = response;
+    if (response == "Your password was not recognized.")
+        std::cout << response << std::endl;
+    else
+        key = response;
 };
 
-std::string sbol::PartShop::submit(Document& doc, int overwrite)
+std::string sbol::PartShop::submit(Document& doc, std::string collection, int overwrite)
 {
     
     /* Perform HTTP request */
@@ -622,7 +625,7 @@ std::string sbol::PartShop::submit(Document& doc, int overwrite)
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/remoteSubmit");
+        curl_easy_setopt(curl, CURLOPT_URL, "https://synbiohub.org/remoteSubmit");
 //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */
@@ -649,7 +652,8 @@ std::string sbol::PartShop::submit(Document& doc, int overwrite)
         keywords = keywords.substr(0, keywords.length() - 1);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords",
                      CURLFORM_COPYCONTENTS, doc.keywords.get().c_str(), CURLFORM_END);
-
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "collectionChoices",
+                     CURLFORM_COPYCONTENTS, collection.c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge",
                      CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "user",
@@ -840,10 +844,14 @@ std::string PartShop::searchSubCollections(std::string uri)
 };
 
 
-void PartShop::pull(std::string uri, Document& doc)
+void PartShop::pull(std::vector<std::string> uris, Document& doc)
 {
-    std::string get_request = uri + "/sbol";
-    
+    for (auto & uri : uris)
+        pull(uri, doc);
+}
+
+std::string http_get_request(std::string get_request)
+{
     /* Perform HTTP request */
     std::string response;
     CURL *curl;
@@ -885,11 +893,27 @@ void PartShop::pull(std::string uri, Document& doc)
     }
     curl_slist_free_all(headers);
     curl_global_cleanup();
+    std::cout << response << std::endl;
+    return response;
+}
+
+
+void PartShop::pull(std::string uri, Document& doc)
+{
+    std::string get_request = getURL() + "/" + uri + "/sbol";
+    std::string response = http_get_request(get_request);
     
     if (response.find("<title>Error</title>") != std::string::npos)
-        throw SBOLError(SBOL_INVALID_ARGUMENT, "Part not found. Unable to pull " + uri);
+    {
+        get_request = uri + "/sbol";
+        response = http_get_request(get_request);
+        if (response.find("<title>Error</title>") != std::string::npos)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Part not found. Unable to pull " + uri);
+    }
     
-    doc.readString(response);
+    Document temp_doc = Document();
+    temp_doc.readString(response);
+    temp_doc.copy(getURL(), &doc);
 };
 
 string PartShop::getURL()
