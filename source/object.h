@@ -95,7 +95,7 @@ namespace sbol
         /// @return Parses a local class name from the RDF-type of this SBOL Object
         std::string getClassName(std::string type);
 
-        /// Search this object recursively to see if an object with the URI already exists.
+        /// Search this object recursively to see if an object or any child object with URI already exists.
         /// @param uri The URI to search for.
         /// @return A pointer to theobject with this URI if it exists, NULL otherwise
         SBOLObject* find(std::string uri);
@@ -108,10 +108,13 @@ namespace sbol
         
         /// Search this object recursively to see if it contains a member property with the given RDF type and indicated property value.
         /// @param uri The RDF type of the property to search for.
-        /// @param uri The property value to match
-        /// @return A pointer to the object that contains a member property with the specified RDF type, NULL otherwise
-        std::vector<SBOLObject*> find_property_value(std::string uri, std::string value);
-        
+        /// @param value The property value to match
+        /// @return A vector containing all objects found that contain a member property with the specified RDF type
+        std::vector<SBOLObject*> find_property_value(std::string uri, std::string value, std::vector<SBOLObject*> matches = {});
+
+        /// Search this object recursively to see if it contains a member property with the given RDF type and indicated property value.
+        /// @param uri A URI, either an ontology term or an object reference, to searhc for
+        /// @return A vector containing all objects found that contain the URI in a property value
         std::vector<SBOLObject*> find_reference(std::string uri);
         
         /// Compare two SBOL objects or Documents. The behavior is currently undefined for objects with custom annotations or extension classes.

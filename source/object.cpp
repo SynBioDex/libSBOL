@@ -354,16 +354,16 @@ SBOLObject* SBOLObject::find_property(string uri)
 //    return found_objects;
 //};
 
-vector<SBOLObject*> SBOLObject::find_property_value(string uri, string value)
+vector<SBOLObject*> SBOLObject::find_property_value(string uri, string value, vector<SBOLObject*> matches)
 {
-    vector<SBOLObject*> matches = {};
     for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
     {
         vector<SBOLObject*>& store = i_store->second;
         for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
         {
             SBOLObject& obj = **i_obj;
-            matches = obj.find_property_value(uri, value);
+            vector<SBOLObject*> more_matches = obj.find_property_value(uri, value);
+            matches.insert(matches.end(), more_matches.begin(), more_matches.end());
         }
     }
     for (auto &i_p : properties)
