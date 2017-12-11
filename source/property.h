@@ -102,6 +102,8 @@ namespace sbol
 		void validate(void * arg = NULL);
         std::string operator[] (const int nIndex);  ///< Retrieve the indexed value in a list container
 
+        void copy(Property<LiteralType>& target_property);  ///< Copy property values to a target object's property fields
+
 
         /// Provides iterator functionality for SBOL properties that contain multiple values
         class iterator : public std::vector<std::string>::iterator
@@ -365,7 +367,6 @@ namespace sbol
     void Property<LiteralType>::clear()
     {
         std::string current_value = this->sbol_owner->properties[this->type][0];
-        std::cout << current_value << std::endl;
         this->sbol_owner->properties[type].clear();
         if (current_value[0] == '<')  //  this property is a uri
         {
@@ -471,6 +472,20 @@ namespace sbol
             }
         }
     };
+
+    template <class LiteralType>
+    void Property<LiteralType>::copy(Property<LiteralType>& target_property)
+    {
+            if (target_property.sbol_owner->properties.find(type) == target_property.sbol_owner->properties.end())
+            {
+                // not found
+                throw std::runtime_error("Cannot copy properties. The target object does not have a property of type " + type);
+            }
+            std::vector< std::string >* values = &this->sbol_owner->properties[type];
+            std::vector< std::string >* targets = &target_property.sbol_owner->properties[type];
+            values->insert(values->end(), targets->begin(), targets->end());
+    };
+
     
 }
 
