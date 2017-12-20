@@ -70,16 +70,7 @@ namespace sbol
 
         /// Copies an object. No child objects are copied.
         /// @param uri A URI for the new object, or a displayId if operating in SBOLCompliant mode
-        /// @tparam Usually the same type of SBOL object as this
         template < class SBOLClass > SBOLClass& simpleCopy(std::string uri);
-        
-        /// @param uri A URI for the new object, or a displayId if operating in SBOLCompliant mode
-        /// @tparam The type of SBOL object to generate
-        template<class SBOLClass>
-        SBOLClass& generate(std::string uri);
-        
-        void initialize(std::string uri);
-
     };
     
 

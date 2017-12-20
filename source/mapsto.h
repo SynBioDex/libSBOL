@@ -42,7 +42,7 @@ namespace sbol
         /// | http://sbols.org/v2#useRemote        | SBOL_REFINEMENT_USE_REMOTE        | All references to the local ComponentInstance MUST dereference to the<br>remote ComponentInstance instead. |
         /// | http://sbols.org/v2#useLocal         | SBOL_REFINEMENT_USE_LOCAL         | In the context of the ComponentDefinition or ModuleDefinition that contains<br>the owner of the MapsTo, all references to the remote ComponentInstance<br>MUST dereference to the local ComponentInstance instead. |
         /// | http://sbols.org/v2#verifyIdentical  | SBOL_REFINEMENT_VERIFY_IDENTICAL  | The definition properties of the local and remoteComponentInstance objects<br>MUST refer to the same ComponentDefinition. |
-        /// | http://sbols.org/v2#merge | SBOL_REFINEMENT_MERGE_DESCRIPTION | In the context of the ComponentDefinition or ModuleDefinition that<br>contains the owner of the MapsTo, all references to the local<br>ComponentInstance or the remote ComponentInstance MUST dereference<br>to both objects.
+        /// | http://sbols.org/v2#mergeDescription | SBOL_REFINEMENT_MERGE_DESCRIPTION | In the context of the ComponentDefinition or ModuleDefinition that<br>contains the owner of the MapsTo, all references to the local<br>ComponentInstance or the remote ComponentInstance MUST dereference<br>to both objects.
         URIProperty refinement;
         
         /// The identity of the lower level ComponentInstance

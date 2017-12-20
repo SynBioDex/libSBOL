@@ -51,64 +51,14 @@ SBOLObject::~SBOLObject()
     }
 }
 
-#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-void SBOLObject::register_extension_class(PyObject* python_class, std::string extension_name)
-{
-    if (namespaces.count(extension_name) == 0)
-    {
-        // Parse class name from Python __repr__
-//        PyObject* bytes = PyUnicode_AsUTF8String(PyObject_Repr(python_class));
-//        std::string repr_name = PyBytes_AsString(bytes);
-//        size_t left_class_name = repr_name.find_last_of('.') + 1;
-//        size_t len_class_name = repr_name.size() - left_class_name - 2;  // eg, <class '__main__.ComponentDerivation'>
-//        std::string class_name = repr_name.substr(left_class_name, len_class_name);
-        
-        // Register namespace and its prefix (extension name)
-        Config::PYTHON_DATA_MODEL_REGISTER[getTypeURI()] = python_class;
-        std::string ns = parseNamespace(getTypeURI());
-        namespaces[extension_name] = ns;
-    }
-};
-
-
-PyObject* SBOLObject::cast(PyObject* python_class)
-{
-    typedef struct {
-        PyObject_HEAD
-        void *ptr; // This is the pointer to the actual C++ instance
-        void *ty;  // swig_type_info originally, but shouldn't matter
-        int own;
-        PyObject *next;
-    } SwigPyObject;
-    
-    PyObject* py_obj = PyObject_CallObject(python_class, NULL);  // Call constructor
-    PyObject* temp_py_object = PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
-    SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
-    SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
-    
-    // Set identity
-    new_obj->identity.set(this->identity.get());
-    
-    // Copy properties
-    for (auto it = this->properties.begin(); it != this->properties.end(); it++)
-    {
-        new_obj->properties[it->first] = this->properties[it->first];
-    }
-    for (auto it = this->owned_objects.begin(); it != this->owned_objects.end(); it++)
-    {
-        new_obj->owned_objects[it->first] = this->owned_objects[it->first];
-    }
-    for (auto it = this->namespaces.begin(); it != this->namespaces.end(); it++)
-    {
-        new_obj->namespaces[it->first] = this->namespaces[it->first];
-    }
-    new_obj->parent = this->parent;
-    new_obj->doc = this->doc;
-    
-    return py_obj;
-};
-
-#endif
+//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+//void SBOLObject::register_extension(std::string ns, std::string ns_prefix, std::string class_name, PythonObject* constructor)
+//{
+//    std::string uri = ns + class_name;
+//    PYTHON_DATA_MODEL_REGISTER[uri] = constructor;
+//    namespaces[ns_prefix] = ns;
+//};
+//#endif
 
 bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
 {
@@ -120,7 +70,7 @@ void SBOLObject::close()
     delete this;
 };
 
-sbol_type SBOLObject::getTypeURI()
+sbol_type SBOLObject::getTypeURI() 
 {
 	return type;
 };

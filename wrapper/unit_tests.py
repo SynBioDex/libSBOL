@@ -395,7 +395,7 @@ class TestComponentDefinitions(unittest.TestCase):
         doc = Document()
         doc.addComponentDefinition(test_CD)
         doc.componentDefinitions.remove(0)
-        self.assertRaises(RuntimeError, lambda: doc.componentDefinitions.get("BB0001"))
+        self.assertRaises(RuntimeError, lambda: doc.sequences.get("BB0001"))
         
     def testCDDisplayId(self):
         listCD_read = []
@@ -418,30 +418,6 @@ class TestComponentDefinitions(unittest.TestCase):
             self.assertItemsEqual(listCD_read, listCD)
         else:
             self.assertCountEqual(listCD_read, listCD)
-            
-    def testPrimarySequenceIteration(self):
-        listCD = []
-        listCD_true = ["R0010", "E0040", "B0032", "B0012"]
-        doc = Document()
-        gene = ComponentDefinition("BB0001")
-        promoter = ComponentDefinition("R0010")
-        CDS = ComponentDefinition("B0032")
-        RBS = ComponentDefinition("E0040")
-        terminator = ComponentDefinition("B0012")
-        
-        doc.addComponentDefinition([gene, promoter, CDS, RBS, terminator])
-        
-        gene.assemble([ promoter, RBS, CDS, terminator ])
-        primary_sequence = gene.getPrimaryStructure()
-        for component in primary_sequence:
-            listCD.append(component.displayId.get())
-        
-        # Python 3 compatability
-        if sys.version_info[0] < 3:
-            self.assertItemsEqual(listCD, listCD_true)
-        else:
-            self.assertCountEqual(listCD, listCD_true)
-
              
     #def testCDSeq(self):
     #    doc = Document()
@@ -647,8 +623,6 @@ class TestSequences(unittest.TestCase):
             self.assertCountEqual(listseq_read, listseq)
             
     def testSequenceElement(self):
-        setHomespace('http://sbols.org/CRISPR_Example')
-        Config.setOption('sbol_typed_uris', False)
         doc = Document()
         doc.read(os.path.join(TEST_LOC_SBOL2, 'roundTrip.xml'))
         # Sequence to test against
@@ -704,37 +678,19 @@ class TestMemory(unittest.TestCase):
         bool2 = cd.thisown
         self.assertNotEquals(bool1, bool2)
 
-class TestIterators(unittest.TestCase):
-
-    def setUp(self):
-        pass
-    
-    def testTextPropertyIterator(self):
-        cd = ComponentDefinition()
-        cd.description.add('lorem')
-        cd.description.add('ipsum')
-        descriptions = []
-        for d in cd.description:
-            descriptions.append(d)
-        self.assertEquals(descriptions, ['lorem', 'ipsum'])
-
-    def testURIPropertyIterator(self):
-        cd = ComponentDefinition()
-        cd.roles.add(SO_PROMOTER)
-        cd.roles.add(SO_GENE)
-        roles = []
-        for r in cd.roles:
-            roles.append(r)
-        self.assertEquals(roles, [SO_PROMOTER, SO_GENE])
-
-    def testDocumentIterator(self):
-        pass
-
-                           
 # List of tests
-default_test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory, TestIterators]
+test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory]
 
-def runTests(test_list = default_test_list):
+def delete_files():
+    TEST_FILES_SBOL2_OUT = os.listdir(TEST_LOC_SBOL2)
+    for i in range(len(TEST_FILES_SBOL2_OUT)):
+        split_path = os.path.splitext(TEST_FILES_SBOL2_OUT[i])
+        if os.path.exists(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1])):
+            os.remove(os.path.join(TEST_LOC_SBOL2, split_path[0] + '_out' + split_path[1]))
+        else:
+            pass
+
+def runTests():
     print("Setting up")
     suite_list = []
     loader = unittest.TestLoader()
@@ -744,8 +700,8 @@ def runTests(test_list = default_test_list):
    
     full_test_suite = unittest.TestSuite(suite_list)
     unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(full_test_suite)
-
-
+    delete_files()
+    
 if __name__ == '__main__':
     runTests()
 
