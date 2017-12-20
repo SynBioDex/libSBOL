@@ -797,6 +797,7 @@ namespace sbol {
             }
             if (persistent_id_matches.size() > 0)
                 return (SBOLClass&)*persistent_id_matches.back();
+            throw SBOLError(NOT_FOUND_ERROR, "Object " + persistentIdentity + "/" + uri + " not found");
         }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };

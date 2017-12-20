@@ -60,8 +60,7 @@ std::string TextProperty::get()
         }
     }	else
     {
-        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");
-    }
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "Property " + type + " is not a member of a parent SBOLObject");    }
 };
 
 /// @return A string of characters used to identify a resource
@@ -89,8 +88,7 @@ std::string URIProperty::get()
         }
     }	else
     {
-        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");
-    }
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "Property " + type + " is not a member of a parent SBOLObject");    }
 };
 
 /// @return An integer
@@ -118,7 +116,7 @@ int IntProperty::get()
         }
     }	else
     {
-        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");    }
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "Property " + type + " is not a member of a parent SBOLObject");    }
 };
 
 /// @return An integer
@@ -146,7 +144,7 @@ double FloatProperty::get()
         }
     }	else
     {
-        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");    }
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "Property " + type + " is not a member of a parent SBOLObject");    }
 };
 
 void VersionProperty::incrementMinor()

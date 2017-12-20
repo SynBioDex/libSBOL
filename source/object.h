@@ -113,7 +113,7 @@ namespace sbol
         std::vector<SBOLObject*> find_property_value(std::string uri, std::string value, std::vector<SBOLObject*> matches = {});
 
         /// Search this object recursively to see if it contains a member property with the given RDF type and indicated property value.
-        /// @param uri A URI, either an ontology term or an object reference, to searhc for
+        /// @param uri A URI, either an ontology term or an object reference, to search for
         /// @return A vector containing all objects found that contain the URI in a property value
         std::vector<SBOLObject*> find_reference(std::string uri);
         
