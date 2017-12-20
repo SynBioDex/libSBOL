@@ -1460,7 +1460,7 @@ Identified& Identified::simpleCopy(string uri)
     // Initialize the object's URI, this code is same as Identified's constructor
     if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
-        if (compliantTypesEnabled())
+        if (Config::getOption("sbol_typed_uris").compare("True") == 0)
         {
             new_obj.identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + VERSION_STRING);
             new_obj.persistentIdentity.set(getHomespace() + "/" + uri);

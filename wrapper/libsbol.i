@@ -41,7 +41,7 @@
     using namespace std;
     
 %}
-
+%include "typemaps.i"
 %include "python_docs.i"
 
 #ifdef SWIGWIN
@@ -112,7 +112,8 @@
 %ignore sbol::Document::flatten();
 %ignore sbol::Document::parse_objects;
 %ignore sbol::Document::close;
-
+%ignore sbol::ComponentDefinition::assemble(std::vector<std::string> list_of_uris, Document& doc);
+%ignore sbol::ComponentDefinition::assemble(std::vector<std::string> list_of_uris);
 
 // Instantiate STL templates
 %include "std_string.i"
@@ -120,16 +121,18 @@
 %include "std_map.i"
 
 // This typemap is here in order to convert the return type of ComponentDefinition::getPrimaryStructure into a Python list. (The typemaps defined later in this file work on other methods, but did not work on this method specifically)
-%typemap(out) std::vector<sbol::ComponentDefinition*> {
+%typemap(out) std::vector < sbol::ComponentDefinition* > {
     int len = $1.size();
     PyObject* list = PyList_New(0);
     for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
     {
+        ComponentDefinition* cd = *i_elem;
         PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::ComponentDefinition*), 0 |  0 );
         PyList_Append(list, elem);
     }
     $result  = list;
     $1.clear();
+
 }
 
 %template(_IntVector) std::vector<int>;
@@ -138,6 +141,7 @@
 %template(_MapVector) std::map<std::string, std::string >;
 %template(_MapOfStringVector) std::map<std::string, std::vector<std::string> >;
 %template(_MapOfSBOLObject) std::map<std::string, std::vector< sbol::SBOLObject* > >;
+
 
 // Instantiate libSBOL templates
 %include "config.h"
@@ -171,6 +175,8 @@
 %{
     #self.thisown = True
 %}
+    
+
     
 %include "properties.h"
 %include "object.h"
@@ -444,39 +450,104 @@ TEMPLATE_MACRO_2(Agent);
     
 %extend sbol::ComponentDefinition
 {
-    void assemble(PyObject *list)
-    {
-        std::vector<sbol::ComponentDefinition*> list_of_cdefs = {};
-        if (PyList_Check(list))
-        {
-            for (int i = 0; i < PyList_Size(list); ++i)
-            {
-                PyObject *obj = PyList_GetItem(list, i);
-                sbol::ComponentDefinition* cd;
-                if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) throw;
-                list_of_cdefs.push_back(cd);
-            }
-            $self->assemble(list_of_cdefs);
-        };
-    }
     
     void assemble(PyObject *list, PyObject *doc)
     {
         sbol::Document* cpp_doc;
-        if ((SWIG_ConvertPtr(doc,(void **) &cpp_doc, $descriptor(sbol::Document*),1)) == -1) throw;
-
-        std::vector<sbol::ComponentDefinition*> list_of_cdefs = {};
-        if (PyList_Check(list))
+        if ((SWIG_ConvertPtr(doc,(void **) &cpp_doc, $descriptor(sbol::Document*),1)) == -1)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Second argument must be a valid Document");
+        if (!PyList_Check(list))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
+        if (PyList_Size(list) == 0)
+            return;
+        PyObject *obj = PyList_GetItem(list, 0);
+        if (PyUnicode_Check(obj))
         {
+            std::vector<std::string> list_of_display_ids;
             for (int i = 0; i < PyList_Size(list); ++i)
             {
-                PyObject *obj = PyList_GetItem(list, i);
-                sbol::ComponentDefinition* cd;
-                if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) throw;
-                list_of_cdefs.push_back(cd);
+                obj = PyList_GetItem(list, i);
+                PyObject* bytes = PyUnicode_AsUTF8String(obj);
+                std::string display_id = PyBytes_AsString(bytes);
+                list_of_display_ids.push_back(display_id);
             }
-            $self->assemble(list_of_cdefs, *cpp_doc);
-        };
+            $self->assemble(list_of_display_ids, *cpp_doc);
+        }
+        else if (PyBytes_Check(obj))
+        {
+            std::vector<std::string> list_of_display_ids;
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                obj = PyList_GetItem(list, i);
+                std::string display_id = PyBytes_AsString(obj);
+                list_of_display_ids.push_back(display_id);
+            }
+            $self->assemble(list_of_display_ids, *cpp_doc);
+        }
+        else
+        {
+            std::vector<sbol::ComponentDefinition*> list_of_cdefs = {};
+            sbol::ComponentDefinition* cd;
+            if (SWIG_IsOK(SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)))
+            {
+                for (int i = 0; i < PyList_Size(list); ++i)
+                {
+                    obj = PyList_GetItem(list, i);
+                    if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) break;
+                    list_of_cdefs.push_back(cd);
+                }
+                $self->assemble(list_of_cdefs, *cpp_doc);
+                list_of_cdefs.clear();
+            }
+        }
+    };
+    
+    void assemble(PyObject *list)
+    {
+        if (!PyList_Check(list))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
+        if (PyList_Size(list) == 0)
+            return;
+        PyObject *obj = PyList_GetItem(list, 0);
+        if (PyUnicode_Check(obj))
+        {
+            std::vector<std::string> list_of_display_ids;
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                obj = PyList_GetItem(list, i);
+                PyObject* bytes = PyUnicode_AsUTF8String(obj);
+                std::string display_id = PyBytes_AsString(bytes);
+                list_of_display_ids.push_back(display_id);
+            }
+            $self->assemble(list_of_display_ids);
+        }
+        else if (PyBytes_Check(obj))
+        {
+            std::vector<std::string> list_of_display_ids;
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                obj = PyList_GetItem(list, i);
+                std::string display_id = PyBytes_AsString(obj);
+                list_of_display_ids.push_back(display_id);
+            }
+            $self->assemble(list_of_display_ids);
+        }
+        else
+        {
+            std::vector<sbol::ComponentDefinition*> list_of_cdefs = {};
+            sbol::ComponentDefinition* cd;
+            if (SWIG_IsOK(SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)))
+            {
+                for (int i = 0; i < PyList_Size(list); ++i)
+                {
+                    obj = PyList_GetItem(list, i);
+                    if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) break;
+                    list_of_cdefs.push_back(cd);
+                }
+                $self->assemble(list_of_cdefs);
+                list_of_cdefs.clear();
+            }
+        }
     }
     
     bool isRegular(PyObject* py_string)

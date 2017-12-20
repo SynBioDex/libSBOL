@@ -53,7 +53,7 @@ namespace sbol
         {
             if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
-                if (compliantTypesEnabled())
+                if (Config::getOption("sbol_typed_uris").compare("True") == 0)
                 {
                     identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
                     persistentIdentity.set(getHomespace() + "/" + uri);

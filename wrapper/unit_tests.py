@@ -13,7 +13,8 @@ URIS_USED = set()
 RANDOM_CHARS = string.ascii_letters
 NUM_FAST_TESTS = 10000
 NUM_SLOW_TESTS =   100
-TEST_LOCATION = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'test')
+MODULE_LOCATION = os.path.dirname(os.path.abspath(__file__))
+TEST_LOCATION = os.path.join(MODULE_LOCATION, 'test')
 TEST_LOC_SBOL1 = os.path.join(TEST_LOCATION, 'SBOL1')
 TEST_LOC_SBOL2 = os.path.join(TEST_LOCATION, 'SBOL2')
 TEST_LOC_RDF = os.path.join(TEST_LOCATION, 'RDF')
@@ -374,13 +375,15 @@ class TestRoundTripSBOL2(unittest.TestCase):
         print(str(TEST_FILES_SBOL2[73]))
         self.run_round_trip(str(TEST_FILES_SBOL2[73]))
 
+
 class TestComponentDefinitions(unittest.TestCase):
     
     def setUp(self):
         pass
-        
+    
     def testAddComponentDefinition(self):
         test_CD = ComponentDefinition("BB0001")
+
         doc = Document()
         doc.addComponentDefinition(test_CD)
         
@@ -400,7 +403,7 @@ class TestComponentDefinitions(unittest.TestCase):
     def testCDDisplayId(self):
         listCD_read = []
         doc = Document()
-        doc.read(os.path.join(TEST_LOC_SBOL2, 'roundTrip.xml'))
+        doc.read(os.path.join(MODULE_LOCATION, 'crispr_example.xml'))
 
         # List of displayIds        
         listCD = ['CRP_b', 'CRa_U6', 'EYFP', 'EYFP_cds', 'EYFP_gene', 'Gal4VP16',
@@ -443,171 +446,7 @@ class TestComponentDefinitions(unittest.TestCase):
             self.assertCountEqual(listCD, listCD_true)
 
              
-    #def testCDSeq(self):
-    #    doc = Document()
-    #    doc.read(os.path.join(TEST_LOCATION, str(TEST_LOC_SBOL2[72])))
-        
-    #def testCDpersistentIdentity(self):
-    #def testCDrole(self):
-    #def testCDtype(self):
-    #def testCDcomponent(self):
-    #def testCDsequenceConstraint(self):
-        
-        
 
-        
-#    def testComponentDefinitionElement(self):
-#        doc = Document()
-#        doc.read(os.path.join(TEST_LOCATION, str(TEST_FILES[4])))
-#        # Sequence to test against
-#        seq = ('GCTCCGAATTTCTCGACAGATCTCATGTGATTACGCCAAGCTACGGGCGGAGTACTGTCCTC'
-#               'CGAGCGGAGTACTGTCCTCCGAGCGGAGTACTGTCCTCCGAGCGGAGTACTGTCCTCCGAGC'
-#               'GGAGTTCTGTCCTCCGAGCGGAGACTCTAGATACCTCATCAGGAACATGTTGGAATTCTAGG'
-#               'CGTGTACGGTGGGAGGCCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTCGAG'
-#               'TACCTCATCAGGAACATGTTGGATCCAATTCGACC')
-#               
-#        seq_read = doc.getSequence('CRP_b_seq').elements.get()
-#        self.assertEquals(seq_read, seq)
-
-#class TestSBOLObject(unittest.TestCase):
-#    def assertReadOnly(self, obj, attr):
-#        try:
-#            obj.__getattribute__(attr)
-#            obj.__setattr__(attr, None)
-#            raise AssertionError
-#        except AttributeError:
-#            pass
-
-#def assertReadWrite(self, obj, attr, content=None):
-#    if not content:
-#        content = random_string()
-#        self.assertEqual(obj.__getattribute__(attr), None)
-#        obj.__setattr__(attr, content)
-#        self.assertEqual(obj.__getattribute__(attr), content)
-#        obj.__setattr__(attr, None)
-#        self.assertEqual(obj.__getattribute__(attr), None)
-#
-#    def setUp(self):
-#        self.doc = sbol.Document()
-#        self.assertEqual(self.doc.num_sbol_objects, 0)
-#        self.uris    = []
-#        self.testees = []
-#        self.createTestees()
-#        self.assertEqual(len(self.uris), len(self.testees))
-#        self.assertEqual(len(self.uris), self.doc.num_sbol_objects)
-#        self.assertEqual(len(self.uris), sbol.libsbol.getNumSBOLObjects(self.doc.ptr))
-#
-#def tearDown(self):
-#    self.assertEqual(len(self.uris), self.doc.num_sbol_objects)
-#        self.assertEqual(len(self.uris), sbol.libsbol.getNumSBOLObjects(self.doc.ptr))
-#        del self.doc
-#    # todo check that everything was deleted?
-#    
-#    def createTestees(self):
-#        for obj in (sbol.DNASequence,
-#                    sbol.SequenceAnnotation,
-#                    sbol.DNAComponent,
-#                    sbol.Collection):
-#            uri = random_uri()
-#            self.uris.append(uri)
-#            self.testees.append(obj(self.doc, uri))
-#
-#def testURI(self):
-#    for n in range( len(self.testees) ):
-#        testee = self.testees[n]
-#            uri = self.uris[n]
-#            self.assertEqual(testee.uri, uri)
-#            self.assertReadOnly(testee, 'uri')
-#
-#class TestSBOLCompoundObject(TestSBOLObject):
-#    def createTestees(self):
-#        for obj in (sbol.DNAComponent,
-#                    sbol.Collection):
-#            uri = random_uri()
-#            self.uris.append(uri)
-#            self.testees.append(obj(self.doc, uri))
-#
-#def testDisplayID(self):
-#    for testee in self.testees:
-#        self.assertReadWrite(testee, 'display_id')
-#
-#    def testName(self):
-#        for testee in self.testees:
-#            self.assertReadWrite(testee, 'name')
-#
-#def testDescription(self):
-#    for testee in self.testees:
-#        self.assertReadWrite(testee, 'description')
-#
-#class TestDNASequence(TestSBOLObject):
-#    def createTestees(self):
-#        uri = random_uri()
-#        self.uris.append(uri)
-#        self.testees.append( sbol.DNASequence(self.doc, uri) )
-#    
-#    def testNucleotides(self):
-#        self.assertReadWrite(self.testees[0], 'nucleotides')
-#
-#class TestSequenceAnnotation(TestSBOLObject):
-#    def assertPositionWorking(self, obj, attr):
-#        self.assertEqual(obj.__getattribute__(attr), None)
-#        # check that setting valid positions works
-#        for n in range(NUM_FAST_TESTS):
-#            position = random_valid_position()
-#            obj.__setattr__(attr, position)
-#            self.assertEqual(obj.__getattribute__(attr), position)
-#        # check that setting invalid positions raises error
-#        for n in range(NUM_FAST_TESTS):
-#            obj.__setattr__(attr, None)
-#            position = random_invalid_position()
-#            self.assertRaises(sbol.PositionError, obj.__setattr__, attr, position)
-#        # check that resetting to None works
-#        obj.__setattr__(attr, 1)
-#        self.assertEqual(obj.__getattribute__(attr), 1)
-#        obj.__setattr__(attr, None)
-#        self.assertEqual(obj.__getattribute__(attr), None)
-#    
-#    def createTestees(self):
-#        uri = random_uri()
-#        self.uris.append(uri)
-#        self.testees.append( sbol.SequenceAnnotation(self.doc, uri) )
-#    
-#    def testPositions(self):
-#        self.assertPositionWorking(self.testees[0], 'start')
-#        self.assertPositionWorking(self.testees[0], 'end')
-#    
-#    def testStrand(self):
-#        # check that strand is initially forward
-#        self.assertEquals(self.testees[0].strand, '+')
-#        # check that it can only be set to valid symbols
-#        valid_polarities = ('+', '*', '-')
-#        for symbol in random_string():
-#            if symbol in valid_polarities:
-#                self.testees[0].strand = symbol
-#                self.assertEquals(self.testees[0].strand, symbol)
-#            else:
-#                self.assertRaises(sbol.StrandError,
-#                                  self.testees[0].__setattr__,
-#                                  'strand',
-#                                  symbol)
-#
-#def testSubcomponent(self):
-#    self.assertEquals(self.testees[0].subcomponent, None)
-#        uri = random_uri()
-#        self.uris.append(uri)
-#        com = sbol.DNAComponent(self.doc, uri)
-#        self.testees[0].subcomponent = com
-#        self.assertEquals(self.testees[0].subcomponent, com)
-#    
-#    def testPrecedes(self):
-#        for n in range(NUM_SLOW_TESTS):
-#            self.assertEqual(len(self.testees[0].precedes), n)
-#            uri = random_uri()
-#            self.uris.append(uri)
-#            ann = sbol.SequenceAnnotation(self.doc, uri)
-#            self.assertFalse(ann in self.testees[0].precedes)
-#            self.testees[0].precedes += ann
-#            self.assertTrue(ann in self.testees[0].precedes)
 
 class TestSequences(unittest.TestCase):
     
@@ -632,7 +471,7 @@ class TestSequences(unittest.TestCase):
     def testSeqDisplayId(self):
         listseq_read = []
         doc = Document()
-        doc.read(os.path.join(TEST_LOC_SBOL2, 'roundTrip.xml'))
+        doc.read(os.path.join(MODULE_LOCATION, 'crispr_example.xml'))
 
         # List of displayIds        
         listseq = ['CRP_b_seq', 'CRa_U6_seq', 'gRNA_b_seq', 'mKate_seq']
@@ -650,7 +489,7 @@ class TestSequences(unittest.TestCase):
         setHomespace('http://sbols.org/CRISPR_Example')
         Config.setOption('sbol_typed_uris', False)
         doc = Document()
-        doc.read(os.path.join(TEST_LOC_SBOL2, 'roundTrip.xml'))
+        doc.read(os.path.join(MODULE_LOCATION, 'crispr_example.xml'))
         # Sequence to test against
         seq = ('GCTCCGAATTTCTCGACAGATCTCATGTGATTACGCCAAGCTACGGGCGGAGTACTGTCCTC'
                'CGAGCGGAGTACTGTCCTCCGAGCGGAGTACTGTCCTCCGAGCGGAGTACTGTCCTCCGAGC'
@@ -736,6 +575,7 @@ default_test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences
 
 def runTests(test_list = default_test_list):
     print("Setting up")
+    exec(open("CRISPR_example.py").read())
     suite_list = []
     loader = unittest.TestLoader()
     for test_class in test_list:
