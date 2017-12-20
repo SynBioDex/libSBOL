@@ -157,7 +157,7 @@ IF (SBOL_BUILD_PYTHON3)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
 
             # build the SWIG wrapper
-            SWIG_ADD_LIBRARY( libsbol32_3
+            SWIG_ADD_LIBRARY( libsbol
                 LANGUAGE python
                 SOURCES libsbol.i )
 
@@ -202,7 +202,7 @@ IF (SBOL_BUILD_PYTHON3)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
 
             # build the SWIG wrapper
-            SWIG_ADD_LIBRARY( libsbol64_3
+            SWIG_ADD_LIBRARY( libsbol
                 LANGUAGE python
                 SOURCES libsbol.i )
                 
