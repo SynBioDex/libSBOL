@@ -35,11 +35,17 @@
 #include "module.h"
 #include "model.h"
 #include "collection.h"
+#include "provo.h"
 
 #include <raptor2.h>
 #include <unordered_map>
 #include <istream>
 #include <algorithm>
+
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+#include "Python.h"
+#undef tolower
+#endif
 
 namespace sbol {
 
@@ -76,9 +82,11 @@ namespace sbol {
             sequences(SBOL_SEQUENCE, this, ""),
             sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, ""),
             collections(SBOL_COLLECTION, this, ""),
+            activities(PROVO_ACTIVITY, this, ""),
+            plans(PROVO_PLAN, this, ""),
+            agents(PROVO_AGENT, this, ""),
             citations(PURL_URI "bibliographicCitation", this),
             keywords(PURL_URI "elements/1.1/subject", this)
-        
 			{
                 namespaces["sbol"] = SBOL_URI "#";
                 namespaces["dcterms"] = PURL_URI;
@@ -96,6 +104,12 @@ namespace sbol {
         /// @cond
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
+
+//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+//        // Register of Python objects, for use when building Python bindings
+//        std::unordered_map<std::string, PyObject*> PythonObjects;
+//#endif
+        
         TopLevel& getTopLevel(std::string);
         raptor_world* getWorld();
         /// @endcond
@@ -106,6 +120,9 @@ namespace sbol {
         List<OwnedObject<Sequence>> sequences;
         List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
         List<OwnedObject<Collection>> collections;
+        List<OwnedObject<Activity>> activities;
+        List<OwnedObject<Plan>> plans;
+        List<OwnedObject<Agent>> agents;
 
         URIProperty citations;
         URIProperty keywords;
@@ -176,6 +193,39 @@ namespace sbol {
         {
             return this->size();
         }
+        
+        /// Provides iterator functionality for SBOL properties that contain multiple objects
+        class iterator : public std::vector<SBOLObject*>::iterator
+        {
+        public:
+            
+            iterator(typename std::vector<SBOLObject*>::iterator i_object = std::vector<SBOLObject*>::iterator()) : std::vector<SBOLObject*>::iterator(i_object)
+            {
+            }
+            
+            SBOLObject& operator*()
+            {
+                return (SBOLObject&) *std::vector<SBOLObject*>::iterator::operator *();
+            }
+        };
+        
+        iterator begin()
+        {
+            std::vector<SBOLObject*> object_store;
+            for (auto & entry : SBOLObjects)
+                object_store.push_back(entry.second);
+            return iterator(object_store.begin());
+        };
+        
+        iterator end()
+        {
+            std::vector<SBOLObject*> object_store;
+            for (auto & entry : SBOLObjects)
+                object_store.push_back(entry.second);
+            return iterator(object_store.end());
+        };
+        
+        std::vector<SBOLObject*>::iterator python_iter;
         
         /// Search recursively for an SBOLObject in this Document that matches the uri
         /// @param uri The identity of the object to search for
@@ -277,7 +327,7 @@ namespace sbol {
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
                 sbol_obj.parent = this;  // Set back-pointer to parent object
-                this->owned_objects[sbol_obj.type].push_back((SBOLClass*)&sbol_obj);  // Add the object to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc.
+                this->owned_objects[sbol_obj.getTypeURI()].push_back((SBOLClass*)&sbol_obj);  // Add the object to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc.
             }
             sbol_obj.doc = this;
             
@@ -471,6 +521,8 @@ namespace sbol {
                 child_obj->doc = parent_doc;
             if (CHECK_TOP_LEVEL)
                 parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
+            
+            this->validate(child_obj);
             return *child_obj;
         }
         else
@@ -489,6 +541,8 @@ namespace sbol {
             this->add(*child_obj);
             if (parent_obj->doc)
                 child_obj->doc = parent_obj->doc;
+            
+            this->validate(child_obj);
             return *child_obj;
         }
     };
@@ -558,6 +612,8 @@ namespace sbol {
                 child_obj->doc = parent_doc;
             if (CHECK_TOP_LEVEL)
                 parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
+
+            this->validate(child_obj);
             return *child_obj;
         }
         else
@@ -575,6 +631,8 @@ namespace sbol {
             this->add(*child_obj);
             if (parent_obj->doc)
                 child_obj->doc = parent_obj->doc;
+            
+            this->validate(child_obj);
             return *child_obj;
         }
     };
@@ -668,7 +726,6 @@ namespace sbol {
                 return (SBOLClass&)*obj;
             }
         }
-        
         // In SBOLCompliant mode, the user may retrieve an object by displayId as well
         if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
@@ -689,7 +746,7 @@ namespace sbol {
                 }
             }
             // If the parent object doesn't have a persistent identity then it is TopLevel
-            else if (compliantTypesEnabled())
+            else if (Config::getOption("sbol_typed_uris").compare("True") == 0)
             {
 
                 persistentIdentity = getHomespace() + "/" + parseClassName(dummy_obj.getTypeURI());
@@ -709,7 +766,6 @@ namespace sbol {
                 version = VERSION_STRING;
             }
             std::string compliant_uri = persistentIdentity + "/" + uri + "/" + version;
-
             // Search this property's object store for the uri
             for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
             {
@@ -719,11 +775,311 @@ namespace sbol {
                     return (SBOLClass&)*obj;
                 }
             }
+            throw SBOLError(NOT_FOUND_ERROR, "Object " + compliant_uri + " not found");
             
         }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+    
+    class OwnedPythonObject : public OwnedObject<PyObject>
+    {
+    private:
+        PyObject* constructor_for_owned_object;
+        
+        PyObject* getSwigProxy(SBOLObject* sbol_obj)
+        {
+            typedef struct {
+                PyObject_HEAD
+                void *ptr; // This is the pointer to the actual C++ instance
+                void *ty;  // swig_type_info originally, but shouldn't matter
+                int own;
+                PyObject *next;
+            } SwigPyObject;
+            
+            for (auto & i_py_obj : this->sbol_owner->PythonObjects)
+            {
+                PyObject* py_obj = i_py_obj.second;
+                // Instantiate Python extension objects
+                SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj,  PyUnicode_FromString("this"));
+                if (swig_py_object->ptr == sbol_obj)
+                    return py_obj;
+            }
+            return NULL;
+        };
+        
+        SBOLObject* getSwigClient(PyObject* py_obj)
+        {
+            if (py_obj == NULL)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid PyObject passed to getSwigClient");
+
+            typedef struct {
+                PyObject_HEAD
+                void *ptr; // This is the pointer to the actual C++ instance
+                void *ty;  // swig_type_info originally, but shouldn't matter
+                int own;
+                PyObject *next;
+            } SwigPyObject;
+            
+            // Instantiate Python extension objects
+            SBOLObject* sbol_obj = NULL;
+            try
+            {
+                SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj,  PyUnicode_FromString("this"));
+                sbol_obj = (SBOLObject *)swig_py_object->ptr;
+            } catch (...)
+            {
+            }
+            if (sbol_obj == NULL)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Attempted to access SWIG client object but none was found. Is the object subclassed from an SBOL core class?");
+            return sbol_obj;
+        };
+        
+    public:
+        OwnedPythonObject(PyObject* constructor, sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL) :
+            OwnedObject<PyObject>(type_uri, property_owner),
+            constructor_for_owned_object(constructor)
+        {
+            // Register Property in owner Object
+            if (this->sbol_owner != NULL)
+            {
+                std::vector<sbol::SBOLObject*> object_store;
+                this->sbol_owner->owned_objects.insert({ type_uri, object_store });
+            }
+            else
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The third argument to an OwnedPythonObject constructor must be a pointer to the property's parent object, ie, self.this");
+        };
+        
+        void set(PyObject* py_obj)
+        {
+            /// @TODO This could cause a memory leak if the overwritten object is not freed!
+            SBOLObject* sbol_obj = getSwigClient(py_obj);
+            sbol_obj->parent = this->sbol_owner;
+            this->sbol_owner->owned_objects[this->type][0] = sbol_obj;
+            this->sbol_owner->PythonObjects[sbol_obj->identity.get()] = py_obj;
+        };
+        
+        void add(PyObject* py_obj)
+        {
+            SBOLObject* sbol_obj = getSwigClient(py_obj);
+
+//            if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+//                throw SBOLError(SBOL_ERROR_COMPLIANCE, "Cannot add " + sbol_obj->identity.get() + " to " + this->sbol_owner->identity.get() + ". The " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::create method instead or use toggleSBOLCompliance to enter open-world mode");
+            if (this->sbol_owner)
+            {
+                if (this->sbol_owner->type.compare(SBOL_DOCUMENT) == 0)
+                {
+                    Document& doc = (Document &)*this->sbol_owner;
+                    doc.SBOLObjects[sbol_obj->identity.get()] = sbol_obj;
+                }
+                else
+                {
+                    std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+                    if (std::find(object_store.begin(), object_store.end(), sbol_obj) != object_store.end())
+                        throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj->identity.get() + " is already contained by the property");
+                    else
+                    {
+                        sbol_obj->parent = this->sbol_owner;  // Set back-pointer to parent object
+                        object_store.push_back(sbol_obj);
+                        if (this->sbol_owner->doc)
+                        {
+                            sbol_obj->doc = this->sbol_owner->doc;
+                        }
+                    }
+                }
+                this->sbol_owner->PythonObjects[sbol_obj->identity.get()] = py_obj;
+            }
+        };
+        
+        PyObject* get(const std::string uri)
+        {
+            // By default, get the first object in the object store...
+            if (uri.compare("") == 0)
+            {
+                // Check if this property is empty
+                if (this->sbol_owner->owned_objects[this->type].size() == 0)
+                    return NULL;
+
+                SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
+                return getSwigProxy(obj);
+            }
+            // ...else search the object store for an object matching the id
+            else
+            {
+                return this->operator[](uri);
+                
+            }
+        };
+        
+        PyObject* operator[] (std::string uri)
+        {
+            // Search this property's object store for the uri
+            std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+            for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+            {
+                SBOLObject* obj = *i_obj;
+                if (uri.compare(obj->identity.get()) == 0)
+                {
+                    return getSwigProxy(obj);
+                }
+            }
+            // In SBOLCompliant mode, the user may retrieve an object by displayId as well
+            if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+            {
+                // Form compliant URI for child object
+                SBOLObject* parent_obj = this->sbol_owner;
+                std::string persistentIdentity;
+                std::string version;
+                
+                //if (!check_top_level)
+                // If not a TopLevel object...
+                if (parent_obj->type.compare(SBOL_DOCUMENT) != 0)
+                {
+                    persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+                    persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+                }
+                // If the parent object doesn't have a persistent identity then it is TopLevel
+                else if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+                {
+                    
+                    persistentIdentity = getHomespace() + "/" + parseClassName(this->sbol_owner->type);
+                    
+                }
+                else
+                {
+                    persistentIdentity = getHomespace();
+                }
+                if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
+                {
+                    version = parent_obj->properties[SBOL_VERSION].front();
+                    version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+                }
+                else
+                {
+                    version = VERSION_STRING;
+                }
+                std::string compliant_uri = persistentIdentity + "/" + uri + "/" + version;
+                // Search this property's object store for the uri
+                for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+                {
+                    SBOLObject* obj = *i_obj;
+                    if (compliant_uri.compare(obj->identity.get()) == 0)
+                    {
+                        return getSwigProxy(obj);
+                    }
+                }
+                throw SBOLError(NOT_FOUND_ERROR, "Object " + compliant_uri + " not found");
+                
+            }
+            throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
+        };
+        
+        PyObject* create(std::string uri)
+        {
+            // This is a roundabout way of checking if SBOLClass is TopLevel in the Document
+            int CHECK_TOP_LEVEL;
+            Document* parent_doc = dynamic_cast<Document*>(this->sbol_owner);
+            if (parent_doc)
+                CHECK_TOP_LEVEL = 1;
+            else
+            {
+                CHECK_TOP_LEVEL = 0;
+                parent_doc = this->sbol_owner->doc;
+            }
+            SBOLObject* parent_obj = this->sbol_owner;
+            
+            if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+            {
+                PyObject* py_obj = PyObject_CallFunction(this->constructor_for_owned_object, (char *)"s", uri.c_str());
+                Identified* child_obj = (Identified *)getSwigClient(py_obj);
+                
+                // Form compliant URI for child object
+                std::string persistent_id;
+                std::string version;
+                if (!CHECK_TOP_LEVEL && parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+                {
+                    persistent_id = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+                    persistent_id = persistent_id.substr(1, persistent_id.length() - 2);  // Removes flanking < and > from the uri
+                }
+                else
+                {
+                    // If object is TopLevel, intialize the URI
+                    persistent_id = getHomespace();
+                    if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+                        persistent_id += "/" + parseClassName(child_obj->getTypeURI());
+                }
+                if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
+                {
+                    version = parent_obj->properties[SBOL_VERSION].front();
+                    version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+                }
+                else
+                {
+                    version = VERSION_STRING;
+                }
+                std::string child_persistent_id =  persistent_id + "/" + uri;
+                std::string child_id = child_persistent_id + "/" + version;
+                
+                // Check for uniqueness of URI in the Document
+                if (parent_doc && parent_doc->find(child_id))
+                    throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
+                
+                // Construct a new child object
+                //            SBOLClass* child_obj = new SBOLClass(uri);
+                
+                
+                // Initialize SBOLCompliant properties
+                child_obj->identity.set(child_id);
+                child_obj->persistentIdentity.set(child_persistent_id);
+                child_obj->displayId.set(uri);
+                child_obj->version.set(version);
+                
+                // Add the new object to this OwnedObject property
+                // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
+                child_obj->parent = parent_obj;  // Set back-pointer to parent object
+                std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+                object_store.push_back((SBOLObject*)child_obj);
+                
+                // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects, otherwise the returned object will not be registered
+                if (parent_doc)
+                    child_obj->doc = parent_doc;
+                if (CHECK_TOP_LEVEL)
+                    parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
+                return py_obj;
+            }
+            else
+            {
+                if (parent_doc && parent_doc->find(uri))
+                    throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
+                
+                // Construct a new child object
+                PyObject* py_obj = PyObject_CallObject(constructor_for_owned_object, NULL);
+                Identified* child_obj = (Identified *)getSwigClient(py_obj);
+                child_obj->identity.set(uri);
+                
+                Identified* parent_obj = (Identified*)this->sbol_owner;
+                child_obj->parent = parent_obj;  // Set back-pointer to parent object
+                child_obj->identity.set(uri);
+                child_obj->persistentIdentity.set(uri);
+                
+                // Add to this property's object store
+                std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+                object_store.push_back((SBOLObject*)child_obj);
+                
+//                this->add(*child_obj);
+                // Set pointer to Document
+                if (parent_obj->doc)
+                    child_obj->doc = parent_obj->doc;
+                
+                return py_obj;
+            }
+        }
+    };
+    
+#endif
+    
+    
     template <class SBOLClass>
     void OwnedObject<SBOLClass>::remove(int index)
     {

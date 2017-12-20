@@ -471,22 +471,52 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
     // Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
 	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
-//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-//        // Instantiate Python extension objects
-//        if ((doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
-//        {
-//            PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
-//            PyObject* py_obj = PyObject_CallObject(constructor, PyString_FromString(subject.c_str()));
-//            SBOLObject* new_obj = (SBOLObject*) PyObject_GetAttrString(py_obj, "this");
-//            new_obj->identity.set(subject);
-//            
-//            // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
-//            // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
-//            //doc->add<SBOLObject>(new_obj);
-//            doc->SBOLObjects[new_obj->identity.get()] = new_obj;
-//            new_obj->doc = doc;  //  Set's the objects back-pointer to the parent Document
-//        }
-//#endif
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        
+        typedef struct {
+            PyObject_HEAD
+            void *ptr; // This is the pointer to the actual C++ instance
+            void *ty;  // swig_type_info originally, but shouldn't matter
+            int own;
+            PyObject *next;
+        } SwigPyObject;
+        
+        // Instantiate Python extension objects
+        if ((doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
+        {
+            PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
+            PyObject* py_obj = PyObject_CallFunction(constructor, (char *)"s", subject.c_str());
+            SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
+            SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
+            
+            // Wipe default property values passed from default constructor. New property values will be added as properties are parsed from the input file
+            for (auto it = new_obj->properties.begin(); it != new_obj->properties.end(); it++)
+            {
+                std::string token = it->second.front();
+                if (token[0] == '<')  // clear defaults and re-initialize this property as a URI
+                {
+                    new_obj->properties[it->first].clear();
+                    new_obj->properties[it->first].push_back("<>");
+                }
+                else if (token[0] == '"')  // clear defaults and re-initialize as a literal
+                {
+                    new_obj->properties[it->first].clear();
+                    new_obj->properties[it->first].push_back("\"\"");
+                }
+            }
+            
+            // Set identity
+            new_obj->identity.set(subject);
+
+            // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
+            // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
+            doc->SBOLObjects[new_obj->identity.get()] = new_obj;
+            new_obj->doc = doc;  //  Set's the objects back-pointer to the parent Document
+            
+            Py_DECREF(py_obj); // Clean up
+        }
+        else
+#endif
         // Checks if the object has already been created and whether a constructor for this type of object exists
         if ((doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
 		{
@@ -795,7 +825,7 @@ void Document::read(std::string filename)
     SBOLObjects.clear();
     properties.clear();  // This may cause problems later because the Document object will lose all properties of an SBOLObject
     properties[SBOL_IDENTITY].push_back("<>");  // Re-initialize the identity property. The SBOLObject::compare method needs to get the Document's identity
-    list_properties.clear();
+    //list_properties.clear();
     owned_objects.clear();
     namespaces.clear();
     
@@ -830,7 +860,7 @@ void Document::append(std::string filename)
 	raptor_uri *uri, *base_uri;
     base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
     void *user_data = this;
-
+    
     // Read the triple store. On the first pass through the triple store, new SBOLObjects are constructed by the parse_objects handler
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
 	//base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
@@ -907,7 +937,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 	// The only other type of SBOL Object that can serialize besides TopLevel are objects
 	// that form a composite with a TopLevel object.  In this case, the TopLevel object will pass the
 	// pointer to the RDF graph to its composite objects
-
 
 	if (doc)
 	{
@@ -1321,6 +1350,16 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         string store_uri = i_store->first;
         vector < string > property_store = i_store->second;
         vector < string > property_store_copy = property_store;   // Copy properties
+        
+        // Add the property namespace to the target document if not present
+        string property_ns = parseNamespace(store_uri);
+        for (auto i_document_ns : this->doc->namespaces)
+        {
+            string prefix = i_document_ns.first;
+            string document_ns = i_document_ns.second;
+            if (!document_ns.compare(property_ns))
+                target_doc->namespaces[prefix] = property_ns;
+        }
         
         // If caller specified a namespace argument, then replace namespace in URIs
         // Don't overwrite namespaces for the wasDerivedFrom field, which points back to the original object

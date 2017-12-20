@@ -19,7 +19,7 @@
 /// e0040 = doc.getComponentDefinition('http://synbiohub.org/public/igem/BBa_E0040/1');
 /// b0012 = doc.getComponentDefinition('http://synbiohub.org/public/igem/BBa_B0012/1')
 /// ```
-/// In order to pull a part, simply locate the web address of that part by browsing the SynBioHub repository online. Alternatively, libSBOL also supports programmatic querying of SynBioHub. LibSBOL supports three kinds of searches: a **general search**, an **exact search**, and an **advanced search**. The following query conducts a general search which scans through `identity`, `name`, `description`, and `displayId` properties for a match to the search text, including matches to substrings of the property value. Search results are returned as a `SearchResponse` object.
+/// In order to pull a part, simply locate the web address of that part by browsing the SynBioHub repository online. Alternatively, libSBOL also supports programmatic querying of SynBioHub. LibSBOL supports three kinds of searches: a **general search**, an **exact search**, and an **advanced search**. The following query conducts a general search which scans through `identity`, `name`, `description`, and `displayId` properties for a match to the search text, including partial, case-insensitive matches to substrings of the property value. Search results are returned as a `SearchResponse` object.
 /// ```
 /// SearchResponse& records = igem.search("plasmid");
 /// ```
@@ -31,6 +31,9 @@
 ///
 /// Some searches may match a large number of objects, more than the specified limit allows. The total number of objects matching the search criteria can be found using the searchCount method, which has the same call signature as the search method. In this case, it is possible to specify an offset and to retrieve additional records in successive requests. It is a good idea to put a small delay in between successive requests to prevent server overload. The following example demonstrates how to do this. The 100 millisecond delay is implemented using cross-platform C++11 headers chrono and thread. As of the writing of this documentation, this call retrieves 391 records.
 /// ```
+/// #include <chrono>
+/// #include <thread>
+///
 /// SearchResponse& records = * new SearchResponse();
 /// string search_term = "plasmid";
 /// int limit = 25;
@@ -41,7 +44,7 @@
 ///     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 /// }
 /// ```
-/// Each record in a `SearchResponse` contains basic data, including identity, displayId, name, and description fields. *It is very important to realize however that the search does not retrieve the complete ComponentDefinition!* In order to retrieve the full object, the user must call `pullComponentDefinition` while specifying the target object's identity.
+/// Each record in a `SearchResponse` contains basic data, including `identity`, `displayId`, `name`, and `description` fields. *It is very important to realize however that the search does not retrieve the complete ComponentDefinition!* In order to retrieve the full object, the user must call `pullComponentDefinition` while specifying the target object's identity.
 ///
 /// Records in a `SearchResponse` can be accessed using iterators or numeric indices. The interface for each record behaves exactly like any other SBOL object:
 /// ```
@@ -57,8 +60,6 @@
 /// ```
 /// Finally, the **advanced search** allows the user to configure a search with multiple criteria by constructing a `SearchQuery` object. The following query looks for promoters that have an additional annotation indicating that the promoter is regulated (as opposed to constitutive):
 /// ```
-/// #include <chrono>
-/// #include <thread>
 ///
 /// SearchQuery& q = SearchQuery();
 /// q["objectType"].set(SBOL_COMPONENT_DEFINITION);
@@ -69,35 +70,35 @@
 /// int total_hits = igem.searchCount(q);
 /// SearchResponse& records = igem.search(q);
 /// ```
-/// @section template_desin Design Abstraction with SBOL
+/// @section template_desin Computer-aided Design with SBOL
 /// An advantage of the SBOL data format over GenBank is the ability to represent DNA as abstract components without specifying an exact sequence. An **abstract design** can be used as a template, with sequence information filled in later. In SBOL, a ComponentDefinition represents a biological component whose general function is known while its sequence is currently either unknown or unspecified. The intended function of the component is specified using a descriptive term from the Sequence Ontology (SO), a standard vocabulary for describing genetic parts. As the following example shows, some common SO terms are built in to libSBOL as pre-defined constants (see @ref constants.h). This code example defines the new component as a gene.  Other terms may be found by browsing the [Sequence Ontology](http://www.sequenceontology.org/browser/obob.cgi) online.
 /// ![](gene_cassette.png)
 /// ```
-/// ComponentDefinition& bb1 = *new ComponentDefinition("BB1");
-/// bb1.roles.set(SO_GENE);
+/// ComponentDefinition& gene_example = *new ComponentDefinition("gene_example");
+/// gene_example.roles.set(SO_GENE);
 /// ```
-/// Design abstraction is an important engineering principle for synthetic biology. Abstraction enables the engineer to think at a high-level about functional characteristics of a system while hiding low-level physical details. For example, in electronics, abstract schematics are used to describe the function of a circuit, while hiding the physical details of how a printed circuit board is laid out. Computer-aided design (CAD) programs allow the engineer to easily switch back and forth between abstract and physical representations of a circuit. In the same spirit, libSBOL enables a CAD approach for designing genetic constructs and other forms of synthetic biology.
+/// **Design abstraction** is an important engineering principle for synthetic biology. Abstraction enables the engineer to think at a high-level about functional characteristics of a system while hiding low-level physical details. For example, in electronics, abstract schematics are used to describe the function of a circuit, while hiding the physical details of how a printed circuit board is laid out. Computer-aided design (CAD) programs allow the engineer to easily switch back and forth between abstract and physical representations of a circuit. In the same spirit, libSBOL enables a CAD approach for designing genetic constructs and other forms of synthetic biology.
 /// @section hierarchical_dna Hierarchical DNA Assembly
-/// LibSBOL also includes methods for assembling biological components into **abstraction hierarchies**. This is important rom a biological perspective, because DNA sequences and biological structures in general exhibit hierarchical organization, from the genome, to operons, to genes, to lower level genetic operators. The following code assembles an abstraction hierarchy that describes a gene cassete. Note that these objects must be added to a Document for assembly.
+/// LibSBOL also includes methods for assembling biological components into **abstraction hierarchies**. This is important from a biological perspective, because DNA sequences and biological structures in general exhibit hierarchical organization, from the genome, to operons, to genes, to lower level genetic operators. The following code assembles an abstraction hierarchy that describes a gene cassete. Note that subcomponents must belong to a `Document` in order to be assembled, so a `Document` is passed as a parameter.
 /// ```
-/// bb1.assemble({ &r0010, &b0032, &e0040, &b0012 }, doc);
+/// gene_example.assemble({ &r0010, &b0032, &e0040, &b0012 }, doc);
 /// ```
 /// After creating an abstraction hierarchy, it is then possible to iterate through an object's primary structure of components:
 /// ```
-/// for (auto & component : bb1.getPrimaryStructure())
+/// for (auto & component : gene_example.getPrimaryStructure())
 ///     cout << component.identity.get() << endl;
 /// ```
 /// *Caution!* It is also possible to iterate through components as follows, but this way is *not* guaranteed to return components in sequential order. This is because SBOL supports a variety of structural descriptions, not just primary structure.
 /// ```
-/// for (auto & component : bb1.components)
+/// for (auto & component : gene_example.components)
 ///     cout << component.identity.get() << endl;
 /// ```
 /// @section sequence_assembly Sequence Assembly
 /// A **complete design** adds explicit sequence information to the components in a template design. In order to complete a design, Sequence objects must first be created and associated with the promoter, CDS, RBS, terminator subcomponents. In contrast to the ComponentDefinition::assemble method, which assembles a template design, the Sequence::compile method recursively generates the complete sequence of a hierarchical design from the sequence of its subcomponents. Compiling a DNA sequence is analogous to a programmer compiling their code. In order to compile a Sequence, you must first assemble a template design from ComponentDefinitions, as described in the previous section.
 /// ```
-/// Sequence& bb1_seq = *new Sequence("BB1_seq");
-/// bb1.sequences.set(bb1_seq.identity.get());
-/// bb1_seq.compile();
+/// Sequence& gene_example_seq = *new Sequence("gene_example_seq");
+/// gene_example.sequences.set(gene_example_seq.identity.get());
+/// gene_example_seq.compile();
 /// cout << gene_seq.elements.get() << endl;
 /// ```
 /// @section sequence_annotations Sequence Annotations

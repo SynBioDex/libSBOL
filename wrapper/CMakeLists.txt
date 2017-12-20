@@ -162,14 +162,14 @@ IF (SBOL_BUILD_PYTHON3)
                 SOURCES libsbol.i )
 
             if(SBOL_BUILD_SHARED)
-                swig_link_libraries( libsbol32_3
+                swig_link_libraries( libsbol
                     ${PYTHON_LIBRARIES}
                     ${RAPTOR_LIBRARY}
                     ${CURL_LIBRARY}
                     ${LIBXSLT_LIBRARIES}
                     sbol32-shared)
             else()
-                swig_link_libraries( libsbol32_3
+                swig_link_libraries( libsbol
                     ${PYTHON_LIBRARIES}
                     ${RAPTOR_LIBRARY}
                     ${CURL_LIBRARY}
@@ -205,16 +205,16 @@ IF (SBOL_BUILD_PYTHON3)
             SWIG_ADD_LIBRARY( libsbol64_3
                 LANGUAGE python
                 SOURCES libsbol.i )
-
+                
             if(SBOL_BUILD_SHARED)
-                swig_link_libraries( libsbol64_3
+                swig_link_libraries( libsbol
                     ${PYTHON_LIBRARIES}
                     ${RAPTOR_LIBRARY}
                     ${CURL_LIBRARY}
                     ${LIBXSLT_LIBRARIES}
                     sbol64-shared)
             else()
-                swig_link_libraries( libsbol64_3
+                swig_link_libraries( libsbol
                     ${PYTHON_LIBRARIES}
                     ${RAPTOR_LIBRARY}
                     ${CURL_LIBRARY}

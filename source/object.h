@@ -68,22 +68,14 @@ namespace sbol
         template < class ExtensionClass > void register_extension_class(std::string ns, std::string ns_prefix, std::string class_name);
         
     public:
-
-//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-//        void register_extension(std::string ns, std::string ns_prefix, std::string class_name, PythonObject* constructor);
-//#endif
-
         
         /// @cond
         Document *doc = NULL;
         sbol_type type;
         SBOLObject* parent;
-        void * proxy;
         
         std::map<sbol::sbol_type, std::vector< std::string > > properties;
-        std::map<sbol::sbol_type, std::vector< std::string > > list_properties;
         std::map<sbol::sbol_type, std::vector< sbol::SBOLObject* > > owned_objects;
-        std::map<sbol::sbol_type, std::vector< void* > > extension_objects;
         /// @endcond
         
         /// The identity property is REQUIRED by all Identified objects and has a data type of URI. A given Identified object’s identity URI MUST be globally unique among all other identity URIs. The identity of a compliant SBOL object MUST begin with a URI prefix that maps to a domain over which the user has control. Namely, the user can guarantee uniqueness of identities within this domain.  For other best practices regarding URIs see Section 11.2 of the [SBOL specification doucment](http://sbolstandard.org/wp-content/uploads/2015/08/SBOLv2.0.1.pdf).
@@ -147,7 +139,15 @@ namespace sbol
         /// @return The value of the property or SBOL_ERROR_NOT_FOUND
         std::string getAnnotation(std::string property_uri);
         
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+//        std::unordered_map<sbol::sbol_type, std::vector< PyObject* >> PythonObjects;
+        std::unordered_map<std::string, PyObject* > PythonObjects;
+
+        void register_extension_class(PyObject* python_class, std::string extension_name);
         
+        PyObject* cast(PyObject* python_class);
+#endif
+
         /// Use this method to destroy an SBOL object that is not contained by a parent Document.  If the object does have a parent Document, instead use doc.close() with the object's URI identity as an argument.
         /// @TODO Recurse through child objects and delete them.
         void close();
@@ -196,6 +196,7 @@ namespace sbol
 
         //void add(SBOLClass& sbol_obj);
         void set(std::string uri);
+        void set(SBOLObject& obj);
 
         //void set(SBOLClass& sbol_obj);
         //SBOLClass& get(std::string object_id);

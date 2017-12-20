@@ -26,7 +26,7 @@
 #ifndef PROVO_INCLUDED
 #define PROVO_INCLUDED
 
-#include "assembly.h"
+
 
 namespace sbol
 {
@@ -145,6 +145,7 @@ namespace sbol
 
     };
 }
+
 
 
 

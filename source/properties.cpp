@@ -121,6 +121,34 @@ int IntProperty::get()
         throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");    }
 };
 
+/// @return An integer
+double FloatProperty::get()
+{
+    if (this->sbol_owner)
+    {
+        // check if property a valid member of this object (mismatching of properties can result from improper template calls)
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "This object does not have a property of type " + type);
+        }
+        else
+        {
+            // property value not set
+            if (this->sbol_owner->properties[type].size() == 0)
+                throw SBOLError(SBOL_ERROR_NOT_FOUND, "Property has not been set");
+            // property value is found
+            else
+            {
+                std::string value = this->sbol_owner->properties[type].front();
+                value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                return stod(value);
+            }
+        }
+    }	else
+    {
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");    }
+};
+
 void VersionProperty::incrementMinor()
 {
     pair< vector<string>, vector<string> > v = this->split();
@@ -463,6 +491,11 @@ void ReferencedObject::set(std::string uri)
         
     }
     //validate((void *)&uri);
+};
+
+void ReferencedObject::set(SBOLObject& obj)
+{
+    set(obj.identity.get());
 };
 
 
