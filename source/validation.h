@@ -39,6 +39,7 @@ namespace sbol
     SBOL_DECLSPEC void sbolRule10101(void *sbol_obj, void *arg);
 	SBOL_DECLSPEC void sbolRule10102(void *sbol_obj, void *arg);
 	SBOL_DECLSPEC void sbol_rule_10202(void *sbol_obj, void *arg);
+    SBOL_DECLSPEC void sbol_rule_10204(void *sbol_obj, void *arg);
 
 /* These validation rules are internal to libSBOL */
     

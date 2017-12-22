@@ -44,7 +44,7 @@ namespace sbol
         Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
         SBOLObject(type_uri, uri),
         persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, uri),
-        displayId(SBOL_DISPLAY_ID, this, uri),
+        displayId(SBOL_DISPLAY_ID, this, uri, { sbol_rule_10204 }),
         version(SBOL_VERSION, this, version),
         wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
         wasGeneratedBy(PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, this),

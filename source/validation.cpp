@@ -34,7 +34,6 @@ using namespace std;
 bool sbol::is_alphanumeric_or_underscore(char c)
 {
     int i = (int)c;
-    std::cout << i << std::endl;
     if (i >= 48 && i <= 57)
         return true;
     if (i >= 65 && i <= 90)
@@ -93,10 +92,28 @@ void sbol::sbol_rule_10202(void *sbol_obj, void *arg)
 	{
 		if (identified_obj->doc->SBOLObjects.find(new_id) != identified_obj->doc->SBOLObjects.end())  // If the new identity is already in the document throw an error
 		{
-			throw SBOLError(DUPLICATE_URI_ERROR, "Duplicate URI");
+			throw SBOLError(SBOL_ERROR_URI_NOT_UNIQUE, "An object with this URI already exists in the Document. See validation rule sbol-10202.");
 		}
 	}
 };
+
+/* The displayId property of an Identified object is OPTIONAL and MAY contain a String that MUST be composed of only alphanumeric or underscore characters and MUST NOT begin with a digit. */
+void sbol::sbol_rule_10204(void *sbol_obj, void *arg)
+{
+    Identified *identified_obj = (Identified *)sbol_obj;
+    string display_id;
+    
+    if (arg != NULL)
+    {
+        display_id = *static_cast<std::string*>(arg);
+        for (auto c : display_id)
+            if (is_not_alphanumeric_or_underscore(c))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "DisplayIds must contain only alphanumeric or underscore characters. See validation rule sbol-10204.");
+        int c = (int)display_id[0];
+        if (c >= 48 && c <= 57)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "DisplayIds cannot begin with a numeral. See validation rule sbol-10204.");
+    }
+}
 
 /*	The definition property MUST NOT refer to the same ComponentDefinition as the one that contains the
 ComponentInstance.Furthermore, ComponentInstance objects MUST NOT form a cyclical chain of references
