@@ -246,16 +246,22 @@ void ComponentDefinition::assemble(vector<string> list_of_uris)
     assemble(list_of_components);
 }
 
-void ComponentDefinition::assemblePrimaryStructure(vector<ComponentDefinition*> list_of_components)
+void ComponentDefinition::assemblePrimaryStructure(vector<string> primary_structure)
 {
-    assemble(list_of_components);
-    linearize(list_of_components);
+    assemble(primary_structure);
+    linearize(primary_structure);
 };
 
-void ComponentDefinition::assemblePrimaryStructure(vector<ComponentDefinition*> list_of_components, Document& doc)
+void ComponentDefinition::assemblePrimaryStructure(vector<ComponentDefinition*> primary_structure)
 {
-    assemble(list_of_components, doc);
-    linearize(list_of_components);
+    assemble(primary_structure);
+    linearize(primary_structure);
+};
+
+void ComponentDefinition::assemblePrimaryStructure(vector<ComponentDefinition*> primary_structure, Document& doc)
+{
+    assemble(primary_structure, doc);
+    linearize(primary_structure);
 };
 
 
