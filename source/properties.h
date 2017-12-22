@@ -421,10 +421,6 @@ namespace sbol
         /// Get all the objects contained in the property
         /// @return A vector of pointers to the objects
         std::vector<SBOLClass*> getObjects();
-        
-//        /// Remove an object from the list of objects and destroy it.
-//        /// @param uri The identity of the object to be destroyed. This can be a displayId of the object or a full URI may be provided.
-//        void remove(std::string uri);
 
         /// Remove an object from the list of objects.
         /// @param uri This can be a displayId of the object or a full URI may be provided.
@@ -451,6 +447,10 @@ namespace sbol
         /// Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
         /// @TODO check uniqueness of URI in Document
         template < class SBOLSubClass > SBOLSubClass& create(std::string uri);
+
+        /// @param uri The full uniform resource identifier of the object to search for in this property
+        /// @return A boolean indicating whether found or not
+        bool find(std::string uri) override;
 
 		SBOLClass& operator[] (const int nIndex);       ///< Retrieve a child object by numerical index.
         SBOLClass& operator[] (std::string uri);  ///< Retrieve a child object by URI
@@ -586,6 +586,15 @@ namespace sbol
         sbol_obj.parent = this->sbol_owner;
         this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
         this->validate(&sbol_obj);
+    };
+
+    template <class SBOLClass>
+    bool OwnedObject< SBOLClass >::find(std::string uri)
+    {
+        for (auto & obj : this->sbol_owner->owned_objects[this->type])
+            if (obj->identity.get() == uri)
+                return true;
+        return false;
     };
 
     

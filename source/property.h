@@ -96,10 +96,12 @@ namespace sbol
         virtual void set(int new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
         virtual void set(double new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
         void add(std::string new_value);            ///< Appends the new value to a list of values, for properties that allow it.
-        virtual void remove(int index = 0);
-        virtual void clear();
+        virtual void remove(int index = 0);         ///< Remove a property value.
+        virtual void clear();                       ///< Clear all property values.
 		virtual void write();
-		void validate(void * arg = NULL);
+        virtual bool find(std::string query);       ///< Check if a value in this property matches the query
+
+        void validate(void * arg = NULL);
         std::string operator[] (const int nIndex);  ///< Retrieve the indexed value in a list container
 
         void copy(Property<LiteralType>& target_property);  ///< Copy property values to a target object's property fields
@@ -379,6 +381,18 @@ namespace sbol
     }
     
     template <class LiteralType>
+    bool Property<LiteralType>::find(std::string query)
+    {
+        std::vector<std::string>& value_store = this->sbol_owner->properties[this->type];
+        for (auto & val : value_store)
+        {
+            if (query == val.substr(1, val.length() - 2))
+                return true;
+        }
+        return false;
+    }
+    
+    template <class LiteralType>
     void Property<LiteralType>::write()
     {
         std::string subject = (*this->sbol_owner).identity.get();
@@ -387,7 +401,7 @@ namespace sbol
         
         std::cout << "Subject:  " << subject << std::endl;
         std::cout << "Predicate: " << predicate << std::endl;
-        std::cout << "Object: "  << std::endl;
+        std::cout << "Object: "  << object << std::endl;
     };
     
     template <class LiteralType>

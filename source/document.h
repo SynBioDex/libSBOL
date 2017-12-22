@@ -721,10 +721,10 @@ namespace sbol {
     {
         // Search this property's object store for the uri
         std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); ++i_obj)
         {
             SBOLObject* obj = *i_obj;
-            if (uri.compare(obj->identity.get()) == 0)
+            if (uri == obj->identity.get())
             {
                 return (SBOLClass&)*obj;
             }

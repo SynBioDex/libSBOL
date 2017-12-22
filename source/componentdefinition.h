@@ -90,15 +90,28 @@ namespace sbol
         ComponentDefinition(std::string uri = "example", std::string type = BIOPAX_DNA, std::string version = "1.0.0") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
         
         
-        /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is an abstract design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble(). This method assumes all arguments are already contained in a Document.
+        /// Assembles ComponentDefinitions into an abstraction hierarchy. The resulting data structure is a partial design, still lacking a primary structure or explicit sequence. To form a primary structure out of the ComponentDefinitions, call linearize after calling assemble. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
         void assemble(std::vector<ComponentDefinition*> list_of_components);
 
-        /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is a partial design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble().
+        /// Assembles ComponentDefinitions into an abstraction hierarchy. The resulting data structure is a partial design, still lacking a primary structure or explicit sequence. To form a primary structure out of the ComponentDefinitions, call linearize after calling assemble. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
         /// @param doc The Document to which the assembled ComponentDefinitions will be added
         void assemble(std::vector<ComponentDefinition*> list_of_components, Document& doc);
+
+        /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
+        /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
+        void assemblePrimaryStructure(std::vector<ComponentDefinition*> list_of_components);
         
+        /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
+        /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
+        /// @param doc The Document to which the assembled ComponentDefinitions will be added
+        void assemblePrimaryStructure(std::vector<ComponentDefinition*> list_of_components, Document& doc);
+
+        /// Assembles ComponentDefinitions into an abstraction hierarchy. The resulting data structure is a partial design, still lacking a primary structure or explicit sequence. To form a primary structure out of the ComponentDefinitions, call linearize after calling assemble. To fully realize the target sequence, use Sequence::assemble().
+        /// @param list_of_uris A list of URIs for the constituent ComponentDefinitions, or displayIds if using SBOL-compliant URIs
+        void assemble(std::vector<std::string> list_of_uris);
+
         /// Assemble a parent ComponentDefinition's Sequence from its subcomponent Sequences
         /// @param composite_sequence A recursive parameter, use default value
         /// @return The assembled parent sequence
@@ -181,11 +194,14 @@ namespace sbol
         /// @return true if the abstraction hierarchy is complete, false otherwise.
         bool isComplete();
 
-//        /// Instantiates a Component for every SequenceAnnotation. When converting from a flat GenBank file to a flat SBOL file, the result is a ComponentDefinition with SequenceAnnotations. This method will convert the flat SBOL file into hierarchical SBOL.
-//        void dissemble();
 
         /// Instantiates a Component for every SequenceAnnotation. When converting from a flat GenBank file to a flat SBOL file, the result is a ComponentDefinition with SequenceAnnotations. This method will convert the flat SBOL file into hierarchical SBOL.
-        void dissemble(int range_start = 1);
+        void disassemble(int range_start = 1);
+        
+        void linearize(std::vector<ComponentDefinition*> list_of_components = {});
+        
+        void linearize(std::vector<std::string> list_of_uris);
+
         
         ComponentDefinition& build();
         

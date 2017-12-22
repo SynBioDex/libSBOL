@@ -893,21 +893,20 @@ std::string http_get_request(std::string get_request)
     }
     curl_slist_free_all(headers);
     curl_global_cleanup();
-    std::cout << response << std::endl;
     return response;
 }
 
 
 void PartShop::pull(std::string uri, Document& doc)
 {
-    std::string get_request = getURL() + "/" + uri + "/sbol";
+    std::string get_request = getURL() + "/" + uri + "/sbol";  // Assume user supplied only a displayId for the requested part
     std::string response = http_get_request(get_request);
-    
-    if (response.find("<title>Error</title>") != std::string::npos)
+    if (response.find("<html>") != std::string::npos || response.find("not found") != std::string::npos)
     {
+        // Reattempt, assuming user supplied a full URI for the requested part
         get_request = uri + "/sbol";
         response = http_get_request(get_request);
-        if (response.find("<title>Error</title>") != std::string::npos)
+        if (response.find("<html>") != std::string::npos || response.find("not found") != std::string::npos)
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Part not found. Unable to pull " + uri);
     }
     

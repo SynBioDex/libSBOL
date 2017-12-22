@@ -31,6 +31,26 @@
 using namespace sbol;
 using namespace std;
 
+bool sbol::is_alphanumeric_or_underscore(char c)
+{
+    int i = (int)c;
+    std::cout << i << std::endl;
+    if (i >= 48 && i <= 57)
+        return true;
+    if (i >= 65 && i <= 90)
+        return true;
+    if (i >= 97 && i <= 122)
+        return true;
+    if (i == 95)
+        return true;
+    return false;
+};
+
+bool sbol::is_not_alphanumeric_or_underscore(char c)
+{
+    return !is_alphanumeric_or_underscore(c);
+};
+
 /* An SBOL document MUST declare the use of the following XML namespace: http://sbols.org/v2#. */
 void sbol::sbolRule10101(void *sbol_obj, void *arg)
 {

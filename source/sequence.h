@@ -53,7 +53,7 @@ namespace sbol
         std::string assemble(std::string composite_sequence = "");
 
         /// Synonomous with Sequence::assemble. Calculates the complete sequence of a high-level Component from the sequence of its subcomponents. Prior to assembling the the complete sequence, you must assemble a template design by calling ComponentDefinition::assemble for the ComponentDefinition that references this Sequence.
-        void compile();
+        std::string compile();
         
         /// @return The length of the primary sequence in the elements property
         int length();

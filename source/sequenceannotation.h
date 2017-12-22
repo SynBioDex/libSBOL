@@ -33,6 +33,8 @@
 
 namespace sbol 
 {
+    class ComponentDefinition;
+    
     /// The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referred to by its parent ComponentDefinition. In addition, SequenceAnnotation objects can describe the substructure of their parent ComponentDefinition through association with the Component objects contained by this ComponentDefinition.
     class SBOL_DECLSPEC SequenceAnnotation : public Identified
 	{
@@ -79,6 +81,8 @@ namespace sbol
         std::vector<SequenceAnnotation*> contains(std::vector<SequenceAnnotation*> comparand_list);
         std::vector<SequenceAnnotation*> overlaps(std::vector<SequenceAnnotation*> comparand_list);
         
+        ComponentDefinition& extract(int start_reference = 1);
+
         /// The length of a SequenceAnnotation in base coordinates.
         int length();
         

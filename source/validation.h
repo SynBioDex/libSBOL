@@ -54,7 +54,11 @@ namespace sbol
     // Validate Design.structure and Design.function are compatible
     SBOL_DECLSPEC void libsbol_rule_4(void *sbol_obj, void *arg);
 
+    bool is_alphanumeric_or_underscore(char c);
     
+    bool is_not_alphanumeric_or_underscore(char c);
+
+
     //  The following class is an experimental wrapper class for a validation callback function
     //  See http://stackoverflow.com/questions/879408/c-function-wrapper-that-behaves-just-like-the-function-itself
     //

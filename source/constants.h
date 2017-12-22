@@ -195,6 +195,8 @@
 #define SO_RBS SO "0000139"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_TERMINATOR SO "0000141"         ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_SGRNA SO "0001998"
+#define SO_LINEAR SO "0000987"
+#define SO_CIRCULAR SO "0000988"
 
 /* BioPAX is used to indicate macromolecular and molecular types */
 /// DNA
