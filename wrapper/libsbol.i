@@ -32,7 +32,7 @@
     #include "combinatorialderivation.h"
     #include "dblt.h"
     #include "attachment.h"
-
+    #include "implementation.h"
     #include "sbol.h"
 
     #include <vector>
@@ -260,7 +260,10 @@
 %include "collection.h"
 %include "moduledefinition.h"
 %include "provo.h"
-
+%include "combinatorialderivation.h"
+%include "attachment.h"
+%include "implementation.h"
+    
 // Converts json-formatted text into Python data structures, eg, lists, dictionaries
 %pythonappend sbol::PartShop::search
 %{
@@ -298,56 +301,6 @@
 %}
     
 %include "partshop.h"
-
-%pythonappend addComponentDefinition
-%{
-    # addComponentDefinition is overloaded, it can take a list or single object as an argument
-    if type(args[0]) is list:
-        for obj in args[0]:
-            obj.thisown = False
-    else:
-        args[0].thisown = False
-%}
-
-%pythonappend addModuleDefinition
-%{
-    # addModuleDefinition is overloaded, it can take a list or single object as an argument
-    if type(args[0]) is list:
-        for obj in args[0]:
-            obj.thisown = False
-    else:
-        args[0].thisown = False
-%}
-
-%pythonappend addSequence
-%{
-    # addModuleDefinition is overloaded, it can take a list or single object as an argument
-    if type(args[0]) is list:
-        for obj in args[0]:
-            obj.thisown = False
-    else:
-        args[0].thisown = False
-%}
-
-%pythonappend addModel
-%{
-    # addModel is overloaded, it can take a list or single object as an argument
-    if type(args[0]) is list:
-        for obj in args[0]:
-            obj.thisown = False
-    else:
-        args[0].thisown = False
-%}
-  
-%pythonappend addCollection
-%{
-    # addCollection is overloaded, it can take a list or single object as an argument
-    if type(args[0]) is list:
-        for obj in args[0]:
-            obj.thisown = False
-        else:
-            args[0].thisown = False
-%}
     
 %include "document.h"
 
@@ -388,8 +341,35 @@ typedef std::string sbol::sbol_type;
 /* This macro is used to instantiate special adders and getters for the Document class */
 %define TEMPLATE_MACRO_2(SBOLClass)
     
+    %pythonappend add ## SBOLClass
+    %{
+        if type(args[0]) is list:
+            for obj in args[0]:
+                obj.thisown = False
+        else:
+            args[0].thisown = False
+    %}
+    
     %template(add ## SBOLClass) sbol::Document::add<SBOLClass>;
     %template(get ## SBOLClass) sbol::Document::get<SBOLClass>;
+    %extend sbol::Document
+    {
+        void add ## SBOLClass(PyObject *list)
+        {
+            std::vector<sbol:: SBOLClass *> list_of_cds = {};
+            if (PyList_Check(list))
+            {
+                for (int i = 0; i < PyList_Size(list); ++i)
+                {
+                    PyObject *obj = PyList_GetItem(list, i);
+                    sbol:: SBOLClass * cd;
+                    if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol:: SBOLClass *),1)) == -1) throw;
+                    list_of_cds.push_back(cd);
+                }
+                $self->add(list_of_cds);
+            };        
+        }
+    }
     
 %enddef
         
@@ -429,6 +409,9 @@ TEMPLATE_MACRO_1(Collection);
 TEMPLATE_MACRO_1(Activity);
 TEMPLATE_MACRO_1(Plan);
 TEMPLATE_MACRO_1(Agent);
+TEMPLATE_MACRO_1(Attachment);
+TEMPLATE_MACRO_1(Implementation);
+TEMPLATE_MACRO_1(CombinatorialDerivation);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
@@ -438,6 +421,9 @@ TEMPLATE_MACRO_2(Collection)
 TEMPLATE_MACRO_2(Activity);
 TEMPLATE_MACRO_2(Plan);
 TEMPLATE_MACRO_2(Agent);
+TEMPLATE_MACRO_2(Attachment);
+TEMPLATE_MACRO_2(Implementation);
+TEMPLATE_MACRO_2(CombinatorialDerivation);
 
 %template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
 %template(copySequence) sbol::TopLevel::copy < Sequence >;
@@ -508,9 +494,8 @@ TEMPLATE_MACRO_2(Agent);
 //};
 
 %include "assembly.h"
-%include "combinatorialderivation.h"
 %include "dblt.h"
-%include "attachment.h"
+
     
 %extend sbol::ComponentDefinition
 {
@@ -607,54 +592,6 @@ TEMPLATE_MACRO_2(Agent);
 
 %extend sbol::Document
 {
-    void addComponentDefinition(PyObject *list)
-    {
-        std::vector<sbol::ComponentDefinition*> list_of_cds = {};
-        if (PyList_Check(list))
-        {
-            for (int i = 0; i < PyList_Size(list); ++i)
-            {
-                PyObject *obj = PyList_GetItem(list, i);
-                sbol::ComponentDefinition* cd;
-                if ((SWIG_ConvertPtr(obj,(void **) &cd, $descriptor(sbol::ComponentDefinition*),1)) == -1) throw;
-                list_of_cds.push_back(cd);
-            }
-			$self->add(list_of_cds);
-        };        
-    }
-
-    void addSequence(PyObject *list)
-    {
-        std::vector<sbol::Sequence*> list_of_seqs = {};
-        if (PyList_Check(list))
-        {
-            for (int i = 0; i < PyList_Size(list); ++i)
-            {
-                PyObject *obj = PyList_GetItem(list, i);
-                sbol::Sequence* seq;
-                if ((SWIG_ConvertPtr(obj,(void **) &seq, $descriptor(sbol::Sequence*),1)) == -1) throw;
-                list_of_seqs.push_back(seq);
-            }
-			$self->add(list_of_seqs);
-        };
-    }
-    
-    void addModuleDefinition(PyObject *list)
-    {
-        std::vector<sbol::ModuleDefinition*> list_of_mds = {};
-        if (PyList_Check(list))
-        {
-            for (int i = 0; i < PyList_Size(list); ++i)
-            {
-                PyObject *obj = PyList_GetItem(list, i);
-                sbol::ModuleDefinition* md;
-                if ((SWIG_ConvertPtr(obj,(void **) &md, $descriptor(sbol::ModuleDefinition*),1)) == -1) throw;
-                list_of_mds.push_back(md);
-            }
-			$self->add(list_of_mds);
-        };                
-    }
-    
     PyObject* getExtension(std::string id)
     {
         // Search the Document's object store for the uri
