@@ -56,7 +56,7 @@ namespace sbol
         /// @param local The identity of the lower level ComponentInstance
         /// @param remote The identity of the higher level ComponentInstance
         /// @param restriction Flag indicating the relationship between high- and low-level ComponentInstances. By default, this is set to SBOL_REFINEMENT_VERIFY_IDENTICAL
-        MapsTo(std::string uri = DEFAULT_NS "/MapsTo/example", std::string local = "", std::string remote = "", std::string refinement = SBOL_REFINEMENT_VERIFY_IDENTICAL) : MapsTo(SBOL_MAPS_TO, uri, local, remote, refinement) {};
+        MapsTo(std::string uri = "example", std::string local = "", std::string remote = "", std::string refinement = SBOL_REFINEMENT_VERIFY_IDENTICAL) : MapsTo(SBOL_MAPS_TO, uri, local, remote, refinement) {};
         
         
         virtual ~MapsTo() {};

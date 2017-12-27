@@ -53,7 +53,7 @@ namespace sbol
         /// | Discrete       | http://identifiers.org/biomodels.sbo/SBO:0000063 | SBO_DISCRETE   |
         URIProperty framework;
 
-        Model(std::string uri = DEFAULT_NS "/Model/example", std::string source = "", std::string language = EDAM_SBML, std::string framework = SBO_CONTINUOUS, std::string version = "1.0.0") : Model(SBOL_MODEL, uri, source, language, framework, version) {};
+        Model(std::string uri = "example", std::string source = "", std::string language = EDAM_SBML, std::string framework = SBO_CONTINUOUS, std::string version = "1.0.0") : Model(SBOL_MODEL, uri, source, language, framework, version) {};
 
 //        Model(std::string uri_prefix, std::string display_id, std::string version, std::string source, std::string language, std::string framework) : Model(SBOL_MODEL, uri_prefix, display_id, version, source, language, framework) {};
 

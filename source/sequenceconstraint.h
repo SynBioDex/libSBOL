@@ -57,7 +57,7 @@ namespace sbol
         /// @param subject Identity of the Component with this structural constraint
         /// @param object Identity of the other Component with this structural constraint
         /// @param restriction Flag indicating the type of structual constraint between the subject and object Components. By default, this is set to SBOL_RESTRICTION_PRECEDES
-        SequenceConstraint(std::string uri = DEFAULT_NS "/SequenceConstraint/example", std::string subject = "", std::string object = "", std::string restriction = SBOL_RESTRICTION_PRECEDES, std::string version = "1.0.0") :
+        SequenceConstraint(std::string uri = "example", std::string subject = "", std::string object = "", std::string restriction = SBOL_RESTRICTION_PRECEDES, std::string version = "1.0.0") :
             SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri, subject, object, restriction, version) {};
 
 		

@@ -26,7 +26,8 @@
 #ifndef PART_SHOP_INCLUDED
 #define PART_SHOP_INCLUDED
 
-#include "assembly.h"
+#include "document.h"
+
 #include <string>
 #include <map>
 #include <vector>

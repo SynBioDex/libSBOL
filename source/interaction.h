@@ -54,7 +54,7 @@ namespace sbol
         /// Construct an Interaction
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param interaction_type A Systems Biology Ontology term that describes a biochemical interaction
-        Interaction(std::string uri = DEFAULT_NS "/Interaction/example", std::string interaction_type = SBO_INTERACTION) : Interaction(SBOL_INTERACTION, uri, interaction_type) {};
+        Interaction(std::string uri = "example", std::string interaction_type = SBO_INTERACTION) : Interaction(SBOL_INTERACTION, uri, interaction_type) {};
         
 //        Interaction(std::string uri_prefix, std::string display_id, std::string version, std::string interaction_type) : Interaction(SBOL_INTERACTION, uri_prefix, display_id, version, interaction_type) {};
         

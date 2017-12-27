@@ -42,7 +42,7 @@ namespace sbol
         URIProperty orientation;
 
 	// A public constructor is required so objects can be auto created by the SBOLObject.OwnedObjects.create(...) method
-        Location(sbol_type type = SBOL_LOCATION, std::string uri = DEFAULT_NS "/Location/example") :
+        Location(sbol_type type = SBOL_LOCATION, std::string uri = "example") :
 			Identified(type, uri),
 			orientation(SBOL_ORIENTATION, this, SBOL_ORIENTATION_INLINE)
 			{
@@ -93,7 +93,7 @@ namespace sbol
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param start An integer of 1 or greater
         /// @param end An integer equal to or greater than the start
-        Range(std::string uri = DEFAULT_NS "/Range/example", int start = 1, int end = 2) : Range(SBOL_RANGE, uri, start, end) {};
+        Range(std::string uri = "example", int start = 1, int end = 2) : Range(SBOL_RANGE, uri, start, end) {};
 
 		virtual ~Range() {};
         
@@ -116,7 +116,7 @@ namespace sbol
         /// Construct a Cut. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < Cut > instead.
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param at An integer of 0 or greater
-        Cut(std::string uri = DEFAULT_NS "/Cut/example", int at = 0) : Cut(SBOL_CUT, uri, at) {};
+        Cut(std::string uri = "example", int at = 0) : Cut(SBOL_CUT, uri, at) {};
         
         virtual ~Cut() {};
         
@@ -135,7 +135,7 @@ namespace sbol
     public:
         /// Construct a GenericLocation. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < GenericLocation > instead.
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        GenericLocation(std::string uri = DEFAULT_NS "/GenericLocation/example") : GenericLocation(SBOL_GENERIC_LOCATION, uri) {};
+        GenericLocation(std::string uri = "example") : GenericLocation(SBOL_GENERIC_LOCATION, uri) {};
         
         virtual ~GenericLocation() {};
         

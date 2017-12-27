@@ -45,7 +45,7 @@ namespace sbol
         
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Association(std::string uri = DEFAULT_NS "/Association/example", std::string agent = "", std::string role = "", std::string version = "1.0.0") : Association(PROVO_ASSOCIATION, agent, role, uri, version) {};
+        Association(std::string uri = "example", std::string agent = "", std::string role = "", std::string version = "1.0.0") : Association(PROVO_ASSOCIATION, agent, role, uri, version) {};
         
         Association(sbol_type type, std::string uri, std::string agent, std::string role, std::string version) :
             Identified(type, uri, version),
@@ -69,7 +69,7 @@ namespace sbol
         
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Usage(std::string uri = DEFAULT_NS "/Usage/example", std::string entity = "", std::string role = "", std::string version = "1.0.0") : Usage(PROVO_USAGE, entity, role, uri, version) {};
+        Usage(std::string uri = "example", std::string entity = "", std::string role = "", std::string version = "1.0.0") : Usage(PROVO_USAGE, entity, role, uri, version) {};
         
         Usage(sbol_type type, std::string uri, std::string entity, std::string role, std::string version) :
             Identified(type, uri, version),
@@ -85,7 +85,7 @@ namespace sbol
     public:
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Agent(std::string uri = DEFAULT_NS "/Agent/example", std::string version = "1.0.0") : Agent(PROVO_AGENT, uri, version) {};
+        Agent(std::string uri = "example", std::string version = "1.0.0") : Agent(PROVO_AGENT, uri, version) {};
         
         Agent(sbol_type type, std::string uri, std::string version) :
             TopLevel(type, uri, version)
@@ -99,7 +99,7 @@ namespace sbol
     public:
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Plan(std::string uri = DEFAULT_NS "/Plan/example", std::string version = "1.0.0") : Plan(PROVO_PLAN, uri, version) {};
+        Plan(std::string uri = "example", std::string version = "1.0.0") : Plan(PROVO_PLAN, uri, version) {};
             
         Plan(sbol_type type, std::string uri, std::string version) :
             TopLevel(type, uri, version)
@@ -130,7 +130,7 @@ namespace sbol
         URIProperty type;
         
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Activity(std::string uri = DEFAULT_NS "/Activity/example", std::string action_type = "", std::string version = "1.0.0") : Activity(PROVO_ACTIVITY, uri, action_type, version) {};
+        Activity(std::string uri = "example", std::string action_type = "", std::string version = "1.0.0") : Activity(PROVO_ACTIVITY, uri, action_type, version) {};
         
         Activity(sbol_type type, std::string uri, std::string action_type, std::string version) :
             TopLevel(type, uri, version),
