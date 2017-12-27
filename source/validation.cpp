@@ -108,10 +108,10 @@ void sbol::sbol_rule_10204(void *sbol_obj, void *arg)
         display_id = *static_cast<std::string*>(arg);
         for (auto c : display_id)
             if (is_not_alphanumeric_or_underscore(c))
-                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "DisplayIds must contain only alphanumeric or underscore characters. See validation rule sbol-10204.");
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "DisplayId " + display_id + " is invalid. DisplayIds must contain only alphanumeric or underscore characters. See validation rule sbol-10204.");
         int c = (int)display_id[0];
         if (c >= 48 && c <= 57)
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "DisplayIds cannot begin with a numeral. See validation rule sbol-10204.");
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "DisplayId " + display_id + " is invalid. DisplayIds cannot begin with a numeral. See validation rule sbol-10204.");
     }
 }
 
