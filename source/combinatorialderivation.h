@@ -30,7 +30,7 @@ namespace sbol
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param repeat A URI indicating how many `Component` objects can be derived from the template `Component`
-        VariableComponent(std::string uri = DEFAULT_NS "/VariableComponent/example", std::string repeat = "http://sbols.org/v2#one", std::string version = "1.0.0") : VariableComponent(SBOL_VARIABLE_COMPONENT, uri, repeat, version) {};
+        VariableComponent(std::string uri = "example", std::string repeat = "http://sbols.org/v2#one", std::string version = "1.0.0") : VariableComponent(SBOL_VARIABLE_COMPONENT, uri, repeat, version) {};
         
         VariableComponent(sbol_type type, std::string uri, std::string repeat, std::string version) :
             Identified(type, uri, version),
@@ -64,7 +64,7 @@ namespace sbol
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param strategy A URI indicating SBOL_ENUMERATE or SBOL_SAMPLE
-        CombinatorialDerivation(std::string uri = DEFAULT_NS "/CombinatorialDerivation/example", std::string strategy = "http://sbols.org/v2#enumerate", std::string version = "1.0.0") : CombinatorialDerivation(SBOL_COMBINATORIAL_DERIVATION, uri, strategy, version) {};
+        CombinatorialDerivation(std::string uri = "example", std::string strategy = "http://sbols.org/v2#enumerate", std::string version = "1.0.0") : CombinatorialDerivation(SBOL_COMBINATORIAL_DERIVATION, uri, strategy, version) {};
         
         CombinatorialDerivation(sbol_type type, std::string uri, std::string strategy, std::string version) :
             TopLevel(type, uri, version),

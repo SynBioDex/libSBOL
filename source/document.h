@@ -38,6 +38,7 @@
 #include "provo.h"
 #include "attachment.h"
 #include "combinatorialderivation.h"
+#include "implementation.h"
 
 #include <raptor2.h>
 #include <unordered_map>
@@ -78,15 +79,18 @@ namespace sbol {
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
             validationRules({ }),
-            componentDefinitions(SBOL_COMPONENT_DEFINITION, this, ""),
-            moduleDefinitions(SBOL_MODULE_DEFINITION, this, ""),
-            models(SBOL_MODEL, this, ""),
-            sequences(SBOL_SEQUENCE, this, ""),
-            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this, ""),
-            collections(SBOL_COLLECTION, this, ""),
-            activities(PROVO_ACTIVITY, this, ""),
-            plans(PROVO_PLAN, this, ""),
-            agents(PROVO_AGENT, this, ""),
+            componentDefinitions(SBOL_COMPONENT_DEFINITION, this),
+            moduleDefinitions(SBOL_MODULE_DEFINITION, this),
+            models(SBOL_MODEL, this),
+            sequences(SBOL_SEQUENCE, this),
+            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this),
+            collections(SBOL_COLLECTION, this),
+            activities(PROVO_ACTIVITY, this),
+            plans(PROVO_PLAN, this),
+            agents(PROVO_AGENT, this),
+            attachments(SBOL_ATTACHMENT, this),
+            combinatorialderivations(SBOL_COMBINATORIAL_DERIVATION, this),
+            implementations(SBOL_IMPLEMENTATION, this),
             citations(PURL_URI "bibliographicCitation", this),
             keywords(PURL_URI "elements/1.1/subject", this)
 			{
@@ -126,7 +130,8 @@ namespace sbol {
         List<OwnedObject<Plan>> plans;
         List<OwnedObject<Agent>> agents;
         List<OwnedObject<Attachment>> attachments;
-        List<OwnedObject<ComponentDerivation>> componentderivations;
+        List<OwnedObject<CombinatorialDerivation>> combinatorialderivations;
+        List<OwnedObject<Implementation>> implementations;
 
         URIProperty citations;
         URIProperty keywords;

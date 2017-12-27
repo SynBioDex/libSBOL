@@ -70,6 +70,7 @@
 #define SBOL_VARIABLE_COMPONENT SBOL_URI "#VariableComponent"
 #define SBOL_COMBINATORIAL_DERIVATION SBOL_URI "#CombinatorialDerivation"
 #define SBOL_ATTACHMENT SBOL_URI "#Attachment"
+#define SBOL_IMPLEMENTATION SBOL_URI "#Implementation"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */
