@@ -399,6 +399,13 @@ TEMPLATE_MACRO_1(Participation);
 TEMPLATE_MACRO_1(Module);
 TEMPLATE_MACRO_1(Interaction);
 TEMPLATE_MACRO_1(FunctionalComponent);
+    
+// Templates used in Activity class
+TEMPLATE_MACRO_1(Association);
+TEMPLATE_MACRO_1(Usage);
+  
+// Templates used in ComponentDerivation class
+TEMPLATE_MACRO_1(VariableComponent);
 
 // Templates classes used by Document class
 TEMPLATE_MACRO_1(ComponentDefinition);

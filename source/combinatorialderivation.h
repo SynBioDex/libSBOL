@@ -6,6 +6,7 @@ namespace sbol
     /// The VariableComponent class can be used to specify a choice of ComponentDefinition objects for any new Component derived from a template Component in the template ComponentDefinition. This specification is made using the class properties variable, variants, variantCollections, and variantDerivations. While the variants, variantCollections, and variantDerivations properties are OPTIONAL, at least one of them MUST NOT be empty
     class SBOL_DECLSPEC VariableComponent : public Identified
     {
+    public:
         /// The variable property is REQUIRED and MUST contain a URI that refers to a template `Component` in the template `ComponentDefinition`. If the wasDerivedFrom property of a Component refers to this template Component, then the definition property of the derived Component MUST refer to one of the ComponentDefinition objects referred to by the variants property of the VariableComponent. If not, then this definition property MUST either (1) refer to one of the ComponentDefinition objects from a Collection referred to by the variantCollections property of the VariableComponent, or (2) refer to a ComponentDefinition derived from a CombinatorialDerivation referred to by the variantDerivations property of the VariableComponent.
         ReferencedObject variable;
         
@@ -31,7 +32,7 @@ namespace sbol
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param repeat A URI indicating how many `Component` objects can be derived from the template `Component`
         VariableComponent(std::string uri = "example", std::string repeat = "http://sbols.org/v2#one", std::string version = "1.0.0") : VariableComponent(SBOL_VARIABLE_COMPONENT, uri, repeat, version) {};
-        
+
         VariableComponent(sbol_type type, std::string uri, std::string repeat, std::string version) :
             Identified(type, uri, version),
             variable(SBOL_VARIABLE, SBOL_COMPONENT, this),

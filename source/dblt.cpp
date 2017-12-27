@@ -123,7 +123,7 @@ Build& TopLevel::generate<Build>(std::string uri)
     wasGeneratedBy.set(a);
     wasDerivedFrom.set(design.function.get().identity.get());  // SBOL provenance linkages are made through the child ModuleDefinition
 
-    Usage& u = a.qualifiedUsage.create(design.displayId.get() + "_usage");
+    Usage& u = a.usages.create(design.displayId.get() + "_usage");
     u.entity.set(design.function.get());
     
     return build;

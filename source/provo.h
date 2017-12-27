@@ -38,10 +38,10 @@ namespace sbol
         ReferencedObject agent;
         
         /// The hadRole property is REQUIRED and MUST contain a URI that refers to a particular term describing the usage of the agent.
-        URIProperty hadRole;
+        URIProperty roles;
         
         /// The hadPlan property is OPTIONAL and contains a URI that refers to a Plan.
-        ReferencedObject hadPlan;
+        ReferencedObject plan;
         
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
@@ -50,8 +50,8 @@ namespace sbol
         Association(sbol_type type, std::string uri, std::string agent, std::string role, std::string version) :
             Identified(type, uri, version),
             agent(PROVO_AGENT_PROPERTY, PROVO_AGENT, this, agent),
-            hadRole(PROVO_HAD_ROLE, this, role),
-            hadPlan(PROVO_HAD_PLAN, PROVO_PLAN, this)
+            roles(PROVO_HAD_ROLE, this, role),
+            plan(PROVO_HAD_PLAN, PROVO_PLAN, this)
         {
         };
     };
@@ -65,16 +65,16 @@ namespace sbol
         ReferencedObject entity;
         
         /// The hadRole property is REQUIRED and MAY contain a URI that refers to a particular term describing the usage of an entity referenced by the entity property.
-        URIProperty hadRole;
+        URIProperty roles;
         
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Usage(std::string uri = "example", std::string entity = "", std::string role = "", std::string version = "1.0.0") : Usage(PROVO_USAGE, entity, role, uri, version) {};
+        Usage(std::string uri = "example", std::string entity = "", std::string role = "", std::string version = "1.0.0") : Usage(PROVO_USAGE, uri, entity, role, version) {};
         
         Usage(sbol_type type, std::string uri, std::string entity, std::string role, std::string version) :
             Identified(type, uri, version),
             entity(PROVO_ENTITY, SBOL_IDENTIFIED, this, entity),
-            hadRole(PROVO_HAD_ROLE, this, role)
+            roles(PROVO_HAD_ROLE, this, role)
         {
         }
     };
@@ -121,23 +121,25 @@ namespace sbol
         ReferencedObject wasInformedBy;
         
         /// The qualifiedAssociation property is OPTIONAL and MAY contain a set of URIs that refers to Association
-        OwnedObject<Association> qualifiedAssociation;
+        OwnedObject<Association> associations;
         
         /// The qualifiedUsage property is OPTIONAL and MAY contain a set of URIs that refers to Usage objects.
-        OwnedObject<Usage> qualifiedUsage;
+        OwnedObject<Usage> usages;
         
-        /// The type property is a REQUIRED ontology term that designates an activity or stage in the synthetic biology workflow, such as codon optimization or DNA assembly.
-        URIProperty type;
+        /// The type property is an ontology term that designates an activity or stage in the synthetic biology workflow, such as codon optimization or DNA assembly.
+        //URIProperty type;
         
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         Activity(std::string uri = "example", std::string action_type = "", std::string version = "1.0.0") : Activity(PROVO_ACTIVITY, uri, action_type, version) {};
         
         Activity(sbol_type type, std::string uri, std::string action_type, std::string version) :
             TopLevel(type, uri, version),
-            type(SBOL_TYPES, this, action_type),
+            //type(SBOL_TYPES, this, action_type),
             startedAtTime(PROVO_STARTED_AT_TIME, this),
             endedAtTime(PROVO_ENDED_AT_TIME, this),
-            wasInformedBy(PROVO_WAS_INFORMED_BY, PROVO_ACTIVITY, this)
+            wasInformedBy(PROVO_WAS_INFORMED_BY, PROVO_ACTIVITY, this),
+            usages(PROVO_QUALIFIED_USAGE, this),
+            associations(PROVO_QUALIFIED_ASSOCIATION, this)
             {
             };
         

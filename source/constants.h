@@ -163,7 +163,7 @@
 #define PROVO_HAD_PLAN PROVO "#hadPlan"
 #define PROVO_HAD_ROLE PROVO "#hadRole"
 #define PROVO_AGENT_PROPERTY PROVO "#agent"
-#define PROVO_ENTITY "#entity"
+#define PROVO_ENTITY PROVO "#entity"
 
 /* Systems Biology Ontology */
 /* Interaction.types */
