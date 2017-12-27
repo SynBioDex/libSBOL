@@ -27,10 +27,12 @@
     #include "mapsto.h"
     #include "model.h"
     #include "collection.h"
-    #include "assembly.h"
     #include "provo.h"
     #include "partshop.h"
     #include "combinatorialderivation.h"
+    #include "dblt.h"
+    #include "attachment.h"
+
     #include "sbol.h"
 
     #include <vector>
@@ -508,7 +510,7 @@ TEMPLATE_MACRO_2(Agent);
 %include "assembly.h"
 %include "combinatorialderivation.h"
 %include "dblt.h"
-
+%include "attachment.h"
     
 %extend sbol::ComponentDefinition
 {

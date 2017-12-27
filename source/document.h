@@ -36,6 +36,8 @@
 #include "model.h"
 #include "collection.h"
 #include "provo.h"
+#include "attachment.h"
+#include "combinatorialderivation.h"
 
 #include <raptor2.h>
 #include <unordered_map>
@@ -123,6 +125,8 @@ namespace sbol {
         List<OwnedObject<Activity>> activities;
         List<OwnedObject<Plan>> plans;
         List<OwnedObject<Agent>> agents;
+        List<OwnedObject<Attachment>> attachments;
+        List<OwnedObject<ComponentDerivation>> componentderivations;
 
         URIProperty citations;
         URIProperty keywords;

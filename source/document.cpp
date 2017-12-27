@@ -86,7 +86,9 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_GENERIC_LOCATION, (SBOLObject&(*)()) &create<GenericLocation>),
     make_pair(PROVO_PLAN, (SBOLObject&(*)()) &create<Plan>),
     make_pair(PROVO_ACTIVITY, (SBOLObject&(*)()) &create<Activity>),
-    make_pair(PROVO_AGENT, (SBOLObject&(*)()) &create<Agent> )
+    make_pair(PROVO_AGENT, (SBOLObject&(*)()) &create<Agent> ),
+    make_pair(SBOL_ATTACHMENTS, (SBOLObject&(*)()) &create<Attachment>),
+    make_pair(SBOL_COMPONENTDERIVATION, (SBOLObject&(*)()) &create<ComponentDerivation> ),
 
 };
 

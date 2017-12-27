@@ -69,6 +69,7 @@
 #define SBOL_GENERIC_LOCATION SBOL_URI "#GenericLocation"
 #define SBOL_VARIABLE_COMPONENT SBOL_URI "#VariableComponent"
 #define SBOL_COMBINATORIAL_DERIVATION SBOL_URI "#CombinatorialDerivation"
+#define SBOL_ATTACHMENT SBOL_URI "#Attachment"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */
@@ -122,7 +123,7 @@
 #define SBOL_VARIANT_DERIVATIONS SBOL_URI "#variantDeriviations"
 #define SBOL_STRATEGY SBOL_URI "#strategy"
 #define SBOL_TEMPLATE SBOL_URI "#template"
-
+#define SBOL_ATTACHMENTS "#attachments"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property

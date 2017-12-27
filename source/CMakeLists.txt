@@ -48,6 +48,7 @@ FILE(GLOB SBOL_HEADER_FILES
   partshop.h
     combinatorialderivation.h
     dblt.h
+    attachment.h
 	sbol.h)
 FILE(GLOB SBOL_SOURCE_FILES
 	sbolerror.cpp

@@ -1,8 +1,6 @@
 #ifndef COMBINATORIALDERIVATION_INCLUDED
 #define COMBINATORIALDERIVATION_INCLUDED
 
-#include "partshop.h"
-
 namespace sbol
 {
     /// The VariableComponent class can be used to specify a choice of ComponentDefinition objects for any new Component derived from a template Component in the template ComponentDefinition. This specification is made using the class properties variable, variants, variantCollections, and variantDerivations. While the variants, variantCollections, and variantDerivations properties are OPTIONAL, at least one of them MUST NOT be empty

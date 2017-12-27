@@ -26,8 +26,7 @@
 #ifndef DBLT_INCLUDED
 #define DBLT_INCLUDED
 
-#include "combinatorialderivation.h"
-
+#include "document.h"
 
 namespace sbol
 {
