@@ -15,3 +15,41 @@
 # Unit tests
 
 from libsbol import *
+
+from libsbol import ComponentDefinition as _ComponentDefinition
+
+class PythonicInterface(object):
+
+    def __init__(self):
+        pass
+#
+#    def __getattribute__(self,name):
+#        if name in object.__getattribute__(self, 'properties'):
+#            return object.__getattribute__(self, name).get()
+#        else:
+#            return object.__getattribute__(self, name)
+#
+#    def __setattribute__(self,name, value):
+#        if name in object.__getattribute__(self, 'properties'):
+#            object.__getattribute__(self, name).set(value)
+#        else:
+#            object.__setattribute__(self, name, value)
+
+class ComponentDefinition(_ComponentDefinition):
+    properties = ['roles']
+
+    def __init__(self, *args):
+        _ComponentDefinition.__init__(self, *args)
+        #PythonicInterface.__init__(self)
+
+    def __getattribute__(self,name):
+        if name in object.__getattribute__(self, 'properties'):
+            return object.__getattribute__(self, name).get()
+        else:
+            return object.__getattribute__(self, name)
+
+    def __setattr__(self,name, value):
+        if name in object.__getattribute__(self, 'properties'):
+            object.__getattribute__(self, name).set(value)
+        else:
+            object.__setattr__(self, name, value)
