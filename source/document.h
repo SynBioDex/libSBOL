@@ -751,7 +751,7 @@ namespace sbol {
             if (!check_top_level)
             {
                 // Check to see if the parent object has a persistent identity
-                if (parent_obj->parent->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+                if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
                 {
                     persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
                     persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
