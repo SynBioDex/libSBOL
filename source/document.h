@@ -682,6 +682,8 @@ namespace sbol {
     SBOLClass& OwnedObject<SBOLClass>::get(const std::string uri)
     {
         // By default, get the first object in the object store...
+        if (!size())
+            throw SBOLError(SBOL_ERROR_END_OF_LIST, "Property " + this->type + " does not contain any objects.");
         if (uri.compare("") == 0)
         {
             // This should use dynamic_cast instead of implicit casting
