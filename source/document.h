@@ -79,20 +79,19 @@ namespace sbol {
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
             validationRules({ }),
-            componentDefinitions(SBOL_COMPONENT_DEFINITION, this),
-            moduleDefinitions(SBOL_MODULE_DEFINITION, this),
-            models(SBOL_MODEL, this),
-            sequences(SBOL_SEQUENCE, this),
-            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATION, this),
-            collections(SBOL_COLLECTION, this),
-            activities(PROVO_ACTIVITY, this),
-            plans(PROVO_PLAN, this),
-            agents(PROVO_AGENT, this),
-            attachments(SBOL_ATTACHMENT, this),
-            combinatorialderivations(SBOL_COMBINATORIAL_DERIVATION, this),
-            implementations(SBOL_IMPLEMENTATION, this),
-            citations(PURL_URI "bibliographicCitation", this),
-            keywords(PURL_URI "elements/1.1/subject", this)
+            componentDefinitions(this, SBOL_COMPONENT_DEFINITION, '0', '*', {}),
+            moduleDefinitions(this, SBOL_MODULE_DEFINITION, '0', '*', {}),
+            models(this, SBOL_MODEL, '0', '*', {}),
+            sequences(this, SBOL_SEQUENCE, '0', '*', {}),
+            collections(this, SBOL_COLLECTION, '0', '*', {}),
+            activities(this, PROVO_ACTIVITY, '0', '*', {}),
+            plans(this, PROVO_PLAN, '0', '*', {}),
+            agents(this, PROVO_AGENT, '0', '*', {}),
+            attachments(this, SBOL_ATTACHMENT, '0', '*', {}),
+            combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', {}),
+            implementations(this, SBOL_IMPLEMENTATION, '0', '*', {}),
+            citations(this, PURL_URI "bibliographicCitation", '0', '*', {}),
+            keywords(this, PURL_URI "elements/1.1/subject", '0', '*', {})
 			{
                 namespaces["sbol"] = SBOL_URI "#";
                 namespaces["dcterms"] = PURL_URI;
@@ -120,18 +119,17 @@ namespace sbol {
         raptor_world* getWorld();
         /// @endcond
 
-        List<OwnedObject<ComponentDefinition>> componentDefinitions;
-        List<OwnedObject<ModuleDefinition>> moduleDefinitions;
-        List<OwnedObject<Model>> models;
-        List<OwnedObject<Sequence>> sequences;
-        List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
-        List<OwnedObject<Collection>> collections;
-        List<OwnedObject<Activity>> activities;
-        List<OwnedObject<Plan>> plans;
-        List<OwnedObject<Agent>> agents;
-        List<OwnedObject<Attachment>> attachments;
-        List<OwnedObject<CombinatorialDerivation>> combinatorialderivations;
-        List<OwnedObject<Implementation>> implementations;
+        OwnedObject<ComponentDefinition> componentDefinitions;
+        OwnedObject<ModuleDefinition> moduleDefinitions;
+        OwnedObject<Model> models;
+        OwnedObject<Sequence> sequences;
+        OwnedObject<Collection> collections;
+        OwnedObject<Activity> activities;
+        OwnedObject<Plan> plans;
+        OwnedObject<Agent> agents;
+        OwnedObject<Attachment> attachments;
+        OwnedObject<CombinatorialDerivation> combinatorialderivations;
+        OwnedObject<Implementation> implementations;
 
         URIProperty citations;
         URIProperty keywords;
@@ -867,15 +865,17 @@ namespace sbol {
         };
         
     public:
-        OwnedPythonObject(PyObject* constructor, sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL) :
-            OwnedObject<PyObject>(type_uri, property_owner),
+        OwnedPythonObject(PyObject* constructor, SBOLObject *sbol_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, PyObject* first_obj = NULL) :
+            OwnedObject<PyObject>(sbol_owner, sbol_uri, lower_bound, upper_bound, validation_rules),
             constructor_for_owned_object(constructor)
         {
             // Register Property in owner Object
             if (this->sbol_owner != NULL)
             {
                 std::vector<sbol::SBOLObject*> object_store;
-                this->sbol_owner->owned_objects.insert({ type_uri, object_store });
+                this->sbol_owner->owned_objects.insert({ sbol_uri, object_store });
+//                if (first_obj)
+//                    this->sbol_owner->PythonObjects[sbol_uri].push_back(first_obj);
             }
             else
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The third argument to an OwnedPythonObject constructor must be a pointer to the property's parent object, ie, self.this");

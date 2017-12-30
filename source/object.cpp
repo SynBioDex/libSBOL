@@ -120,7 +120,7 @@ void SBOLObject::close()
     delete this;
 };
 
-sbol_type SBOLObject::getTypeURI()
+rdf_type SBOLObject::getTypeURI()
 {
 	return type;
 };
@@ -485,4 +485,129 @@ std::string SBOLObject::__str__()
     return identity.get();
 }
 
+
+URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value) :
+    Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules, "<" + initial_value + ">")
+{
+}
+
+URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+    Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
+{
+    // Overwrite default. By default, literal properties are initialized to quotes
+    this->sbol_owner->properties[type_uri][0] = "<>";
+}
+
+TextProperty::TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value) :
+    Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules, "\"" + initial_value + "\"")
+{
+}
+
+TextProperty::TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+    Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
+{
+}
+
+ReferencedObject::ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value) :
+    URIProperty(property_owner, type_uri, lower_bound, upper_bound, validation_rules, initial_value),
+    reference_type_uri(reference_type_uri)
+    {
+        // Register Property in owner Object
+        if (this->sbol_owner != NULL)
+        {
+            std::vector<std::string> property_store;
+            this->sbol_owner->properties.insert({ type_uri, property_store });
+        }
+    };
+
+ReferencedObject::ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+URIProperty(property_owner, type_uri, lower_bound, upper_bound, validation_rules),
+reference_type_uri(reference_type_uri)
+    {
+        // Register Property in owner Object
+        if (this->sbol_owner != NULL)
+        {
+            std::vector<std::string> property_store;
+            this->sbol_owner->properties.insert({ type_uri, property_store });
+        }
+    };
+
+void ReferencedObject::set(std::string uri)
+{
+    if (this->sbol_owner)
+    {
+        //sbol_owner->properties[type].push_back( new_value );
+        std::string current_value = this->sbol_owner->properties[this->type][0];
+        if (current_value[0] == '<')  //  this property is a uri
+        {
+            this->sbol_owner->properties[this->type][0] = "<" + uri + ">";
+        }
+        else if (current_value[0] == '"') // this property is a literal
+        {
+            throw;
+        }
+        
+    }
+    //validate((void *)&uri);
+};
+
+void ReferencedObject::set(SBOLObject& obj)
+{
+    set(obj.identity.get());
+};
+
+
+// For compliant URIs
+void ReferencedObject::setReference(const std::string uri)
+{
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+    {
+        // if not TopLevel throw an error
+        // @TODO search Document by persistentIdentity and retrieve the latest version
+        set(getHomespace() + "/" + parseClassName(this->reference_type_uri) + "/" + uri + "/1.0.0");
+    }
+    else if (hasHomespace())
+    {
+        set(getHomespace() + "/" + uri);
+    }
+    else
+        set(uri);
+};
+
+//// For compliant URIs
+//void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+//{
+//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
+//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
+//    this->set(compliant_uri);
+//};
+//
+//// For compliant URIs
+//void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id)
+//{
+//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
+//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, "1.0.0");
+//    this->addReference(compliant_uri);
+//};
+//
+//// For compliant URI's
+//void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+//{
+//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
+//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
+//    this->addReference(compliant_uri);
+//};
+
+
+std::string ReferencedObject::operator[] (const int nIndex)
+{
+    std::vector<std::string> *reference_store = &this->sbol_owner->properties[this->type];
+    return reference_store->at(nIndex);
+};
+
+
+void ReferencedObject::addReference(const std::string uri)
+{
+    this->sbol_owner->properties[this->type].push_back("<" + uri + ">");
+};
 

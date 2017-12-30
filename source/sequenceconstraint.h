@@ -39,6 +39,14 @@ namespace sbol
 	{
 	
 	public:
+        /// Construct a SequenceConstraint. If operating in SBOL-compliant mode, use ComponentDefinition::sequenceConstraints::create instead.
+        /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param subject Identity of the Component with this structural constraint
+        /// @param object Identity of the other Component with this structural constraint
+        /// @param restriction Flag indicating the type of structual constraint between the subject and object Components. By default, this is set to SBOL_RESTRICTION_PRECEDES
+        SequenceConstraint(std::string uri = "example", std::string subject = "", std::string object = "", std::string restriction = SBOL_RESTRICTION_PRECEDES, std::string version = "1.0.0") :
+            SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri, subject, object, restriction, version) {};
+        
         /// The subject property is REQUIRED and MUST contain a URI that refers to a Component contained by the same parent ComponentDefinition that contains the SequenceConstraint.
         ReferencedObject subject;
         /// The object property is REQUIRED and MUST contain a URI that refers to a Component contained by the same parent ComponentDefinition that contains the SequenceConstraint. This Component MUST NOT be the same Component that the SequenceConstraint refers to via its subject property.
@@ -51,24 +59,15 @@ namespace sbol
         /// | SBOL_RESTRICTION_SAME_ORIENTATION_AS      | The subject and object Component objects MUST have the same orientation. If each<br>one is associated with a SequenceAnnotation, then the orientation URIs of the<br>Location objects of the first SequenceAnnotation MUST be among those of the<br>second SequenceAnnotation, and vice versa. |
         /// | SBOL_RESTRICTION_OPPOSITE_ORIENTATION_AS  | The subject and object Component objects MUST have opposite orientations. If<br>each one is associated with a SequenceAnnotation, then the orientation URIs of<br>the Location objects of one SequenceAnnotation MUST NOT be among those of the<br>other SequenceAnnotation. |
         URIProperty restriction;
-        
-        /// Construct a SequenceConstraint. If operating in SBOL-compliant mode, use ComponentDefinition::sequenceConstraints::create instead.
-        /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        /// @param subject Identity of the Component with this structural constraint
-        /// @param object Identity of the other Component with this structural constraint
-        /// @param restriction Flag indicating the type of structual constraint between the subject and object Components. By default, this is set to SBOL_RESTRICTION_PRECEDES
-        SequenceConstraint(std::string uri = "example", std::string subject = "", std::string object = "", std::string restriction = SBOL_RESTRICTION_PRECEDES, std::string version = "1.0.0") :
-            SequenceConstraint(SBOL_SEQUENCE_CONSTRAINT, uri, subject, object, restriction, version) {};
-
 		
         virtual ~SequenceConstraint() {};
 	
 	protected:
-        SequenceConstraint(sbol_type type, std::string uri, std::string subject, std::string object, std::string restriction, std::string version) :
+        SequenceConstraint(rdf_type type, std::string uri, std::string subject, std::string object, std::string restriction, std::string version) :
             Identified(type, uri, version),
-            subject(SBOL_SUBJECT, SBOL_COMPONENT, this, subject),
-            object(SBOL_OBJECT, SBOL_COMPONENT, this, object),
-            restriction(SBOL_RESTRICTION, this, restriction)
+            subject(this, SBOL_SUBJECT, SBOL_COMPONENT, '1', '1', {}, subject),
+            object(this, SBOL_OBJECT, SBOL_COMPONENT, '1', '1', {}, object),
+            restriction(this, SBOL_RESTRICTION, '1', '1', {}, restriction)
             {
             }
 

@@ -41,15 +41,15 @@ namespace sbol
 	friend class PartShop;
         
 	public:
-        Identified(sbol_type type_uri, std::string uri, std::string version = "1.0.0") :
+        Identified(rdf_type type_uri, std::string uri, std::string version = "1.0.0") :
         SBOLObject(type_uri, uri),
-        persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, uri),
-        displayId(SBOL_DISPLAY_ID, this, uri, { sbol_rule_10204 }),
-        version(SBOL_VERSION, this, version),
-        wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
-        wasGeneratedBy(PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, this),
-        name(SBOL_NAME, this),
-        description(SBOL_DESCRIPTION, this)
+        persistentIdentity(this, SBOL_PERSISTENT_IDENTITY, '0', '1', {}, uri),
+        displayId(this, SBOL_DISPLAY_ID, '0', '1', { sbol_rule_10204 }, uri),
+        version(this, SBOL_VERSION, '0', '1', version),
+        wasDerivedFrom(this, SBOL_WAS_DERIVED_FROM, '0', '*', {}),
+        wasGeneratedBy(this, PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, '0', '*', {}),
+        name(this, SBOL_NAME, '0', '1', {}),
+        description(this, SBOL_DESCRIPTION, '0', '1', {})
         {
             if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
@@ -71,19 +71,6 @@ namespace sbol
             }
             identity.validate();
         }
-        
-        //        Identified(sbol_type type_uri, std::string prefix, std::string display_id, std::string version) :
-        //			SBOLObject(type_uri, prefix, display_id, version),
-        //			persistentIdentity(SBOL_PERSISTENT_IDENTITY, this, prefix + "/" + display_id),
-        //			displayId(SBOL_DISPLAY_ID, this, display_id),
-        //			version(SBOL_VERSION, this, version),
-        //			wasDerivedFrom(SBOL_WAS_DERIVED_FROM, this),
-        //            wasGeneratedBy(PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, this),
-        //			name(SBOL_NAME, this),
-        //			description(SBOL_DESCRIPTION, this)
-        //		{
-        //            identity.validate();
-        //		}
         
         /// The persistentIdentity property is OPTIONAL and has a data type of URI. This URI serves to uniquely refer to a set of SBOL objects that are different versions of each other. An Identified object MUST be referred to using either its identity URI or its persistentIdentity URI.
 		URIProperty persistentIdentity;

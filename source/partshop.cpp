@@ -156,7 +156,7 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
 };
 
 // Exact search
-SearchResponse& sbol::PartShop::search(std::string search_text, sbol_type object_type, std::string property_uri, int offset, int limit)
+SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_type, std::string property_uri, int offset, int limit)
 {
     string url = resource;
     
@@ -243,7 +243,7 @@ SearchResponse& sbol::PartShop::search(std::string search_text, sbol_type object
 };
 
 // General search
-SearchResponse& sbol::PartShop::search(std::string search_text, sbol_type object_type, int offset, int limit)
+SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_type, int offset, int limit)
 {
     string url = resource;
     
@@ -413,7 +413,7 @@ int sbol::PartShop::searchCount(SearchQuery& q)
     return count;
 };
 
-int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type, std::string property_uri)
+int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type, std::string property_uri)
 {
     string url = resource;
     
@@ -485,7 +485,7 @@ int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type, 
     return count;
 };
 
-int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type)
+int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
 {
     string url = resource;
     

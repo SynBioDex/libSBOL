@@ -34,6 +34,13 @@ namespace sbol
 	class SBOL_DECLSPEC Location : public Identified
 	{
 	public:
+        // A public constructor is required so objects can be auto created by the SBOLObject.OwnedObjects.create(...) method
+        Location(rdf_type type = SBOL_LOCATION, std::string uri = "example", std::string orientation = SBOL_ORIENTATION_INLINE) :
+            Identified(type, uri),
+            orientation(this, SBOL_ORIENTATION, '1', '1', {}, orientation)
+            {
+            }
+        
         /// The orientation indicates how a region of double-stranded DNA represented by the parent SequenceAnnotation and its associated Component are oriented. The orientation may be one of the following values. By default it is set to SBOL_ORIENTATION_INLINE.
         /// | Orientation URI                       | libSBOL Symbol                      |
         /// | :------------------------------------ | :---------------------------------- |
@@ -41,12 +48,6 @@ namespace sbol
         /// | http://sbols.org/v2#reverseComplement | SBOL_ORIENTATION_REVERSE_COMPLEMENT |
         URIProperty orientation;
 
-	// A public constructor is required so objects can be auto created by the SBOLObject.OwnedObjects.create(...) method
-        Location(sbol_type type = SBOL_LOCATION, std::string uri = "example") :
-			Identified(type, uri),
-			orientation(SBOL_ORIENTATION, this, SBOL_ORIENTATION_INLINE)
-			{
-			}
         virtual ~Location() {};;
     };
 
@@ -54,6 +55,12 @@ namespace sbol
 	class SBOL_DECLSPEC Range : public Location
 	{
 	public:
+        /// Construct a Range. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < Range > instead.
+        /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param start An integer of 1 or greater
+        /// @param end An integer equal to or greater than the start
+        Range(std::string uri = "example", int start = 1, int end = 2) : Range(SBOL_RANGE, uri, start, end) {};
+        
         /// Specifies the inclusive starting position of a sequence region. It must be 1 or greater.
 		IntProperty start;
         
@@ -88,20 +95,13 @@ namespace sbol
         /// @return 1 if these Ranges adjoin or border each other, 0 if they are separated by an intervening Range
         int adjoins(Range& comparand);
 
-        
-        /// Construct a Range. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < Range > instead.
-        /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        /// @param start An integer of 1 or greater
-        /// @param end An integer equal to or greater than the start
-        Range(std::string uri = "example", int start = 1, int end = 2) : Range(SBOL_RANGE, uri, start, end) {};
-
-		virtual ~Range() {};
+        virtual ~Range() {};
         
 	protected:
-        Range(sbol_type type, std::string uri, int start, int end) :
+        Range(rdf_type type, std::string uri, int start, int end) :
             Location(type, uri),
-            start(SBOL_START, this, start),
-            end(SBOL_END, this, end)
+            start(this, SBOL_START, '1', '1', {}, start),
+            end(this, SBOL_END, '1', '1', {}, end)
             {
             };
 	};
@@ -110,20 +110,20 @@ namespace sbol
     class SBOL_DECLSPEC Cut : public Location
     {
     public:
-        /// This property specifies the location between this nucleotide coordinate (or other sequence element) and the nucleotide coordinate immediately following it. When equal to zero, the specified region is immediately before the first nucleotide or character in the elements
-        IntProperty at;
-        
         /// Construct a Cut. If operating in SBOL-compliant mode, use SequenceAnnotation::locations.create < Cut > instead.
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param at An integer of 0 or greater
         Cut(std::string uri = "example", int at = 0) : Cut(SBOL_CUT, uri, at) {};
+
+        /// This property specifies the location between this nucleotide coordinate (or other sequence element) and the nucleotide coordinate immediately following it. When equal to zero, the specified region is immediately before the first nucleotide or character in the elements
+        IntProperty at;
         
         virtual ~Cut() {};
         
     protected:
-        Cut(sbol_type type, std::string uri, int at) :
+        Cut(rdf_type type, std::string uri, int at) :
             Location(type, uri),
-            at(SBOL_AT, this, at)
+            at(this, SBOL_AT, '1', '1', {}, at)
         {
         };
 
@@ -140,7 +140,7 @@ namespace sbol
         virtual ~GenericLocation() {};
         
     protected:
-        GenericLocation(sbol_type type, std::string uri) :
+        GenericLocation(rdf_type type, std::string uri) :
             Location(type, uri)
         {
         };

@@ -42,6 +42,20 @@ namespace sbol
     class SBOL_DECLSPEC SearchQuery : public TopLevel
     {
     public:
+        /// SearchQuery constructor
+        /// @param search_target The type of SBOL object to search for, indicated using a URI. Set to SBOL_COMPONENT_DEFINITION by default.
+        SearchQuery(rdf_type search_target = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25) :
+            TopLevel(SBOL_URI "#SearchQuery", "example"),
+            objectType(this, SBOL_URI "#objectType", '0', '1', {}, search_target),
+            offset(this, SBOL_URI "#offset", '1', '1', {}, offset),
+            limit(this, SBOL_URI "#limit", '1', '1', {}, limit)
+        {
+            // The following properties are set to empty string because they are treated like search criteria
+            displayId.set("");
+            persistentIdentity.set("");
+            version.set("");
+        };
+
         /// Set this property to indicate the type of SBOL object to search for. Set to SBOL_COMPONENT_DEFINITION by default
         URIProperty objectType;
 
@@ -57,24 +71,10 @@ namespace sbol
         {
             // If the URI has a namespace, treat the function argument as a full URI
             if (parseNamespace(uri).compare("") == 0)
-                return TextProperty(SBOL_URI "#" + uri, this);
+                return TextProperty(this, SBOL_URI "#" + uri, '0', '1', {});
             else
-                return TextProperty(uri, this);
+                return TextProperty(this, uri, '0', '1', {});
         };  ///< Retrieve a child object by URI
-
-        /// SearchQuery constructor
-        /// @param type The type of SBOL object to search for, indicated using a URI. Set to SBOL_COMPONENT_DEFINITION by default.
-        SearchQuery(sbol_type type = SBOL_COMPONENT_DEFINITION) :
-            TopLevel(SBOL_URI "#SearchQuery", "example"),
-            objectType(SBOL_URI "#objectType", this, type),
-            offset(SBOL_URI "#offset", this, 0),
-            limit(SBOL_URI "#limit", this, 25)
-        {
-            // The following properties are set to empty string because they are treated like search criteria
-            displayId.set("");
-            persistentIdentity.set("");
-            version.set("");
-        };
         
         ~SearchQuery() {};
 
@@ -149,64 +149,6 @@ namespace sbol
         std::vector<Identified*>::iterator python_iter;
     };
     
-//    class SBOL_DECLSPEC SearchQuery : public Json::Value
-//    {
-//    private:
-//        std::string resource;
-//        std::string key;
-//        
-//    public:
-//        
-//        /// Construct an interface to an instance of SynBioHub or other parts repository
-//        /// @param The URL of the online repository
-//        SearchQuery(std::map<std::string, std::string> criteria ) :
-//        Json::Value()
-//        {
-//            //        std::vector<std::string> keys;
-//            //        for(auto const& key_value_pair: criteria)
-//            //            keys.push_back(key_value_pair.first);
-//            //        // Check that Json request contains the expected key-value pairs
-//            //        std::vector<std::string> valid_parameters = {"objectType", "sbolTag", "collection", "dcterms", "namespace/tag"};
-//            //        for (auto const& p : valid_parameters)
-//            //        {
-//            //            if ( std::find(valid_parameters.begin(), valid_parameters.end(), p) == valid_parameters.end() )
-//            //            {
-//            //                throw sbol::SBOLError(sbol::SBOL_ERROR_INVALID_ARGUMENT, "Invalid search parameter " + p + ". Search parameters must be one or more of objectType, sbolTag, collection, dcterms, or namespace/tag");
-//            //                (*this)[p] = criteria[p];
-//            //            }
-//            //        }
-//        }
-//    };
-    
-//    class SBOL_DECLSPEC SearchResponse : public Json::Value
-//    {
-//    private:
-//        std::string resource;
-//        std::string key;
-//        
-//    public:
-//        
-//        /// Construct an interface to an instance of SynBioHub or other parts repository
-//        /// @param The URL of the online repository
-//        SearchResponse() :
-//        Json::Value()
-//        {
-//            //
-//            //        std::vector<std::string> keys;
-//            //        for(auto const& key_value_pair: criteria)
-//            //            keys.push_back(key_value_pair.first);
-//            //        // Check that Json request contains the expected key-value pairs
-//            //        std::vector<std::string> valid_parameters = {"objectType", "sbolTag", "collection", "dcterms", "namespace/tag"};
-//            //        for (auto const& p : valid_parameters)
-//            //        {
-//            //            if ( std::find(valid_parameters.begin(), valid_parameters.end(), p) == valid_parameters.end() )
-//            //            {
-//            //                throw sbol::SBOLError(sbol::SBOL_ERROR_INVALID_ARGUMENT, "Invalid search parameter " + p + ". Search parameters must be one or more of objectType, sbolTag, collection, dcterms, or namespace/tag");
-//            //                (*this)[p] = criteria[p];
-//            //            }
-//            //        }
-//        }
-//    };  // SearchResponse
     
     /// A class which provides an API front-end for online bioparts repositories
     class SBOL_DECLSPEC PartShop
@@ -216,6 +158,13 @@ namespace sbol
         std::string key;
         
     public:
+        /// Construct an interface to an instance of SynBioHub or other parts repository
+        /// @param The URL of the online repository
+        PartShop(std::string url) :
+            resource(url)
+            {
+            };
+        
         /// Return the count of objects contained in a PartShop
         /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
         template < class SBOLClass > int count();
@@ -229,10 +178,8 @@ namespace sbol
         /// @param uris A vector of URIs for multiple SBOL objects you want to retrieve
         /// @param doc A document to add the data to
         void pull(std::vector<std::string> uris, Document& doc);
-
         
         template < class SBOLClass > void pull(std::string uri, Document& doc, bool recursive = true);
-
         
         /// Returns all Collections that are not members of any other Collections
         /// @param doc A Document to add the Collections to
@@ -265,8 +212,6 @@ namespace sbol
         /// @return Search metadata A vector of maps with key-value pairs.
         SearchResponse& search(SearchQuery& q);
         
-//#endif
-        
         /// Returns the number of search records for an EXACT search matching the given criteria.
         /// @return An integer count.
         int searchCount(std::string search_text, std::string object_type, std::string property_uri);
@@ -293,13 +238,6 @@ namespace sbol
         /// Returns the network address of the PartShop
         /// @return The URL of the online repository
         std::string getURL();
-        
-        /// Construct an interface to an instance of SynBioHub or other parts repository
-        /// @param The URL of the online repository
-        PartShop(std::string url) :
-        resource(url)
-        {
-        };
     };
     
 //    /// Returns a Document including all objects referenced from this object

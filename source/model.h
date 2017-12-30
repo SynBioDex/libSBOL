@@ -35,6 +35,22 @@ namespace sbol
 	class SBOL_DECLSPEC Model : public TopLevel
 	{
 	public:
+        /// Construct a Model
+        /// @param source A URI reference to the model file
+        /// @param An EDAM ontology term that specifies the language in which the model was implemented
+        /// @param An SBOL ontology term that specifies whether the model is continuous, discrete, or other modeling technique
+        Model(std::string uri = "example", std::string source = "", std::string language = EDAM_SBML, std::string framework = SBO_CONTINUOUS, std::string version = "1.0.0") : Model(SBOL_MODEL, uri, source, language, framework, version) {};
+
+        /// Constructor used for defining extension classes
+        /// @param type The RDF type for an extension class derived from this one
+        Model(rdf_type type, std::string uri, std::string source, std::string language, std::string framework, std::string version) :
+            TopLevel(type, uri, version),
+            source(this, SBOL_SOURCE, '0', '1', {}, source),
+            language(this, SBOL_LANGUAGE, '0', '1', {}, language),
+            framework(this, SBOL_FRAMEWORK, '0', '1', {}, framework)
+            {
+            };
+        
         /// The source property is REQUIRED and MUST contain a URI reference to the source file for a model.
 		URIProperty source;
         
@@ -52,29 +68,9 @@ namespace sbol
         /// | Continuous     | http://identifiers.org/biomodels.sbo/SBO:0000062 | SBO_CONTINUOUS |
         /// | Discrete       | http://identifiers.org/biomodels.sbo/SBO:0000063 | SBO_DISCRETE   |
         URIProperty framework;
-
-        Model(std::string uri = "example", std::string source = "", std::string language = EDAM_SBML, std::string framework = SBO_CONTINUOUS, std::string version = "1.0.0") : Model(SBOL_MODEL, uri, source, language, framework, version) {};
-
-//        Model(std::string uri_prefix, std::string display_id, std::string version, std::string source, std::string language, std::string framework) : Model(SBOL_MODEL, uri_prefix, display_id, version, source, language, framework) {};
-
+        
         virtual ~Model() {};
-	protected:
-		// This protected constructor is a delegate constructor.  It initializes Models with the corresponding sbol_type_uri 
-        Model(sbol_type type, std::string uri, std::string source, std::string language, std::string framework, std::string version) :
-            TopLevel(type, uri, version),
-            source(SBOL_SOURCE, this, source),
-            language(SBOL_LANGUAGE, this, language),
-            framework(SBOL_FRAMEWORK, this, framework)
-            {
-            };
-//        Model(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string source, std::string language, std::string framework) :
-//			TopLevel(type, uri_prefix, display_id, version),
-//			source(SBOL_SOURCE, this, source),
-//			language(SBOL_LANGUAGE, this, language),
-//			framework(SBOL_FRAMEWORK, this, framework)
-//			{
-//            };
-	};
+    };
 }
 
 #endif

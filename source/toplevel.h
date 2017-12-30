@@ -38,7 +38,7 @@ namespace sbol
 
 	// The public constructor delegates to this protected constructor in order to initialize the object with an SBOL type URI 
     public:
-        TopLevel(sbol_type type_uri = "", std::string uri = "", std::string version = "1.0.0") :
+        TopLevel(rdf_type type_uri = "", std::string uri = "", std::string version = "1.0.0") :
             Identified(type_uri, uri, version)
         {
             if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)

@@ -30,10 +30,27 @@
 
 namespace sbol
 {
+
     /// The Attachment class is a general container for data files, especially experimental data files. Attachment is a TopLevel object, and any other TopLevel object can refer to a list of attachments.
 	class SBOL_DECLSPEC Attachment : public TopLevel
 	{
 	public:
+        /// Construct an Attachment
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param source A file URI
+        Attachment(std::string uri = "example", std::string source = "", std::string version = "1.0.0") : Attachment(SBOL_ATTACHMENT, uri, source, version) {};
+
+        /// Constructor used for defining extension classes
+        /// @param rdf_type The RDF type for an extension class derived from this one
+        Attachment(rdf_type type, std::string uri, std::string source, std::string version) :
+            TopLevel(type, uri, version),
+            source(this, SBOL_SOURCE, '1', '1', {}, source),
+            format(this, SBOL_URI "#format", '0', '1', {}),
+            size(this, SBOL_URI "#size", '0', '1', {}),
+            hash(this, SBOL_URI "#hash", '0', '1', {})
+            {
+            };
+        
         /// The source is a link to the external file and is REQUIRED.
 		URIProperty source;
         
@@ -46,22 +63,7 @@ namespace sbol
         // The hash is a string used to retrieve files from a cache. This field is OPTIONAL.
         TextProperty hash;
 
-        /// Construct an Attachment
-        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        /// @param source A file URI
-        Attachment(std::string uri = "example", std::string source = "", std::string version = "1.0.0") : Attachment(SBOL_ATTACHMENT, uri, source, version) {};
-
         virtual ~Attachment() {};
-	protected:
-        Attachment(sbol_type type, std::string uri, std::string source, std::string version) :
-            TopLevel(type, uri, version),
-            source(SBOL_SOURCE, this, source),
-            format(SBOL_URI "#format", this),
-            size(SBOL_URI "#size", this),
-            hash(SBOL_URI "#hash", this)
-            {
-            };
-
 	};
 }
 

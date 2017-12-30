@@ -37,8 +37,8 @@ namespace sbol
         OwnedObject < ModuleDefinition > function;
         Design(std::string uri) :
             TopLevel(UNDEFINED, uri),
-            structure(SBOL_COMPONENT_DEFINITION, this, "", { libsbol_rule_3 }),
-            function(SBOL_MODULE_DEFINITION, this, "", { libsbol_rule_4 })
+            structure(this, SBOL_COMPONENT_DEFINITION, '0', '1', { libsbol_rule_3 }),
+            function(this, SBOL_MODULE_DEFINITION, '0', '1', { libsbol_rule_4 })
         {
         };
 
@@ -54,8 +54,8 @@ namespace sbol
         OwnedObject < ModuleDefinition > behavior;
         Build(std::string uri) :
             TopLevel(UNDEFINED, uri),
-            structure(SBOL_COMPONENT_DEFINITION, this, "", { libsbol_rule_3 }),
-            behavior(SBOL_MODULE_DEFINITION, this, "", { libsbol_rule_4 })
+            structure(this, SBOL_COMPONENT_DEFINITION, '0', '1', { libsbol_rule_3 }),
+            behavior(this, SBOL_MODULE_DEFINITION, '0', '1', { libsbol_rule_4 })
         {
         };
         

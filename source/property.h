@@ -52,7 +52,7 @@
 namespace sbol
 {
     /// @brief This string type is assigned URI strings (see constants.h for default values).  This URI controls the tags of RDF/XML nodes
-	typedef std::string sbol_type;
+	typedef std::string rdf_type;
 
 	// All SBOLProperties have a pointer back to the object which the property belongs to.  This requires forward declaration of the SBOLObject class
 	class SBOLObject;
@@ -66,29 +66,31 @@ namespace sbol
     friend class SBOLObject;
         
 	protected:
-		sbol_type type;
+		rdf_type type;
 		SBOLObject *sbol_owner;  // back pointer to the SBOLObject to which this Property belongs
-		ValidationRules validationRules;
+        char lowerBound;
+        char upperBound;
+        ValidationRules validationRules;
+
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::vector<std::pair<PyObject*, PyObject*>> pythonValidationRules;
 #endif
+	
+    public:
+        /// @param type_uri An RDF hash URI for this property, consisting of a namespace followed by an identifier. For example, Properties of SBOLObjects use URIs of the form http://sbols.org/v2#somePropertyName, where the identifier somePropertyName determines the appearance of XML nodes in an SBOL file.  Alternatively, annotations in a custom namespace can be provided using a similarly formed hash URI in another namespace.
+        /// @param property_owner All Property objects must have a pointer back to its parent SBOLObject of which it is a member
+        /// @param initial_value The initial value of the Property
+        /// @param validation_rules A vector of externally defined ValidationRules. The vector contains pointers to functions which correspond to the validation rules listed in the appendix of the formal SBOL specification document.  ValidationRules are automatically checked every time a setter or adder method is called and when Documents are read and written.
+        Property(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value);
 
-        void initializeNamespace(std::string ns);  // Adds extension namespaces to the owner SBOLObject
-	public:
-        Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules = {});
+		Property(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, int initial_value);
 
-		Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules validation_rules = {});
+        Property(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, double initial_value);
 
-        Property(sbol_type type_uri, void *property_owner, double initial_value, ValidationRules validation_rules = {});
-
-		Property(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, ValidationRules validation_rules = {}) :
-			type(type_uri),
-			sbol_owner((SBOLObject *)property_owner),
-            validationRules(validation_rules)
-		{
-		}
+        Property(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules);
+        
 		~Property();
-		virtual sbol_type getTypeURI();
+		virtual rdf_type getTypeURI();
 		virtual SBOLObject& getOwner();
 //        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
         virtual std::vector<std::string> getAll();
@@ -153,56 +155,47 @@ namespace sbol
         
     };
     
-
-    /// @param type_uri An RDF hash URI for this property, consisting of a namespace followed by an identifier. For example, Properties of SBOLObjects use URIs of the form http://sbols.org/v2#somePropertyName, where the identifier somePropertyName determines the appearance of XML nodes in an SBOL file.  Alternatively, annotations in a custom namespace can be provided using a similarly formed hash URI in another namespace.
-    /// @param property_owner All Property objects must have a pointer back to its parent SBOLObject of which it is a member
-    /// @param initial_value The initial value of the Property
-    /// @param validation_rules A vector of externally defined ValidationRules. The vector contains pointers to functions which correspond to the validation rules listed in the appendix of the formal SBOL specification document.  ValidationRules are automatically checked every time a setter or adder method is called and when Documents are read and written.
     template <class LiteralType>
-	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, std::string initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
-	{
-        std::string trim_value = initial_value.substr(1, initial_value.length() - 2);
-        validate(&trim_value);
-		// Register Property in owner Object
-		if (this->sbol_owner != NULL)
-		{
-			std::vector<std::string> property_store;
-			property_store.push_back(initial_value);
-//			this->sbol_owner->properties.insert({ type_uri, property_store });
-            this->sbol_owner->properties.insert({ type, property_store });
-        }
-	}
-
-	/* Constructor for int Property */
-	template <class LiteralType>
-	Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, int initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
-	{
-        validate(&initial_value);
-		// Register Property in owner Object
-		if (this->sbol_owner != NULL)
-		{
-			std::vector<std::string> property_store;
-			property_store.push_back("\"" + std::to_string(initial_value) + "\"");
-			this->sbol_owner->properties.insert({ type_uri, property_store });
-		}
-	}
-
-    /* Constructor for FloatProperty */
-    template <class LiteralType>
-    Property<LiteralType>::Property(sbol_type type_uri, void *property_owner, double initial_value, ValidationRules validation_rules) : Property(type_uri, property_owner, validation_rules)
+    Property<LiteralType>::Property(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+        type(type_uri),
+        sbol_owner((SBOLObject *)property_owner),
+        lowerBound(lower_bound),
+        upperBound(upper_bound),
+        validationRules(validation_rules)
     {
-        validate(&initial_value);
         // Register Property in owner Object
         if (this->sbol_owner != NULL)
         {
             std::vector<std::string> property_store;
-            property_store.push_back("\"" + std::to_string(initial_value) + "\"");
+            property_store.push_back("\"\"");
             this->sbol_owner->properties.insert({ type_uri, property_store });
         }
     }
-	//typedef std::map<sbol_type, PropertyBase> PropertyStore;
 
-	//extern PropertyStore* global_property_buffer;
+    template <class LiteralType>
+	Property<LiteralType>::Property(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value) : Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
+	{
+        std::string trim_value = initial_value.substr(1, initial_value.length() - 2);
+        validate(&trim_value);
+        this->sbol_owner->properties[type_uri][0] = initial_value;
+	}
+
+	/* Constructor for int Property */
+	template <class LiteralType>
+	Property<LiteralType>::Property(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, int initial_value) : Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
+	{
+        validate(&initial_value);
+		this->sbol_owner->properties[type_uri][0] = "\"" + std::to_string(initial_value) + "\"";
+	}
+
+    /* Constructor for FloatProperty */
+    template <class LiteralType>
+    Property<LiteralType>::Property(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, double initial_value) : Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
+    {
+        validate(&initial_value);
+        this->sbol_owner->properties[type_uri][0] = "\"" + std::to_string(initial_value) + "\"";
+
+    }
 
     template <class LiteralType>
     Property<LiteralType>::~Property()
@@ -211,7 +204,7 @@ namespace sbol
     
     
     template <class LiteralType>
-    sbol_type Property<LiteralType>::getTypeURI()
+    rdf_type Property<LiteralType>::getTypeURI()
     {
         return type;
     }
@@ -396,7 +389,7 @@ namespace sbol
     void Property<LiteralType>::write()
     {
         std::string subject = (*this->sbol_owner).identity.get();
-        sbol_type predicate = type;
+        rdf_type predicate = type;
         std::string object = this->sbol_owner->properties[type].front();
         
         std::cout << "Subject:  " << subject << std::endl;

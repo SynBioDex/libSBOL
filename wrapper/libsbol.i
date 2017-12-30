@@ -334,7 +334,7 @@ typedef std::string sbol::sbol_type;
     %template(SBOLClass ## Vector) std::vector<sbol::SBOLClass>;
     %template(SBOLClass ## Property) sbol::Property<sbol::SBOLClass >;
     %template(Owned ## SBOLClass) sbol::OwnedObject<sbol::SBOLClass >;
-    %template(ListOfOwned ## SBOLClass) sbol::List<sbol::OwnedObject<sbol::SBOLClass >>;
+    //%template(ListOfOwned ## SBOLClass) sbol::List<sbol::OwnedObject<sbol::SBOLClass >>;
     
 %enddef
 
@@ -390,7 +390,7 @@ TEMPLATE_MACRO_1(SequenceAnnotation);
 TEMPLATE_MACRO_1(Component);
 
 // Templates used in Participation class
-%template(listOfURIs) sbol::List<sbol::URIProperty>;
+//%template(listOfURIs) sbol::List<sbol::URIProperty>;
 
 // Templates used in Interaction class
 TEMPLATE_MACRO_1(Participation);
