@@ -119,7 +119,7 @@ Build& TopLevel::generate<Build>(std::string uri)
     Build& build = *new Build(uri);
     build.initialize(uri);
     
-    Activity& a = doc->activities.create(build.displayId.get() + "_activity");
+    Activity& a = doc->activities.create(build.displayId.get() + "_generation");
     wasGeneratedBy.set(a);
     wasDerivedFrom.set(design.function.get().identity.get());  // SBOL provenance linkages are made through the child ModuleDefinition
 
@@ -127,10 +127,7 @@ Build& TopLevel::generate<Build>(std::string uri)
     u.entity.set(design.function.get());
     
     return build;
-    
-//    // Validate that the generated object is TopLevel
-//    if (dynamic_cast<TopLevel*>(&new_obj) == NULL)
-//        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid template argument. Generate method must generate a TopLevel object");
+
 };
 
 };

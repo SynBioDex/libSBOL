@@ -40,6 +40,8 @@ namespace sbol
             structure(this, SBOL_COMPONENT_DEFINITION, '0', '1', { libsbol_rule_3 }),
             function(this, SBOL_MODULE_DEFINITION, '0', '1', { libsbol_rule_4 })
         {
+            ComponentDefinition& cd = structure.create(uri);
+            ModuleDefinition& md = function.create(uri);
         };
 
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed
@@ -61,8 +63,8 @@ namespace sbol
         
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed
         virtual ~Build() {};
-        
     };
+    
 };
 
 

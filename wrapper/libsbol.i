@@ -372,7 +372,35 @@ typedef std::string sbol::sbol_type;
     }
     
 %enddef
-        
+
+/* This macro is used to instantiate special adders and getters for the Document class */
+%define TEMPLATE_MACRO_3(SBOLClass)
+%extend sbol::SBOLClass {
+%pythoncode {
+    properties = []
+            
+    def __getattribute__(self,name):
+        if name in object.__getattribute__(self, 'properties'):
+            return object.__getattribute__(self, name).get()
+        else:
+            return object.__getattribute__(self, name)
+
+    def __setattr__(self,name, value):
+        if name in object.__getattribute__(self, 'properties'):
+            object.__getattribute__(self, name).set(value)
+        else:
+            object.__setattr__(self, name, value)
+    
+}
+}
+%enddef
+
+TEMPLATE_MACRO_3(ComponentDefinition)
+TEMPLATE_MACRO_3(Design)
+TEMPLATE_MACRO_3(SequenceAnnotation)
+TEMPLATE_MACRO_3(SequenceConstraint)
+    
+    
 // Templates used by subclasses of Location: Range, Cut, and Generic Location
 TEMPLATE_MACRO_0(Range);
 TEMPLATE_MACRO_0(Cut);
