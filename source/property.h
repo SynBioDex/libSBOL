@@ -103,6 +103,9 @@ namespace sbol
 		virtual void write();
         virtual bool find(std::string query);       ///< Check if a value in this property matches the query
 
+        char getLowerBound() { return lowerBound; }
+        char getUpperBound() { return upperBound; }
+        
         void validate(void * arg = NULL);
         std::string operator[] (const int nIndex);  ///< Retrieve the indexed value in a list container
 
