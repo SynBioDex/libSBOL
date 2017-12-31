@@ -496,9 +496,11 @@ OwnedObject< SBOLClass >::OwnedObject(void *property_owner, rdf_type sbol_uri, c
 template < class SBOLClass>
 void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
 {
-    /// @TODO This could cause a memory leak if the overwritten object is not freed!
     sbol_obj.parent = this->sbol_owner;
-    this->sbol_owner->owned_objects[this->type][0] = ((SBOLObject *)&sbol_obj);
+    if (!this->sbol_owner->owned_objects[this->type].size())
+        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "This property is already set. Call remove before attempting to set.");
     this->validate(&sbol_obj);
 };
 
