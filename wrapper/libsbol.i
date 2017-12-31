@@ -373,27 +373,37 @@ typedef std::string sbol::sbol_type;
     
 %enddef
 
-/* This macro is used to instantiate special adders and getters for the Document class */
+/* This macro is used to create a Pythonic interface to object attributes */
 %define TEMPLATE_MACRO_3(SBOLClass)
 %extend sbol::SBOLClass {
 %pythoncode {
-    properties = []
-            
+
     def __getattribute__(self,name):
-        if name in object.__getattribute__(self, 'properties'):
-            return object.__getattribute__(self, name).get()
+        if name in object.__getattribute__(self, '__swig_getmethods__').keys():
+            sbol_attribute = object.__getattribute__(self, name)
+            upper_bound = sbol_attribute.getUpperBound()
+            if upper_bound != '1':
+                return sbol_attribute.getAll()
+            else:
+                return sbol_attribute.get()
         else:
             return object.__getattribute__(self, name)
-
+            
+    __setattribute__ = __setattr__
+            
     def __setattr__(self,name, value):
-        if name in object.__getattribute__(self, 'properties'):
+        if name in object.__getattribute__(self, '__swig_setmethods__').keys():
             object.__getattribute__(self, name).set(value)
         else:
-            object.__setattr__(self, name, value)
+            self.__class__.__setattribute__(self, name, value)
+
+            
     
 }
 }
 %enddef
+
+
 
 TEMPLATE_MACRO_3(ComponentDefinition)
 TEMPLATE_MACRO_3(Design)
