@@ -498,6 +498,144 @@ URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bou
     this->sbol_owner->properties[type_uri][0] = "<>";
 }
 
+std::vector<std::string> TextProperty::getAll()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw std::runtime_error("This property is not defined in the parent object");
+        }
+        else
+        {
+            // found
+            if (this->size() == 0)
+                return std::vector < std::string >(0);
+            //                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::vector<std::string> values;
+                std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                {
+                    std::string value = *i_val;
+                    value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                    values.push_back(value);
+                }
+                return values;
+            }
+        }
+    }	else
+    {
+        throw std::runtime_error("This property is not associated with a parent object");
+    }
+};
+
+std::vector<std::string> URIProperty::getAll()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw std::runtime_error("This property is not defined in the parent object");
+        }
+        else
+        {
+            // found
+            if (this->size() == 0)
+                return std::vector < std::string >(0);
+            //                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::vector<std::string> values;
+                std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                {
+                    std::string value = *i_val;
+                    value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                    values.push_back(value);
+                }
+                return values;
+            }
+        }
+    }	else
+    {
+        throw std::runtime_error("This property is not associated with a parent object");
+    }
+};
+
+std::vector<int> IntProperty::getAll()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw std::runtime_error("This property is not defined in the parent object");
+        }
+        else
+        {
+            // found
+            if (this->size() == 0)
+                return std::vector < int >(0);
+            //                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::vector<int> values;
+                std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                {
+                    std::string str_val = *i_val;
+                    str_val = str_val.substr(1, str_val.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                    int value = stoi(str_val);
+                    values.push_back(value);
+                }
+                return values;
+            }
+        }
+    }	else
+    {
+        throw std::runtime_error("This property is not associated with a parent object");
+    }
+};
+
+std::vector<double> FloatProperty::getAll()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw std::runtime_error("This property is not defined in the parent object");
+        }
+        else
+        {
+            // found
+            if (this->size() == 0)
+                return std::vector < double >(0);
+            //                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::vector<double> values;
+                std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                {
+                    std::string str_val = *i_val;
+                    str_val = str_val.substr(1, str_val.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                    double value = stod(str_val);
+                    values.push_back(value);
+                }
+                return values;
+            }
+        }
+    }	else
+    {
+        throw std::runtime_error("This property is not associated with a parent object");
+    }
+};
+
 TextProperty::TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value) :
     Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules, "\"" + initial_value + "\"")
 {

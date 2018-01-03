@@ -49,12 +49,14 @@ std::string TextProperty::get()
         {
             // property value not set
             if (this->sbol_owner->properties[type].size() == 0)
-                throw SBOLError(SBOL_ERROR_NOT_FOUND, "Property has not been set");
+                throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
             // property value is found
             else
             {
                 std::string value = this->sbol_owner->properties[type].front();
                 value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                if (value == "")
+                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
                 return value;
             }
         }
@@ -83,6 +85,8 @@ std::string URIProperty::get()
             {
                 std::string value = this->sbol_owner->properties[type].front();
                 value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                if (value == "")
+                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
                 return value;
             }
         }
@@ -111,6 +115,8 @@ int IntProperty::get()
             {
                 std::string value = this->sbol_owner->properties[type].front();
                 value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                if (value == "")
+                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
                 return stoi(value);
             }
         }
@@ -139,6 +145,8 @@ double FloatProperty::get()
             {
                 std::string value = this->sbol_owner->properties[type].front();
                 value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                if (value == "")
+                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
                 return stod(value);
             }
         }

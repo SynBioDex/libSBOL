@@ -23,18 +23,19 @@
  * limitations under the License.
  * ------------------------------------------------------------------------>*/
 
- #include "dblt.h"
+#include "dblt.h"
+#include "document.h"
 
 using namespace std;
 using namespace sbol;
 
 namespace sbol
 {
-template<>
-void Document::add<Design>(Design& sbol_obj)
-{
-    
-};
+//template<>
+//void Document::add<Design>(Design& sbol_obj)
+//{
+//    
+//};
 
 //template < class SBOLClass >
 //SBOLClass& TopLevel::generate(std::string uri)

@@ -26,22 +26,34 @@
 #ifndef DBLT_INCLUDED
 #define DBLT_INCLUDED
 
-#include "document.h"
+#include "componentdefinition.h"
+#include "moduledefinition.h"
 
 namespace sbol
 {
     class Design : public TopLevel
     {
+    private:
+        ReferencedObject _structure;
+        ReferencedObject _function;
     public:
         OwnedObject < ComponentDefinition > structure;
         OwnedObject < ModuleDefinition > function;
-        Design(std::string uri) :
-            TopLevel(UNDEFINED, uri),
-            structure(this, SBOL_COMPONENT_DEFINITION, '0', '1', { libsbol_rule_3 }),
-            function(this, SBOL_MODULE_DEFINITION, '0', '1', { libsbol_rule_4 })
+        Design(std::string uri = "example") :
+            TopLevel("http:///sys-bio.org#Design", uri),
+            structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_3 }),
+            function(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_4 }),
+            _structure(this, "http:///sys-bio.org#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', {}, "dummy"),
+            _function(this, "http:///sys-bio.org#_function", SBOL_MODULE_DEFINITION, '1', '1', {}, "dummy")
         {
             ComponentDefinition& cd = structure.create(uri);
             ModuleDefinition& md = function.create(uri);
+            _structure.set(cd);
+            _function.set(md);
+            hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
+            hidden_properties.push_back(SBOL_MODULE_DEFINITION);
+            FunctionalComponent& correlation = md.functionalComponents.create(uri);
+            correlation.definition.set(cd);
         };
 
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed
@@ -51,14 +63,23 @@ namespace sbol
     
     class Build : public TopLevel
     {
+    private:
+        ReferencedObject _structure;
+        ReferencedObject _function;
+
     public:
         OwnedObject < ComponentDefinition > structure;
         OwnedObject < ModuleDefinition > behavior;
-        Build(std::string uri) :
-            TopLevel(UNDEFINED, uri),
-            structure(this, SBOL_COMPONENT_DEFINITION, '0', '1', { libsbol_rule_3 }),
-            behavior(this, SBOL_MODULE_DEFINITION, '0', '1', { libsbol_rule_4 })
+        Build(std::string uri = "example") :
+            TopLevel(SBOL_IMPLEMENTATION, uri),
+            structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_3 }),
+            behavior(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_4 }),
+            _structure(this, "http:///sys-bio.org#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', {}, "dummy"),
+            _function(this, SBOL_URI "#built", SBOL_MODULE_DEFINITION, '1', '1', {}, "dummy")
+
         {
+            ComponentDefinition& cd = structure.create(uri);
+            ModuleDefinition& md = behavior.create(uri);
         };
         
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed

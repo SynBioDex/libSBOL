@@ -173,7 +173,10 @@ void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
                 break;
         }
         if (!STRUCTURE_FUNCTION_CORRELATED)
+        {
             FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+            correlation.definition.set(structure);
+        }
     }
     else
         std::cout << "Function is not defined" << std::endl;
@@ -200,7 +203,10 @@ void sbol::libsbol_rule_4(void *sbol_obj, void *arg)
             break;
         }
         if (!STRUCTURE_FUNCTION_CORRELATED)
+        {
             FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+            correlation.definition.set(structure);
+        }
     }
     else
         std::cout << "Structure is not defined" << std::endl;

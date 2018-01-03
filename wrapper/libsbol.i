@@ -43,7 +43,6 @@
     using namespace std;
     
 %}
-%include "typemaps.i"
 %include "python_docs.i"
 
 #ifdef SWIGWIN
@@ -111,7 +110,7 @@
 
 
 
-// Configure general error handling
+//  General error handling and mapping of libSBOL exception types to Python exception types
 %exception {
     try
     {
@@ -119,7 +118,18 @@
     }
     catch(SBOLError e)
     {
-        PyErr_SetString(PyExc_RuntimeError, e.what());
+        if (e.error_code() == SBOL_ERROR_NOT_FOUND)
+        {
+            PyErr_SetString(PyExc_LookupError, e.what());
+        }
+        else if (e.error_code() == SBOL_ERROR_INVALID_ARGUMENT || e.error_code() == SBOL_ERROR_MISSING_DOCUMENT)
+        {
+            PyErr_SetString(PyExc_ValueError, e.what());
+        }
+        else
+        {
+            PyErr_SetString(PyExc_RuntimeError, e.what());
+        }
         return NULL;
     }
     catch(...)
@@ -199,6 +209,9 @@
 
 }
 
+
+
+
 %template(_IntVector) std::vector<int>;
 %template(_StringVector) std::vector<std::string>;
 %template(_SBOLObjectVector) std::vector<sbol::SBOLObject*>;
@@ -223,6 +236,11 @@
 %{
     self.thisown = False
 %}
+
+%pythonappend set
+%{
+    self.thisown = False
+%}
     
 %pythonappend create
 %{
@@ -240,6 +258,10 @@
     #self.thisown = True
 %}
     
+%pythonappend getAll
+%{
+    val = list(val)
+%}
 
     
 %include "properties.h"
@@ -381,23 +403,40 @@ typedef std::string sbol::sbol_type;
     def __getattribute__(self,name):
         if name in object.__getattribute__(self, '__swig_getmethods__').keys():
             sbol_attribute = object.__getattribute__(self, name)
-            upper_bound = sbol_attribute.getUpperBound()
-            if upper_bound != '1':
-                return sbol_attribute.getAll()
-            else:
+            if not 'Owned' in sbol_attribute.__class__.__name__:
+                if sbol_attribute.getUpperBound() != '1':
+                    return sbol_attribute.getAll()
+                else:
+                    try:
+                        return sbol_attribute.get()
+                    except LookupError:
+                        return None
+                return None
+            elif sbol_attribute.getLowerBound() == '1' and sbol_attribute.getUpperBound() == '1':
                 return sbol_attribute.get()
-        else:
-            return object.__getattribute__(self, name)
+        return object.__getattribute__(self, name)
             
     __setattribute__ = __setattr__
             
     def __setattr__(self,name, value):
         if name in object.__getattribute__(self, '__swig_setmethods__').keys():
-            object.__getattribute__(self, name).set(value)
+            sbol_attribute = object.__getattribute__(self, name)
+            if not 'Owned' in sbol_attribute.__class__.__name__:
+                if value == None:
+                    sbol_attribute.clear()
+                elif type(value) == list:
+                    if sbol_attribute.getUpperBound() == '1':
+                            raise TypeError('The ' + sbol_attribute.getTypeURI() + ' property does not accept list arguments')
+                    sbol_attribute.clear()
+                    for val in value:
+                        sbol_attribute.add(val)
+            else:
+                sbol_attribute.set(value)
         else:
             self.__class__.__setattribute__(self, name, value)
 
-            
+    def __repr__(self):
+        return self.__class__.__name__
     
 }
 }
@@ -406,10 +445,31 @@ typedef std::string sbol::sbol_type;
 
 
 TEMPLATE_MACRO_3(ComponentDefinition)
-TEMPLATE_MACRO_3(Design)
 TEMPLATE_MACRO_3(SequenceAnnotation)
 TEMPLATE_MACRO_3(SequenceConstraint)
-    
+TEMPLATE_MACRO_3(Location)
+TEMPLATE_MACRO_3(Range)
+TEMPLATE_MACRO_3(Cut)
+TEMPLATE_MACRO_3(ModuleDefinition)
+TEMPLATE_MACRO_3(Module)
+TEMPLATE_MACRO_3(Interaction)
+TEMPLATE_MACRO_3(Participation)
+TEMPLATE_MACRO_3(Component)
+TEMPLATE_MACRO_3(FunctionalComponent)
+TEMPLATE_MACRO_3(MapsTo)
+TEMPLATE_MACRO_3(Model)
+TEMPLATE_MACRO_3(Sequence)
+TEMPLATE_MACRO_3(Collection)
+TEMPLATE_MACRO_3(Attachment)
+TEMPLATE_MACRO_3(Implementation)
+TEMPLATE_MACRO_3(CombinatorialDerivation)
+TEMPLATE_MACRO_3(Activity)
+TEMPLATE_MACRO_3(Agent)
+TEMPLATE_MACRO_3(Plan)
+TEMPLATE_MACRO_3(Usage)
+TEMPLATE_MACRO_3(Design)
+TEMPLATE_MACRO_3(Build)
+
     
 // Templates used by subclasses of Location: Range, Cut, and Generic Location
 TEMPLATE_MACRO_0(Range);

@@ -93,7 +93,6 @@ namespace sbol
 		virtual rdf_type getTypeURI();
 		virtual SBOLObject& getOwner();
 //        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
-        virtual std::vector<std::string> getAll();
         virtual void set(std::string new_value);    ///< Basic setter for SBOL TextProperty and URIProperty.
         virtual void set(int new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
         virtual void set(double new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
@@ -218,94 +217,7 @@ namespace sbol
         return *sbol_owner;
     }
     
-//    /// @ingroup extension_layer
-//    /// @return All properties are initially read from an SBOL file as a raw string containing the property value.
-//    template <class LiteralType>
-//    std::string Property<LiteralType>::get()
-//    {
-//        if (this->sbol_owner)
-//        {
-//            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
-//            {
-//                // not found
-//                throw;
-//            }
-//            else
-//            {
-//                // found
-//                if (this->sbol_owner->properties[type].size() == 0)
-//                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
-//                else
-//                {
-//                    std::string value = this->sbol_owner->properties[type].front();
-//                    value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
-//                    return value;
-//                }
-//            }
-//        }	else
-//        {
-//            throw;
-//        }
-//    };
 
-    template <class LiteralType>
-    std::vector<std::string> Property<LiteralType>::getAll()
-    {
-        if (this->sbol_owner)
-        {
-            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
-            {
-                // not found
-                throw std::runtime_error("This property is not defined in the parent object");
-            }
-            else
-            {
-                // found
-                if (this->sbol_owner->properties[type].size() == 0)
-                    return std::vector < std::string >(0);
-//                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
-                else
-                {
-                    std::vector<std::string> values;
-                    std::vector<std::string>& value_store = this->sbol_owner->properties[type];
-                    for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
-                    {
-                        std::string value = *i_val;
-                        value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
-                        values.push_back(value);
-                    }
-                    return values;
-                }
-            }
-        }	else
-        {
-            throw std::runtime_error("This property is not associated with a parent object");
-        }
-    };
-    
-    
-//    template <class LiteralType>
-//    int Property<LiteralType>::get()
-//    {
-//        if (this->sbol_owner)
-//        {
-//            if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
-//            {
-//                // not found
-//                throw;
-//            }
-//            else
-//            {
-//                // found
-//                std::string value = this->sbol_owner->properties[type].front();
-//                value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
-//                return std::stoi(value);
-//            }
-//        }	else
-//        {
-//            throw;
-//        }
-//    };
     
     /// @param new_value A new string value for the Property.
     template <class LiteralType>

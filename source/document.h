@@ -39,6 +39,7 @@
 #include "attachment.h"
 #include "combinatorialderivation.h"
 #include "implementation.h"
+#include "dblt.h"
 
 #include <raptor2.h>
 #include <unordered_map>
@@ -79,6 +80,7 @@ namespace sbol {
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
             validationRules({ }),
+            designs(this, "http://sys-bio.org#Design", '0', '*', {}),
             componentDefinitions(this, SBOL_COMPONENT_DEFINITION, '0', '*', {}),
             moduleDefinitions(this, SBOL_MODULE_DEFINITION, '0', '*', {}),
             models(this, SBOL_MODEL, '0', '*', {}),
@@ -119,6 +121,7 @@ namespace sbol {
         raptor_world* getWorld();
         /// @endcond
 
+        OwnedObject<Design> designs;
         OwnedObject<ComponentDefinition> componentDefinitions;
         OwnedObject<ModuleDefinition> moduleDefinitions;
         OwnedObject<Model> models;
@@ -449,7 +452,7 @@ namespace sbol {
     /* <!--- Accessor functions for SBOL properties ---> */
 
     template < class SBOLClass >
-    std::vector<SBOLClass*> OwnedObject<SBOLClass>::getObjects()
+    std::vector<SBOLClass*> OwnedObject<SBOLClass>::getAll()
     {
         std::vector<SBOLClass*> vector_copy;
         for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
@@ -463,20 +466,23 @@ namespace sbol {
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
     {
         // This is a roundabout way of checking if SBOLClass is TopLevel in the Document
-        int CHECK_TOP_LEVEL;
-        Document* parent_doc = dynamic_cast<Document*>(this->sbol_owner);
-        if (parent_doc)
-            CHECK_TOP_LEVEL = 1;
-        else
-        {
-            CHECK_TOP_LEVEL = 0;
-            parent_doc = this->sbol_owner->doc;
-        }
+//        int CHECK_TOP_LEVEL;
+//        Document* parent_doc = dynamic_cast<Document*>(this->sbol_owner);
+//        if (parent_doc)
+//            CHECK_TOP_LEVEL = 1;
+//        else
+//        {
+//            CHECK_TOP_LEVEL = 0;
+//            parent_doc = this->sbol_owner->doc;
+//        }
+        SBOLClass* child_obj = new SBOLClass();
+        TopLevel* CHECK_TOP_LEVEL = dynamic_cast<TopLevel*>(child_obj);
         SBOLObject* parent_obj = this->sbol_owner;
+        Document* parent_doc = this->sbol_owner->doc;
 
         if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
-            SBOLClass* child_obj = new SBOLClass();
+            //SBOLClass* child_obj = new SBOLClass();
 
             // Form compliant URI for child object
             std::string persistent_id;
@@ -528,7 +534,7 @@ namespace sbol {
             // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects, otherwise the returned object will not be registered
             if (parent_doc)
                 child_obj->doc = parent_doc;
-            if (CHECK_TOP_LEVEL)
+            if (CHECK_TOP_LEVEL && parent_doc)
                 parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
             
             this->validate(child_obj);
@@ -540,7 +546,7 @@ namespace sbol {
                 throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
             
             // Construct a new child object
-            SBOLClass* child_obj = new SBOLClass(uri);
+            //SBOLClass* child_obj = new SBOLClass(uri);
             Identified* parent_obj = (Identified*)this->sbol_owner;
             child_obj->parent = parent_obj;  // Set back-pointer to parent object
             

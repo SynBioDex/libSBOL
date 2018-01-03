@@ -54,13 +54,14 @@ namespace sbol
 
         template < class LiteralType >
         friend class Property;
-
+    
     protected:
         std::unordered_map<std::string, std::string> namespaces;
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);  // Convert an SBOL object into RDF triples
         std::string nest(std::string& rdfxml_buffer);  // Pretty-writer that converts flat RDF/XML into nested RDF/XML (ie, SBOL)
         std::string makeQName(std::string uri);
-
+        std::vector<rdf_type> hidden_properties;
+        
         /// Register an extension class and its namespace, so custom data can be embedded into and read from SBOL files
         /// @tparam ExtensionClass The new class
         /// @param ns The extension namespace, eg, http://myhome.org/my_extension#. It's important that the namespace ends in a forward-slash or hash
@@ -344,7 +345,7 @@ namespace sbol
         
         /// Get all the objects contained in the property
         /// @return A vector of pointers to the objects
-        std::vector<SBOLClass*> getObjects();
+        std::vector<SBOLClass*> getAll();
 
         /// Remove an object from the list of objects.
         /// @param uri This can be a displayId of the object or a full URI may be provided.
@@ -508,6 +509,7 @@ template <class SBOLClass>
 template <class SBOLSubClass>
 void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
 {
+    std::cout << "Calling subclass method" << std::endl;
     if (!dynamic_cast<SBOLClass*>(&sbol_obj))
         throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Object of type " + parseClassName(sbol_obj.type) + " is invalid for " + parsePropertyName(this->type) + " property");
     // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass

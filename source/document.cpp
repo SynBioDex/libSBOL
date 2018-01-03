@@ -39,6 +39,7 @@
 #include <regex>
 #include <stdio.h>
 #include <ctype.h>
+#include <algorithm>
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
@@ -90,7 +91,9 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(PROVO_USAGE, (SBOLObject&(*)()) &create<Usage> ),
     make_pair(SBOL_ATTACHMENTS, (SBOLObject&(*)()) &create<Attachment>),
     make_pair(SBOL_COMBINATORIAL_DERIVATION, (SBOLObject&(*)()) &create<CombinatorialDerivation> ),
-    make_pair(SBOL_IMPLEMENTATION, (SBOLObject&(*)()) &create<Implementation> )
+    make_pair(SBOL_IMPLEMENTATION, (SBOLObject&(*)()) &create<Implementation> ),
+    make_pair("http://sys-bio.org#Design", (SBOLObject&(*)()) &create<Design> )
+
 };
 
 
@@ -438,6 +441,10 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 		// Recurse through each object in the object store that belongs to this property
 		std::string property_name = i->first;
 		vector<SBOLObject*> object_store = i->second;
+        
+        if (std::find(hidden_properties.begin(), hidden_properties.end(), property_name) != hidden_properties.end())
+            continue;
+
 		if (object_store.size() > 0)
 		{
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
@@ -981,12 +988,13 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
         
 		for (auto it = properties.begin(); it != properties.end(); ++it)
 		{
-
+            std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
+            if (std::find(hidden_properties.begin(), hidden_properties.end(), new_predicate) != hidden_properties.end())
+                continue;
+            
 			// This RDF triple makes the following statement:
 			// "This SBOL object has a property called X and its value is Y"
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
-
-			std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
             
 			// Serialize each of the values in a List property as an RDF triple
 			vector<std::string> property_values = it->second;
@@ -1028,6 +1036,9 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			std::string property_name = i->first;
 			vector<SBOLObject*> object_store = i->second;
 
+            if (std::find(hidden_properties.begin(), hidden_properties.end(), property_name) != hidden_properties.end())
+                continue;
+            
 			if (object_store.size() > 0)
 			{
 				// TODO:  this triple appears to be unneccessary and creates an extra 

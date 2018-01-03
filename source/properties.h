@@ -68,6 +68,8 @@ namespace sbol
         
         virtual std::string get();                  ///< Get first URI.
 
+        virtual std::vector<std::string> getAll();
+
         #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 
         std::string __getitem__(const int nIndex)
@@ -146,6 +148,8 @@ namespace sbol
         TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules);
         
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+
+        virtual std::vector<std::string> getAll();
 
         #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::string __getitem__(const int nIndex)
@@ -231,6 +235,8 @@ namespace sbol
         
         virtual int get();                  ///< Get the integer value
 
+        virtual std::vector<int> getAll();
+
         #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         int __getitem__(const int nIndex)
         {
@@ -310,6 +316,8 @@ namespace sbol
         };
         
         virtual double get();                  ///< Get the float value.
+
+        virtual std::vector<double> getAll();
 
         
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
@@ -428,7 +436,7 @@ namespace sbol
         /// Set this property with the current time
         std::string stampTime();
     };
-    
+
 }
 
 #endif
