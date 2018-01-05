@@ -92,8 +92,8 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_ATTACHMENTS, (SBOLObject&(*)()) &create<Attachment>),
     make_pair(SBOL_COMBINATORIAL_DERIVATION, (SBOLObject&(*)()) &create<CombinatorialDerivation> ),
     make_pair(SBOL_IMPLEMENTATION, (SBOLObject&(*)()) &create<Implementation> ),
-    make_pair("http://sys-bio.org#Design", (SBOLObject&(*)()) &create<Design> )
-
+    make_pair(SBOL_DESIGN, (SBOLObject&(*)()) &create<Design> ),
+    make_pair(SYSBIO_ANALYSIS, (SBOLObject&(*)()) &create<Analysis> )
 };
 
 

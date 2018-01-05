@@ -412,8 +412,11 @@ typedef std::string sbol::sbol_type;
                     except LookupError:
                         return None
                 return None
-            elif sbol_attribute.getLowerBound() == '1' and sbol_attribute.getUpperBound() == '1':
-                return sbol_attribute.get()
+            elif sbol_attribute.getUpperBound() == '1':
+                try:
+                    return sbol_attribute.get()
+                except:
+                    return None
         return object.__getattribute__(self, name)
             
     __setattribute__ = __setattr__
@@ -426,11 +429,11 @@ typedef std::string sbol::sbol_type;
                     sbol_attribute.clear()
                 elif type(value) == list:
                     if sbol_attribute.getUpperBound() == '1':
-                            raise TypeError('The ' + sbol_attribute.getTypeURI() + ' property does not accept list arguments')
+                        raise TypeError('The ' + sbol_attribute.getTypeURI() + ' property does not accept list arguments')
                     sbol_attribute.clear()
                     for val in value:
                         sbol_attribute.add(val)
-            else:
+            elif sbol_attribute.getUpperBound() == '1':
                 sbol_attribute.set(value)
         else:
             self.__class__.__setattribute__(self, name, value)
@@ -469,6 +472,8 @@ TEMPLATE_MACRO_3(Plan)
 TEMPLATE_MACRO_3(Usage)
 TEMPLATE_MACRO_3(Design)
 TEMPLATE_MACRO_3(Build)
+TEMPLATE_MACRO_3(Test)
+TEMPLATE_MACRO_3(Analysis)
 
     
 // Templates used by subclasses of Location: Range, Cut, and Generic Location

@@ -98,6 +98,8 @@ namespace sbol {
                 namespaces["sbol"] = SBOL_URI "#";
                 namespaces["dcterms"] = PURL_URI;
                 namespaces["prov"] = PROV_URI "#";
+                namespaces["sys-bio"] = SYSBIO_URI "#";
+                doc = this;
 			};
         
         Document(std::string filename) :
@@ -330,19 +332,19 @@ namespace sbol {
 		// Check if the uri is already assigned and delete the object, otherwise it will cause a memory leak!!!
 		//if (SBOLObjects[whatever]!=SBOLObjects.end()) {delete SBOLObjects[whatever]'}
         if (this->SBOLObjects.find(sbol_obj.identity.get()) != this->SBOLObjects.end())
-            throw SBOLError(DUPLICATE_URI_ERROR, "Cannot create " + sbol_obj.identity.get() + ". An object with this identity is already contained in the Document");
+            throw SBOLError(DUPLICATE_URI_ERROR, "Cannot add " + sbol_obj.identity.get() + " to Document. An object with this identity is already contained in the Document");
         else
         {
-            // If TopLevel add the Document
-            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
-            if (check_top_level)
+            // If TopLevel add to Document
+//            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
+//            if (check_top_level && !this->find(sbol_obj.identity.get()))
+            if (owned_objects.find(sbol_obj.type) != owned_objects.end())
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
                 sbol_obj.parent = this;  // Set back-pointer to parent object
                 this->owned_objects[sbol_obj.getTypeURI()].push_back((SBOLClass*)&sbol_obj);  // Add the object to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc.
             }
             sbol_obj.doc = this;
-            
             // Recurse into child objects and set their back-pointer to this Document
             for (auto i_store = sbol_obj.owned_objects.begin(); i_store != sbol_obj.owned_objects.end(); ++i_store)
             {
@@ -475,10 +477,14 @@ namespace sbol {
 //            CHECK_TOP_LEVEL = 0;
 //            parent_doc = this->sbol_owner->doc;
 //        }
-        SBOLClass* child_obj = new SBOLClass();
-        TopLevel* CHECK_TOP_LEVEL = dynamic_cast<TopLevel*>(child_obj);
         SBOLObject* parent_obj = this->sbol_owner;
-        Document* parent_doc = this->sbol_owner->doc;
+        SBOLClass* child_obj = new SBOLClass();
+        Document* parent_doc;
+        TopLevel* CHECK_TOP_LEVEL = dynamic_cast<TopLevel*>(child_obj);
+//        if (CHECK_TOP_LEVEL)
+//            parent_doc = (Document*)parent_obj;
+//        else
+        parent_doc = this->sbol_owner->doc;
 
         if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
@@ -1129,11 +1135,10 @@ namespace sbol {
                     throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
                 SBOLObject* target = this->sbol_owner->owned_objects[this->type][ index ];
                 this->remove(target->identity.get());
-                //this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
             }
         }
-        throw std::runtime_error("This property is not defined in the parent object");
-
+        else
+            throw std::runtime_error("This property is not defined in the parent object");
     };
 
     template <class SBOLClass>
@@ -1161,8 +1166,10 @@ namespace sbol {
                 }
                 
             }
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Object " + uri + " not found. Removal failed.");
         }
-        throw std::runtime_error("This property is not defined in the parent object");
+        else
+            throw std::runtime_error("This property is not defined in the parent object");
 
     };
     

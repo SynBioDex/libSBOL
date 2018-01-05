@@ -32,9 +32,8 @@ using namespace sbol;
 namespace sbol
 {
 //template<>
-//void Document::add<Design>(Design& sbol_obj)
+//void Document::add<Design>(Design& design)
 //{
-//    
 //};
 
 //template < class SBOLClass >
@@ -102,33 +101,90 @@ void TopLevel::initialize(std::string uri)
     this->version.set(VERSION_STRING);
 }
 
-
 template<>
 Build& TopLevel::generate<Build>(std::string uri)
 {
     if (doc == NULL)
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Generate method requires the progenitor object belong to a Document.");
-
-    Design* CHECK_TYPE = dynamic_cast<Design*>(this);
-    if (CHECK_TYPE == NULL)
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Build may only be generated from a Design.");
-    Design& design = *CHECK_TYPE;
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Generate method requires that the progenitor object belong to a Document.");
     
-    if ((design.function.size() == 0) || (design.structure.size() == 0))
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "This Design is not complete. Either its structure or function is unspecified.");
+    if (this->type != SBOL_IMPLEMENTATION && this->type != "http://sys-bio.org#Design")
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Build can only be generated from a Design or Build.");
+    
+    //    Design& design = *(Design *)this;
+    //    if ((design.function.size() == 0) || (design.structure.size() == 0))
+    //        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "This Design is not complete. Either its structure or function is unspecified.");
     
     Build& build = *new Build(uri);
-    build.initialize(uri);
     
-    Activity& a = doc->activities.create(build.displayId.get() + "_generation");
+    std::string id;
+    if (Config::getOption("sbol_compliant_uris") == "True")
+        id = build.displayId.get();
+    else
+        id = build.identity.get();
+    Activity& a = doc->activities.create(id + "_generation");
     wasGeneratedBy.set(a);
-    wasDerivedFrom.set(design.function.get().identity.get());  // SBOL provenance linkages are made through the child ModuleDefinition
-
-    Usage& u = a.usages.create(design.displayId.get() + "_usage");
-    u.entity.set(design.function.get());
+    wasDerivedFrom.set(this->identity.get());  // SBOL provenance linkages are made through the child ModuleDefinition
+    
+    if (Config::getOption("sbol_compliant_uris") == "True")
+        id = this->displayId.get();
+    else
+        id = this->identity.get();
+    Usage& u = a.usages.create(id + "_usage");
+    u.entity.set(this->identity.get());
+    if (this->type == "http://sys-bio.org#Design")
+        u.roles.set(SBOL_URI "#design");
+    else
+        u.roles.set(SBOL_URI "#build");
+    
+    if (doc)
+        doc->add<Build>(build);
     
     return build;
+}
+    
+template<>
+Build& TopLevel::generate<Build>(std::string uri, Plan& plan, std::vector < SBOLObject* > usages)
+{
+    for (auto & obj : usages)
+        if (obj->type != SBOL_IMPLEMENTATION)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Build may only use other Builds for generation");
 
+    Build& build = TopLevel::generate<Build>(uri);
+    Activity& a = doc->get<Activity>(build.wasGeneratedBy.get());
+    
+    std::string id;
+    if (Config::getOption("sbol_compliant_uris") == "True")
+        id = build.displayId.get();
+    else
+        id = build.identity.get();
+    
+    Association& asc = a.associations.create(id + "_generation_association");
+    asc.roles.set(SBOL_URI "#build");
+    asc.plan.set(plan);
+    
+    if (Config::getOption("sbol_compliant_uris") == "True")
+        id = this->displayId.get();
+    else
+        id = this->identity.get();
+    
+    for (auto & obj : usages)
+    {
+        Usage& u = a.usages.create(id + "_usage");
+        u.entity.set(this->identity.get());
+        u.roles.set(SBOL_URI "#build");
+    }
+    return build;
 };
 
+    template<>
+    Design& OwnedObject<Design>::get(std::string uri)
+    {
+        
+    }
+
+    template<>
+    Design& Document::get<Design>(std::string uri)
+    {
+        
+    }
 };

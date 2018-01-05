@@ -35,6 +35,7 @@
 #define PURL_URI "http://purl.org/dc/terms/"
 #define PROV_URI "http://www.w3.org/ns/prov"
 #define PROVO "http://www.w3.org/ns/prov"
+#define SYSBIO_URI "http://sys-bio.org"
 //#define PROVO "https://www.w3.org/TR/prov-o/"
 
 // rdf nodes used in SBOL
@@ -147,6 +148,10 @@
 #define SBOL_REFINEMENT_MERGE SBOL_URI "#merge"                      ///< Option for MapsTo::refinement property
 #define SBOL_ROLE_INTEGRATION_MERGE SBOL_URI "#mergeRoles"           ///< Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property
 #define SBOL_ROLE_INTEGRATION_OVERRIDE SBOL_URI "#overrideRoles"     ///< Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property
+#define SBOL_DESIGN SBOL_URI "#design"  ///< Option for Usage::roles or Association::roles
+#define SBOL_BUILD SBOL_URI "#build"    ///< Option for Usage::roles or Association::roles
+#define SBOL_TEST SBOL_URI "#test"  ///< Option for Usage::roles or Association::roles
+#define SBOL_LEARN SBOL_URI "#learn"    ///< Option for Usage::roles or Association::roles
 
 /* PROVO ontology */
 #define PROVO_ACTIVITY PROVO "#Activity"
@@ -196,9 +201,10 @@
 #define SO_CDS SO "0000316"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_RBS SO "0000139"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_TERMINATOR SO "0000141"         ///< An SO term and possible value for ComponentDefinition::role property
-#define SO_SGRNA SO "0001998"
-#define SO_LINEAR SO "0000987"
-#define SO_CIRCULAR SO "0000988"
+#define SO_SGRNA SO "0001998"              ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_LINEAR SO "0000987"              ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_CIRCULAR SO "0000988"            ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_PLASMID SO "0000155"             ///< An SO term and possible value for ComponentDefinition::role property
 
 /* BioPAX is used to indicate macromolecular and molecular types */
 /// DNA
@@ -221,5 +227,8 @@
 #define SBO_CONTINUOUS SBO "0000062"  ///< SBO term and option for Model::framework
 #define SBO_DISCRETE SBO "0000063"    ///< SBO term and option for Model::framework
 
+/* URIs for SBOL extension objects */
+#define SYSBIO_DESIGN SYSBIO_URI "#Design"
+#define SYSBIO_ANALYSIS SYSBIO_URI "#Analysis"
 
 #endif

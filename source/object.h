@@ -509,7 +509,6 @@ template <class SBOLClass>
 template <class SBOLSubClass>
 void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
 {
-    std::cout << "Calling subclass method" << std::endl;
     if (!dynamic_cast<SBOLClass*>(&sbol_obj))
         throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Object of type " + parseClassName(sbol_obj.type) + " is invalid for " + parsePropertyName(this->type) + " property");
     // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
@@ -531,6 +530,8 @@ bool OwnedObject< SBOLClass >::find(std::string uri)
 template <class SBOLClass>
 SBOLClass& OwnedObject<SBOLClass>::operator[] (const int nIndex)
 {
+    if (nIndex >= this->size())
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "Index out of range");
     std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
     return (SBOLClass&)*object_store->at(nIndex);
 };

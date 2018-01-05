@@ -32,6 +32,8 @@
 
 namespace sbol 
 {
+    class Plan;
+
     /// All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBOL files. An abstract class.
 	class SBOL_DECLSPEC TopLevel : public Identified
 	{
@@ -77,6 +79,11 @@ namespace sbol
         /// @tparam The type of SBOL object to generate
         template<class SBOLClass>
         SBOLClass& generate(std::string uri);
+
+        /// @param uri A URI for the new object, or a displayId if operating in SBOLCompliant mode
+        /// @tparam The type of SBOL object to generate
+        template<class SBOLClass>
+        SBOLClass& generate(std::string uri, Plan& plan, std::vector<SBOLObject*> usages);
         
         void initialize(std::string uri);
 

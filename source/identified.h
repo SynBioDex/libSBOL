@@ -53,16 +53,19 @@ namespace sbol
         {
             if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
-                if (Config::getOption("sbol_typed_uris").compare("True") == 0)
-                {
-                    identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
-                    persistentIdentity.set(getHomespace() + "/" + uri);
-                }
-                else
-                {
-                    identity.set(getHomespace() + "/" + uri + "/" + version);
-                    persistentIdentity.set(getHomespace() + "/" + uri);
-                }
+                identity.set(getHomespace() + "/" + uri + "/" + version);
+                persistentIdentity.set(getHomespace() + "/" + uri);
+
+//                if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+//                {
+//                    identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
+//                    persistentIdentity.set(getHomespace() + "/" + uri);
+//                }
+//                else
+//                {
+//                    identity.set(getHomespace() + "/" + uri + "/" + version);
+//                    persistentIdentity.set(getHomespace() + "/" + uri);
+//                }
             }
             else if (hasHomespace())
             {

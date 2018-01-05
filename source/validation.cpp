@@ -155,14 +155,24 @@ void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
 // Validate Design.structure and Design.function are compatible
 void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
 {
-//    ComponentDefinition& structure = *(ComponentDefinition*)arg;
-    ComponentDefinition& structure = *static_cast<ComponentDefinition*>(arg);
 
+    ComponentDefinition& structure = *static_cast<ComponentDefinition*>(arg);
+    Design& design = (Design&)(*structure.parent);
     std::cout << "Validating " << structure.identity.get() << std::endl;
 
-    Design& design = (Design&)(*structure.parent);
+    // Add the structure ComponentDefinition to the Document
+    if (design.doc && !structure.doc)
+        structure.doc = design.doc;
+    else if (design.doc != structure.doc)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot use " + structure.identity.get() + " for this Design. The objects must belong to the same Document");
+        
+    
+    // Update Reference property to match the OwnedObject property (only the Reference will be serialized)
+    design.properties["http://sys-bio.org#_structure"][0] = "<" + structure.identity.get() + ">";
+    
     if (design.function.size() > 0)
     {
+        // Update FunctionalComponent which correlates the structure and function properties
         std::cout << "Function is defined" << std::endl;
         ModuleDefinition& fx = design.function.get();
         bool STRUCTURE_FUNCTION_CORRELATED = false;
@@ -180,17 +190,21 @@ void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
     }
     else
         std::cout << "Function is not defined" << std::endl;
-
 };
 
 void sbol::libsbol_rule_4(void *sbol_obj, void *arg)
 {
-//    ModuleDefinition& fx = *(ModuleDefinition*)arg;
     ModuleDefinition& fx = *static_cast<ModuleDefinition*>(arg);
-
+    Design& design = (Design&)(*fx.parent);
     std::cout << "Validating " << fx.identity.get() << std::endl;
 
-    Design& design = (Design&)(*fx.parent);
+    // Add the structure ComponentDefinition to the Document
+    if (design.doc && !fx.doc)
+        fx.doc = design.doc;
+    else if (design.doc != fx.doc)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot use " + fx.identity.get() + " for this Design. The objects must belong to the same Document");
+    
+    design.properties["http://sys-bio.org#_function"][0] = "<" + fx.identity.get() + ">";
     if (design.structure.size() > 0)
     {
         std::cout << "Function is defined" << std::endl;
@@ -210,5 +224,78 @@ void sbol::libsbol_rule_4(void *sbol_obj, void *arg)
     }
     else
         std::cout << "Structure is not defined" << std::endl;
+};
 
+// Validate Build.structure and Build.behavior are compatible
+void sbol::libsbol_rule_5(void *sbol_obj, void *arg)
+{
+
+    ComponentDefinition& structure = *static_cast<ComponentDefinition*>(arg);
+    Build& build = (Build&)(*structure.parent);
+    std::cout << "Validating " << structure.identity.get() << std::endl;
+
+    // Add the structure ComponentDefinition to the Document
+    if (build.doc && !structure.doc)
+        structure.doc = build.doc;
+    else if (build.doc != structure.doc)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot use " + structure.identity.get() + " for this Design. The objects must belong to the same Document");
+        
+    
+    // Update Reference property to match the OwnedObject property (only the Reference will be serialized)
+    build.properties["http://sys-bio.org#_structure"][0] = "<" + structure.identity.get() + ">";
+    
+    if (build.behavior.size() > 0)
+    {
+        // Update FunctionalComponent which correlates the structure and function properties
+        std::cout << "Behavior is defined" << std::endl;
+        ModuleDefinition& fx = build.behavior.get();
+        bool STRUCTURE_FUNCTION_CORRELATED = false;
+        for (auto & fc : fx.functionalComponents)
+        {
+            if (fc.definition.get().compare(structure.identity.get()))
+                STRUCTURE_FUNCTION_CORRELATED = true;
+                break;
+        }
+        if (!STRUCTURE_FUNCTION_CORRELATED)
+        {
+            FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+            correlation.definition.set(structure);
+        }
+    }
+    else
+        std::cout << "Function is not defined" << std::endl;
+};
+
+void sbol::libsbol_rule_6(void *sbol_obj, void *arg)
+{
+    ModuleDefinition& fx = *static_cast<ModuleDefinition*>(arg);
+    Build& build = (Build&)(*fx.parent);
+    std::cout << "Validating " << fx.identity.get() << std::endl;
+
+    // Add the structure ComponentDefinition to the Document
+    if (build.doc && !fx.doc)
+        fx.doc = build.doc;
+    else if (build.doc != fx.doc)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot use " + fx.identity.get() + " for this Design. The objects must belong to the same Document");
+    
+    build.properties[SBOL_URI "#built"][0] = "<" + fx.identity.get() + ">";
+    if (build.structure.size() > 0)
+    {
+        std::cout << "Function is defined" << std::endl;
+        ComponentDefinition& structure = build.structure.get();
+        bool STRUCTURE_FUNCTION_CORRELATED = false;
+        for (auto & fc : fx.functionalComponents)
+        {
+            if (fc.definition.get().compare(structure.identity.get()))
+                STRUCTURE_FUNCTION_CORRELATED = true;
+            break;
+        }
+        if (!STRUCTURE_FUNCTION_CORRELATED)
+        {
+            FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+            correlation.definition.set(structure);
+        }
+    }
+    else
+        std::cout << "Structure is not defined" << std::endl;
 };
