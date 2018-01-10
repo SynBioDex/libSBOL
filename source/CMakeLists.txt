@@ -47,7 +47,7 @@ FILE(GLOB SBOL_HEADER_FILES
   provo.h
   partshop.h
     combinatorialderivation.h
-    dblt.h
+    dbtl.h
     attachment.h
     implementation.h
 	sbol.h)
@@ -62,7 +62,7 @@ FILE(GLOB SBOL_SOURCE_FILES
 	document.cpp
   assembly.cpp
   partshop.cpp
-    dblt.cpp)
+    dbtl.cpp)
 
 
 FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )

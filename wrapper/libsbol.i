@@ -30,7 +30,7 @@
     #include "provo.h"
     #include "partshop.h"
     #include "combinatorialderivation.h"
-    #include "dblt.h"
+    #include "dbtl.h"
     #include "attachment.h"
     #include "implementation.h"
     #include "sbol.h"
@@ -289,7 +289,7 @@
 %include "combinatorialderivation.h"
 %include "attachment.h"
 %include "implementation.h"
-%include "dblt.h"
+%include "dbtl.h"
 
 // Converts json-formatted text into Python data structures, eg, lists, dictionaries
 %pythonappend sbol::PartShop::search

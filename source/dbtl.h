@@ -1,5 +1,5 @@
 /**
- * @file    dblt.h
+ * @file    dbtl.h
  * @brief   Contains the interface for Design-Build-Test classes
  * @author  Bryan Bartley
  * @email   bartleyba@sbolstandard.org
@@ -23,8 +23,8 @@
  * limitations under the License.
  * ------------------------------------------------------------------------>*/
 
-#ifndef DBLT_INCLUDED
-#define DBLT_INCLUDED
+#ifndef DBTL_INCLUDED
+#define DBTL_INCLUDED
 
 #include "componentdefinition.h"
 #include "moduledefinition.h"

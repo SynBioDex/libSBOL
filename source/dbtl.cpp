@@ -1,5 +1,5 @@
 /**
- * @file    dblt.cpp
+ * @file    dbtl.cpp
  * @brief   Methods for Design-Build-Test classes
  * @author  Bryan Bartley
  * @email   bartleyba@sbolstandard.org
@@ -23,7 +23,7 @@
  * limitations under the License.
  * ------------------------------------------------------------------------>*/
 
-#include "dblt.h"
+#include "dbtl.h"
 #include "document.h"
 
 using namespace std;

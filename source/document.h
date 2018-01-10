@@ -39,7 +39,7 @@
 #include "attachment.h"
 #include "combinatorialderivation.h"
 #include "implementation.h"
-#include "dblt.h"
+#include "dbtl.h"
 
 #include <raptor2.h>
 #include <unordered_map>
@@ -377,10 +377,10 @@ namespace sbol {
     };
     
     template<>
-    Design& Document::get<Design>(std::string uri);
+    Design& Document::get<Design>(std::string uri);  // Definition is in dbtl.cpp
     
     template<>
-    Build& Document::get<Build>(std::string uri);
+    Build& Document::get<Build>(std::string uri);  // Definition is in dbtl.cpp
     
 	template <class SBOLClass > SBOLClass& Document::get(std::string uri)
 	{
