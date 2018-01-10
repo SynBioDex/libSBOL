@@ -87,6 +87,12 @@ std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
 std::map<std::string, PyObject*> sbol::Config::PYTHON_DATA_MODEL_REGISTER {};
 #endif
 
+void sbol::Config::setOption(std::string option, char const* value)
+{
+    Config::setOption(option, std::string(value));
+}
+
+
 void sbol::Config::setOption(std::string option, std::string value)
 {
     if (options.find(option) != options.end())
@@ -96,7 +102,10 @@ void sbol::Config::setOption(std::string option, std::string value)
         {
             // Set the option if a valid argument is provided
             if (std::find(valid_options[option].begin(), valid_options[option].end(), value) != valid_options[option].end())
+            {
                 options[option] = value;
+
+            }
             else
             {
                 // Format error message
