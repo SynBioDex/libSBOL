@@ -49,10 +49,33 @@ using namespace sbol;
 using namespace std;
 
 
-// Remove this, no longer needed
 void Document::parse_extension_objects()
 {
+    // Look in Implementation store for objects with additional annotations and move them to Build store
+    vector<SBOLObject*>& implementation_store = owned_objects[SBOL_IMPLEMENTATION];
+    vector<SBOLObject*>& build_store = owned_objects[SYSBIO_BUILD];
+    implementation_store.erase( std::remove_if(implementation_store.begin(), implementation_store.end(), [&](SBOLObject* i)
+        {
+            if (i->properties.find(SYSBIO_URI "#type") != i->properties.end() && i->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_BUILD ">")
+            {
+                build_store.push_back(i);
+                return true;
+            }
+            return false;
+        }), implementation_store.end());
 
+    // Look in Collection store for objects with additional annotations and move them to Test store
+    vector<SBOLObject*>& collection_store = owned_objects[SBOL_COLLECTION];
+    vector<SBOLObject*>& test_store = owned_objects[SYSBIO_TEST];
+    collection_store.erase( std::remove_if(collection_store.begin(), collection_store.end(), [&](SBOLObject* c)
+        {
+            if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
+            {
+                test_store.push_back(c);
+                return true;
+            }
+            return false;
+        }), collection_store.end());
 };
 
 Document::~Document()
@@ -92,7 +115,7 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_ATTACHMENTS, (SBOLObject&(*)()) &create<Attachment>),
     make_pair(SBOL_COMBINATORIAL_DERIVATION, (SBOLObject&(*)()) &create<CombinatorialDerivation> ),
     make_pair(SBOL_IMPLEMENTATION, (SBOLObject&(*)()) &create<Implementation> ),
-    make_pair(SBOL_DESIGN, (SBOLObject&(*)()) &create<Design> ),
+    make_pair(SYSBIO_DESIGN, (SBOLObject&(*)()) &create<Design> ),
     make_pair(SYSBIO_ANALYSIS, (SBOLObject&(*)()) &create<Analysis> )
 };
 
@@ -905,11 +928,8 @@ void Document::append(std::string filename)
     // On the final pass, nested annotations not in the SBOL namespace are identified
     parse_annotation_objects();
 
-    // A dummy parser which can be extended by SWIG to attach Python extension code
+    // Process libSBOL objects not part of the SBOL core standard
     parse_extension_objects();
-//@TODO fix validation on read
-//    this->validate();
-
     fclose(fh);
 }
 
@@ -946,11 +966,8 @@ void Document::readString(std::string& sbol)
     // On the final pass, nested annotations not in the SBOL namespace are identified
     parse_annotation_objects();
     
-    // A dummy parser which can be extended by SWIG to attach Python extension code
+    // Process libSBOL objects not part of the SBOL core standard
     parse_extension_objects();
-    //@TODO fix validation on read
-    //    this->validate();
-    
 }
 
 
@@ -1786,3 +1803,26 @@ Document& Document::copy(std::string ns, Document* doc)
     }
     return *doc;
 };
+
+void TopLevel::initialize(std::string uri)
+{
+    if  (Config::getOption("sbol_compliant_uris") == "True")
+    {
+        displayId.set(uri);
+        if (Config::getOption("sbol_typed_uris") == "True")
+        {
+            identity.set(getHomespace() + "/" + getClassName(this->type) + "/" + displayId.get() + "/" + version.get());
+            persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
+        }
+        else
+        {
+            identity.set(getHomespace() + "/" + displayId.get() + "/" + version.get());
+            persistentIdentity.set(getHomespace() + "/" + displayId.get());
+        }
+    }
+    else
+    {
+        identity.set(uri);
+        version.set(VERSION_STRING);
+    }
+}

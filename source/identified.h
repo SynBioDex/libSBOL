@@ -44,7 +44,7 @@ namespace sbol
         Identified(rdf_type type_uri, std::string uri, std::string version = "1.0.0") :
         SBOLObject(type_uri, uri),
         persistentIdentity(this, SBOL_PERSISTENT_IDENTITY, '0', '1', {}, uri),
-        displayId(this, SBOL_DISPLAY_ID, '0', '1', { sbol_rule_10204 }, uri),
+        displayId(this, SBOL_DISPLAY_ID, '0', '1', { sbol_rule_10204 }),
         version(this, SBOL_VERSION, '0', '1', version),
         wasDerivedFrom(this, SBOL_WAS_DERIVED_FROM, '0', '*', {}),
         wasGeneratedBy(this, PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, '0', '*', {}),
@@ -53,6 +53,7 @@ namespace sbol
         {
             if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
+                displayId.set(uri);
                 identity.set(getHomespace() + "/" + uri + "/" + version);
                 persistentIdentity.set(getHomespace() + "/" + uri);
 

@@ -80,7 +80,10 @@ namespace sbol {
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
             validationRules({ }),
-            designs(this, "http://sys-bio.org#Design", '0', '*', {}),
+            designs(this, SYSBIO_DESIGN, '0', '*', {}),
+            builds(this, SYSBIO_BUILD, '0', '*', {}),
+            tests(this, SYSBIO_TEST, '0', '*', {}),
+            analyses(this, SYSBIO_ANALYSIS, '0', '*', {}),
             componentDefinitions(this, SBOL_COMPONENT_DEFINITION, '0', '*', {}),
             moduleDefinitions(this, SBOL_MODULE_DEFINITION, '0', '*', {}),
             models(this, SBOL_MODEL, '0', '*', {}),
@@ -124,6 +127,9 @@ namespace sbol {
         /// @endcond
 
         OwnedObject<Design> designs;
+        OwnedObject<Build> builds;
+        OwnedObject<Test> tests;
+        OwnedObject<Analysis> analyses;
         OwnedObject<ComponentDefinition> componentDefinitions;
         OwnedObject<ModuleDefinition> moduleDefinitions;
         OwnedObject<Model> models;
@@ -272,7 +278,7 @@ namespace sbol {
 
         /// Delete all objects in this Document and destroy the Document
         void close(std::string uri = "");
-
+        
         void addComponentDefinition(ComponentDefinition& sbol_obj)
         {
             add<ComponentDefinition>(sbol_obj);
@@ -327,6 +333,12 @@ namespace sbol {
         
 	};
 
+    template<>
+    void Document::add<Build>(Build& sbol_obj);
+    
+    template<>
+    void Document::add<Test>(Test& sbol_obj);
+    
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
 	{
 		// Check if the uri is already assigned and delete the object, otherwise it will cause a memory leak!!!
@@ -336,8 +348,6 @@ namespace sbol {
         else
         {
             // If TopLevel add to Document
-//            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
-//            if (check_top_level && !this->find(sbol_obj.identity.get()))
             if (owned_objects.find(sbol_obj.type) != owned_objects.end())
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
@@ -365,6 +375,12 @@ namespace sbol {
             add < SBOLClass > (obj);
         }
     };
+    
+    template<>
+    Design& Document::get<Design>(std::string uri);
+    
+    template<>
+    Build& Document::get<Build>(std::string uri);
     
 	template <class SBOLClass > SBOLClass& Document::get(std::string uri)
 	{
@@ -403,7 +419,6 @@ namespace sbol {
         }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
 	};
-    
     
     // This is a wrapper function for constructors.  This allows us to construct an SBOL object using a function pointer (direct pointers to constructors are not supported by C++)
     template < class SBOLClass >
@@ -463,6 +478,12 @@ namespace sbol {
         }
         return vector_copy;
     };
+    
+    template<>
+    Build& OwnedObject<Build>::create(std::string uri);  // Definition of specialized template in dbtl.cpp
+
+    template<>
+    Test& OwnedObject<Test>::create(std::string uri);  // Definition of specialized template in dbtl.cpp
     
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
@@ -737,6 +758,92 @@ namespace sbol {
         }
     };
     
+//    template <class SBOLClass>
+//    SBOLClass& OwnedObject<SBOLClass>::operator[] (std::string uri)
+//    {
+//        // Search this property's object store for the uri
+//        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+//        for (auto i_obj = object_store->begin(); i_obj != object_store->end(); ++i_obj)
+//        {
+//            SBOLObject* obj = *i_obj;
+//            if (uri == obj->identity.get())
+//            {
+//                return (SBOLClass&)*obj;
+//            }
+//        }
+//        // In SBOLCompliant mode, the user may retrieve an object by displayId as well
+//        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+//        {
+//            // Form compliant URI for child object
+//            SBOLObject* parent_obj = this->sbol_owner;
+//            std::string persistentIdentity;
+//            std::string version;
+//            
+//            SBOLClass dummy_obj = SBOLClass();  // This is unfortunately a necessary hack in order to infer what the compliant URI should be
+//            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&dummy_obj);
+//            if (!check_top_level)
+//            {
+//                // Check to see if the parent object has a persistent identity
+//                if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+//                {
+//                    persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+//                    persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+//                }
+//                if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
+//                {
+//                    version = parent_obj->properties[SBOL_VERSION].front();
+//                    version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+//                }
+//                else
+//                {
+//                    version = VERSION_STRING;
+//                }
+//                std::string compliant_uri = persistentIdentity + "/" + uri + "/" + version;
+//                for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+//                {
+//                    SBOLObject* obj = *i_obj;
+//                    if (compliant_uri.compare(obj->identity.get()) == 0)
+//                    {
+//                        return (SBOLClass&)*obj;
+//                    }
+//                }
+//                throw SBOLError(NOT_FOUND_ERROR, "Object " + compliant_uri + " not found");
+//            }
+//            // The parent object is TopLevel
+//            else if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+//            {
+//
+//                persistentIdentity = getHomespace() + "/" + parseClassName(dummy_obj.getTypeURI());
+//
+//            }
+//            else
+//            {
+//                persistentIdentity = getHomespace();
+//            }
+//
+//            // Find latest version if they are using a different semantic versioning scheme
+//            // This needs some work
+//            std::vector< SBOLClass* > persistent_id_matches;
+//            for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+//            {
+//                SBOLObject* obj = *i_obj;
+//                size_t found;
+//                found = obj->identity.get().find(persistentIdentity + "/" + uri);
+//                if (found != std::string::npos)
+//                {
+//                    persistent_id_matches.push_back((SBOLClass*)obj);
+//                }
+//                sort(persistent_id_matches.begin(), persistent_id_matches.end(), [](SBOLClass* a, SBOLClass* b) {
+//                    return (a->version.get() < b->version.get());
+//                });
+//            }
+//            if (persistent_id_matches.size() > 0)
+//                return (SBOLClass&)*persistent_id_matches.back();
+//            throw SBOLError(NOT_FOUND_ERROR, "Object " + persistentIdentity + "/" + uri + " not found");
+//        }
+//        throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
+//    };
+
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::operator[] (std::string uri)
     {
@@ -755,45 +862,15 @@ namespace sbol {
         {
             // Form compliant URI for child object
             SBOLObject* parent_obj = this->sbol_owner;
+            std::string compliant_uri;
             std::string persistentIdentity;
             std::string version;
             
-            SBOLClass dummy_obj = SBOLClass();  // This is unfortunately a necessary hack in order to infer what the compliant URI should be
-            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&dummy_obj);
-            if (!check_top_level)
-            {
-                // Check to see if the parent object has a persistent identity
-                if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
-                {
-                    persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
-                    persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
-                }
-                if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
-                {
-                    version = parent_obj->properties[SBOL_VERSION].front();
-                    version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
-                }
-                else
-                {
-                    version = VERSION_STRING;
-                }
-                std::string compliant_uri = persistentIdentity + "/" + uri + "/" + version;
-                for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
-                {
-                    SBOLObject* obj = *i_obj;
-                    if (compliant_uri.compare(obj->identity.get()) == 0)
-                    {
-                        return (SBOLClass&)*obj;
-                    }
-                }
-                throw SBOLError(NOT_FOUND_ERROR, "Object " + compliant_uri + " not found");
-            }
-            // The parent object is TopLevel
-            else if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+            // Assume the parent object is TopLevel and form the compliant URI
+            if (Config::getOption("sbol_typed_uris").compare("True") == 0)
             {
 
-                persistentIdentity = getHomespace() + "/" + parseClassName(dummy_obj.getTypeURI());
-
+                persistentIdentity = getHomespace() + "/" + parseClassName(this->type);
             }
             else
             {
@@ -802,27 +879,56 @@ namespace sbol {
 
             // Find latest version if they are using a different semantic versioning scheme
             // This needs some work
+            compliant_uri = persistentIdentity + "/" + uri;
             std::vector< SBOLClass* > persistent_id_matches;
             for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
             {
                 SBOLObject* obj = *i_obj;
                 size_t found;
-                found = obj->identity.get().find(persistentIdentity + "/" + uri);
+                found = obj->identity.get().find(compliant_uri);
                 if (found != std::string::npos)
                 {
                     persistent_id_matches.push_back((SBOLClass*)obj);
                 }
+                // Sort objects with same persistentIdentity by version
                 sort(persistent_id_matches.begin(), persistent_id_matches.end(), [](SBOLClass* a, SBOLClass* b) {
                     return (a->version.get() < b->version.get());
                 });
             }
+            // If objects matching the persistentIdentity were found, return the most recent version
             if (persistent_id_matches.size() > 0)
                 return (SBOLClass&)*persistent_id_matches.back();
-            throw SBOLError(NOT_FOUND_ERROR, "Object " + persistentIdentity + "/" + uri + " not found");
+            
+            // Assume the object is not TopLevel
+            if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+            {
+                persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+                persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+            }
+            if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
+            {
+                version = parent_obj->properties[SBOL_VERSION].front();
+                version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+                compliant_uri = persistentIdentity + "/" + uri + "/" + version;
+            }
+            else
+            {
+                compliant_uri = persistentIdentity + "/" + uri;
+            }
+
+            for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+            {
+                SBOLObject* obj = *i_obj;
+                if (compliant_uri.compare(obj->identity.get()) == 0)
+                {
+                    return (SBOLClass&)*obj;
+                }
+            }
         }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + uri + " not found");
     };
-
+    
+    
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
     
     class OwnedPythonObject : public OwnedObject<PyObject>
@@ -1146,6 +1252,7 @@ namespace sbol {
     {
         if (this->sbol_owner)
         {
+
             if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
             {
                 std::vector<SBOLObject*>& object_store = this->sbol_owner->owned_objects[this->type];
@@ -1156,15 +1263,15 @@ namespace sbol {
                     if (uri.compare(obj->identity.get()) == 0)
                     {
                         this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + i_obj);
-                        //this->remove(i_obj);
-                        TopLevel* check_top_level = dynamic_cast<TopLevel*>(obj);
-                        if (check_top_level)
+                        // Erase TopLevel objects from Document
+                        if (this->sbol_owner->type == SBOL_DOCUMENT)
                             obj->doc->SBOLObjects.erase(uri);
+                        if (!obj->doc->find(uri))
+                            obj->doc = NULL;
                         SBOLClass* cast_obj = dynamic_cast<SBOLClass*>(cast_obj);
                         return *cast_obj;
                     }
                 }
-                
             }
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Object " + uri + " not found. Removal failed.");
         }
@@ -1251,6 +1358,7 @@ namespace sbol {
         SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())&create<ExtensionClass>));
         namespaces[ns_prefix] = ns;  // Register extension namespace
     };
+
 }
 
 

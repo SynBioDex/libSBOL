@@ -158,7 +158,6 @@ void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
 
     ComponentDefinition& structure = *static_cast<ComponentDefinition*>(arg);
     Design& design = (Design&)(*structure.parent);
-    std::cout << "Validating " << structure.identity.get() << std::endl;
 
     // Add the structure ComponentDefinition to the Document
     if (design.doc && !structure.doc)
@@ -173,12 +172,11 @@ void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
     if (design.function.size() > 0)
     {
         // Update FunctionalComponent which correlates the structure and function properties
-        std::cout << "Function is defined" << std::endl;
         ModuleDefinition& fx = design.function.get();
         bool STRUCTURE_FUNCTION_CORRELATED = false;
         for (auto & fc : fx.functionalComponents)
         {
-            if (fc.definition.get().compare(structure.identity.get()))
+            if (fc.definition.get() == structure.identity.get())
                 STRUCTURE_FUNCTION_CORRELATED = true;
                 break;
         }
@@ -188,15 +186,12 @@ void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
             correlation.definition.set(structure);
         }
     }
-    else
-        std::cout << "Function is not defined" << std::endl;
 };
 
 void sbol::libsbol_rule_4(void *sbol_obj, void *arg)
 {
     ModuleDefinition& fx = *static_cast<ModuleDefinition*>(arg);
     Design& design = (Design&)(*fx.parent);
-    std::cout << "Validating " << fx.identity.get() << std::endl;
 
     // Add the structure ComponentDefinition to the Document
     if (design.doc && !fx.doc)
@@ -207,12 +202,11 @@ void sbol::libsbol_rule_4(void *sbol_obj, void *arg)
     design.properties["http://sys-bio.org#_function"][0] = "<" + fx.identity.get() + ">";
     if (design.structure.size() > 0)
     {
-        std::cout << "Function is defined" << std::endl;
         ComponentDefinition& structure = design.structure.get();
         bool STRUCTURE_FUNCTION_CORRELATED = false;
         for (auto & fc : fx.functionalComponents)
         {
-            if (fc.definition.get().compare(structure.identity.get()))
+            if (fc.definition.get() == structure.identity.get())
                 STRUCTURE_FUNCTION_CORRELATED = true;
             break;
         }
@@ -232,7 +226,6 @@ void sbol::libsbol_rule_5(void *sbol_obj, void *arg)
 
     ComponentDefinition& structure = *static_cast<ComponentDefinition*>(arg);
     Build& build = (Build&)(*structure.parent);
-    std::cout << "Validating " << structure.identity.get() << std::endl;
 
     // Add the structure ComponentDefinition to the Document
     if (build.doc && !structure.doc)
@@ -247,12 +240,11 @@ void sbol::libsbol_rule_5(void *sbol_obj, void *arg)
     if (build.behavior.size() > 0)
     {
         // Update FunctionalComponent which correlates the structure and function properties
-        std::cout << "Behavior is defined" << std::endl;
         ModuleDefinition& fx = build.behavior.get();
         bool STRUCTURE_FUNCTION_CORRELATED = false;
         for (auto & fc : fx.functionalComponents)
         {
-            if (fc.definition.get().compare(structure.identity.get()))
+            if (fc.definition.get() == structure.identity.get())
                 STRUCTURE_FUNCTION_CORRELATED = true;
                 break;
         }
@@ -262,15 +254,12 @@ void sbol::libsbol_rule_5(void *sbol_obj, void *arg)
             correlation.definition.set(structure);
         }
     }
-    else
-        std::cout << "Function is not defined" << std::endl;
 };
 
 void sbol::libsbol_rule_6(void *sbol_obj, void *arg)
 {
     ModuleDefinition& fx = *static_cast<ModuleDefinition*>(arg);
     Build& build = (Build&)(*fx.parent);
-    std::cout << "Validating " << fx.identity.get() << std::endl;
 
     // Add the structure ComponentDefinition to the Document
     if (build.doc && !fx.doc)
@@ -281,12 +270,11 @@ void sbol::libsbol_rule_6(void *sbol_obj, void *arg)
     build.properties[SBOL_URI "#built"][0] = "<" + fx.identity.get() + ">";
     if (build.structure.size() > 0)
     {
-        std::cout << "Function is defined" << std::endl;
         ComponentDefinition& structure = build.structure.get();
         bool STRUCTURE_FUNCTION_CORRELATED = false;
         for (auto & fc : fx.functionalComponents)
         {
-            if (fc.definition.get().compare(structure.identity.get()))
+            if (fc.definition.get() == structure.identity.get())
                 STRUCTURE_FUNCTION_CORRELATED = true;
             break;
         }
@@ -296,6 +284,4 @@ void sbol::libsbol_rule_6(void *sbol_obj, void *arg)
             correlation.definition.set(structure);
         }
     }
-    else
-        std::cout << "Structure is not defined" << std::endl;
 };

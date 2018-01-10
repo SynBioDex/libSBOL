@@ -229,6 +229,8 @@
 
 /* URIs for SBOL extension objects */
 #define SYSBIO_DESIGN SYSBIO_URI "#Design"
+#define SYSBIO_BUILD SYSBIO_URI "#Build"
+#define SYSBIO_TEST SYSBIO_URI "#Test"
 #define SYSBIO_ANALYSIS SYSBIO_URI "#Analysis"
 
 #endif

@@ -173,8 +173,12 @@
 %ignore sbol::SBOLObject::begin;
 // %ignore sbol::SBOLObject::end;
 %ignore sbol::SBOLObject::size;
+%ignore sbol::Property::begin;
+%ignore sbol::Property::end;
+%ignore sbol::Property::size;
+
 %ignore sbol::OwnedObject::begin;
-// %ignore sbol::OwnedObject::end;
+%ignore sbol::OwnedObject::end;
 %ignore sbol::OwnedObject::size;
 %ignore sbol::ReferencedObject::begin;
 %ignore sbol::ReferencedObject::end;
@@ -285,7 +289,8 @@
 %include "combinatorialderivation.h"
 %include "attachment.h"
 %include "implementation.h"
-    
+%include "dblt.h"
+
 // Converts json-formatted text into Python data structures, eg, lists, dictionaries
 %pythonappend sbol::PartShop::search
 %{
@@ -356,13 +361,11 @@ typedef std::string sbol::sbol_type;
     %template(SBOLClass ## Vector) std::vector<sbol::SBOLClass>;
     %template(SBOLClass ## Property) sbol::Property<sbol::SBOLClass >;
     %template(Owned ## SBOLClass) sbol::OwnedObject<sbol::SBOLClass >;
-    //%template(ListOfOwned ## SBOLClass) sbol::List<sbol::OwnedObject<sbol::SBOLClass >>;
     
 %enddef
 
 /* This macro is used to instantiate special adders and getters for the Document class */
 %define TEMPLATE_MACRO_2(SBOLClass)
-    
     %pythonappend add ## SBOLClass
     %{
         if type(args[0]) is list:
@@ -433,8 +436,19 @@ typedef std::string sbol::sbol_type;
                     sbol_attribute.clear()
                     for val in value:
                         sbol_attribute.add(val)
+                else:
+                    sbol_attribute.set(value)
             elif sbol_attribute.getUpperBound() == '1':
-                sbol_attribute.set(value)
+                if len(sbol_attribute) > 0:
+                    sbol_obj = sbol_attribute.get()
+                    doc = sbol_obj.doc
+                    sbol_attribute.remove()
+                    if not doc:
+                        sbol_obj.thisown = True
+                    elif not doc.find(sbol_obj.identity):
+                        sbol_obj.thisown = True
+                if not value == None:
+                    sbol_attribute.set(value)
         else:
             self.__class__.__setattribute__(self, name, value)
 
@@ -444,37 +458,6 @@ typedef std::string sbol::sbol_type;
 }
 }
 %enddef
-
-
-
-TEMPLATE_MACRO_3(ComponentDefinition)
-TEMPLATE_MACRO_3(SequenceAnnotation)
-TEMPLATE_MACRO_3(SequenceConstraint)
-TEMPLATE_MACRO_3(Location)
-TEMPLATE_MACRO_3(Range)
-TEMPLATE_MACRO_3(Cut)
-TEMPLATE_MACRO_3(ModuleDefinition)
-TEMPLATE_MACRO_3(Module)
-TEMPLATE_MACRO_3(Interaction)
-TEMPLATE_MACRO_3(Participation)
-TEMPLATE_MACRO_3(Component)
-TEMPLATE_MACRO_3(FunctionalComponent)
-TEMPLATE_MACRO_3(MapsTo)
-TEMPLATE_MACRO_3(Model)
-TEMPLATE_MACRO_3(Sequence)
-TEMPLATE_MACRO_3(Collection)
-TEMPLATE_MACRO_3(Attachment)
-TEMPLATE_MACRO_3(Implementation)
-TEMPLATE_MACRO_3(CombinatorialDerivation)
-TEMPLATE_MACRO_3(Activity)
-TEMPLATE_MACRO_3(Agent)
-TEMPLATE_MACRO_3(Plan)
-TEMPLATE_MACRO_3(Usage)
-TEMPLATE_MACRO_3(Design)
-TEMPLATE_MACRO_3(Build)
-TEMPLATE_MACRO_3(Test)
-TEMPLATE_MACRO_3(Analysis)
-
     
 // Templates used by subclasses of Location: Range, Cut, and Generic Location
 TEMPLATE_MACRO_0(Range);
@@ -522,6 +505,11 @@ TEMPLATE_MACRO_1(Agent);
 TEMPLATE_MACRO_1(Attachment);
 TEMPLATE_MACRO_1(Implementation);
 TEMPLATE_MACRO_1(CombinatorialDerivation);
+TEMPLATE_MACRO_1(Design);
+    
+//TEMPLATE_MACRO_1(Build);
+//TEMPLATE_MACRO_1(Test);
+//TEMPLATE_MACRO_1(Analysis);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
@@ -534,7 +522,40 @@ TEMPLATE_MACRO_2(Agent);
 TEMPLATE_MACRO_2(Attachment);
 TEMPLATE_MACRO_2(Implementation);
 TEMPLATE_MACRO_2(CombinatorialDerivation);
+TEMPLATE_MACRO_2(Design);
+    
+//TEMPLATE_MACRO_2(Build);
+//TEMPLATE_MACRO_2(Test);
+//TEMPLATE_MACRO_2(Analysis);
 
+TEMPLATE_MACRO_3(ComponentDefinition)
+TEMPLATE_MACRO_3(SequenceAnnotation)
+TEMPLATE_MACRO_3(SequenceConstraint)
+TEMPLATE_MACRO_3(Location)
+TEMPLATE_MACRO_3(Range)
+TEMPLATE_MACRO_3(Cut)
+TEMPLATE_MACRO_3(ModuleDefinition)
+TEMPLATE_MACRO_3(Module)
+TEMPLATE_MACRO_3(Interaction)
+TEMPLATE_MACRO_3(Participation)
+TEMPLATE_MACRO_3(Component)
+TEMPLATE_MACRO_3(FunctionalComponent)
+TEMPLATE_MACRO_3(MapsTo)
+TEMPLATE_MACRO_3(Model)
+TEMPLATE_MACRO_3(Sequence)
+TEMPLATE_MACRO_3(Collection)
+TEMPLATE_MACRO_3(Attachment)
+TEMPLATE_MACRO_3(Implementation)
+TEMPLATE_MACRO_3(CombinatorialDerivation)
+TEMPLATE_MACRO_3(Activity)
+TEMPLATE_MACRO_3(Agent)
+TEMPLATE_MACRO_3(Plan)
+TEMPLATE_MACRO_3(Usage)
+TEMPLATE_MACRO_3(Design)
+//TEMPLATE_MACRO_3(Build)
+//TEMPLATE_MACRO_3(Test)
+//TEMPLATE_MACRO_3(Analysis)
+    
 %template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
 %template(copySequence) sbol::TopLevel::copy < Sequence >;
 %template(copyModel) sbol::TopLevel::copy < Model >;
@@ -604,7 +625,6 @@ TEMPLATE_MACRO_2(CombinatorialDerivation);
 //};
 
 %include "assembly.h"
-%include "dblt.h"
 
     
 %extend sbol::ComponentDefinition
