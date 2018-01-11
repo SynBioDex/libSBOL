@@ -103,7 +103,27 @@
         }
         return list_of_cdefs;
     }
-    
+
+    std::vector<sbol::Identified*> convert_list_to_identified_vector(PyObject *list)
+    {
+        if (!PyList_Check(list))
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
+        if (PyList_Size(list) == 0)
+            return {};
+        PyObject *py_obj = PyList_GetItem(list, 0);
+        std::vector<sbol::Identified*> identified_vector = {};
+        sbol::Identified* sbol_obj;
+        if (SWIG_IsOK(SWIG_ConvertPtr(py_obj,(void **) &sbol_obj, SWIG_TypeQuery("sbol::Identified*"),1)))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                py_obj = PyList_GetItem(list, i);
+                if ((SWIG_ConvertPtr(py_obj,(void **) &sbol_obj, SWIG_TypeQuery("sbol::Identified*"),1)) == -1) throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Usages must be a valid SBOL object");;
+                identified_vector.push_back(sbol_obj);
+            }
+        }
+        return identified_vector;
+    }
 %}
 
 
@@ -399,6 +419,15 @@ typedef std::string sbol::sbol_type;
 
 /* This macro is used to instantiate special adders and getters for the Document class */
 %define TEMPLATE_MACRO_2(SBOLClass)
+
+    %extend sbol::SBOLClass
+    {
+        SBOLClass& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "")
+        {
+            return $self->copy < SBOLClass >(target_doc, ns, version);
+        }
+    }
+    
     %pythonappend add ## SBOLClass
     %{
         if type(args[0]) is list:
@@ -434,6 +463,7 @@ typedef std::string sbol::sbol_type;
 /* This macro is used to create a Pythonic interface to object attributes */
 %define TEMPLATE_MACRO_3(SBOLClass)
 %extend sbol::SBOLClass {
+
 %pythoncode {
 
     def __getattribute__(self,name):
@@ -493,7 +523,7 @@ typedef std::string sbol::sbol_type;
 }
 %enddef
     
-    
+// Dynamically type Locations
 %extend sbol::OwnedObject<sbol::Location >
 {
     PyObject* __getitem__(const std::string uri)
@@ -535,6 +565,7 @@ typedef std::string sbol::sbol_type;
         return;
     }
 }
+    
     
 // Templates used by subclasses of Location: Range, Cut, and Generic Location
 TEMPLATE_MACRO_0(Range);
@@ -599,10 +630,9 @@ TEMPLATE_MACRO_2(Attachment);
 TEMPLATE_MACRO_2(Implementation);
 TEMPLATE_MACRO_2(CombinatorialDerivation);
 TEMPLATE_MACRO_2(Design);
-    
-//TEMPLATE_MACRO_2(Build);
-//TEMPLATE_MACRO_2(Test);
-//TEMPLATE_MACRO_2(Analysis);
+TEMPLATE_MACRO_2(Build);
+TEMPLATE_MACRO_2(Test);
+TEMPLATE_MACRO_2(Analysis);
 
 TEMPLATE_MACRO_3(ComponentDefinition)
 TEMPLATE_MACRO_3(SequenceAnnotation)
@@ -631,12 +661,6 @@ TEMPLATE_MACRO_3(Design)
 TEMPLATE_MACRO_3(Build)
 TEMPLATE_MACRO_3(Test)
 TEMPLATE_MACRO_3(Analysis)
-    
-%template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
-%template(copySequence) sbol::TopLevel::copy < Sequence >;
-%template(copyModel) sbol::TopLevel::copy < Model >;
-%template(copyModuleDefinition) sbol::TopLevel::copy < ModuleDefinition >;
-%template(copyModuleDefinition) sbol::TopLevel::copy < ModuleDefinition >;
     
 // Template functions used by PartShop
 //%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
@@ -929,6 +953,44 @@ TEMPLATE_MACRO_3(Analysis)
         return NULL;
     }
 }
+
+    
+%extend sbol::TopLevel
+{
+    PyObject* generateDesign(std::string uri, Agent& agent, Plan& plan, PyObject* usage_list)
+    {
+        std::vector < Identified* > usage_vector = convert_list_to_identified_vector(usage_list);
+        Design& design = $self->generate<Design>(uri, agent, plan, usage_vector);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(&design), $descriptor(sbol::Design*), 0 |  0 );
+    }
+    
+    PyObject* generateBuild(std::string uri, Agent& agent, Plan& plan, PyObject* usage_list)
+    {
+        std::vector < Identified* > usage_vector = convert_list_to_identified_vector(usage_list);
+        Build& build = $self->generate<Build>(uri, agent, plan, usage_vector);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(&build), $descriptor(sbol::Build*), 0 |  0 );
+    }
+    
+    PyObject* generateTest(std::string uri, Agent& agent, Plan& plan, PyObject* usage_list)
+    {
+        std::vector < Identified* > usage_vector = convert_list_to_identified_vector(usage_list);
+        Test& test = $self->generate<Test>(uri, agent, plan, usage_vector);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(&test), $descriptor(sbol::Test*), 0 |  0 );
+    }
+    
+    PyObject* generateAnalysis(std::string uri, Agent& agent, Plan& plan, PyObject* usage_list)
+    {
+        std::vector < Identified* > usage_vector = convert_list_to_identified_vector(usage_list);
+        Analysis& analysis = $self->generate<Analysis>(uri, agent, plan, usage_vector);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(&analysis), $descriptor(sbol::Analysis*), 0 |  0 );
+    }
+}
+    
+%template(generateDesign) sbol::TopLevel::generate<Design>;
+%template(generateBuild) sbol::TopLevel::generate<Build>;
+%template(generateTest) sbol::TopLevel::generate<Test>;
+%template(generateAnalysis) sbol::TopLevel::generate<Analysis>;
+
     
 %pythonbegin %{
 from __future__ import absolute_import

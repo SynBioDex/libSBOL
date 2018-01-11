@@ -312,7 +312,8 @@ namespace sbol
     
     template<>
     Analysis& TopLevel::generate<Analysis>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
-
+    
+    
 };
 
 

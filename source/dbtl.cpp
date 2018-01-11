@@ -51,74 +51,6 @@ namespace sbol
         owned_objects.erase(SBOL_SEQUENCE);
         owned_objects.erase(SBOL_MODEL);
     }
-    
-/* General templates for generate method */
-    
-    template < class SBOLClass >
-    SBOLClass& TopLevel::generate(std::string uri)
-    {
-        if (doc == NULL)
-        {
-            throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Generate method requires the progenitor object belong to a Document.");
-        }
-    
-        SBOLClass& new_obj = *new SBOLClass();
-        new_obj.wasDerivedFrom.set(this->identity.get());
-    
-        // Validate that the generated object is TopLevel
-        if (dynamic_cast<TopLevel*>(&new_obj) == NULL)
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid template argument. Generate method must generate a TopLevel object");
-    
-        // If object is TopLevel, intialize the URI
-        initialize(uri);
-        
-        // Check for uniqueness of URI in the Document
-        if (doc && doc->find(new_obj.identity.get()))
-            throw SBOLError(DUPLICATE_URI_ERROR, "Cannot generate " + uri + ". An object with that URI is already in the Document");
-        doc->add<SBOLClass>(new_obj);
-    
-        std::string id;
-        if (Config::getOption("sbol_compliant_uris") == "True")
-            id = new_obj.displayId.get();
-        else
-            id = uri;
-        Activity& a = doc->activities.create(id + "_generation");
-        new_obj.wasGeneratedBy.set(a.identity.get());
-    
-        if (Config::getOption("sbol_compliant_uris") == "True")
-            id = this->displayId.get();
-        else
-            id = this->identity.get();
-        Usage& u = a.usages.create(id + "_usage");
-        u.entity.set(identity.get());
-        u.roles.set(type);
-        return new_obj;
-    }
-
-    template < class SBOLClass >
-    SBOLClass& TopLevel::generate(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages)
-    {
-        SBOLClass& new_obj = TopLevel::generate<SBOLClass>(uri);
-        Activity& a = doc->get<Activity>(new_obj.wasGeneratedBy.get());
-        
-        Association& asc = a.associations.create(new_obj.displayId.get() + "_generation_association");
-        asc.agent.set(agent);
-        asc.plan.set(plan);
-        asc.roles.set(agent.type);
-        
-        std::string id;
-        for (auto & usage : usages)
-        {
-            if (Config::getOption("sbol_compliant_uris") == "True")
-                id = usage->displayId.get();
-            else
-                id = usage->identity.get();
-            Usage& u = a.usages.create(id + "_usage");
-            u.entity.set(usage->identity.get());
-            u.roles.set(usage->type);
-        }
-        return new_obj;
-    }
 
 /* Specialized templates for Design, Build, Test, Analysis workflows */
     
@@ -423,11 +355,14 @@ namespace sbol
         Document* doc = this->sbol_owner->doc;
         if (doc)
         {
-            if (!design.structure.size() && doc->find(design._structure.get()))
-                design.structure.set(doc->get<ComponentDefinition>(design._structure.get()));
-            if (!design.function.size() && doc->find(design._function.get()))
-                design.function.set(doc->get<ModuleDefinition>(design._function.get()));
+            if (!design.structure.size() && design._structure.size())
+                if (doc->find(design._structure.get()))
+                    design.structure.set(doc->get<ComponentDefinition>(design._structure.get()));
+            if (!design.function.size() && design._function.size())
+                if (doc->find(design._function.get()))
+                    design.function.set(doc->get<ModuleDefinition>(design._function.get()));
         }
+        return design;
     }
 
     template<>
@@ -437,33 +372,40 @@ namespace sbol
         Document* doc = this->sbol_owner->doc;
         if (doc)
         {
-            if (!build.structure.size() && doc->find(build._structure.get()))
-                build.structure.set(doc->get<ComponentDefinition>(build._structure.get()));
-            if (!build.behavior.size() && doc->find(build._behavior.get()))
-                build.behavior.set(doc->get<ModuleDefinition>(build._behavior.get()));
+            if (!build.structure.size() && build._structure.size())
+                if (doc->find(build._structure.get()))
+                    build.structure.set(doc->get<ComponentDefinition>(build._structure.get()));
+            if (!build.behavior.size() && build._behavior.size())
+                if (doc->find(build._behavior.get()))
+                    build.behavior.set(doc->get<ModuleDefinition>(build._behavior.get()));
         }
+        return build;
     }
     
     template<>
     Design& Document::get<Design>(std::string uri)
     {
         Design& design = (Design&)get<TopLevel>(uri);
-        if (!design.structure.size() && this->find(design._structure.get()))
-            design.structure.set(doc->get<ComponentDefinition>(design._structure.get()));
-        if (!design.function.size() && this->find(design._function.get()))
-            design.function.set(doc->get<ModuleDefinition>(design._function.get()));
-        return (Design&)design;
+        if (!design.structure.size() && design._structure.size())
+            if (this->find(design._structure.get()))
+                design.structure.set(doc->get<ComponentDefinition>(design._structure.get()));
+        if (!design.function.size() && design._function.size())
+            if (this->find(design._function.get()))
+                design.function.set(doc->get<ModuleDefinition>(design._function.get()));
+        return design;
     }
     
     template<>
     Build& Document::get<Build>(std::string uri)
     {
         Build& build = (Build&)get<TopLevel>(uri);
-        if (!build.structure.size() && this->find(build._structure.get()))
-            build.structure.set(doc->get<ComponentDefinition>(build._structure.get()));
-        if (!build.behavior.size() && this->find(build._behavior.get()))
-            build.behavior.set(doc->get<ModuleDefinition>(build._behavior.get()));
-        return (Build&)build;
+        if (!build.structure.size() && build._structure.size())
+            if (this->find(build._structure.get()))
+                build.structure.set(doc->get<ComponentDefinition>(build._structure.get()));
+        if (!build.behavior.size() && build._behavior.size())
+            if (this->find(build._behavior.get()))
+                build.behavior.set(doc->get<ModuleDefinition>(build._behavior.get()));
+        return build;
     }
     
     // The Build class requires a specialized adder at the Document level. Since its rdf:type is identical to Implementation, it will get added to the Implementation store by default. It must be moved to the Build store.

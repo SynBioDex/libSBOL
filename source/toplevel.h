@@ -87,7 +87,7 @@ namespace sbol
         /// @param uri A URI for the new object, or a displayId if operating in SBOLCompliant mode
         /// @tparam The type of SBOL object to generate
         template<class SBOLClass>
-        SBOLClass& generate(std::string uri, Agent& agent, Plan& plan, std::vector<Identified*> usages);
+        SBOLClass& generate(std::string uri, Agent& agent, Plan& plan, std::vector<Identified*> usages = {});
 
         void initialize(std::string uri);
 

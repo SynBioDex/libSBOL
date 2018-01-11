@@ -1370,6 +1370,73 @@ namespace sbol {
         namespaces[ns_prefix] = ns;  // Register extension namespace
     };
 
+    /* General templates for generate method */
+    
+    template < class SBOLClass >
+    SBOLClass& TopLevel::generate(std::string uri)
+    {
+        if (doc == NULL)
+        {
+            throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Generate method requires the progenitor object belong to a Document.");
+        }
+        
+        SBOLClass& new_obj = *new SBOLClass();
+        new_obj.wasDerivedFrom.set(this->identity.get());
+        
+        // Validate that the generated object is TopLevel
+        if (dynamic_cast<TopLevel*>(&new_obj) == NULL)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid template argument. Generate method must generate a TopLevel object");
+        
+        // If object is TopLevel, intialize the URI
+        initialize(uri);
+        
+        // Check for uniqueness of URI in the Document
+        if (doc && doc->find(new_obj.identity.get()))
+            throw SBOLError(DUPLICATE_URI_ERROR, "Cannot generate " + uri + ". An object with that URI is already in the Document");
+        doc->add<SBOLClass>(new_obj);
+        
+        std::string id;
+        if (Config::getOption("sbol_compliant_uris") == "True")
+            id = new_obj.displayId.get();
+        else
+            id = uri;
+        Activity& a = doc->activities.create(id + "_generation");
+        new_obj.wasGeneratedBy.set(a.identity.get());
+        
+        if (Config::getOption("sbol_compliant_uris") == "True")
+            id = this->displayId.get();
+        else
+            id = this->identity.get();
+        Usage& u = a.usages.create(id + "_usage");
+        u.entity.set(identity.get());
+        u.roles.set(type);
+        return new_obj;
+    }
+    
+    template < class SBOLClass >
+    SBOLClass& TopLevel::generate(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages)
+    {
+        SBOLClass& new_obj = TopLevel::generate<SBOLClass>(uri);
+        Activity& a = doc->get<Activity>(new_obj.wasGeneratedBy.get());
+        
+        Association& asc = a.associations.create(new_obj.displayId.get() + "_generation_association");
+        asc.agent.set(agent);
+        asc.plan.set(plan);
+        asc.roles.set(agent.type);
+        
+        std::string id;
+        for (auto & usage : usages)
+        {
+            if (Config::getOption("sbol_compliant_uris") == "True")
+                id = usage->displayId.get();
+            else
+                id = usage->identity.get();
+            Usage& u = a.usages.create(id + "_usage");
+            u.entity.set(usage->identity.get());
+            u.roles.set(usage->type);
+        }
+        return new_obj;
+    }
 }
 
 
