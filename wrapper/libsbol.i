@@ -54,7 +54,7 @@
     std::vector<std::string> convert_list_to_string_vector(PyObject *list)
     {
         if (!PyList_Check(list))
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
         if (PyList_Size(list) == 0)
             return {};
         PyObject *obj = PyList_GetItem(list, 0);
@@ -86,7 +86,7 @@
     std::vector<sbol::ComponentDefinition*> convert_list_to_cdef_vector(PyObject *list)
     {
         if (!PyList_Check(list))
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
         if (PyList_Size(list) == 0)
             return {};
         PyObject *obj = PyList_GetItem(list, 0);
@@ -125,6 +125,10 @@
         else if (e.error_code() == SBOL_ERROR_INVALID_ARGUMENT || e.error_code() == SBOL_ERROR_MISSING_DOCUMENT)
         {
             PyErr_SetString(PyExc_ValueError, e.what());
+        }
+        else if (e.error_code() == SBOL_ERROR_TYPE_MISMATCH)
+        {
+            PyErr_SetString(PyExc_TypeError, e.what());
         }
         else
         {
@@ -378,10 +382,10 @@ typedef std::string sbol::sbol_type;
         void __setitem__(const std::string uri, PyObject* py_obj)
         {
             sbol:: SBOLClass* obj;
-            if ((SWIG_ConvertPtr(py_obj,(void **) &obj, $descriptor(sbol:: SBOLClass *),1)) == -1) throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid object type for this property");
+            if ((SWIG_ConvertPtr(py_obj,(void **) &obj, $descriptor(sbol:: SBOLClass *),1)) == -1) throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
             SBOLClass& new_obj = $self->create(uri);
             if (new_obj.type != obj->type)
-                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid object type for this property");
+                throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
             return;
         }
     }
@@ -527,7 +531,7 @@ typedef std::string sbol::sbol_type;
             Location& new_obj = $self->create<Location>(uri);
         }
         else
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid object type for this property");
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
         return;
     }
 }
@@ -706,7 +710,7 @@ TEMPLATE_MACRO_3(Analysis)
     {
         sbol::Document* cpp_doc;
         if ((SWIG_ConvertPtr(doc,(void **) &cpp_doc, $descriptor(sbol::Document*),1)) == -1)
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Second argument must be a valid Document");
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Second argument must be a valid Document");
         std::vector<sbol::ComponentDefinition*> list_of_cdefs = convert_list_to_cdef_vector(list);
         if (list_of_cdefs.size())
         {
@@ -737,7 +741,7 @@ TEMPLATE_MACRO_3(Analysis)
     {
         sbol::Document* cpp_doc;
         if ((SWIG_ConvertPtr(doc,(void **) &cpp_doc, $descriptor(sbol::Document*),1)) == -1)
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Second argument must be a valid Document");
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Second argument must be a valid Document");
         std::vector<sbol::ComponentDefinition*> list_of_cdefs = convert_list_to_cdef_vector(list);
         if (list_of_cdefs.size())
         {
