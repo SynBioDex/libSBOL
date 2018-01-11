@@ -116,11 +116,6 @@ namespace sbol {
         /// @cond
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
-
-//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-//        // Register of Python objects, for use when building Python bindings
-//        std::unordered_map<std::string, PyObject*> PythonObjects;
-//#endif
         
         TopLevel& getTopLevel(std::string);
         raptor_world* getWorld();
@@ -208,11 +203,46 @@ namespace sbol {
             std::size_t size = this->SBOLObjects.size();
             return (int)size;
         }
-        
+
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+
         int __len__()
         {
-            return this->size();
+            return this->size() + this->PythonObjects.size();
         }
+        
+        std::string __str__() override
+        {
+            std::string summary = "";
+            int col_size = 30;
+            for (auto & property : owned_objects)
+            {
+                std::string property_name = parsePropertyName(property.first);
+                summary += property_name + std::string(col_size - property_name.length(), '.') + std::to_string(property.second.size()) + "\n";
+            }
+            summary += "Python Annotation Objects" + std::string(col_size - 25, '.') + std::to_string(PythonObjects.size()) + "\n";
+            summary += "---\n";
+            summary += "Total" + std::string(col_size - 5, '.') + std::to_string(__len__()) + "\n";
+            return summary;
+        };
+
+#endif
+        
+        /// Get a summary of objects in the Document, including SBOL core object and custom annotation objects
+        std::string summary()
+        {
+            std::string summary = "";
+            int col_size = 30;
+            for (auto & property : owned_objects)
+            {
+                std::string property_name = parsePropertyName(property.first);
+                summary += property_name + std::string(col_size - property_name.length(), '.') + std::to_string(property.second.size()) + "\n";
+            }
+            summary += "---\n";
+            summary += "Total" + std::string(col_size - 5, '.') + std::to_string(size()) + "\n";
+            return summary;
+        }
+        
         
         /// Provides iterator functionality for SBOL properties that contain multiple objects
         class iterator : public std::vector<SBOLObject*>::iterator
