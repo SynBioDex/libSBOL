@@ -163,7 +163,7 @@ namespace sbol
         virtual void close();
         
         /// @cond        
-        std::string __str__();
+        virtual std::string __str__();
         /// @endcond
         
     protected:
