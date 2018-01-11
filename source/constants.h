@@ -125,7 +125,7 @@
 #define SBOL_VARIANT_DERIVATIONS SBOL_URI "#variantDeriviations"
 #define SBOL_STRATEGY SBOL_URI "#strategy"
 #define SBOL_TEMPLATE SBOL_URI "#template"
-#define SBOL_ATTACHMENTS "#attachments"
+#define SBOL_ATTACHMENTS SBOL_URI "#attachments"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property
@@ -157,7 +157,7 @@
 #define PROVO_ACTIVITY PROVO "#Activity"
 #define PROVO_USAGE PROVO "#Usage"
 #define PROVO_ASSOCIATION PROVO "#Association"
-#define PROVO_AGENT "#Agent"
+#define PROVO_AGENT PROVO "#Agent"
 #define PROVO_PLAN PROVO "#Plan"
 #define PROVO_WAS_GENERATED_BY PROVO "#wasGeneratedBy"
 #define PROVO_STARTED_AT_TIME PROVO "#startedAtTime"
