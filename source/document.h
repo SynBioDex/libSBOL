@@ -334,10 +334,10 @@ namespace sbol {
 	};
 
     template<>
-    void Document::add<Build>(Build& sbol_obj);
+    void Document::add<Build>(Build& sbol_obj);  // Definition in dbtl.cpp
     
     template<>
-    void Document::add<Test>(Test& sbol_obj);
+    void Document::add<Test>(Test& sbol_obj);  // Definition in dbtl.cpp
     
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
 	{
@@ -489,28 +489,14 @@ namespace sbol {
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
     {
         // This is a roundabout way of checking if SBOLClass is TopLevel in the Document
-//        int CHECK_TOP_LEVEL;
-//        Document* parent_doc = dynamic_cast<Document*>(this->sbol_owner);
-//        if (parent_doc)
-//            CHECK_TOP_LEVEL = 1;
-//        else
-//        {
-//            CHECK_TOP_LEVEL = 0;
-//            parent_doc = this->sbol_owner->doc;
-//        }
         SBOLObject* parent_obj = this->sbol_owner;
         SBOLClass* child_obj = new SBOLClass();
         Document* parent_doc;
         TopLevel* CHECK_TOP_LEVEL = dynamic_cast<TopLevel*>(child_obj);
-//        if (CHECK_TOP_LEVEL)
-//            parent_doc = (Document*)parent_obj;
-//        else
         parent_doc = this->sbol_owner->doc;
 
         if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
-            //SBOLClass* child_obj = new SBOLClass();
-
             // Form compliant URI for child object
             std::string persistent_id;
             std::string version;
@@ -541,11 +527,9 @@ namespace sbol {
             // Check for uniqueness of URI in the Document
             if (parent_doc && parent_doc->find(child_id))
                 throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
-
-            // Construct a new child object
-//            SBOLClass* child_obj = new SBOLClass(uri);
+            if (this->find(child_id))
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the " + this->type + " property");
             
-                                                      
             // Initialize SBOLCompliant properties
             child_obj->identity.set(child_id);
             child_obj->persistentIdentity.set(child_persistent_id);
@@ -634,9 +618,11 @@ namespace sbol {
             // Check for uniqueness of URI in the Document
             if (parent_doc && parent_doc->find(child_id))
                 throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
-            
+            if (this->find(child_id))
+                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the " + this->type + " property");
+
             // Construct a new child object
-            SBOLSubClass* child_obj = new SBOLSubClass(child_id);
+            SBOLSubClass* child_obj = new SBOLSubClass();
             
             // Initialize SBOLCompliant properties
             child_obj->identity.set(child_id);
@@ -683,8 +669,6 @@ namespace sbol {
     template <class SBOLClass>
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {
-        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
-            throw SBOLError(SBOL_ERROR_COMPLIANCE, "Cannot add " + sbol_obj.identity.get() + " to " + this->sbol_owner->identity.get() + ". The " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::add method is prohibited while operating in SBOL-compliant mode and is only available when operating in open-world mode. Use the " + parseClassName(this->sbol_owner->type) + "::" + parseClassName(this->type) + "::create method instead or use toggleSBOLCompliance to enter open-world mode");
         if (this->sbol_owner)
         {
             if (this->sbol_owner->type.compare(SBOL_DOCUMENT) == 0)
@@ -696,15 +680,42 @@ namespace sbol {
             {
                 std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
                 if (std::find(object_store.begin(), object_store.end(), &sbol_obj) != object_store.end())
-                    throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained by the property");
+                    throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained by the " + this->type + " property");
                 else
                 {
-                    sbol_obj.parent = this->sbol_owner;  // Set back-pointer to parent object
-                    object_store.push_back((SBOLObject *)&sbol_obj);
+                    if (Config::getOption("sbol_compliant_uris") == "True" && !dynamic_cast<TopLevel*>(&sbol_obj))
+                    {
+                        std::cout << "Forming compliant URI" << std::endl;
+                        // Form compliant URI for child object
+                        std::string obj_id;
+                        std::string persistent_id;
+                        std::string version;
+                        persistent_id = this->sbol_owner->properties[SBOL_PERSISTENT_IDENTITY].front();
+                        persistent_id = persistent_id.substr(1, persistent_id.length() - 2);  // Removes flanking < and > from the uri
+                        persistent_id =  persistent_id + "/" + sbol_obj.displayId.get();
+                        if (this->sbol_owner->properties[SBOL_VERSION].size())
+                        {
+                            version = this->sbol_owner->properties[SBOL_VERSION].front();
+                            version = version.substr(1, version.length() - 2);  // Removes flanking " from the literal
+                        }
+                        else
+                            version = VERSION_STRING;
+                        obj_id = persistent_id + "/" + version;
+
+                        // Reset SBOLCompliant properties
+                        sbol_obj.identity.set(obj_id);
+                        sbol_obj.persistentIdentity.set(persistent_id);
+                    }
+                    // Add to Document and check for uniqueness of URI
                     if (this->sbol_owner->doc)
                     {
+                        if (sbol_obj.doc->find(sbol_obj.identity.get()))
+                            throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + sbol_obj.identity.get() + " is already in the Document");
                         sbol_obj.doc = this->sbol_owner->doc;
                     }
+                    // Add to parent object
+                    sbol_obj.parent = this->sbol_owner;  // Set back-pointer to parent object
+                    object_store.push_back((SBOLObject *)&sbol_obj);
                 }
             }
         }
