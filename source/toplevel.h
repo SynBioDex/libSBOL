@@ -41,8 +41,11 @@ namespace sbol
 
 	// The public constructor delegates to this protected constructor in order to initialize the object with an SBOL type URI 
     public:
+        ReferencedObject attachments;
+        
         TopLevel(rdf_type type_uri = SBOL_TOP_LEVEL, std::string uri = "example", std::string version = "1.0.0") :
-            Identified(type_uri, uri, version)
+            Identified(type_uri, uri, version),
+            attachments(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', {})
         {
             if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
