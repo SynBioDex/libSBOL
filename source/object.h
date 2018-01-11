@@ -56,12 +56,14 @@ namespace sbol
         friend class Property;
     
     protected:
+        /// @cond
         std::unordered_map<std::string, std::string> namespaces;
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);  // Convert an SBOL object into RDF triples
         std::string nest(std::string& rdfxml_buffer);  // Pretty-writer that converts flat RDF/XML into nested RDF/XML (ie, SBOL)
         std::string makeQName(std::string uri);
-        std::vector<rdf_type> hidden_properties;
-        
+        std::vector<rdf_type> hidden_properties;  // Hidden properties will not be serialized
+        /// @endcond
+
         /// Register an extension class and its namespace, so custom data can be embedded into and read from SBOL files
         /// @tparam ExtensionClass The new class
         /// @param ns The extension namespace, eg, http://myhome.org/my_extension#. It's important that the namespace ends in a forward-slash or hash
@@ -179,22 +181,37 @@ namespace sbol
 
     /// @ingroup extension_layer
     /// @brief A reference to another SBOL object
-    /// Contains a Uniform Resource Identifier (URI) that refers to an an associated object.  The object it points to may be another resource in this Document or an external reference, for example to an object in an external repository.  In the SBOL specification, association by reference is indicated in class diagrams by arrows with open (white) diamonds.
+    /// Contains a Uniform Resource Identifier (URI) that refers to an an associated object.  The object it points to may be another resource in this Document or an external reference, for example to an object in an external repository or database.  In the SBOL specification, association by reference is indicated in class diagrams by arrows with open (white) diamonds.
     class SBOL_DECLSPEC ReferencedObject : public URIProperty
     {
     protected:
+        /// The RDF type of objects referenced by this property.
         rdf_type reference_type_uri;
     public:
         ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value);
 
         ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules);
 
-        
+        /// Creates a new SBOL object corresponding to the RDF type specified in the Property definition
+        /// @param uri A Uniform Resource Identifier (URI) for the new object, or a displayId if operating in SBOL-compliant mode (library default)
+        /// @return The full URI of the created object
         std::string create(std::string uri);
 
-        //void add(SBOLClass& sbol_obj);
+        /// Set the property with a URI reference to an object
+        /// @param The full URI of the referenced object, e.g., my_obj.identity.get()
         void set(std::string uri);
+
+        /// Set the property with a URI reference to an object, overwriting the first value in the property store
+        /// @param The referenced object
         void set(SBOLObject& obj);
+
+        /// Append a URI reference of an object to the property store
+        /// @param uri The full URI of the referenced object, e.g., my_obj.identity.get()
+        void add(std::string uri);
+
+        /// Append a URI reference of an object to the property store
+        /// @param The referenced object
+        void add(SBOLObject& obj);
 
         //void set(SBOLClass& sbol_obj);
         //SBOLClass& get(std::string object_id);
@@ -287,6 +304,8 @@ namespace sbol
 #endif
 
     };
+    
+    
     bool operator !=(const SBOLObject &a, const SBOLObject &b);
     
     
@@ -417,15 +436,15 @@ namespace sbol
         
         std::vector<SBOLObject*>::iterator python_iter;
         
-        SBOLClass& __getitem__(const int nIndex)
-        {
-            return this->operator[](nIndex);
-        }
-        
-        SBOLClass& __getitem__(const std::string uri)
-        {
-            return this->operator[](uri);
-        }
+//        SBOLClass& __getitem__(const int nIndex)
+//        {
+//            return this->operator[](nIndex);
+//        }
+//        
+//        SBOLClass& __getitem__(const std::string uri)
+//        {
+//            return this->operator[](uri);
+//        }
         
         OwnedObject<SBOLClass>* __iter__()
         {
@@ -469,8 +488,9 @@ namespace sbol
             return this->size();
         }
 
-        #endif
+#endif
 	};
+
     
 template <class SBOLClass >
 OwnedObject< SBOLClass >::OwnedObject(void *property_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
@@ -521,8 +541,10 @@ template <class SBOLClass>
 bool OwnedObject< SBOLClass >::find(std::string uri)
 {
     for (auto & obj : this->sbol_owner->owned_objects[this->type])
+    {
         if (obj->identity.get() == uri)
             return true;
+    }
     return false;
 };
 

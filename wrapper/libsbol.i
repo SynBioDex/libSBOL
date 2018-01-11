@@ -257,10 +257,12 @@
 %}
     
 /* @TODO remove methods should change thisown flag back to True */
-%pythonappend remove
-%{
-    #self.thisown = True
-%}
+//%pythonprepend remove
+//%{
+//    print ("Getting " + args[0])
+//    obj = self.get(args[0])
+//    obj.thisown = True
+//%}
     
 %pythonappend getAll
 %{
@@ -357,11 +359,38 @@ typedef std::string sbol::sbol_type;
         $1.clear();
     }
     
+    %extend sbol::OwnedObject<sbol::SBOLClass >
+    {
+        PyObject* __getitem__(const int nIndex)
+        {
+            SBOLClass& obj = $self->operator[](nIndex);
+            PyObject *py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::SBOLClass*), 0 |  0 );
+            return py_obj;
+        }
+        
+        PyObject* __getitem__(const std::string uri)
+        {
+            SBOLClass& obj = $self->operator[](uri);
+            PyObject *py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::SBOLClass*), 0 |  0 );
+            return py_obj;
+        }
+        
+        void __setitem__(const std::string uri, PyObject* py_obj)
+        {
+            sbol:: SBOLClass* obj;
+            if ((SWIG_ConvertPtr(py_obj,(void **) &obj, $descriptor(sbol:: SBOLClass *),1)) == -1) throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid object type for this property");
+            SBOLClass& new_obj = $self->create(uri);
+            if (new_obj.type != obj->type)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid object type for this property");
+            return;
+        }
+    }
+    
     /* Instantiate templates */
     %template(SBOLClass ## Vector) std::vector<sbol::SBOLClass>;
     %template(SBOLClass ## Property) sbol::Property<sbol::SBOLClass >;
     %template(Owned ## SBOLClass) sbol::OwnedObject<sbol::SBOLClass >;
-    
+
 %enddef
 
 /* This macro is used to instantiate special adders and getters for the Document class */
@@ -449,6 +478,7 @@ typedef std::string sbol::sbol_type;
                         sbol_obj.thisown = True
                 if not value == None:
                     sbol_attribute.set(value)
+                    value.thisown = False
         else:
             self.__class__.__setattribute__(self, name, value)
 
@@ -458,6 +488,49 @@ typedef std::string sbol::sbol_type;
 }
 }
 %enddef
+    
+    
+%extend sbol::OwnedObject<sbol::Location >
+{
+    PyObject* __getitem__(const std::string uri)
+    {
+        Location& obj = (Location&)$self->operator[](uri);
+        PyObject* py_obj;
+        if (obj.type == SBOL_RANGE)
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::Range*), 0 |  0 );
+        else if (obj.type == SBOL_CUT)
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::Cut*), 0 |  0 );
+        else if (obj.type == SBOL_GENERIC_LOCATION)
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::GenericLocation*), 0 |  0 );
+        else
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::Location*), 0 |  0 );
+        return py_obj;
+    }
+    
+    void __setitem__(const std::string uri, PyObject* py_obj)
+    {
+        sbol::Location* location;
+        if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::Range *),1)) != -1)
+        {
+            Range& new_obj = $self->create<Range>(uri);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::Cut *),1)) != -1)
+        {
+            Cut& new_obj = $self->create<Cut>(uri);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::GenericLocation *),1)) != -1)
+        {
+            GenericLocation& new_obj = $self->create<GenericLocation>(uri);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::Location *),1)) != -1)
+        {
+            Location& new_obj = $self->create<Location>(uri);
+        }
+        else
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid object type for this property");
+        return;
+    }
+}
     
 // Templates used by subclasses of Location: Range, Cut, and Generic Location
 TEMPLATE_MACRO_0(Range);
@@ -506,10 +579,9 @@ TEMPLATE_MACRO_1(Attachment);
 TEMPLATE_MACRO_1(Implementation);
 TEMPLATE_MACRO_1(CombinatorialDerivation);
 TEMPLATE_MACRO_1(Design);
-    
-//TEMPLATE_MACRO_1(Build);
-//TEMPLATE_MACRO_1(Test);
-//TEMPLATE_MACRO_1(Analysis);
+TEMPLATE_MACRO_1(Build);
+TEMPLATE_MACRO_1(Test);
+TEMPLATE_MACRO_1(Analysis);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
@@ -552,9 +624,9 @@ TEMPLATE_MACRO_3(Agent)
 TEMPLATE_MACRO_3(Plan)
 TEMPLATE_MACRO_3(Usage)
 TEMPLATE_MACRO_3(Design)
-//TEMPLATE_MACRO_3(Build)
-//TEMPLATE_MACRO_3(Test)
-//TEMPLATE_MACRO_3(Analysis)
+TEMPLATE_MACRO_3(Build)
+TEMPLATE_MACRO_3(Test)
+TEMPLATE_MACRO_3(Analysis)
     
 %template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
 %template(copySequence) sbol::TopLevel::copy < Sequence >;

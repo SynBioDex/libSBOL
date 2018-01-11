@@ -680,13 +680,24 @@ void ReferencedObject::set(std::string uri)
         {
             this->sbol_owner->properties[this->type][0] = "<" + uri + ">";
         }
-        else if (current_value[0] == '"') // this property is a literal
-        {
-            throw;
-        }
-        
+        validate((void *)&uri);
     }
-    //validate((void *)&uri);
+};
+
+void ReferencedObject::add(std::string uri)
+{
+    if (sbol_owner)
+    {
+        std::string current_value = this->sbol_owner->properties[this->type][0];
+        if (current_value[0] == '<')  //  this property is a uri
+        {
+            if (current_value[1] == '>')
+                this->sbol_owner->properties[this->type][0] = "<" + uri + ">";
+            else
+                this->sbol_owner->properties[this->type].push_back("<" + uri + ">");
+        }
+        validate((void *)&uri);  //  Call validation rules associated with this Property
+    }
 };
 
 void ReferencedObject::set(SBOLObject& obj)
@@ -694,6 +705,10 @@ void ReferencedObject::set(SBOLObject& obj)
     set(obj.identity.get());
 };
 
+void ReferencedObject::add(SBOLObject& obj)
+{
+    add(obj.identity.get());
+};
 
 // For compliant URIs
 void ReferencedObject::setReference(const std::string uri)
