@@ -125,7 +125,7 @@
 #define SBOL_VARIANT_DERIVATIONS SBOL_URI "#variantDeriviations"
 #define SBOL_STRATEGY SBOL_URI "#strategy"
 #define SBOL_TEMPLATE SBOL_URI "#template"
-#define SBOL_ATTACHMENTS SBOL_URI "#attachments"
+#define SBOL_ATTACHMENTS SBOL_URI "#attachment"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property
