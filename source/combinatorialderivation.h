@@ -16,11 +16,11 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         VariableComponent(rdf_type type, std::string uri, std::string repeat, std::string version) :
             Identified(type, uri, version),
-            variable(this, SBOL_VARIABLE, SBOL_COMPONENT, '0', '1', {}),
-            repeat(this, SBOL_OPERATOR, '1', '1', {}, repeat),
-            variants(this, SBOL_VARIANTS, SBOL_COMPONENT_DEFINITION, '0', '1', {}),
-            variantCollections(this, SBOL_VARIANT_COLLECTIONS, SBOL_COLLECTION, '0', '1', {}),
-            variantDerivations(this, SBOL_VARIANT_DERIVATIONS, SBOL_COMBINATORIAL_DERIVATION, '0', '1', {})
+            variable(this, SBOL_VARIABLE, SBOL_COMPONENT, '0', '1', ValidationRules({})),
+            repeat(this, SBOL_OPERATOR, '1', '1', ValidationRules({}), repeat),
+            variants(this, SBOL_VARIANTS, SBOL_COMPONENT_DEFINITION, '0', '1', ValidationRules({})),
+            variantCollections(this, SBOL_VARIANT_COLLECTIONS, SBOL_COLLECTION, '0', '1', ValidationRules({})),
+            variantDerivations(this, SBOL_VARIANT_DERIVATIONS, SBOL_COMBINATORIAL_DERIVATION, '0', '1', ValidationRules({}))
         {
         };
 
@@ -59,9 +59,9 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         CombinatorialDerivation(rdf_type type, std::string uri, std::string strategy, std::string version) :
             TopLevel(type, uri, version),
-            strategy(this, SBOL_STRATEGY, '1', '1', {}),
-            masterTemplate(this, SBOL_TEMPLATE, SBOL_COMBINATORIAL_DERIVATION, '0', '1', {}),
-            variableComponents(this, SBOL_VARIABLE_COMPONENTS, '0', '*', {})
+            strategy(this, SBOL_STRATEGY, '1', '1', ValidationRules({})),
+            masterTemplate(this, SBOL_TEMPLATE, SBOL_COMBINATORIAL_DERIVATION, '0', '1', ValidationRules({})),
+            variableComponents(this, SBOL_VARIABLE_COMPONENTS, '0', '*', ValidationRules({}))
         {
         };
         

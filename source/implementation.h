@@ -42,7 +42,7 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         Implementation(rdf_type type, std::string uri, std::string version) :
             TopLevel(type, uri, version),
-            built(this, SBOL_URI "#built", '0', '1', {})
+            built(this, SBOL_URI "#built", '0', '1', ValidationRules({}))
             {
             };
 

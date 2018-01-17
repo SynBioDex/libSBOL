@@ -63,9 +63,9 @@ namespace sbol
 	protected:
         MapsTo(rdf_type type, std::string uri, std::string local, std::string remote, std::string refinement) :
             Identified(type, uri),
-            local(this, SBOL_LOCAL, SBOL_COMPONENT, '1', '1', {}, local),
-            remote(this, SBOL_REMOTE, SBOL_COMPONENT, '1', '1', {}, remote),
-            refinement(this, SBOL_REFINEMENT, '1', '1', {} , refinement)
+            local(this, SBOL_LOCAL, SBOL_COMPONENT, '1', '1', ValidationRules({}), local),
+            remote(this, SBOL_REMOTE, SBOL_COMPONENT, '1', '1', ValidationRules({}), remote),
+            refinement(this, SBOL_REFINEMENT, '1', '1', ValidationRules({}) , refinement)
             {
             }
 

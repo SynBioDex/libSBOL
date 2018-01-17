@@ -171,7 +171,7 @@ namespace sbol
         SBOLObject(rdf_type type, std::string uri) :
             type(type),
             namespaces({}),
-            identity(this, SBOL_IDENTITY, '0', '1', { sbol_rule_10202 }, uri)
+            identity(this, SBOL_IDENTITY, '0', '1', ValidationRules({ sbol_rule_10202 }), uri)
         {
             if (hasHomespace())
                 identity.set(getHomespace() + "/" + uri);
@@ -191,6 +191,10 @@ namespace sbol
         ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value);
 
         ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules);
+
+        ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound, char const * initial_value) : ReferencedObject(property_owner, type_uri, reference_type_uri, lower_bound, upper_bound, ValidationRules({}), initial_value) {};
+
+        ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound) : ReferencedObject(property_owner, type_uri, reference_type_uri, lower_bound, upper_bound, ValidationRules({})) {};
 
         /// Creates a new SBOL object corresponding to the RDF type specified in the Property definition
         /// @param uri A Uniform Resource Identifier (URI) for the new object, or a displayId if operating in SBOL-compliant mode (library default)
@@ -331,6 +335,10 @@ namespace sbol
         /// @param validation_rules A vector of pointers to the validation functions
         OwnedObject(void *property_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules);
 
+        OwnedObject(void *property_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, SBOLObject& first_object) : OwnedObject(property_owner, sbol_uri, lower_bound, upper_bound, ValidationRules({}), first_object) {};
+
+        OwnedObject(void *property_owner, rdf_type sbol_uri, char lower_bound, char upper_bound) : OwnedObject(property_owner, sbol_uri, lower_bound, upper_bound, ValidationRules({})) {};
+        
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @param sbol_obj A child object to add to this container property.
         /// Assigns a child object to this OwnedObject container property. This method always overwrites the first SBOLObject in the container. appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred

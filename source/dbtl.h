@@ -52,8 +52,8 @@ namespace sbol
 //            TopLevel(SYSBIO_URI "#Design", "example", VERSION_STRING),
 //            structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_3 }),
 //            function(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_4 }),
-//            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', {}, "dummy"),
-//            _function(this, SYSBIO_URI "#_function", SBOL_MODULE_DEFINITION, '1', '1', {}, "dummy")
+//            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), "dummy"),
+//            _function(this, SYSBIO_URI "#_function", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), "dummy")
 //        {
 //            hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
 //            hidden_properties.push_back(SBOL_MODULE_DEFINITION);
@@ -90,8 +90,8 @@ namespace sbol
             TopLevel(SYSBIO_URI "#Design", uri, VERSION_STRING),
             structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_3 }),
             function(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_4 }),
-            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', {}),
-            _function(this, SYSBIO_URI "#_function", SBOL_MODULE_DEFINITION, '1', '1', {})
+            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({})),
+            _function(this, SYSBIO_URI "#_function", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}))
         {
             hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
             hidden_properties.push_back(SBOL_MODULE_DEFINITION);
@@ -105,8 +105,8 @@ namespace sbol
             TopLevel(SYSBIO_DESIGN, uri),
             structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_3 }, structure),
             function(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_4 }, function),
-            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', {}, structure.identity.get()),
-            _function(this, SYSBIO_URI "#_function", SBOL_MODULE_DEFINITION, '1', '1', {}, function.identity.get())
+            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), structure.identity.get()),
+            _function(this, SYSBIO_URI "#_function", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), function.identity.get())
         {
             this->structure.set(structure);
             this->function.set(function);
@@ -143,8 +143,8 @@ namespace sbol
             structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_5 }),
             behavior(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_6 }),
             _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', {}, "dummy"),
-            _behavior(this, SBOL_URI "#built", SBOL_MODULE_DEFINITION, '1', '1', {}, "dummy"),
-            sysbio_type(this, SYSBIO_URI "#type", '1', '1', {}, SYSBIO_BUILD)
+            _behavior(this, SBOL_URI "#built", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), "dummy"),
+            sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_BUILD)
         {
             // Overwrite the typed URI formed by base constructor by replacing Implementation with Build
             if  (Config::getOption("sbol_compliant_uris") == "True")
@@ -226,9 +226,9 @@ namespace sbol
             Implementation(uri, version),
             structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_5 }, structure),
             behavior(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_6 }, behavior),
-            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', {}, structure.identity.get()),
-            _behavior(this, SBOL_URI "#built", SBOL_MODULE_DEFINITION, '1', '1', {}, behavior.identity.get()),
-            sysbio_type(this, SYSBIO_URI "#type", '1', '1', {}, SYSBIO_BUILD)
+            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), structure.identity.get()),
+            _behavior(this, SBOL_URI "#built", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), behavior.identity.get()),
+            sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_BUILD)
         {
             hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
             hidden_properties.push_back(SBOL_MODULE_DEFINITION);
@@ -253,8 +253,8 @@ namespace sbol
     public:
         Test(std::string uri = "example", std::string version = VERSION_STRING) :
             Collection(uri, version),
-            rawData(this, SBOL_MEMBERS, '0', '*', {}),
-            sysbio_type(this, SYSBIO_URI "#type", '1', '1', {}, SYSBIO_TEST)
+            rawData(this, SBOL_MEMBERS, '0', '*', ValidationRules({})),
+            sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_TEST)
         {
             // Overwrite the typed URI formed by base constructor by replacing Collection with Test
             if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
@@ -285,12 +285,12 @@ namespace sbol
         
         Analysis(std::string uri = "example", std::string version = VERSION_STRING) :
             TopLevel(SYSBIO_ANALYSIS, uri, version),
-            consensusSequence(this, SBOL_SEQUENCE, '0', '1', {}),
-            fittedModel(this, SBOL_MODEL, '0', '1', {}),
-            dataSheet(this, SYSBIO_URI "#dataSheet", SBOL_ATTACHMENT, '0', '1', {}),
-            processedData(this, SBOL_MEMBERS, '0', '*', {}),
-            _consensusSequence(this, SYSBIO_URI "#consensusSequence", SBOL_SEQUENCE, '0', '1', {}),
-            _fittedModel(this, SYSBIO_URI "#model", SBOL_MODEL, '0', '1', {})
+            consensusSequence(this, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
+            fittedModel(this, SBOL_MODEL, '0', '1', ValidationRules({})),
+            dataSheet(this, SYSBIO_URI "#dataSheet", SBOL_ATTACHMENT, '0', '1', ValidationRules({})),
+            processedData(this, SBOL_ATTACHMENTS, '0', '*', ValidationRules({})),
+            _consensusSequence(this, SYSBIO_URI "#consensusSequence", SBOL_SEQUENCE, '0', '1', ValidationRules({})),
+            _fittedModel(this, SYSBIO_URI "#model", SBOL_MODEL, '0', '1', ValidationRules({}))
         {
             hidden_properties.push_back(SYSBIO_URI "#consensusSequence");
             hidden_properties.push_back(SYSBIO_URI "#model");

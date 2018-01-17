@@ -45,9 +45,9 @@ namespace sbol
         /// @param type The RDF type for an extension class derived from this one
         Model(rdf_type type, std::string uri, std::string source, std::string language, std::string framework, std::string version) :
             TopLevel(type, uri, version),
-            source(this, SBOL_SOURCE, '0', '1', {}, source),
-            language(this, SBOL_LANGUAGE, '0', '1', {}, language),
-            framework(this, SBOL_FRAMEWORK, '0', '1', {}, framework)
+            source(this, SBOL_SOURCE, '0', '1', ValidationRules({}), source),
+            language(this, SBOL_LANGUAGE, '0', '1', ValidationRules({}), language),
+            framework(this, SBOL_FRAMEWORK, '0', '1', ValidationRules({}), framework)
             {
             };
         

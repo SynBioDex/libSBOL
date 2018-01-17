@@ -60,9 +60,9 @@ namespace sbol
 	protected:
         ComponentInstance(rdf_type type, std::string uri, std::string definition, std::string access, std::string version) :
             Identified(type, uri, version),
-            definition(this, SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, '1', '1', {}, definition),
-            access(this, SBOL_ACCESS, '0', '1', {}, access),
-            mapsTos(this, SBOL_MAPS_TOS, '0', '*', {})
+            definition(this, SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), definition),
+            access(this, SBOL_ACCESS, '0', '1', ValidationRules({}), access),
+            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({}))
             {
             };
         
@@ -103,8 +103,8 @@ namespace sbol
 	protected:
         Component(rdf_type type, std::string uri, std::string definition, std::string access, std::string version) :
             ComponentInstance(type, uri, definition, access, version),
-            roles(this, SBOL_ROLES, '0', '*', {}),
-            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', {})
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
+            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}))
             {};
         
 //        Component(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) : ComponentInstance(type, uri_prefix, display_id, version, definition, access) {};
@@ -149,7 +149,7 @@ namespace sbol
 	protected:
         FunctionalComponent(rdf_type type, std::string uri, std::string definition, std::string access, std::string direction, std::string version) :
             ComponentInstance(type, uri, definition, access, version),
-            direction(this, SBOL_DIRECTION, '1', '1', {}, direction)
+            direction(this, SBOL_DIRECTION, '1', '1', ValidationRules({}), direction)
             {
             };
 

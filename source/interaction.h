@@ -45,8 +45,8 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         Interaction(rdf_type type, std::string uri, std::string interaction_type) :
             Identified(type, uri),
-            types(this, SBOL_TYPES, '1', '*', {}, interaction_type),
-            participations(this, SBOL_PARTICIPATIONS, '0', '1', {})
+            types(this, SBOL_TYPES, '1', '*', ValidationRules({}), interaction_type),
+            participations(this, SBOL_PARTICIPATIONS, '0', '1', ValidationRules({}))
             {
             };
         

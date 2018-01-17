@@ -101,10 +101,10 @@ namespace sbol
 		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
         SequenceAnnotation(rdf_type type, std::string uri, std::string version) :
             Identified(type, uri, version),
-            component(this, SBOL_COMPONENT_PROPERTY, '0', '1', {}),
-            locations(this, SBOL_LOCATIONS, '0', '*', {}),
-            roles(this, SBOL_ROLES, '0', '*', {}),
-            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', {}, SBOL_ROLE_INTEGRATION_MERGE)
+            component(this, SBOL_COMPONENT_PROPERTY, '0', '1', ValidationRules({})),
+            locations(this, SBOL_LOCATIONS, '0', '*', ValidationRules({})),
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
+            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}), SBOL_ROLE_INTEGRATION_MERGE)
             {
             };
 

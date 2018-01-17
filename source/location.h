@@ -37,7 +37,7 @@ namespace sbol
         // A public constructor is required so objects can be auto created by the SBOLObject.OwnedObjects.create(...) method
         Location(rdf_type type = SBOL_LOCATION, std::string uri = "example", std::string orientation = SBOL_ORIENTATION_INLINE) :
             Identified(type, uri),
-            orientation(this, SBOL_ORIENTATION, '1', '1', {}, orientation)
+            orientation(this, SBOL_ORIENTATION, '1', '1', ValidationRules({}), orientation)
             {
             }
         
@@ -100,8 +100,8 @@ namespace sbol
 	protected:
         Range(rdf_type type, std::string uri, int start, int end) :
             Location(type, uri),
-            start(this, SBOL_START, '1', '1', {}, start),
-            end(this, SBOL_END, '1', '1', {}, end)
+            start(this, SBOL_START, '1', '1', ValidationRules({}), start),
+            end(this, SBOL_END, '1', '1', ValidationRules({}), end)
             {
             };
 	};
@@ -123,7 +123,7 @@ namespace sbol
     protected:
         Cut(rdf_type type, std::string uri, int at) :
             Location(type, uri),
-            at(this, SBOL_AT, '1', '1', {}, at)
+            at(this, SBOL_AT, '1', '1', ValidationRules({}), at)
         {
         };
 

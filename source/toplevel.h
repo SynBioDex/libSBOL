@@ -45,7 +45,7 @@ namespace sbol
         
         TopLevel(rdf_type type_uri = SBOL_TOP_LEVEL, std::string uri = "example", std::string version = "1.0.0") :
             Identified(type_uri, uri, version),
-            attachments(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', {})
+            attachments(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', ValidationRules({}))
         {
             if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {

@@ -54,8 +54,8 @@ namespace sbol
         /// @param type The RDF type for an extension class derived from this one
         Module(rdf_type type, std::string uri, std::string definition, std::string version) :
             Identified(type, uri, version),
-            definition(this, SBOL_DEFINITION, SBOL_MODULE_DEFINITION, '1', '1', {}, definition),
-            mapsTos(this, SBOL_MAPS_TOS, '0', '*', {})
+            definition(this, SBOL_DEFINITION, SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), definition),
+            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({}))
         {
         };
 

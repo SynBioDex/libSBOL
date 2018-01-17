@@ -47,7 +47,7 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         Collection(rdf_type type, std::string uri, std::string version) :
             TopLevel(type, uri, version),
-            members(this, SBOL_MEMBERS, '0', '*', {})
+            members(this, SBOL_MEMBERS, '0', '*', ValidationRules({}))
             {
             };
         

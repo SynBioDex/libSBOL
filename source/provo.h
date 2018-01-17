@@ -40,9 +40,9 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         Association(rdf_type type, std::string uri, std::string agent, std::string role, std::string version) :
             Identified(type, uri, version),
-            agent(this, PROVO_AGENT_PROPERTY, PROVO_AGENT, '1', '1', {}, agent),
-            roles(this, PROVO_HAD_ROLE, '1', '*', {}, role),
-            plan(this, PROVO_HAD_PLAN, PROVO_PLAN, '0', '1', {})
+            agent(this, PROVO_AGENT_PROPERTY, PROVO_AGENT, '1', '1', ValidationRules({}), agent),
+            roles(this, PROVO_HAD_ROLE, '1', '*', ValidationRules({}), role),
+            plan(this, PROVO_HAD_PLAN, PROVO_PLAN, '0', '1', ValidationRules({}))
         {
         };
         
@@ -68,8 +68,8 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         Usage(rdf_type type, std::string uri, std::string entity, std::string role, std::string version) :
             Identified(type, uri, version),
-            entity(this, PROVO_ENTITY, SBOL_IDENTIFIED, '1', '1', {}, entity),
-            roles(this, PROVO_HAD_ROLE, '1', '*', {}, role)
+            entity(this, PROVO_ENTITY, SBOL_IDENTIFIED, '1', '1', ValidationRules({}), entity),
+            roles(this, PROVO_HAD_ROLE, '1', '*', ValidationRules({}), role)
         {
         }
         
@@ -124,11 +124,11 @@ namespace sbol
         Activity(rdf_type type, std::string uri, std::string action_type, std::string version) :
             TopLevel(type, uri, version),
             //type(SBOL_TYPES, this, action_type),
-            startedAtTime(this, PROVO_STARTED_AT_TIME, '0', '1', {}),
-            endedAtTime(this, PROVO_ENDED_AT_TIME, '0', '1', {}),
-            wasInformedBy(this, PROVO_WAS_INFORMED_BY, PROVO_ACTIVITY, '0', '*', {}),
-            usages(this, PROVO_QUALIFIED_USAGE, '0', '*', {}),
-            associations(this, PROVO_QUALIFIED_ASSOCIATION, '0', '*', {})
+            startedAtTime(this, PROVO_STARTED_AT_TIME, '0', '1'),
+            endedAtTime(this, PROVO_ENDED_AT_TIME, '0', '1'),
+            wasInformedBy(this, PROVO_WAS_INFORMED_BY, PROVO_ACTIVITY, '0', '*', ValidationRules({})),
+            usages(this, PROVO_QUALIFIED_USAGE, '0', '*', ValidationRules({})),
+            associations(this, PROVO_QUALIFIED_ASSOCIATION, '0', '*', ValidationRules({}))
             {
             };
         

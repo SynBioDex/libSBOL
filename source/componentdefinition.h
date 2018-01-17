@@ -56,13 +56,13 @@ namespace sbol
         /// @param type The RDF type for an extension class derived from this one
         ComponentDefinition(rdf_type type, std::string uri, std::string component_type, std::string version) :
             TopLevel(type, uri, version),
-            types(this, SBOL_TYPES, '1', '*', {}, component_type),
-            roles(this, SBOL_ROLES, '0', '*', {}),
-            sequence(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '1', {}),
-            sequences(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '*', {}),
-            sequenceAnnotations(this, SBOL_SEQUENCE_ANNOTATIONS, '0', '*', {}),
-            components(this, SBOL_COMPONENTS, '0', '*', {}),
-            sequenceConstraints(this, SBOL_SEQUENCE_CONSTRAINTS, '0', '*', {})
+            types(this, SBOL_TYPES, '1', '*', ValidationRules({}), component_type),
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
+            sequence(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
+            sequences(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '*', ValidationRules({})),
+            sequenceAnnotations(this, SBOL_SEQUENCE_ANNOTATIONS, '0', '*', ValidationRules({})),
+            components(this, SBOL_COMPONENTS, '0', '*', ValidationRules({})),
+            sequenceConstraints(this, SBOL_SEQUENCE_CONSTRAINTS, '0', '*', ValidationRules({}))
             {
             };
         

@@ -44,10 +44,10 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         Attachment(rdf_type type, std::string uri, std::string source, std::string version) :
             TopLevel(type, uri, version),
-            source(this, SBOL_SOURCE, '1', '1', {}, source),
-            format(this, SBOL_URI "#format", '0', '1', {}),
-            size(this, SBOL_URI "#size", '0', '1', {}),
-            hash(this, SBOL_URI "#hash", '0', '1', {})
+            source(this, SBOL_SOURCE, '1', '1', ValidationRules({}), source),
+            format(this, SBOL_URI "#format", '0', '1', ValidationRules({})),
+            size(this, SBOL_URI "#size", '0', '1', ValidationRules({})),
+            hash(this, SBOL_URI "#hash", '0', '1', ValidationRules({}))
             {
             };
         

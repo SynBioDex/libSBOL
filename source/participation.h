@@ -55,8 +55,8 @@ namespace sbol
         /// @param type The RDF type for an extension class derived from this one
         Participation(rdf_type, std::string uri, std::string participant, std::string version) :
             Identified(type, uri, version),
-            roles(this, SBOL_ROLES, '0', '*', {}),
-            participant(this, SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, '1', '1', {}, participant)
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
+            participant(this, SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, '1', '1', ValidationRules({}), participant)
             {
             };
         

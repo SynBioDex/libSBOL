@@ -65,6 +65,10 @@ namespace sbol
         /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
         /// @param validation_rules A vector of pointers to the validation functions
         URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules);
+
+        URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, char const* initial_value) : URIProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), std::string(initial_value)) {};
+//
+        URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) : URIProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({})) {};
         
         virtual std::string get();                  ///< Get first URI.
 
@@ -146,6 +150,10 @@ namespace sbol
         /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
         /// @param validation_rules A vector of pointers to the validation functions
         TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules);
+
+        TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, char const* initial_value) : TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), std::string(initial_value)) {};
+
+        TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) : TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({})) {};
         
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
 
@@ -233,6 +241,10 @@ namespace sbol
         {
         }
         
+        IntProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, int initial_value) : IntProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), initial_value) {};
+
+        IntProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) : IntProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({})) {};
+        
         virtual int get();                  ///< Get the integer value
 
         virtual std::vector<int> getAll();
@@ -314,6 +326,10 @@ namespace sbol
             Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
         {
         };
+
+        FloatProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, double initial_value) : FloatProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), initial_value) {};
+        
+        FloatProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) : FloatProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({})) {};
         
         virtual double get();                  ///< Get the float value.
 
@@ -403,7 +419,7 @@ namespace sbol
         /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
         /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
         VersionProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, std::string initial_value) :
-            TextProperty(property_owner, type_uri, lower_bound, upper_bound, {}, initial_value)
+            TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), initial_value)
             {
                 std::string v = this->get();
                 // @TODO move this error checking to validation rules to be run on VersionProperty::set() and VersionProperty()::VersionProperty()
@@ -428,11 +444,17 @@ namespace sbol
         /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
         /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
         /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
-        DateTimeProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, std::string initial_value = "") :
-            TextProperty(property_owner, type_uri, lower_bound, upper_bound, { libsbol_rule_2 }, initial_value)
+        DateTimeProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, std::string initial_value) :
+            TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({ libsbol_rule_2 }), initial_value)
         {
         }
 
+        DateTimeProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) :
+            TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({ libsbol_rule_2 }))
+        {
+        }
+        
+        
         /// Set this property with the current time
         std::string stampTime();
     };

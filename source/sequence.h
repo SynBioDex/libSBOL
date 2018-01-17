@@ -47,8 +47,8 @@ namespace sbol
         /// @param type_uri The RDF type for an extension class derived from this one
         Sequence(rdf_type type_uri, std::string uri, std::string elements, std::string encoding, std::string version) :
             TopLevel(type_uri, uri, version),
-            elements(this, SBOL_ELEMENTS, '1', '1', {}, elements),
-            encoding(this, SBOL_ENCODING, '1', '1', {}, encoding)
+            elements(this, SBOL_ELEMENTS, '1', '1', ValidationRules({}), elements),
+            encoding(this, SBOL_ENCODING, '1', '1', ValidationRules({}), encoding)
             {
             };
         

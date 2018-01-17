@@ -65,9 +65,9 @@ namespace sbol
 	protected:
         SequenceConstraint(rdf_type type, std::string uri, std::string subject, std::string object, std::string restriction, std::string version) :
             Identified(type, uri, version),
-            subject(this, SBOL_SUBJECT, SBOL_COMPONENT, '1', '1', {}, subject),
-            object(this, SBOL_OBJECT, SBOL_COMPONENT, '1', '1', {}, object),
-            restriction(this, SBOL_RESTRICTION, '1', '1', {}, restriction)
+            subject(this, SBOL_SUBJECT, SBOL_COMPONENT, '1', '1', ValidationRules({}), subject),
+            object(this, SBOL_OBJECT, SBOL_COMPONENT, '1', '1', ValidationRules({}), object),
+            restriction(this, SBOL_RESTRICTION, '1', '1', ValidationRules({}), restriction)
             {
             }
 

@@ -80,23 +80,23 @@ namespace sbol {
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
             validationRules({ }),
-            designs(this, SYSBIO_DESIGN, '0', '*', {}),
-            builds(this, SYSBIO_BUILD, '0', '*', {}),
-            tests(this, SYSBIO_TEST, '0', '*', {}),
-            analyses(this, SYSBIO_ANALYSIS, '0', '*', {}),
-            componentDefinitions(this, SBOL_COMPONENT_DEFINITION, '0', '*', {}),
-            moduleDefinitions(this, SBOL_MODULE_DEFINITION, '0', '*', {}),
-            models(this, SBOL_MODEL, '0', '*', {}),
-            sequences(this, SBOL_SEQUENCE, '0', '*', {}),
-            collections(this, SBOL_COLLECTION, '0', '*', {}),
-            activities(this, PROVO_ACTIVITY, '0', '*', {}),
-            plans(this, PROVO_PLAN, '0', '*', {}),
-            agents(this, PROVO_AGENT, '0', '*', {}),
-            attachments(this, SBOL_ATTACHMENT, '0', '*', {}),
-            combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', {}),
-            implementations(this, SBOL_IMPLEMENTATION, '0', '*', {}),
-            citations(this, PURL_URI "bibliographicCitation", '0', '*', {}),
-            keywords(this, PURL_URI "elements/1.1/subject", '0', '*', {})
+            designs(this, SYSBIO_DESIGN, '0', '*', ValidationRules({})),
+            builds(this, SYSBIO_BUILD, '0', '*', ValidationRules({})),
+            tests(this, SYSBIO_TEST, '0', '*', ValidationRules({})),
+            analyses(this, SYSBIO_ANALYSIS, '0', '*', ValidationRules({})),
+            componentDefinitions(this, SBOL_COMPONENT_DEFINITION, '0', '*', ValidationRules({})),
+            moduleDefinitions(this, SBOL_MODULE_DEFINITION, '0', '*', ValidationRules({})),
+            models(this, SBOL_MODEL, '0', '*', ValidationRules({})),
+            sequences(this, SBOL_SEQUENCE, '0', '*', ValidationRules({})),
+            collections(this, SBOL_COLLECTION, '0', '*', ValidationRules({})),
+            activities(this, PROVO_ACTIVITY, '0', '*', ValidationRules({})),
+            plans(this, PROVO_PLAN, '0', '*', ValidationRules({})),
+            agents(this, PROVO_AGENT, '0', '*', ValidationRules({})),
+            attachments(this, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
+            combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({})),
+            implementations(this, SBOL_IMPLEMENTATION, '0', '*', ValidationRules({})),
+            citations(this, PURL_URI "bibliographicCitation", '0', '*', ValidationRules({})),
+            keywords(this, PURL_URI "elements/1.1/subject", '0', '*', ValidationRules({}))
 			{
                 namespaces["sbol"] = SBOL_URI "#";
                 namespaces["dcterms"] = PURL_URI;
@@ -1026,7 +1026,7 @@ namespace sbol {
         };
         
     public:
-        OwnedPythonObject(PyObject* constructor, SBOLObject *sbol_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, PyObject* first_obj = NULL) :
+        OwnedPythonObject(SBOLObject *sbol_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, PyObject* constructor, PyObject* first_obj = NULL) :
             OwnedObject<PyObject>(sbol_owner, sbol_uri, lower_bound, upper_bound, validation_rules),
             constructor_for_owned_object(constructor)
         {

@@ -46,9 +46,9 @@ namespace sbol
         /// @param search_target The type of SBOL object to search for, indicated using a URI. Set to SBOL_COMPONENT_DEFINITION by default.
         SearchQuery(rdf_type search_target = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25) :
             TopLevel(SBOL_URI "#SearchQuery", "example"),
-            objectType(this, SBOL_URI "#objectType", '0', '1', {}, search_target),
-            offset(this, SBOL_URI "#offset", '1', '1', {}, offset),
-            limit(this, SBOL_URI "#limit", '1', '1', {}, limit)
+            objectType(this, SBOL_URI "#objectType", '0', '1', ValidationRules({}), search_target),
+            offset(this, SBOL_URI "#offset", '1', '1', ValidationRules({}), offset),
+            limit(this, SBOL_URI "#limit", '1', '1', ValidationRules({}), limit)
         {
             // The following properties are set to empty string because they are treated like search criteria
             displayId.set("");
@@ -71,9 +71,9 @@ namespace sbol
         {
             // If the URI has a namespace, treat the function argument as a full URI
             if (parseNamespace(uri).compare("") == 0)
-                return TextProperty(this, SBOL_URI "#" + uri, '0', '1', {});
+                return TextProperty(this, SBOL_URI "#" + uri, '0', '1', ValidationRules({}));
             else
-                return TextProperty(this, uri, '0', '1', {});
+                return TextProperty(this, uri, '0', '1', ValidationRules({}));
         };  ///< Retrieve a child object by URI
         
         ~SearchQuery() {};

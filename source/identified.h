@@ -43,13 +43,13 @@ namespace sbol
 	public:
         Identified(rdf_type type_uri, std::string uri, std::string version = "1.0.0") :
         SBOLObject(type_uri, uri),
-        persistentIdentity(this, SBOL_PERSISTENT_IDENTITY, '0', '1', {}, uri),
-        displayId(this, SBOL_DISPLAY_ID, '0', '1', { sbol_rule_10204 }),
+        persistentIdentity(this, SBOL_PERSISTENT_IDENTITY, '0', '1', ValidationRules({}), uri),
+        displayId(this, SBOL_DISPLAY_ID, '0', '1', ValidationRules({ sbol_rule_10204 })),
         version(this, SBOL_VERSION, '0', '1', version),
-        wasDerivedFrom(this, SBOL_WAS_DERIVED_FROM, '0', '*', {}),
-        wasGeneratedBy(this, PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, '0', '*', {}),
-        name(this, SBOL_NAME, '0', '1', {}),
-        description(this, SBOL_DESCRIPTION, '0', '1', {})
+        wasDerivedFrom(this, SBOL_WAS_DERIVED_FROM, '0', '*', ValidationRules({})),
+        wasGeneratedBy(this, PROVO_WAS_GENERATED_BY, PROVO_ACTIVITY, '0', '*', ValidationRules({})),
+        name(this, SBOL_NAME, '0', '1', ValidationRules({})),
+        description(this, SBOL_DESCRIPTION, '0', '1', ValidationRules({}))
         {
             if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {

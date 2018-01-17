@@ -52,11 +52,11 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         ModuleDefinition(rdf_type sbol_type_uri, std::string uri, std::string version) :
             TopLevel(sbol_type_uri, uri, version),
-            roles(this, SBOL_ROLES, '0', '*', {}),
-            models(this, SBOL_MODELS, SBOL_MODEL, '0', '*', {}),
-            functionalComponents(this, SBOL_FUNCTIONAL_COMPONENTS, '0', '*', {}),
-            modules(this, SBOL_MODULES, '0', '*', {}),
-            interactions(this, SBOL_INTERACTIONS, '0', '*', {})
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
+            models(this, SBOL_MODELS, SBOL_MODEL, '0', '*', ValidationRules({})),
+            functionalComponents(this, SBOL_FUNCTIONAL_COMPONENTS, '0', '*', ValidationRules({})),
+            modules(this, SBOL_MODULES, '0', '*', ValidationRules({})),
+            interactions(this, SBOL_INTERACTIONS, '0', '*', ValidationRules({}))
             {
             };
         
