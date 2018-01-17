@@ -173,16 +173,32 @@ int SBOLObject::compare(SBOLObject* comparand)
     // The longer property store is assigned to left-hand side for side-by-side comparison. Property keys are assumed alphabetically sorted since they are based on std::map
     if (properties.size() >= comparand->properties.size())
     {
-        l_id = identity.get();
-        r_id = comparand->identity.get();
+        if (this->type != SBOL_DOCUMENT)
+        {
+            l_id = identity.get();
+            r_id = comparand->identity.get();
+        }
+        else
+        {
+            l_id = "Document 1";
+            r_id = "Document 2";
+        }
         i_lp = properties.begin();
         i_rp = comparand->properties.begin();
         i_end = properties.end();
     }
     else
     {
-        l_id = comparand->identity.get();
-        r_id = identity.get();
+        if (this->type != SBOL_DOCUMENT)
+        {
+            l_id = comparand->identity.get();
+            r_id = identity.get();
+        }
+        else
+        {
+            l_id = "Document 2";
+            r_id = "Document 1";
+        }
         i_lp = comparand->properties.begin();
         i_rp = properties.begin();
         i_end = comparand->properties.end();
