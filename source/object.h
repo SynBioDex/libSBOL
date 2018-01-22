@@ -62,6 +62,7 @@ namespace sbol
         std::string nest(std::string& rdfxml_buffer);  // Pretty-writer that converts flat RDF/XML into nested RDF/XML (ie, SBOL)
         std::string makeQName(std::string uri);
         std::vector<rdf_type> hidden_properties;  // Hidden properties will not be serialized
+        
         /// @endcond
 
         /// Register an extension class and its namespace, so custom data can be embedded into and read from SBOL files
@@ -150,7 +151,6 @@ namespace sbol
         std::string getAnnotation(std::string property_uri);
         
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-//        std::unordered_map<sbol::sbol_type, std::vector< PyObject* >> PythonObjects;
         std::unordered_map<std::string, PyObject* > PythonObjects;
 
         void register_extension_class(PyObject* python_class, std::string extension_name);

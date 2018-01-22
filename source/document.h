@@ -180,9 +180,13 @@ namespace sbol {
         /// @param filename The full name of the file you want to read (including file extension)
         void append(std::string filename);
         
-        /// Submit this Document to the online validator.
+        /// Submit this Document via http request to the online validation tool.
         /// @return The validation results
         std::string request_validation(std::string& sbol);
+
+        /// Perform comparison on Documents using the online validation tool. This is for cross-validation of SBOL documents with libSBOLj. Document comparison can also be performed using the built-in compare method.
+        /// @return The comparison results
+        std::string request_comparison(Document& diff_file);
 
         std::string query_repository(std::string command);
 
@@ -208,22 +212,23 @@ namespace sbol {
 
         int __len__()
         {
-            return this->size() + this->PythonObjects.size();
+            return this->size();
         }
         
         std::string __str__() override
         {
-            std::string summary = "";
-            int col_size = 30;
-            for (auto & property : owned_objects)
-            {
-                std::string property_name = parsePropertyName(property.first);
-                summary += property_name + std::string(col_size - property_name.length(), '.') + std::to_string(property.second.size()) + "\n";
-            }
-            summary += "Python Annotation Objects" + std::string(col_size - 25, '.') + std::to_string(PythonObjects.size()) + "\n";
-            summary += "---\n";
-            summary += "Total" + std::string(col_size - 5, '.') + std::to_string(__len__()) + "\n";
-            return summary;
+//            std::string summary = "";
+//            int col_size = 30;
+//            for (auto & property : owned_objects)
+//            {
+//                std::string property_name = parsePropertyName(property.first);
+//                summary += property_name + std::string(col_size - property_name.length(), '.') + std::to_string(property.second.size()) + "\n";
+//            }
+//            summary += "Python Annotation Objects" + std::string(col_size - 25, '.') + std::to_string(PythonObjects.size()) + "\n";
+//            summary += "---\n";
+//            summary += "Total" + std::string(col_size - 5, '.') + std::to_string(__len__()) + "\n";
+//            return summary;
+            return this->summary();
         };
 
 #endif
@@ -233,49 +238,48 @@ namespace sbol {
         {
             std::string summary = "";
             int col_size = 30;
+            int total_core_objects = 0;
             for (auto & property : owned_objects)
             {
                 std::string property_name = parsePropertyName(property.first);
-                summary += property_name + std::string(col_size - property_name.length(), '.') + std::to_string(property.second.size()) + "\n";
+                int obj_count = property.second.size();
+                total_core_objects += obj_count;
+                summary += property_name + std::string(col_size - property_name.length(), '.') + std::to_string(obj_count) + "\n";
             }
+            summary += "Annotation Objects" + std::string(col_size - 18, '.') + std::to_string(size() - total_core_objects) + "\n";
             summary += "---\n";
             summary += "Total" + std::string(col_size - 5, '.') + std::to_string(size()) + "\n";
             return summary;
         }
         
         
-        /// Provides iterator functionality for SBOL properties that contain multiple objects
-        class iterator : public std::vector<SBOLObject*>::iterator
+        /// Iterate through TopLevel objects in a Document
+        class iterator : public std::unordered_map<std::string, sbol::SBOLObject*>::iterator
         {
         public:
-            
-            iterator(typename std::vector<SBOLObject*>::iterator i_object = std::vector<SBOLObject*>::iterator()) : std::vector<SBOLObject*>::iterator(i_object)
+            iterator(std::unordered_map<std::string, sbol::SBOLObject*>::iterator i_obj = std::unordered_map<std::string, sbol::SBOLObject*>::iterator())
+            : std::unordered_map<std::string, sbol::SBOLObject*>::iterator(i_obj)
             {
+                
             }
             
-            SBOLObject& operator*()
-            {
-                return (SBOLObject&) *std::vector<SBOLObject*>::iterator::operator *();
+            // override the indirection operator
+            sbol::SBOLObject& operator*() {
+                return *std::unordered_map<std::string, sbol::SBOLObject*>::iterator::operator*().second;
             }
         };
         
         iterator begin()
         {
-            std::vector<SBOLObject*> object_store;
-            for (auto & entry : SBOLObjects)
-                object_store.push_back(entry.second);
-            return iterator(object_store.begin());
+            return iterator(SBOLObjects.begin());
         };
-        
+
         iterator end()
         {
-            std::vector<SBOLObject*> object_store;
-            for (auto & entry : SBOLObjects)
-                object_store.push_back(entry.second);
-            return iterator(object_store.end());
+            return iterator(SBOLObjects.end());
         };
         
-        std::vector<SBOLObject*>::iterator python_iter;
+        iterator python_iter;
         
         /// Search recursively for an SBOLObject in this Document that matches the uri
         /// @param uri The identity of the object to search for
@@ -377,7 +381,7 @@ namespace sbol {
             throw SBOLError(DUPLICATE_URI_ERROR, "Cannot add " + sbol_obj.identity.get() + " to Document. An object with this identity is already contained in the Document");
         else
         {
-            // If TopLevel add to Document
+            // If TopLevel add to Document.
             if (owned_objects.find(sbol_obj.type) != owned_objects.end())
             {
                 SBOLObjects[sbol_obj.identity.get()] = (SBOLObject*)&sbol_obj;
@@ -993,7 +997,9 @@ namespace sbol {
                 // Instantiate Python extension objects
                 SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj,  PyUnicode_FromString("this"));
                 if (swig_py_object->ptr == sbol_obj)
+                {
                     return py_obj;
+                }
             }
             return NULL;
         };
@@ -1026,8 +1032,8 @@ namespace sbol {
         };
         
     public:
-        OwnedPythonObject(SBOLObject *sbol_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, PyObject* constructor, PyObject* first_obj = NULL) :
-            OwnedObject<PyObject>(sbol_owner, sbol_uri, lower_bound, upper_bound, validation_rules),
+        OwnedPythonObject(SBOLObject *sbol_owner, rdf_type sbol_uri, PyObject* constructor, char lower_bound, char upper_bound, PyObject* first_obj = NULL) :
+            OwnedObject<PyObject>(sbol_owner, sbol_uri, lower_bound, upper_bound),
             constructor_for_owned_object(constructor)
         {
             // Register Property in owner Object
@@ -1039,7 +1045,7 @@ namespace sbol {
 //                    this->sbol_owner->PythonObjects[sbol_uri].push_back(first_obj);
             }
             else
-                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The third argument to an OwnedPythonObject constructor must be a pointer to the property's parent object, ie, self.this");
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The first argument to an OwnedPythonObject constructor must be a pointer to the property's parent object, ie, self.this");
         };
         
         void set(PyObject* py_obj)
@@ -1093,7 +1099,9 @@ namespace sbol {
                     return NULL;
 
                 SBOLObject* obj = this->sbol_owner->owned_objects[this->type][0];
-                return getSwigProxy(obj);
+                PyObject* py_obj = getSwigProxy(obj);
+                Py_INCREF(py_obj);
+                return py_obj;
             }
             // ...else search the object store for an object matching the id
             else
@@ -1112,7 +1120,9 @@ namespace sbol {
                 SBOLObject* obj = *i_obj;
                 if (uri.compare(obj->identity.get()) == 0)
                 {
-                    return getSwigProxy(obj);
+                    PyObject* py_obj = getSwigProxy(obj);
+                    Py_INCREF(py_obj);
+                    return py_obj;
                 }
             }
             // In SBOLCompliant mode, the user may retrieve an object by displayId as well
@@ -1157,8 +1167,9 @@ namespace sbol {
                     SBOLObject* obj = *i_obj;
                     if (compliant_uri.compare(obj->identity.get()) == 0)
                     {
-                        return getSwigProxy(obj);
-                    }
+                        PyObject* py_obj = getSwigProxy(obj);
+                        Py_INCREF(py_obj);
+                        return py_obj;                    }
                 }
                 throw SBOLError(NOT_FOUND_ERROR, "Object " + compliant_uri + " not found");
                 
@@ -1237,6 +1248,8 @@ namespace sbol {
                     child_obj->doc = parent_doc;
                 if (CHECK_TOP_LEVEL)
                     parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
+                
+                this->sbol_owner->PythonObjects[child_id] = py_obj;
                 return py_obj;
             }
             else
@@ -1262,12 +1275,85 @@ namespace sbol {
                 // Set pointer to Document
                 if (parent_obj->doc)
                     child_obj->doc = parent_obj->doc;
-                
+
+                this->sbol_owner->PythonObjects[uri] = py_obj;
                 return py_obj;
             }
         }
-    };
     
+        PyObject* __getitem__(const int nIndex)
+        {
+            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+            if (nIndex >= object_store.size())
+                throw SBOLError(SBOL_ERROR_NOT_FOUND, "Index out of range");
+            SBOLObject* obj = object_store.at(nIndex);
+            PyObject* py_obj = getSwigProxy(obj);
+            Py_INCREF(py_obj);
+            return py_obj;
+        }
+    
+        PyObject* __getitem__(const std::string uri)
+        {
+            return this->get(uri);
+        }
+    
+        void __setitem__(const std::string uri, PyObject* py_obj)
+        {
+            PyObject* new_obj = this->create(uri);
+            SBOLObject* dummy_obj = getSwigClient(py_obj);
+            SBOLObject* sbol_obj = getSwigClient(new_obj);
+            if (sbol_obj->type != dummy_obj->type)
+                throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
+            return;
+        }
+
+        OwnedPythonObject* __iter__()
+        {
+            this->python_iter = OwnedObject<PyObject>::iterator(this->begin());
+            return this;
+        }
+        
+        PyObject* next()
+        {
+            if (this->python_iter != this->end())
+            {
+                SBOLObject* obj = *this->python_iter;
+                this->python_iter++;
+                if (this->python_iter == this->end())
+                {
+                    PyErr_SetNone(PyExc_StopIteration);
+                }
+                PyObject* py_obj = getSwigProxy(obj);
+                Py_INCREF(py_obj);
+                return py_obj;
+            }
+            throw SBOLError(END_OF_LIST, "");
+            return NULL;
+        }
+        
+        PyObject* __next__()
+        {
+            if (this->python_iter != this->end())
+            {
+                
+                SBOLObject* obj = *this->python_iter;
+                this->python_iter++;
+                
+                PyObject* py_obj = getSwigProxy(obj);
+                Py_INCREF(py_obj);
+                return py_obj;
+            }
+            
+            throw SBOLError(END_OF_LIST, "");;
+            return NULL;
+        }
+        
+        int __len__()
+        {
+            return this->size();
+        }
+    };
+
 #endif
     
     

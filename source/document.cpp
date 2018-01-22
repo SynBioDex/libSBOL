@@ -525,7 +525,9 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
         if ((!doc->find(subject)) && (doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
         {
             PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
-            PyObject* py_obj = PyObject_CallFunction(constructor, (char *)"s", subject.c_str());
+
+//            PyObject* py_obj = PyObject_CallFunction(constructor, (char *)"s", subject.c_str());
+            PyObject* py_obj = PyObject_CallFunction(constructor, NULL);
             SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
             SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
             
@@ -553,7 +555,8 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
             doc->SBOLObjects[new_obj->identity.get()] = new_obj;
             new_obj->doc = doc;  //  Set's the objects back-pointer to the parent Document
             
-            Py_DECREF(py_obj); // Clean up
+            doc->PythonObjects[subject] = py_obj;
+            //Py_DECREF(py_obj); // Clean up
         }
         else
 #endif
@@ -667,7 +670,15 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
                         doc->SBOLObjects.erase(owned_obj_id);
                         // doc->owned_objects.erase(owned_object->type);  // Remove temporary, non-toplevel objects from the Document's property store
                     }
-				}
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+                    if (doc->PythonObjects.find(owned_obj_id) != doc->PythonObjects.end())
+                    {
+                        PyObject *owned_obj = doc->PythonObjects[owned_obj_id];
+                        sbol_obj->PythonObjects[owned_obj_id] = owned_obj;
+                        doc->PythonObjects.erase(owned_obj_id);
+                    }
+#endif
+                }
                 // Extension data
                 else
                 {
@@ -965,7 +976,7 @@ void Document::readString(std::string& sbol)
     
     // On the final pass, nested annotations not in the SBOL namespace are identified
     parse_annotation_objects();
-    
+
     // Process libSBOL objects not part of the SBOL core standard
     parse_extension_objects();
 }
@@ -999,10 +1010,10 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 		raptor_serializer_serialize_statement(sbol_serializer, triple);
 		raptor_free_statement(triple);
 
-        // Add missing namespace to the Document
         for (auto i_ns = namespaces.begin(); i_ns != namespaces.end(); ++i_ns)
+        {
             doc->namespaces[i_ns->first] = i_ns->second;
-        
+        }
 		for (auto it = properties.begin(); it != properties.end(); ++it)
 		{
             std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
@@ -1092,7 +1103,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
                     std::string predicate = property_name;
 					std::string object = obj->identity.get();
 
-
 					//std::string subject = property_name;
 					//std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#_" + std::to_string(i_o);
 					//std::string object = obj->identity.get();
@@ -1123,6 +1133,7 @@ void TopLevel::addToDocument(Document& doc)
 {
     doc.SBOLObjects[this->identity.get()] = this;
     this->doc = &doc;
+    this->parent = &doc;
 };
 
 TopLevel& Document::getTopLevel(string uri)
@@ -1516,13 +1527,6 @@ Identified& Identified::simpleCopy(string uri)
     return new_obj;
 };
 
-
-
-
-
-
-
-
 std::string Document::request_validation(std::string& sbol)
 {
     /* Form validation options in JSON */
@@ -1609,6 +1613,90 @@ std::string Document::request_validation(std::string& sbol)
     return response;
 };
 
+std::string Document::request_comparison(Document& diff_file)
+{
+    /* Form validation options in JSON */
+    Json::Value request;   // 'root' will contain the root value after parsing.
+    
+    vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
+    for (auto const& opt : opts)
+    {
+        if (Config::getOption(opt).compare("True") == 0)
+            request["options"][opt] = true;
+        else if (Config::getOption(opt).compare("False") == 0)
+            request["options"][opt] = false;
+        else
+            request["options"][opt] = Config::getOption(opt);
+    }
+    request["options"]["language"] = "SBOL2";
+    request["options"]["test_equality"] = true;
+    request["options"]["main_file_name"] = "Document1.xml";
+    request["options"]["diff_file_name"] = "Document2.xml";
+
+    request["return_file"] = false;
+    request["main_file"] = this->writeString();
+    request["diff_file"] = diff_file.writeString();
+
+    Json::StyledWriter writer;
+    string json = writer.write( request );
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the POST data */
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to compare documents failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    Json::Value json_response;
+    Json::Reader reader;
+    bool parsed = reader.parse( response, json_response );     //parse process
+    if ( parsed )
+    {
+        if (json_response.get("valid", response ).asString().compare("true") == 0)
+            response = "Valid.";
+        else
+            response = "Invalid.";
+        for (auto itr : json_response["errors"])
+        {
+            response += " " + itr.asString();
+        }
+    }
+    return response;
+};
 
 
 std::string Document::query_repository(std::string command)
