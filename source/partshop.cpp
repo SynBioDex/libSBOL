@@ -614,8 +614,8 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-//        headers = curl_slist_append(headers, "Accept: application/json");
-//    headers = curl_slist_append(headers, "Content-Type:  multipart/form-data");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     //    headers = curl_slist_append(headers, "charsets: utf-8");
     
     /* get a curl handle */
@@ -624,42 +624,39 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         /* First set the URL that is about to receive our POST. This URL can
          just as well be a https:// URL if that is what should receive the
          data. */
-        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "https://synbiohub.org/remoteSubmit");
-//        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_URL, "https://synbiohub.org/submit");
         
         /* Now specify the POST data */
         struct curl_httppost* post = NULL;
         struct curl_httppost* last = NULL;
         
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "id",
-                     CURLFORM_COPYCONTENTS, doc.displayId.get().c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "version",
-                     CURLFORM_COPYCONTENTS, doc.version.get().c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "name",
-                     CURLFORM_COPYCONTENTS, doc.name.get().c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "description",
-                     CURLFORM_COPYCONTENTS, doc.description.get().c_str(), CURLFORM_END);
+        if (doc.displayId.size())
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "id", CURLFORM_COPYCONTENTS, doc.displayId.get().c_str(), CURLFORM_END);
+        if (doc.version.size())
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "version", CURLFORM_COPYCONTENTS, doc.version.get().c_str(), CURLFORM_END);
+        if (doc.name.size())
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "name", CURLFORM_COPYCONTENTS, doc.name.get().c_str(), CURLFORM_END);
+        if (doc.description.size())
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "description", CURLFORM_COPYCONTENTS, doc.description.get().c_str(), CURLFORM_END);
         string citations;
         for (auto citation : doc.citations.getAll())
             citations += citation + ",";
         citations = citations.substr(0, citations.length() - 1);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "citations",
-                     CURLFORM_COPYCONTENTS, citations.c_str(), CURLFORM_END);  // Comma separated list
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "citations", CURLFORM_COPYCONTENTS, citations.c_str(), CURLFORM_END);  // Comma separated list
         string keywords;
         for (auto kw : doc.keywords.getAll())
             keywords += kw + ",";
         keywords = keywords.substr(0, keywords.length() - 1);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords",
-                     CURLFORM_COPYCONTENTS, doc.keywords.get().c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "collectionChoices",
-                     CURLFORM_COPYCONTENTS, collection.c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge",
-                     CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "user",
-                     CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file",
-                     CURLFORM_COPYCONTENTS, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords", CURLFORM_COPYCONTENTS, keywords.c_str(), CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "collectionChoices", CURLFORM_COPYCONTENTS, collection.c_str(), CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge", CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "user", CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_COPYCONTENTS, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
+        if (collection != "")
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "rootCollections", CURLFORM_COPYCONTENTS, collection.c_str());
+        
         
         /* Set the form info */
         curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
@@ -680,25 +677,7 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    //    Json::Value json_response;
-    //    Json::Reader reader;
-    //    bool parsed = reader.parse( response, json_response );     //parse process
-    //    if ( parsed )
-    //    {
-    //        //response = json_response.get("result", response ).asString();
-    //        //response = json_response.get("valid", response ).asString() << endl;
-    //        //response = json_response.get("output_file", response ).asString() << endl;
-    //        //response = json_response.get("valid", response ).asString();
-    //        if (json_response.get("valid", response ).asString().compare("true") == 0)
-    //            response = "Valid.";
-    //        else
-    //            response = "Invalid.";
-    //        for (auto itr : json_response["errors"])
-    //        {
-    //            response += " " + itr.asString();
-    //        }
-    //    }
-    if (response.compare("Error: Invalid user token") == 0)
+    if (response.compare("Found. Redirecting to /login?next=%2Fsubmit") == 0)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
     return response;
 };
@@ -919,6 +898,74 @@ string PartShop::getURL()
 {
     return resource;
 }
+
+std::string PartShop::attachFile(std::string topleveluri, std::string filename)
+{
+    if (filename != "" && filename[0] == '~') {
+        if (filename[1] != '/'){
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Malformed input path. Potentially missing slash.");
+        }
+        char const* home = getenv("HOME");
+        if (home || (home = getenv("USERPROFILE"))) {
+            filename.replace(0, 1, home);
+        }
+    }
+    FILE* fh = fopen(filename.c_str(), "rb");
+    if (!fh)
+        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + filename + " not found");
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_URL, string(topleveluri + "/attach").c_str());
+        
+        /* Now specify the POST data */
+        struct curl_httppost* post = NULL;
+        struct curl_httppost* last = NULL;
+
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_FILE, filename.c_str(), CURLFORM_END);
+        
+        /* Set the form info */
+        curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to upload attachment failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    if (response.compare("Found. Redirecting to /login?next=%2Fsubmit") == 0)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
+    return response;
+
+};
 
 
 void SearchResponse::extend(SearchResponse& response)

@@ -238,6 +238,12 @@ namespace sbol
         /// Returns the network address of the PartShop
         /// @return The URL of the online repository
         std::string getURL();
+        
+        /// Upload and attach a file to a TopLevel object in a PartShop.
+        /// @param top_level_uri The identity of the object to which the file will be attached
+        /// @param file_name A path to the file attachment
+        std::string attachFile(std::string topleveluri, std::string filename);
+
     };
     
 //    /// Returns a Document including all objects referenced from this object
