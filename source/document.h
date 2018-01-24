@@ -80,10 +80,10 @@ namespace sbol {
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
             validationRules({ }),
-            designs(this, SYSBIO_DESIGN, '0', '*', ValidationRules({})),
-            builds(this, SYSBIO_BUILD, '0', '*', ValidationRules({})),
-            tests(this, SYSBIO_TEST, '0', '*', ValidationRules({})),
-            analyses(this, SYSBIO_ANALYSIS, '0', '*', ValidationRules({})),
+            designs(this, SYSBIO_DESIGN, '0', '*', { libsbol_rule_11 }),
+            builds(this, SYSBIO_BUILD, '0', '*', { libsbol_rule_12 }),
+            tests(this, SYSBIO_TEST, '0', '*', { libsbol_rule_13 }),
+            analyses(this, SYSBIO_ANALYSIS, '0', '*', { libsbol_rule_14 }),
             componentDefinitions(this, SBOL_COMPONENT_DEFINITION, '0', '*', ValidationRules({})),
             moduleDefinitions(this, SBOL_MODULE_DEFINITION, '0', '*', ValidationRules({})),
             models(this, SBOL_MODEL, '0', '*', ValidationRules({})),
@@ -95,6 +95,7 @@ namespace sbol {
             attachments(this, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
             combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({})),
             implementations(this, SBOL_IMPLEMENTATION, '0', '*', ValidationRules({})),
+            sampleRosters(this, SYSBIO_SAMPLE_ROSTER, '0', '*', ValidationRules({})),
             citations(this, PURL_URI "bibliographicCitation", '0', '*', ValidationRules({})),
             keywords(this, PURL_URI "elements/1.1/subject", '0', '*', ValidationRules({}))
 			{
@@ -136,6 +137,7 @@ namespace sbol {
         OwnedObject<Attachment> attachments;
         OwnedObject<CombinatorialDerivation> combinatorialderivations;
         OwnedObject<Implementation> implementations;
+        OwnedObject<SampleRoster> sampleRosters;
 
         URIProperty citations;
         URIProperty keywords;

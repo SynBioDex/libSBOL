@@ -320,40 +320,6 @@ int sbol::hasHomespace()
         return 1;
 };
 
-void sbol::toggleSBOLCompliantTypes(bool is_toggled)
-{
-    config.toggleSBOLCompliantTypes(is_toggled);
-};
-
-int sbol::compliantTypesEnabled()
-{
-    return config.compliantTypesEnabled();
-};
-
-
-void sbol::toggleExceptions(bool is_toggled)
-{
-    config.toggleExceptions(is_toggled);
-};
-
-void Config::toggleExceptions(bool is_toggled)
-{
-    if (is_toggled)
-        catch_exceptions = 1;
-    else
-        catch_exceptions = 0;
-};
-
-int sbol::exceptionsEnabled()
-{
-    return config.exceptionsEnabled();
-}
-
-int Config::exceptionsEnabled()
-{
-    return catch_exceptions;
-}
-
 void sbol::setFileFormat(std::string file_format)
 {
     config.setFileFormat(file_format);
@@ -380,20 +346,6 @@ int Config::hasHomespace()
         return 0;
     else
         return 1;
-};
-
-
-void Config::toggleSBOLCompliantTypes(bool is_toggled)
-{
-    if (is_toggled)
-        this->SBOLCompliantTypes = 1;
-    else
-        this->SBOLCompliantTypes = 0;
-};
-
-int Config::compliantTypesEnabled()
-{
-    return this->SBOLCompliantTypes;
 };
 
 void Config::setFileFormat(std::string file_format)

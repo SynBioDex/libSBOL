@@ -232,5 +232,6 @@
 #define SYSBIO_BUILD SYSBIO_URI "#Build"
 #define SYSBIO_TEST SYSBIO_URI "#Test"
 #define SYSBIO_ANALYSIS SYSBIO_URI "#Analysis"
+#define SYSBIO_SAMPLE_ROSTER SYSBIO_URI "#SampleRoster"
 
 #endif

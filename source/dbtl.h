@@ -33,61 +33,19 @@
 
 namespace sbol
 {
-    ///
+    /// This class represents a biological Design. A Design is a conceptual representation of a biological system that a synthetic biologist intends to build. A Design is the first object created in libSBOL's formalized Design-Build-Test-Analysis workflow.
     class Design : public TopLevel
     {
     friend class Document;
     friend class OwnedObject<Design>;
         
-    private:
-        ReferencedObject _structure;
-        ReferencedObject _function;
-        
     public:
-        OwnedObject < ComponentDefinition > structure;
-        OwnedObject < ModuleDefinition > function;
-
-//        /// Default constructor
-//        Design() :
-//            TopLevel(SYSBIO_URI "#Design", "example", VERSION_STRING),
-//            structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_3 }),
-//            function(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_4 }),
-//            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), "dummy"),
-//            _function(this, SYSBIO_URI "#_function", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), "dummy")
-//        {
-//            hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
-//            hidden_properties.push_back(SBOL_MODULE_DEFINITION);
-//        };
-
-//        /// Open-world constructor
-//        Design(std::string uri, std::string structure_uri, std::string function_uri, std::string version = VERSION_STRING) : Design()
-//        {
-//            this->version.set(version);
-//            this->identity.set(uri);
-//            ComponentDefinition& cd = structure.create(structure_uri);
-//            ModuleDefinition& md = function.create(function_uri);
-//        };
-
-//        /// SBOL-compliant constructor. Use when SBOL-compliant and typed URIs are enabled (default state of library).  Creates a new Design, new ComponentDefinition, and new ModuleDefinition from scratch.
-//        Design(std::string uri, std::string version = VERSION_STRING) :
-//            Design(uri, uri, uri, version)
-//        {
-//            displayId.set(uri);
-//            if (Config::getOption("sbol_typed_uris") == "True")
-//            {
-//                identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get() + "/" + version);
-//                persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
-//            }
-//            else
-//            {
-//                identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
-//                persistentIdentity.set(getHomespace() + "/" + displayId.get());
-//            }
-//        };
-     
         /// Construct a new Design from scratch. The structure and function of the Design are not initialized.
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Design(std::string uri = "example", std::string version = VERSION_STRING) :
             TopLevel(SYSBIO_URI "#Design", uri, VERSION_STRING),
+            characterization(this, SYSBIO_URI "#characterization", SYSBIO_ANALYSIS, '0', '*', { libsbol_rule_7 }),
             structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_3 }),
             function(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_4 }),
             _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({})),
@@ -99,10 +57,13 @@ namespace sbol
         
         
         /// Constructs a new Design. The structure and function of the Design are initialized. A FunctionalComponent is autoconstructed which correlates the structure and function.
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param structure A ComponentDefinition representing the structural aspects of the Design
         /// @param function A ModuleDefiniition representing the functional aspects of the Design
-        Design(std::string uri, ComponentDefinition& structure, ModuleDefinition& function) :
-            TopLevel(SYSBIO_DESIGN, uri),
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
+        Design(std::string uri, ComponentDefinition& structure, ModuleDefinition& function, std::string version = VERSION_STRING) :
+            TopLevel(SYSBIO_DESIGN, uri, version),
+            characterization(this, SYSBIO_URI "#characterization", SYSBIO_ANALYSIS, '0', '*', { libsbol_rule_7 }),
             structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_3 }, structure),
             function(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_4 }, function),
             _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), structure.identity.get()),
@@ -113,10 +74,23 @@ namespace sbol
             hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
             hidden_properties.push_back(SBOL_MODULE_DEFINITION);
         };
+
+        /// The target biological structure for synthesis or other molecular assembly
+        OwnedObject < ComponentDefinition > structure;
+        
+        /// The intended function and predicted behavior of the Design object
+        OwnedObject < ModuleDefinition > function;
+        
+        /// A reference to an Analysis or multiple Analysis objects that contain characterization data, previously verified experimental knowledge, or explanatory models that inform a Design.
+        ReferencedObject characterization;
         
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed
         ~Design() override;
 
+    private:
+        ReferencedObject _structure;
+        ReferencedObject _function;
+        
     };
     
     template<>
@@ -125,25 +99,23 @@ namespace sbol
     template<>
     Design& TopLevel::generate<Design>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
     
+    /// A Build is a realization of a Design. For practical purposes, a Build can represent a biological clone, a plasmid, or other laboratory sample. For a given Design, there may be multiple Builds realized in the lab. A Build represents the second step in libSBOL's formalized Design-Build-Test-Analyze workflow.
     class Build : public Implementation
     {
     friend class Document;
     friend class OwnedObject<Build>;
-    private:
-        URIProperty sysbio_type;
-        ReferencedObject _structure;
-        ReferencedObject _behavior;
-
+        
     public:
-        OwnedObject < ComponentDefinition > structure;
-        OwnedObject < ModuleDefinition > behavior;
-
+        /// Constructs a new Build from scratch.
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Build(std::string uri = "example", std::string version = VERSION_STRING) :
             Implementation(uri, VERSION_STRING),
+            design(this, SYSBIO_URI "#design", SYSBIO_DESIGN, '0', '1', { libsbol_rule_8 }),
             structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_5 }),
             behavior(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_6 }),
-            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', {}, "dummy"),
-            _behavior(this, SBOL_URI "#built", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), "dummy"),
+            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({})),
+            _behavior(this, SBOL_URI "#built", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({})),
             sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_BUILD)
         {
             // Overwrite the typed URI formed by base constructor by replacing Implementation with Build
@@ -155,75 +127,17 @@ namespace sbol
                     identity.set(getHomespace() + "/" + getClassName(SYSBIO_BUILD) + "/" + displayId.get() + "/" + version);
                     persistentIdentity.set(getHomespace() + "/" + getClassName(SYSBIO_BUILD) + "/" + displayId.get());
                 }
-//                else
-//                {
-//                    identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
-//                    persistentIdentity.set(getHomespace() + "/" + displayId.get());
-//                }
             }
-//            else
-//            {
-//                this->version.set(version);
-//                this->identity.set(uri);
-//            }
         };
-        
-//        // Default constructor
-//        Build() :
-//            Implementation("example", VERSION_STRING),
-//            structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_5 }),
-//            behavior(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_6 }),
-//            _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', {}, "dummy"),
-//            _behavior(this, SBOL_URI "#built", SBOL_MODULE_DEFINITION, '1', '1', {}, "dummy"),
-//            sysbio_type(this, SYSBIO_URI "#type", '1', '1', {}, SYSBIO_BUILD)
-//        {
-//            hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
-//            hidden_properties.push_back(SBOL_MODULE_DEFINITION);
-//        }
-//        
-//        /// SBOL-compliant constructor
-//        Build(std::string uri, std::string version = VERSION_STRING) :
-//            Build(uri, uri, uri, version)
-//        {
-//            if  (Config::getOption("sbol_compliant_uris") == "True" && Config::getOption("sbol_typed_uris") == "True")
-//            {
-//                displayId.set(uri);
-//                identity.set(getHomespace() + "/" + getClassName(SYSBIO_BUILD) + "/" + displayId.get() + "/" + version);
-//                persistentIdentity.set(getHomespace() + "/" + getClassName(SYSBIO_BUILD) + "/" + displayId.get());
-//            }
-//            else
-//                throw SBOLError(SBOL_ERROR_COMPLIANCE, "Cannot construct Build. This constructor method requires both SBOL-compliant and SBOL-typed URIs. Use Config::setOption to configure these options or use the alternate constructor method.");
-//        };
-//        
-//        Build(std::string uri, std::string structure_uri, std::string behavior_uri, std::string version = VERSION_STRING) :
-//            Build()
-//        {
-//            if  (Config::getOption("sbol_compliant_uris") == "True")
-//            {
-//                displayId.set(uri);
-//                if (Config::getOption("sbol_typed_uris") == "True")
-//                {
-//                    identity.set(getHomespace() + "/" + getClassName(SYSBIO_BUILD) + "/" + displayId.get() + "/" + version);
-//                    persistentIdentity.set(getHomespace() + "/" + getClassName(SYSBIO_BUILD) + "/" + displayId.get());
-//                }
-//                else
-//                {
-//                    identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
-//                    persistentIdentity.set(getHomespace() + "/" + displayId.get());
-//                }
-//            }
-//            else
-//            {
-//                this->version.set(version);
-//                this->identity.set(uri);
-//            }
-//            ComponentDefinition& cd = structure.create(structure_uri);
-//            ModuleDefinition& md = behavior.create(behavior_uri);
-//        };
 
-
+        /// Constructs a new Build. The structure and behavior of the Build are initialized. A FunctionalComponent is autoconstructed which correlates the structure and function.
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param structure A ComponentDefinition representing the experimentally verified structure of the construct as verified by DNA sequencing or other analysis
+        /// @param function A ModuleDefiniition representing the observed behavior of the constructed system
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Build(std::string uri, ComponentDefinition& structure, ModuleDefinition& behavior, std::string version = VERSION_STRING) :
             Implementation(uri, version),
+            design(this, SYSBIO_URI "#design", SYSBIO_DESIGN, '0', '1', { libsbol_rule_8 }),
             structure(this, SBOL_COMPONENT_DEFINITION, '1', '1', { libsbol_rule_5 }, structure),
             behavior(this, SBOL_MODULE_DEFINITION, '1', '1', { libsbol_rule_6 }, behavior),
             _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), structure.identity.get()),
@@ -233,9 +147,23 @@ namespace sbol
             hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
             hidden_properties.push_back(SBOL_MODULE_DEFINITION);
         };
+
+        /// A reference to a Design object which represents the intended structure and function for this Build
+        ReferencedObject design;
+        
+        /// The experimentally verified structure of the construct as verified by DNA sequencing or other analysis
+        OwnedObject < ComponentDefinition > structure;
+        
+        /// The observed behavior of the constructed system
+        OwnedObject < ModuleDefinition > behavior;
         
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed
         ~Build() override;
+    
+    private:
+        URIProperty sysbio_type;
+        ReferencedObject _structure;
+        ReferencedObject _behavior;
     };
   
     template<>
@@ -244,16 +172,23 @@ namespace sbol
     template<>
     Build& TopLevel::generate<Build>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
     
+    /// A Test is a container for experimental data. A Test is the product of the third step of libSBOL's formalized Design-Build-Test-Analyze workflow
     class Test : public Collection
     {
     friend class Document;
     friend class OwnedObject<Test>;
+        
     private:
         URIProperty sysbio_type;
+        
     public:
+        /// Construct a new Test object.
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Test(std::string uri = "example", std::string version = VERSION_STRING) :
             Collection(uri, version),
-            rawData(this, SBOL_MEMBERS, '0', '*', ValidationRules({})),
+            samples(this, SYSBIO_URI "#samples", SBOL_IMPLEMENTATION, '0', '*', { libsbol_rule_9 }),
+            dataFiles(this, SBOL_MEMBERS, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
             sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_TEST)
         {
             // Overwrite the typed URI formed by base constructor by replacing Collection with Test
@@ -266,8 +201,12 @@ namespace sbol
                 }
             }
         }
-        
-        URIProperty rawData;
+
+        /// References to Builds which were tested in the experiment
+        ReferencedObject samples;
+
+        /// References to file Attachments which contain experimental data sets
+        ReferencedObject dataFiles;
     };
 
     template<>
@@ -276,29 +215,44 @@ namespace sbol
     template<>
     Test& TopLevel::generate<Test>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
 
-    
     class Analysis : public TopLevel
     {
     friend class Document;
     friend class OwnedObject<Analysis>;
     public:
-        
+
+        /// Construct a new Analysis object.
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Analysis(std::string uri = "example", std::string version = VERSION_STRING) :
             TopLevel(SYSBIO_ANALYSIS, uri, version),
+            rawData(this, SYSBIO_URI "#rawData", SBOL_COLLECTION, '0', '1', { libsbol_rule_10 }),
+            dataFiles(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
             consensusSequence(this, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
             fittedModel(this, SBOL_MODEL, '0', '1', ValidationRules({})),
             dataSheet(this, SYSBIO_URI "#dataSheet", SBOL_ATTACHMENT, '0', '1', ValidationRules({})),
-            processedData(this, SBOL_ATTACHMENTS, '0', '*', ValidationRules({})),
             _consensusSequence(this, SYSBIO_URI "#consensusSequence", SBOL_SEQUENCE, '0', '1', ValidationRules({})),
             _fittedModel(this, SYSBIO_URI "#model", SBOL_MODEL, '0', '1', ValidationRules({}))
         {
             hidden_properties.push_back(SYSBIO_URI "#consensusSequence");
             hidden_properties.push_back(SYSBIO_URI "#model");
         }
-        OwnedObject < Sequence > consensusSequence;
-        OwnedObject < Sequence > fittedModel;
+        
+        /// A reference to a Test object which contains the raw data for an Analysis
+        ReferencedObject rawData;
+        
+        /// References to file Attachments which contain experimental data sets
+        ReferencedObject dataFiles;
+        
+        /// A reference to a datasheet file
         ReferencedObject dataSheet;
-        URIProperty processedData;
+        
+        /// A sequence object that represents a consensus sequence from DNA sequencing data
+        OwnedObject < Sequence > consensusSequence;
+
+        /// A Model derived from fitting an experimental data set
+        OwnedObject < Model > fittedModel;
+        
         ~Analysis() override;
     private:
         ReferencedObject _consensusSequence;
@@ -313,7 +267,38 @@ namespace sbol
     template<>
     Analysis& TopLevel::generate<Analysis>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
     
-    
+    /// A SampleRoster is a container used to group Builds that are included in an experiment together. A SampleRoster can be used to generate a Test in a Design-Build-Test-Learn workflow.
+    class SampleRoster : public Collection
+    {
+        friend class Document;
+        friend class OwnedObject<Test>;
+        
+    private:
+        URIProperty sysbio_type;
+        
+    public:
+        /// Construct a new SampleRoster object.
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
+        SampleRoster(std::string uri = "example", std::string version = VERSION_STRING) :
+            Collection(uri, version),
+            samples(this, SBOL_MEMBERS, SBOL_BUILD, '0', '*', ValidationRules({})),
+            sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_URI "#SampleRoster")
+        {
+            // Overwrite the typed URI formed by base constructor by replacing Collection with Test
+            if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+            {
+                if (Config::getOption("sbol_typed_uris") == "True")
+                {
+                    identity.set(getHomespace() + "/SampleRoster/" + displayId.get() + "/" + version);
+                    persistentIdentity.set(getHomespace() + "/SampleRoster/" + displayId.get());
+                }
+            }
+        }
+        
+        /// References to Builds which were tested in an experiment
+        ReferencedObject samples;
+    };
 };
 
 

@@ -718,11 +718,15 @@ void ReferencedObject::add(std::string uri)
 
 void ReferencedObject::set(SBOLObject& obj)
 {
+    if (obj.type != reference_type_uri)
+        throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
     set(obj.identity.get());
 };
 
 void ReferencedObject::add(SBOLObject& obj)
 {
+    if (obj.type != reference_type_uri)
+        throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
     add(obj.identity.get());
 };
 

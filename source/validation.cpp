@@ -216,8 +216,6 @@ void sbol::libsbol_rule_4(void *sbol_obj, void *arg)
             correlation.definition.set(structure);
         }
     }
-    else
-        std::cout << "Structure is not defined" << std::endl;
 };
 
 // Validate Build.structure and Build.behavior are compatible
@@ -283,5 +281,120 @@ void sbol::libsbol_rule_6(void *sbol_obj, void *arg)
             FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
             correlation.definition.set(structure);
         }
+    }
+};
+
+// Validate that the Analysis object referenced in Design.characterization is consistent with #learn Usage
+void sbol::libsbol_rule_7(void *sbol_obj, void *arg)
+{
+    Design& design = *(Design*)sbol_obj;
+    string& analysis_id = *(string*)arg;
+    if (design.doc && design.wasGeneratedBy.size())
+    {
+        vector< Usage* > learn_usages;
+        for (auto & activity : design.doc->activities)
+            if (activity.identity.get() == design.wasGeneratedBy.get())
+                for (auto & usage : activity.usages)
+                    if (usage.roles.find(SBOL_LEARN))
+                        learn_usages.push_back(&usage);
+        for (auto & usage : learn_usages)
+            if (analysis_id == usage->entity.get())
+                return;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The characterization property of " + design.identity.get() + " must reference the same Analysis as referenced by the Activity that produced it.");    }
+};
+
+// Validate that the Design object referenced in Build.design is consistent with #design Usage
+void sbol::libsbol_rule_8(void *sbol_obj, void *arg)
+{
+    Build& build = *(Build*)sbol_obj;
+    string& design_id = *(string*)arg;
+    if (build.doc  && build.wasGeneratedBy.size())
+    {
+        vector< Usage* > design_usages;
+        for (auto & activity : build.doc->activities)
+            if (activity.identity.get() == build.wasGeneratedBy.get())
+                for (auto & usage : activity.usages)
+                    if (usage.roles.find(SBOL_DESIGN))
+                        design_usages.push_back(&usage);
+        for (auto & usage : design_usages)
+            if (design_id == usage->entity.get())
+                return;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The design property of " + build.identity.get() + " must reference the same Design as referenced by the Activity that produced it.");
+    }
+};
+
+// Validate that the Build objects referenced in Test.samples is consistent with #build Usage
+void sbol::libsbol_rule_9(void *sbol_obj, void *arg)
+{
+    Test& test = *(Test*)sbol_obj;
+    string& sample_id = *(string*)arg;
+    if (test.doc && test.wasGeneratedBy.size())
+    {
+        vector< Usage* > build_usages;
+        for (auto & activity : test.doc->activities)
+            if (activity.identity.get() == test.wasGeneratedBy.get())
+                for (auto & usage : activity.usages)
+                    if (usage.roles.find(SBOL_BUILD))
+                        build_usages.push_back(&usage);
+        for (auto & usage : build_usages)
+            if (sample_id == usage->entity.get())
+                return;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The samples property of " + test.identity.get() + " must reference the same Build objects as referenced by the Activity that produced it.");
+    }
+};
+
+// Validate that the Test objects referenced in Analysis.rawData is consistent with #test Usage
+void sbol::libsbol_rule_10(void *sbol_obj, void *arg)
+{
+    Analysis& analysis = *(Analysis*)sbol_obj;
+    string& test_id = *(string*)arg;
+    if (analysis.doc && analysis.wasGeneratedBy.size())
+    {
+        vector< Usage* > test_usages;
+        for (auto & activity : analysis.doc->activities)
+            if (activity.identity.get() == analysis.wasGeneratedBy.get())
+                for (auto & usage : activity.usages)
+                    if (usage.roles.find(SBOL_TEST))
+                        test_usages.push_back(&usage);
+        for (auto & usage : test_usages)
+            if (test_id == usage->entity.get())
+                return;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The rawData property of " + analysis.identity.get() + " must reference the same Test object as referenced by the Activity that produced it.");
+    }
+};
+
+void sbol::libsbol_rule_11(void *sbol_obj, void *arg)
+{
+    Design& design = *(Design*)sbol_obj;
+    for (auto & analysis : design.characterization)
+    {
+        libsbol_rule_7(sbol_obj, &analysis);
+    }
+};
+
+void sbol::libsbol_rule_12(void *sbol_obj, void *arg)
+{
+    Build& build = *(Build*)sbol_obj;
+    for (auto & design : build.design)
+    {
+        libsbol_rule_8(sbol_obj, &design);
+    }
+};
+
+void sbol::libsbol_rule_13(void *sbol_obj, void *arg)
+{
+    Test& test = *(Test*)sbol_obj;
+    for (auto & build : test.samples)
+    {
+        libsbol_rule_9(sbol_obj, &build);
+    }
+};
+
+void sbol::libsbol_rule_14(void *sbol_obj, void *arg)
+{
+    Analysis& analysis = *(Analysis*)sbol_obj;
+    for (auto & test : analysis.rawData)
+    {
+        libsbol_rule_10(sbol_obj, &test);
     }
 };

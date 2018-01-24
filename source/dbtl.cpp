@@ -67,29 +67,37 @@ namespace sbol
             throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Generate method requires that the progenitor object belong to a Document.");
         
         if (this->type != SYSBIO_ANALYSIS && this->type != SYSBIO_DESIGN)
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Design can only be generated from an Analysis or other Designs.");
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Object " + this->identity.get() + " cannot generate a Design. A Design can only be generated from an Analysis or another Design.");
         
         Design& design = *new Design(uri);
-        design.wasDerivedFrom.set(this->identity.get());  // SBOL provenance linkages are made through the child ModuleDefinition
+        design.wasDerivedFrom.set(this->identity.get());
+        if (this->type == SYSBIO_ANALYSIS)
+            design.characterization.set(this->identity.get());
         
+        // Form URI for auto-constructing an Activity
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
             id = design.displayId.get();
         else
             id = design.identity.get();
+        
+        // Auto-construct Activity
         Activity& a = doc->activities.create(id + "_generation");
         design.wasGeneratedBy.set(a);
         
+        // Form URI for auto-constructing a Usage referring to the generating object
         if (Config::getOption("sbol_compliant_uris") == "True")
             id = this->displayId.get();
         else
             id = this->identity.get();
         Usage& u = a.usages.create(id + "_usage");
         u.entity.set(this->identity.get());
-        if (this->type == SYSBIO_TEST)
-            u.roles.set(SBOL_URI "#learn");
+        
+        // The generated Design may use an Analysis to learn, or else it uses a Design to design, depending on which type of object generated it.
+        if (this->type == SYSBIO_ANALYSIS)
+            u.roles.add(SBOL_LEARN);
         else
-            u.roles.set(SBOL_URI "#design");
+            u.roles.add(SBOL_DESIGN);
         
         doc->add<Design>(design);
         return design;
@@ -99,20 +107,24 @@ namespace sbol
     Design& TopLevel::generate<Design>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages)
     {
         for (auto & obj : usages)
-            if (obj->type != SYSBIO_DESIGN)
-                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Design may only use other Designs for generation");
+            if (obj->type != SYSBIO_ANALYSIS && obj->type != SYSBIO_DESIGN)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid usages argument. A Design may only use other Designs or Analysis objects for generation");
 
         Design& design = TopLevel::generate<Design>(uri);
         Activity& a = doc->get<Activity>(design.wasGeneratedBy.get());
     
+        // Form URI for auto-constructing an Association
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
             id = design.displayId.get();
         else
             id = design.identity.get();
+        
+        // Auto-construct Association
         Association& asc = a.associations.create(id + "_generation_association");
-        asc.plan.set(plan);
         asc.roles.set(SBOL_URI "#design");
+        asc.agent.set(plan);
+        asc.plan.set(plan);
     
         for (auto & usage : usages)
         {
@@ -122,7 +134,13 @@ namespace sbol
                 id = usage->identity.get();
             Usage& u = a.usages.create(id + "_usage");
             u.entity.set(usage->identity.get());
-            u.roles.set(SBOL_URI "#design");
+            if (usage->type == SYSBIO_ANALYSIS)
+            {
+                u.roles.set(SBOL_LEARN);
+                design.characterization.add(u);
+            }
+            else
+                u.roles.set(SBOL_DESIGN);
         }
         return design;
     };
@@ -144,22 +162,29 @@ namespace sbol
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Build can only be generated from a Design or Build.");
     
         Build& build = *new Build(uri);
-        build.wasDerivedFrom.set(this->identity.get());  // SBOL provenance linkages are made through the child ModuleDefinition
+        build.wasDerivedFrom.set(this->identity.get());
+        build.design.set(this->identity.get());
 
+        // Form URI for auto-constructing an Activity
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
             id = build.displayId.get();
         else
             id = build.identity.get();
+        
+        // Auto-construct Activity
         Activity& a = doc->activities.create(id + "_generation");
         build.wasGeneratedBy.set(a);
 
+        // Form URI for auto-constructing a Usage referring to the generating object
         if (Config::getOption("sbol_compliant_uris") == "True")
             id = this->displayId.get();
         else
             id = this->identity.get();
         Usage& u = a.usages.create(id + "_usage");
         u.entity.set(this->identity.get());
+        
+        // The generated Build may use a Design to design, or else it uses a Build to build, depending on which type of object generated it.
         if (this->type == "http://sys-bio.org#Design")
             u.roles.set(SBOL_URI "#design");
         else
@@ -174,19 +199,23 @@ namespace sbol
     {
         for (auto & obj : usages)
             if (obj->type != SBOL_IMPLEMENTATION)
-                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Build may only use other Builds for generation");
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid usages argument. A Build may only use other Builds for generation");
 
         Build& build = TopLevel::generate<Build>(uri);
         Activity& a = doc->get<Activity>(build.wasGeneratedBy.get());
     
+        // Form URI for auto-constructing an Association
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
             id = build.displayId.get();
         else
             id = build.identity.get();
+        
+        // Auto-construct an Association
         Association& asc = a.associations.create(id + "_generation_association");
-        asc.plan.set(plan);
         asc.roles.set(SBOL_URI "#build");
+        asc.agent.set(agent);
+        asc.plan.set(plan);
     
         for (auto & usage : usages)
         {
@@ -215,24 +244,47 @@ namespace sbol
         
         if (this->type != SBOL_IMPLEMENTATION && this->type != SBOL_COLLECTION)
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Test can only be generated from a Build or another Test.");
-        
+
         Test& test = *new Test(uri);
-        test.wasDerivedFrom.set(this->identity.get());  // SBOL provenance linkages are made through the child ModuleDefinition
+        test.wasDerivedFrom.set(this->identity.get());
+
+        // Set Test.samples property
+        if (properties.find(SYSBIO_URI "#type") != properties.end())
+        {
+            if (properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_URI "#SampleRoster>")
+            {
+                SampleRoster& roster = *(SampleRoster*)this;
+                for (auto & sample_id : roster.samples)
+                    test.samples.add(sample_id);
+            }
+            else if (properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_BUILD ">")
+            {
+                // The progenitor object is either a Test or Build
+                test.samples.set(this->identity.get());
+            }
+        }
         
+        // Form URI for auto-constructing an Activity
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
             id = test.displayId.get();
         else
             id = test.identity.get();
+        
+        // Auto-construct Activity
         Activity& a = doc->activities.create(id + "_generation");
         test.wasGeneratedBy.set(a);
         
+        // Form URI for auto-constructing a Usage referring to the generating object
         if (Config::getOption("sbol_compliant_uris") == "True")
             id = this->displayId.get();
         else
             id = this->identity.get();
+        
         Usage& u = a.usages.create(id + "_usage");
         u.entity.set(this->identity.get());
+        
+        // The generated Build may use a Design to design, or else it uses a Build to build, depending on which type of object generated it.
         if (this->type == SBOL_IMPLEMENTATION)
             u.roles.set(SBOL_URI "#build");
         else
@@ -246,8 +298,8 @@ namespace sbol
     Test& TopLevel::generate<Test>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages)
     {
         for (auto & obj : usages)
-            if (obj->type != SYSBIO_TEST)
-                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Test may only use other Tests for generation");
+            if (obj->type != SBOL_IMPLEMENTATION && obj->type != SBOL_COLLECTION)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Test may only use Builds or other Tests for generation");
 
         Test& test = TopLevel::generate<Test>(uri);
         Activity& a = doc->get<Activity>(test.wasGeneratedBy.get());
@@ -261,6 +313,19 @@ namespace sbol
         asc.plan.set(plan);
         asc.roles.set(SBOL_URI "#test");
     
+        // Check if the progenitor object is a SampleRoster (collection of Builds)
+        if (properties.find(SYSBIO_URI "#type") != properties.end())
+            if (properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_URI "#SampleRoster>")
+            {
+                std::cout << "Generating from SampleRoster" << std::endl;
+                SampleRoster& roster = *(SampleRoster*)this;
+                for (auto & sample_id : roster.samples)
+                {
+                    Identified& sample = this->doc->get<Identified>(sample_id);
+                    usages.push_back(&sample);
+                }
+            }
+
         for (auto & usage : usages)
         {
             if (Config::getOption("sbol_compliant_uris") == "True")
@@ -269,7 +334,13 @@ namespace sbol
                 id = usage->identity.get();
             Usage& u = a.usages.create(id + "_usage");
             u.entity.set(usage->identity.get());
-            u.roles.set(SBOL_URI "#test");
+            if (usage->type == SBOL_IMPLEMENTATION)
+            {
+                u.roles.set(SBOL_BUILD);
+                test.samples.add(u);
+            }
+            else
+                u.roles.set(SBOL_TEST);
         }
         return test;
     };
@@ -290,7 +361,8 @@ namespace sbol
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "An Analysis can only be generated from a Test or another Analysis.");
         
         Analysis& analysis = *new Analysis(uri);
-        analysis.wasDerivedFrom.set(this->identity.get());  // SBOL provenance linkages are made through the child ModuleDefinition
+        analysis.wasDerivedFrom.set(this->identity.get());
+        analysis.rawData.set(this->identity.get());
         
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
@@ -331,8 +403,9 @@ namespace sbol
         else
             id = analysis.identity.get();
         Association& asc = a.associations.create(id + "_generation_association");
-        asc.plan.set(plan);
         asc.roles.set(SBOL_URI "#learn");
+        asc.agent.set(agent);
+        asc.plan.set(plan);
         
         for (auto & usage : usages)
         {

@@ -51,7 +51,7 @@ using namespace std;
 
 void Document::parse_extension_objects()
 {
-    // Look in Implementation store for objects with additional annotations and move them to Build store
+    // Look in Implementation store for objects with sys-bio:type and move them to Build store
     vector<SBOLObject*>& implementation_store = owned_objects[SBOL_IMPLEMENTATION];
     vector<SBOLObject*>& build_store = owned_objects[SYSBIO_BUILD];
     implementation_store.erase( std::remove_if(implementation_store.begin(), implementation_store.end(), [&](SBOLObject* i)
@@ -64,7 +64,7 @@ void Document::parse_extension_objects()
             return false;
         }), implementation_store.end());
 
-    // Look in Collection store for objects with additional annotations and move them to Test store
+    // Look in Collection store for objects with sys-bio:type and move them to Test store
     vector<SBOLObject*>& collection_store = owned_objects[SBOL_COLLECTION];
     vector<SBOLObject*>& test_store = owned_objects[SYSBIO_TEST];
     collection_store.erase( std::remove_if(collection_store.begin(), collection_store.end(), [&](SBOLObject* c)
@@ -72,6 +72,18 @@ void Document::parse_extension_objects()
             if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
             {
                 test_store.push_back(c);
+                return true;
+            }
+            return false;
+        }), collection_store.end());
+
+    // Look in Collection store for objects with sys-bio:type and move them to SampleRoster store
+    vector<SBOLObject*>& roster_store = owned_objects[SYSBIO_URI "#SampleRoster"];
+    collection_store.erase( std::remove_if(collection_store.begin(), collection_store.end(), [&](SBOLObject* c)
+        {
+            if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_SAMPLE_ROSTER ">")
+            {
+                roster_store.push_back(c);
                 return true;
             }
             return false;
@@ -116,7 +128,8 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_COMBINATORIAL_DERIVATION, (SBOLObject&(*)()) &create<CombinatorialDerivation> ),
     make_pair(SBOL_IMPLEMENTATION, (SBOLObject&(*)()) &create<Implementation> ),
     make_pair(SYSBIO_DESIGN, (SBOLObject&(*)()) &create<Design> ),
-    make_pair(SYSBIO_ANALYSIS, (SBOLObject&(*)()) &create<Analysis> )
+    make_pair(SYSBIO_ANALYSIS, (SBOLObject&(*)()) &create<Analysis> ),
+    make_pair(SYSBIO_SAMPLE_ROSTER, (SBOLObject&(*)()) &create<SampleRoster> )
 };
 
 

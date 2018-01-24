@@ -247,7 +247,13 @@ namespace sbol
         
         int size()
         {
-            std::size_t size = this->sbol_owner->owned_objects[this->type].size();
+            std::size_t size = this->sbol_owner->properties[this->type].size();
+            std::string current_value = this->sbol_owner->properties[this->type][0];
+            if (size == 1)
+            {
+                if (current_value.compare("<>") == 0 || current_value.compare("\"\"") == 0)  // Empty fields retain <> or "" to distinguish between URIs and literals
+                    return 0;
+            }
             return (int)size;
         };
         
