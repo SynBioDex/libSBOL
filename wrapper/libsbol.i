@@ -616,6 +616,7 @@ TEMPLATE_MACRO_1(Design);
 TEMPLATE_MACRO_1(Build);
 TEMPLATE_MACRO_1(Test);
 TEMPLATE_MACRO_1(Analysis);
+TEMPLATE_MACRO_1(SampleRoster);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
@@ -632,6 +633,7 @@ TEMPLATE_MACRO_2(Design);
 TEMPLATE_MACRO_2(Build);
 TEMPLATE_MACRO_2(Test);
 TEMPLATE_MACRO_2(Analysis);
+TEMPLATE_MACRO_2(SampleRoster);
 
 TEMPLATE_MACRO_3(ComponentDefinition)
 TEMPLATE_MACRO_3(SequenceAnnotation)
@@ -661,6 +663,7 @@ TEMPLATE_MACRO_3(Build)
 TEMPLATE_MACRO_3(Test)
 TEMPLATE_MACRO_3(Analysis)
 TEMPLATE_MACRO_3(SearchQuery);
+TEMPLATE_MACRO_3(SampleRoster);
 TEMPLATE_MACRO_3(Document);
     
 // Template functions used by PartShop

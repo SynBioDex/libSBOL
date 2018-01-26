@@ -95,7 +95,7 @@ namespace sbol {
             attachments(this, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
             combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({})),
             implementations(this, SBOL_IMPLEMENTATION, '0', '*', ValidationRules({})),
-            sampleRosters(this, SYSBIO_SAMPLE_ROSTER, '0', '*', ValidationRules({})),
+            sampleRosters(this, SYSBIO_SAMPLE_ROSTER, '0', '*', { libsbol_rule_15 }),
             citations(this, PURL_URI "bibliographicCitation", '0', '*', ValidationRules({})),
             keywords(this, PURL_URI "elements/1.1/subject", '0', '*', ValidationRules({}))
 			{
