@@ -30,7 +30,6 @@
 #include "document.h"
 
 // Import utility classes
-#include "dbtl.h"
 #include "partshop.h"
 
 #endif
