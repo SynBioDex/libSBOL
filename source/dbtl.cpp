@@ -71,8 +71,15 @@ namespace sbol
         
         Design& design = *new Design(uri);
         design.wasDerivedFrom.set(this->identity.get());
+        
+        
         if (this->type == SYSBIO_ANALYSIS)
             design.characterization.set(this->identity.get());
+        else if (this->type == SYSBIO_DESIGN)
+        {
+            Design& progenitor = *(Design*)this;
+            design.characterization.copy(progenitor.characterization);
+        }
         
         // Form URI for auto-constructing an Activity
         std::string id;
@@ -158,13 +165,23 @@ namespace sbol
         if (doc == NULL)
             throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Generate method requires that the progenitor object belong to a Document.");
     
-        if (this->type != SBOL_IMPLEMENTATION && this->type != "http://sys-bio.org#Design")
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Build can only be generated from a Design or Build.");
+        // The progenitor object (this) must be a Design or Build
+        if (this->type != SBOL_IMPLEMENTATION && this->type != SYSBIO_DESIGN)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Build can only be generated from a Design or another Build.");
     
         Build& build = *new Build(uri);
         build.wasDerivedFrom.set(this->identity.get());
-        build.design.set(this->identity.get());
-
+        
+        // Set backpointer to the Design object
+        if (this->type == SYSBIO_DESIGN)
+            build.design.set(this->identity.get());
+        else if (this->type == SBOL_IMPLEMENTATION)
+        {
+            std::cout << "Copying design property from Build to Build" << std::endl;
+            Build& progenitor = *(Build*)this;
+            build.design.copy(progenitor.design);
+        }
+        
         // Form URI for auto-constructing an Activity
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
@@ -242,9 +259,11 @@ namespace sbol
         if (doc == NULL)
             throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Generate method requires that the progenitor object belong to a Document.");
         
+        // The progenitor object (this) must be a Build, SampleRoster, or a Test
         if (this->type != SBOL_IMPLEMENTATION && this->type != SBOL_COLLECTION)
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "A Test can only be generated from a Build or another Test.");
 
+        // Generate new Test
         Test& test = *new Test(uri);
         test.wasDerivedFrom.set(this->identity.get());
 
@@ -253,14 +272,21 @@ namespace sbol
         {
             if (properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_URI "#SampleRoster>")
             {
+                // If the progenitor object is a SampleRoster, set samples property to all the members of the roster
                 SampleRoster& roster = *(SampleRoster*)this;
-                for (auto & sample_id : roster.samples)
+                for (auto sample_id : roster.samples)
                     test.samples.add(sample_id);
             }
             else if (properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_BUILD ">")
             {
-                // The progenitor object is either a Test or Build
+                // If the progenitor object is a Build, set samples property to the Build
                 test.samples.set(this->identity.get());
+            }
+            else if (properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
+            {
+                // The progenitor object is another Test
+                Test& progenitor = *(Test*)this;
+                test.samples.copy(progenitor.samples);
             }
         }
         
@@ -317,9 +343,8 @@ namespace sbol
         if (properties.find(SYSBIO_URI "#type") != properties.end())
             if (properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_URI "#SampleRoster>")
             {
-                std::cout << "Generating from SampleRoster" << std::endl;
                 SampleRoster& roster = *(SampleRoster*)this;
-                for (auto & sample_id : roster.samples)
+                for (auto sample_id : roster.samples)
                 {
                     Identified& sample = this->doc->get<Identified>(sample_id);
                     usages.push_back(&sample);
@@ -362,7 +387,14 @@ namespace sbol
         
         Analysis& analysis = *new Analysis(uri);
         analysis.wasDerivedFrom.set(this->identity.get());
-        analysis.rawData.set(this->identity.get());
+        
+        if (this->type == SBOL_COLLECTION)
+            analysis.rawData.set(this->identity.get());
+        else if (this->type == SYSBIO_ANALYSIS)
+        {
+            Analysis& progenitor = *(Analysis*)this;
+            analysis.rawData.copy(progenitor.rawData);
+        }
         
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
@@ -671,4 +703,210 @@ namespace sbol
 //        
 //    }
 //
+    
+#define SO_INSERTION "http://purl.obolibrary.org/obo/SO_0000667"
+#define SO_DELETION "http://purl.obolibrary.org/obo/SO_0000159"
+#define SO_POSSIBLE_ASSEMBLY_ERROR "http://purl.obolibrary.org/obo/SO_0000702"
+#define SO_SUBSTITUTION "http://purl.obolibrary.org/obo/SO_1000002"
+#define SO_NUCLEOTIDE_MATCH "http://purl.obolibrary.org/obo/SO_0000347"
+
+
+    std::string verify_base(char target_base, char actual_base)
+    {
+        target_base = std::toupper(target_base);
+        actual_base = std::toupper(actual_base);
+        vector<char> actg = {'A', 'C', 'T', 'G'};
+
+        if (target_base == actual_base)
+            return SO_NUCLEOTIDE_MATCH;
+        else if (target_base == '-' && actual_base == 'N')
+            return SO_POSSIBLE_ASSEMBLY_ERROR;
+        else if (target_base == '-' && find(actg.begin(), actg.end(), actual_base) != actg.end())
+            return SO_INSERTION;
+        else if (find(actg.begin(), actg.end(), target_base) != actg.end() && actual_base == 'N')
+            return SO_POSSIBLE_ASSEMBLY_ERROR;
+        else if (find(actg.begin(), actg.end(), target_base) != actg.end() && actual_base == '-')
+            return SO_DELETION;
+        else if (target_base != actual_base)
+            return SO_SUBSTITUTION;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Could not annotate sequences because of invalid base comparison");
+    }
+
+    void qc(ComponentDefinition& target, ComponentDefinition& construct)
+    {
+        Sequence& target_s = target.doc->get<Sequence>(target.sequence.get());
+        Sequence& construct_s = construct.doc->get<Sequence>(construct.sequence.get());
+        string target_sequence = target_s.elements.get();
+        string verified_sequence = construct_s.elements.get();
+        
+        /* Clip gaps from target and verified sequences */
+        string target_clipped = target_sequence;
+        string verified_clipped = verified_sequence;
+        size_t pos;
+        while ((pos = target_clipped.find('-')) != std::string::npos)
+            target_clipped = target_clipped.substr(0, pos) + target_clipped.substr(pos + 1, target_clipped.size() - pos);
+        while ((pos = verified_clipped.find('-')) != std::string::npos)
+            verified_clipped = verified_clipped.substr(0, pos) + verified_clipped.substr(pos + 1, verified_clipped.size() - pos);
+        
+        /* The following indices mark the beginning coordinates of clipped sequences translated into alignment coordinates. This is necessary, for example, if the target sequence is not fully covered by sequence reads, resulting in gaps padding the beginning and end of the consensus read, or if there are insertions in the verified sequence.
+           eg.,
+           target: actggtca
+           actual: --tggt-- 
+         */
+        size_t l_verified = verified_sequence.find(verified_clipped[0]);
+        size_t l_target = target_sequence.find(target_clipped[0]);
+        size_t r_verified = verified_sequence.find_last_of(verified_clipped[verified_clipped.size() - 1]);
+        size_t r_target = target_sequence.find_last_of(target_clipped[target_clipped.size() - 1]);
+        
+        cout << target_sequence << endl;
+        cout << verified_sequence << endl;
+        cout << target_clipped << endl;
+        cout << verified_clipped << endl;
+
+        cout << (int)l_verified << endl;
+        cout << (int)r_verified << endl;
+
+        /* Calculate lengths of sequences */
+        size_t L_alignment = verified_sequence.size();
+        size_t L_target_clipped = target_clipped.size();
+        size_t L_actual = verified_clipped.size();
+
+        /* Map nucleotide coordinates of target sequence to alignment coordinates. Nucleotide coordinates are indexed from one */
+        map < int, int > target_map = {};
+        size_t i_target = 0;
+        for (size_t i_alignment = l_target; i_alignment <= r_target; ++i_alignment)
+        {
+            char target_base = target_sequence[i_alignment];
+            char verified_base = verified_sequence[i_alignment];
+            if (target_base != '-')
+            {
+                i_target += 1;
+                //            target_map[i_target] = i_alignment;
+                //            assert(target_clipped[i_target] == target_sequence[target_map[i_target]]);
+            }
+            target_map[i_alignment+1] = i_target;
+        }
+        
+        int region_start = 1;
+        int region_end = 1;
+        vector < SequenceAnnotation* > variant_annotations;
+        int i_annotation = 0;
+        
+        // Scan alignment base by base and classify regions of interest. Bases are indexed from one not zero
+        string verification_code;
+        string current_region_classification = verify_base(target_sequence[0], verified_sequence[0]);
+        for (int i_base = 1; i_base <= L_alignment; ++i_base)
+        {
+            verification_code = verify_base(target_sequence[i_base - 1], verified_sequence[i_base - 1]);
+            cout << i_base << "\t" << target_map[i_base] << "\t" << target_sequence[i_base - 1] << "\t" << verified_sequence[i_base - 1] << "\t" << verification_code << endl;
+            if (verification_code.compare(current_region_classification) == 0)
+            {
+                // Extend region of interest
+                ++region_end;
+            }
+            else
+            {
+                // Mark end of region of interest
+                region_end = i_base - 1;
+                
+                // Insertions and deletions at the ends are not valid annotations (uncovered by sequence reads)
+                if (i_annotation == 0 && current_region_classification.compare(SO_INSERTION) == 0)
+                    ;
+                else if (i_annotation == 0 && current_region_classification.compare(SO_DELETION) == 0)
+                    ;
+                else
+                {
+                    // Annotate region of interest
+                    //SequenceAnnotation& sa = *new SequenceAnnotation("SA");
+                    //sbol::Range& r = sa.locations.create < sbol::Range > ("r");
+                    SequenceAnnotation& sa = construct.sequenceAnnotations.create < SequenceAnnotation >("qc" + to_string(i_annotation));
+                    sbol::Range& r = sa.locations.create < sbol::Range > ("r");
+                    r.start.set(target_map[region_start]);  // Translate region of interest into target coordinates
+                    r.end.set(target_map[region_end]);
+                    variant_annotations.push_back(&sa);
+                    sa.roles.set(current_region_classification);
+                    ++i_annotation;
+                }
+
+                // Begin a new region
+                current_region_classification = verification_code;
+                region_start = i_base;
+            }
+        }
+        
+        // Annotate final region of interest.  Insertions and deletions are not valid (uncovered by sequence reads)
+        if (current_region_classification.compare(SO_INSERTION) == 0 || current_region_classification.compare(SO_DELETION) == 0)
+            ;
+        else
+        {
+    //        SequenceAnnotation& sa = *new SequenceAnnotation("SA");
+            SequenceAnnotation& sa = construct.sequenceAnnotations.create < SequenceAnnotation >("qc" + to_string(i_annotation));
+            sa.roles.set(current_region_classification);
+            sbol::Range& r = sa.locations.create < sbol::Range > ("r");
+            r.start.set(target_map[region_start]);
+            r.end.set(target_map[++region_end]);
+            variant_annotations.push_back(&sa);
+        }
+
+        
+        for (auto &ann : variant_annotations)
+            for (auto &l : ann->locations)
+            {
+                sbol::Range& r = ann->locations.get < sbol::Range >(l.identity.get());
+                cout << ann->roles.get() << "\t" << r.start.get() << "\t" << r.end.get() << endl;
+            }
+    };
+
+
+    void Analysis::verifyTarget()
+    {
+        if (!doc)
+            throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot verify target. Analysis " + identity.get() + " does not belong to a Document");
+        if (!consensusSequence.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target. The consensusSequence property must be set to verify the target");
+
+        // Retrieve Design by following links back through Analysis
+        if (!rawData.size() || !doc->tests.find(rawData.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target because the Analysis is not linked to a Design. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Test& test = doc->get<Test>(rawData.get());
+        if (!test.samples.size() || !doc->builds.find(test.samples.get()) )
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target because the Analysis is not linked to a Design. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Build& build = doc->get<Build>(test.samples.get());
+        if (!build.design.size() || !doc->designs.find(build.design.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target because the Analysis is not linked to a Design. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Design& design = doc->get<Design>(build.design.get());
+        if (!design.structure.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target, because the Design does not specify a target Sequence or the Sequence is not in the Document.");
+        
+        ComponentDefinition& design_structure = design.structure.get();
+        if (!design_structure.sequence.size() || !doc->sequences.find(design_structure.sequence.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target because the Design does not specify a target Sequence or the Sequence is not in the Document.");
+        
+        Sequence& target = doc->get<Sequence>(design_structure.sequence.get());
+        Sequence& consensus = consensusSequence.get();
+        string target_sequence = target.elements.get();
+        string verified_sequence = consensus.elements.get();
+        if (target_sequence.size() != verified_sequence.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Target sequence and verified sequence are not equal lengths");
+
+        // Auto-construct Build.structure
+        if (!build.structure.size())
+        {
+            string build_structure_id;
+            if (Config::getOption("sbol_compliant_uris") == "True")
+                build_structure_id = build.displayId.get();
+            else
+                build_structure_id = build.identity.get();
+            build.structure.create(build_structure_id);
+        }
+        ComponentDefinition& build_structure = build.structure.get();
+        
+        // Set Build sequence to the consensusSequence
+        build_structure.sequence.set(consensus);
+        ::qc(design_structure, build_structure);
+    };
+    
 };

@@ -366,7 +366,7 @@ void sbol::libsbol_rule_10(void *sbol_obj, void *arg)
 void sbol::libsbol_rule_11(void *sbol_obj, void *arg)
 {
     Design& design = *(Design*)arg;
-    for (auto & analysis : design.characterization)
+    for (auto analysis : design.characterization)
     {
         libsbol_rule_7(sbol_obj, &analysis);
     }
@@ -375,7 +375,7 @@ void sbol::libsbol_rule_11(void *sbol_obj, void *arg)
 void sbol::libsbol_rule_12(void *sbol_obj, void *arg)
 {
     Build& build = *(Build*)arg;
-    for (auto & design : build.design)
+    for (auto design : build.design)
     {
         libsbol_rule_8(sbol_obj, &design);
     }
@@ -384,7 +384,7 @@ void sbol::libsbol_rule_12(void *sbol_obj, void *arg)
 void sbol::libsbol_rule_13(void *sbol_obj, void *arg)
 {
     Test& test = *(Test*)arg;
-    for (auto & build : test.samples)
+    for (auto build : test.samples)
     {
         libsbol_rule_9(sbol_obj, &build);
     }
@@ -393,7 +393,7 @@ void sbol::libsbol_rule_13(void *sbol_obj, void *arg)
 void sbol::libsbol_rule_14(void *sbol_obj, void *arg)
 {
     Analysis& analysis = *(Analysis*)arg;
-    for (auto & test : analysis.rawData)
+    for (auto test : analysis.rawData)
     {
         libsbol_rule_10(sbol_obj, &test);
     }
@@ -402,7 +402,7 @@ void sbol::libsbol_rule_14(void *sbol_obj, void *arg)
 void sbol::libsbol_rule_15(void *sbol_obj, void *arg)
 {
     SampleRoster& roster = *(SampleRoster*)arg;
-    for (auto & sample_id : roster.samples)
+    for (auto sample_id : roster.samples)
         if (!roster.doc->builds.find(sample_id))
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid SampleRoster. The referenced Build " + sample_id + " is not contained in the Document");
 };

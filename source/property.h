@@ -119,11 +119,20 @@ namespace sbol
             iterator(typename std::vector<std::string>::iterator i_str = std::vector<std::string>::iterator()) : std::vector<std::string>::iterator(i_str)
             {
             }
+            
+            std::string operator*()
+            {
+                std::string val = std::vector<std::string>::iterator::operator*();
+                val = val.substr(1, val.size() - 2);  // Trim bracketing "" or <> off of literal values
+                return val;
+            }
         };
         
         iterator begin()
         {
             std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
+            if (!size())
+                return iterator(object_store->end());  // If this Property has "" or <> in the object store, consider it empty
             return iterator(object_store->begin());
         };
         
@@ -405,6 +414,8 @@ namespace sbol
             }
             std::vector< std::string >* values = &this->sbol_owner->properties[type];
             std::vector< std::string >* targets = &target_property.sbol_owner->properties[type];
+            if (size() == 0)
+                values->clear();  // Remove "<>" or "" which indicates an empty SBOL property
             values->insert(values->end(), targets->begin(), targets->end());
     };
 

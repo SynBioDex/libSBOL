@@ -68,13 +68,13 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         Usage(rdf_type type, std::string uri, std::string entity, std::string role, std::string version) :
             Identified(type, uri, version),
-            entity(this, PROVO_ENTITY, SBOL_IDENTIFIED, '1', '1', ValidationRules({}), entity),
+            entity(this, PROVO_ENTITY, '1', '1', ValidationRules({}), entity),
             roles(this, PROVO_HAD_ROLE, '1', '*', ValidationRules({}), role)
         {
         }
         
         /// The entity property is REQUIRED and MUST contain a URI which MAY refer to an SBOL Identified object.
-        ReferencedObject entity;
+        URIProperty entity;
         
         /// The hadRole property is REQUIRED and MAY contain a URI that refers to a particular term describing the usage of an entity referenced by the entity property.
         URIProperty roles;

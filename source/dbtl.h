@@ -253,6 +253,9 @@ namespace sbol
         /// A Model derived from fitting an experimental data set
         OwnedObject < Model > fittedModel;
         
+        /// Compare a consensus Sequence to the target Sequence
+        void verifyTarget();
+        
         ~Analysis() override;
     private:
         ReferencedObject _consensusSequence;

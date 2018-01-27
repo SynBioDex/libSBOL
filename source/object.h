@@ -224,40 +224,47 @@ namespace sbol
         void setReference(const std::string uri);
 
         
-        /// Provides iterator functionality for SBOL properties that contain multiple references
-        class iterator : public std::vector<std::string>::iterator
-        {
-        public:
-            iterator( std::vector<std::string>::iterator i_str = std::vector<std::string>::iterator()) : std::vector<std::string>::iterator(i_str)
-            {
-            }
-        };
-        
-        iterator begin()
-        {
-            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
-            return iterator(object_store->begin());
-        };
-        
-        iterator end()
-        {
-            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
-            return iterator(object_store->end());
-        };
-        
-        int size()
-        {
-            std::size_t size = this->sbol_owner->properties[this->type].size();
-            std::string current_value = this->sbol_owner->properties[this->type][0];
-            if (size == 1)
-            {
-                if (current_value.compare("<>") == 0 || current_value.compare("\"\"") == 0)  // Empty fields retain <> or "" to distinguish between URIs and literals
-                    return 0;
-            }
-            return (int)size;
-        };
-        
-        std::vector<std::string>::iterator python_iter;
+//        /// Provides iterator functionality for SBOL properties that contain multiple references
+//        class iterator : public std::vector<std::string>::iterator
+//        {
+//        public:
+//            iterator( std::vector<std::string>::iterator i_str = std::vector<std::string>::iterator()) : std::vector<std::string>::iterator(i_str)
+//            {
+//            }
+//            
+//            std::string operator*()
+//            {
+//                std::string val = std::vector<std::string>::iterator::operator*();
+//                val = val.substr(1, val.size() - 2);  // Trim bracketing "" or <> off of literal values
+//                return val;
+//            }
+//        };
+//        
+//        iterator begin()
+//        {
+//            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
+//            return iterator(object_store->begin());
+//        };
+//        
+//        iterator end()
+//        {
+//            std::vector<std::string> *object_store = &this->sbol_owner->properties[this->type];
+//            return iterator(object_store->end());
+//        };
+//        
+//        int size()
+//        {
+//            std::size_t size = this->sbol_owner->properties[this->type].size();
+//            std::string current_value = this->sbol_owner->properties[this->type][0];
+//            if (size == 1)
+//            {
+//                if (current_value.compare("<>") == 0 || current_value.compare("\"\"") == 0)  // Empty fields retain <> or "" to distinguish between URIs and literals
+//                    return 0;
+//            }
+//            return (int)size;
+//        };
+//        
+//        std::vector<std::string>::iterator python_iter;
         
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::string __getitem__(const int nIndex)
