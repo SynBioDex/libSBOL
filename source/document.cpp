@@ -486,19 +486,23 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
 			{
 				SBOLObject* obj = *o;
-//                std::cout << rdfxml_string << std::endl;
+                if (Config::getOption("verbose") == "True")
+                    std::cout << rdfxml_string << std::endl;
                 rdfxml_string = obj->nest(rdfxml_string);  // Recurse, start nesting with leaf objects
                 string id = obj->identity.get();
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
-//                std::cout << rdfxml_string << std::endl;
-//                getchar();
+                if (Config::getOption("verbose") == "True")
+                {
+                    std::cout << rdfxml_string << std::endl;
+                    getchar();
+                }
                 try
                 {
                     replace_reference_to_resource(rdfxml_string, doc->makeQName(property_name), id, cut_text);
                 }
                 catch(...)
                 {
-                    throw SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + parseClassName(property_name) + " property of " + id);
+                    throw SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + parseClassName(property_name) + " property of " + this->identity.get());
                 }
             }
 		}
@@ -1927,3 +1931,32 @@ void TopLevel::initialize(std::string uri)
         version.set(VERSION_STRING);
     }
 }
+
+void ReferencedObject::set(SBOLObject& obj)
+{
+    if (obj.type != reference_type_uri)
+        throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
+    TopLevel* tl = dynamic_cast<TopLevel*>(&obj);
+    if (this->sbol_owner->doc)
+    {
+        if (tl && !this->sbol_owner->doc->find(tl->identity.get()))
+        {
+            this->sbol_owner->doc->add<TopLevel>(*tl);
+        }
+    }
+    set(obj.identity.get());
+};
+
+void ReferencedObject::add(SBOLObject& obj)
+{
+    if (obj.type != reference_type_uri)
+        throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
+    TopLevel* tl = dynamic_cast<TopLevel*>(&obj);
+    if (this->sbol_owner->doc)
+    {
+        if (tl && !this->sbol_owner->doc->find(tl->identity.get()))
+            this->sbol_owner->doc->add<TopLevel>(*tl);
+    }
+    add(obj.identity.get());
+};
+

@@ -482,6 +482,11 @@ std::vector < std::string > SBOLObject::getProperties()
         string uri = i_p->first;
         property_uris.push_back(uri);
     }
+    for (auto i_p = owned_objects.begin(); i_p != owned_objects.end(); ++i_p)
+    {
+        string uri = i_p->first;
+        property_uris.push_back(uri);
+    }
     return property_uris;
 };
 
@@ -714,20 +719,6 @@ void ReferencedObject::add(std::string uri)
         }
         validate((void *)&uri);  //  Call validation rules associated with this Property
     }
-};
-
-void ReferencedObject::set(SBOLObject& obj)
-{
-    if (obj.type != reference_type_uri)
-        throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
-    set(obj.identity.get());
-};
-
-void ReferencedObject::add(SBOLObject& obj)
-{
-    if (obj.type != reference_type_uri)
-        throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
-    add(obj.identity.get());
 };
 
 // For compliant URIs
