@@ -95,6 +95,7 @@ namespace sbol
 //        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
         virtual void set(std::string new_value);    ///< Basic setter for SBOL TextProperty and URIProperty.
         virtual void set(int new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
+        virtual void set(size_t new_value) { set((int)new_value); };
         virtual void set(double new_value);            ///< Basic setter for SBOL IntProperty, but can be used with TextProperty as well.
         void add(std::string new_value);            ///< Appends the new value to a list of values, for properties that allow it.
         virtual void remove(int index = 0);         ///< Remove a property value.
