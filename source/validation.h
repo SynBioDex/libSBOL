@@ -79,6 +79,8 @@ namespace sbol
 
     SBOL_DECLSPEC void libsbol_rule_15(void *sbol_obj, void *arg);
 
+    SBOL_DECLSPEC void libsbol_rule_16(void *sbol_obj, void *arg);
+
     bool is_alphanumeric_or_underscore(char c);
     
     bool is_not_alphanumeric_or_underscore(char c);

@@ -401,8 +401,15 @@ void sbol::libsbol_rule_14(void *sbol_obj, void *arg)
 
 void sbol::libsbol_rule_15(void *sbol_obj, void *arg)
 {
+    SampleRoster& roster = *(SampleRoster*)sbol_obj;
+    string sample_id = *(string*)arg;
+    if (roster.doc && !roster.doc->builds.find(sample_id))
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid SampleRoster. The referenced Build " + sample_id + " is not contained in the Document");
+};
+
+void sbol::libsbol_rule_16(void *sbol_obj, void *arg)
+{
     SampleRoster& roster = *(SampleRoster*)arg;
     for (auto sample_id : roster.samples)
-        if (!roster.doc->builds.find(sample_id))
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid SampleRoster. The referenced Build " + sample_id + " is not contained in the Document");
+        libsbol_rule_15(sbol_obj, &roster);
 };
