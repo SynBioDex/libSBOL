@@ -45,7 +45,7 @@ namespace sbol
         SequenceAnnotation(std::string uri = "example", std::string version = "1.0.0") : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri, version) {};
 
         /// The component property is OPTIONAL and has a data type of URI. This URI MUST refer to a Component that is contained by the same parent ComponentDefinition that contains the SequenceAnnotation. In this way, the properties of the SequenceAnnotation, such as its description and locations, are associated with part of the substructure of its parent ComponentDefinition.
-        URIProperty component;
+        ReferencedObject component;
         
         /// The locations property is a REQUIRED set of one or more Location objects that indicate which elements of a Sequence are described by the SequenceAnnotation.
         /// Allowing multiple Location objects on a single SequenceAnnotation is intended to enable representation of discontinuous regions (for example, a Component encoded across a set of exons with interspersed introns). As such, the Location objects of a single SequenceAnnotation SHOULD NOT specify overlapping regions, since it is not clear what this would mean. There is no such concern with different SequenceAnnotation objects, however, which can freely overlap in Location (for example, specifying overlapping linkers for sequence assembly).
@@ -101,7 +101,7 @@ namespace sbol
 		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
         SequenceAnnotation(rdf_type type, std::string uri, std::string version) :
             Identified(type, uri, version),
-            component(this, SBOL_COMPONENT_PROPERTY, '0', '1', ValidationRules({})),
+            component(this, SBOL_COMPONENT_PROPERTY, SBOL_COMPONENT, '0', '1', ValidationRules({})),
             locations(this, SBOL_LOCATIONS, '0', '*', ValidationRules({})),
             roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
             roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}), SBOL_ROLE_INTEGRATION_MERGE)
