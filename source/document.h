@@ -95,7 +95,7 @@ namespace sbol {
             attachments(this, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
             combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({})),
             implementations(this, SBOL_IMPLEMENTATION, '0', '*', ValidationRules({})),
-            sampleRosters(this, SYSBIO_SAMPLE_ROSTER, '0', '*', { libsbol_rule_15 }),
+            sampleRosters(this, SYSBIO_SAMPLE_ROSTER, '0', '*', { libsbol_rule_16 }),
             citations(this, PURL_URI "bibliographicCitation", '0', '*', ValidationRules({})),
             keywords(this, PURL_URI "elements/1.1/subject", '0', '*', ValidationRules({}))
 			{
@@ -701,15 +701,40 @@ namespace sbol {
             return *child_obj;
         }
     };
-    
+
+    /// @param sbol_obj The child object
+    /// Sets the first object in the container
+    template < class SBOLClass>
+    void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
+    {
+        TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
+        if (check_top_level && this->sbol_owner->doc)
+        {
+            Document& doc = (Document &)*this->sbol_owner->doc;
+            doc.add<SBOLClass>(sbol_obj);
+        }
+        sbol_obj.parent = this->sbol_owner;
+        if (!this->sbol_owner->owned_objects[this->type].size())
+            this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
+        else
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "This property is already set. Call remove before attempting to set.");
+        this->validate(&sbol_obj);
+    };
+
     template <class SBOLClass>
     void OwnedObject<SBOLClass>::add(SBOLClass& sbol_obj)
     {
         if (this->sbol_owner)
         {
-            if (this->sbol_owner->type.compare(SBOL_DOCUMENT) == 0)
+//            if (this->sbol_owner->type.compare(SBOL_DOCUMENT) == 0)
+//            {
+//                Document& doc = (Document &)*this->sbol_owner;
+//                doc.add<SBOLClass>(sbol_obj);
+//            }
+            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
+            if (check_top_level && this->sbol_owner->doc)
             {
-                Document& doc = (Document &)*this->sbol_owner;
+                Document& doc = (Document &)*this->sbol_owner->doc;
                 doc.add<SBOLClass>(sbol_obj);
             }
             else
@@ -721,7 +746,6 @@ namespace sbol {
                 {
                     if (Config::getOption("sbol_compliant_uris") == "True" && !dynamic_cast<TopLevel*>(&sbol_obj))
                     {
-                        std::cout << "Forming compliant URI" << std::endl;
                         // Form compliant URI for child object
                         std::string obj_id;
                         std::string persistent_id;

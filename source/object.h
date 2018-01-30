@@ -533,18 +533,6 @@ OwnedObject< SBOLClass >::OwnedObject(void *property_owner, rdf_type sbol_uri, c
     this->sbol_owner->owned_objects[sbol_uri].push_back(&first_object);
 };
 
-/// @param sbol_obj The child object
-/// Sets the first object in the container
-template < class SBOLClass>
-void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
-{
-    sbol_obj.parent = this->sbol_owner;
-    if (!this->sbol_owner->owned_objects[this->type].size())
-        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
-    else
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "This property is already set. Call remove before attempting to set.");
-    this->validate(&sbol_obj);
-};
 
 template <class SBOLClass>
 template <class SBOLSubClass>
