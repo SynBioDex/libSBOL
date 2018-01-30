@@ -552,7 +552,6 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
 
 void sbol::PartShop::login(std::string email, std::string password)
 {
-    
     /* Perform HTTP request */
     string response;
     CURL *curl;
@@ -573,7 +572,7 @@ void sbol::PartShop::login(std::string email, std::string password)
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "https://synbiohub.org/remoteLogin");
+        curl_easy_setopt(curl, CURLOPT_URL, (resource + "/remoteLogin").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */
@@ -626,7 +625,7 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
          data. */
         
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(curl, CURLOPT_URL, "https://synbiohub.org/submit");
+        curl_easy_setopt(curl, CURLOPT_URL, (resource + "/submit").c_str());
         
         /* Now specify the POST data */
         struct curl_httppost* post = NULL;

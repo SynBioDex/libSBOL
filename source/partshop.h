@@ -161,7 +161,7 @@ namespace sbol
         /// Construct an interface to an instance of SynBioHub or other parts repository
         /// @param The URL of the online repository
         PartShop(std::string url) :
-            resource(url)
+            resource(parseURLDomain(url))
             {
             };
         
