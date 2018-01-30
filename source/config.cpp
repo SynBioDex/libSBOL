@@ -64,7 +64,8 @@ std::map<std::string, std::string> sbol::Config::options {
     {"insert_type", "False"},
     {"main_file_name", "main file"},
     {"diff_file_name", "comparison file"},
-    {"return_file", "False"}
+    {"return_file", "False"},
+    {"verbose", "False"}
 };
 
 std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
@@ -80,7 +81,8 @@ std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"fail_on_first_error", { "True", "False" }},
     {"provide_detailed_stack_trace", { "True", "False" }},
     {"insert_type", { "True", "False" }},
-    {"return_file", { "True", "False" }}
+    {"return_file", { "True", "False" }},
+    {"verbose", { "True", "False" }}
 };
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
@@ -279,6 +281,19 @@ std::string sbol::parseNamespace(std::string uri)
     }
     else
         return "";
+};
+
+std::string sbol::parseURLDomain(std::string url)
+{
+    std::size_t url_begin_pos = url.find("://");
+    std::size_t url_end_pos = url.find("/", url_begin_pos + 3);
+    if (url_end_pos != std::string::npos)
+    {
+        std::string domain_name = url.substr(0, url_end_pos);
+        return domain_name;
+    }
+    else
+        return url;
 };
 
 std::string sbol::parsePropertyName(std::string uri)

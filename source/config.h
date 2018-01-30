@@ -133,6 +133,8 @@ namespace sbol
     std::string SBOL_DECLSPEC parseClassName(std::string uri);
     std::string SBOL_DECLSPEC parsePropertyName(std::string uri);
     std::string SBOL_DECLSPEC parseNamespace(std::string uri);
+    std::string SBOL_DECLSPEC parseURLDomain(std::string url);
+
 
     size_t CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_t nmemb, std::string *s);
 
