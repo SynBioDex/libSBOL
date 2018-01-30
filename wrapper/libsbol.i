@@ -240,6 +240,24 @@
 
 }
 
+// Typemap the hash table returned by Analysis::report methods
+%typemap(out) std::unordered_map < std::string, std::tuple < int, int, float > > {
+    int len = $1.size();
+    PyObject* dict = PyDict_New();
+    for(auto & i_elem : $1)
+    {
+        std::tuple < int, int, float > vals = i_elem.second;
+        int range_start = std::get<0>(vals);
+        int range_end = std::get<1>(vals);
+        float qc_stat = std::get<2>(vals);
+        PyObject* py_vals = Py_BuildValue("iif", range_start, range_end, qc_stat);
+        PyDict_SetItemString(dict, i_elem.first.c_str(), py_vals);
+    }
+    $result  = dict;
+    $1.clear();
+    
+}
+
 %template(_IntVector) std::vector<int>;
 %template(_StringVector) std::vector<std::string>;
 %template(_SBOLObjectVector) std::vector<sbol::SBOLObject*>;
@@ -273,7 +291,14 @@
     self.thisown = False
 %}
     
+// verifyTarget acts like a setter
+%pythonappend verifyTarget
+%{
+    consensus_sequence.thisown = False
+%}
+    
 /* @TODO remove methods should change thisown flag back to True */
+/* Currently this causes an exception (probably need a call to Py_INCREF */
 //%pythonprepend remove
 //%{
 //    print ("Getting " + args[0])

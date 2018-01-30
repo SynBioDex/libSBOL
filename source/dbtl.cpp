@@ -26,6 +26,8 @@
 #include "dbtl.h"
 #include "document.h"
 
+#include <tuple>
+
 using namespace std;
 using namespace sbol;
 
@@ -177,7 +179,6 @@ namespace sbol
             build.design.set(this->identity.get());
         else if (this->type == SBOL_IMPLEMENTATION)
         {
-            std::cout << "Copying design property from Build to Build" << std::endl;
             Build& progenitor = *(Build*)this;
             build.design.copy(progenitor.design);
         }
@@ -732,7 +733,7 @@ namespace sbol
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Could not annotate sequences because of invalid base comparison");
     }
 
-    void qc(ComponentDefinition& target, ComponentDefinition& construct)
+    void addQCAnnotations(ComponentDefinition& target, ComponentDefinition& construct)
     {
         Sequence& target_s = target.doc->get<Sequence>(target.sequence.get());
         Sequence& construct_s = construct.doc->get<Sequence>(construct.sequence.get());
@@ -758,14 +759,17 @@ namespace sbol
         size_t r_verified = verified_sequence.find_last_of(verified_clipped[verified_clipped.size() - 1]);
         size_t r_target = target_sequence.find_last_of(target_clipped[target_clipped.size() - 1]);
         
-        cout << target_sequence << endl;
-        cout << verified_sequence << endl;
-        cout << target_clipped << endl;
-        cout << verified_clipped << endl;
-
-        cout << (int)l_verified << endl;
-        cout << (int)r_verified << endl;
-
+        if (Config::getOption("verbose") == "True")
+        {
+            cout << "Target:    " << target_sequence << endl;
+            cout << "Consensus: " << verified_sequence << endl;
+            cout << "Target:    " << target_clipped << endl;
+            cout << "Consensus: " << verified_clipped << endl;
+//
+//            cout << (int)l_verified << endl;
+//            cout << (int)r_verified << endl;
+        }
+        
         /* Calculate lengths of sequences */
         size_t L_alignment = verified_sequence.size();
         size_t L_target_clipped = target_clipped.size();
@@ -798,7 +802,10 @@ namespace sbol
         for (int i_base = 1; i_base <= L_alignment; ++i_base)
         {
             verification_code = verify_base(target_sequence[i_base - 1], verified_sequence[i_base - 1]);
-            cout << i_base << "\t" << target_map[i_base] << "\t" << target_sequence[i_base - 1] << "\t" << verified_sequence[i_base - 1] << "\t" << verification_code << endl;
+            
+            if (Config::getOption("verbose") == "True")
+                cout << i_base << "\t" << target_map[i_base] << "\t" << target_sequence[i_base - 1] << "\t" << verified_sequence[i_base - 1] << "\t" << verification_code << endl;
+            
             if (verification_code.compare(current_region_classification) == 0)
             {
                 // Extend region of interest
@@ -817,8 +824,6 @@ namespace sbol
                 else
                 {
                     // Annotate region of interest
-                    //SequenceAnnotation& sa = *new SequenceAnnotation("SA");
-                    //sbol::Range& r = sa.locations.create < sbol::Range > ("r");
                     SequenceAnnotation& sa = construct.sequenceAnnotations.create < SequenceAnnotation >("qc" + to_string(i_annotation));
                     sbol::Range& r = sa.locations.create < sbol::Range > ("r");
                     r.start.set(target_map[region_start]);  // Translate region of interest into target coordinates
@@ -833,13 +838,13 @@ namespace sbol
                 region_start = i_base;
             }
         }
-        
+        if (region_end >= L_alignment)
+            region_end = L_alignment - 1;  // In case the sequences have perfect identity
         // Annotate final region of interest.  Insertions and deletions are not valid (uncovered by sequence reads)
         if (current_region_classification.compare(SO_INSERTION) == 0 || current_region_classification.compare(SO_DELETION) == 0)
             ;
         else
         {
-    //        SequenceAnnotation& sa = *new SequenceAnnotation("SA");
             SequenceAnnotation& sa = construct.sequenceAnnotations.create < SequenceAnnotation >("qc" + to_string(i_annotation));
             sa.roles.set(current_region_classification);
             sbol::Range& r = sa.locations.create < sbol::Range > ("r");
@@ -847,23 +852,27 @@ namespace sbol
             r.end.set(target_map[++region_end]);
             variant_annotations.push_back(&sa);
         }
-
         
-        for (auto &ann : variant_annotations)
-            for (auto &l : ann->locations)
-            {
-                sbol::Range& r = ann->locations.get < sbol::Range >(l.identity.get());
-                cout << ann->roles.get() << "\t" << r.start.get() << "\t" << r.end.get() << endl;
-            }
+        if (Config::getOption("verbose") == "True")
+        {
+            std::cout << "Added QC Annotations:" << std::endl;
+            for (auto &ann : variant_annotations)
+                for (auto &l : ann->locations)
+                {
+                    sbol::Range& r = ann->locations.get < sbol::Range >(l.identity.get());
+                    cout << ann->roles.get() << "\t" << r.start.get() << "\t" << r.end.get() << endl;
+                }
+        }
     };
 
 
-    void Analysis::verifyTarget()
+    void Analysis::verifyTarget(Sequence& consensus)
     {
+        if (consensusSequence.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target. The consensusSequence property for this Analysis has already been set. Perform a new Analysis or remove the Sequence.");
+
         if (!doc)
             throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot verify target. Analysis " + identity.get() + " does not belong to a Document");
-        if (!consensusSequence.size())
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target. The consensusSequence property must be set to verify the target");
 
         // Retrieve Design by following links back through Analysis
         if (!rawData.size() || !doc->tests.find(rawData.get()))
@@ -886,12 +895,14 @@ namespace sbol
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target because the Design does not specify a target Sequence or the Sequence is not in the Document.");
         
         Sequence& target = doc->get<Sequence>(design_structure.sequence.get());
-        Sequence& consensus = consensusSequence.get();
         string target_sequence = target.elements.get();
         string verified_sequence = consensus.elements.get();
         if (target_sequence.size() != verified_sequence.size())
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Target sequence and verified sequence are not equal lengths");
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid consensus sequence. Target sequence and consensus sequence are not equal lengths. Perform a sequence alignment first.");
 
+        // Set consensusSequence property of the Analysis
+        consensusSequence.set(consensus);
+        
         // Auto-construct Build.structure
         if (!build.structure.size())
         {
@@ -906,7 +917,323 @@ namespace sbol
         
         // Set Build sequence to the consensusSequence
         build_structure.sequence.set(consensus);
-        ::qc(design_structure, build_structure);
+        
+        ::addQCAnnotations(design_structure, build_structure);
     };
+    
+    
+    float calculateIdentity(SequenceAnnotation& target, vector<SequenceAnnotation*> qc_annotations)
+    {
+        int n_identical = 0;
+
+        if (target.locations.size() == 0)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. SequenceAnnotation " + target.identity.get() + " is invalid for this operation because it has no Range specified");
+        if (target.locations.size() > 1)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. SequenceAnnotation " + target.identity.get() + " is invalid for this operation because it has more than one Range specified");
+        sbol::Range& r_target = (sbol::Range&)target.locations[0];
+        
+        if (Config::getOption("verbose") == "True")
+            cout << r_target.start.get() << "\t" << r_target.end.get() << "\t";
+
+        for (auto &p_qc : qc_annotations)
+        {
+            SequenceAnnotation& qc = *p_qc;
+            if (qc.locations.size() == 0)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. SequenceAnnotation " + qc.identity.get() + " is invalid for this operation because it has no Range specified");
+            if (qc.locations.size() > 1)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate identity. A SequenceAnnotation " + qc.identity.get() + " is invalid for this operation because it has more than one Range specified");
+            sbol::Range& r_qc = (sbol::Range&)qc.locations[0];
+            
+            if (Config::getOption("verbose") == "True")
+                cout << r_qc.start.get() << "\t" << r_qc.end.get() << "\t";
+
+
+            string qc_classification = qc.roles.get();
+            if (qc_classification.compare(SO_NUCLEOTIDE_MATCH) == 0)
+            {
+                n_identical += r_target.contains(r_qc) + r_target.overlaps(r_qc);
+                if (Config::getOption("verbose") == "True")
+                    cout << "Contains: " << r_target.contains(r_qc) << "\tOverlaps: " <<  r_target.overlaps(r_qc) << "\tIdentical: " << n_identical << "\n\t\t";
+            }
+            else
+                if (Config::getOption("verbose") == "True")
+                    cout << "\n\t\t";
+        }
+        if (Config::getOption("verbose") == "True")
+        {
+            cout << (float)n_identical << "\t" << (float)r_target.length() << endl;
+            cout << "\n";
+        }
+        return (float)n_identical / (float)r_target.length();
+    };
+
+    float calculateError(SequenceAnnotation& target, vector<SequenceAnnotation*> qc_annotations)
+    {
+        int n_substitution = 0;
+        int n_deletion = 0;
+        int n_insertion = 0;
+
+        if (target.locations.size() == 0)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate error. SequenceAnnotation " + target.identity.get() + " is invalid for this operation because it has no Range specified");
+        if (target.locations.size() > 1)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate error. SequenceAnnotation " + target.identity.get() + " is invalid for this operation because it has more than one Range specified");
+        sbol::Range& r_target = (sbol::Range&)target.locations[0];
+    //    cout << r_target.start.get() << "\t" << r_target.end.get() << "\t";
+        
+        for (auto &p_qc : qc_annotations)
+        {
+            SequenceAnnotation& qc = *p_qc;
+            if (qc.locations.size() == 0)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate error. SequenceAnnotation " + qc.identity.get() + " is invalid for this operation because it has no Range specified");
+            if (qc.locations.size() > 1)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate error. A SequenceAnnotation " + qc.identity.get() + " is invalid for this operation because it has more than one Range specified");
+            sbol::Range& r_qc = (sbol::Range&)qc.locations[0];
+    //        cout << r_qc.start.get() << "\t" << r_qc.end.get();
+            
+            
+            string qc_classification = qc.roles.get();
+            if (qc_classification.compare(SO_SUBSTITUTION) == 0)
+                n_substitution += r_target.contains(r_qc) + r_target.overlaps(r_qc);
+            else if (qc_classification.compare(SO_DELETION) == 0)
+                n_deletion += r_target.contains(r_qc) + r_target.overlaps(r_qc);
+            else if (qc_classification.compare(SO_INSERTION) == 0)
+                n_insertion += r_target.contains(r_qc) + r_target.overlaps(r_qc);
+            
+    //        else
+    //            cout << "\n\t\t";
+        }
+    //    cout << "\n";
+        return (float)(n_substitution + n_deletion + n_insertion) / (float)(r_target.length() + n_insertion);
+    };
+
+    float calculateAmbiguity(SequenceAnnotation& target, vector<SequenceAnnotation*> qc_annotations)
+    {
+        int n_ambiguous = 0;
+        
+        if (target.locations.size() == 0)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate ambiguity. SequenceAnnotation " + target.identity.get() + " is invalid for this operation because it has no Range specified");
+        if (target.locations.size() > 1)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate ambiguity. SequenceAnnotation " + target.identity.get() + " is invalid for this operation because it has more than one Range specified");
+        sbol::Range& r_target = (sbol::Range&)target.locations[0];
+    //    cout << r_target.start.get() << "\t" << r_target.end.get() << "\t";
+        
+        for (auto &p_qc : qc_annotations)
+        {
+            SequenceAnnotation& qc = *p_qc;
+            if (qc.locations.size() == 0)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate ambiguity. SequenceAnnotation " + qc.identity.get() + " is invalid for this operation because it has no Range specified");
+            if (qc.locations.size() > 1)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot calculate ambiguity. A SequenceAnnotation " + qc.identity.get() + " is invalid for this operation because it has more than one Range specified");
+            sbol::Range& r_qc = (sbol::Range&)qc.locations[0];
+    //        cout << r_qc.start.get() << "\t" << r_qc.end.get();
+            
+            
+            string qc_classification = qc.roles.get();
+            if (qc_classification.compare(SO_POSSIBLE_ASSEMBLY_ERROR) == 0)
+            {
+                n_ambiguous += r_target.contains(r_qc) + r_target.overlaps(r_qc);
+    //            cout << SO_POSSIBLE_ASSEMBLY_ERROR << "\n\t\t";
+            }
+    //        else
+    //            cout << "\n\t\t";
+        }
+    //    cout << "\n";
+        return (float)n_ambiguous / (float)r_target.length();
+    };
+
+    float calculateCoverage(SequenceAnnotation& target, vector<SequenceAnnotation*> qc_annotations)
+    {
+        return calculateIdentity(target, qc_annotations) + calculateError(target, qc_annotations) + calculateAmbiguity(target, qc_annotations);
+    };
+
+    void get_sequence_annotation_callback(ComponentDefinition* cdef_node, void * user_data)
+    {
+        vector<SequenceAnnotation*>& cumulative_annotations = (vector<SequenceAnnotation*>&)*user_data;
+        vector<SequenceAnnotation*> annotations = cdef_node->sequenceAnnotations.getAll();
+        if (annotations.size() > 0)
+        {
+            cumulative_annotations.reserve(cumulative_annotations.size() + distance(annotations.begin(), annotations.end()));
+            cumulative_annotations.insert(cumulative_annotations.end(), annotations.begin(), annotations.end());
+        }
+    };
+    
+    std::unordered_map < std::string, std::tuple < int, int, float > > reportQC(ComponentDefinition& target, ComponentDefinition& construct, float (*qc_method)(SequenceAnnotation&, vector<SequenceAnnotation*>))
+    {
+        std::unordered_map < std::string, std::tuple < int, int, float > > qc_report;  // Maps the URI of the ComponentDefinition to its qc statistic and its start and end coordinates
+
+        vector<SequenceAnnotation*> target_annotations;
+        vector<SequenceAnnotation*> qc_annotations;
+
+        // Recursively gather all sub-Components through their SequenceAnnotation
+        target.applyToComponentHierarchy(get_sequence_annotation_callback, &target_annotations);
+        construct.applyToComponentHierarchy(get_sequence_annotation_callback, &qc_annotations);
+        
+        if (Config::getOption("verbose") == "True")
+        {
+            std::cout << "Generating QC report..." << std::endl;
+            std::cout << "Found " << target_annotations.size() << " target annotations" << std::endl;
+            std::cout << "Found " << qc_annotations.size() << " QC annotations" << std::endl;
+        }
+        
+        for (auto &ann_target : target_annotations)
+        {
+            ComponentDefinition& parent_cdef = (ComponentDefinition&)*ann_target->parent;
+            if (ann_target->locations.size() > 0)
+            {
+                sbol::Range& r = (sbol::Range&)ann_target->locations[0];
+                // Skip over SequenceAnnotations that do not have a corresponding Component
+                if (ann_target->component.size())
+                {
+                    Component& c = parent_cdef.components[ann_target->component.get()];
+                    ComponentDefinition& cdef = ann_target->doc->get<ComponentDefinition>(c.definition.get());
+                    
+                    float qc_statistic = qc_method(*ann_target, qc_annotations);
+                    std::tuple < int, int, float > qc = std::make_tuple(r.start.get(), r.end.get(), qc_statistic);
+                    qc_report[ cdef.identity.get() ] = qc;
+                    
+                }
+                else if(ann_target->roles.size() > 0)
+                {
+                    float qc_statistic = qc_method(*ann_target, qc_annotations);
+                    std::tuple < int, int, float > qc = std::make_tuple(r.start.get(), r.end.get(), qc_statistic);
+                    qc_report[ parent_cdef.identity.get() ] = qc;
+                }
+            }
+        }
+        
+        // Calculate cumulative statistics at the highest level of the component hierarchy.
+        Sequence& target_seq = target.doc->get<Sequence>(target.sequence.get());
+        SequenceAnnotation target_sa = SequenceAnnotation("temporary");
+        Range& r = target_sa.locations.create<Range>("r");
+        r.start.set(1);
+        r.end.set(target_seq.elements.get().size());
+        float qc_statistic = qc_method(target_sa, qc_annotations);
+        std::tuple < int, int, float > qc = std::make_tuple(r.start.get(), r.end.get(), qc_statistic);
+        qc_report[ target.identity.get() ] = qc;
+        return qc_report;
+    };
+    
+    
+    std::unordered_map < std::string, std::tuple < int, int, float > > Analysis::reportIdentity()
+    {
+        if (!doc)
+            throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot generate QC report. Analysis " + identity.get() + " does not belong to a Document");
+
+        // Retrieve Design by following links back through Analysis
+        if (!rawData.size() || !doc->tests.find(rawData.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Test. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Test& test = doc->get<Test>(rawData.get());
+        if (!test.samples.size() || !doc->builds.find(test.samples.get()) )
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Build. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Build& build = doc->get<Build>(test.samples.get());
+        if (!build.design.size() || !doc->designs.find(build.design.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Design. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+
+        Design& design = doc->get<Design>(build.design.get());
+        
+        if (!design.structure.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report, because the structure property of the Design is unspecified.");
+        ComponentDefinition& target = design.structure.get();
+        
+        if (!build.structure.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report, because the structure property of the Build is unspecified.");
+        ComponentDefinition& construct = build.structure.get();
+
+        return ::reportQC(target, construct, &::calculateIdentity);
+    };
+    
+    std::unordered_map < std::string, std::tuple < int, int, float > > Analysis::reportError()
+    {
+        if (!doc)
+            throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot generate QC report. Analysis " + identity.get() + " does not belong to a Document");
+
+        // Retrieve Design by following links back through Analysis
+        if (!rawData.size() || !doc->tests.find(rawData.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Test. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Test& test = doc->get<Test>(rawData.get());
+        if (!test.samples.size() || !doc->builds.find(test.samples.get()) )
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Build. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Build& build = doc->get<Build>(test.samples.get());
+        if (!build.design.size() || !doc->designs.find(build.design.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Design. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+
+        Design& design = doc->get<Design>(build.design.get());
+        
+        if (!design.structure.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report, because the structure property of the Design is unspecified.");
+        ComponentDefinition& target = design.structure.get();
+        
+        if (!build.structure.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report, because the structure property of the Build is unspecified.");
+        ComponentDefinition& construct = build.structure.get();
+
+        return ::reportQC(target, construct, &::calculateError);
+    };
+    
+    std::unordered_map < std::string, std::tuple < int, int, float > > Analysis::reportCoverage()
+    {
+        if (!doc)
+            throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot generate QC report. Analysis " + identity.get() + " does not belong to a Document");
+
+        // Retrieve Design by following links back through Analysis
+        if (!rawData.size() || !doc->tests.find(rawData.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Test. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Test& test = doc->get<Test>(rawData.get());
+        if (!test.samples.size() || !doc->builds.find(test.samples.get()) )
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Build. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Build& build = doc->get<Build>(test.samples.get());
+        if (!build.design.size() || !doc->designs.find(build.design.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Design. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+
+        Design& design = doc->get<Design>(build.design.get());
+        
+        if (!design.structure.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report, because the structure property of the Design is unspecified.");
+        ComponentDefinition& target = design.structure.get();
+        
+        if (!build.structure.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report, because the structure property of the Build is unspecified.");
+        ComponentDefinition& construct = build.structure.get();
+
+        return ::reportQC(target, construct, &::calculateCoverage);
+    };
+    
+    std::unordered_map < std::string, std::tuple < int, int, float > > Analysis::reportAmbiguity()
+    {
+        if (!doc)
+            throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot generate QC report. Analysis " + identity.get() + " does not belong to a Document");
+
+        // Retrieve Design by following links back through Analysis
+        if (!rawData.size() || !doc->tests.find(rawData.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Test. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Test& test = doc->get<Test>(rawData.get());
+        if (!test.samples.size() || !doc->builds.find(test.samples.get()) )
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Build. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+        
+        Build& build = doc->get<Build>(test.samples.get());
+        if (!build.design.size() || !doc->designs.find(build.design.get()))
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report because the Analysis is not linked to a Design. The Analysis is not part of a Design-Build-Test-Analysis workflow.");
+
+        Design& design = doc->get<Design>(build.design.get());
+        
+        if (!design.structure.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report, because the structure property of the Design is unspecified.");
+        ComponentDefinition& target = design.structure.get();
+        
+        if (!build.structure.size())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot generate QC report, because the structure property of the Build is unspecified.");
+        ComponentDefinition& construct = build.structure.get();
+
+        return ::reportQC(target, construct, &::calculateAmbiguity);
+    };
+    
+    
     
 };

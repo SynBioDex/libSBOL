@@ -1119,10 +1119,12 @@ int Range::overlaps(Range& comparand)
 {
     if (start.get() == comparand.start.get() && end.get() == comparand.end.get())
         return 0;
-    else if (start.get() <= comparand.start.get() && end.get() <= comparand.end.get() && end.get() > comparand.start.get() )
-        return comparand.start.get() - end.get();
-    else if (start.get() >= comparand.start.get() && end.get() >= comparand.end.get() && start.get() < comparand.end.get())
-        return comparand.end.get() - start.get();
+    else if (start.get() < comparand.start.get() && end.get() < comparand.end.get() && end.get() >= comparand.start.get() )
+        return end.get() - comparand.start.get() + 1;
+    else if (start.get() > comparand.start.get() && end.get() > comparand.end.get() && start.get() <= comparand.end.get())
+        return comparand.end.get() - start.get() + 1;
+    else if (comparand.contains(*this))
+        return comparand.contains(*this);
     else
         return 0;
 }

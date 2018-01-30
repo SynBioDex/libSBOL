@@ -31,6 +31,8 @@
 #include "collection.h"
 #include "implementation.h"
 
+#include <tuple>
+
 namespace sbol
 {
     /// This class represents a biological Design. A Design is a conceptual representation of a biological system that a synthetic biologist intends to build. A Design is the first object created in libSBOL's formalized Design-Build-Test-Analysis workflow.
@@ -69,8 +71,6 @@ namespace sbol
             _structure(this, SYSBIO_URI "#_structure", SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), structure.identity.get()),
             _function(this, SYSBIO_URI "#_function", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), function.identity.get())
         {
-            this->structure.set(structure);
-            this->function.set(function);
             hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
             hidden_properties.push_back(SBOL_MODULE_DEFINITION);
         };
@@ -128,6 +128,8 @@ namespace sbol
                     persistentIdentity.set(getHomespace() + "/" + getClassName(SYSBIO_BUILD) + "/" + displayId.get());
                 }
             }
+            hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
+            hidden_properties.push_back(SBOL_MODULE_DEFINITION);
         };
 
         /// Constructs a new Build. The structure and behavior of the Build are initialized. A FunctionalComponent is autoconstructed which correlates the structure and function.
@@ -144,6 +146,16 @@ namespace sbol
             _behavior(this, SBOL_URI "#built", SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), behavior.identity.get()),
             sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_BUILD)
         {
+            // Overwrite the typed URI formed by base constructor by replacing Implementation with Build
+            if  (Config::getOption("sbol_compliant_uris") == "True")
+            {
+                displayId.set(uri);
+                if (Config::getOption("sbol_typed_uris") == "True")
+                {
+                    identity.set(getHomespace() + "/" + getClassName(SYSBIO_BUILD) + "/" + displayId.get() + "/" + version);
+                    persistentIdentity.set(getHomespace() + "/" + getClassName(SYSBIO_BUILD) + "/" + displayId.get());
+                }
+            }
             hidden_properties.push_back(SBOL_COMPONENT_DEFINITION);
             hidden_properties.push_back(SBOL_MODULE_DEFINITION);
         };
@@ -254,8 +266,16 @@ namespace sbol
         OwnedObject < Model > fittedModel;
         
         /// Compare a consensus Sequence to the target Sequence
-        void verifyTarget();
+        void verifyTarget(Sequence& consensus_sequence);
         
+        std::unordered_map < std::string, std::tuple < int, int, float > > reportIdentity();
+
+        std::unordered_map < std::string, std::tuple < int, int, float > > reportError();
+
+        std::unordered_map < std::string, std::tuple < int, int, float > > reportCoverage();
+
+        std::unordered_map < std::string, std::tuple < int, int, float > > reportAmbiguity();
+
         ~Analysis() override;
     private:
         ReferencedObject _consensusSequence;
@@ -285,7 +305,7 @@ namespace sbol
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         SampleRoster(std::string uri = "example", std::string version = VERSION_STRING) :
             Collection(uri, version),
-            samples(this, SBOL_MEMBERS, SBOL_BUILD, '0', '*', ValidationRules({})),
+            samples(this, SBOL_MEMBERS, SBOL_IMPLEMENTATION, '0', '*', ValidationRules({ libsbol_rule_15 })),
             sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_URI "#SampleRoster")
         {
             // Overwrite the typed URI formed by base constructor by replacing Collection with Test
