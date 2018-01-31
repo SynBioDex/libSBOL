@@ -975,17 +975,19 @@ void SearchResponse::extend(SearchResponse& response)
     }
 };
 
-template<>
-void sbol::PartShop::pull<ComponentDefinition>(std::string uri, Document& doc, bool recursive)
+namespace sbol
 {
-    pull(uri, doc);
-    ComponentDefinition& cd = doc.get<ComponentDefinition>(uri);
-    
-    if (recursive)
+    template<>
+    void PartShop::pull<ComponentDefinition>(std::string uri, Document& doc, bool recursive)
     {
-        pull(cd.sequences.get(), doc);
-        for (auto & c : cd.components)
-            pull(c.definition.get(), doc);
-    }
-};
+        pull(uri, doc);
+        ComponentDefinition& cd = doc.get<ComponentDefinition>(uri);
 
+        if (recursive)
+        {
+            pull(cd.sequences.get(), doc);
+            for (auto & c : cd.components)
+                pull(c.definition.get(), doc);
+        }
+    };
+}
