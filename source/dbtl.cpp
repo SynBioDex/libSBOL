@@ -1048,7 +1048,7 @@ namespace sbol
 
     void get_sequence_annotation_callback(ComponentDefinition* cdef_node, void * user_data)
     {
-        vector<SequenceAnnotation*>& cumulative_annotations = (vector<SequenceAnnotation*>&)*user_data;
+        vector<SequenceAnnotation*>& cumulative_annotations = *(vector<SequenceAnnotation*>*)user_data;
         vector<SequenceAnnotation*> annotations = cdef_node->sequenceAnnotations.getAll();
         if (annotations.size() > 0)
         {
