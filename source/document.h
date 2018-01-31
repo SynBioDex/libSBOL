@@ -217,21 +217,6 @@ namespace sbol {
             return this->size();
         }
         
-        /// Get a summary of objects in the Document, including SBOL core object and custom annotation objects
-        std::string summary()
-        {
-            std::string summary = "";
-            int col_size = 30;
-            for (auto & property : owned_objects)
-            {
-                std::string property_name = parsePropertyName(property.first);
-                summary += property_name + std::string(col_size - property_name.length(), '.') + std::to_string(property.second.size()) + "\n";
-            }
-            summary += "---\n";
-            summary += "Total" + std::string(col_size - 5, '.') + std::to_string(size()) + "\n";
-            return summary;
-        }
-        
         std::string __str__() override
         {
             return this->summary();
