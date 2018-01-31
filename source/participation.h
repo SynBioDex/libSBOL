@@ -38,6 +38,28 @@ namespace sbol
     class SBOL_DECLSPEC Participation : public Identified
 	{
 	public:
+        /// Constructor
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param participant A reference to the participating FunctionalComponent in the parent Interaction
+        Participation(std::string uri = "example", std::string participant = "", std::string version = "1.0.0") : Participation(SBOL_PARTICIPATION, uri, participant, version) {};
+
+        /// Constructor
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param species A ComponentDefinition that represents one of the participating species in the parent Interaction
+        Participation(std::string uri, ComponentDefinition& species, std::string version = "1.0.0") :
+            Participation(SBOL_PARTICIPATION, uri, "", version)
+            {
+            };
+
+        /// Constructor used for defining extension classes
+        /// @param type The RDF type for an extension class derived from this one
+        Participation(rdf_type, std::string uri, std::string participant, std::string version) :
+            Identified(type, uri, version),
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
+            participant(this, SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, '1', '1', ValidationRules({}), participant)
+            {
+            };
+        
         /// The roles property is an OPTIONAL set of URIs that describes the behavior of a Participation (and by extension its referenced FunctionalComponent) in the context of its parent Interaction. The roles property MAY contain one or more URIs that MUST identify terms from appropriate ontologies. It is  RECOMMENDED that at least one of the URIs contained by the types property refer to a term from the participant role branch of the SBO. The table below provides a list of possible SBO terms for the roles property and their corresponding URIs.
         /// | Role                  | Systems Biology Ontology Term                    | LibSBOL Symbol         |
         /// | :-------------------- | :----------------------------------------------- | :--------------------- |
@@ -48,40 +70,16 @@ namespace sbol
         /// | Ligand                | http://identifiers.org/biomodels.sbo/SBO:0000280 | SBO_LIGAND             |
         /// | Non-covalent Complex  | http://identifiers.org/biomodels.sbo/SBO:0000253 | SBO_NONCOVALENT_COMPLEX|
         /// If a Participation is well described by one of the terms from this table then its roles property MUST contain the URI that identifies this term. Lastly, if the roles property of a Participation contains multiple URIs, then they MUST identify non-conflicting terms. For example, the SBO terms “stimulator” and “inhibitor” would conflict.
-		List<URIProperty> roles;
+		URIProperty roles;
         
         /// The participant property MUST specify precisely one FunctionalComponent object that plays the designated  role in its parent Interaction object.
         ReferencedObject participant;
-
-        /// Constructor
-        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        /// @param participant A reference to the participating FunctionalComponent in the parent Interaction
-        Participation(std::string uri = "example", std::string participant = "", std::string version = "1.0.0") : Participation(SBOL_PARTICIPATION, uri, participant, version) {};
-
-        Participation(std::string uri, ComponentDefinition& species, std::string version = "1.0.0") :
-            Participation(SBOL_PARTICIPATION, uri, "", version)
-            {
-            };
         
         void define(ComponentDefinition& species, std::string role = "");
         
-//        Participation(std::string uri_prefix, std::string display_id, std::string version, std::string participant) : Participation(SBOL_PARTICIPATION, uri_prefix, display_id, version, participant) {};
         
         virtual ~Participation(){};
-	protected:
-        Participation(sbol_type type, std::string uri, std::string participant, std::string version) :
-            Identified(type, uri, version),
-            roles(SBOL_ROLES, this),
-            participant(SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, this, participant)
-            {
-            };
         
-//        Participation(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string participant) :
-//			Identified(type, uri_prefix, display_id, version),
-//			roles(SBOL_ROLES, this),
-//			participant(SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, this, participant)
-//            {
-//            };
 	};
 }
 

@@ -39,6 +39,7 @@
 #include <regex>
 #include <stdio.h>
 #include <ctype.h>
+#include <algorithm>
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
@@ -48,10 +49,45 @@ using namespace sbol;
 using namespace std;
 
 
-// Remove this, no longer needed
 void Document::parse_extension_objects()
 {
+    // Look in Implementation store for objects with sys-bio:type and move them to Build store
+    vector<SBOLObject*>& implementation_store = owned_objects[SBOL_IMPLEMENTATION];
+    vector<SBOLObject*>& build_store = owned_objects[SYSBIO_BUILD];
+    implementation_store.erase( std::remove_if(implementation_store.begin(), implementation_store.end(), [&](SBOLObject* i)
+        {
+            if (i->properties.find(SYSBIO_URI "#type") != i->properties.end() && i->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_BUILD ">")
+            {
+                build_store.push_back(i);
+                return true;
+            }
+            return false;
+        }), implementation_store.end());
 
+    // Look in Collection store for objects with sys-bio:type and move them to Test store
+    vector<SBOLObject*>& collection_store = owned_objects[SBOL_COLLECTION];
+    vector<SBOLObject*>& test_store = owned_objects[SYSBIO_TEST];
+    collection_store.erase( std::remove_if(collection_store.begin(), collection_store.end(), [&](SBOLObject* c)
+        {
+            if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
+            {
+                test_store.push_back(c);
+                return true;
+            }
+            return false;
+        }), collection_store.end());
+
+    // Look in Collection store for objects with sys-bio:type and move them to SampleRoster store
+    vector<SBOLObject*>& roster_store = owned_objects[SYSBIO_URI "#SampleRoster"];
+    collection_store.erase( std::remove_if(collection_store.begin(), collection_store.end(), [&](SBOLObject* c)
+        {
+            if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_SAMPLE_ROSTER ">")
+            {
+                roster_store.push_back(c);
+                return true;
+            }
+            return false;
+        }), collection_store.end());
 };
 
 Document::~Document()
@@ -90,7 +126,10 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(PROVO_USAGE, (SBOLObject&(*)()) &create<Usage> ),
     make_pair(SBOL_ATTACHMENTS, (SBOLObject&(*)()) &create<Attachment>),
     make_pair(SBOL_COMBINATORIAL_DERIVATION, (SBOLObject&(*)()) &create<CombinatorialDerivation> ),
-    make_pair(SBOL_IMPLEMENTATION, (SBOLObject&(*)()) &create<Implementation> )
+    make_pair(SBOL_IMPLEMENTATION, (SBOLObject&(*)()) &create<Implementation> ),
+    make_pair(SYSBIO_DESIGN, (SBOLObject&(*)()) &create<Design> ),
+    make_pair(SYSBIO_ANALYSIS, (SBOLObject&(*)()) &create<Analysis> ),
+    make_pair(SYSBIO_SAMPLE_ROSTER, (SBOLObject&(*)()) &create<SampleRoster> )
 };
 
 
@@ -438,24 +477,32 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 		// Recurse through each object in the object store that belongs to this property
 		std::string property_name = i->first;
 		vector<SBOLObject*> object_store = i->second;
+        
+        if (std::find(hidden_properties.begin(), hidden_properties.end(), property_name) != hidden_properties.end())
+            continue;
+
 		if (object_store.size() > 0)
 		{
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
 			{
 				SBOLObject* obj = *o;
-//                std::cout << rdfxml_string << std::endl;
+                if (Config::getOption("verbose") == "True")
+                    std::cout << rdfxml_string << std::endl;
                 rdfxml_string = obj->nest(rdfxml_string);  // Recurse, start nesting with leaf objects
                 string id = obj->identity.get();
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
-//                std::cout << rdfxml_string << std::endl;
-//                getchar();
+                if (Config::getOption("verbose") == "True")
+                {
+                    std::cout << rdfxml_string << std::endl;
+                    getchar();
+                }
                 try
                 {
                     replace_reference_to_resource(rdfxml_string, doc->makeQName(property_name), id, cut_text);
                 }
                 catch(...)
                 {
-                    throw SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + parseClassName(property_name) + " property of " + id);
+                    throw SBOLError(SBOL_ERROR_SERIALIZATION, "Error serializing " + parseClassName(property_name) + " property of " + this->identity.get());
                 }
             }
 		}
@@ -495,7 +542,9 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
         if ((!doc->find(subject)) && (doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
         {
             PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
-            PyObject* py_obj = PyObject_CallFunction(constructor, (char *)"s", subject.c_str());
+
+//            PyObject* py_obj = PyObject_CallFunction(constructor, (char *)"s", subject.c_str());
+            PyObject* py_obj = PyObject_CallFunction(constructor, NULL);
             SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
             SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
             
@@ -523,7 +572,8 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
             doc->SBOLObjects[new_obj->identity.get()] = new_obj;
             new_obj->doc = doc;  //  Set's the objects back-pointer to the parent Document
             
-            Py_DECREF(py_obj); // Clean up
+            doc->PythonObjects[subject] = py_obj;
+            //Py_DECREF(py_obj); // Clean up
         }
         else
 #endif
@@ -637,7 +687,15 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
                         doc->SBOLObjects.erase(owned_obj_id);
                         // doc->owned_objects.erase(owned_object->type);  // Remove temporary, non-toplevel objects from the Document's property store
                     }
-				}
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+                    if (doc->PythonObjects.find(owned_obj_id) != doc->PythonObjects.end())
+                    {
+                        PyObject *owned_obj = doc->PythonObjects[owned_obj_id];
+                        sbol_obj->PythonObjects[owned_obj_id] = owned_obj;
+                        doc->PythonObjects.erase(owned_obj_id);
+                    }
+#endif
+                }
                 // Extension data
                 else
                 {
@@ -898,11 +956,8 @@ void Document::append(std::string filename)
     // On the final pass, nested annotations not in the SBOL namespace are identified
     parse_annotation_objects();
 
-    // A dummy parser which can be extended by SWIG to attach Python extension code
+    // Process libSBOL objects not part of the SBOL core standard
     parse_extension_objects();
-//@TODO fix validation on read
-//    this->validate();
-
     fclose(fh);
 }
 
@@ -938,12 +993,9 @@ void Document::readString(std::string& sbol)
     
     // On the final pass, nested annotations not in the SBOL namespace are identified
     parse_annotation_objects();
-    
-    // A dummy parser which can be extended by SWIG to attach Python extension code
+
+    // Process libSBOL objects not part of the SBOL core standard
     parse_extension_objects();
-    //@TODO fix validation on read
-    //    this->validate();
-    
 }
 
 
@@ -975,18 +1027,19 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 		raptor_serializer_serialize_statement(sbol_serializer, triple);
 		raptor_free_statement(triple);
 
-        // Add missing namespace to the Document
         for (auto i_ns = namespaces.begin(); i_ns != namespaces.end(); ++i_ns)
+        {
             doc->namespaces[i_ns->first] = i_ns->second;
-        
+        }
 		for (auto it = properties.begin(); it != properties.end(); ++it)
 		{
-
+            std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
+            if (std::find(hidden_properties.begin(), hidden_properties.end(), new_predicate) != hidden_properties.end())
+                continue;
+            
 			// This RDF triple makes the following statement:
 			// "This SBOL object has a property called X and its value is Y"
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
-
-			std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
             
 			// Serialize each of the values in a List property as an RDF triple
 			vector<std::string> property_values = it->second;
@@ -1028,6 +1081,9 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 			std::string property_name = i->first;
 			vector<SBOLObject*> object_store = i->second;
 
+            if (std::find(hidden_properties.begin(), hidden_properties.end(), property_name) != hidden_properties.end())
+                continue;
+            
 			if (object_store.size() > 0)
 			{
 				// TODO:  this triple appears to be unneccessary and creates an extra 
@@ -1064,7 +1120,6 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
                     std::string predicate = property_name;
 					std::string object = obj->identity.get();
 
-
 					//std::string subject = property_name;
 					//std::string predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#_" + std::to_string(i_o);
 					//std::string object = obj->identity.get();
@@ -1095,6 +1150,7 @@ void TopLevel::addToDocument(Document& doc)
 {
     doc.SBOLObjects[this->identity.get()] = this;
     this->doc = &doc;
+    this->parent = &doc;
 };
 
 TopLevel& Document::getTopLevel(string uri)
@@ -1488,13 +1544,6 @@ Identified& Identified::simpleCopy(string uri)
     return new_obj;
 };
 
-
-
-
-
-
-
-
 std::string Document::request_validation(std::string& sbol)
 {
     /* Form validation options in JSON */
@@ -1581,6 +1630,90 @@ std::string Document::request_validation(std::string& sbol)
     return response;
 };
 
+std::string Document::request_comparison(Document& diff_file)
+{
+    /* Form validation options in JSON */
+    Json::Value request;   // 'root' will contain the root value after parsing.
+    
+    vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
+    for (auto const& opt : opts)
+    {
+        if (Config::getOption(opt).compare("True") == 0)
+            request["options"][opt] = true;
+        else if (Config::getOption(opt).compare("False") == 0)
+            request["options"][opt] = false;
+        else
+            request["options"][opt] = Config::getOption(opt);
+    }
+    request["options"]["language"] = "SBOL2";
+    request["options"]["test_equality"] = true;
+    request["options"]["main_file_name"] = "Document1.xml";
+    request["options"]["diff_file_name"] = "Document2.xml";
+
+    request["return_file"] = false;
+    request["main_file"] = this->writeString();
+    request["diff_file"] = diff_file.writeString();
+
+    Json::StyledWriter writer;
+    string json = writer.write( request );
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        /* Now specify the POST data */
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to compare documents failed with " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    Json::Value json_response;
+    Json::Reader reader;
+    bool parsed = reader.parse( response, json_response );     //parse process
+    if ( parsed )
+    {
+        if (json_response.get("valid", response ).asString().compare("true") == 0)
+            response = "Valid.";
+        else
+            response = "Invalid.";
+        for (auto itr : json_response["errors"])
+        {
+            response += " " + itr.asString();
+        }
+    }
+    return response;
+};
 
 
 std::string Document::query_repository(std::string command)
@@ -1775,3 +1908,55 @@ Document& Document::copy(std::string ns, Document* doc)
     }
     return *doc;
 };
+
+void TopLevel::initialize(std::string uri)
+{
+    if  (Config::getOption("sbol_compliant_uris") == "True")
+    {
+        displayId.set(uri);
+        if (Config::getOption("sbol_typed_uris") == "True")
+        {
+            identity.set(getHomespace() + "/" + getClassName(this->type) + "/" + displayId.get() + "/" + version.get());
+            persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
+        }
+        else
+        {
+            identity.set(getHomespace() + "/" + displayId.get() + "/" + version.get());
+            persistentIdentity.set(getHomespace() + "/" + displayId.get());
+        }
+    }
+    else
+    {
+        identity.set(uri);
+        version.set(VERSION_STRING);
+    }
+}
+
+void ReferencedObject::set(SBOLObject& obj)
+{
+    if (obj.type != reference_type_uri)
+        throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
+    TopLevel* tl = dynamic_cast<TopLevel*>(&obj);
+    if (this->sbol_owner->doc)
+    {
+        if (tl && !this->sbol_owner->doc->find(tl->identity.get()))
+        {
+            this->sbol_owner->doc->add<TopLevel>(*tl);
+        }
+    }
+    set(obj.identity.get());
+};
+
+void ReferencedObject::add(SBOLObject& obj)
+{
+    if (obj.type != reference_type_uri)
+        throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
+    TopLevel* tl = dynamic_cast<TopLevel*>(&obj);
+    if (this->sbol_owner->doc)
+    {
+        if (tl && !this->sbol_owner->doc->find(tl->identity.get()))
+            this->sbol_owner->doc->add<TopLevel>(*tl);
+    }
+    add(obj.identity.get());
+};
+

@@ -36,6 +36,22 @@ namespace sbol
 	class SBOL_DECLSPEC Sequence : public TopLevel
 	{
 	public:
+        /// Construct a Seqiemce
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param elements A string representation of the primary structure of DNA, RNA, protein, or a SMILES string for small molecules.
+        /// @param encoding A URI that describes the representation format used for the elements property. Set to SBOL_ENCODING_IUPAC by default
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string.
+        Sequence(std::string uri = "example", std::string elements = "", std::string encoding = SBOL_ENCODING_IUPAC, std::string version = "1.0.0") : Sequence(SBOL_SEQUENCE, uri, elements, encoding, version) {};
+        
+        /// Constructor used for defining extension classes
+        /// @param type_uri The RDF type for an extension class derived from this one
+        Sequence(rdf_type type_uri, std::string uri, std::string elements, std::string encoding, std::string version) :
+            TopLevel(type_uri, uri, version),
+            elements(this, SBOL_ELEMENTS, '1', '1', ValidationRules({}), elements),
+            encoding(this, SBOL_ENCODING, '1', '1', ValidationRules({}), encoding)
+            {
+            };
+        
         /// The elements property is a REQUIRED String of characters that represents the constituents of a biological or chemical molecule. For example, these characters could represent the nucleotide bases of a molecule of DNA, the amino acid residues of a protein, or the atoms and chemical bonds of a small molecule.
 		TextProperty elements;
         
@@ -61,30 +77,7 @@ namespace sbol
         /// @param clone_id A URI for the build, or displayId if working in SBOLCompliant mode.
         ComponentDefinition& synthesize(std::string clone_id);
         
-        /// Construct a ComponentDefinition
-        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        /// @param elements A string representation of the primary structure of DNA, RNA, protein, or a SMILES string for small molecules.
-        /// @param encoding A URI that describes the representation format used for the elements property. Set to SBOL_ENCODING_IUPAC by default
-        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string.
-        Sequence(std::string uri = "example", std::string elements = "", std::string encoding = SBOL_ENCODING_IUPAC, std::string version = "1.0.0") : Sequence(SBOL_SEQUENCE, uri, elements, encoding, version) {};
-        
         virtual ~Sequence() {};
-	protected:
-		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
-
-        Sequence(sbol_type type_uri, std::string uri, std::string elements, std::string encoding, std::string version) :
-            TopLevel(type_uri, uri, version),
-            elements(SBOL_ELEMENTS, this, elements),
-            encoding(SBOL_ENCODING, this, encoding)
-            {
-            };
-        
-//        Sequence(sbol_type type_uri, std::string uri_prefix, std::string display_id, std::string version, std::string elements, std::string encoding) :
-//			TopLevel(type_uri, uri_prefix, display_id, version),
-//			elements(SBOL_ELEMENTS, this, elements),
-//			encoding(SBOL_ENCODING, this, encoding)
-//            {
-//            };
 	};
 }
 

@@ -155,54 +155,261 @@ void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
 // Validate Design.structure and Design.function are compatible
 void sbol::libsbol_rule_3(void *sbol_obj, void *arg)
 {
-//    ComponentDefinition& structure = *(ComponentDefinition*)arg;
+
     ComponentDefinition& structure = *static_cast<ComponentDefinition*>(arg);
-
-    std::cout << "Validating " << structure.identity.get() << std::endl;
-
     Design& design = (Design&)(*structure.parent);
+
+    // Add the structure ComponentDefinition to the Document
+    if (design.doc && !structure.doc)
+        structure.doc = design.doc;
+    else if (design.doc != structure.doc)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot use " + structure.identity.get() + " for this Design. The objects must belong to the same Document");
+        
+    
+    // Update Reference property to match the OwnedObject property (only the Reference will be serialized)
+    design.properties["http://sys-bio.org#_structure"][0] = "<" + structure.identity.get() + ">";
+    
     if (design.function.size() > 0)
     {
-        std::cout << "Function is defined" << std::endl;
+        // Update FunctionalComponent which correlates the structure and function properties
         ModuleDefinition& fx = design.function.get();
         bool STRUCTURE_FUNCTION_CORRELATED = false;
         for (auto & fc : fx.functionalComponents)
         {
-            if (fc.definition.get().compare(structure.identity.get()))
+            if (fc.definition.get() == structure.identity.get())
                 STRUCTURE_FUNCTION_CORRELATED = true;
                 break;
         }
         if (!STRUCTURE_FUNCTION_CORRELATED)
+        {
             FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+            correlation.definition.set(structure);
+        }
     }
-    else
-        std::cout << "Function is not defined" << std::endl;
-
 };
 
 void sbol::libsbol_rule_4(void *sbol_obj, void *arg)
 {
-//    ModuleDefinition& fx = *(ModuleDefinition*)arg;
     ModuleDefinition& fx = *static_cast<ModuleDefinition*>(arg);
-
-    std::cout << "Validating " << fx.identity.get() << std::endl;
-
     Design& design = (Design&)(*fx.parent);
+
+    // Add the structure ComponentDefinition to the Document
+    if (design.doc && !fx.doc)
+        fx.doc = design.doc;
+    else if (design.doc != fx.doc)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot use " + fx.identity.get() + " for this Design. The objects must belong to the same Document");
+    
+    design.properties["http://sys-bio.org#_function"][0] = "<" + fx.identity.get() + ">";
     if (design.structure.size() > 0)
     {
-        std::cout << "Function is defined" << std::endl;
         ComponentDefinition& structure = design.structure.get();
         bool STRUCTURE_FUNCTION_CORRELATED = false;
         for (auto & fc : fx.functionalComponents)
         {
-            if (fc.definition.get().compare(structure.identity.get()))
+            if (fc.definition.get() == structure.identity.get())
                 STRUCTURE_FUNCTION_CORRELATED = true;
             break;
         }
         if (!STRUCTURE_FUNCTION_CORRELATED)
+        {
             FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+            correlation.definition.set(structure);
+        }
     }
-    else
-        std::cout << "Structure is not defined" << std::endl;
+};
 
+// Validate Build.structure and Build.behavior are compatible
+void sbol::libsbol_rule_5(void *sbol_obj, void *arg)
+{
+
+    ComponentDefinition& structure = *static_cast<ComponentDefinition*>(arg);
+    Build& build = (Build&)(*structure.parent);
+
+    // Add the structure ComponentDefinition to the Document
+    if (build.doc && !structure.doc)
+        structure.doc = build.doc;
+    else if (build.doc != structure.doc)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot use " + structure.identity.get() + " for this Design. The objects must belong to the same Document");
+        
+    
+    // Update Reference property to match the OwnedObject property (only the Reference will be serialized)
+    build.properties["http://sys-bio.org#_structure"][0] = "<" + structure.identity.get() + ">";
+    
+    if (build.behavior.size() > 0)
+    {
+        // Update FunctionalComponent which correlates the structure and function properties
+        ModuleDefinition& fx = build.behavior.get();
+        bool STRUCTURE_FUNCTION_CORRELATED = false;
+        for (auto & fc : fx.functionalComponents)
+        {
+            if (fc.definition.get() == structure.identity.get())
+                STRUCTURE_FUNCTION_CORRELATED = true;
+                break;
+        }
+        if (!STRUCTURE_FUNCTION_CORRELATED)
+        {
+            FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+            correlation.definition.set(structure);
+        }
+    }
+};
+
+void sbol::libsbol_rule_6(void *sbol_obj, void *arg)
+{
+    ModuleDefinition& fx = *static_cast<ModuleDefinition*>(arg);
+    Build& build = (Build&)(*fx.parent);
+
+    // Add the structure ComponentDefinition to the Document
+    if (build.doc && !fx.doc)
+        fx.doc = build.doc;
+    else if (build.doc != fx.doc)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot use " + fx.identity.get() + " for this Design. The objects must belong to the same Document");
+    
+    build.properties[SBOL_URI "#built"][0] = "<" + fx.identity.get() + ">";
+    if (build.structure.size() > 0)
+    {
+        ComponentDefinition& structure = build.structure.get();
+        bool STRUCTURE_FUNCTION_CORRELATED = false;
+        for (auto & fc : fx.functionalComponents)
+        {
+            if (fc.definition.get() == structure.identity.get())
+                STRUCTURE_FUNCTION_CORRELATED = true;
+            break;
+        }
+        if (!STRUCTURE_FUNCTION_CORRELATED)
+        {
+            FunctionalComponent& correlation = fx.functionalComponents.create(fx.displayId.get());
+            correlation.definition.set(structure);
+        }
+    }
+};
+
+// Validate that the Analysis object referenced in Design.characterization is consistent with #learn Usage
+void sbol::libsbol_rule_7(void *sbol_obj, void *arg)
+{
+    Design& design = *(Design*)sbol_obj;
+    string& analysis_id = *(string*)arg;
+    if (design.doc && design.wasGeneratedBy.size())
+    {
+        vector< Usage* > learn_usages;
+        for (auto & activity : design.doc->activities)
+            if (activity.identity.get() == design.wasGeneratedBy.get())
+                for (auto & usage : activity.usages)
+                    if (usage.roles.find(SBOL_LEARN))
+                        learn_usages.push_back(&usage);
+        for (auto & usage : learn_usages)
+            if (analysis_id == usage->entity.get())
+                return;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The characterization property of " + design.identity.get() + " must reference the same Analysis as referenced by the Activity that produced it.");    }
+};
+
+// Validate that the Design object referenced in Build.design is consistent with #design Usage
+void sbol::libsbol_rule_8(void *sbol_obj, void *arg)
+{
+    Build& build = *(Build*)sbol_obj;
+    string& design_id = *(string*)arg;
+    if (build.doc  && build.wasGeneratedBy.size())
+    {
+        vector< Usage* > design_usages;
+        for (auto & activity : build.doc->activities)
+            if (activity.identity.get() == build.wasGeneratedBy.get())
+                for (auto & usage : activity.usages)
+                    if (usage.roles.find(SBOL_DESIGN))
+                        design_usages.push_back(&usage);
+        for (auto & usage : design_usages)
+            if (design_id == usage->entity.get())
+                return;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The design property of " + build.identity.get() + " must reference the same Design as referenced by the Activity that produced it.");
+    }
+};
+
+// Validate that the Build objects referenced in Test.samples is consistent with #build Usage
+void sbol::libsbol_rule_9(void *sbol_obj, void *arg)
+{
+    Test& test = *(Test*)sbol_obj;
+    string& sample_id = *(string*)arg;
+    if (test.doc && test.wasGeneratedBy.size())
+    {
+        vector< Usage* > build_usages;
+        for (auto & activity : test.doc->activities)
+            if (activity.identity.get() == test.wasGeneratedBy.get())
+                for (auto & usage : activity.usages)
+                    if (usage.roles.find(SBOL_BUILD))
+                        build_usages.push_back(&usage);
+        for (auto & usage : build_usages)
+            if (sample_id == usage->entity.get())
+                return;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The samples property of " + test.identity.get() + " must reference the same Build objects as referenced by the Activity that produced it.");
+    }
+};
+
+// Validate that the Test objects referenced in Analysis.rawData is consistent with #test Usage
+void sbol::libsbol_rule_10(void *sbol_obj, void *arg)
+{
+    Analysis& analysis = *(Analysis*)sbol_obj;
+    string& test_id = *(string*)arg;
+    if (analysis.doc && analysis.wasGeneratedBy.size())
+    {
+        vector< Usage* > test_usages;
+        for (auto & activity : analysis.doc->activities)
+            if (activity.identity.get() == analysis.wasGeneratedBy.get())
+                for (auto & usage : activity.usages)
+                    if (usage.roles.find(SBOL_TEST))
+                        test_usages.push_back(&usage);
+        for (auto & usage : test_usages)
+            if (test_id == usage->entity.get())
+                return;
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "The rawData property of " + analysis.identity.get() + " must reference the same Test object as referenced by the Activity that produced it.");
+    }
+};
+
+void sbol::libsbol_rule_11(void *sbol_obj, void *arg)
+{
+    Design& design = *(Design*)arg;
+    for (auto analysis : design.characterization)
+    {
+        libsbol_rule_7(sbol_obj, &analysis);
+    }
+};
+
+void sbol::libsbol_rule_12(void *sbol_obj, void *arg)
+{
+    Build& build = *(Build*)arg;
+    for (auto design : build.design)
+    {
+        libsbol_rule_8(sbol_obj, &design);
+    }
+};
+
+void sbol::libsbol_rule_13(void *sbol_obj, void *arg)
+{
+    Test& test = *(Test*)arg;
+    for (auto build : test.samples)
+    {
+        libsbol_rule_9(sbol_obj, &build);
+    }
+};
+
+void sbol::libsbol_rule_14(void *sbol_obj, void *arg)
+{
+    Analysis& analysis = *(Analysis*)arg;
+    for (auto test : analysis.rawData)
+    {
+        libsbol_rule_10(sbol_obj, &test);
+    }
+};
+
+void sbol::libsbol_rule_15(void *sbol_obj, void *arg)
+{
+    SampleRoster& roster = *(SampleRoster*)sbol_obj;
+    string sample_id = *(string*)arg;
+    if (roster.doc && !roster.doc->builds.find(sample_id))
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid SampleRoster. The referenced Build " + sample_id + " is not contained in the Document");
+};
+
+void sbol::libsbol_rule_16(void *sbol_obj, void *arg)
+{
+    SampleRoster& roster = *(SampleRoster*)arg;
+    for (auto sample_id : roster.samples)
+        libsbol_rule_15(sbol_obj, &roster);
 };

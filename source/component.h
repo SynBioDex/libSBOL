@@ -54,24 +54,17 @@ namespace sbol
 		URIProperty access;
         
         /// The mapsTos property is OPTIONAL and MAY contain a set of MapsTo objects that refer to and link together ComponentInstance objects (both Component objects and FunctionalComponent objects) within a larger design.
-		List<OwnedObject<MapsTo>> mapsTos;
+		OwnedObject<MapsTo> mapsTos;
 
         virtual ~ComponentInstance() {};
 	protected:
-        ComponentInstance(sbol_type type, std::string uri, std::string definition, std::string access, std::string version) :
+        ComponentInstance(rdf_type type, std::string uri, std::string definition, std::string access, std::string version) :
             Identified(type, uri, version),
-            definition(SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, this, definition),
-            access(SBOL_ACCESS, this, access),
-            mapsTos(SBOL_MAPS_TOS, this)
+            definition(this, SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), definition),
+            access(this, SBOL_ACCESS, '0', '1', ValidationRules({}), access),
+            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({}))
             {
             };
-//        ComponentInstance(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) :
-//            Identified(type, uri_prefix, display_id, version),
-//            definition(SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, this, definition),
-//            access(SBOL_ACCESS, this, access),
-//            mapsTos(SBOL_MAPS_TOS, this)
-//            {
-//            };
         
 	};
 
@@ -83,7 +76,7 @@ namespace sbol
         /// The expected purpose and function of a genetic part are described by the roles property of ComponentDefinition. However, the same building block might be used for a different purpose in an actual design. In other words, purpose and function are sometimes determined by context.
         /// The roles property comprises an OPTIONAL set of zero or more role URIs describing the purpose or potential function of this Component’s included sub-ComponentDefinition in the context of its parent ComponentDefinition. If provided, these role URIs MUST identify terms from appropriate ontologies. Roles are not restricted to describing biological function; they may annotate a Component’s function in any domain for which an ontology exists.
         /// It is RECOMMENDED that these role URIs identify terms that are compatible with the type properties of both this Component’s parent ComponentDefinition and its included sub-ComponentDefinition. For example, a role of a Component which belongs to a ComponentDefinition of type DNA and includes a sub-ComponentDefinition of type DNA might refer to terms from the Sequence Ontology. See documentation for ComponentDefinition for a table of recommended ontology terms for roles.
-        List<URIProperty> roles;
+        URIProperty roles;
         
         /// A roleIntegration specifies the relationship between a Component instance’s own set of roles and the set of roles on the included sub-ComponentDefinition.
         /// The roleIntegration property has a data type of URI. A Component instance with zero roles MAY OPTIONALLY specify a roleIntegration. A Component instance with one or more roles MUST specify a roleIntegration from the table below If zero Component roles are given and no Component roleIntegration is given, then http://sbols.org/v2#mergeRoles is assumed. It is RECOMMENDED to specify a set of Component roles only if the integrated result set of roles would differ from the set of roles belonging to this Component’s included sub-ComponentDefinition.
@@ -108,10 +101,10 @@ namespace sbol
         virtual ~Component() {};
 
 	protected:
-        Component(sbol_type type, std::string uri, std::string definition, std::string access, std::string version) :
+        Component(rdf_type type, std::string uri, std::string definition, std::string access, std::string version) :
             ComponentInstance(type, uri, definition, access, version),
-            roles(SBOL_ROLES, this),
-            roleIntegration(SBOL_ROLE_INTEGRATION, this)
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
+            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}))
             {};
         
 //        Component(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) : ComponentInstance(type, uri_prefix, display_id, version, definition, access) {};
@@ -154,13 +147,11 @@ namespace sbol
         virtual ~FunctionalComponent() {};
 
 	protected:
-        FunctionalComponent(sbol_type type, std::string uri, std::string definition, std::string access, std::string direction, std::string version) :
+        FunctionalComponent(rdf_type type, std::string uri, std::string definition, std::string access, std::string direction, std::string version) :
             ComponentInstance(type, uri, definition, access, version),
-            direction(SBOL_DIRECTION, this, direction) {};
-        
-//        FunctionalComponent(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access, std::string direction) :
-//            ComponentInstance(type, uri_prefix, display_id, version, definition, access),
-//            direction(SBOL_DIRECTION, this, direction) {};
+            direction(this, SBOL_DIRECTION, '1', '1', ValidationRules({}), direction)
+            {
+            };
 
 	};
 }

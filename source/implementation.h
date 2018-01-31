@@ -34,21 +34,22 @@ namespace sbol
 	class SBOL_DECLSPEC Implementation : public TopLevel
 	{
 	public:
-        // The built property is OPTIONAL and MAY contain a URI that MUST refer to a TopLevel object that is either a ComponentDefinition or ModuleDefinition. This ComponentDefinition or ModuleDefinition is intended to describe the actual physical structure and/or functional behavior of the Implementation. When the built property refers to a ComponentDefinition that is also linked to the Implementation via PROV-O properties such as wasDerivedFrom, it can be inferred that the actual structure and/or function of the Implementation matches its original design. When the built property refers to a different ComponentDefinition, it can be inferred that the Implementation has deviated from the original design. For example, the latter could be used to document when the DNA sequencing results for an assembled construct do not match the original target sequence.
-        URIProperty built;
-
         /// Construct an Implementation
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         Implementation(std::string uri = "example", std::string version = "1.0.0") : Implementation(SBOL_IMPLEMENTATION, uri, version) {};
 
-        virtual ~Implementation() {};
-	protected:
-        Implementation(sbol_type type, std::string uri, std::string version) :
+        /// Constructor used for defining extension classes
+        /// @param rdf_type The RDF type for an extension class derived from this one
+        Implementation(rdf_type type, std::string uri, std::string version) :
             TopLevel(type, uri, version),
-            built(SBOL_URI "#built", this)
+            built(this, SBOL_URI "#built", '0', '1', ValidationRules({}))
             {
             };
 
+        // The built property is OPTIONAL and MAY contain a URI that MUST refer to a TopLevel object that is either a ComponentDefinition or ModuleDefinition. This ComponentDefinition or ModuleDefinition is intended to describe the actual physical structure and/or functional behavior of the Implementation. When the built property refers to a ComponentDefinition that is also linked to the Implementation via PROV-O properties such as wasDerivedFrom, it can be inferred that the actual structure and/or function of the Implementation matches its original design. When the built property refers to a different ComponentDefinition, it can be inferred that the Implementation has deviated from the original design. For example, the latter could be used to document when the DNA sequencing results for an assembled construct do not match the original target sequence.
+        URIProperty built;
+
+        virtual ~Implementation() {};
 	};
 }
 

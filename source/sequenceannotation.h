@@ -39,41 +39,48 @@ namespace sbol
     class SBOL_DECLSPEC SequenceAnnotation : public Identified
 	{
 	public:
-        /// The component property is OPTIONAL and has a data type of URI. This URI MUST refer to a Component that is contained by the same parent ComponentDefinition that contains the SequenceAnnotation. In this way, the properties of the SequenceAnnotation, such as its description and locations, are associated with part of the substructure of its parent ComponentDefinition.
-        URIProperty component;
-        
-        /// The locations property is a REQUIRED set of one or more Location objects that indicate which elements of a Sequence are described by the SequenceAnnotation.
-        /// Allowing multiple Location objects on a single SequenceAnnotation is intended to enable representation of discontinuous regions (for example, a Component encoded across a set of exons with interspersed introns). As such, the Location objects of a single SequenceAnnotation SHOULD NOT specify overlapping regions, since it is not clear what this would mean. There is no such concern with different SequenceAnnotation objects, however, which can freely overlap in Location (for example, specifying overlapping linkers for sequence assembly).
-		List<OwnedObject<Location>> locations;
-        
-        /// Alternatively to describing substructure, a SequenceAnnotation can be utilized to identify a feature, such as a GenBank feature, of a specified Sequence. In this use case, the SequenceAnnotation MUST NOT have a component property, but instead it would have a roles property.
-        /// The roles property comprises an OPTIONAL set of zero or more URIs describing the specified sequence feature being annotated. If provided, these role URIs MUST identify terms from appropriate ontologies. Roles are not restricted to describing biological function; they may annotate Sequences’ function in any domain for which an ontology exists.
-        /// It is RECOMMENDED that these role URIs identify terms that are compatible with the type properties of this SequenceAnnotation’s parent ComponentDefinition. For example, a role of a SequenceAnnotation which belongs to a ComponentDefinition of type DNA might refer to terms from the Sequence Ontology. See documentation for ComponentDefinition for a table of recommended ontology terms.
-        List<URIProperty> roles;
-        
-        URIProperty roleIntegration;
-        
         /// Construct a ComponentDefinition
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         SequenceAnnotation(std::string uri = "example", std::string version = "1.0.0") : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri, version) {};
 
-//        SequenceAnnotation(std::string uri_prefix, std::string display_id, std::string version) : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri_prefix, display_id, version) {};
-
+        /// The component property is OPTIONAL and has a data type of URI. This URI MUST refer to a Component that is contained by the same parent ComponentDefinition that contains the SequenceAnnotation. In this way, the properties of the SequenceAnnotation, such as its description and locations, are associated with part of the substructure of its parent ComponentDefinition.
+        ReferencedObject component;
+        
+        /// The locations property is a REQUIRED set of one or more Location objects that indicate which elements of a Sequence are described by the SequenceAnnotation.
+        /// Allowing multiple Location objects on a single SequenceAnnotation is intended to enable representation of discontinuous regions (for example, a Component encoded across a set of exons with interspersed introns). As such, the Location objects of a single SequenceAnnotation SHOULD NOT specify overlapping regions, since it is not clear what this would mean. There is no such concern with different SequenceAnnotation objects, however, which can freely overlap in Location (for example, specifying overlapping linkers for sequence assembly).
+		OwnedObject<Location> locations;
+        
+        /// Alternatively to describing substructure, a SequenceAnnotation can be utilized to identify a feature, such as a GenBank feature, of a specified Sequence. In this use case, the SequenceAnnotation MUST NOT have a component property, but instead it would have a roles property.
+        /// The roles property comprises an OPTIONAL set of zero or more URIs describing the specified sequence feature being annotated. If provided, these role URIs MUST identify terms from appropriate ontologies. Roles are not restricted to describing biological function; they may annotate Sequences’ function in any domain for which an ontology exists.
+        /// It is RECOMMENDED that these role URIs identify terms that are compatible with the type properties of this SequenceAnnotation’s parent ComponentDefinition. For example, a role of a SequenceAnnotation which belongs to a ComponentDefinition of type DNA might refer to terms from the Sequence Ontology. See documentation for ComponentDefinition for a table of recommended ontology terms.
+        URIProperty roles;
+        
+        /// A roleIntegration specifies the relationship between a Component instance’s own set of roles and the set of roles on the included sub-ComponentDefinition. A Component instance with one or more roles MUST specify a roleIntegration. By default mergeRoles is assumed. It is RECOMMENDED to specify a set of Component roles only if the integrated result set of roles would differ from the set of roles belonging to this Component’s included sub-ComponentDefinition.
+        /// | roleIntegration URI                  | libSBOL Symbol                    | Description                                                              |
+        /// | :----------------------------------- | :-------------------------------- | :----------------------------------------------------------------------- |
+        /// | http://sbols.org/v2#overrideRoles    | SBOL_ROLE_INTEGRATION_OVERRIDE    | In the context of this Component, ignore any roles given for the <br>included sub-ComponentDefinition. Instead use only the set<br> of zero or more roles given for this Component. |
+        /// | http://sbols.org/v2#mergeRoles       | SBOL_ROLE_INTEGRATION_MERGE       | Use the union of the two sets: both the set of zero or more roles <br>given for this Component as well as the set of zero or more<br>roles given for the included sub-ComponentDefinition. |
+        URIProperty roleIntegration;
+        
         /// Tests if the comparand SequenceAnnotation precedes this one according to base coordinates
-        /// @comparand Another SequenceAnnotation
+        /// @param comparand Another SequenceAnnotation
+        /// @return true or false
         bool precedes(SequenceAnnotation& comparand);
 
         /// Tests if the comparand SequenceAnnotation follows this one according to base coordinates
-        /// @comparand Another SequenceAnnotation
+        /// @param comparand Another SequenceAnnotation
+        /// @return true or false
         bool follows(SequenceAnnotation& comparand);
 
         /// Tests if the comparand SequenceAnnotation is contained within the same start and end base coordinates as this one. This is mutually exclusive with overlaps.
-        /// @comparand Another SequenceAnnotation
+        /// @param comparand Another SequenceAnnotation
+        /// @return true or false
         bool contains(SequenceAnnotation& comparand);
 
         /// Tests if the comparand SequenceAnnotation overlaps with this one in the primary sequence
-        /// @comparand Another SequenceAnnotation
+        /// @param comparand Another SequenceAnnotation
+        /// @return true or false
         bool overlaps(SequenceAnnotation& comparand);
         
         std::vector<SequenceAnnotation*> precedes(std::vector<SequenceAnnotation*> comparand_list);
@@ -81,6 +88,8 @@ namespace sbol
         std::vector<SequenceAnnotation*> contains(std::vector<SequenceAnnotation*> comparand_list);
         std::vector<SequenceAnnotation*> overlaps(std::vector<SequenceAnnotation*> comparand_list);
         
+        /// Convert a SequenceAnnotation to a subcomponent
+        /// @return A ComponentDefinition representing the subcomponent
         ComponentDefinition& extract(int start_reference = 1);
 
         /// The length of a SequenceAnnotation in base coordinates.
@@ -90,20 +99,15 @@ namespace sbol
 	
 	protected:
 		// This protected constructor is a delegate constructor in order to initialize the object with an SBOL type URI 
-        SequenceAnnotation(sbol_type type, std::string uri, std::string version) :
+        SequenceAnnotation(rdf_type type, std::string uri, std::string version) :
             Identified(type, uri, version),
-            component(SBOL_COMPONENT_PROPERTY, this),
-            locations(SBOL_LOCATIONS, this),
-            roles(SBOL_ROLES, this),
-            roleIntegration(SBOL_ROLE_INTEGRATION, this, SBOL_ROLE_INTEGRATION_MERGE)
+            component(this, SBOL_COMPONENT_PROPERTY, SBOL_COMPONENT, '0', '1', ValidationRules({})),
+            locations(this, SBOL_LOCATIONS, '0', '*', ValidationRules({})),
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
+            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}), SBOL_ROLE_INTEGRATION_MERGE)
             {
             };
-        
-//        SequenceAnnotation(sbol_type type, std::string uri_prefix, std::string display_id, std::string version) :
-//			Identified(type, uri_prefix, display_id, version),
-//			locations(SBOL_LOCATIONS, this)
-//            {
-//            };
+
 	};
     
 

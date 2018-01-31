@@ -30,7 +30,7 @@
     #include "provo.h"
     #include "partshop.h"
     #include "combinatorialderivation.h"
-    #include "dblt.h"
+    #include "dbtl.h"
     #include "attachment.h"
     #include "implementation.h"
     #include "sbol.h"
@@ -43,7 +43,6 @@
     using namespace std;
     
 %}
-%include "typemaps.i"
 %include "python_docs.i"
 
 #ifdef SWIGWIN
@@ -55,7 +54,7 @@
     std::vector<std::string> convert_list_to_string_vector(PyObject *list)
     {
         if (!PyList_Check(list))
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
         if (PyList_Size(list) == 0)
             return {};
         PyObject *obj = PyList_GetItem(list, 0);
@@ -87,7 +86,7 @@
     std::vector<sbol::ComponentDefinition*> convert_list_to_cdef_vector(PyObject *list)
     {
         if (!PyList_Check(list))
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
         if (PyList_Size(list) == 0)
             return {};
         PyObject *obj = PyList_GetItem(list, 0);
@@ -104,14 +103,34 @@
         }
         return list_of_cdefs;
     }
-    
+
+    std::vector<sbol::Identified*> convert_list_to_identified_vector(PyObject *list)
+    {
+        if (!PyList_Check(list))
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
+        if (PyList_Size(list) == 0)
+            return {};
+        PyObject *py_obj = PyList_GetItem(list, 0);
+        std::vector<sbol::Identified*> identified_vector = {};
+        sbol::Identified* sbol_obj;
+        if (SWIG_IsOK(SWIG_ConvertPtr(py_obj,(void **) &sbol_obj, SWIG_TypeQuery("sbol::Identified*"),1)))
+        {
+            for (int i = 0; i < PyList_Size(list); ++i)
+            {
+                py_obj = PyList_GetItem(list, i);
+                if ((SWIG_ConvertPtr(py_obj,(void **) &sbol_obj, SWIG_TypeQuery("sbol::Identified*"),1)) == -1) throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Usages must be a valid SBOL object");;
+                identified_vector.push_back(sbol_obj);
+            }
+        }
+        return identified_vector;
+    }
 %}
 
 
 
 
 
-// Configure general error handling
+//  General error handling and mapping of libSBOL exception types to Python exception types
 %exception {
     try
     {
@@ -119,11 +138,27 @@
     }
     catch(SBOLError e)
     {
-        PyErr_SetString(PyExc_RuntimeError, e.what());
+        if (e.error_code() == SBOL_ERROR_NOT_FOUND)
+        {
+            PyErr_SetString(PyExc_LookupError, e.what());
+        }
+        else if (e.error_code() == SBOL_ERROR_INVALID_ARGUMENT || e.error_code() == SBOL_ERROR_MISSING_DOCUMENT)
+        {
+            PyErr_SetString(PyExc_ValueError, e.what());
+        }
+        else if (e.error_code() == SBOL_ERROR_TYPE_MISMATCH)
+        {
+            PyErr_SetString(PyExc_TypeError, e.what());
+        }
+        else
+        {
+            PyErr_SetString(PyExc_RuntimeError, e.what());
+        }
         return NULL;
     }
     catch(...)
     {
+        PyErr_SetString(PyExc_RuntimeError, "An error of unspecified type occurred");
     }
 }
 
@@ -163,8 +198,12 @@
 %ignore sbol::SBOLObject::begin;
 // %ignore sbol::SBOLObject::end;
 %ignore sbol::SBOLObject::size;
+%ignore sbol::Property::begin;
+%ignore sbol::Property::end;
+%ignore sbol::Property::size;
+
 %ignore sbol::OwnedObject::begin;
-// %ignore sbol::OwnedObject::end;
+%ignore sbol::OwnedObject::end;
 %ignore sbol::OwnedObject::size;
 %ignore sbol::ReferencedObject::begin;
 %ignore sbol::ReferencedObject::end;
@@ -178,11 +217,13 @@
 %ignore sbol::ComponentDefinition::assemble(std::vector<std::string> list_of_uris, Document& doc);  // Use variant signature defined in this interface file
 %ignore sbol::ComponentDefinition::assemble(std::vector<std::string> list_of_uris);  // Use variant signature defined in this interface file
 %ignore sbol::ComponentDefinition::linearize(std::vector<std::string> list_of_uris);  // Use variant signature defined in this interface file
+%ignore sbol::TopLevel::addToDocument;
 
 // Instantiate STL templates
 %include "std_string.i"
 %include "std_vector.i"
 %include "std_map.i"
+
 
 // This typemap is here in order to convert the return type of ComponentDefinition::getPrimaryStructure into a Python list. (The typemaps defined later in this file work on other methods, but did not work on this method specifically)
 %typemap(out) std::vector < sbol::ComponentDefinition* > {
@@ -197,6 +238,24 @@
     $result  = list;
     $1.clear();
 
+}
+
+// Typemap the hash table returned by Analysis::report methods
+%typemap(out) std::unordered_map < std::string, std::tuple < int, int, float > > {
+    int len = $1.size();
+    PyObject* dict = PyDict_New();
+    for(auto & i_elem : $1)
+    {
+        std::tuple < int, int, float > vals = i_elem.second;
+        int range_start = std::get<0>(vals);
+        int range_end = std::get<1>(vals);
+        float qc_stat = std::get<2>(vals);
+        PyObject* py_vals = Py_BuildValue("iif", range_start, range_end, qc_stat);
+        PyDict_SetItemString(dict, i_elem.first.c_str(), py_vals);
+    }
+    $result  = dict;
+    $1.clear();
+    
 }
 
 %template(_IntVector) std::vector<int>;
@@ -217,9 +276,12 @@
 %template(_IntProperty) sbol::Property<int>;
 %template(_FloatProperty) sbol::Property<double>;
 
-
-    
 %pythonappend add
+%{
+    self.thisown = False
+%}
+
+%pythonappend set
 %{
     self.thisown = False
 %}
@@ -228,19 +290,33 @@
 %{
     self.thisown = False
 %}
-
-%pythonappend addToDocument
+    
+// verifyTarget acts like a setter
+%pythonappend verifyTarget
 %{
-    arg2.thisown = False
+    consensus_sequence.thisown = False
 %}
     
 /* @TODO remove methods should change thisown flag back to True */
-%pythonappend remove
-%{
-    #self.thisown = True
-%}
+/* Currently this causes an exception (probably need a call to Py_INCREF */
+//%pythonprepend remove
+//%{
+//    print ("Getting " + args[0])
+//    obj = self.get(args[0])
+//    obj.thisown = True
+//%}
     
+%pythonappend getAll
+%{
+    val = list(val)
+%}
 
+//%pythonappend addToDocument
+//%{
+//    print("Adding to Document")
+//    arg2.thisown = False
+//%}
+    
     
 %include "properties.h"
 %include "object.h"
@@ -263,7 +339,8 @@
 %include "combinatorialderivation.h"
 %include "attachment.h"
 %include "implementation.h"
-    
+%include "dbtl.h"
+
 // Converts json-formatted text into Python data structures, eg, lists, dictionaries
 %pythonappend sbol::PartShop::search
 %{
@@ -330,16 +407,50 @@ typedef std::string sbol::sbol_type;
         $1.clear();
     }
     
+    %extend sbol::OwnedObject<sbol::SBOLClass >
+    {
+        PyObject* __getitem__(const int nIndex)
+        {
+            SBOLClass& obj = $self->operator[](nIndex);
+            PyObject *py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::SBOLClass*), 0 |  0 );
+            return py_obj;
+        }
+        
+        PyObject* __getitem__(const std::string uri)
+        {
+            SBOLClass& obj = $self->operator[](uri);
+            PyObject *py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::SBOLClass*), 0 |  0 );
+            return py_obj;
+        }
+        
+        void __setitem__(const std::string uri, PyObject* py_obj)
+        {
+            sbol:: SBOLClass* obj;
+            if ((SWIG_ConvertPtr(py_obj,(void **) &obj, $descriptor(sbol:: SBOLClass *),1)) == -1) throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
+            SBOLClass& new_obj = $self->create(uri);
+            if (new_obj.type != obj->type)
+                throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
+            return;
+        }
+    }
+    
     /* Instantiate templates */
     %template(SBOLClass ## Vector) std::vector<sbol::SBOLClass>;
     %template(SBOLClass ## Property) sbol::Property<sbol::SBOLClass >;
     %template(Owned ## SBOLClass) sbol::OwnedObject<sbol::SBOLClass >;
-    %template(ListOfOwned ## SBOLClass) sbol::List<sbol::OwnedObject<sbol::SBOLClass >>;
-    
+
 %enddef
 
 /* This macro is used to instantiate special adders and getters for the Document class */
 %define TEMPLATE_MACRO_2(SBOLClass)
+
+    %extend sbol::SBOLClass
+    {
+        SBOLClass& copy(Document* target_doc = NULL, std::string ns = "", std::string version = "")
+        {
+            return $self->copy < SBOLClass >(target_doc, ns, version);
+        }
+    }
     
     %pythonappend add ## SBOLClass
     %{
@@ -372,7 +483,114 @@ typedef std::string sbol::sbol_type;
     }
     
 %enddef
-        
+
+/* This macro is used to create a Pythonic interface to object attributes */
+%define TEMPLATE_MACRO_3(SBOLClass)
+%extend sbol::SBOLClass {
+
+%pythoncode {
+
+    def __getattribute__(self,name):
+        if name in object.__getattribute__(self, '__swig_getmethods__').keys():
+            sbol_attribute = object.__getattribute__(self, name)
+            if not 'Owned' in sbol_attribute.__class__.__name__:
+                if sbol_attribute.getUpperBound() != '1':
+                    return sbol_attribute.getAll()
+                else:
+                    try:
+                        return sbol_attribute.get()
+                    except LookupError:
+                        return None
+                return None
+            elif sbol_attribute.getUpperBound() == '1':
+                try:
+                    return sbol_attribute.get()
+                except:
+                    return None
+        return object.__getattribute__(self, name)
+            
+    __setattribute__ = __setattr__
+            
+    def __setattr__(self,name, value):
+        if name in object.__getattribute__(self, '__swig_setmethods__').keys():
+            sbol_attribute = object.__getattribute__(self, name)
+            if not 'Owned' in sbol_attribute.__class__.__name__:
+                if value == None:
+                    sbol_attribute.clear()
+                elif type(value) == list:
+                    if sbol_attribute.getUpperBound() == '1':
+                        raise TypeError('The ' + sbol_attribute.getTypeURI() + ' property does not accept list arguments')
+                    sbol_attribute.clear()
+                    for val in value:
+                        sbol_attribute.add(val)
+                else:
+                    sbol_attribute.set(value)
+            elif sbol_attribute.getUpperBound() == '1':
+                if len(sbol_attribute) > 0:
+                    sbol_obj = sbol_attribute.get()
+                    doc = sbol_obj.doc
+                    sbol_attribute.remove()
+                    if not doc:
+                        sbol_obj.thisown = True
+                    elif not doc.find(sbol_obj.identity):
+                        sbol_obj.thisown = True
+                if not value == None:
+                    sbol_attribute.set(value)
+                    value.thisown = False
+        else:
+            self.__class__.__setattribute__(self, name, value)
+
+    def __repr__(self):
+        return self.__class__.__name__
+    
+}
+}
+%enddef
+    
+// Dynamically type Locations
+%extend sbol::OwnedObject<sbol::Location >
+{
+    PyObject* __getitem__(const std::string uri)
+    {
+        Location& obj = (Location&)$self->operator[](uri);
+        PyObject* py_obj;
+        if (obj.type == SBOL_RANGE)
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::Range*), 0 |  0 );
+        else if (obj.type == SBOL_CUT)
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::Cut*), 0 |  0 );
+        else if (obj.type == SBOL_GENERIC_LOCATION)
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::GenericLocation*), 0 |  0 );
+        else
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(&obj), $descriptor(sbol::Location*), 0 |  0 );
+        return py_obj;
+    }
+    
+    void __setitem__(const std::string uri, PyObject* py_obj)
+    {
+        sbol::Location* location;
+        if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::Range *),1)) != -1)
+        {
+            Range& new_obj = $self->create<Range>(uri);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::Cut *),1)) != -1)
+        {
+            Cut& new_obj = $self->create<Cut>(uri);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::GenericLocation *),1)) != -1)
+        {
+            GenericLocation& new_obj = $self->create<GenericLocation>(uri);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::Location *),1)) != -1)
+        {
+            Location& new_obj = $self->create<Location>(uri);
+        }
+        else
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
+        return;
+    }
+}
+    
+    
 // Templates used by subclasses of Location: Range, Cut, and Generic Location
 TEMPLATE_MACRO_0(Range);
 TEMPLATE_MACRO_0(Cut);
@@ -390,7 +608,7 @@ TEMPLATE_MACRO_1(SequenceAnnotation);
 TEMPLATE_MACRO_1(Component);
 
 // Templates used in Participation class
-%template(listOfURIs) sbol::List<sbol::URIProperty>;
+//%template(listOfURIs) sbol::List<sbol::URIProperty>;
 
 // Templates used in Interaction class
 TEMPLATE_MACRO_1(Participation);
@@ -419,6 +637,11 @@ TEMPLATE_MACRO_1(Agent);
 TEMPLATE_MACRO_1(Attachment);
 TEMPLATE_MACRO_1(Implementation);
 TEMPLATE_MACRO_1(CombinatorialDerivation);
+TEMPLATE_MACRO_1(Design);
+TEMPLATE_MACRO_1(Build);
+TEMPLATE_MACRO_1(Test);
+TEMPLATE_MACRO_1(Analysis);
+TEMPLATE_MACRO_1(SampleRoster);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
@@ -431,12 +654,42 @@ TEMPLATE_MACRO_2(Agent);
 TEMPLATE_MACRO_2(Attachment);
 TEMPLATE_MACRO_2(Implementation);
 TEMPLATE_MACRO_2(CombinatorialDerivation);
+TEMPLATE_MACRO_2(Design);
+TEMPLATE_MACRO_2(Build);
+TEMPLATE_MACRO_2(Test);
+TEMPLATE_MACRO_2(Analysis);
+TEMPLATE_MACRO_2(SampleRoster);
 
-%template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
-%template(copySequence) sbol::TopLevel::copy < Sequence >;
-%template(copyModel) sbol::TopLevel::copy < Model >;
-%template(copyModuleDefinition) sbol::TopLevel::copy < ModuleDefinition >;
-%template(copyModuleDefinition) sbol::TopLevel::copy < ModuleDefinition >;
+TEMPLATE_MACRO_3(ComponentDefinition)
+TEMPLATE_MACRO_3(SequenceAnnotation)
+TEMPLATE_MACRO_3(SequenceConstraint)
+TEMPLATE_MACRO_3(Location)
+TEMPLATE_MACRO_3(Range)
+TEMPLATE_MACRO_3(Cut)
+TEMPLATE_MACRO_3(ModuleDefinition)
+TEMPLATE_MACRO_3(Module)
+TEMPLATE_MACRO_3(Interaction)
+TEMPLATE_MACRO_3(Participation)
+TEMPLATE_MACRO_3(Component)
+TEMPLATE_MACRO_3(FunctionalComponent)
+TEMPLATE_MACRO_3(MapsTo)
+TEMPLATE_MACRO_3(Model)
+TEMPLATE_MACRO_3(Sequence)
+TEMPLATE_MACRO_3(Collection)
+TEMPLATE_MACRO_3(Attachment)
+TEMPLATE_MACRO_3(Implementation)
+TEMPLATE_MACRO_3(CombinatorialDerivation)
+TEMPLATE_MACRO_3(Activity)
+TEMPLATE_MACRO_3(Agent)
+TEMPLATE_MACRO_3(Plan)
+TEMPLATE_MACRO_3(Usage)
+TEMPLATE_MACRO_3(Design)
+TEMPLATE_MACRO_3(Build)
+TEMPLATE_MACRO_3(Test)
+TEMPLATE_MACRO_3(Analysis)
+TEMPLATE_MACRO_3(SearchQuery);
+TEMPLATE_MACRO_3(SampleRoster);
+TEMPLATE_MACRO_3(Document);
     
 // Template functions used by PartShop
 //%template(pullComponentDefinitionFromCollection) sbol::PartShop::pull < ComponentDefinition > (sbol::Collection& collection);
@@ -446,63 +699,8 @@ TEMPLATE_MACRO_2(CombinatorialDerivation);
 //%template(pullDocument) sbol::PartShop::pull < Document >;
 %template(countComponentDefinition) sbol::PartShop::count < ComponentDefinition >;
 %template(countCollection) sbol::PartShop::count < Collection >;
-
     
-    
-//%extend sbol::ReferencedObject
-//{
-//    std::string __getitem__(const int nIndex)
-//    {
-//        return $self->operator[](nIndex);
-//    }
-//    
-//    ReferencedObject* __iter__()
-//    {
-//        $self->python_iter = ReferencedObject::iterator($self->begin());
-//        return $self;
-//    }
-//    
-//    std::string next()
-//    {
-//        if ($self->python_iter != $self->end())
-//        {
-//            std::string ref = *$self->python_iter;
-//            $self->python_iter++;
-//            if ($self->python_iter == $self->end())
-//            {
-//                PyErr_SetNone(PyExc_StopIteration);
-//            }
-//            return ref;
-//        }
-//        throw SBOLError(END_OF_LIST, "");
-//        return NULL;
-//    }
-//    
-//    std::string __next__()
-//    {
-//        if ($self->python_iter != $self->end())
-//        {
-//            std::string ref = *$self->python_iter;
-//            $self->python_iter++;
-//            if ($self->python_iter == $self->end())
-//            {
-//                PyErr_SetNone(PyExc_StopIteration);
-//            }
-//            return ref;
-//        }
-//        throw SBOLError(END_OF_LIST, "");
-//        return NULL;
-//    }
-//    
-//    int __len__()
-//    {
-//        return $self->size();
-//    }
-//};
-
 %include "assembly.h"
-%include "dblt.h"
-
     
 %extend sbol::ComponentDefinition
 {
@@ -511,7 +709,7 @@ TEMPLATE_MACRO_2(CombinatorialDerivation);
     {
         sbol::Document* cpp_doc;
         if ((SWIG_ConvertPtr(doc,(void **) &cpp_doc, $descriptor(sbol::Document*),1)) == -1)
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Second argument must be a valid Document");
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Second argument must be a valid Document");
         std::vector<sbol::ComponentDefinition*> list_of_cdefs = convert_list_to_cdef_vector(list);
         if (list_of_cdefs.size())
         {
@@ -542,7 +740,7 @@ TEMPLATE_MACRO_2(CombinatorialDerivation);
     {
         sbol::Document* cpp_doc;
         if ((SWIG_ConvertPtr(doc,(void **) &cpp_doc, $descriptor(sbol::Document*),1)) == -1)
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Second argument must be a valid Document");
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Second argument must be a valid Document");
         std::vector<sbol::ComponentDefinition*> list_of_cdefs = convert_list_to_cdef_vector(list);
         if (list_of_cdefs.size())
         {
@@ -596,21 +794,62 @@ TEMPLATE_MACRO_2(CombinatorialDerivation);
         return IS_REGULAR;
     };
 }
-
+    
 %extend sbol::Document
 {
-    PyObject* getExtension(std::string id)
+    PyObject* getExtensionObject(std::string id)
     {
         // Search the Document's object store for the uri
         if ($self->PythonObjects.find(id) != $self->PythonObjects.end())
-            return $self->PythonObjects[id];
+        {
+            PyObject* py_obj = $self->PythonObjects[id];
+            Py_INCREF(py_obj);
+            return py_obj;
+        }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + id + " not found");
     }
     
+    void addExtensionObject(PyObject* py_obj)
+    {
+        typedef struct {
+            PyObject_HEAD
+            void *ptr; // This is the pointer to the actual C++ instance
+            void *ty;  // swig_type_info originally, but shouldn't matter
+            int own;
+            PyObject *next;
+        } SwigPyObject;
+        
+        // Get pointer to wrapped object
+        SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj,  PyUnicode_FromString("this"));
+        if (swig_py_object)
+        {
+            SBOLObject* sbol_obj = (SBOLObject *)swig_py_object->ptr;
+            TopLevel* tl = dynamic_cast<TopLevel*>(sbol_obj);
+            if (tl)
+            {
+                tl->doc = $self;
+                tl->parent = $self;
+                $self->SBOLObjects[$self->identity.get()] = tl;
+                $self->PythonObjects[sbol_obj->identity.get()] = py_obj;
+                int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            }
+            // Call the add method to recursively add child objects and set their back-pointer to this Document
+            for (auto i_store = sbol_obj->owned_objects.begin(); i_store != sbol_obj->owned_objects.end(); ++i_store)
+            {
+                std::vector<SBOLObject*>& object_store = i_store->second;
+                for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
+                {
+                    $self->add<SBOLObject>(**i_obj);
+                }
+            }
+        }
+        else
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Not a valid SBOL object");
+    }
     
     Document* __iter__()
     {
-        $self->python_iter = std::vector<sbol::SBOLObject*>::iterator($self->begin());
+        $self->python_iter = Document::iterator($self->SBOLObjects.begin());
         return $self;
     }
     
@@ -618,13 +857,13 @@ TEMPLATE_MACRO_2(CombinatorialDerivation);
     {
         if ($self->python_iter != $self->end())
         {
-            SBOLObject* obj = *$self->python_iter;
+            SBOLObject& obj = *self->python_iter;
             $self->python_iter++;
             if ($self->python_iter == $self->end())
             {
                 PyErr_SetNone(PyExc_StopIteration);
             }
-            return (SBOLObject*)obj;
+            return &obj;
         }
         throw SBOLError(END_OF_LIST, "");
         return NULL;
@@ -635,10 +874,9 @@ TEMPLATE_MACRO_2(CombinatorialDerivation);
         if ($self->python_iter != $self->end())
         {
             
-            SBOLObject* obj = *$self->python_iter;
+            SBOLObject& obj = *$self->python_iter;
             $self->python_iter++;
-            
-            return (SBOLObject*)obj;
+            return &obj;
         }
         
         throw SBOLError(END_OF_LIST, "");;
@@ -730,6 +968,44 @@ TEMPLATE_MACRO_2(CombinatorialDerivation);
         return NULL;
     }
 }
+
+    
+%extend sbol::TopLevel
+{
+    PyObject* generateDesign(std::string uri, Agent& agent, Plan& plan, PyObject* usage_list)
+    {
+        std::vector < Identified* > usage_vector = convert_list_to_identified_vector(usage_list);
+        Design& design = $self->generate<Design>(uri, agent, plan, usage_vector);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(&design), $descriptor(sbol::Design*), 0 |  0 );
+    }
+    
+    PyObject* generateBuild(std::string uri, Agent& agent, Plan& plan, PyObject* usage_list)
+    {
+        std::vector < Identified* > usage_vector = convert_list_to_identified_vector(usage_list);
+        Build& build = $self->generate<Build>(uri, agent, plan, usage_vector);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(&build), $descriptor(sbol::Build*), 0 |  0 );
+    }
+    
+    PyObject* generateTest(std::string uri, Agent& agent, Plan& plan, PyObject* usage_list)
+    {
+        std::vector < Identified* > usage_vector = convert_list_to_identified_vector(usage_list);
+        Test& test = $self->generate<Test>(uri, agent, plan, usage_vector);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(&test), $descriptor(sbol::Test*), 0 |  0 );
+    }
+    
+    PyObject* generateAnalysis(std::string uri, Agent& agent, Plan& plan, PyObject* usage_list)
+    {
+        std::vector < Identified* > usage_vector = convert_list_to_identified_vector(usage_list);
+        Analysis& analysis = $self->generate<Analysis>(uri, agent, plan, usage_vector);
+        return SWIG_NewPointerObj(SWIG_as_voidptr(&analysis), $descriptor(sbol::Analysis*), 0 |  0 );
+    }
+}
+    
+%template(generateDesign) sbol::TopLevel::generate<Design>;
+%template(generateBuild) sbol::TopLevel::generate<Build>;
+%template(generateTest) sbol::TopLevel::generate<Test>;
+%template(generateAnalysis) sbol::TopLevel::generate<Analysis>;
+
     
 %pythonbegin %{
 from __future__ import absolute_import
@@ -772,6 +1048,80 @@ from __future__ import absolute_import
         """
         import sbol.unit_tests as unit_tests
         unit_tests.runTests()
+            
+    def is_extension_property(obj, name):
+        attribute_dict = object.__getattribute__(obj, '__dict__')
+        if name in attribute_dict:
+            if type(attribute_dict[name]) in [ TextProperty, URIProperty, IntProperty, FloatProperty, ReferencedObject, DateTimeProperty, VersionProperty ] :
+                return True
+        return False
+
+    def is_swig_property(obj, name):
+        swig_attribute_dict = object.__getattribute__(obj, '__swig_getmethods__')
+        if name in swig_attribute_dict:
+            return True
+        return False
+
+    class PythonicInterface(object):
+
+        def __getattribute__(self,name):
+            sbol_attribute = None
+            if is_swig_property(self, name):
+                sbol_attribute = object.__getattribute__(self, name)
+            elif is_extension_property(self, name):
+                sbol_attribute = object.__getattribute__(self, '__dict__')[name]
+            if sbol_attribute:
+                if not 'Owned' in sbol_attribute.__class__.__name__:
+                    if sbol_attribute.getUpperBound() != '1':
+                        return sbol_attribute.getAll()
+                    else:
+                        try:
+                            return sbol_attribute.get()
+                        except LookupError:
+                            return None
+                    return None
+                elif sbol_attribute.getUpperBound() == '1':
+                    try:
+                        return sbol_attribute.get()
+                    except:
+                        return None
+            return object.__getattribute__(self, name)
+
+        def __setattr__(self,name, value):
+            sbol_attribute = None
+            if is_swig_property(self, name):
+                sbol_attribute = object.__getattribute__(self, name)
+            elif is_extension_property(self, name):
+                sbol_attribute = object.__getattribute__(self, '__dict__')[name]
+            if sbol_attribute:
+                if not 'Owned' in sbol_attribute.__class__.__name__:
+                    if value == None:
+                        sbol_attribute.clear()
+                    elif type(value) == list:
+                        if sbol_attribute.getUpperBound() == '1':
+                            raise TypeError('The ' + sbol_attribute.getTypeURI() + ' property does not accept list arguments')
+                        sbol_attribute.clear()
+                        for val in value:
+                            sbol_attribute.add(val)
+                    else:
+                        sbol_attribute.set(value)
+                elif sbol_attribute.getUpperBound() == '1':
+                    if len(sbol_attribute) > 0:
+                        sbol_obj = sbol_attribute.get()
+                        doc = sbol_obj.doc
+                        sbol_attribute.remove()
+                        if not doc:
+                            sbol_obj.thisown = True
+                        elif not doc.find(sbol_obj.identity):
+                            sbol_obj.thisown = True
+                    if not value == None:
+                        sbol_attribute.set(value)
+                        value.thisown = False
+            else:
+                self.__class__.__setattribute__(self, name, value)
+
+            def __repr__(self):
+                return self.__class__.__name__
 %}
     
 

@@ -35,6 +35,7 @@
 #define PURL_URI "http://purl.org/dc/terms/"
 #define PROV_URI "http://www.w3.org/ns/prov"
 #define PROVO "http://www.w3.org/ns/prov"
+#define SYSBIO_URI "http://sys-bio.org"
 //#define PROVO "https://www.w3.org/TR/prov-o/"
 
 // rdf nodes used in SBOL
@@ -124,7 +125,7 @@
 #define SBOL_VARIANT_DERIVATIONS SBOL_URI "#variantDeriviations"
 #define SBOL_STRATEGY SBOL_URI "#strategy"
 #define SBOL_TEMPLATE SBOL_URI "#template"
-#define SBOL_ATTACHMENTS "#attachments"
+#define SBOL_ATTACHMENTS SBOL_URI "#attachment"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property
@@ -147,18 +148,22 @@
 #define SBOL_REFINEMENT_MERGE SBOL_URI "#merge"                      ///< Option for MapsTo::refinement property
 #define SBOL_ROLE_INTEGRATION_MERGE SBOL_URI "#mergeRoles"           ///< Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property
 #define SBOL_ROLE_INTEGRATION_OVERRIDE SBOL_URI "#overrideRoles"     ///< Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property
+#define SBOL_DESIGN SBOL_URI "#design"  ///< Option for Usage::roles or Association::roles
+#define SBOL_BUILD SBOL_URI "#build"    ///< Option for Usage::roles or Association::roles
+#define SBOL_TEST SBOL_URI "#test"  ///< Option for Usage::roles or Association::roles
+#define SBOL_LEARN SBOL_URI "#learn"    ///< Option for Usage::roles or Association::roles
 
 /* PROVO ontology */
 #define PROVO_ACTIVITY PROVO "#Activity"
 #define PROVO_USAGE PROVO "#Usage"
 #define PROVO_ASSOCIATION PROVO "#Association"
-#define PROVO_AGENT "#Agent"
+#define PROVO_AGENT PROVO "#Agent"
 #define PROVO_PLAN PROVO "#Plan"
 #define PROVO_WAS_GENERATED_BY PROVO "#wasGeneratedBy"
 #define PROVO_STARTED_AT_TIME PROVO "#startedAtTime"
 #define PROVO_ENDED_AT_TIME PROVO "#endedAtTime"
 #define PROVO_QUALIFIED_ASSOCIATION PROVO "#qualifiedAssociation"
-#define PROVO_QUALIFIED_USAGE PROVO "#qualifedUsage"
+#define PROVO_QUALIFIED_USAGE PROVO "#qualifiedUsage"
 #define PROVO_WAS_INFORMED_BY PROVO "#wasInformedBy"
 #define PROVO_HAD_PLAN PROVO "#hadPlan"
 #define PROVO_HAD_ROLE PROVO "#hadRole"
@@ -196,9 +201,10 @@
 #define SO_CDS SO "0000316"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_RBS SO "0000139"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_TERMINATOR SO "0000141"         ///< An SO term and possible value for ComponentDefinition::role property
-#define SO_SGRNA SO "0001998"
-#define SO_LINEAR SO "0000987"
-#define SO_CIRCULAR SO "0000988"
+#define SO_SGRNA SO "0001998"              ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_LINEAR SO "0000987"              ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_CIRCULAR SO "0000988"            ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_PLASMID SO "0000155"             ///< An SO term and possible value for ComponentDefinition::role property
 
 /* BioPAX is used to indicate macromolecular and molecular types */
 /// DNA
@@ -221,5 +227,11 @@
 #define SBO_CONTINUOUS SBO "0000062"  ///< SBO term and option for Model::framework
 #define SBO_DISCRETE SBO "0000063"    ///< SBO term and option for Model::framework
 
+/* URIs for SBOL extension objects */
+#define SYSBIO_DESIGN SYSBIO_URI "#Design"
+#define SYSBIO_BUILD SYSBIO_URI "#Build"
+#define SYSBIO_TEST SYSBIO_URI "#Test"
+#define SYSBIO_ANALYSIS SYSBIO_URI "#Analysis"
+#define SYSBIO_SAMPLE_ROSTER SYSBIO_URI "#SampleRoster"
 
 #endif

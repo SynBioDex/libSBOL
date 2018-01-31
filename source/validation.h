@@ -55,6 +55,32 @@ namespace sbol
     // Validate Design.structure and Design.function are compatible
     SBOL_DECLSPEC void libsbol_rule_4(void *sbol_obj, void *arg);
 
+    // Validate Build.structure and Build.behavior are compatible
+    SBOL_DECLSPEC void libsbol_rule_5(void *sbol_obj, void *arg);
+    
+    // Validate Build.structure and Build.behavior are compatible
+    SBOL_DECLSPEC void libsbol_rule_6(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_7(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_8(void *sbol_obj, void *arg);
+    
+    SBOL_DECLSPEC void libsbol_rule_9(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_10(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_11(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_12(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_13(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_14(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_15(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_16(void *sbol_obj, void *arg);
+
     bool is_alphanumeric_or_underscore(char c);
     
     bool is_not_alphanumeric_or_underscore(char c);

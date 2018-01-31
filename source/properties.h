@@ -52,13 +52,28 @@ namespace sbol
     class SBOL_DECLSPEC URIProperty : public Property<std::string>
 	{
 	public:
-        virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
-
-        URIProperty(sbol_type type_uri = UNDEFINED, void *property_owner = NULL, std::string initial_value = "", ValidationRules validation_rules = {}) :
-			Property(type_uri, property_owner, "<" + initial_value + ">", validation_rules)
-		{
-		}
+        /// Initialize the property with a value that is passed through a constructor for the parent SBOLObject. Validation rules are checked upon initialization.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        /// @param validation_rules A vector of pointers to the validation functions
+        URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value);
         
+        /// Initialize a Property without a value. No validation rules are run upon initialization.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        /// @param validation_rules A vector of pointers to the validation functions
+        URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules);
+
+        URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, char const* initial_value) : URIProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), std::string(initial_value)) {};
+//
+        URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) : URIProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({})) {};
+        
+        virtual std::string get();                  ///< Get first URI.
+
+        virtual std::vector<std::string> getAll();
+
         #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 
         std::string __getitem__(const int nIndex)
@@ -80,7 +95,6 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
-                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {
@@ -100,7 +114,6 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
-                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
 
                 return ref;
@@ -122,7 +135,27 @@ namespace sbol
 	class SBOL_DECLSPEC TextProperty : public Property<std::string>
 	{
 	public:
+        /// Initialize the TextProperty with a value. Validation rules are checked upon initialization.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        /// @param validation_rules A vector of pointers to the validation functions
+        TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value);
+        
+        /// Initialize a TextProperty without a value. No validation rules are run upon initialization.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        /// @param validation_rules A vector of pointers to the validation functions
+        TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules);
+
+        TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, char const* initial_value) : TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), std::string(initial_value)) {};
+
+        TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) : TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({})) {};
+        
         virtual std::string get();                  ///< Basic getter for all SBOL literal properties.
+
+        virtual std::vector<std::string> getAll();
 
         #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::string __getitem__(const int nIndex)
@@ -144,7 +177,6 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
-                ref = ref.substr(1, ref.size() - 2);  // Removes flanking quotations from the field
                 this->python_iter++;
                 if (this->python_iter == this->end())
                 {
@@ -164,7 +196,6 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
-                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
                 
                 return ref;
@@ -179,11 +210,6 @@ namespace sbol
         }
         #endif
 
-        TextProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = {}) :
-			Property(type_uri, property_owner, "\"" + initial_value + "\"", validation_rules)
-        
-		{
-		}
 	};
 
     /// @ingroup extension_layer
@@ -191,7 +217,33 @@ namespace sbol
 	class SBOL_DECLSPEC IntProperty : public Property<int>
 	{
 	public:
-        virtual int get();                  ///< Basic getter for all SBOL literal properties.
+        /// Initialize the IntProperty with a value. Validation rules are checked upon initialization.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        /// @param validation_rules A vector of pointers to the validation functions
+        IntProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, int initial_value) :
+            Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules, initial_value)
+            {
+            }
+
+        /// Initialize an IntProperty without a value. No validation rules are run upon initialization.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        /// @param validation_rules A vector of pointers to the validation functions
+        IntProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+            Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
+        {
+        }
+        
+        IntProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, int initial_value) : IntProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), initial_value) {};
+
+        IntProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) : IntProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({})) {};
+        
+        virtual int get();                  ///< Get the integer value
+
+        virtual std::vector<int> getAll();
 
         #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         int __getitem__(const int nIndex)
@@ -231,7 +283,6 @@ namespace sbol
             if (this->python_iter != this->end())
             {
                 std::string ref = *this->python_iter;
-                ref = ref.substr(1, ref.size() - 2);  // Removes flanking angle brackets from the field
                 this->python_iter++;
                 
                 return stoi(ref);
@@ -244,12 +295,6 @@ namespace sbol
             return this->size();
         }
         #endif
-
-		IntProperty(sbol_type type_uri, void *property_owner, int initial_value = 0) :
-			Property(type_uri, property_owner, initial_value)
-		{
-		}
-
 	};
 
     /// @ingroup extension_layer
@@ -257,12 +302,34 @@ namespace sbol
     class SBOL_DECLSPEC FloatProperty : public Property<double>
     {
     public:
-        virtual double get();                  ///< Basic getter for all SBOL literal properties.
-        
-        FloatProperty(sbol_type type_uri, void *property_owner, double initial_value = 0.0) :
-            Property(type_uri, property_owner, initial_value)
+        /// Initialize the IntProperty with a value. Validation rules are checked upon initialization.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        /// @param validation_rules A vector of pointers to the validation functions
+        FloatProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, double initial_value) :
+            Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules, initial_value)
         {
         };
+
+        /// Initialize a FloatProperty without a value. No validation rules are run upon initialization.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        /// @param validation_rules A vector of pointers to the validation functions
+        FloatProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+            Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
+        {
+        };
+
+        FloatProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, double initial_value) : FloatProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), initial_value) {};
+        
+        FloatProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) : FloatProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({})) {};
+        
+        virtual double get();                  ///< Get the float value.
+
+        virtual std::vector<double> getAll();
+
         
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         double __getitem__(const int nIndex)
@@ -322,7 +389,7 @@ namespace sbol
     
     /// @ingroup extension_layer
     /// @brief Contains a version number for an SBOL object.
-    /// The VersionProperty follows Maven versioning semantics and includes a major, minor, and patch version number. Specifically, libSBOL currently only supports using '.' as a delimiter. Ex: v2.0.1.  If the user does not want to follow Maven versioning, they can specify an arbitrary version string using the set() method.
+    /// The VersionProperty follows Maven versioning semantics and includes a major, minor, and patch version number.
     class SBOL_DECLSPEC VersionProperty : public TextProperty
     {
     private:
@@ -341,8 +408,13 @@ namespace sbol
         int major(); ///< Get major version
         int minor(); ///< Get minor version
         int patch(); ///< Get patch version
-        VersionProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "") :
-            TextProperty(type_uri, property_owner, initial_value)
+        
+        /// Initialize the VersionProperty with a version string. If a version is specified, it will be checked to confirm it follows Maven versioning semantics.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        VersionProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, std::string initial_value) :
+            TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({}), initial_value)
             {
                 std::string v = this->get();
                 // @TODO move this error checking to validation rules to be run on VersionProperty::set() and VersionProperty()::VersionProperty()
@@ -363,349 +435,25 @@ namespace sbol
     class SBOL_DECLSPEC DateTimeProperty : public TextProperty
     {        
     public:
+        /// Initialize the DateTime. Conformance to XML DateTime schema is validated upon initialization.
+        /// @param type_uri An RDF type for the property which determines how the property is serialized in SBOL files
+        /// @param lower_bound A char flag (typically '0' or '1') indicating the minimum number of values allowed for this property
+        /// @param upper_bound A char flag (typically '1' or '*') indicating the maximum number of values allowed for this property
+        DateTimeProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, std::string initial_value) :
+            TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({ libsbol_rule_2 }), initial_value)
+        {
+        }
 
+        DateTimeProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound) :
+            TextProperty(property_owner, type_uri, lower_bound, upper_bound, ValidationRules({ libsbol_rule_2 }))
+        {
+        }
+        
+        
         /// Set this property with the current time
         std::string stampTime();
-
-        DateTimeProperty(sbol_type type_uri, void *property_owner, std::string initial_value = "", ValidationRules validation_rules = { libsbol_rule_2 }) :
-            TextProperty(type_uri, property_owner, initial_value, validation_rules)
-        {
-        }
     };
 
-    
-    
-    
-    /// A container property that contains child objects. Creates a composition out of two or more classes.  In the SBOL specification, compositional relationships are indicated in class diagrams by arrows with black diamonds. A compositional relationship means that deleting the parent object will delete the child objects, and adding the parent object to a Document will also add the child object.  Owned objects are stored in arbitrary order.
-    /// @ingroup extension_layer
-    /// @tparam SBOLClass The type of child SBOL object contained by this Property
-	template <class SBOLClass>
-	class OwnedObject : public Property<SBOLClass>
-	{
-
-	public:
-        OwnedObject(sbol_type type_uri = UNDEFINED, SBOLObject *property_owner = NULL, std::string dummy = "", ValidationRules validation_rules = { });  // All sbol:::Properties (and therefore OwnedObjects which are derived from Properties) must match this signature in order to put them inside an sbol:List<> container.  In this case, the third argument is just a dummy variable
-		OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object, ValidationRules validation_rules = {  });
-
-        /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
-        /// @param sbol_obj A child object to add to this container property.
-        /// Assigns a child object to this OwnedObject container property. This method always overwrites the first SBOLObject in the container. appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
-        void set(SBOLClass& sbol_obj);
-        
-        /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
-        /// @param sbol_obj A child object to add to this container property.
-        /// Adds a child object to the parent object. This method always appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
-		void add(SBOLClass& sbol_obj);
-        
-        /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
-        /// @tparam SBOLSubClass A derived class of SBOLClass. Use this type specialization when adding multiple types of SBOLObjects to a container.
-        /// @param sbol_obj A child object to add to this container property.
-        /// Adds a child object to the parent object. This method always appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
-        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);
-
-        /// Get the child object
-        /// @tparam SBOLClass The type of the child object
-        /// @param uri The URI of the child object
-        /// @return A reference to the child object
-        /// By default returns the first object in this OwnedObject container property
-        SBOLClass& get(const std::string uri = "");
-        
-        /// Get the child object
-        /// @tparam SBOLClass The type of the child object
-        /// @tparam SBOLSubClass A derived class of SBOLClass. Use this type specialization when adding multiple types of SBOLObjects to a container.
-        /// @param uri The specific URI for a child object if this OwnedObject property contains multiple objects,
-        /// @return A reference to the child object
-        /// Returns a child object from the OwnedObject property. If no URI is specified, the first object in this OwnedObject property is returned.
-        template < class SBOLSubClass > SBOLSubClass& get(std::string uri = "");
-        
-        /// Get all the objects contained in the property
-        /// @return A vector of pointers to the objects
-        std::vector<SBOLClass*> getObjects();
-
-        /// Remove an object from the list of objects.
-        /// @param uri This can be a displayId of the object or a full URI may be provided.
-        SBOLClass& remove(std::string uri);
-
-        /// Remove an object from the list of objects and destroy it.
-        /// @param index A numerical index for the object.
-        void remove(int index = 0) override;
-
-        /// Remove all children objects from the parent and destroy them.
-        void clear() override;
-        
-        /// @tparam SBOLClass The type of SBOL object that will be created
-        /// @param uri If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
-        /// @return A reference to the child object
-        /// Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
-        /// @TODO check uniqueness of URI in Document
-        SBOLClass& create(std::string uri);
-        
-        /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
-        /// @tparam SBOLSubClass A derived class of SBOLClass. Use this specialization for OwnedObject properties which contain multiple types of SBOLObjects.
-        /// @param uri If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
-        /// @return A reference to the child object
-        /// Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
-        /// @TODO check uniqueness of URI in Document
-        template < class SBOLSubClass > SBOLSubClass& create(std::string uri);
-
-        /// @param uri The full uniform resource identifier of the object to search for in this property
-        /// @return A boolean indicating whether found or not
-        bool find(std::string uri) override;
-
-		SBOLClass& operator[] (const int nIndex);       ///< Retrieve a child object by numerical index.
-        SBOLClass& operator[] (std::string uri);  ///< Retrieve a child object by URI
-
-        /// Provides iterator functionality for SBOL properties that contain multiple objects
-        class iterator : public std::vector<SBOLObject*>::iterator
-		{
-        public:
-            
-            iterator(typename std::vector<SBOLObject*>::iterator i_object = std::vector<SBOLObject*>::iterator()) : std::vector<SBOLObject*>::iterator(i_object) 
-			{
-            }
-
-            SBOLClass& operator*()
-			{
-                return (SBOLClass&) *std::vector<SBOLObject*>::iterator::operator *();
-            }
-        };
-        
-        iterator begin() 
-		{
-            std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-            return iterator(object_store->begin());
-        };
-        
-        iterator end() 
-		{
-            std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-            return iterator(object_store->end());
-        };
-        
-        int size()
-        {
-            std::size_t size = this->sbol_owner->owned_objects[this->type].size();
-            return (int)size;
-        }
-
-#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-        
-        std::vector<SBOLObject*>::iterator python_iter;
-        
-        SBOLClass& __getitem__(const int nIndex)
-        {
-            return this->operator[](nIndex);
-        }
-        
-        SBOLClass& __getitem__(const std::string uri)
-        {
-            return this->operator[](uri);
-        }
-        
-        OwnedObject<SBOLClass>* __iter__()
-        {
-            this->python_iter = OwnedObject<SBOLClass>::iterator(this->begin());
-            return this;
-        }
-        
-        SBOLClass* next()
-        {
-            if (this->python_iter != this->end())
-            {
-                SBOLObject* obj = *this->python_iter;
-                this->python_iter++;
-                if (this->python_iter == this->end())
-                {
-                    PyErr_SetNone(PyExc_StopIteration);
-                }
-                return (SBOLClass*)obj;
-            }
-            throw SBOLError(END_OF_LIST, "");
-            return NULL;
-        }
-        
-        SBOLClass* __next__()
-        {
-            if (this->python_iter != this->end())
-            {
-                
-                SBOLObject* obj = *this->python_iter;
-                this->python_iter++;
-                
-                return (SBOLClass*)obj;
-            }
-            
-            throw SBOLError(END_OF_LIST, "");;
-            return NULL;
-        }
-        
-        int __len__()
-        {
-            return this->size();
-        }
-
-        #endif
-	};
-
-	template <class SBOLClass >
-    OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, SBOLObject *property_owner, std::string dummy, ValidationRules validation_rules) :
-		Property<SBOLClass>(type_uri, property_owner, validation_rules)
-		{
-			// Register Property in owner Object
-			if (this->sbol_owner != NULL)
-			{
-				std::vector<sbol::SBOLObject*> object_store;
-				this->sbol_owner->owned_objects.insert({ type_uri, object_store });
-			}
-		};
-
-	template <class SBOLClass>
-	OwnedObject< SBOLClass >::OwnedObject(sbol_type type_uri, void *property_owner, SBOLObject& first_object, ValidationRules validation_rules)
-	{
-
-    };
-
-    /// @param sbol_obj The child object
-    /// Sets the first object in the container
-    template < class SBOLClass>
-    void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
-    {
-        /// @TODO This could cause a memory leak if the overwritten object is not freed!
-        sbol_obj.parent = this->sbol_owner;
-        this->sbol_owner->owned_objects[this->type][0] = ((SBOLObject *)&sbol_obj);
-        this->validate(&sbol_obj);
-    };
-
-    template <class SBOLClass>
-    template <class SBOLSubClass>
-    void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
-    {
-        if (!dynamic_cast<SBOLClass*>(&sbol_obj))
-            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Object of type " + parseClassName(sbol_obj.type) + " is invalid for " + parsePropertyName(this->type) + " property");
-        // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
-        sbol_obj.parent = this->sbol_owner;
-        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
-        this->validate(&sbol_obj);
-    };
-
-    template <class SBOLClass>
-    bool OwnedObject< SBOLClass >::find(std::string uri)
-    {
-        for (auto & obj : this->sbol_owner->owned_objects[this->type])
-            if (obj->identity.get() == uri)
-                return true;
-        return false;
-    };
-
-    
-	template <class SBOLClass>
-	SBOLClass& OwnedObject<SBOLClass>::operator[] (const int nIndex)
-	{
-		std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-		return (SBOLClass&)*object_store->at(nIndex);
-	};
-
-    /// Provides interface for an SBOL container Property that is allowed to have more than one object or value
-    /// @tparam PropertyType The type of SBOL Property, eg, Text, Int, OwnedObject, etc
-    /// @ingroup extension_layer
-    template <class PropertyType>
-	class List : public PropertyType 
-	{
-
-	public:
-        List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value = "");
-//        List(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value = "");
-
-		//std::string get(int index);
-		//SBOLClass& get(std::string object_id);
-//		void remove(int index);
-
-		//template <class SBOLClass>
-		//SBOLClass& get(std::string object_id);
-
-		//std::vector<PropertyType> copy();
-	};
-    
-//    template <class ReferencedObject>
-//    List<ReferencedObject>::List(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :
-//        ReferencedObject(type_uri, reference_type_uri, property_owner, initial_value)
-//    {
-//    };
-
-    template <class PropertyType>
-    List<PropertyType>::List(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
-    PropertyType(type_uri, property_owner, initial_value)
-    {
-    };
-    
-    
-	//template <class PropertyType>
-	//template <class SBOLClass>
-	//SBOLClass& List<PropertyType>::get(std::string object_id)
-	//{
-	//	vector<SBOLObject*> object_store = sbol_owner->owned_objects[type];
-	//	cout << object_store.size() << endl;
-	//	return (SBOLClass &)object_store.front();
-
-	//};
-
-	//template <class PropertyType>
-	//std::string List<PropertyType>::get(int index)
-	//{
-	//	if (sbol_owner)
-	//	{
-	//		if (sbol_owner->properties.find(type) == sbol_owner->properties.end())
-	//		{
-	//			// TODO: trigger exception
-	//			// not found
-	//			return "";
-	//		}
-	//		else
-	//		{
-	//			// found
-	//			std::string current_value = sbol_owner->properties[type].at(index);
-	//			current_value = current_value.substr(1, current_value.length() - 2);
-	//			return current_value;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		return "";
-	//	}
-	//};
-
-
-//	template < class PropertyType >
-//	std::vector<PropertyType> List<PropertyType>::copy()
-//	{
-//		std::vector<PropertyType> vector_copy;
-//		for (auto o = this->sbol_owner->owned_objects[this->type].begin(); o != this->sbol_owner->owned_objects[this->type].end(); o++)
-//		{
-//			vector_copy.push_back(**o);
-//		}
-//		return vector_copy;
-//	};
-
-//	template <class SBOLClass>
-//	void OwnedObject<SBOLClass>::remove(int index)
-//	{
-//		if (this->sbol_owner)
-//		{
-//            if (this->sbol_owner->properties.find(this->type) != this->sbol_owner->properties.end())
-//            {
-//                if (index >= this->sbol_owner->properties[this->type].size())
-//                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
-//                this->sbol_owner->properties[this->type].erase( this->sbol_owner->properties[this->type].begin() + index);
-//            }
-//            else if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
-//            {
-//                if (index >= this->sbol_owner->owned_objects[this->type].size())
-//                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Index out of range");
-//                this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + index);
-//            }
-//		}
-//	};
-    
 }
 
 #endif

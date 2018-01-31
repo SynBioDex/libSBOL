@@ -120,7 +120,7 @@ void SBOLObject::close()
     delete this;
 };
 
-sbol_type SBOLObject::getTypeURI()
+rdf_type SBOLObject::getTypeURI()
 {
 	return type;
 };
@@ -173,16 +173,32 @@ int SBOLObject::compare(SBOLObject* comparand)
     // The longer property store is assigned to left-hand side for side-by-side comparison. Property keys are assumed alphabetically sorted since they are based on std::map
     if (properties.size() >= comparand->properties.size())
     {
-        l_id = identity.get();
-        r_id = comparand->identity.get();
+        if (this->type != SBOL_DOCUMENT)
+        {
+            l_id = identity.get();
+            r_id = comparand->identity.get();
+        }
+        else
+        {
+            l_id = "Document 1";
+            r_id = "Document 2";
+        }
         i_lp = properties.begin();
         i_rp = comparand->properties.begin();
         i_end = properties.end();
     }
     else
     {
-        l_id = comparand->identity.get();
-        r_id = identity.get();
+        if (this->type != SBOL_DOCUMENT)
+        {
+            l_id = comparand->identity.get();
+            r_id = identity.get();
+        }
+        else
+        {
+            l_id = "Document 2";
+            r_id = "Document 1";
+        }
         i_lp = comparand->properties.begin();
         i_rp = properties.begin();
         i_end = comparand->properties.end();
@@ -466,6 +482,11 @@ std::vector < std::string > SBOLObject::getProperties()
         string uri = i_p->first;
         property_uris.push_back(uri);
     }
+    for (auto i_p = owned_objects.begin(); i_p != owned_objects.end(); ++i_p)
+    {
+        string uri = i_p->first;
+        property_uris.push_back(uri);
+    }
     return property_uris;
 };
 
@@ -485,4 +506,272 @@ std::string SBOLObject::__str__()
     return identity.get();
 }
 
+
+URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value) :
+    Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules, "<" + initial_value + ">")
+{
+}
+
+URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+    Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
+{
+    // Overwrite default. By default, literal properties are initialized to quotes
+    this->sbol_owner->properties[type_uri][0] = "<>";
+}
+
+std::vector<std::string> TextProperty::getAll()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw std::runtime_error("This property is not defined in the parent object");
+        }
+        else
+        {
+            // found
+            if (this->size() == 0)
+                return std::vector < std::string >(0);
+            //                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::vector<std::string> values;
+                std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                {
+                    std::string value = *i_val;
+                    value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                    values.push_back(value);
+                }
+                return values;
+            }
+        }
+    }	else
+    {
+        throw std::runtime_error("This property is not associated with a parent object");
+    }
+};
+
+std::vector<std::string> URIProperty::getAll()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw std::runtime_error("This property is not defined in the parent object");
+        }
+        else
+        {
+            // found
+            if (this->size() == 0)
+                return std::vector < std::string >(0);
+            //                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::vector<std::string> values;
+                std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                {
+                    std::string value = *i_val;
+                    value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                    values.push_back(value);
+                }
+                return values;
+            }
+        }
+    }	else
+    {
+        throw std::runtime_error("This property is not associated with a parent object");
+    }
+};
+
+std::vector<int> IntProperty::getAll()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw std::runtime_error("This property is not defined in the parent object");
+        }
+        else
+        {
+            // found
+            if (this->size() == 0)
+                return std::vector < int >(0);
+            //                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::vector<int> values;
+                std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                {
+                    std::string str_val = *i_val;
+                    str_val = str_val.substr(1, str_val.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                    int value = stoi(str_val);
+                    values.push_back(value);
+                }
+                return values;
+            }
+        }
+    }	else
+    {
+        throw std::runtime_error("This property is not associated with a parent object");
+    }
+};
+
+std::vector<double> FloatProperty::getAll()
+{
+    if (this->sbol_owner)
+    {
+        if (this->sbol_owner->properties.find(type) == this->sbol_owner->properties.end())
+        {
+            // not found
+            throw std::runtime_error("This property is not defined in the parent object");
+        }
+        else
+        {
+            // found
+            if (this->size() == 0)
+                return std::vector < double >(0);
+            //                    throw SBOLError(NOT_FOUND_ERROR, "Property has not been set");
+            else
+            {
+                std::vector<double> values;
+                std::vector<std::string>& value_store = this->sbol_owner->properties[type];
+                for (auto i_val = value_store.begin(); i_val != value_store.end(); ++i_val)
+                {
+                    std::string str_val = *i_val;
+                    str_val = str_val.substr(1, str_val.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                    double value = stod(str_val);
+                    values.push_back(value);
+                }
+                return values;
+            }
+        }
+    }	else
+    {
+        throw std::runtime_error("This property is not associated with a parent object");
+    }
+};
+
+TextProperty::TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value) :
+    Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules, "\"" + initial_value + "\"")
+{
+}
+
+TextProperty::TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+    Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
+{
+}
+
+ReferencedObject::ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value) :
+    URIProperty(property_owner, type_uri, lower_bound, upper_bound, validation_rules, initial_value),
+    reference_type_uri(reference_type_uri)
+    {
+        // Register Property in owner Object
+        if (this->sbol_owner != NULL)
+        {
+            std::vector<std::string> property_store;
+            this->sbol_owner->properties.insert({ type_uri, property_store });
+        }
+    };
+
+ReferencedObject::ReferencedObject(void *property_owner, rdf_type type_uri, rdf_type reference_type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+URIProperty(property_owner, type_uri, lower_bound, upper_bound, validation_rules),
+reference_type_uri(reference_type_uri)
+    {
+        // Register Property in owner Object
+        if (this->sbol_owner != NULL)
+        {
+            std::vector<std::string> property_store;
+            this->sbol_owner->properties.insert({ type_uri, property_store });
+        }
+    };
+
+void ReferencedObject::set(std::string uri)
+{
+    if (this->sbol_owner)
+    {
+        //sbol_owner->properties[type].push_back( new_value );
+        std::string current_value = this->sbol_owner->properties[this->type][0];
+        if (current_value[0] == '<')  //  this property is a uri
+        {
+            this->sbol_owner->properties[this->type][0] = "<" + uri + ">";
+        }
+        validate((void *)&uri);
+    }
+};
+
+void ReferencedObject::add(std::string uri)
+{
+    if (sbol_owner)
+    {
+        std::string current_value = this->sbol_owner->properties[this->type][0];
+        if (current_value[0] == '<')  //  this property is a uri
+        {
+            if (current_value[1] == '>')
+                this->sbol_owner->properties[this->type][0] = "<" + uri + ">";
+            else
+                this->sbol_owner->properties[this->type].push_back("<" + uri + ">");
+        }
+        validate((void *)&uri);  //  Call validation rules associated with this Property
+    }
+};
+
+// For compliant URIs
+void ReferencedObject::setReference(const std::string uri)
+{
+    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+    {
+        // if not TopLevel throw an error
+        // @TODO search Document by persistentIdentity and retrieve the latest version
+        set(getHomespace() + "/" + parseClassName(this->reference_type_uri) + "/" + uri + "/1.0.0");
+    }
+    else if (hasHomespace())
+    {
+        set(getHomespace() + "/" + uri);
+    }
+    else
+        set(uri);
+};
+
+//// For compliant URIs
+//void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+//{
+//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
+//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
+//    this->set(compliant_uri);
+//};
+//
+//// For compliant URIs
+//void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id)
+//{
+//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
+//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, "1.0.0");
+//    this->addReference(compliant_uri);
+//};
+//
+//// For compliant URI's
+//void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
+//{
+//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
+//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
+//    this->addReference(compliant_uri);
+//};
+
+
+std::string ReferencedObject::operator[] (const int nIndex)
+{
+    std::vector<std::string> *reference_store = &this->sbol_owner->properties[this->type];
+    return reference_store->at(nIndex);
+};
+
+
+void ReferencedObject::addReference(const std::string uri)
+{
+    this->sbol_owner->properties[this->type].push_back("<" + uri + ">");
+};
 

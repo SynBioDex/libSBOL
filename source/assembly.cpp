@@ -348,6 +348,7 @@ string Sequence::assemble(string composite_sequence)
     {
         throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Sequence cannot be assembled because it does not belong to a Document. Add the Sequence to a Document.");
     }
+    
     // Search for ComponentDefinition that this Sequence describes
     ComponentDefinition* parent_cdef = NULL;
     for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
@@ -356,12 +357,13 @@ string Sequence::assemble(string composite_sequence)
         if (obj->getTypeURI() == SBOL_COMPONENT_DEFINITION)
         {
             ComponentDefinition* cdef = (ComponentDefinition*)obj;
-            if (cdef->sequences.get() == identity.get())
+            if (cdef->sequences.size() && cdef->sequences.get() == identity.get())
             {
                 parent_cdef = cdef;
             }
         }
     }
+    
     // Throw an error if no ComponentDefinitions in the Document refer to this Sequence
     if (parent_cdef == NULL)
     {
@@ -374,21 +376,119 @@ string Sequence::assemble(string composite_sequence)
         Component& c = parent_component.components[0];
         ComponentDefinition& cdef = doc->get < ComponentDefinition > (c.definition.get());
         Sequence& seq = doc->get < Sequence > (cdef.sequences.get());
+        
+        // Check for regularity -- only one SequenceAnnotation per Component is allowed
+        vector < SBOLObject* > sequence_annotations = parent_component.find_property_value(SBOL_COMPONENT_PROPERTY, c.identity.get());
+        if (sequence_annotations.size() > 1)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Sequence cannot be assembled. Component " + c.identity.get() + " is irregular. More than one SequenceAnnotation is associated with this Component");
+        
+        // Auto-construct a SequenceAnnotation for this Component if one doesn't already exist
+        if (sequence_annotations.size() == 0)
+        {
+            string sa_id;
+            if (Config::getOption("sbol_compliant_uris") == "True")
+                sa_id = cdef.displayId.get();
+            else
+                sa_id = cdef.identity.get();
+            SequenceAnnotation& sa = parent_component.sequenceAnnotations.create<SequenceAnnotation>(sa_id + "_annotation");
+            sa.component.set(c);
+            sequence_annotations.push_back((SBOLObject*)&sa);
+
+        }
+        SequenceAnnotation& sa = *(SequenceAnnotation*)sequence_annotations[0];
+
+        // Check for regularity -- only one Range per SequenceAnnotation is allowed
+        vector < Range* > ranges;
+        if (sa.locations.size() > 0)
+        {
+            // Look for an existing Range that can be re-used
+            for (auto & l : sa.locations)
+                if (l.type == SBOL_RANGE)
+                    ranges.push_back((Range*)&l);
+        }
+        else
+        {
+            // Auto-construct a Range
+            string range_id;
+            if (Config::getOption("sbol_compliant_uris") == "True")
+                range_id = sa.displayId.get();
+            else
+                range_id = sa.identity.get();
+            Range& r = sa.locations.create<Range>(range_id + "_range");
+            ranges.push_back((Range*)&r);
+        }
+        if (ranges.size() > 1)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Sequence cannot be assembled. SequenceAnnotation " + sa.identity.get() + " is irregular. More than one Range is associated with this SequenceAnnotation");
+        
+        Range& r = *ranges[0];
+        r.start.set((int)composite_sequence.size() + 1);
+        r.end.set((int)composite_sequence.size() + (int)seq.elements.get().size());
+                  
         // Validate parent sequence element are same as this one
         return seq.elements.get();
     }
 
     else if (parent_component.components.size() > 1)
     {
-            
+        // Recurse into subcomponents and assemble their sequence
         vector<Component*> subcomponents = parent_component.getInSequentialOrder();
         for (auto i_c = subcomponents.begin(); i_c != subcomponents.end(); i_c++)
         {
             Component& c = **i_c;
             ComponentDefinition& cdef = doc->get < ComponentDefinition > (c.definition.get());
             Sequence& seq = doc->get < Sequence > (cdef.sequences.get());
-            composite_sequence = composite_sequence + seq.assemble(composite_sequence);
+            
+            // Check for regularity -- only one SequenceAnnotation per Component is allowed
+            vector < SBOLObject* > sequence_annotations = parent_component.find_property_value(SBOL_COMPONENT_PROPERTY, c.identity.get());
+            if (sequence_annotations.size() > 1)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Sequence cannot be assembled. Component " + c.identity.get() + " is irregular. More than one SequenceAnnotation is associated with this Component");
+            
+            // Auto-construct a SequenceAnnotation for this Component if one doesn't already exist
+            if (sequence_annotations.size() == 0)
+            {
+                string sa_id;
+                if (Config::getOption("sbol_compliant_uris") == "True")
+                    sa_id = cdef.displayId.get();
+                else
+                    sa_id = cdef.identity.get();
+                SequenceAnnotation& sa = parent_component.sequenceAnnotations.create<SequenceAnnotation>(sa_id + "_annotation");
+                sa.component.set(c);
+                sequence_annotations.push_back((SBOLObject*)&sa);
+            }
+            SequenceAnnotation& sa = *(SequenceAnnotation*)sequence_annotations[0];
+            
+            // Check for regularity -- only one Range per SequenceAnnotation is allowed
+            vector < Range* > ranges;
+            if (sa.locations.size() > 0)
+            {
+                // Look for an existing Range that can be re-used
+                for (auto & l : sa.locations)
+                    if (l.type == SBOL_RANGE)
+                        ranges.push_back((Range*)&l);
+            }
+            else
+            {
+                // Auto-construct a Range
+                string range_id;
+                if (Config::getOption("sbol_compliant_uris") == "True")
+                    range_id = sa.displayId.get();
+                else
+                    range_id = sa.identity.get();
+                Range& r = sa.locations.create<Range>(range_id + "_range");
+                ranges.push_back((Range*)&r);
+            }
+            if (ranges.size() > 1)
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Sequence cannot be assembled. SequenceAnnotation " + sa.identity.get() + " is irregular. More than one Range is associated with this SequenceAnnotation");
+            
+                                
+            Range& r = *ranges[0];
+            r.start.set((int)composite_sequence.size() + 1);
+                                
+            composite_sequence = composite_sequence + seq.assemble(composite_sequence);  // Recursive call
+                                
+            r.end.set((int)composite_sequence.size());
         }
+                                
         elements.set(composite_sequence);
         return composite_sequence;
     }
@@ -1019,10 +1119,12 @@ int Range::overlaps(Range& comparand)
 {
     if (start.get() == comparand.start.get() && end.get() == comparand.end.get())
         return 0;
-    else if (start.get() <= comparand.start.get() && end.get() <= comparand.end.get() && end.get() > comparand.start.get() )
-        return comparand.start.get() - end.get();
-    else if (start.get() >= comparand.start.get() && end.get() >= comparand.end.get() && start.get() < comparand.end.get())
-        return comparand.end.get() - start.get();
+    else if (start.get() < comparand.start.get() && end.get() < comparand.end.get() && end.get() >= comparand.start.get() )
+        return end.get() - comparand.start.get() + 1;
+    else if (start.get() > comparand.start.get() && end.get() > comparand.end.get() && start.get() <= comparand.end.get())
+        return comparand.end.get() - start.get() + 1;
+    else if (comparand.contains(*this))
+        return comparand.contains(*this);
     else
         return 0;
 }

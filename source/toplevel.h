@@ -32,14 +32,20 @@
 
 namespace sbol 
 {
+    class Plan;
+    class Agent;
+    
     /// All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBOL files. An abstract class.
 	class SBOL_DECLSPEC TopLevel : public Identified
 	{
 
 	// The public constructor delegates to this protected constructor in order to initialize the object with an SBOL type URI 
     public:
-        TopLevel(sbol_type type_uri = "", std::string uri = "", std::string version = "1.0.0") :
-            Identified(type_uri, uri, version)
+        ReferencedObject attachments;
+        
+        TopLevel(rdf_type type_uri = SBOL_TOP_LEVEL, std::string uri = "example", std::string version = "1.0.0") :
+            Identified(type_uri, uri, version),
+            attachments(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', ValidationRules({}))
         {
             if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
@@ -77,7 +83,12 @@ namespace sbol
         /// @tparam The type of SBOL object to generate
         template<class SBOLClass>
         SBOLClass& generate(std::string uri);
-        
+
+        /// @param uri A URI for the new object, or a displayId if operating in SBOLCompliant mode
+        /// @tparam The type of SBOL object to generate
+        template<class SBOLClass>
+        SBOLClass& generate(std::string uri, Agent& agent, Plan& plan, std::vector<Identified*> usages = {});
+
         void initialize(std::string uri);
 
     };

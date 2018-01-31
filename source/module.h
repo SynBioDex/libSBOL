@@ -42,7 +42,7 @@ namespace sbol
         ReferencedObject definition;
         
         /// The mapsTos property is an OPTIONAL set of MapsTo objects that refer to and link ComponentInstance objects together within the heterarchy of Module, ModuleDefinition, ComponentInstance, and ComponentDefinition objects.
-        List<OwnedObject<MapsTo>> mapsTos;
+        OwnedObject<MapsTo> mapsTos;
         
         /// Construct a Module. If operating in SBOL-compliant mode, use ModuleDefinition::modules::create instead.
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
@@ -50,16 +50,17 @@ namespace sbol
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Module(std::string uri = "example", std::string definition = "", std::string version = "1.0.0") : Module(SBOL_MODULE, uri, definition, version) {};
 
-        virtual ~Module() {};
-        
-	protected:
-        Module(sbol_type type, std::string uri, std::string definition, std::string version) :
+        /// Constructor used for defining extension classes
+        /// @param type The RDF type for an extension class derived from this one
+        Module(rdf_type type, std::string uri, std::string definition, std::string version) :
             Identified(type, uri, version),
-            definition(SBOL_DEFINITION, SBOL_MODULE_DEFINITION, this, definition),
-            mapsTos(SBOL_MAPS_TOS, this)
-            {
-            };
-	};
+            definition(this, SBOL_DEFINITION, SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), definition),
+            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({}))
+        {
+        };
+
+        virtual ~Module() {};
+    };
 }
 
 #endif
