@@ -182,8 +182,6 @@ namespace sbol {
         /// @param filename The full name of the file you want to read (including file extension)
         void append(std::string filename);
         
-        /// Submit this Document via http request to the online validation tool.
-        /// @return The validation results
         std::string request_validation(std::string& sbol);
 
         /// Perform comparison on Documents using the online validation tool. This is for cross-validation of SBOL documents with libSBOLj. Document comparison can also be performed using the built-in compare method.
@@ -197,8 +195,8 @@ namespace sbol {
 		/// Generates rdf/xml
         void generate(raptor_world** world, raptor_serializer** sbol_serializer, char** sbol_buffer, size_t* sbol_buffer_len, raptor_iostream** ios, raptor_uri** base_uri);
 
-        /// Run validation on this Document.
-        /// @return The validation results
+        /// Run validation on this Document via the online validation tool.
+        /// @return A string containing a message with the validation results
         std::string validate();
         
         Document& copy(std::string ns, Document* doc = NULL);

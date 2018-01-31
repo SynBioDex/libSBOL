@@ -43,7 +43,7 @@ void encode_http(string& text)
 // Advanced search
 SearchResponse& sbol::PartShop::search(SearchQuery& q)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -158,7 +158,7 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
 // Exact search
 SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_type, std::string property_uri, int offset, int limit)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -245,7 +245,7 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
 // General search
 SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_type, int offset, int limit)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -324,7 +324,7 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
 
 int sbol::PartShop::searchCount(SearchQuery& q)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -450,7 +450,7 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type, s
         
         encode_http(parameters);
         
-        parameters = url + "/remoteSearch/" + parameters;
+        parameters = parseURLDomain(url) + "/remoteSearch/" + parameters;
         
         /* First set the URL that is about to receive our GET. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
@@ -487,7 +487,7 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type, s
 
 int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -544,7 +544,7 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
     }
     catch (...)
     {
-        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search failed with error message" + response);
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search failed with error message: " + response);
     }
     return count;
 };
@@ -572,7 +572,7 @@ void sbol::PartShop::login(std::string email, std::string password)
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, (resource + "/remoteLogin").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/remoteLogin").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */
@@ -625,7 +625,7 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
          data. */
         
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(curl, CURLOPT_URL, (resource + "/submit").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/submit").c_str());
         
         /* Now specify the POST data */
         struct curl_httppost* post = NULL;
@@ -736,7 +736,7 @@ std::string PartShop::searchRootCollections()
 {
     // Form get request
     std::string get_request;
-    get_request = resource + "/rootCollections";
+    get_request = parseURLDomain(resource) + "/rootCollections";
     
     /* Perform HTTP request */
     std::string response;
@@ -862,6 +862,7 @@ std::string http_get_request(std::string get_request)
         
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
+        
         /* Check for errors */
         if(res != CURLE_OK)
             throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, std::string(curl_easy_strerror(res)));
@@ -877,20 +878,23 @@ std::string http_get_request(std::string get_request)
 
 void PartShop::pull(std::string uri, Document& doc)
 {
+    if (Config::getOption("verbose") == "True")
+        std::cout << "Attempting to pull " << getURL() + "/" + uri << std::endl;
     std::string get_request = getURL() + "/" + uri + "/sbol";  // Assume user supplied only a displayId for the requested part
     std::string response = http_get_request(get_request);
-    if (response.find("<html>") != std::string::npos || response.find("not found") != std::string::npos)
+    if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
     {
         // Reattempt, assuming user supplied a full URI for the requested part
+        if (Config::getOption("verbose") == "True")
+            std::cout << "Not found. Attempting to pull " << uri << std::endl;
         get_request = uri + "/sbol";
         response = http_get_request(get_request);
-        if (response.find("<html>") != std::string::npos || response.find("not found") != std::string::npos)
+        if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Part not found. Unable to pull " + uri);
     }
-    
     Document temp_doc = Document();
     temp_doc.readString(response);
-    temp_doc.copy(getURL(), &doc);
+    temp_doc.copy(resource, &doc);
 };
 
 string PartShop::getURL()
@@ -965,6 +969,27 @@ std::string PartShop::attachFile(std::string topleveluri, std::string filename)
     return response;
 
 };
+
+/**
+ * Retrieve an attachment from a SynBioHub instance using its URI,
+ * and save to the path provided.
+ *
+ * @param attachmentUri The full URI of the SBOL Attachment object
+ * @param path The path to store the downloaded attachment
+ * @return the name of the file being downloaded
+ *
+ * @throws SynBioHubException if there was an error communicating with the SynBioHub
+ * @throws IOException if there is an I/O error
+ */
+public PartShop::downloadAttachment(string attachment_uri, string path)
+{
+    if (parseURLDomain(attachment_uri) != resource)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot download attachment. The URI does not match the domain for this PartShop.");
+    string url = attachment_uri + "/download";
+    url = url.replace(uriPrefix, backendUrl);
+    
+    return fetchContentSaveToFile(url,null,path);
+}
 
 
 void SearchResponse::extend(SearchResponse& response)

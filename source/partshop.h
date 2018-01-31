@@ -161,7 +161,7 @@ namespace sbol
         /// Construct an interface to an instance of SynBioHub or other parts repository
         /// @param The URL of the online repository
         PartShop(std::string url) :
-            resource(parseURLDomain(url))
+            resource(url)
             {
             };
         
@@ -337,7 +337,7 @@ namespace sbol
             res = curl_easy_perform(curl);
             /* Check for errors */
             if(res != CURLE_OK)
-                throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + std::string(curl_easy_strerror(res)));
+                throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to access PartShop failed with " + std::string(curl_easy_strerror(res)));
             
             /* always cleanup */
             curl_easy_cleanup(curl);

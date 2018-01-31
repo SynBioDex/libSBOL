@@ -808,6 +808,8 @@ std::string Document::validate()
 	std::string response = "";
 	if (Config::getOption("validate").compare("True") == 0)
 		response = request_validation(sbol_buffer_string);
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot validate Document via the online validation tool. To enable validation, use Config::setOption(\"validate\").");
 
 	raptor_free_iostream(ios);
 	raptor_free_uri(base_uri);
