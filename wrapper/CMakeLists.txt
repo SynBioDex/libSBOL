@@ -61,9 +61,9 @@ IF (SBOL_BUILD_PYTHON3)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
 
             # build the SWIG wrapper
-            swig_add_module( libsbol32_3
-                python
-                libsbol.i )
+            SWIG_ADD_LIBRARY( libsbol32_3
+                LANGUAGE python
+                SOURCES libsbol.i )
 
             # Do not link in the Python libraries on MacOSX....
             if(SBOL_BUILD_SHARED)
@@ -109,9 +109,9 @@ IF (SBOL_BUILD_PYTHON3)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
 
             # build the SWIG wrapper
-            swig_add_module( libsbol64_3
-                python
-                libsbol.i )
+            SWIG_ADD_LIBRARY( libsbol64_3
+                LANGUAGE python
+                SOURCES libsbol.i )
 
             # Do not link in the Python libraries on MacOSX....
             if(SBOL_BUILD_SHARED)
@@ -157,9 +157,9 @@ IF (SBOL_BUILD_PYTHON3)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
 
             # build the SWIG wrapper
-            swig_add_module( libsbol
-                python
-                libsbol.i )
+            SWIG_ADD_LIBRARY( libsbol
+                LANGUAGE python
+                SOURCES libsbol.i )
 
             if(SBOL_BUILD_SHARED)
                 swig_link_libraries( libsbol
@@ -202,10 +202,10 @@ IF (SBOL_BUILD_PYTHON3)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
 
             # build the SWIG wrapper
-            swig_add_module( libsbol
-                python
-                libsbol.i )
-
+            SWIG_ADD_LIBRARY( libsbol
+                LANGUAGE python
+                SOURCES libsbol.i )
+                
             if(SBOL_BUILD_SHARED)
                 swig_link_libraries( libsbol
                     ${PYTHON_LIBRARIES}
@@ -247,9 +247,9 @@ IF (SBOL_BUILD_PYTHON3)
         if (SBOL_BUILD_32)
             set(PYSBOL_TARGET_DIR "Win_32_3")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
-            swig_add_module( libsbol
-                python
-                libsbol.i )		
+            SWIG_ADD_LIBRARY( libsbol
+                LANGUAGE python
+                SOURCES libsbol.i )		
             swig_link_libraries( libsbol
                 ${raptor2}
                 ${PYTHON_LIBRARIES}
@@ -281,9 +281,9 @@ IF (SBOL_BUILD_PYTHON3)
         if (SBOL_BUILD_64)
 			set(PYSBOL_TARGET_DIR "Win_64_3")
 			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
-            swig_add_module( libsbol
-                python
-                libsbol.i )	
+            SWIG_ADD_LIBRARY( libsbol
+                LANGUAGE python
+                SOURCES libsbol.i )	
             swig_link_libraries( libsbol
                 ${raptor2}
                 ${PYTHON_LIBRARIES}
@@ -344,9 +344,9 @@ IF (SBOL_BUILD_PYTHON2)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
 
             # build the SWIG wrapper
-            swig_add_module( libsbol32_2
-                python
-                libsbol.i )
+            SWIG_ADD_LIBRARY( libsbol32_2
+                LANGUAGE python
+                SOURCES libsbol.i )
 
             # Do not link in the Python libraries on MacOSX....
             if(SBOL_BUILD_SHARED)
@@ -392,9 +392,9 @@ IF (SBOL_BUILD_PYTHON2)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
 
             # build the SWIG wrapper
-            swig_add_module( libsbol64_2
-                python
-                libsbol.i )
+            SWIG_ADD_LIBRARY( libsbol64_2
+                LANGUAGE python
+                SOURCES libsbol.i )
 
             # Do not link in the Python libraries on MacOSX....
             if(SBOL_BUILD_SHARED)
@@ -438,9 +438,9 @@ IF (SBOL_BUILD_PYTHON2)
         if (SBOL_BUILD_32)
             set(PYSBOL_TARGET_DIR "sbol")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
-            swig_add_module( libsbol
-                python
-                libsbol.i )
+            SWIG_ADD_LIBRARY( libsbol
+                LANGUAGE python
+                SOURCES libsbol.i )
             if(SBOL_BUILD_SHARED)
                 swig_link_libraries( libsbol
                     ${PYTHON_LIBRARIES}
@@ -479,9 +479,9 @@ IF (SBOL_BUILD_PYTHON2)
         if (SBOL_BUILD_64)
             set(PYSBOL_TARGET_DIR "sbol")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
-            swig_add_module( libsbol
-                python
-                libsbol.i )
+            SWIG_ADD_LIBRARY( libsbol
+                LANGUAGE python
+                SOURCES libsbol.i )
             if(SBOL_BUILD_SHARED)
                 swig_link_libraries( libsbol
                     ${PYTHON_LIBRARIES}
@@ -523,9 +523,9 @@ IF (SBOL_BUILD_PYTHON2)
         if (SBOL_BUILD_32)
             set(PYSBOL_TARGET_DIR "Win_32_2")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
-            swig_add_module( libsbol
-                python
-                libsbol.i )
+            SWIG_ADD_LIBRARY( libsbol
+                LANGUAGE python
+                SOURCES libsbol.i )
             swig_link_libraries( libsbol
                 ${raptor2}
                 ${PYTHON_LIBRARIES}
@@ -556,9 +556,9 @@ IF (SBOL_BUILD_PYTHON2)
         if (SBOL_BUILD_64)
             set(PYSBOL_TARGET_DIR "Win_64_2")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
-            swig_add_module( libsbol
-                python
-                libsbol.i )
+            SWIG_ADD_LIBRARY( libsbol
+                LANGUAGE python
+                SOURCES libsbol.i )
             swig_link_libraries( libsbol
                 ${raptor2}
                 ${PYTHON_LIBRARIES}
