@@ -31,6 +31,9 @@ before_install:
   - echo "TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR"
   # build 
   - mkdir -p ~/build/libSBOL
+  
+  # test suite submodule
+  - git submodule update --init --recursive
 
 install:
   - cd ~/build/libSBOL
