@@ -389,7 +389,7 @@ class TestComponentDefinitions(unittest.TestCase):
         
         self.assertIsNotNone(doc.componentDefinitions.get("BB0001"))
         
-        displayId = doc.componentDefinitions.get("BB0001").displayId.get()
+        displayId = doc.componentDefinitions.get("BB0001").displayId
         
         self.assertEqual(displayId, "BB0001")
         
@@ -414,7 +414,7 @@ class TestComponentDefinitions(unittest.TestCase):
                   'target', 'target_gene']
         
         for CD in doc.componentDefinitions:
-            listCD_read.append(CD.displayId.get())
+            listCD_read.append(CD.displayId)
             
         # Python 3 compatability
         if sys.version_info[0] < 3:
@@ -422,28 +422,28 @@ class TestComponentDefinitions(unittest.TestCase):
         else:
             self.assertCountEqual(listCD_read, listCD)
             
-    def testPrimarySequenceIteration(self):
-        listCD = []
-        listCD_true = ["R0010", "E0040", "B0032", "B0012"]
-        doc = Document()
-        gene = ComponentDefinition("BB0001")
-        promoter = ComponentDefinition("R0010")
-        CDS = ComponentDefinition("B0032")
-        RBS = ComponentDefinition("E0040")
-        terminator = ComponentDefinition("B0012")
-        
-        doc.addComponentDefinition([gene, promoter, CDS, RBS, terminator])
-        
-        gene.assemble([ promoter, RBS, CDS, terminator ])
-        primary_sequence = gene.getPrimaryStructure()
-        for component in primary_sequence:
-            listCD.append(component.displayId.get())
-        
-        # Python 3 compatability
-        if sys.version_info[0] < 3:
-            self.assertItemsEqual(listCD, listCD_true)
-        else:
-            self.assertCountEqual(listCD, listCD_true)
+#    def testPrimarySequenceIteration(self):
+#        listCD = []
+#        listCD_true = ["R0010", "E0040", "B0032", "B0012"]
+#        doc = Document()
+#        gene = ComponentDefinition("BB0001")
+#        promoter = ComponentDefinition("R0010")
+#        CDS = ComponentDefinition("B0032")
+#        RBS = ComponentDefinition("E0040")
+#        terminator = ComponentDefinition("B0012")
+#        
+#        doc.addComponentDefinition([gene, promoter, CDS, RBS, terminator])
+#        
+#        gene.assemble([ promoter, RBS, CDS, terminator ])
+#        primary_sequence = gene.getPrimaryStructure()
+#        for component in primary_sequence:
+#            listCD.append(component.displayId)
+#        
+#        # Python 3 compatability
+#        if sys.version_info[0] < 3:
+#            self.assertItemsEqual(listCD, listCD_true)
+#        else:
+#            self.assertCountEqual(listCD, listCD_true)
 
              
 
@@ -457,7 +457,7 @@ class TestSequences(unittest.TestCase):
         test_seq = Sequence("R0010", "ggctgca")
         doc = Document()
         doc.addSequence(test_seq)
-        seq = doc.sequences.get("R0010").elements.get()
+        seq = doc.sequences.get("R0010").elements
         
         self.assertEqual(seq, 'ggctgca')
         
@@ -477,7 +477,7 @@ class TestSequences(unittest.TestCase):
         listseq = ['CRP_b_seq', 'CRa_U6_seq', 'gRNA_b_seq', 'mKate_seq']
         
         for seq in doc.sequences:
-            listseq_read.append(seq.displayId.get())
+            listseq_read.append(seq.displayId)
         
         # Python 3 compatability
         if sys.version_info[0] < 3:
@@ -497,7 +497,7 @@ class TestSequences(unittest.TestCase):
                'CGTGTACGGTGGGAGGCCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTCGAG'
                'TACCTCATCAGGAACATGTTGGATCCAATTCGACC')
                
-        seq_read = doc.sequences.get('CRP_b_seq').elements.get()
+        seq_read = doc.sequences.get('CRP_b_seq').elements
         self.assertEquals(seq_read, seq)
 
 #class TestPythonMethods(unittest.TestCase):
@@ -548,34 +548,22 @@ class TestIterators(unittest.TestCase):
     def setUp(self):
         pass
     
-    def testTextPropertyIterator(self):
-        cd = ComponentDefinition()
-        cd.description.add('lorem')
-        cd.description.add('ipsum')
-        descriptions = []
-        for d in cd.description:
-            descriptions.append(d)
-        self.assertEquals(descriptions, ['lorem', 'ipsum'])
-
-    def testURIPropertyIterator(self):
-        cd = ComponentDefinition()
-        cd.roles.add(SO_PROMOTER)
-        cd.roles.add(SO_GENE)
-        roles = []
-        for r in cd.roles:
-            roles.append(r)
-        self.assertEquals(roles, [SO_PROMOTER, SO_GENE])
-
-    def testDocumentIterator(self):
-        pass
-
+#    def testOwnedObjectIterator(self):
+#        cd = ComponentDefinition()
+#        sa1 = cd.sequenceAnnotations.create('sa1')
+#        sa2 = cd.sequenceAnnotations.create('sa2')
+#        annotations = []
+#        for sa in cd.sequenceAnnotations:
+#            annotations.append(sa)
+#        self.assertEquals(annotations, [sa1, sa2])
+        
                            
 # List of tests
 default_test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory, TestIterators]
 
 def runTests(test_list = default_test_list):
     print("Setting up")
-    exec(open("CRISPR_example.py").read())
+    #exec(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "CRISPR_example.py")).read())
     suite_list = []
     loader = unittest.TestLoader()
     for test_class in test_list:
