@@ -137,7 +137,7 @@ namespace sbol
 
 
     size_t CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_t nmemb, std::string *s);
-
+    size_t CurlResponseHeader_CallbackFunc(char *buffer,   size_t size,   size_t nitems,   void *userdata);
     /// @endcond
     
 }

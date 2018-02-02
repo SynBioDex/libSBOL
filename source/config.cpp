@@ -32,6 +32,7 @@
 #include <algorithm>
 #include <json/json.h>
 #include <curl/curl.h>
+#include <unordered_map>
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
@@ -395,4 +396,21 @@ size_t sbol::CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_
     std::copy((char*)contents,(char*)contents+newLength,s->begin()+oldLength);
     return size*nmemb;
 };
+
+size_t sbol::CurlResponseHeader_CallbackFunc(char *buffer,   size_t size,   size_t nitems,   void *userdata)
+{
+    std::unordered_map<std::string, std::string>& headers = *(std::unordered_map<std::string, std::string>*)userdata;
+    size_t header_length = size * nitems;
+    std::string header = std::string(buffer);
+    std::size_t delimiter_pos = header.find(':');
+    if (delimiter_pos != std::string::npos)
+    {
+        std::string key = header.substr(0, delimiter_pos);
+        std::string val = header.substr(delimiter_pos + 1, header_length - 2 - delimiter_pos);
+        headers[key] = val;
+    }
+    userdata = &headers;
+    return size * nitems;
+};
+
 

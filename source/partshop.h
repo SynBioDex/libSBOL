@@ -242,8 +242,13 @@ namespace sbol
         /// Upload and attach a file to a TopLevel object in a PartShop.
         /// @param top_level_uri The identity of the object to which the file will be attached
         /// @param file_name A path to the file attachment
-        std::string attachFile(std::string topleveluri, std::string filename);
+        void attachFile(std::string topleveluri, std::string filename);
 
+        /// Download a file attached to a TopLevel object in an online repository.
+        /// @param attachment_uri The full URI of the attached object
+        /// @param path The target path to which the file will be downloaded
+        void downloadAttachment(std::string attachment_uri, std::string path = ".");
+        
     };
     
 //    /// Returns a Document including all objects referenced from this object

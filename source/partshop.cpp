@@ -828,7 +828,7 @@ void PartShop::pull(std::vector<std::string> uris, Document& doc)
         pull(uri, doc);
 }
 
-std::string http_get_request(std::string get_request)
+std::string http_get_request(std::string get_request, unordered_map<string, string>* headers = NULL, unordered_map<string, string>* response_headers = NULL)
 {
     /* Perform HTTP request */
     std::string response;
@@ -838,7 +838,12 @@ std::string http_get_request(std::string get_request)
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
     
-    struct curl_slist *headers = NULL;
+    
+    struct curl_slist *header_list = NULL;
+    if (headers)
+        for (auto & header : *headers)
+            header_list = curl_slist_append(header_list, (header.first + ": " + header.second).c_str());
+
     //    headers = curl_slist_append(headers, "Accept: application/json");
     //    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
     //    headers = curl_slist_append(headers, "charsets: utf-8");
@@ -851,7 +856,7 @@ std::string http_get_request(std::string get_request)
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
-        //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header_list);
         
         /* Now specify the POST data */
         //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
@@ -860,6 +865,10 @@ std::string http_get_request(std::string get_request)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
         
+        /* Now specify the callback to read response headers */
+        curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, CurlResponseHeader_CallbackFunc);
+        curl_easy_setopt(curl, CURLOPT_HEADERDATA, response_headers);
+
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
         
@@ -870,7 +879,7 @@ std::string http_get_request(std::string get_request)
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
-    curl_slist_free_all(headers);
+    curl_slist_free_all(header_list);
     curl_global_cleanup();
     return response;
 }
@@ -890,7 +899,7 @@ void PartShop::pull(std::string uri, Document& doc)
         get_request = uri + "/sbol";
         response = http_get_request(get_request);
         if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Part not found. Unable to pull " + uri);
+            throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
     }
     Document temp_doc = Document();
     temp_doc.readString(response);
@@ -902,7 +911,7 @@ string PartShop::getURL()
     return resource;
 }
 
-std::string PartShop::attachFile(std::string topleveluri, std::string filename)
+void PartShop::attachFile(std::string topleveluri, std::string filename)
 {
     if (filename != "" && filename[0] == '~') {
         if (filename[1] != '/'){
@@ -966,29 +975,36 @@ std::string PartShop::attachFile(std::string topleveluri, std::string filename)
     
     if (response.compare("Found. Redirecting to /login?next=%2Fsubmit") == 0)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
-    return response;
-
+    if (Config::getOption("verbose") == "True")
+        std::cout << response << std::endl;
 };
 
-/**
- * Retrieve an attachment from a SynBioHub instance using its URI,
- * and save to the path provided.
- *
- * @param attachmentUri The full URI of the SBOL Attachment object
- * @param path The path to store the downloaded attachment
- * @return the name of the file being downloaded
- *
- * @throws SynBioHubException if there was an error communicating with the SynBioHub
- * @throws IOException if there is an I/O error
- */
-public PartShop::downloadAttachment(string attachment_uri, string path)
+void PartShop::downloadAttachment(string attachment_uri, string path)
 {
     if (parseURLDomain(attachment_uri) != resource)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot download attachment. The URI does not match the domain for this PartShop.");
     string url = attachment_uri + "/download";
-    url = url.replace(uriPrefix, backendUrl);
-    
-    return fetchContentSaveToFile(url,null,path);
+    unordered_map<string, string> headers;
+    unordered_map<string, string> header_response;
+
+    headers["X-authorization"] = key;
+    headers["Accept"] = "text/plain";
+    string response = http_get_request(url, &headers, &header_response);
+    if (response.find("<!DOCTYPE html>") != std::string::npos)
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "Unable to download. Attachment " + attachment_uri + " not found.");
+    if (header_response.find("Content-Disposition") == header_response.end())
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
+
+    std::string filename = header_response["Content-Disposition"];
+    filename.erase(0, 23); // remove the substring: attachment; filename="
+    filename.erase(filename.end() - 2, filename.end()); // remove the terminating "
+
+    FILE* fh = fopen((path + "/" + filename).c_str(), "wb");
+    if (!fh)
+        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "Cannot download attachment. The target path " + path + filename + " is invalid.");
+
+    fputs(response.c_str(), fh);
+    fclose(fh);
 }
 
 

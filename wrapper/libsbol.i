@@ -150,6 +150,10 @@
         {
             PyErr_SetString(PyExc_TypeError, e.what());
         }
+        else if (e.error_code() == SBOL_ERROR_FILE_NOT_FOUND)
+        {
+            PyErr_SetString(PyExc_IOError, e.what());
+        }
         else
         {
             PyErr_SetString(PyExc_RuntimeError, e.what());
