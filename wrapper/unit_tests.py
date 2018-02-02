@@ -571,9 +571,10 @@ def runTests(test_list = default_test_list):
         suite_list.append(suite)
    
     full_test_suite = unittest.TestSuite(suite_list)
-    unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(full_test_suite)
-
-
+    
+    ins = not unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(full_test_suite).wasSuccessful()
+    sys.exit(ins)
+    
 if __name__ == '__main__':
     runTests()
 
