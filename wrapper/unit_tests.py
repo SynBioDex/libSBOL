@@ -404,14 +404,10 @@ class TestComponentDefinitions(unittest.TestCase):
     
     def testAddComponentDefinition(self):
         test_CD = ComponentDefinition("BB0001")
-
         doc = Document()
         doc.addComponentDefinition(test_CD)
-        
         self.assertIsNotNone(doc.componentDefinitions.get("BB0001"))
-        
         displayId = doc.componentDefinitions.get("BB0001").displayId
-        
         self.assertEqual(displayId, "BB0001")
         
     def testRemoveComponentDefinition(self):
@@ -443,30 +439,28 @@ class TestComponentDefinitions(unittest.TestCase):
         else:
             self.assertCountEqual(listCD_read, listCD)
             
-#    def testPrimarySequenceIteration(self):
-#        listCD = []
-#        listCD_true = ["R0010", "E0040", "B0032", "B0012"]
-#        doc = Document()
-#        gene = ComponentDefinition("BB0001")
-#        promoter = ComponentDefinition("R0010")
-#        CDS = ComponentDefinition("B0032")
-#        RBS = ComponentDefinition("E0040")
-#        terminator = ComponentDefinition("B0012")
-#        
-#        doc.addComponentDefinition([gene, promoter, CDS, RBS, terminator])
-#        
-#        gene.assemble([ promoter, RBS, CDS, terminator ])
-#        primary_sequence = gene.getPrimaryStructure()
-#        for component in primary_sequence:
-#            listCD.append(component.displayId)
-#        
-#        # Python 3 compatability
-#        if sys.version_info[0] < 3:
-#            self.assertItemsEqual(listCD, listCD_true)
-#        else:
-#            self.assertCountEqual(listCD, listCD_true)
-
-             
+    def testPrimarySequenceIteration(self):
+        listCD = []
+        listCD_true = ["R0010", "E0040", "B0032", "B0012"]
+        doc = Document()
+        gene = ComponentDefinition("BB0001")
+        promoter = ComponentDefinition("R0010")
+        CDS = ComponentDefinition("B0032")
+        RBS = ComponentDefinition("E0040")
+        terminator = ComponentDefinition("B0012")
+        
+        doc.addComponentDefinition([gene, promoter, CDS, RBS, terminator])
+        
+        gene.assemblePrimaryStructure([ promoter, RBS, CDS, terminator ])
+        primary_sequence = gene.getPrimaryStructure()
+        for component in primary_sequence:
+            listCD.append(component.displayId)
+        
+        # Python 3 compatability
+        if sys.version_info[0] < 3:
+            self.assertItemsEqual(listCD, listCD_true)
+        else:
+            self.assertCountEqual(listCD, listCD_true)    
 
 
 class TestSequences(unittest.TestCase):
