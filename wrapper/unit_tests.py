@@ -579,7 +579,7 @@ class TestIterators(unittest.TestCase):
         self.assertEquals(annotations, [sa1, sa2])
                            
 # List of tests
-default_test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory, TestIterators]
+default_test_list = [TestRoundTripSBOL2, TestRoundTripFailSBOL2, TestComponentDefinitions, TestSequences, TestMemory, TestIterators]
 
 def runTests(test_list = default_test_list):
     print("Setting up")
