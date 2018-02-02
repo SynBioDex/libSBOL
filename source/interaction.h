@@ -46,7 +46,7 @@ namespace sbol
         Interaction(rdf_type type, std::string uri, std::string interaction_type) :
             Identified(type, uri),
             types(this, SBOL_TYPES, '1', '*', ValidationRules({}), interaction_type),
-            participations(this, SBOL_PARTICIPATIONS, '0', '1', ValidationRules({}))
+            participations(this, SBOL_PARTICIPATIONS, '0', '*', ValidationRules({}))
             {
             };
         
