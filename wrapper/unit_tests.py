@@ -569,15 +569,14 @@ class TestIterators(unittest.TestCase):
     def setUp(self):
         pass
     
-#    def testOwnedObjectIterator(self):
-#        cd = ComponentDefinition()
-#        sa1 = cd.sequenceAnnotations.create('sa1')
-#        sa2 = cd.sequenceAnnotations.create('sa2')
-#        annotations = []
-#        for sa in cd.sequenceAnnotations:
-#            annotations.append(sa)
-#        self.assertEquals(annotations, [sa1, sa2])
-        
+    def testOwnedObjectIterator(self):
+        cd = ComponentDefinition()
+        sa1 = cd.sequenceAnnotations.create('sa1').this
+        sa2 = cd.sequenceAnnotations.create('sa2').this
+        annotations = []
+        for sa in cd.sequenceAnnotations:
+            annotations.append(sa.this)
+        self.assertEquals(annotations, [sa1, sa2])
                            
 # List of tests
 default_test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory, TestIterators]
