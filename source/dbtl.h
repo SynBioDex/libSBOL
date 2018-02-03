@@ -240,8 +240,8 @@ namespace sbol
             TopLevel(SYSBIO_ANALYSIS, uri, version),
             rawData(this, SYSBIO_URI "#rawData", SBOL_COLLECTION, '0', '1', { libsbol_rule_10 }),
             dataFiles(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
-            consensusSequence(this, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
-            fittedModel(this, SBOL_MODEL, '0', '1', ValidationRules({})),
+            consensusSequence(this, SYSBIO_URI "#consensusSequence", '0', '1', ValidationRules({})),
+            fittedModel(this, SYSBIO_URI "#model", '0', '1', ValidationRules({})),
             dataSheet(this, SYSBIO_URI "#dataSheet", SBOL_ATTACHMENT, '0', '1', ValidationRules({})),
             _consensusSequence(this, SYSBIO_URI "#consensusSequence", SBOL_SEQUENCE, '0', '1', ValidationRules({})),
             _fittedModel(this, SYSBIO_URI "#model", SBOL_MODEL, '0', '1', ValidationRules({}))

@@ -50,8 +50,8 @@ namespace sbol
     Analysis::~Analysis()
     {
         // Remove these properties to prevent double deletion of child objects by the base destructor
-        owned_objects.erase(SBOL_SEQUENCE);
-        owned_objects.erase(SBOL_MODEL);
+        owned_objects.erase(SYSBIO_URI "#consensusSequence");
+        owned_objects.erase(SYSBIO_URI "#model");
     }
 
 /* Specialized templates for Design, Build, Test, Analysis workflows */
@@ -900,7 +900,7 @@ namespace sbol
         if (target_sequence.size() != verified_sequence.size())
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid consensus sequence. Target sequence and consensus sequence are not equal lengths. Perform a sequence alignment first.");
 
-        // Set consensusSequence property of the Analysis
+//        // Set consensusSequence property of the Analysis
         consensusSequence.set(consensus);
         
         // Auto-construct Build.structure
@@ -914,7 +914,7 @@ namespace sbol
             build.structure.create(build_structure_id);
         }
         ComponentDefinition& build_structure = build.structure.get();
-        
+
         // Set Build sequence to the consensusSequence
         build_structure.sequence.set(consensus);
         
