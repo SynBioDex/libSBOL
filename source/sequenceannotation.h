@@ -56,13 +56,6 @@ namespace sbol
         /// It is RECOMMENDED that these role URIs identify terms that are compatible with the type properties of this SequenceAnnotation’s parent ComponentDefinition. For example, a role of a SequenceAnnotation which belongs to a ComponentDefinition of type DNA might refer to terms from the Sequence Ontology. See documentation for ComponentDefinition for a table of recommended ontology terms.
         URIProperty roles;
         
-        /// A roleIntegration specifies the relationship between a Component instance’s own set of roles and the set of roles on the included sub-ComponentDefinition. A Component instance with one or more roles MUST specify a roleIntegration. By default mergeRoles is assumed. It is RECOMMENDED to specify a set of Component roles only if the integrated result set of roles would differ from the set of roles belonging to this Component’s included sub-ComponentDefinition.
-        /// | roleIntegration URI                  | libSBOL Symbol                    | Description                                                              |
-        /// | :----------------------------------- | :-------------------------------- | :----------------------------------------------------------------------- |
-        /// | http://sbols.org/v2#overrideRoles    | SBOL_ROLE_INTEGRATION_OVERRIDE    | In the context of this Component, ignore any roles given for the <br>included sub-ComponentDefinition. Instead use only the set<br> of zero or more roles given for this Component. |
-        /// | http://sbols.org/v2#mergeRoles       | SBOL_ROLE_INTEGRATION_MERGE       | Use the union of the two sets: both the set of zero or more roles <br>given for this Component as well as the set of zero or more<br>roles given for the included sub-ComponentDefinition. |
-        URIProperty roleIntegration;
-        
         /// Tests if the comparand SequenceAnnotation precedes this one according to base coordinates
         /// @param comparand Another SequenceAnnotation
         /// @return true or false
@@ -103,8 +96,7 @@ namespace sbol
             Identified(type, uri, version),
             component(this, SBOL_COMPONENT_PROPERTY, SBOL_COMPONENT, '0', '1', ValidationRules({})),
             locations(this, SBOL_LOCATIONS, '0', '*', ValidationRules({})),
-            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
-            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}), SBOL_ROLE_INTEGRATION_MERGE)
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({}))
             {
             };
 

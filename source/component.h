@@ -104,7 +104,7 @@ namespace sbol
         Component(rdf_type type, std::string uri, std::string definition, std::string access, std::string version) :
             ComponentInstance(type, uri, definition, access, version),
             roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
-            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}))
+            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}), SBOL_ROLE_INTEGRATION_MERGE)
             {};
         
 //        Component(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) : ComponentInstance(type, uri_prefix, display_id, version, definition, access) {};
