@@ -1938,6 +1938,9 @@ void ReferencedObject::set(SBOLObject& obj)
 {
     if (obj.type != reference_type_uri)
         throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
+//    if (!this->sbol_owner->doc)
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot set " + this->type + " property of " + this->sbol_owner->identity.get() + " This object does not belong to a Document. Either add it to a Document, or use set(obj.identity) to set an external reference.");
+
     TopLevel* tl = dynamic_cast<TopLevel*>(&obj);
     if (this->sbol_owner->doc)
     {
@@ -1953,6 +1956,9 @@ void ReferencedObject::add(SBOLObject& obj)
 {
     if (obj.type != reference_type_uri)
         throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
+//    if (!this->sbol_owner->doc)
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot set " + this->type + " property of " + this->sbol_owner->identity.get() + " This object does not belong to a Document. Either add it to a Document, or use set(obj.identity) to set an external reference.");
+
     TopLevel* tl = dynamic_cast<TopLevel*>(&obj);
     if (this->sbol_owner->doc)
     {

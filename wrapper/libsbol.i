@@ -89,17 +89,14 @@
             throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "First argument must be a List of ComponentDefinition objects or Strings containing their displayIds");
         if (PyList_Size(list) == 0)
             return {};
-        PyObject *obj = PyList_GetItem(list, 0);
+        PyObject *obj;
         std::vector<sbol::ComponentDefinition*> list_of_cdefs = {};
         sbol::ComponentDefinition* cd;
-        if (SWIG_IsOK(SWIG_ConvertPtr(obj,(void **) &cd, SWIG_TypeQuery("sbol::ComponentDefinition*"),1)))
+        for (int i = 0; i < PyList_Size(list); ++i)
         {
-            for (int i = 0; i < PyList_Size(list); ++i)
-            {
-                obj = PyList_GetItem(list, i);
-                if ((SWIG_ConvertPtr(obj,(void **) &cd, SWIG_TypeQuery("sbol::ComponentDefinition*"),1)) == -1) break;
-                list_of_cdefs.push_back(cd);
-            }
+            obj = PyList_GetItem(list, i);
+            if ((SWIG_ConvertPtr(obj,(void **) &cd, SWIG_TypeQuery("sbol::ComponentDefinition*"),1)) == -1) break;
+            list_of_cdefs.push_back(cd);
         }
         return list_of_cdefs;
     }
@@ -241,8 +238,9 @@
     }
     $result  = list;
     $1.clear();
-
+    PyErr_Clear();
 }
+
 
 // Typemap the hash table returned by Analysis::report methods
 %typemap(out) std::unordered_map < std::string, std::tuple < int, int, float > > {
@@ -282,17 +280,31 @@
 
 %pythonappend add
 %{
-    self.thisown = False
+    try:
+        sbol_obj.thisown = False
+    except NameError:
+        try:
+            if not type(args[0]) == str:
+                args[0].thisown = False
+        except NameError:
+            pass
 %}
 
 %pythonappend set
 %{
-    self.thisown = False
+    try:
+        sbol_obj.thisown = False
+    except NameError:
+        try:
+            if not type(args[0]) == str:
+                args[0].thisown = False
+        except NameError:
+            pass
 %}
     
 %pythonappend create
 %{
-    self.thisown = False
+    val.thisown = False
 %}
     
 // verifyTarget acts like a setter
