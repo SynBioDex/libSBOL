@@ -237,7 +237,7 @@
     }
     $result  = list;
     $1.clear();
-
+    PyErr_Clear();
 }
 
 // Typemap the hash table returned by Analysis::report methods
