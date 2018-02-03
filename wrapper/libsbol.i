@@ -133,6 +133,7 @@
     }
     $result  = list;
     $1.clear();
+    PyErr_Clear();
 }
 
 %template(_IntVector) std::vector<int>;
