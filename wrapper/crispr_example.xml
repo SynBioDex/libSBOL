@@ -2,7 +2,8 @@
 <rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/"
    xmlns:prov="http://www.w3.org/ns/prov#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:sbol="http://sbols.org/v2#">
+   xmlns:sbol="http://sbols.org/v2#"
+   xmlns:sys-bio="http://sys-bio.org#">
   <sbol:ModuleDefinition rdf:about="http://sbols.org/CRISPR_Example/CRISPR_Template/1.0.0">
     <sbol:displayId>CRISPR_Template</sbol:displayId>
     <sbol:functionalComponent>
@@ -149,7 +150,6 @@
     <sbol:displayId>CRP_b</sbol:displayId>
     <sbol:persistentIdentity rdf:resource="http://sbols.org/CRISPR_Example/CRP_b"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000167"/>
-    <sbol:sequence rdf:resource="http://sbols.org/CRISPR_Example/CRP_b_seq"/>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:version>1.0.0</sbol:version>
   </sbol:ComponentDefinition>
@@ -569,7 +569,6 @@
     <sbol:displayId>CRa_U6</sbol:displayId>
     <sbol:persistentIdentity rdf:resource="http://sbols.org/CRISPR_Example/CRa_U6"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000167"/>
-    <sbol:sequence rdf:resource="http://sbols.org/CRISPR_Example/CRa_U6_seq"/>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:version>1.0.0</sbol:version>
   </sbol:ComponentDefinition>
@@ -807,7 +806,6 @@
     <sbol:displayId>gRNA_b_nc</sbol:displayId>
     <sbol:persistentIdentity rdf:resource="http://sbols.org/CRISPR_Example/gRNA_b_nc"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
-    <sbol:sequence rdf:resource="http://sbols.org/CRISPR_Example/gRNA_b_seq"/>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:version>1.0.0</sbol:version>
   </sbol:ComponentDefinition>
@@ -842,7 +840,6 @@
     <sbol:displayId>mKate_cds</sbol:displayId>
     <sbol:persistentIdentity rdf:resource="http://sbols.org/CRISPR_Example/mKate_cds"/>
     <sbol:role rdf:resource="http://identifiers.org/so/SO:0000316"/>
-    <sbol:sequence rdf:resource="http://sbols.org/CRISPR_Example/mKate_seq"/>
     <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
     <sbol:version>1.0.0</sbol:version>
   </sbol:ComponentDefinition>

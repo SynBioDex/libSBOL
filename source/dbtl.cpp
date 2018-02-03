@@ -27,6 +27,7 @@
 #include "document.h"
 
 #include <tuple>
+#include <cctype>
 
 using namespace std;
 using namespace sbol;

@@ -98,6 +98,9 @@ namespace sbol
 
     template<>
     Design& TopLevel::generate<Design>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
+
+    template<>
+    Design& OwnedObject<Design>::get(std::string uri);
     
     /// A Build is a realization of a Design. For practical purposes, a Build can represent a biological clone, a plasmid, or other laboratory sample. For a given Design, there may be multiple Builds realized in the lab. A Build represents the second step in libSBOL's formalized Design-Build-Test-Analyze workflow.
     class Build : public Implementation
@@ -183,6 +186,9 @@ namespace sbol
     
     template<>
     Build& TopLevel::generate<Build>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
+
+    template<>
+    Build& OwnedObject<Build>::get(std::string uri);
     
     /// A Test is a container for experimental data. A Test is the product of the third step of libSBOL's formalized Design-Build-Test-Analyze workflow
     class Test : public Collection

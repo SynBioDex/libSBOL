@@ -250,7 +250,7 @@ namespace sbol
         void downloadAttachment(std::string attachment_uri, std::string path = ".");
         
     };
-    
+
 //    /// Returns a Document including all objects referenced from this object
 //    template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri);
 
@@ -304,6 +304,9 @@ namespace sbol
         return stoi(response);
     };
     
+    template<>
+    void PartShop::pull<ComponentDefinition>(std::string uri, Document& doc, bool recursive);
+
     template < class SBOLClass > void PartShop::pull(std::string uri, Document& doc, bool recursive)
     {
         std::string get_request = uri + "/sbol";

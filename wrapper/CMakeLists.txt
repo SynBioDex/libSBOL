@@ -96,6 +96,8 @@ IF (SBOL_BUILD_PYTHON3)
             add_custom_command(TARGET _libsbol32_3 PRE_BUILD
                                COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/CRISPR_example.py)
             add_custom_command(TARGET _libsbol32_3 PRE_BUILD
+                               COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/crispr_example.xml)
+            add_custom_command(TARGET _libsbol32_3 PRE_BUILD
                                COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/unit_tests.py)
             add_custom_command(TARGET _libsbol32_3 PRE_BUILD
                                COMMAND cp ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/libsbol.py)
@@ -144,6 +146,8 @@ IF (SBOL_BUILD_PYTHON3)
             add_custom_command(TARGET _libsbol64_3 PRE_BUILD
                                COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/CRISPR_example.py)
             add_custom_command(TARGET _libsbol64_3 PRE_BUILD
+                               COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/crispr_example.xml)
+            add_custom_command(TARGET _libsbol64_3 PRE_BUILD
                                COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/unit_tests.py)
             add_custom_command(TARGET _libsbol64_3 PRE_BUILD
                                COMMAND cp ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/libsbol.py)
@@ -186,11 +190,13 @@ IF (SBOL_BUILD_PYTHON3)
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+            add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
-                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/test/SBOLTestSuite/* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
+                               COMMAND cp -r ${PROJECT_SOURCE_DIR}/test/SBOLTestSuite/* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND cp -r ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
@@ -230,11 +236,13 @@ IF (SBOL_BUILD_PYTHON3)
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+            add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
-                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/test/SBOLTestSuite/* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
+                               COMMAND cp -r ${PROJECT_SOURCE_DIR}/test/SBOLTestSuite/* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND cp -r ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
@@ -269,9 +277,11 @@ IF (SBOL_BUILD_PYTHON3)
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/CRISPR_example.py)
             add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/crispr_example.xml)
+            add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/unit_tests.py)
             add_custom_command(TARGET _libsbol PRE_BUILD
-                               COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/test ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/test)
+                               COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/test/SBOLTestSuite ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/test)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/libsbol.py)
             add_custom_command(TARGET _libsbol POST_BUILD
@@ -303,9 +313,11 @@ IF (SBOL_BUILD_PYTHON3)
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/CRISPR_example.py)
             add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/crispr_example.xml)
+            add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/unit_tests.py)
             add_custom_command(TARGET _libsbol PRE_BUILD
-                               COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/test ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/test)
+                               COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/test/SBOLTestSuite ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/test)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/libsbol.py)
             add_custom_command(TARGET _libsbol POST_BUILD
@@ -380,6 +392,8 @@ IF (SBOL_BUILD_PYTHON2)
             add_custom_command(TARGET _libsbol32_2 PRE_BUILD
                                COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/CRISPR_example.py)
             add_custom_command(TARGET _libsbol32_2 PRE_BUILD
+                               COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/crispr_example.xml)
+            add_custom_command(TARGET _libsbol32_2 PRE_BUILD
                                COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/unit_tests.py)
             add_custom_command(TARGET _libsbol32_2 PRE_BUILD
                                COMMAND cp ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/libsbol.py)
@@ -427,6 +441,8 @@ IF (SBOL_BUILD_PYTHON2)
             add_custom_command(TARGET _libsbol64_2 PRE_BUILD
                                COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/CRISPR_example.py)
             add_custom_command(TARGET _libsbol64_2 PRE_BUILD
+                               COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/crispr_example.xml)
+            add_custom_command(TARGET _libsbol64_2 PRE_BUILD
                                COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/unit_tests.py)
             add_custom_command(TARGET _libsbol64_2 PRE_BUILD
                                COMMAND cp ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/libsbol.py)
@@ -465,11 +481,13 @@ IF (SBOL_BUILD_PYTHON2)
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+            add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
-                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/test/SBOLTestSuite/* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
+                               COMMAND cp -r ${PROJECT_SOURCE_DIR}/test/SBOLTestSuite/* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND cp -r ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
@@ -506,11 +524,13 @@ IF (SBOL_BUILD_PYTHON2)
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+            add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/sbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol PRE_BUILD
-                               COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/test/SBOLTestSuite/* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
+                               COMMAND cp -r ${PROJECT_SOURCE_DIR}/test/SBOLTestSuite/* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/test)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND cp -r ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
@@ -544,9 +564,11 @@ IF (SBOL_BUILD_PYTHON2)
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/CRISPR_example.py)
             add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/crispr_example.xml)
+            add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/unit_tests.py)
             add_custom_command(TARGET _libsbol PRE_BUILD
-                               COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/test ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/test)
+                               COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/test/SBOLTestSuite ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/test)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/libsbol.py)
             add_custom_command(TARGET _libsbol POST_BUILD
@@ -577,9 +599,11 @@ IF (SBOL_BUILD_PYTHON2)
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/CRISPR_example.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/CRISPR_example.py)
             add_custom_command(TARGET _libsbol PRE_BUILD
+                               COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/crispr_example.xml ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/crispr_example.xml)
+            add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/unit_tests.py)
             add_custom_command(TARGET _libsbol PRE_BUILD
-                               COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/test ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/test)
+                               COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/test/SBOLTestSuite ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/test)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/libsbol.py)
             add_custom_command(TARGET _libsbol POST_BUILD
