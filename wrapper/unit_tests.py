@@ -334,23 +334,207 @@ class TestRoundTripSBOL2(unittest.TestCase):
     def test_case64(self):
         print(str(TEST_FILES_SBOL2[64]))
         self.run_round_trip(str(TEST_FILES_SBOL2[64]))
+       
+    def test_case65(self):
+        print(str(TEST_FILES_SBOL2[65]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[65]))
 
     def test_case66(self):
         print(str(TEST_FILES_SBOL2[66]))
         self.run_round_trip(str(TEST_FILES_SBOL2[66]))
+        
+    def test_case67(self):
+        print(str(TEST_FILES_SBOL2[67]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[67]))
 
     def test_case68(self):
         print(str(TEST_FILES_SBOL2[68]))
         self.run_round_trip(str(TEST_FILES_SBOL2[68]))
+        
+    def test_case69(self):
+        print(str(TEST_FILES_SBOL2[69]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[69]))
 
     def test_case70(self):
         print(str(TEST_FILES_SBOL2[70]))
         self.run_round_trip(str(TEST_FILES_SBOL2[70]))
+        
+    def test_case71(self):
+        print(str(TEST_FILES_SBOL2[71]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[71]))
 
     def test_case72(self):
         print(str(TEST_FILES_SBOL2[72]))
         self.run_round_trip(str(TEST_FILES_SBOL2[72]))
+   
+    def test_case73(self):
+        print(str(TEST_FILES_SBOL2[73]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[73]))
 
+    def test_case74(self):
+        print(str(TEST_FILES_SBOL2[74]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[74]))
+
+    def test_case75(self):
+        print(str(TEST_FILES_SBOL2[75]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[75]))
+
+    def test_case76(self):
+        print(str(TEST_FILES_SBOL2[76]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[76]))
+
+    def test_case77(self):
+        print(str(TEST_FILES_SBOL2[77]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[77]))
+
+    def test_case78(self):
+        print(str(TEST_FILES_SBOL2[78]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[78]))
+
+    def test_case79(self):
+        print(str(TEST_FILES_SBOL2[79]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[79]))
+
+    def test_case80(self):
+        print(str(TEST_FILES_SBOL2[80]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[80]))
+
+    def test_case81(self):
+        print(str(TEST_FILES_SBOL2[81]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[81]))
+
+    def test_case82(self):
+        print(str(TEST_FILES_SBOL2[82]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[82]))
+
+    def test_case83(self):
+        print(str(TEST_FILES_SBOL2[83]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[83]))
+
+    def test_case84(self):
+        print(str(TEST_FILES_SBOL2[84]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[84]))
+
+    def test_case85(self):
+        print(str(TEST_FILES_SBOL2[85]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[85]))
+
+    def test_case86(self):
+        print(str(TEST_FILES_SBOL2[86]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[86]))
+
+    def test_case87(self):
+        print(str(TEST_FILES_SBOL2[87]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[87]))
+
+    def test_case88(self):
+        print(str(TEST_FILES_SBOL2[88]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[88]))
+
+    def test_case89(self):
+        print(str(TEST_FILES_SBOL2[89]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[89]))
+
+    def test_case90(self):
+        print(str(TEST_FILES_SBOL2[90]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[90]))
+
+    def test_case91(self):
+        print(str(TEST_FILES_SBOL2[91]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[91]))
+
+    def test_case92(self):
+        print(str(TEST_FILES_SBOL2[92]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[92]))
+
+    def test_case93(self):
+        print(str(TEST_FILES_SBOL2[93]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[93]))
+
+    def test_case94(self):
+        print(str(TEST_FILES_SBOL2[94]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[94]))
+
+    def test_case95(self):
+        print(str(TEST_FILES_SBOL2[95]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[95]))
+
+    def test_case96(self):
+        print(str(TEST_FILES_SBOL2[96]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[96]))
+
+    def test_case97(self):
+        print(str(TEST_FILES_SBOL2[97]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[97]))
+
+    def test_case98(self):
+        print(str(TEST_FILES_SBOL2[98]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[98]))
+
+    def test_case99(self):
+        print(str(TEST_FILES_SBOL2[99]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[99]))
+
+    def test_case100(self):
+        print(str(TEST_FILES_SBOL2[100]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[100]))
+
+    def test_case101(self):
+        print(str(TEST_FILES_SBOL2[101]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[101]))
+
+    def test_case102(self):
+        print(str(TEST_FILES_SBOL2[102]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[102]))
+
+    def test_case103(self):
+        print(str(TEST_FILES_SBOL2[103]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[103]))
+
+    def test_case104(self):
+        print(str(TEST_FILES_SBOL2[104]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[104]))
+
+    def test_case105(self):
+        print(str(TEST_FILES_SBOL2[105]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[105]))
+
+    def test_case106(self):
+        print(str(TEST_FILES_SBOL2[106]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[106]))
+
+    def test_case107(self):
+        print(str(TEST_FILES_SBOL2[107]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[107]))
+
+    def test_case108(self):
+        print(str(TEST_FILES_SBOL2[108]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[108]))
+
+    def test_case109(self):
+        print(str(TEST_FILES_SBOL2[109]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[109]))
+
+    def test_case110(self):
+        print(str(TEST_FILES_SBOL2[110]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[110]))
+
+    def test_case111(self):
+        print(str(TEST_FILES_SBOL2[111]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[111]))
+
+    def test_case112(self):
+        print(str(TEST_FILES_SBOL2[112]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[112]))
+
+    def test_case113(self):
+        print(str(TEST_FILES_SBOL2[113]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[113]))
+
+    def test_case114(self):
+        print(str(TEST_FILES_SBOL2[114]))
+        self.run_round_trip(str(TEST_FILES_SBOL2[114]))
+        
     
 class TestRoundTripFailSBOL2(unittest.TestCase):
     def setUp(self):
@@ -375,27 +559,6 @@ class TestRoundTripFailSBOL2(unittest.TestCase):
     def test_case04(self):
         print(str(TEST_FILES_SBOL2[4]))
         self.run_round_trip_fail(str(TEST_FILES_SBOL2[4]))
-    
-    def test_case65(self):
-        print(str(TEST_FILES_SBOL2[65]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[65]))
-        
-    def test_case67(self):
-        print(str(TEST_FILES_SBOL2[67]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[67]))
-        
-    def test_case69(self):
-        print(str(TEST_FILES_SBOL2[69]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[69]))
-        
-    def test_case71(self):
-        print(str(TEST_FILES_SBOL2[71]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[71]))
-        
-    def test_case73(self):
-        print(str(TEST_FILES_SBOL2[73]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[73]))
-
         
 class TestComponentDefinitions(unittest.TestCase):
     
