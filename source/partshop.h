@@ -225,10 +225,17 @@ namespace sbol
         /// @return An integer count.
         int searchCount(SearchQuery& q);
         
-        /// Submit a Document to SynBioHub
+        /// Submit an SBOL Document to SynBioHub
         /// @param doc The Document to submit
+        /// @param collection The URI of an SBOL Collection to which the Document contents will be uploaded
         /// @param overwrite An integer code: 0(default) - do not overwrite, 1 - overwrite, 2 - merge
         std::string submit(Document& doc, std::string collection = "", int overwrite = 0);
+
+//        /// Submit a file, such as COMBINE archives or SBML to a SynBioHub Collection
+//        /// @param filename The file to submit
+//        /// @param collection The URI of an SBOL Collection to which the file will be submitted
+//        /// @param overwrite An integer code: 0(default) - do not overwrite, 1 - overwrite, 2 - merge
+//        std::string submit(std::string filename, std::string collection, int overwrite = 0);
         
         /// In order to submit to a PartShop, you must login first. Register on [SynBioHub](http://synbiohub.org) to obtain account credentials.
         /// @param email The email associated with the user's SynBioHub account

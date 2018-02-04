@@ -668,7 +668,7 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to submit Document failed with " + string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -680,6 +680,85 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
     return response;
 };
+
+//std::string sbol::PartShop::submit(std::string filename, std::string collection, int overwrite)
+//{
+//    if (filename != "" && filename[0] == '~') {
+//        if (filename[1] != '/'){
+//            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Malformed input path. Potentially missing slash.");
+//        }
+//        char const* home = getenv("HOME");
+//        if (home || (home = getenv("USERPROFILE"))) {
+//            filename.replace(0, 1, home);
+//        }
+//    }
+//    FILE* fh = fopen(filename.c_str(), "rb");
+//    if (!fh)
+//        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + filename + " not found");
+//
+//    /* Perform HTTP request */
+//    string response;
+//    CURL *curl;
+//    CURLcode res;
+//    
+//    /* In windows, this will init the winsock stuff */
+//    curl_global_init(CURL_GLOBAL_ALL);
+//    
+//    struct curl_slist *headers = NULL;
+//    headers = curl_slist_append(headers, "Accept: text/plain");
+//    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
+//    //    headers = curl_slist_append(headers, "charsets: utf-8");
+//    
+//    /* get a curl handle */
+//    curl = curl_easy_init();
+//    if(curl)
+//    {
+//        /* First set the URL that is about to receive our POST. This URL can
+//         just as well be a https:// URL if that is what should receive the
+//         data. */
+//        
+//        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+//        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/submit").c_str());
+//        if (Config::getOption("verbose") == "True")
+//            curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+//
+//        /* Now specify the POST data */
+//        struct curl_httppost* post = NULL;
+//        struct curl_httppost* last = NULL;
+//        
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "id", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "version", CURLFORM_COPYCONTENTS, "1", CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "name", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "description", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "citations", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);  // Comma separated list
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
+//        
+//        
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge", CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "user", CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_FILE, filename.c_str(), CURLFORM_END);  // Upload file
+//        if (collection != "")
+//            curl_formadd(&post, &last, CURLFORM_COPYNAME, "rootCollections", CURLFORM_COPYCONTENTS, collection.c_str());
+//        
+//        
+//        /* Set the form info */
+//        curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
+//        
+//        /* Now specify the callback to read the response into string */
+//        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+//        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+//        
+//        /* Perform the request, res will get the return code */
+//        res = curl_easy_perform(curl);
+//        /* Check for errors */
+//        if(res != CURLE_OK)
+//            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + string(curl_easy_strerror(res)));
+//        
+//        /* always cleanup */
+//        curl_easy_cleanup(curl);
+//    }
+//    return response;
+//};
 
 //template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri)
 //{
