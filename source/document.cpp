@@ -619,7 +619,6 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
             // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
             // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
             doc->SBOLObjects[new_obj.identity.get()] = &new_obj;
-//            std::cout << "Adding extension object " << new_obj.identity.get() << " : " << doc->SBOLObjects.count(subject) << std::endl;
             new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
         }
 	}
@@ -755,11 +754,11 @@ void Document::parse_annotation_objects()
             }
         }
     }
-    // Remove annotation objects from the top level Document store
-    for (auto &obj : annotation_objects)
-    {
-        SBOLObjects.erase(obj->identity.get());
-    }
+//    // Remove annotation objects from the top level Document store
+//    for (auto &obj : annotation_objects)
+//    {
+//        SBOLObjects.erase(obj->identity.get());
+//    }
 }
 
 void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
@@ -944,7 +943,6 @@ void Document::append(std::string filename)
 	//base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
     raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
     raptor_free_iostream(ios);
-
     // Read the triple store again. On the second pass through the triple store, property values are assigned to each SBOLObject's member properties by the parse_properties handler
 	rewind(fh);
 	ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
