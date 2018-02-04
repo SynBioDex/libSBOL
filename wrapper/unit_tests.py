@@ -403,49 +403,25 @@ class TestRoundTripSBOL2(unittest.TestCase):
         print(str(TEST_FILES_SBOL2[81]))
         self.run_round_trip(str(TEST_FILES_SBOL2[81]))
 
-    def test_case82(self):
-        print(str(TEST_FILES_SBOL2[82]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[82]))
-
     def test_case83(self):
         print(str(TEST_FILES_SBOL2[83]))
         self.run_round_trip(str(TEST_FILES_SBOL2[83]))
-
-    def test_case84(self):
-        print(str(TEST_FILES_SBOL2[84]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[84]))
 
     def test_case85(self):
         print(str(TEST_FILES_SBOL2[85]))
         self.run_round_trip(str(TEST_FILES_SBOL2[85]))
 
-    def test_case86(self):
-        print(str(TEST_FILES_SBOL2[86]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[86]))
-
     def test_case87(self):
         print(str(TEST_FILES_SBOL2[87]))
         self.run_round_trip(str(TEST_FILES_SBOL2[87]))
-
-    def test_case88(self):
-        print(str(TEST_FILES_SBOL2[88]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[88]))
 
     def test_case89(self):
         print(str(TEST_FILES_SBOL2[89]))
         self.run_round_trip(str(TEST_FILES_SBOL2[89]))
 
-    def test_case90(self):
-        print(str(TEST_FILES_SBOL2[90]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[90]))
-
     def test_case91(self):
         print(str(TEST_FILES_SBOL2[91]))
         self.run_round_trip(str(TEST_FILES_SBOL2[91]))
-
-    def test_case92(self):
-        print(str(TEST_FILES_SBOL2[92]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[92]))
 
     def test_case93(self):
         print(str(TEST_FILES_SBOL2[93]))
@@ -531,9 +507,6 @@ class TestRoundTripSBOL2(unittest.TestCase):
         print(str(TEST_FILES_SBOL2[113]))
         self.run_round_trip(str(TEST_FILES_SBOL2[113]))
 
-    def test_case114(self):
-        print(str(TEST_FILES_SBOL2[114]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[114]))
         
     
 class TestRoundTripFailSBOL2(unittest.TestCase):
@@ -559,6 +532,32 @@ class TestRoundTripFailSBOL2(unittest.TestCase):
     def test_case04(self):
         print(str(TEST_FILES_SBOL2[4]))
         self.run_round_trip_fail(str(TEST_FILES_SBOL2[4]))
+
+    def test_case82(self):
+        print(str(TEST_FILES_SBOL2[82]))
+        self.run_round_trip_fail(str(TEST_FILES_SBOL2[82]))
+        
+    def test_case84(self):
+        print(str(TEST_FILES_SBOL2[84]))
+        self.run_round_trip_fail(str(TEST_FILES_SBOL2[84]))
+        
+    def test_case86(self):
+        print(str(TEST_FILES_SBOL2[86]))
+        self.run_round_trip_fail(str(TEST_FILES_SBOL2[86]))
+        
+    def test_case88(self):
+        print(str(TEST_FILES_SBOL2[88]))
+        self.run_round_trip_fail(str(TEST_FILES_SBOL2[88]))
+
+    def test_case90(self):
+        print(str(TEST_FILES_SBOL2[90]))
+        self.run_round_trip_fail(str(TEST_FILES_SBOL2[90]))
+        
+    def test_case92(self):
+        print(str(TEST_FILES_SBOL2[92]))
+        self.run_round_trip_fail(str(TEST_FILES_SBOL2[92]))
+      
+        
         
 class TestComponentDefinitions(unittest.TestCase):
     
