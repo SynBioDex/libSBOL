@@ -525,21 +525,13 @@ class TestRoundTripFailSBOL2(unittest.TestCase):
         # Expected to fail
         self.assertRaises(AssertionError, lambda: self.assertEqual(self.doc.compare(self.doc2), 1))
         
-    def run_round_trip_runtime_fail(self, test_file):
-        split_path = os.path.splitext(test_file)
-        self.doc = Document()   # Document for read and write
-        self.doc.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + split_path[1]))
-        
-        # Expected to fail
-        self.assertRaises(RuntimeError, lambda: self.doc.write(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1])))
-        
     def test_case04(self):
         print(str(TEST_FILES_SBOL2[4]))
         self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[4]))
         
-    def test_case22(self):
-        print(str(TEST_FILES_SBOL2[22]))
-        self.run_round_trip_runtime_fail(str(TEST_FILES_SBOL2[22]))
+#    def test_case22(self):
+#        print(str(TEST_FILES_SBOL2[22]))
+#        self.run_round_trip_runtime_fail(str(TEST_FILES_SBOL2[22]))
 
     def test_case82(self):
         print(str(TEST_FILES_SBOL2[82]))
