@@ -514,7 +514,7 @@ class TestRoundTripFailSBOL2(unittest.TestCase):
         # Remove directory after the test
         shutil.rmtree(self.temp_out_dir)
 
-    def run_round_trip_fail(self, test_file):
+    def run_round_trip_assert_fail(self, test_file):
         split_path = os.path.splitext(test_file)
         self.doc = Document()   # Document for read and write
         self.doc.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + split_path[1]))
@@ -525,37 +525,48 @@ class TestRoundTripFailSBOL2(unittest.TestCase):
         # Expected to fail
         self.assertRaises(AssertionError, lambda: self.assertEqual(self.doc.compare(self.doc2), 1))
         
+    def run_round_trip_runtime_fail(self, test_file):
+        split_path = os.path.splitext(test_file)
+        self.doc = Document()   # Document for read and write
+        self.doc.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + split_path[1]))
+        self.doc.write(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1]))
+
+        self.doc2 = Document()  # Document to compare for equality
+        self.doc2.read(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1]))
+        # Expected to fail
+        self.assertRaises(RuntimeError, lambda: self.assertEqual(self.doc.compare(self.doc2), 1))        
+        
     def test_case04(self):
         print(str(TEST_FILES_SBOL2[4]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[4]))
+        self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[4]))
         
     def test_case22(self):
         print(str(TEST_FILES_SBOL2[22]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[22]))
+        self.run_round_trip_runtime_fail(str(TEST_FILES_SBOL2[22]))
 
     def test_case82(self):
         print(str(TEST_FILES_SBOL2[82]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[82]))
+        self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[82]))
         
     def test_case84(self):
         print(str(TEST_FILES_SBOL2[84]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[84]))
+        self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[84]))
         
     def test_case86(self):
         print(str(TEST_FILES_SBOL2[86]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[86]))
+        self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[86]))
         
     def test_case88(self):
         print(str(TEST_FILES_SBOL2[88]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[88]))
+        self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[88]))
 
     def test_case90(self):
         print(str(TEST_FILES_SBOL2[90]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[90]))
+        self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[90]))
         
     def test_case92(self):
         print(str(TEST_FILES_SBOL2[92]))
-        self.run_round_trip_fail(str(TEST_FILES_SBOL2[92]))
+        self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[92]))
       
         
         
