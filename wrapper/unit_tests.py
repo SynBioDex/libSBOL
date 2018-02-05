@@ -163,10 +163,6 @@ class TestRoundTripSBOL2(unittest.TestCase):
         print(str(TEST_FILES_SBOL2[21]))
         self.run_round_trip(str(TEST_FILES_SBOL2[21]))
 
-    def test_case22(self):
-        print(str(TEST_FILES_SBOL2[22]))
-        self.run_round_trip(str(TEST_FILES_SBOL2[22]))
-
     def test_case23(self):
         print(str(TEST_FILES_SBOL2[23]))
         self.run_round_trip(str(TEST_FILES_SBOL2[23]))
@@ -532,6 +528,10 @@ class TestRoundTripFailSBOL2(unittest.TestCase):
     def test_case04(self):
         print(str(TEST_FILES_SBOL2[4]))
         self.run_round_trip_fail(str(TEST_FILES_SBOL2[4]))
+        
+    def test_case22(self):
+        print(str(TEST_FILES_SBOL2[22]))
+        self.run_round_trip_fail(str(TEST_FILES_SBOL2[22]))
 
     def test_case82(self):
         print(str(TEST_FILES_SBOL2[82]))
