@@ -900,10 +900,23 @@ void Document::read(std::string filename)
         obj.close();
     }
     SBOLObjects.clear();
-    properties.clear();  // This may cause problems later because the Document object will lose all properties of an SBOLObject
-    properties[SBOL_IDENTITY].push_back("<>");  // Re-initialize the identity property. The SBOLObject::compare method needs to get the Document's identity
-    //list_properties.clear();
-    owned_objects.clear();
+//    properties.clear();  // This may cause problems later because the Document object will lose all properties of an SBOLObject
+//    properties[SBOL_IDENTITY].push_back("<>");  // Re-initialize the identity property. The SBOLObject::compare method needs to get the Document's identity
+//    owned_objects.clear();
+    for (auto & p : properties)
+    {
+        std::string reinitialized_property;
+        if (p.second.front()[0] == '<')
+            reinitialized_property = "<>";
+        else
+            reinitialized_property = "\"\"";
+        p.second.clear();
+        p.second.push_back(reinitialized_property);
+    }
+    for (auto & o : owned_objects)
+    {
+        o.second.clear();
+    }
     namespaces.clear();
     
     // Create new RDF graph
