@@ -529,12 +529,9 @@ class TestRoundTripFailSBOL2(unittest.TestCase):
         split_path = os.path.splitext(test_file)
         self.doc = Document()   # Document for read and write
         self.doc.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + split_path[1]))
-        self.doc.write(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1]))
-
-        self.doc2 = Document()  # Document to compare for equality
-        self.doc2.read(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1]))
+        
         # Expected to fail
-        self.assertRaises(RuntimeError, lambda: self.assertEqual(self.doc.compare(self.doc2), 1))        
+        self.assertRaises(RuntimeError, lambda: self.doc.write(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1])))
         
     def test_case04(self):
         print(str(TEST_FILES_SBOL2[4]))
