@@ -124,7 +124,7 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(PROVO_ACTIVITY, (SBOLObject&(*)()) &create<Activity>),
     make_pair(PROVO_AGENT, (SBOLObject&(*)()) &create<Agent> ),
     make_pair(PROVO_USAGE, (SBOLObject&(*)()) &create<Usage> ),
-    make_pair(SBOL_ATTACHMENTS, (SBOLObject&(*)()) &create<Attachment>),
+    make_pair(SBOL_ATTACHMENT, (SBOLObject&(*)()) &create<Attachment>),
     make_pair(SBOL_COMBINATORIAL_DERIVATION, (SBOLObject&(*)()) &create<CombinatorialDerivation> ),
     make_pair(SBOL_IMPLEMENTATION, (SBOLObject&(*)()) &create<Implementation> ),
     make_pair(SYSBIO_DESIGN, (SBOLObject&(*)()) &create<Design> ),
@@ -720,20 +720,20 @@ void Document::parse_annotation_objects()
     }
     for (auto &obj : annotation_objects)
     {
-//        // Check if this annotation object is a generic TopLevel
-//        if (obj->properties.find(SBOL_PERSISTENT_IDENTITY) != obj->properties.end())
-//        {
-//            // Copy to a new TopLevel object
-//            TopLevel* tl = new TopLevel();
-//            for (auto &i_p : obj->properties)
-//                tl->properties[i_p.first] = i_p.second;
-//            for (auto &i_p : obj->owned_objects)
-//                tl->owned_objects[i_p.first] = i_p.second;
-//            tl->doc = this;  //  Set's the objects back-pointer to the parent Document
-//            SBOLObjects[tl->identity.get()] = tl;
-//        }
+        // Check if this annotation object is a generic TopLevel
+        if (obj->properties.find(SBOL_PERSISTENT_IDENTITY) != obj->properties.end())
+        {
+            // Copy to a new TopLevel object
+            TopLevel* tl = new TopLevel(obj->type);
+            for (auto &i_p : obj->properties)
+                tl->properties[i_p.first] = i_p.second;
+            for (auto &i_p : obj->owned_objects)
+                tl->owned_objects[i_p.first] = i_p.second;
+            tl->doc = this;  //  Set's the objects back-pointer to the parent Document
+            SBOLObjects[tl->identity.get()] = tl;
+        }
 //        // Since this object is not generic TopLevel, it must be a nested annotation. Find the parent object that references it
-//        else
+        else
         {
             // Determine the RDF type of the member property that contains this kind of annotation object
             string ns = parseNamespace(obj->type);
@@ -741,27 +741,31 @@ void Document::parse_annotation_objects()
             string property_name = class_name;
             property_name[0] = tolower(property_name[0]);
             string property_uri = ns + property_name;
-            
+
             // Find all parent objects containing a reference to the annotation object
             vector<SBOLObject*> matches = find_reference(obj->identity.get());
-            for (auto &i_match : matches)
+            
+            // Does this reference belong to the appropriate member property?
+            matches.erase( std::remove_if (matches.begin(), matches.end(), [property_uri] (SBOLObject* o) {
+                    if (o->properties.find(property_uri) != o->properties.end())
+                        return true;
+                    else
+                        return false;
+                }), matches.end());
+
+            if (matches.size() > 1)
+                throw SBOLError(SBOL_ERROR_SERIALIZATION, "Invalid custom annotation object in SBOL document");
+            else if (matches.size() == 1)
             {
-                // Does this reference belong to the appropriate member property?
-                if (i_match->properties.find(property_uri) != i_match->properties.end())
-                {
-                    i_match->owned_objects[property_uri].push_back(obj);
-                    obj->parent = i_match;
-                    i_match->properties.erase(property_uri);
-                    SBOLObjects.erase(obj->identity.get());  // Remove nested object from TopLevel store
-                }
+                // Nested generic annotations
+                SBOLObject* match = matches.front();
+                match->owned_objects[property_uri].push_back(obj);
+                obj->parent = match;
+                match->properties.erase(property_uri);
+                SBOLObjects.erase(obj->identity.get());  // Remove nested object from TopLevel store
             }
         }
     }
-//    // Remove annotation objects from the top level Document store
-//    for (auto &obj : annotation_objects)
-//    {
-//        SBOLObjects.erase(obj->identity.get());
-//    }
 }
 
 void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
