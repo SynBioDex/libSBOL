@@ -709,6 +709,8 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 void Document::parse_annotation_objects()
 {
     // Check if there are any SBOLObjects remaining in the Document's object store which are not recognized as part of the core data model or an explicitly declared extension class
+    std::cout << "Parsing annotation objects" << std::endl;
+
     vector < SBOLObject* > annotation_objects = {};
     for (auto &i_obj : SBOLObjects)
     {
@@ -718,20 +720,20 @@ void Document::parse_annotation_objects()
     }
     for (auto &obj : annotation_objects)
     {
-        // Check if this annotation object is a generic TopLevel
-        if (obj->properties.find(SBOL_PERSISTENT_IDENTITY) != obj->properties.end())
-        {
-            // Copy to a new TopLevel object
-            TopLevel* tl = new TopLevel();
-            for (auto &i_p : obj->properties)
-                tl->properties[i_p.first] = i_p.second;
-            for (auto &i_p : obj->owned_objects)
-                tl->owned_objects[i_p.first] = i_p.second;
-            tl->doc = this;  //  Set's the objects back-pointer to the parent Document
-            SBOLObjects[tl->identity.get()] = tl;
-        }
-        // Since this object is not generic TopLevel, it must be a nested annotation. Find the parent object that references it
-        else
+//        // Check if this annotation object is a generic TopLevel
+//        if (obj->properties.find(SBOL_PERSISTENT_IDENTITY) != obj->properties.end())
+//        {
+//            // Copy to a new TopLevel object
+//            TopLevel* tl = new TopLevel();
+//            for (auto &i_p : obj->properties)
+//                tl->properties[i_p.first] = i_p.second;
+//            for (auto &i_p : obj->owned_objects)
+//                tl->owned_objects[i_p.first] = i_p.second;
+//            tl->doc = this;  //  Set's the objects back-pointer to the parent Document
+//            SBOLObjects[tl->identity.get()] = tl;
+//        }
+//        // Since this object is not generic TopLevel, it must be a nested annotation. Find the parent object that references it
+//        else
         {
             // Determine the RDF type of the member property that contains this kind of annotation object
             string ns = parseNamespace(obj->type);
@@ -739,7 +741,7 @@ void Document::parse_annotation_objects()
             string property_name = class_name;
             property_name[0] = tolower(property_name[0]);
             string property_uri = ns + property_name;
-                
+            
             // Find all parent objects containing a reference to the annotation object
             vector<SBOLObject*> matches = find_reference(obj->identity.get());
             for (auto &i_match : matches)
@@ -750,6 +752,7 @@ void Document::parse_annotation_objects()
                     i_match->owned_objects[property_uri].push_back(obj);
                     obj->parent = i_match;
                     i_match->properties.erase(property_uri);
+                    SBOLObjects.erase(obj->identity.get());  // Remove nested object from TopLevel store
                 }
             }
         }

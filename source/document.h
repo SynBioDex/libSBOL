@@ -756,7 +756,7 @@ namespace sbol {
                     // Add to Document and check for uniqueness of URI
                     if (this->sbol_owner->doc)
                     {
-                        if (sbol_obj.doc->find(sbol_obj.identity.get()))
+                        if (this->sbol_owner->doc->find(sbol_obj.identity.get()))
                             throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + sbol_obj.identity.get() + " is already in the Document");
                         sbol_obj.doc = this->sbol_owner->doc;
                     }
