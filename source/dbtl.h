@@ -328,6 +328,344 @@ namespace sbol
         /// References to Builds which were tested in an experiment
         ReferencedObject samples;
     };
+    
+//    class Repressor : public FunctionalComponent
+//    {
+//    public:
+//        Repressor(std::string uri = "example") :
+//            FunctionalComponent(uri)
+//        {
+//        }
+//    };
+//
+//    class TargetPromoter : public FunctionalComponent
+//    {
+//    public:
+//        TargetPromoter(std::string uri = "example") :
+//            FunctionalComponent(uri)
+//        {
+//        }
+//    };
+//
+//    class Activator : public FunctionalComponent
+//    {
+//    public:
+//        Activator(std::string uri = "example") :
+//            FunctionalComponent(uri)
+//        {
+//        }
+//    };
+//
+//    class Inducer : public FunctionalComponent
+//    {
+//    public:
+//        Inducer(std::string uri = "example") :
+//            FunctionalComponent(uri)
+//        {
+//        }
+//    };
+//    
+//    class Gene : public FunctionalComponent
+//    {
+//    public:
+//        Gene(std::string uri = "example") :
+//        FunctionalComponent(uri)
+//        {
+//        }
+//    };
+//
+//    class GeneProduct : public FunctionalComponent
+//    {
+//    public:
+//        GeneProduct(std::string uri = "example") :
+//        FunctionalComponent(uri)
+//        {
+//        }
+//    };
+    
+//    template<>
+//    FunctionalComponent& OwnedObject<Repressor>::get();
+//
+//    template<>
+//    FunctionalComponent& OwnedObject<TargetPromoter>::get();
+//
+//    template<>
+//    FunctionalComponent& OwnedObject<Activator>::get();
+//
+//    template<>
+//    FunctionalComponent& OwnedObject<Inducer>::get();
+//
+//    template<>
+//    FunctionalComponent& OwnedObject<Gene>::get();
+//
+//    template<>
+//    FunctionalComponent& OwnedObject<GeneProduct>::get();
+//    
+//    template<>
+//    void OwnedObject<Repressor>::set(ComponentDefinition& sbol_obj);
+//    
+//    template<>
+//    OwnedObject<TargetPromoter>::set();
+//    
+//    template<>
+//    OwnedObject<Activator>::set();
+//    
+//    template<>
+//    OwnedObject<Inducer>::set();
+//
+//    template<>
+//    OwnedObject<Gene>::set();
+//
+//    template<>
+//    OwnedObject<GeneProduct>::set();
+
+    
+    
+    template <class SBOLClass>
+    class AliasedProperty : public OwnedObject<SBOLClass>
+    {
+    public:
+        rdf_type alias;
+
+        AliasedProperty(void *property_owner, rdf_type sbol_uri, rdf_type alias_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+            OwnedObject<SBOLClass>(property_owner, sbol_uri, lower_bound, upper_bound, validation_rules),
+            alias(alias_uri)
+        {
+            this->sbol_owner->hidden_properties.push_back(alias_uri);
+        };
+        
+        ~AliasedProperty()
+        {
+            this->sbol_owner->owned_objects.erase(alias);
+        }
+
+        void set(SBOLClass& sbol_obj)
+        {
+            OwnedObject<SBOLClass>(this->sbol_owner, this->type, this->lowerBound, this->upperBound, this->validationRules).add(sbol_obj);
+            OwnedObject<SBOLClass>(this->sbol_owner, this->alias, this->lowerBound, this->upperBound, this->validationRules).set(sbol_obj);
+        };
+        
+        void add(SBOLClass& sbol_obj)
+        {
+            OwnedObject<SBOLClass>(this->sbol_owner, this->type, this->lowerBound, this->upperBound, this->validationRules).add(sbol_obj);
+            OwnedObject<SBOLClass>(this->sbol_owner, this->alias, this->lowerBound, this->upperBound, this->validationRules).add(sbol_obj);
+        };
+        
+        SBOLClass& get(std::string uri = "")
+        {
+            SBOLClass& obj = OwnedObject<SBOLClass>(this->sbol_owner, this->alias, this->lowerBound, this->upperBound, this->validationRules).get(uri);
+            return obj;
+        };
+
+        SBOLClass& create(std::string uri)
+        {
+            SBOLClass& obj = OwnedObject<SBOLClass>(this->sbol_owner, this->type, this->lowerBound, this->upperBound, this->validationRules).create(uri);
+            OwnedObject<SBOLClass>(this->sbol_owner, this->alias, this->lowerBound, this->upperBound, this->validationRules).add(obj);
+            return obj;
+        };
+        
+        SBOLClass& define(SBOLObject& definition_object)
+        {
+            SBOLClass& obj = OwnedObject<SBOLClass>(this->sbol_owner, this->type, this->lowerBound, this->upperBound, this->validationRules).define(definition_object);
+            OwnedObject<SBOLClass>(this->sbol_owner, this->alias, this->lowerBound, this->upperBound, this->validationRules).add(obj);
+            return obj;
+        };
+        
+        int size()
+        {
+            std::size_t size = this->sbol_owner->owned_objects[this->alias].size();
+            return (int)size;
+        }
+    };
+    
+//    class RepressorModule : public ModuleDefinition
+//    {
+//    public:
+//        RepressorModule(std::string uri, ComponentDefinition& repressor, ComponentDefinition& target_promoter, ComponentDefinition& target_cds, ComponentDefinition& product) :
+//            ModuleDefinition(uri),
+//            repressor(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#repressor", '0', '1', ValidationRules({})),
+//            targetPromoter(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#targetPromoter", '0', '1', ValidationRules({}))
+//            targetCDS(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#targetPromoter", '0', '1', ValidationRules({}))
+//            product(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#targetPromoter", '0', '1', ValidationRules({}))
+//
+//        {
+//            FunctionalComponent& repressor_fc = this->repressor.define(repressor);
+//            FunctionalComponent& target_promoter_fc = this->targetPromoter.define(target_promoter);
+//            FunctionalComponent& target_cds_fc = this->targetCDS.define(target_cds);
+//            FunctionalComponent& product_fc = this->product.define(product);
+//
+//            Interaction& repression = this->moduleDefinitions.create(uri + "_repression");
+//            Participation& repressor_participation = repression.participations.create("repressor");
+//            Participation& target_promoter_participation = repression.participations.create("target_promoter");
+//            repression.types.set(SBO_INHIBITION);
+//            repressor_participation.roles.set(SBO_INHIBITOR);
+//            target_promoter_participation.roles.set(SBO_PROMOTER);
+//
+//            Interaction& gene_production = this->moduleDefinitions.create(uri + "_gene_production");
+//            Participation& target_cds_participation = gene_production.participations.create("target_cds");
+//            Participation& product_participation = gene_production.participations.create("product");
+//            gene_production.types.set(SBO_GENE_PRODUCTION);
+//            
+//            
+//            target_cds_participation.participant.set(input);
+//            target_promoter_participation.participant.set(mediator);
+//            
+//            
+//            input_participation.roles.set();
+//            mediator_participation.roles.set();
+//        }
+//        AliasedProperty<FunctionalComponent> repressor;
+//        AliasedProperty<FunctionalComponent> targetPromoter;
+//        
+//    };
+    
+    class TranscriptionalRepressionInteraction : public Interaction
+    {
+    public:
+        TranscriptionalRepressionInteraction(std::string uri, ComponentDefinition& repressor, ComponentDefinition& target_promoter) :
+            Interaction(uri),
+            repressor(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#repressor", '0', '1', ValidationRules({})),
+            targetPromoter(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#targetPromoter", '0', '1', ValidationRules({}))
+        {
+            if (!repressor.types.find(BIOPAX_PROTEIN))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid repressor specified for TranscriptionalRepressionInteraction. The repressor must have type BIOPAX_PROTEIN");
+            if (!target_promoter.types.find(BIOPAX_DNA))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid target promoter specified for TranscriptionalRepressionInteraction. The promoter must have type BIOPAX_DNA");
+
+            this->types.set(SBO_INHIBITION);
+            FunctionalComponent& repressor_fc = this->repressor.define(repressor);
+            FunctionalComponent& promoter_fc = this->targetPromoter.define(target_promoter);
+
+            Participation& repressor_participation = this->participations.create(uri + "_repressor");
+            repressor_participation.roles.set(SBO_INHIBITOR);
+            repressor_participation.participant.set(repressor_fc);
+
+            Participation& promoter_participation = this->participations.create(uri + "_promoter");
+            promoter_participation.roles.set(SBO_PROMOTER);
+            promoter_participation.participant.set(promoter_fc);
+        }
+        AliasedProperty<FunctionalComponent> repressor;
+        AliasedProperty<FunctionalComponent> targetPromoter;
+    };
+
+    class SmallMoleculeInhibitionInteraction : public Interaction
+    {
+    public:
+        SmallMoleculeInhibitionInteraction(std::string uri, ComponentDefinition& ligand, ComponentDefinition& transcription_factor) :
+            Interaction(uri),
+            ligand(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#ligand", '0', '1', ValidationRules({})),
+            transcriptionFactor(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#transcriptionFactor", '0', '1', ValidationRules({}))
+        {
+            if (!ligand.types.find(BIOPAX_SMALL_MOLECULE))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid small molecule ligand specified for SmallMoleculeInhibitionInteraction. The repressor must have type BIOPAX_SMALL_MOLECULE");
+            if (!transcription_factor.types.find(BIOPAX_PROTEIN))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid transcription factor specified for SmallMoleculeInhibitionInteraction. The transcription factor must have type BIOPAX_PROTEIN");
+
+            this->types.set(SBO_INHIBITION);
+    
+            FunctionalComponent& ligand_fc = this->ligand.define(ligand);
+            FunctionalComponent& transcription_factor_fc = this->transcriptionFactor.define(transcription_factor);
+            
+            Participation& ligand_participation = this->participations.create(uri + "_ligand");
+            ligand_participation.roles.set(SBO_INHIBITOR);
+            ligand_participation.participant.set(ligand_fc);
+            
+            Participation& transcription_factor_participation = this->participations.create(uri + "_transcription_factor");
+            transcription_factor_participation.roles.set(SBO_INHIBITED);
+            transcription_factor_participation.participant.set(transcription_factor_fc);
+        }
+        AliasedProperty<FunctionalComponent> ligand;
+        AliasedProperty<FunctionalComponent> transcriptionFactor;
+    };
+    
+    class GeneProductionInteraction : public Interaction
+    {
+    public:
+        GeneProductionInteraction(std::string uri, ComponentDefinition& gene, ComponentDefinition& product) :
+            Interaction(uri),
+            gene(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#gene", '0', '1', ValidationRules({})),
+            product(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#product", '0', '1', ValidationRules({}))
+        {
+            if (!gene.types.find(BIOPAX_DNA))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid coding sequence specified for GeneProductionInteraction. The coding sequence must have type BIOPAX_DNA");
+            if (!(product.types.find(BIOPAX_PROTEIN) || product.types.find(BIOPAX_RNA)))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid gene product specified for GeneProductionInteraction. The product be of type BIOPAX_PROTEIN or BIOPAX_RNA");
+            
+            this->types.set(SBO_GENETIC_PRODUCTION);
+            
+            FunctionalComponent& gene_fc = this->gene.define(gene);
+            FunctionalComponent& product_fc = this->product.define(product);
+            
+            Participation& gene_participation = this->participations.create(uri + "_gene");
+            gene_participation.roles.set(SBO "0000645");
+            gene_participation.participant.set(gene_fc);
+            
+            Participation& product_participation = this->participations.create(uri + "_product");
+            product_participation.roles.set(SBO_PRODUCT);
+            product_participation.participant.set(product_fc);
+        }
+        AliasedProperty<FunctionalComponent> gene;
+        AliasedProperty<FunctionalComponent> product;
+    };
+    
+    class TranscriptionalActivationInteraction : public Interaction
+    {
+    public:
+        TranscriptionalActivationInteraction(std::string uri, ComponentDefinition& activator, ComponentDefinition& target_promoter) :
+            Interaction(uri),
+            activator(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#activator", '0', '1', ValidationRules({})),
+            targetPromoter(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#targetPromoter", '0', '1', ValidationRules({}))
+        {
+            if (!activator.types.find(BIOPAX_PROTEIN))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid repressor specified for TranscriptionalRepressionInteraction. The repressor must have type BIOPAX_PROTEIN");
+            if (!target_promoter.types.find(BIOPAX_DNA))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid target promoter specified for TranscriptionalRepressionInteraction. The promoter must have type BIOPAX_DNA");
+
+            this->types.set(SBO_STIMULATION);
+            FunctionalComponent& activator_fc = this->activator.define(activator);
+            FunctionalComponent& promoter_fc = this->targetPromoter.define(target_promoter);
+
+            Participation& activator_participation = this->participations.create(uri + "_activator");
+            activator_participation.roles.set(SBO_STIMULATOR);
+            activator_participation.participant.set(activator_fc);
+
+            Participation& promoter_participation = this->participations.create(uri + "_promoter");
+            promoter_participation.roles.set(SBO_PROMOTER);
+            promoter_participation.participant.set(promoter_fc);
+        }
+        AliasedProperty<FunctionalComponent> activator;
+        AliasedProperty<FunctionalComponent> targetPromoter;
+    };
+
+    class SmallMoleculeActivationInteraction : public Interaction
+    {
+    public:
+        SmallMoleculeActivationInteraction(std::string uri, ComponentDefinition& ligand, ComponentDefinition& transcription_factor) :
+            Interaction(uri),
+            ligand(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#ligand", '0', '1', ValidationRules({})),
+            transcriptionFactor(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#transcriptionFactor", '0', '1', ValidationRules({}))
+        {
+            if (!ligand.types.find(BIOPAX_SMALL_MOLECULE))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid small molecule ligand specified for SmallMoleculeInhibitionInteraction. The repressor must have type BIOPAX_SMALL_MOLECULE");
+            if (!transcription_factor.types.find(BIOPAX_PROTEIN))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid transcription factor specified for SmallMoleculeInhibitionInteraction. The transcription factor must have type BIOPAX_PROTEIN");
+
+            this->types.set(SBO_STIMULATION);
+    
+            FunctionalComponent& ligand_fc = this->ligand.define(ligand);
+            FunctionalComponent& transcription_factor_fc = this->transcriptionFactor.define(transcription_factor);
+            
+            Participation& ligand_participation = this->participations.create(uri + "_ligand");
+            ligand_participation.roles.set(SBO_STIMULATOR);
+            ligand_participation.participant.set(ligand_fc);
+            
+            Participation& transcription_factor_participation = this->participations.create(uri + "_transcription_factor");
+            transcription_factor_participation.roles.set(SBO_STIMULATED);
+            transcription_factor_participation.participant.set(transcription_factor_fc);
+        }
+        AliasedProperty<FunctionalComponent> ligand;
+        AliasedProperty<FunctionalComponent> transcriptionFactor;
+    };
 };
 
 
