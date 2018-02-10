@@ -606,6 +606,71 @@ typedef std::string sbol::sbol_type;
     }
 }
     
+// Dynamically type Interactions
+%extend sbol::OwnedObject<sbol::Interaction >
+{
+    PyObject* __getitem__(const std::string uri)
+    {
+        Interaction* obj = &($self->operator[](uri));
+        PyObject* py_obj;
+        if (dynamic_cast<TranscriptionalRepressionInteraction*>(obj))
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(obj), $descriptor(sbol::TranscriptionalRepressionInteraction*), 0 |  0 );
+        else if (dynamic_cast<SmallMoleculeInhibitionInteraction*>(obj))
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(obj), $descriptor(sbol::SmallMoleculeInhibitionInteraction*), 0 |  0 );
+        else if (dynamic_cast<GeneProductionInteraction*>(obj))
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(obj), $descriptor(sbol::GeneProductionInteraction*), 0 |  0 );
+        else if (dynamic_cast<TranscriptionalActivationInteraction*>(obj))
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(obj), $descriptor(sbol::TranscriptionalActivationInteraction*), 0 |  0 );
+        else if (dynamic_cast<SmallMoleculeActivationInteraction*>(obj))
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(obj), $descriptor(sbol::SmallMoleculeActivationInteraction*), 0 |  0 );
+        else
+            py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(obj), $descriptor(sbol::Interaction*), 0 |  0 );
+        return py_obj;
+    }
+
+    void __setitem__(const std::string uri, PyObject* py_obj)
+    {
+        TranscriptionalRepressionInteraction* transcriptionalrepressioninteraction;
+        SmallMoleculeInhibitionInteraction* smallmoleculeinhibitioninteraction;
+        GeneProductionInteraction* geneproductioninteraction;
+        TranscriptionalActivationInteraction* transcriptionalactivationinteraction;
+        SmallMoleculeActivationInteraction* smallmoleculeactivationinteraction;
+        Interaction* interaction;
+        if ((SWIG_ConvertPtr(py_obj,(void **) &transcriptionalrepressioninteraction, $descriptor(sbol::TranscriptionalRepressionInteraction *),1)) != -1)
+        {
+            $self->add((Interaction&)*transcriptionalrepressioninteraction);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &smallmoleculeinhibitioninteraction, $descriptor(sbol::SmallMoleculeInhibitionInteraction *),1)) != -1)
+        {
+            $self->add((Interaction&)*smallmoleculeinhibitioninteraction);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &geneproductioninteraction, $descriptor(sbol::GeneProductionInteraction *),1)) != -1)
+        {
+            $self->add((Interaction&)*geneproductioninteraction);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &transcriptionalactivationinteraction, $descriptor(sbol::TranscriptionalActivationInteraction *),1)) != -1)
+        {
+            $self->add((Interaction&)*transcriptionalactivationinteraction);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &smallmoleculeactivationinteraction, $descriptor(sbol::SmallMoleculeActivationInteraction *),1)) != -1)
+        {
+            $self->add((Interaction&)*smallmoleculeactivationinteraction);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+        }
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &interaction, $descriptor(sbol::Interaction *),1)) != -1)
+        {
+            $self->add((Interaction&)*interaction);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+        }
+        else
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
+        return;
+    }
+}
     
 // Templates used by subclasses of Location: Range, Cut, and Generic Location
 TEMPLATE_MACRO_0(Range);
@@ -707,6 +772,11 @@ TEMPLATE_MACRO_3(Test)
 TEMPLATE_MACRO_3(Analysis)
 TEMPLATE_MACRO_3(SearchQuery);
 TEMPLATE_MACRO_3(SampleRoster);
+TEMPLATE_MACRO_3(TranscriptionalRepressionInteraction);
+TEMPLATE_MACRO_3(SmallMoleculeInhibitionInteraction);
+TEMPLATE_MACRO_3(GeneProductionInteraction);
+TEMPLATE_MACRO_3(TranscriptionalActivationInteraction);
+TEMPLATE_MACRO_3(SmallMoleculeActivationInteraction);
 TEMPLATE_MACRO_3(Document);
     
 // Template functions used by PartShop

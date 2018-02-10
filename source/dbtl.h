@@ -523,7 +523,7 @@ namespace sbol
     {
     public:
         TranscriptionalRepressionInteraction(std::string uri, ComponentDefinition& repressor, ComponentDefinition& target_promoter) :
-            Interaction(uri),
+            Interaction(SBOL_INTERACTION, uri, SBO_INHIBITION),
             repressor(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#repressor", '0', '1', ValidationRules({})),
             targetPromoter(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#targetPromoter", '0', '1', ValidationRules({}))
         {
@@ -532,7 +532,6 @@ namespace sbol
             if (!target_promoter.types.find(BIOPAX_DNA))
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid target promoter specified for TranscriptionalRepressionInteraction. The promoter must have type BIOPAX_DNA");
 
-            this->types.set(SBO_INHIBITION);
             FunctionalComponent& repressor_fc = this->repressor.define(repressor);
             FunctionalComponent& promoter_fc = this->targetPromoter.define(target_promoter);
 
@@ -552,7 +551,7 @@ namespace sbol
     {
     public:
         SmallMoleculeInhibitionInteraction(std::string uri, ComponentDefinition& ligand, ComponentDefinition& transcription_factor) :
-            Interaction(uri),
+            Interaction(SBOL_INTERACTION, uri, SBO_INHIBITION),
             ligand(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#ligand", '0', '1', ValidationRules({})),
             transcriptionFactor(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#transcriptionFactor", '0', '1', ValidationRules({}))
         {
@@ -560,9 +559,7 @@ namespace sbol
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid small molecule ligand specified for SmallMoleculeInhibitionInteraction. The repressor must have type BIOPAX_SMALL_MOLECULE");
             if (!transcription_factor.types.find(BIOPAX_PROTEIN))
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid transcription factor specified for SmallMoleculeInhibitionInteraction. The transcription factor must have type BIOPAX_PROTEIN");
-
-            this->types.set(SBO_INHIBITION);
-    
+            
             FunctionalComponent& ligand_fc = this->ligand.define(ligand);
             FunctionalComponent& transcription_factor_fc = this->transcriptionFactor.define(transcription_factor);
             
@@ -582,7 +579,7 @@ namespace sbol
     {
     public:
         GeneProductionInteraction(std::string uri, ComponentDefinition& gene, ComponentDefinition& product) :
-            Interaction(uri),
+            Interaction(SBOL_INTERACTION, uri, SBO_GENETIC_PRODUCTION),
             gene(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#gene", '0', '1', ValidationRules({})),
             product(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#product", '0', '1', ValidationRules({}))
         {
@@ -590,8 +587,6 @@ namespace sbol
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid coding sequence specified for GeneProductionInteraction. The coding sequence must have type BIOPAX_DNA");
             if (!(product.types.find(BIOPAX_PROTEIN) || product.types.find(BIOPAX_RNA)))
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid gene product specified for GeneProductionInteraction. The product be of type BIOPAX_PROTEIN or BIOPAX_RNA");
-            
-            this->types.set(SBO_GENETIC_PRODUCTION);
             
             FunctionalComponent& gene_fc = this->gene.define(gene);
             FunctionalComponent& product_fc = this->product.define(product);
@@ -612,7 +607,7 @@ namespace sbol
     {
     public:
         TranscriptionalActivationInteraction(std::string uri, ComponentDefinition& activator, ComponentDefinition& target_promoter) :
-            Interaction(uri),
+            Interaction(SBOL_INTERACTION, uri, SBO_STIMULATION),
             activator(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#activator", '0', '1', ValidationRules({})),
             targetPromoter(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#targetPromoter", '0', '1', ValidationRules({}))
         {
@@ -621,7 +616,6 @@ namespace sbol
             if (!target_promoter.types.find(BIOPAX_DNA))
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid target promoter specified for TranscriptionalRepressionInteraction. The promoter must have type BIOPAX_DNA");
 
-            this->types.set(SBO_STIMULATION);
             FunctionalComponent& activator_fc = this->activator.define(activator);
             FunctionalComponent& promoter_fc = this->targetPromoter.define(target_promoter);
 
@@ -641,7 +635,7 @@ namespace sbol
     {
     public:
         SmallMoleculeActivationInteraction(std::string uri, ComponentDefinition& ligand, ComponentDefinition& transcription_factor) :
-            Interaction(uri),
+            Interaction(SBOL_INTERACTION, uri, SBO_STIMULATION),
             ligand(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#ligand", '0', '1', ValidationRules({})),
             transcriptionFactor(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#transcriptionFactor", '0', '1', ValidationRules({}))
         {
@@ -649,8 +643,6 @@ namespace sbol
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid small molecule ligand specified for SmallMoleculeInhibitionInteraction. The repressor must have type BIOPAX_SMALL_MOLECULE");
             if (!transcription_factor.types.find(BIOPAX_PROTEIN))
                 throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid transcription factor specified for SmallMoleculeInhibitionInteraction. The transcription factor must have type BIOPAX_PROTEIN");
-
-            this->types.set(SBO_STIMULATION);
     
             FunctionalComponent& ligand_fc = this->ligand.define(ligand);
             FunctionalComponent& transcription_factor_fc = this->transcriptionFactor.define(transcription_factor);
