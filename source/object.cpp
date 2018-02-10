@@ -318,6 +318,9 @@ SBOLObject* SBOLObject::find(string uri)
         return this;
     for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
     {
+        // Skip hidden properties
+        if (std::find(hidden_properties.begin(), hidden_properties.end(), i_store->first) != hidden_properties.end())
+            continue;
         vector<SBOLObject*>& store = i_store->second;
         for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
         {
@@ -374,6 +377,9 @@ vector<SBOLObject*> SBOLObject::find_property_value(string uri, string value, ve
 {
     for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
     {
+        // Skip hidden and aliased properties
+        if (std::find(hidden_properties.begin(), hidden_properties.end(), i_store->first) != hidden_properties.end())
+            continue;
         vector<SBOLObject*>& store = i_store->second;
         for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
         {
@@ -382,13 +388,18 @@ vector<SBOLObject*> SBOLObject::find_property_value(string uri, string value, ve
             matches.insert(matches.end(), more_matches.begin(), more_matches.end());
         }
     }
-    for (auto &i_p : properties)
+    if (properties.find(uri) == properties.end())
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot find property value. " + uri + " is not a valid property type.");
+    std::vector<std::string> value_store = properties[uri];
+    for (auto & val : value_store)
     {
-        string val = i_p.second.front();
         if (val.compare("\"" + value + "\"") == 0)
         {
             matches.push_back(this);
-            break;
+        }
+        if (val.compare("<" + value + ">") == 0)
+        {
+            matches.push_back(this);
         }
     }
     return matches;

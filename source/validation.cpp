@@ -429,12 +429,6 @@ void sbol::libsbol_rule_18(void *sbol_obj, void *arg)
     if (interaction.parent)
     {
         ModuleDefinition& parent_mdef = *(ModuleDefinition*)interaction.parent;
-//        std::vector<SBOLObject*> fc_store = parent_mdef->owned_objects[SBOL_FUNCTIONAL_COMPONENTS];
-//        if (std::find_if(fc_store.begin(), fc_store.end(), [&fc](SBOLObject* comparand)
-//            {
-//                FunctionalComponent& fc_comparand = *(FunctionalComponent*)comparand;
-//                return (fc.identity.get() == fc_comparand.identity.get() || fc.displayId.get() == fc_comparand.displayId.get();
-//            } ) == fc_store.end())
         for (auto & fc_comparand : parent_mdef.functionalComponents)
             if (fc.identity.get() == fc_comparand.identity.get() || fc.displayId.get() == fc_comparand.displayId.get())
                 return;
