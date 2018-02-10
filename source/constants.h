@@ -181,11 +181,14 @@
 #define SBO_DEGRADATION SBO "0000179"                    ///< An SBO term and possible value for an Interaction::type property
 #define SBO_CONTROL SBO "0000168"                        ///< An SBO term and possible value for an Interaction::type property
 #define SBO_BIOCHEMICAL_REACTION SBO "0000176"           ///< An SBO term and possible value for an Interaction::type property
+#define SBO_STIMULATED SBO "0000643"           ///< An SBO term and possible value for an Interaction::type property
+
 
 /* Participant.roles */
 #define SBO_PROMOTER SBO "0000598"              ///< An SBO term and possible value for an Participant::role property
 #define SBO_GENE SBO "0000243"                  ///< An SBO term and possible value for an Participant::role property
 #define SBO_INHIBITOR SBO "0000020"            ///< An SBO term and possible value for an Participant::role property
+#define SBO_INHIBITED SBO "0000642"            ///< An SBO term and possible value for an Participant::role property
 #define SBO_STIMULATOR SBO "0000459"           ///< An SBO term and possible value for an Participant::role property
 #define SBO_REACTANT SBO "0000010"             ///< An SBO term and possible value for an Participant::role property
 #define SBO_PRODUCT SBO "0000011"              ///< An SBO term and possible value for an Participant::role property
