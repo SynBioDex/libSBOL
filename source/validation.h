@@ -81,6 +81,12 @@ namespace sbol
 
     SBOL_DECLSPEC void libsbol_rule_16(void *sbol_obj, void *arg);
 
+    // Keep functionalComponents property of Interaction class synced with functionalComponents property of ModuleDefinition
+    SBOL_DECLSPEC void libsbol_rule_17(void *sbol_obj, void *arg);
+
+    // Keep functionalComponents property of Interaction class synced with functionalComponents property of ModuleDefinition
+    SBOL_DECLSPEC void libsbol_rule_18(void *sbol_obj, void *arg);
+
     bool is_alphanumeric_or_underscore(char c);
     
     bool is_not_alphanumeric_or_underscore(char c);

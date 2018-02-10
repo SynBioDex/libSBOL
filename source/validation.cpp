@@ -413,3 +413,32 @@ void sbol::libsbol_rule_16(void *sbol_obj, void *arg)
     for (auto sample_id : roster.samples)
         libsbol_rule_15(sbol_obj, &roster);
 };
+
+void sbol::libsbol_rule_17(void *sbol_obj, void *arg)
+{
+    ModuleDefinition& mdef = *(ModuleDefinition*)sbol_obj;
+    Interaction& interaction = *(Interaction*)arg;
+    for (auto & fc : interaction.functionalComponents)
+        libsbol_rule_18(arg, &fc);
+};
+
+void sbol::libsbol_rule_18(void *sbol_obj, void *arg)
+{
+    Interaction& interaction = *(Interaction*)sbol_obj;
+    FunctionalComponent& fc = *(FunctionalComponent*)arg;
+    if (interaction.parent)
+    {
+        ModuleDefinition& parent_mdef = *(ModuleDefinition*)interaction.parent;
+//        std::vector<SBOLObject*> fc_store = parent_mdef->owned_objects[SBOL_FUNCTIONAL_COMPONENTS];
+//        if (std::find_if(fc_store.begin(), fc_store.end(), [&fc](SBOLObject* comparand)
+//            {
+//                FunctionalComponent& fc_comparand = *(FunctionalComponent*)comparand;
+//                return (fc.identity.get() == fc_comparand.identity.get() || fc.displayId.get() == fc_comparand.displayId.get();
+//            } ) == fc_store.end())
+        for (auto & fc_comparand : parent_mdef.functionalComponents)
+            if (fc.identity.get() == fc_comparand.identity.get() || fc.displayId.get() == fc_comparand.displayId.get())
+                return;
+        parent_mdef.functionalComponents.add(fc);
+        fc.update_uri();
+    }
+};

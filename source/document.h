@@ -507,6 +507,23 @@ namespace sbol {
 
     template<>
     Test& OwnedObject<Test>::create(std::string uri);  // Definition of specialized template in dbtl.cpp
+
+    template <class SBOLClass>
+    SBOLClass& OwnedObject<SBOLClass>::define(SBOLObject& definition_object)
+    {
+        Identified& def = (Identified&)definition_object;
+        std::string new_obj_id;
+        if (Config::getOption("sbol_compliant_uris") == "True")
+            new_obj_id = def.displayId.get();
+        else
+            new_obj_id = def.identity.get();
+        SBOLClass& new_obj = this->create(new_obj_id);
+        if (new_obj.properties.find(SBOL_DEFINITION) == new_obj.properties.end())
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid call to define method. New " + parseClassName(new_obj.type) + " objects do not reference a Definition object.");
+        new_obj.properties[SBOL_DEFINITION][0] = "<" + definition_object.identity.get() + ">";
+        return new_obj;
+    };
+
     
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::create(std::string uri)
@@ -517,7 +534,7 @@ namespace sbol {
         Document* parent_doc;
         TopLevel* CHECK_TOP_LEVEL = dynamic_cast<TopLevel*>(child_obj);
         parent_doc = this->sbol_owner->doc;
-
+        
         if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
         {
             // Form compliant URI for child object
@@ -700,11 +717,18 @@ namespace sbol {
             Document& doc = (Document &)*this->sbol_owner->doc;
             doc.add<SBOLClass>(sbol_obj);
         }
-        sbol_obj.parent = this->sbol_owner;
+        
+        // Add to parent object
         if (!this->sbol_owner->owned_objects[this->type].size())
             this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
         else
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "This property is already set. Call remove before attempting to set.");
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "This property is already set. Call remove before attempting to overwrite the value.");
+        sbol_obj.parent = this->sbol_owner;  // Set back-pointer to parent object
+        
+        // Update URI for the argument object and all its children, if SBOL-compliance is enabled.
+        sbol_obj.update_uri();
+        
+        // Run validation rules
         this->validate(&sbol_obj);
     };
 
@@ -713,11 +737,6 @@ namespace sbol {
     {
         if (this->sbol_owner)
         {
-//            if (this->sbol_owner->type.compare(SBOL_DOCUMENT) == 0)
-//            {
-//                Document& doc = (Document &)*this->sbol_owner;
-//                doc.add<SBOLClass>(sbol_obj);
-//            }
             TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
             if (check_top_level && this->sbol_owner->doc)
             {
@@ -729,41 +748,22 @@ namespace sbol {
                 std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
                 if (std::find(object_store.begin(), object_store.end(), &sbol_obj) != object_store.end())
                     throw SBOLError(DUPLICATE_URI_ERROR, "The object " + sbol_obj.identity.get() + " is already contained by the " + this->type + " property");
-                else
-                {
-                    if (Config::getOption("sbol_compliant_uris") == "True" && !dynamic_cast<TopLevel*>(&sbol_obj))
-                    {
-                        // Form compliant URI for child object
-                        std::string obj_id;
-                        std::string persistent_id;
-                        std::string version;
-                        persistent_id = this->sbol_owner->properties[SBOL_PERSISTENT_IDENTITY].front();
-                        persistent_id = persistent_id.substr(1, persistent_id.length() - 2);  // Removes flanking < and > from the uri
-                        persistent_id =  persistent_id + "/" + sbol_obj.displayId.get();
-                        if (this->sbol_owner->properties[SBOL_VERSION].size())
-                        {
-                            version = this->sbol_owner->properties[SBOL_VERSION].front();
-                            version = version.substr(1, version.length() - 2);  // Removes flanking " from the literal
-                        }
-                        else
-                            version = VERSION_STRING;
-                        obj_id = persistent_id + "/" + version;
 
-                        // Reset SBOLCompliant properties
-                        sbol_obj.identity.set(obj_id);
-                        sbol_obj.persistentIdentity.set(persistent_id);
-                    }
-                    // Add to Document and check for uniqueness of URI
-                    if (this->sbol_owner->doc)
-                    {
-                        if (this->sbol_owner->doc->find(sbol_obj.identity.get()))
-                            throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + sbol_obj.identity.get() + " is already in the Document");
-                        sbol_obj.doc = this->sbol_owner->doc;
-                    }
-                    // Add to parent object
-                    sbol_obj.parent = this->sbol_owner;  // Set back-pointer to parent object
-                    object_store.push_back((SBOLObject *)&sbol_obj);
+                // Add to Document and check for uniqueness of URI
+                if (this->sbol_owner->doc)
+                {
+                    sbol_obj.doc = this->sbol_owner->doc;
                 }
+                
+                // Add to parent object
+                object_store.push_back((SBOLObject *)&sbol_obj);
+                sbol_obj.parent = this->sbol_owner;  // Set back-pointer to parent object
+                
+                // Update URI for the argument object and all its children, if SBOL-compliance is enabled.
+                sbol_obj.update_uri();
+                
+                // Run validation rules
+                this->validate(&sbol_obj);
             }
         }
     };

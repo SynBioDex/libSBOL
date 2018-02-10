@@ -675,7 +675,9 @@ TEMPLATE_MACRO_2(Build);
 TEMPLATE_MACRO_2(Test);
 TEMPLATE_MACRO_2(Analysis);
 TEMPLATE_MACRO_2(SampleRoster);
-
+    
+TEMPLATE_MACRO_3(SBOLObject)
+TEMPLATE_MACRO_3(Identified)
 TEMPLATE_MACRO_3(ComponentDefinition)
 TEMPLATE_MACRO_3(SequenceAnnotation)
 TEMPLATE_MACRO_3(SequenceConstraint)
@@ -684,10 +686,10 @@ TEMPLATE_MACRO_3(Range)
 TEMPLATE_MACRO_3(Cut)
 TEMPLATE_MACRO_3(ModuleDefinition)
 TEMPLATE_MACRO_3(Module)
+TEMPLATE_MACRO_3(FunctionalComponent)
 TEMPLATE_MACRO_3(Interaction)
 TEMPLATE_MACRO_3(Participation)
 TEMPLATE_MACRO_3(Component)
-TEMPLATE_MACRO_3(FunctionalComponent)
 TEMPLATE_MACRO_3(MapsTo)
 TEMPLATE_MACRO_3(Model)
 TEMPLATE_MACRO_3(Sequence)
@@ -715,6 +717,10 @@ TEMPLATE_MACRO_3(Document);
 //%template(pullDocument) sbol::PartShop::pull < Document >;
 %template(countComponentDefinition) sbol::PartShop::count < ComponentDefinition >;
 %template(countCollection) sbol::PartShop::count < Collection >;
+
+// Used to create alias properties for FunctionalComponents used in the design-build-test-learn module
+%template(AliasedProperty) sbol::AliasedProperty<sbol::FunctionalComponent >;
+
     
 %include "assembly.h"
     

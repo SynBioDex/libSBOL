@@ -1256,8 +1256,12 @@ std::string Document::write(std::string filename)
 	raptor_free_iostream(ios);
     raptor_free_uri(base_uri);
 
-	// Validate SBOL
-	std::string response = validate();
+	// Validate SBOL using online validator
+    std::string response;
+    if (Config::getOption("validate") == "True")
+        response = validate();
+    else
+        response = "Validation disabled. To enable use of the online validation tool, use Config::setOption(\"validate\", true)";
 
 	fclose(fh);
 
@@ -1621,7 +1625,7 @@ std::string Document::request_validation(std::string& sbol)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Cannot validate online. HTTP post request failed with: " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -1710,7 +1714,7 @@ std::string Document::request_comparison(Document& diff_file)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to compare documents failed with " + string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Cannot compare documents with online validator. HTTP get request failed with: " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -1986,3 +1990,50 @@ void ReferencedObject::add(SBOLObject& obj)
     add(obj.identity.get());
 };
 
+void SBOLObject::update_uri()
+{
+    if (!this->parent)
+        throw;
+    TopLevel* check_top_level = dynamic_cast<TopLevel*>(this);
+    if (check_top_level)
+        return;
+    Identified* check_identified = dynamic_cast<Identified*>(this);
+    if (!check_identified)
+        return;
+    Identified& sbol_obj = *(Identified*)this;
+
+    SBOLObject& parent = *sbol_obj.parent;
+    if (Config::getOption("sbol_compliant_uris") == "True" && !dynamic_cast<TopLevel*>(&sbol_obj))
+    {
+        // Form compliant URI for child object
+        std::string obj_id;
+        std::string persistent_id;
+        std::string version;
+        persistent_id = parent.properties[SBOL_PERSISTENT_IDENTITY].front();
+        persistent_id = persistent_id.substr(1, persistent_id.length() - 2);  // Removes flanking < and > from the uri
+        persistent_id =  persistent_id + "/" + sbol_obj.displayId.get();
+        if (parent.properties[SBOL_VERSION].size())
+        {
+            version = parent.properties[SBOL_VERSION].front();
+            version = version.substr(1, version.length() - 2);  // Removes flanking " from the literal
+        }
+        else
+            version = VERSION_STRING;
+        obj_id = persistent_id + "/" + version;
+        
+        // Reset SBOLCompliant properties
+        sbol_obj.identity.set(obj_id);
+        sbol_obj.persistentIdentity.set(persistent_id);
+        
+        for (auto & property : sbol_obj.owned_objects)
+            for (auto & nested_obj : property.second)
+                nested_obj->update_uri();
+    }
+    // Add to Document and check for uniqueness of URI
+    if (parent.doc)
+    {
+        if (parent.doc->find(sbol_obj.identity.get()))
+            throw SBOLError(DUPLICATE_URI_ERROR, "Cannot update SBOL-compliant URI. An object with URI " + sbol_obj.identity.get() + " is already in the Document");
+    }
+
+};

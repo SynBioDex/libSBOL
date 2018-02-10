@@ -56,7 +56,7 @@ namespace sbol
             models(this, SBOL_MODELS, SBOL_MODEL, '0', '*', ValidationRules({})),
             functionalComponents(this, SBOL_FUNCTIONAL_COMPONENTS, '0', '*', ValidationRules({})),
             modules(this, SBOL_MODULES, '0', '*', ValidationRules({})),
-            interactions(this, SBOL_INTERACTIONS, '0', '*', ValidationRules({}))
+            interactions(this, SBOL_INTERACTIONS, '0', '*', { libsbol_rule_17 })
             {
             };
         
@@ -75,15 +75,26 @@ namespace sbol
         /// The models property is OPTIONAL and MAY specify a set of URI references to Model objects. Model objects are placeholders that link ModuleDefinition objects to computational models of any format. A ModuleDefinition object can link to more than one Model since each might encode system behavior in a different way or at a different level of detail.
         ReferencedObject models;
         
-        /// Defines an output for a system module.
+        /// Defines an output for a sub-Module. Useful for top-down assembly of Modules and sub-Modules. If a FunctionalComponent with the given definition does not exist yet, one will be autoconstructed. Otherwise the FunctionalComponent with the given definition will be inferred. Be warned that this inference may fail if there is more than one FunctionalComponent with the same definition.
         /// @param output A ComponentDefinition that defines the output
         /// @return A FunctionalComponent that is derived from the argument ComponentDefinition and configured as this ModuleDefinition's output (it's direction property is set to SBOL_DIRECTION_OUT)
         FunctionalComponent& setOutput(ComponentDefinition& output);
 
-        /// Defines an input for a system module.
+        /// Defines an input for a sub-Module. Useful for top-down assembly of Modules and sub-Modules. If a FunctionalComponent with the given definition does not exist yet, one will be autoconstructed. Otherwise the FunctionalComponent with the given definition will be inferred. Be warned that this inference may fail if there is more than one FunctionalComponent with the same definition.
         /// @param input A ComponentDefinition that defines the input
         /// @return A FunctionalComponent that is derived from the argument ComponentDefinition and configured as this ModuleDefinition's input (it's direction property is set to SBOL_DIRECTION_IN)
         FunctionalComponent& setInput(ComponentDefinition& input);
+
+        /// Configures a FunctionalComponent as an output for a Module. Useful for bottom-up assembly of Modules and sub-Modules.
+        /// @param output The FunctionalComponent that will be configured
+        void setOutput(FunctionalComponent& output);
+        
+        /// Configures a FunctionalComponent as an input for a Module. Useful for bottom-up assembly of Modules and sub-Modules
+        /// @param input The FunctionalComponent that will be configured
+        void setInput(FunctionalComponent& input);
+
+        
+        void connect(FunctionalComponent& input, FunctionalComponent& output);
         
         virtual ~ModuleDefinition() {};
 

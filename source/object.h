@@ -54,6 +54,9 @@ namespace sbol
 
         template < class LiteralType >
         friend class Property;
+        
+        template < class SBOLClass >
+        friend class AliasedProperty;
     
     protected:
         /// @cond
@@ -149,6 +152,8 @@ namespace sbol
         /// @param property_uri The URI for the property
         /// @return The value of the property or SBOL_ERROR_NOT_FOUND
         std::string getAnnotation(std::string property_uri);
+        
+        void update_uri();
         
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         std::unordered_map<std::string, PyObject* > PythonObjects;
@@ -398,12 +403,19 @@ namespace sbol
         /// Remove all children objects from the parent and destroy them.
         void clear() override;
         
+        /// Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
         /// @tparam SBOLClass The type of SBOL object that will be created
         /// @param uri If SBOLCompliance is enabled, this should be the displayId for the new child object.  If not enabled, this should be a full raw URI.
         /// @return A reference to the child object
-        /// Autoconstructs a child object and attaches it to the parent object. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
         /// @TODO check uniqueness of URI in Document
         SBOLClass& create(std::string uri);
+
+        /// Autoconstructs a child object and attaches it to the parent object. Additionally, it sets the definition property of the child object, for example, in the case of creating Components, FunctionalComponents, and Modules. The new object will be constructed with default values specified in the constructor for this type of object. If SBOLCompliance is enabled, the child object's identity will be constructed using the supplied displayId argument.  Otherwise, the user should supply a full URI.
+        /// @tparam SBOLClass The type of SBOL object that will be created
+        /// @param definition_object The returned object will reference the definition_object in its definition property.
+        /// @return A reference to the child object
+        /// @TODO check uniqueness of URI in Document
+        SBOLClass& define(SBOLObject& definition_object);
         
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @tparam SBOLSubClass A derived class of SBOLClass. Use this specialization for OwnedObject properties which contain multiple types of SBOLObjects.
@@ -513,61 +525,59 @@ namespace sbol
 	};
 
     
-template <class SBOLClass >
-OwnedObject< SBOLClass >::OwnedObject(void *property_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
-    Property < SBOLClass > (property_owner, sbol_uri, lower_bound, upper_bound, validation_rules)
-{
-    // Register Property in owner Object
-    if (this->sbol_owner != NULL)
+    template <class SBOLClass >
+    OwnedObject< SBOLClass >::OwnedObject(void *property_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules) :
+        Property < SBOLClass > (property_owner, sbol_uri, lower_bound, upper_bound, validation_rules)
     {
-        // Clear property store created by base constructor and re-initialize in the owned_objects property store
-        this->sbol_owner->properties.erase(sbol_uri);
-        std::vector<sbol::SBOLObject*> object_store;
-        this->sbol_owner->owned_objects.insert({ sbol_uri, object_store });
-    }
-};
+        // Register Property in owner Object
+        if (this->sbol_owner != NULL)
+        {
+            // Clear property store created by base constructor and re-initialize in the owned_objects property store
+            this->sbol_owner->properties.erase(sbol_uri);
+            std::vector<sbol::SBOLObject*> object_store;
+            this->sbol_owner->owned_objects.insert({ sbol_uri, object_store });
+        }
+    };
 
-template <class SBOLClass>
-OwnedObject< SBOLClass >::OwnedObject(void *property_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, SBOLObject& first_object) : OwnedObject < SBOLClass > (property_owner, sbol_uri, lower_bound, upper_bound, validation_rules)
-{
-    this->sbol_owner->owned_objects[sbol_uri].push_back(&first_object);
-};
-
-
-template <class SBOLClass>
-template <class SBOLSubClass>
-void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
-{
-    if (!dynamic_cast<SBOLClass*>(&sbol_obj))
-        throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Object of type " + parseClassName(sbol_obj.type) + " is invalid for " + parsePropertyName(this->type) + " property");
-    // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
-    sbol_obj.parent = this->sbol_owner;
-    this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
-    this->validate(&sbol_obj);
-};
-
-template <class SBOLClass>
-bool OwnedObject< SBOLClass >::find(std::string uri)
-{
-    for (auto & obj : this->sbol_owner->owned_objects[this->type])
+    template <class SBOLClass>
+    OwnedObject< SBOLClass >::OwnedObject(void *property_owner, rdf_type sbol_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, SBOLObject& first_object) : OwnedObject < SBOLClass > (property_owner, sbol_uri, lower_bound, upper_bound, validation_rules)
     {
-        if (obj->identity.get() == uri)
-            return true;
-    }
-    return false;
-};
+        this->sbol_owner->owned_objects[sbol_uri].push_back(&first_object);
+    };
 
 
-template <class SBOLClass>
-SBOLClass& OwnedObject<SBOLClass>::operator[] (const int nIndex)
-{
-    if (nIndex >= this->size())
-        throw SBOLError(SBOL_ERROR_NOT_FOUND, "Index out of range");
-    std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
-    return (SBOLClass&)*object_store->at(nIndex);
-};
+    template <class SBOLClass>
+    template <class SBOLSubClass>
+    void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
+    {
+        if (!dynamic_cast<SBOLClass*>(&sbol_obj))
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Object of type " + parseClassName(sbol_obj.type) + " is invalid for " + parsePropertyName(this->type) + " property");
+        // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
+        sbol_obj.parent = this->sbol_owner;
+        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
+        this->validate(&sbol_obj);
+    };
 
+    template <class SBOLClass>
+    bool OwnedObject< SBOLClass >::find(std::string uri)
+    {
+        for (auto & obj : this->sbol_owner->owned_objects[this->type])
+        {
+            if (obj->identity.get() == uri)
+                return true;
+        }
+        return false;
+    };
+
+
+    template <class SBOLClass>
+    SBOLClass& OwnedObject<SBOLClass>::operator[] (const int nIndex)
+    {
+        if (nIndex >= this->size())
+            throw SBOLError(SBOL_ERROR_NOT_FOUND, "Index out of range");
+        std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
+        return (SBOLClass&)*object_store->at(nIndex);
+    };
 }
-
 
 #endif /* OBJECT_INCLUDED */

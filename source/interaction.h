@@ -45,9 +45,11 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         Interaction(rdf_type type, std::string uri, std::string interaction_type) :
             Identified(type, uri),
+            functionalComponents(this, SBOL_FUNCTIONAL_COMPONENTS, '0', '*', { libsbol_rule_18 }),
             types(this, SBOL_TYPES, '1', '*', ValidationRules({}), interaction_type),
             participations(this, SBOL_PARTICIPATIONS, '0', '*', ValidationRules({}))
             {
+                hidden_properties.push_back(SBOL_FUNCTIONAL_COMPONENTS);
             };
         
         /// The types property is a REQUIRED set of URIs that describes the behavior represented by an Interaction.  The types property MUST contain one or more URIs that MUST identify terms from appropriate ontologies. It is RECOMMENDED that at least one of the URIs contained by the types property refer to a term from the occurring entity branch of the Systems Biology Ontology (SBO). (See http://www.ebi.ac.uk/sbo/main/) The following table provides a list of possible SBO terms for the types property and their corresponding URIs.
@@ -65,7 +67,9 @@ namespace sbol
         /// The participations property is an OPTIONAL and MAY contain a set of Participation objects, each of which identifies the roles that its referenced FunctionalComponent plays in the Interaction. Even though an Interaction generally contains at least one Participation, the case of zero Participation objects is allowed because it is plausible that a designer might want to specify that an Interaction will exist, even if its participants have not yet been determined.
 		OwnedObject<Participation> participations;
         
-        virtual ~Interaction() {};
+        OwnedObject<FunctionalComponent> functionalComponents;
+        
+        virtual ~Interaction() { owned_objects.erase(SBOL_FUNCTIONAL_COMPONENTS); };
 	};
 }
 
