@@ -419,7 +419,9 @@ void sbol::libsbol_rule_17(void *sbol_obj, void *arg)
     ModuleDefinition& mdef = *(ModuleDefinition*)sbol_obj;
     Interaction& interaction = *(Interaction*)arg;
     for (auto & fc : interaction.functionalComponents)
+    {
         libsbol_rule_18(arg, &fc);
+    }
 };
 
 void sbol::libsbol_rule_18(void *sbol_obj, void *arg)
@@ -429,10 +431,25 @@ void sbol::libsbol_rule_18(void *sbol_obj, void *arg)
     if (interaction.parent)
     {
         ModuleDefinition& parent_mdef = *(ModuleDefinition*)interaction.parent;
+        // Skip if a copy of this FunctionalComponent is already stored in the parent Interaction
         for (auto & fc_comparand : parent_mdef.functionalComponents)
             if (fc.identity.get() == fc_comparand.identity.get() || fc.displayId.get() == fc_comparand.displayId.get())
+            {
+                // Update reference to participant FunctionalComponent
+                for (auto & p : interaction.participations)
+                {
+                    if (p.participant.get() == fc.identity.get())
+                        p.participant.set(fc_comparand.identity.get());
+                }
                 return;
-        parent_mdef.functionalComponents.add(fc);
-        fc.update_uri();
+            }
+        string old_id = fc.identity.get();
+        parent_mdef.functionalComponents.add(fc);  // Updates the FC's URI
+        // Update reference to participant FunctionalComponent
+        for (auto & p : interaction.participations)
+        {
+            if (p.participant.get() == old_id)
+                p.participant.set(fc);
+        }
     }
 };
