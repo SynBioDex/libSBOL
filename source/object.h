@@ -371,7 +371,7 @@ namespace sbol
         /// @tparam SBOLSubClass A derived class of SBOLClass. Use this type specialization when adding multiple types of SBOLObjects to a container.
         /// @param sbol_obj A child object to add to this container property.
         /// Adds a child object to the parent object. This method always appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
-        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);
+//        template < class SBOLSubClass > void add(SBOLSubClass& sbol_obj);
 
         /// Get the child object
         /// @tparam SBOLClass The type of the child object
@@ -546,17 +546,17 @@ namespace sbol
     };
 
 
-    template <class SBOLClass>
-    template <class SBOLSubClass>
-    void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
-    {
-        if (!dynamic_cast<SBOLClass*>(&sbol_obj))
-            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Object of type " + parseClassName(sbol_obj.type) + " is invalid for " + parsePropertyName(this->type) + " property");
-        // This should use dynamic_cast instead of implicit casting.  Failure of dynamic_cast should validate if sbol_obj is a valid subclass
-        sbol_obj.parent = this->sbol_owner;
-        this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
-        this->validate(&sbol_obj);
-    };
+//    template <class SBOLClass>
+//    template <class SBOLSubClass>
+//    void OwnedObject< SBOLClass >::add(SBOLSubClass& sbol_obj)
+//    {
+//        std::cout << "Calling subclass adder" << std::endl;
+//        SBOLClass* cast_obj = dynamic_cast<SBOLClass*>(&sbol_obj);
+//        if (!cast_obj)
+//            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Object of type " + parseClassName(sbol_obj.type) + " is invalid for " + parsePropertyName(this->type) + " property");
+//        else
+//            this->add(*cast_obj);
+//    };
 
     template <class SBOLClass>
     bool OwnedObject< SBOLClass >::find(std::string uri)
