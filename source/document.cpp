@@ -2022,27 +2022,31 @@ void SBOLObject::update_uri()
         else
             version = VERSION_STRING;
         obj_id = persistent_id + "/" + version;
+
+        // Reset SBOLCompliant properties
+        sbol_obj.identity.set(obj_id);
+        sbol_obj.persistentIdentity.set(persistent_id);
         
         // Check for uniqueness of URI in local object properties
         vector<SBOLObject*> matches = this->parent->find_property_value(SBOL_IDENTITY, obj_id);
         if (matches.size() > 1)
             throw SBOLError(DUPLICATE_URI_ERROR, "Cannot update SBOL-compliant URI. The URI " + sbol_obj.identity.get() + " is not unique");
-        
-        // Reset SBOLCompliant properties
-        sbol_obj.identity.set(obj_id);
-        sbol_obj.persistentIdentity.set(persistent_id);
+
         
         for (auto & property : sbol_obj.owned_objects)
-            for (auto & nested_obj : property.second)
-                nested_obj->update_uri();
+        {
+            std::string property_name = property.first;
+            if (std::find(hidden_properties.begin(), hidden_properties.end(), property_name) == hidden_properties.end())
+                for (auto & nested_obj : property.second)
+                    nested_obj->update_uri();
+        }
     }
-    // Add to Document and check for uniqueness of URI
+    // Check for uniqueness of URI in Document
     if (parent.doc)
     {
-        vector<SBOLObject*> matches = parent.doc->find_property_value(SBOL_IDENTITY, obj_id);
+        vector<SBOLObject*> matches = parent.doc->find_property_value(SBOL_IDENTITY, sbol_obj.identity.get());
         if (matches.size() > 1)
             throw SBOLError(DUPLICATE_URI_ERROR, "Cannot update SBOL-compliant URI. An object with URI " + sbol_obj.identity.get() + " is already in the Document");
     }
-
 
 };
