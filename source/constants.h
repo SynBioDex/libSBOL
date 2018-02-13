@@ -181,8 +181,8 @@
 #define SBO_DEGRADATION SBO "0000179"                    ///< An SBO term and possible value for an Interaction::type property
 #define SBO_CONTROL SBO "0000168"                        ///< An SBO term and possible value for an Interaction::type property
 #define SBO_BIOCHEMICAL_REACTION SBO "0000176"           ///< An SBO term and possible value for an Interaction::type property
-#define SBO_STIMULATED SBO "0000643"           ///< An SBO term and possible value for an Interaction::type property
-
+#define SBO_STIMULATED SBO "0000643"                     ///< An SBO term and possible value for an Interaction::type property
+#define SBO_CONVERSION SBO "0000182"                     ///< An SBO term and possible value for an Interaction::type property
 
 /* Participant.roles */
 #define SBO_PROMOTER SBO "0000598"              ///< An SBO term and possible value for an Participant::role property
@@ -194,7 +194,12 @@
 #define SBO_PRODUCT SBO "0000011"              ///< An SBO term and possible value for an Participant::role property
 #define SBO_LIGAND SBO "0000280"               ///< An SBO term and possible value for an Participant::role property
 #define SBO_NONCOVALENT_COMPLEX SBO "0000253"  ///< An SBO term and possible value for an Participant::role property
-#define SBO_BINDING_SITE "0000494"             ///< An SBO term and possible value for an Participant::role property
+#define SBO_BINDING_SITE SBO "0000494"             ///< An SBO term and possible value for an Participant::role property
+#define SBO_SUBSTRATE SBO "0000015"
+#define SBO_COFACTOR SBO "0000604"
+#define SBO_SIDEPRODUCT SBO "0000603"
+#define SBO_PRODUCT SBO "0000011"
+#define SBO_ENZYME SBO "0000014"
 
 /* URIs for common Sequence Ontology terms */
 #define SO "http://identifiers.org/so/SO:" ///< Namespace for Sequence Ontology (SO) terms
