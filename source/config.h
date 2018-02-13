@@ -54,6 +54,9 @@ namespace sbol
     /// A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the Config::setOptions and Config::getOptions methods.
     class SBOL_DECLSPEC Config
     {
+    friend class Document;      // needs to access PYTHON_DATA_MODEL_REGISTER
+    friend class SBOLObject;    // needs to access PYTHON_DATA_MODEL_REGISTER
+    
     private:
         static std::map<std::string, std::string> options;
         static std::map<std::string, std::vector<std::string>> valid_options;
@@ -61,11 +64,11 @@ namespace sbol
         int SBOLCompliantTypes; ///< Flag indicating whether an object's type is included in SBOL-compliant URIs
         int catch_exceptions = 0;
         std::string format = "rdfxml";
-//#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-//        // This is the global SBOL register for Python extension classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a Python constructor
-////        static PyObject* PYTHON_DATA_MODEL_REGISTER = PyDict_New();
-//        std::map<std::string, PythonObject*> PYTHON_DATA_MODEL_REGISTER;
-//#endif
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+        // This is the global SBOL register for Python extension classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a Python constructor
+//        static PyObject* PYTHON_DATA_MODEL_REGISTER = PyDict_New();
+        static std::map<std::string, PyObject*> PYTHON_DATA_MODEL_REGISTER;
+#endif
         
     public:
         Config() :
@@ -112,7 +115,6 @@ namespace sbol
         /// Get current option value for online validation and conversion
         /// @param option The option key
         static std::string getOption(std::string option);
-        
     };
     
     /// Global methods

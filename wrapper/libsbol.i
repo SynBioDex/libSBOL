@@ -88,9 +88,6 @@
     catch(SBOLError e)
     {
         PyErr_SetNone(PyExc_StopIteration);
-        
-        //        PyErr_SetObject(PyExc_StopIteration, Py_None);
-        //PyErr_Clear()
         return NULL;
     }
 }
@@ -151,6 +148,7 @@
 
 %template(_StringProperty) sbol::Property<std::string>;  // These template instantiations are private, hence the underscore...
 %template(_IntProperty) sbol::Property<int>;
+%template(_FloatProperty) sbol::Property<double>;
 
 
     
@@ -172,7 +170,7 @@
 /* @TODO remove methods should change thisown flag back to True */
 %pythonappend remove
 %{
-    self.thisown = True
+    #self.thisown = True
 %}
     
 %include "properties.h"
@@ -192,6 +190,7 @@
 %include "model.h"
 %include "collection.h"
 %include "moduledefinition.h"
+%include "provo.h"
 
 // Converts json-formatted text into Python data structures, eg, lists, dictionaries
 %pythonappend sbol::PartShop::search
@@ -320,7 +319,7 @@ typedef std::string sbol::sbol_type;
 /* This macro is used to instantiate special adders and getters for the Document class */
 %define TEMPLATE_MACRO_2(SBOLClass)
     
-//    %template(add ## SBOLClass) sbol::Document::add<SBOLClass>;
+    %template(add ## SBOLClass) sbol::Document::add<SBOLClass>;
     %template(get ## SBOLClass) sbol::Document::get<SBOLClass>;
     
 %enddef
@@ -358,13 +357,18 @@ TEMPLATE_MACRO_1(ModuleDefinition);
 TEMPLATE_MACRO_1(Sequence);
 TEMPLATE_MACRO_1(Model);
 TEMPLATE_MACRO_1(Collection);
+TEMPLATE_MACRO_1(Activity);
+TEMPLATE_MACRO_1(Plan);
+TEMPLATE_MACRO_1(Agent);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
 TEMPLATE_MACRO_2(Sequence)
 TEMPLATE_MACRO_2(Model)
 TEMPLATE_MACRO_2(Collection)
-
+TEMPLATE_MACRO_2(Activity);
+TEMPLATE_MACRO_2(Plan);
+TEMPLATE_MACRO_2(Agent);
 
 %template(copyComponentDefinition) sbol::TopLevel::copy < ComponentDefinition >;
     
@@ -377,87 +381,6 @@ TEMPLATE_MACRO_2(Collection)
 %template(countComponentDefinition) sbol::PartShop::count < ComponentDefinition >;
 %template(countCollection) sbol::PartShop::count < Collection >;
 
-%define PROPERTY_MACRO(SBOLClass)
-%extend sbol::SBOLClass
-{
-    std::string __getitem__(const int nIndex)
-    {
-        return $self->operator[](nIndex);
-    }
-    
-    SBOLClass* __iter__()
-    {
-        $self->python_iter = SBOLClass::iterator($self->begin());
-        return $self;
-    }
-    
-    // Built-in iterator function for Python 2
-    std::string next()
-    {
-        if ($self->size() == 0)
-            throw SBOLError(END_OF_LIST, "");
-        if ($self->python_iter != $self->end())
-        {
-            std::string ref = *$self->python_iter;
-            $self->python_iter++;
-            if ($self->python_iter == $self->end())
-            {
-                PyErr_SetNone(PyExc_StopIteration);
-            }
-            return ref;
-        }
-        throw SBOLError(END_OF_LIST, "");
-        return NULL;
-    }
-    
-    // Built-in iterator function for Python 3
-    std::string __next__()
-    {
-        if ($self->size() == 0)
-            throw SBOLError(END_OF_LIST, "");
-        if ($self->python_iter != $self->end())
-        {
-            std::string ref = *$self->python_iter;
-            $self->python_iter++;
-            if ($self->python_iter == $self->end())
-            {
-                PyErr_SetNone(PyExc_StopIteration);
-            }
-            return ref;
-        }
-        throw SBOLError(END_OF_LIST, "");
-        return NULL;
-    }
-    
-    int __len__()
-    {
-        return $self->size();
-    }
-}
-%enddef
-
-%extend sbol::Config
-{
-    // This is the global SBOL register for Python extension classes.  It maps an SBOL RDF type (eg, "http://sbolstandard.org/v2#Sequence" to a Python constructor
-    //        static PyObject* PYTHON_DATA_MODEL_REGISTER = PyDict_New();
-//    static std::map<std::string, PyObject*> PYTHON_DATA_MODEL_REGISTER;
-}
-    
-%extend sbol::SBOLObject
-{
-    void register_extension(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor)
-    {
-//        std::string uri = ns + class_name;
-//        Config::PYTHON_DATA_MODEL_REGISTER[uri] = constructor;
-//        namespaces[ns_prefix] = ns;
-    };
-}
-
-PROPERTY_MACRO(URIProperty)
-PROPERTY_MACRO(TextProperty)
-PROPERTY_MACRO(IntProperty)
-
-    
     
     
 //%extend sbol::ReferencedObject
@@ -512,8 +435,8 @@ PROPERTY_MACRO(IntProperty)
 //};
 
 %include "assembly.h"
-%include "provo.h"
 %include "combinatorialderivation.h"
+%include "dblt.h"
 
     
 %extend sbol::ComponentDefinition
@@ -603,6 +526,57 @@ PROPERTY_MACRO(IntProperty)
 			$self->add(list_of_mds);
         };                
     }
+    
+    PyObject* getExtension(std::string id)
+    {
+        // Search the Document's object store for the uri
+        if ($self->PythonObjects.find(id) != $self->PythonObjects.end())
+            return $self->PythonObjects[id];
+        throw SBOLError(NOT_FOUND_ERROR, "Object " + id + " not found");
+    }
+    
+    Document* __iter__()
+    {
+        $self->python_iter = std::vector<sbol::SBOLObject*>::iterator($self->begin());
+        return $self;
+    }
+    
+    SBOLObject* next()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            SBOLObject* obj = *$self->python_iter;
+            $self->python_iter++;
+            if ($self->python_iter == $self->end())
+            {
+                PyErr_SetNone(PyExc_StopIteration);
+            }
+            return (SBOLObject*)obj;
+        }
+        throw SBOLError(END_OF_LIST, "");
+        return NULL;
+    }
+    
+    SBOLObject* __next__()
+    {
+        if ($self->python_iter != $self->end())
+        {
+            
+            SBOLObject* obj = *$self->python_iter;
+            $self->python_iter++;
+            
+            return (SBOLObject*)obj;
+        }
+        
+        throw SBOLError(END_OF_LIST, "");;
+        return NULL;
+    }
+    
+    int __len__()
+    {
+        return $self->size();
+    }
+    
 }
 
     
@@ -690,6 +664,34 @@ from __future__ import absolute_import
     
 %pythoncode
 %{
+    def applyToComponentHierarchy(self, callback_fn, user_data):
+        # Assumes parent_component is an SBOL data structure of the general form ComponentDefinition(->Component->ComponentDefinition)n where n+1 is an integer describing how many hierarchical levels are in the SBOL structure
+        # Look at each of the ComponentDef's SequenceAnnotations, is the target base there?
+        if not self.doc:
+            raise Exception('Cannot traverse Component hierarchy without a Document')
+    
+        GET_ALL = True
+        component_nodes = []
+        if len(self.components) == 0:
+            component_nodes.append(self)  # Add leaf components
+            if (callback_fn):
+                callback_fn(self, user_data)
+        else:
+            if GET_ALL:
+                component_nodes.append(self)  # Add components with children
+                if callback_fn:
+                    callback_fn(self, user_data)
+            for subc in self.components:
+                if not self.doc.find(subc.definition.get()):
+                    raise Exception(subc.definition.get() + 'not found')
+                subcdef = self.doc.getComponentDefinition(subc.definition.get())
+                subcomponents = subcdef.applyToComponentHierarchy(callback_fn, user_data)
+                component_nodes.extend(subcomponents)
+        return component_nodes
+
+    
+    ComponentDefinition.applyToComponentHierarchy = applyToComponentHierarchy
+    
     
     def testSBOL():
         """
@@ -699,22 +701,7 @@ from __future__ import absolute_import
         unit_tests.runTests()
 %}
     
-//%inline
-//%{
-//    // SBOLObject&(*constructor)()
-//    PyObject* register_extension_class(std::string ns, std::string ns_prefix, std::string class_name, PyObject* constructor )
-//    {
-//        std::string uri = ns + class_name;
-////        SBOL_DATA_MODEL_REGISTER.insert(make_pair(uri, (SBOLObject&(*)())constructor));
-//        //namespaces[ns_prefix] = ns;  // Register extension namespace
-//        std::cout << "Registering " << uri << endl;
-//        std::cout << "Constructing " << uri << endl;
-//        PyObject* obj = PyObject_CallFunction(constructor, NULL);
-//        std::cout << "Constructed " << uri << endl;
-//        return obj;
-//    };
-//    
-//%}
+
         
         //%extend sbol::Document
         //{

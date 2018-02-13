@@ -33,6 +33,11 @@
 #include <json/json.h>
 #include <curl/curl.h>
 
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+#include "Python.h"
+#undef tolower
+#endif
+
 using namespace sbol;
 using namespace std;
 
@@ -77,6 +82,10 @@ std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"insert_type", { "True", "False" }},
     {"return_file", { "True", "False" }}
 };
+
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+std::map<std::string, PyObject*> sbol::Config::PYTHON_DATA_MODEL_REGISTER {};
+#endif
 
 void sbol::Config::setOption(std::string option, std::string value)
 {
