@@ -1,3 +1,3 @@
-[submodule "jsconcpp"]
-    path = jsoncpp
-    url = https://github.com/open-source-parsers/jsoncpp
+[submodule "test/SBOLTestSuite"]
+	path = test/SBOLTestSuite
+	url = https://github.com/SynBioDex/SBOLTestSuite

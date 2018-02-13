@@ -50,7 +50,7 @@ IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
         Ws2_32.lib
         )
     file(MAKE_DIRECTORY "${CMAKE_INSTALL_PREFIX}/test")
-    add_custom_command(TARGET sbol_test PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/roundtrip ${CMAKE_INSTALL_PREFIX}/test/roundtrip)
+    add_custom_command(TARGET sbol_test PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/SBOLTestSuite/SBOL2 ${CMAKE_INSTALL_PREFIX}/test/roundtrip)
     set_target_properties(sbol_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_PREFIX}/test")
 ELSE ()
     # build test executable
@@ -64,8 +64,8 @@ ELSE ()
         ${LIBXSLT_LIBRARIES}
         ${JsonCpp_LIBRARY}
         )
-    file(MAKE_DIRECTORY "${CMAKE_INSTALL_PREFIX}/test")
-    add_custom_command(TARGET sbol_test PRE_BUILD COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/roundtrip ${CMAKE_INSTALL_PREFIX}/test/roundtrip)
-    set_target_properties(sbol_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_PREFIX}/test")
+    file(MAKE_DIRECTORY "${SBOL_RELEASE_DIR}/test")
+    add_custom_command(TARGET sbol_test PRE_BUILD COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/SBOLTestSuite/SBOL2 ${SBOL_RELEASE_DIR}/test/roundtrip)
+    set_target_properties(sbol_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${SBOL_RELEASE_DIR}/test")
 ENDIF ()
 

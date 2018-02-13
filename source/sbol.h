@@ -26,7 +26,10 @@
 #ifndef SBOL_INCLUDED
 #define SBOL_INCLUDED
 
-#include "dblt.h"
+// Importing document.h imports all official SBOL classes
+#include "document.h"
+
+// Import utility classes
 #include "partshop.h"
 
 #endif

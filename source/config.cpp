@@ -32,6 +32,7 @@
 #include <algorithm>
 #include <json/json.h>
 #include <curl/curl.h>
+#include <unordered_map>
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
@@ -64,7 +65,8 @@ std::map<std::string, std::string> sbol::Config::options {
     {"insert_type", "False"},
     {"main_file_name", "main file"},
     {"diff_file_name", "comparison file"},
-    {"return_file", "False"}
+    {"return_file", "False"},
+    {"verbose", "False"}
 };
 
 std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
@@ -80,12 +82,19 @@ std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"fail_on_first_error", { "True", "False" }},
     {"provide_detailed_stack_trace", { "True", "False" }},
     {"insert_type", { "True", "False" }},
-    {"return_file", { "True", "False" }}
+    {"return_file", { "True", "False" }},
+    {"verbose", { "True", "False" }}
 };
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 std::map<std::string, PyObject*> sbol::Config::PYTHON_DATA_MODEL_REGISTER {};
 #endif
+
+void sbol::Config::setOption(std::string option, char const* value)
+{
+    Config::setOption(option, std::string(value));
+}
+
 
 void sbol::Config::setOption(std::string option, std::string value)
 {
@@ -96,7 +105,10 @@ void sbol::Config::setOption(std::string option, std::string value)
         {
             // Set the option if a valid argument is provided
             if (std::find(valid_options[option].begin(), valid_options[option].end(), value) != valid_options[option].end())
+            {
                 options[option] = value;
+
+            }
             else
             {
                 // Format error message
@@ -272,6 +284,19 @@ std::string sbol::parseNamespace(std::string uri)
         return "";
 };
 
+std::string sbol::parseURLDomain(std::string url)
+{
+    std::size_t url_begin_pos = url.find("://");
+    std::size_t url_end_pos = url.find("/", url_begin_pos + 3);
+    if (url_end_pos != std::string::npos)
+    {
+        std::string domain_name = url.substr(0, url_end_pos);
+        return domain_name;
+    }
+    else
+        return url;
+};
+
 std::string sbol::parsePropertyName(std::string uri)
 {
 //    std::size_t uri_subordinate_pos = uri.find("#") + 1;
@@ -311,40 +336,6 @@ int sbol::hasHomespace()
         return 1;
 };
 
-void sbol::toggleSBOLCompliantTypes(bool is_toggled)
-{
-    config.toggleSBOLCompliantTypes(is_toggled);
-};
-
-int sbol::compliantTypesEnabled()
-{
-    return config.compliantTypesEnabled();
-};
-
-
-void sbol::toggleExceptions(bool is_toggled)
-{
-    config.toggleExceptions(is_toggled);
-};
-
-void Config::toggleExceptions(bool is_toggled)
-{
-    if (is_toggled)
-        catch_exceptions = 1;
-    else
-        catch_exceptions = 0;
-};
-
-int sbol::exceptionsEnabled()
-{
-    return config.exceptionsEnabled();
-}
-
-int Config::exceptionsEnabled()
-{
-    return catch_exceptions;
-}
-
 void sbol::setFileFormat(std::string file_format)
 {
     config.setFileFormat(file_format);
@@ -371,20 +362,6 @@ int Config::hasHomespace()
         return 0;
     else
         return 1;
-};
-
-
-void Config::toggleSBOLCompliantTypes(bool is_toggled)
-{
-    if (is_toggled)
-        this->SBOLCompliantTypes = 1;
-    else
-        this->SBOLCompliantTypes = 0;
-};
-
-int Config::compliantTypesEnabled()
-{
-    return this->SBOLCompliantTypes;
 };
 
 void Config::setFileFormat(std::string file_format)
@@ -419,4 +396,21 @@ size_t sbol::CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_
     std::copy((char*)contents,(char*)contents+newLength,s->begin()+oldLength);
     return size*nmemb;
 };
+
+size_t sbol::CurlResponseHeader_CallbackFunc(char *buffer,   size_t size,   size_t nitems,   void *userdata)
+{
+    std::unordered_map<std::string, std::string>& headers = *(std::unordered_map<std::string, std::string>*)userdata;
+    size_t header_length = size * nitems;
+    std::string header = std::string(buffer);
+    std::size_t delimiter_pos = header.find(':');
+    if (delimiter_pos != std::string::npos)
+    {
+        std::string key = header.substr(0, delimiter_pos);
+        std::string val = header.substr(delimiter_pos + 1, header_length - 2 - delimiter_pos);
+        headers[key] = val;
+    }
+    userdata = &headers;
+    return size * nitems;
+};
+
 

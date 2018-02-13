@@ -60,7 +60,8 @@ namespace sbol
         SBOLErrorCode err_;
     public:
         explicit SBOLError(SBOLErrorCode error_code, std::string message) :
-        message_(message)
+        message_(message),
+        err_(error_code)
         {
         };
         virtual const char* what() const throw() {

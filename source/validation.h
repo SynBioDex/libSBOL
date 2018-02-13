@@ -39,6 +39,7 @@ namespace sbol
     SBOL_DECLSPEC void sbolRule10101(void *sbol_obj, void *arg);
 	SBOL_DECLSPEC void sbolRule10102(void *sbol_obj, void *arg);
 	SBOL_DECLSPEC void sbol_rule_10202(void *sbol_obj, void *arg);
+    SBOL_DECLSPEC void sbol_rule_10204(void *sbol_obj, void *arg);
 
 /* These validation rules are internal to libSBOL */
     
@@ -54,7 +55,46 @@ namespace sbol
     // Validate Design.structure and Design.function are compatible
     SBOL_DECLSPEC void libsbol_rule_4(void *sbol_obj, void *arg);
 
+    // Validate Build.structure and Build.behavior are compatible
+    SBOL_DECLSPEC void libsbol_rule_5(void *sbol_obj, void *arg);
     
+    // Validate Build.structure and Build.behavior are compatible
+    SBOL_DECLSPEC void libsbol_rule_6(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_7(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_8(void *sbol_obj, void *arg);
+    
+    SBOL_DECLSPEC void libsbol_rule_9(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_10(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_11(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_12(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_13(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_14(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_15(void *sbol_obj, void *arg);
+
+    SBOL_DECLSPEC void libsbol_rule_16(void *sbol_obj, void *arg);
+
+    // Keep functionalComponents property of Interaction class synced with functionalComponents property of ModuleDefinition
+    SBOL_DECLSPEC void libsbol_rule_17(void *sbol_obj, void *arg);
+
+    // Keep functionalComponents property of Interaction class synced with functionalComponents property of ModuleDefinition
+    SBOL_DECLSPEC void libsbol_rule_18(void *sbol_obj, void *arg);
+
+    // Property is read-only
+    SBOL_DECLSPEC void libsbol_rule_19(void *sbol_obj, void *arg);
+
+    bool is_alphanumeric_or_underscore(char c);
+    
+    bool is_not_alphanumeric_or_underscore(char c);
+
+
     //  The following class is an experimental wrapper class for a validation callback function
     //  See http://stackoverflow.com/questions/879408/c-function-wrapper-that-behaves-just-like-the-function-itself
     //

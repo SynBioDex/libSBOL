@@ -35,6 +35,7 @@
 #define PURL_URI "http://purl.org/dc/terms/"
 #define PROV_URI "http://www.w3.org/ns/prov"
 #define PROVO "http://www.w3.org/ns/prov"
+#define SYSBIO_URI "http://sys-bio.org"
 //#define PROVO "https://www.w3.org/TR/prov-o/"
 
 // rdf nodes used in SBOL
@@ -69,6 +70,8 @@
 #define SBOL_GENERIC_LOCATION SBOL_URI "#GenericLocation"
 #define SBOL_VARIABLE_COMPONENT SBOL_URI "#VariableComponent"
 #define SBOL_COMBINATORIAL_DERIVATION SBOL_URI "#CombinatorialDerivation"
+#define SBOL_ATTACHMENT SBOL_URI "#Attachment"
+#define SBOL_IMPLEMENTATION SBOL_URI "#Implementation"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */
@@ -122,7 +125,7 @@
 #define SBOL_VARIANT_DERIVATIONS SBOL_URI "#variantDeriviations"
 #define SBOL_STRATEGY SBOL_URI "#strategy"
 #define SBOL_TEMPLATE SBOL_URI "#template"
-
+#define SBOL_ATTACHMENTS SBOL_URI "#attachment"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property
@@ -145,23 +148,27 @@
 #define SBOL_REFINEMENT_MERGE SBOL_URI "#merge"                      ///< Option for MapsTo::refinement property
 #define SBOL_ROLE_INTEGRATION_MERGE SBOL_URI "#mergeRoles"           ///< Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property
 #define SBOL_ROLE_INTEGRATION_OVERRIDE SBOL_URI "#overrideRoles"     ///< Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property
+#define SBOL_DESIGN SBOL_URI "#design"  ///< Option for Usage::roles or Association::roles
+#define SBOL_BUILD SBOL_URI "#build"    ///< Option for Usage::roles or Association::roles
+#define SBOL_TEST SBOL_URI "#test"  ///< Option for Usage::roles or Association::roles
+#define SBOL_LEARN SBOL_URI "#learn"    ///< Option for Usage::roles or Association::roles
 
 /* PROVO ontology */
 #define PROVO_ACTIVITY PROVO "#Activity"
 #define PROVO_USAGE PROVO "#Usage"
 #define PROVO_ASSOCIATION PROVO "#Association"
-#define PROVO_AGENT "#Agent"
+#define PROVO_AGENT PROVO "#Agent"
 #define PROVO_PLAN PROVO "#Plan"
 #define PROVO_WAS_GENERATED_BY PROVO "#wasGeneratedBy"
 #define PROVO_STARTED_AT_TIME PROVO "#startedAtTime"
 #define PROVO_ENDED_AT_TIME PROVO "#endedAtTime"
 #define PROVO_QUALIFIED_ASSOCIATION PROVO "#qualifiedAssociation"
-#define PROVO_QUALIFIED_USAGE PROVO "#qualifedUsage"
+#define PROVO_QUALIFIED_USAGE PROVO "#qualifiedUsage"
 #define PROVO_WAS_INFORMED_BY PROVO "#wasInformedBy"
 #define PROVO_HAD_PLAN PROVO "#hadPlan"
 #define PROVO_HAD_ROLE PROVO "#hadRole"
 #define PROVO_AGENT_PROPERTY PROVO "#agent"
-#define PROVO_ENTITY "#entity"
+#define PROVO_ENTITY PROVO "#entity"
 
 /* Systems Biology Ontology */
 /* Interaction.types */
@@ -174,17 +181,25 @@
 #define SBO_DEGRADATION SBO "0000179"                    ///< An SBO term and possible value for an Interaction::type property
 #define SBO_CONTROL SBO "0000168"                        ///< An SBO term and possible value for an Interaction::type property
 #define SBO_BIOCHEMICAL_REACTION SBO "0000176"           ///< An SBO term and possible value for an Interaction::type property
+#define SBO_STIMULATED SBO "0000643"                     ///< An SBO term and possible value for an Interaction::type property
+#define SBO_CONVERSION SBO "0000182"                     ///< An SBO term and possible value for an Interaction::type property
 
 /* Participant.roles */
 #define SBO_PROMOTER SBO "0000598"              ///< An SBO term and possible value for an Participant::role property
 #define SBO_GENE SBO "0000243"                  ///< An SBO term and possible value for an Participant::role property
 #define SBO_INHIBITOR SBO "0000020"            ///< An SBO term and possible value for an Participant::role property
+#define SBO_INHIBITED SBO "0000642"            ///< An SBO term and possible value for an Participant::role property
 #define SBO_STIMULATOR SBO "0000459"           ///< An SBO term and possible value for an Participant::role property
 #define SBO_REACTANT SBO "0000010"             ///< An SBO term and possible value for an Participant::role property
 #define SBO_PRODUCT SBO "0000011"              ///< An SBO term and possible value for an Participant::role property
 #define SBO_LIGAND SBO "0000280"               ///< An SBO term and possible value for an Participant::role property
 #define SBO_NONCOVALENT_COMPLEX SBO "0000253"  ///< An SBO term and possible value for an Participant::role property
-#define SBO_BINDING_SITE "0000494"             ///< An SBO term and possible value for an Participant::role property
+#define SBO_BINDING_SITE SBO "0000494"             ///< An SBO term and possible value for an Participant::role property
+#define SBO_SUBSTRATE SBO "0000015"
+#define SBO_COFACTOR SBO "0000604"
+#define SBO_SIDEPRODUCT SBO "0000603"
+#define SBO_PRODUCT SBO "0000011"
+#define SBO_ENZYME SBO "0000014"
 
 /* URIs for common Sequence Ontology terms */
 #define SO "http://identifiers.org/so/SO:" ///< Namespace for Sequence Ontology (SO) terms
@@ -194,7 +209,10 @@
 #define SO_CDS SO "0000316"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_RBS SO "0000139"                ///< An SO term and possible value for ComponentDefinition::role property
 #define SO_TERMINATOR SO "0000141"         ///< An SO term and possible value for ComponentDefinition::role property
-#define SO_SGRNA SO "0001998"
+#define SO_SGRNA SO "0001998"              ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_LINEAR SO "0000987"              ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_CIRCULAR SO "0000988"            ///< An SO term and possible value for ComponentDefinition::role property
+#define SO_PLASMID SO "0000155"             ///< An SO term and possible value for ComponentDefinition::role property
 
 /* BioPAX is used to indicate macromolecular and molecular types */
 /// DNA
@@ -217,5 +235,11 @@
 #define SBO_CONTINUOUS SBO "0000062"  ///< SBO term and option for Model::framework
 #define SBO_DISCRETE SBO "0000063"    ///< SBO term and option for Model::framework
 
+/* URIs for SBOL extension objects */
+#define SYSBIO_DESIGN SYSBIO_URI "#Design"
+#define SYSBIO_BUILD SYSBIO_URI "#Build"
+#define SYSBIO_TEST SYSBIO_URI "#Test"
+#define SYSBIO_ANALYSIS SYSBIO_URI "#Analysis"
+#define SYSBIO_SAMPLE_ROSTER SYSBIO_URI "#SampleRoster"
 
 #endif

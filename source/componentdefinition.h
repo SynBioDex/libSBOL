@@ -46,6 +46,26 @@ namespace sbol
 	{
 
 	public:
+        /// Construct a ComponentDefinition
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        /// @param type A BioPAX ontology term that indicates whether the ComponentDefinition is DNA, RNA, protein, or some other molecule type.
+        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
+        ComponentDefinition(std::string uri = "example", std::string type = BIOPAX_DNA, std::string version = "1.0.0") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
+
+        /// Constructor used for defining extension classes
+        /// @param type The RDF type for an extension class derived from this one
+        ComponentDefinition(rdf_type type, std::string uri, std::string component_type, std::string version) :
+            TopLevel(type, uri, version),
+            types(this, SBOL_TYPES, '1', '*', ValidationRules({}), component_type),
+            roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
+            sequence(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
+            sequences(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '*', ValidationRules({})),
+            sequenceAnnotations(this, SBOL_SEQUENCE_ANNOTATIONS, '0', '*', ValidationRules({})),
+            components(this, SBOL_COMPONENTS, '0', '*', ValidationRules({})),
+            sequenceConstraints(this, SBOL_SEQUENCE_CONSTRAINTS, '0', '*', ValidationRules({}))
+            {
+            };
+        
         /// The types property is a REQUIRED set of URIs that specifies the category of biochemical or physical entity (for example DNA, protein, or small molecule) that a ComponentDefinition object abstracts for the purpose of engineering design.  The types property of every ComponentDefinition MUST contain one or more URIs that MUST identify terms from appropriate ontologies, such as the BioPAX ontology or the ontology of Chemical Entities of Biological Interest. See the table below for examples.
         /// | Type              | URI for BioPAX Term                                           | LibSBOL symbol        |
         /// | :---------------- | :------------------------------------------------------------ | :-------------------- |
@@ -54,7 +74,7 @@ namespace sbol
         /// | Protein           | http://www.biopax.org/release/biopax-level3.owl#Protein       | BIOPAX_PROTEIN        |
         /// | Small Molecule    | http://www.biopax.org/release/biopax-level3.owl#SmallMolecule | BIOPAX_SMALL_MOLECULE |
         /// | Complex           | http://www.biopax.org/release/biopax-level3.owl#Complex       | BIOPAX_COMPLEX        |
-        List<URIProperty> types;
+        URIProperty types;
         
         /// The roles property is an OPTIONAL set of URIs that clarifies the potential function of the entity represented by a ComponentDefinition in a biochemical or physical context. The roles property of a ComponentDefinition MAY contain one or more URIs that MUST identify terms from ontologies that are consistent with the types property of the ComponentDefinition. For example, the roles property of a DNA or RNA ComponentDefinition could contain URIs identifying terms from the Sequence Ontology (SO).  See the table below for common examples
         /// | Role              | URI for Sequence Ontology Term            | LibSBOL symbol    |
@@ -69,36 +89,48 @@ namespace sbol
         /// | Engineered Gene   | http://identifiers.org/so/SO:0000280      |                   |
         /// | mRNA              | http://identifiers.org/so/SO:0000234      |                   |
         /// | Effector          | http://identifiers.org/chebi/CHEBI:35224  |                   |
-        List<URIProperty> roles;
+        URIProperty roles;
         
         /// The components property is OPTIONAL and MAY specify a set of Component objects that are contained by the ComponentDefinition. The components properties of ComponentDefinition objects can be used to construct a hierarchy of Component and ComponentDefinition objects. If a ComponentDefinition in such a hierarchy refers to one or more Sequence objects, and there exist ComponentDefinition objects lower in the hierarchy that refer to Sequence objects with the same encoding, then the elements properties of these Sequence objects SHOULD be consistent with each other, such that well-defined mappings exist from the “lower level” elements to the “higher level” elements. This mapping is also subject to any restrictions on the positions of the Component objects in the hierarchy that are imposed by the SequenceAnnotation or SequenceConstraint objects contained by the ComponentDefinition objects in the hierarchy.  The set of relations between Component and ComponentDefinition objects is strictly acyclic.
-        List<OwnedObject<Component>> components;
+        OwnedObject<Component> components;
         
         /// The sequences property is OPTIONAL and MAY include a URI that refer to a Sequence object. The referenced object defines the primary structure of the ComponentDefinition.
         ReferencedObject sequences;
         
+        ReferencedObject sequence;
+        
         /// The sequenceAnnotations property is OPTIONAL and MAY contain a set of SequenceAnnotation objects. Each SequenceAnnotation specifies and describes a potentially discontiguous region on the Sequence objects referred to by the ComponentDefinition.
-        List<OwnedObject<SequenceAnnotation>> sequenceAnnotations;
+        OwnedObject<SequenceAnnotation> sequenceAnnotations;
         
         /// The sequenceConstraints property is OPTIONAL and MAY contain a set of SequenceConstraint objects. These objects describe any restrictions on the relative, sequence-based positions and/or orientations of the Component objects contained by the ComponentDefinition. For example, the ComponentDefinition of a gene might specify that the position of its promoter Component precedes that of its CDS Component. This is particularly useful when a ComponentDefinition lacks a Sequence and therefore cannot specify the precise, sequence-based positions of its Component objects using SequenceAnnotation objects.
-		List<OwnedObject<SequenceConstraint>> sequenceConstraints;
-
-        /// Construct a ComponentDefinition
-        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        /// @param type A BioPAX ontology term that indicates whether the ComponentDefinition is DNA, RNA, protein, or some other molecule type.
-        /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
-        ComponentDefinition(std::string uri = "example", std::string type = BIOPAX_DNA, std::string version = "1.0.0") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
+		OwnedObject<SequenceConstraint> sequenceConstraints;
         
-        
-        /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is an abstract design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble(). This method assumes all arguments are already contained in a Document.
+        /// Assembles ComponentDefinitions into an abstraction hierarchy. The resulting data structure is a partial design, still lacking a primary structure or explicit sequence. To form a primary structure out of the ComponentDefinitions, call linearize after calling assemble. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
         void assemble(std::vector<ComponentDefinition*> list_of_components);
 
-        /// Assembles the provided vector of Components into a structural hierarchy.  Autoconstructs the required Components and SequenceConstraints.  The resulting data structure is a partial design, still lacking a specific DNA (or other) sequence.  To fully realize a design, use Sequence::assemble().
+        /// Assembles ComponentDefinitions into an abstraction hierarchy. The resulting data structure is a partial design, still lacking a primary structure or explicit sequence. To form a primary structure out of the ComponentDefinitions, call linearize after calling assemble. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
         /// @param doc The Document to which the assembled ComponentDefinitions will be added
         void assemble(std::vector<ComponentDefinition*> list_of_components, Document& doc);
+
+        /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
+        /// @param primary_structure A list of URIs for the constituent ComponentDefinitions, or displayIds if using SBOL-compliant URIs
+        void assemblePrimaryStructure(std::vector<std::string> primary_structure);
         
+        /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
+        /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
+        void assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure);
+        
+        /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
+        /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
+        /// @param doc The Document to which the assembled ComponentDefinitions will be added
+        void assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure, Document& doc);
+
+        /// Assembles ComponentDefinitions into an abstraction hierarchy. The resulting data structure is a partial design, still lacking a primary structure or explicit sequence. To form a primary structure out of the ComponentDefinitions, call linearize after calling assemble. To fully realize the target sequence, use Sequence::assemble().
+        /// @param list_of_uris A list of URIs for the constituent ComponentDefinitions, or displayIds if using SBOL-compliant URIs
+        void assemble(std::vector<std::string> list_of_uris);
+
         /// Assemble a parent ComponentDefinition's Sequence from its subcomponent Sequences
         /// @param composite_sequence A recursive parameter, use default value
         /// @return The assembled parent sequence
@@ -163,6 +195,31 @@ namespace sbol
         /// @param elements The primary sequence elements will be assigned to the autoconstructed Sequence object. The encoding is inferred
         void addDownstreamFlank(Component& target, std::string elements);
 
+        /// Use this diagnose an irregular design. Recursively checks if this ComponentDefinition defines a SequenceAnnotation and Range for every Sequence. Regularity is more stringent than completeness. A design must be complete to be regular.
+        /// @param msg A message for diagnosing the irregularity, if any is found. The message is returned through an argument of type std::string&
+        /// @return true if the abstraction hierarchy is regular, false otherwise.
+        bool isRegular(std::string &msg);
+
+        /// Recursively checks if this ComponentDefinition defines a SequenceAnnotation and Range for every Sequence. Regularity is more stringent than completeness. A design must be complete to be regular. If the Component is irregular, diagnose with isRegular(std::string &msg)
+        /// @return true if the abstraction hierarchy is regular, false otherwise.
+        bool isRegular();
+
+        /// Use this diagnose an incomplete design. Recursively checks if this ComponentDefinition defines a SequenceAnnotation and Range for every Sequence. Completeness does not guarantee regularity
+        /// @param msg A message for diagnosing the irregularity, if any is found. The message is returned through an argument of type std::string&
+        /// @return true if the abstraction hierarchy is regular, false otherwise.
+        bool isComplete(std::string &msg);
+        
+        /// Recursively verifies that the parent Document contains a ComponentDefinition and Sequence for each and every ComponentDefinition in the abstraction hierarchy. If a ComponentDefinition is not complete, some objects are missing from the Document or externally linked. Diagnose with isComplete(std::string &msg)
+        /// @return true if the abstraction hierarchy is complete, false otherwise.
+        bool isComplete();
+
+
+        /// Instantiates a Component for every SequenceAnnotation. When converting from a flat GenBank file to a flat SBOL file, the result is a ComponentDefinition with SequenceAnnotations. This method will convert the flat SBOL file into hierarchical SBOL.
+        void disassemble(int range_start = 1);
+        
+        void linearize(std::vector<ComponentDefinition*> list_of_components = {});
+        
+        void linearize(std::vector<std::string> list_of_uris);
         
         ComponentDefinition& build();
         
@@ -171,29 +228,7 @@ namespace sbol
         void participate(Participation& species);
         
         virtual ~ComponentDefinition() {  };
-//	protected:
-		// This protected constructor is a delegate constructor.  It initializes ComponentDefinitions with the corresponding sbol_type_uri
-        ComponentDefinition(sbol_type type, std::string uri, std::string component_type, std::string version) :
-            TopLevel(type, uri, version),
-            types(SBOL_TYPES, this, component_type),
-            roles(SBOL_ROLES, this),
-            sequences(SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, this),
-            sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this),
-            components(SBOL_COMPONENTS, this),
-            sequenceConstraints(SBOL_SEQUENCE_CONSTRAINTS, this)
-            {
-            };
         
-//        ComponentDefinition(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string component_type) :
-//			TopLevel(type, uri_prefix, display_id, version),
-//			types(SBOL_TYPES, this, component_type),
-//			roles(SBOL_ROLES, this),
-//			sequence(SBOL_SEQUENCE_PROPERTY, this),
-//			sequenceAnnotations(SBOL_SEQUENCE_ANNOTATIONS, this),
-//			components(SBOL_COMPONENTS, this),
-//			sequenceConstraints(SBOL_SEQUENCE_CONSTRAINTS, this)
-//			{
-//			}
 	};
 }
 

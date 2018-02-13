@@ -26,7 +26,8 @@
 #ifndef PART_SHOP_INCLUDED
 #define PART_SHOP_INCLUDED
 
-#include "assembly.h"
+#include "document.h"
+
 #include <string>
 #include <map>
 #include <vector>
@@ -41,6 +42,20 @@ namespace sbol
     class SBOL_DECLSPEC SearchQuery : public TopLevel
     {
     public:
+        /// SearchQuery constructor
+        /// @param search_target The type of SBOL object to search for, indicated using a URI. Set to SBOL_COMPONENT_DEFINITION by default.
+        SearchQuery(rdf_type search_target = SBOL_COMPONENT_DEFINITION, int offset = 0, int limit = 25) :
+            TopLevel(SBOL_URI "#SearchQuery", "example"),
+            objectType(this, SBOL_URI "#objectType", '0', '1', ValidationRules({}), search_target),
+            offset(this, SBOL_URI "#offset", '1', '1', ValidationRules({}), offset),
+            limit(this, SBOL_URI "#limit", '1', '1', ValidationRules({}), limit)
+        {
+            // The following properties are set to empty string because they are treated like search criteria
+            displayId.set("");
+            persistentIdentity.set("");
+            version.set("");
+        };
+
         /// Set this property to indicate the type of SBOL object to search for. Set to SBOL_COMPONENT_DEFINITION by default
         URIProperty objectType;
 
@@ -56,24 +71,10 @@ namespace sbol
         {
             // If the URI has a namespace, treat the function argument as a full URI
             if (parseNamespace(uri).compare("") == 0)
-                return TextProperty(SBOL_URI "#" + uri, this);
+                return TextProperty(this, SBOL_URI "#" + uri, '0', '1', ValidationRules({}));
             else
-                return TextProperty(uri, this);
+                return TextProperty(this, uri, '0', '1', ValidationRules({}));
         };  ///< Retrieve a child object by URI
-
-        /// SearchQuery constructor
-        /// @param type The type of SBOL object to search for, indicated using a URI. Set to SBOL_COMPONENT_DEFINITION by default.
-        SearchQuery(sbol_type type = SBOL_COMPONENT_DEFINITION) :
-            TopLevel(SBOL_URI "#SearchQuery", "example"),
-            objectType(SBOL_URI "#objectType", this, type),
-            offset(SBOL_URI "#offset", this, 0),
-            limit(SBOL_URI "#limit", this, 25)
-        {
-            // The following properties are set to empty string because they are treated like search criteria
-            displayId.set("");
-            persistentIdentity.set("");
-            version.set("");
-        };
         
         ~SearchQuery() {};
 
@@ -148,64 +149,6 @@ namespace sbol
         std::vector<Identified*>::iterator python_iter;
     };
     
-//    class SBOL_DECLSPEC SearchQuery : public Json::Value
-//    {
-//    private:
-//        std::string resource;
-//        std::string key;
-//        
-//    public:
-//        
-//        /// Construct an interface to an instance of SynBioHub or other parts repository
-//        /// @param The URL of the online repository
-//        SearchQuery(std::map<std::string, std::string> criteria ) :
-//        Json::Value()
-//        {
-//            //        std::vector<std::string> keys;
-//            //        for(auto const& key_value_pair: criteria)
-//            //            keys.push_back(key_value_pair.first);
-//            //        // Check that Json request contains the expected key-value pairs
-//            //        std::vector<std::string> valid_parameters = {"objectType", "sbolTag", "collection", "dcterms", "namespace/tag"};
-//            //        for (auto const& p : valid_parameters)
-//            //        {
-//            //            if ( std::find(valid_parameters.begin(), valid_parameters.end(), p) == valid_parameters.end() )
-//            //            {
-//            //                throw sbol::SBOLError(sbol::SBOL_ERROR_INVALID_ARGUMENT, "Invalid search parameter " + p + ". Search parameters must be one or more of objectType, sbolTag, collection, dcterms, or namespace/tag");
-//            //                (*this)[p] = criteria[p];
-//            //            }
-//            //        }
-//        }
-//    };
-    
-//    class SBOL_DECLSPEC SearchResponse : public Json::Value
-//    {
-//    private:
-//        std::string resource;
-//        std::string key;
-//        
-//    public:
-//        
-//        /// Construct an interface to an instance of SynBioHub or other parts repository
-//        /// @param The URL of the online repository
-//        SearchResponse() :
-//        Json::Value()
-//        {
-//            //
-//            //        std::vector<std::string> keys;
-//            //        for(auto const& key_value_pair: criteria)
-//            //            keys.push_back(key_value_pair.first);
-//            //        // Check that Json request contains the expected key-value pairs
-//            //        std::vector<std::string> valid_parameters = {"objectType", "sbolTag", "collection", "dcterms", "namespace/tag"};
-//            //        for (auto const& p : valid_parameters)
-//            //        {
-//            //            if ( std::find(valid_parameters.begin(), valid_parameters.end(), p) == valid_parameters.end() )
-//            //            {
-//            //                throw sbol::SBOLError(sbol::SBOL_ERROR_INVALID_ARGUMENT, "Invalid search parameter " + p + ". Search parameters must be one or more of objectType, sbolTag, collection, dcterms, or namespace/tag");
-//            //                (*this)[p] = criteria[p];
-//            //            }
-//            //        }
-//        }
-//    };  // SearchResponse
     
     /// A class which provides an API front-end for online bioparts repositories
     class SBOL_DECLSPEC PartShop
@@ -215,6 +158,13 @@ namespace sbol
         std::string key;
         
     public:
+        /// Construct an interface to an instance of SynBioHub or other parts repository
+        /// @param The URL of the online repository
+        PartShop(std::string url) :
+            resource(url)
+            {
+            };
+        
         /// Return the count of objects contained in a PartShop
         /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
         template < class SBOLClass > int count();
@@ -224,6 +174,13 @@ namespace sbol
         /// @param doc A document to add the data to
         void pull(std::string uri, Document& doc);
 
+        /// Retrieve an object from an online resource
+        /// @param uris A vector of URIs for multiple SBOL objects you want to retrieve
+        /// @param doc A document to add the data to
+        void pull(std::vector<std::string> uris, Document& doc);
+        
+        template < class SBOLClass > void pull(std::string uri, Document& doc, bool recursive = true);
+        
         /// Returns all Collections that are not members of any other Collections
         /// @param doc A Document to add the Collections to
         std::string searchRootCollections();
@@ -255,8 +212,6 @@ namespace sbol
         /// @return Search metadata A vector of maps with key-value pairs.
         SearchResponse& search(SearchQuery& q);
         
-//#endif
-        
         /// Returns the number of search records for an EXACT search matching the given criteria.
         /// @return An integer count.
         int searchCount(std::string search_text, std::string object_type, std::string property_uri);
@@ -270,10 +225,17 @@ namespace sbol
         /// @return An integer count.
         int searchCount(SearchQuery& q);
         
-        /// Submit a Document to SynBioHub
+        /// Submit an SBOL Document to SynBioHub
         /// @param doc The Document to submit
+        /// @param collection The URI of an SBOL Collection to which the Document contents will be uploaded
         /// @param overwrite An integer code: 0(default) - do not overwrite, 1 - overwrite, 2 - merge
-        std::string submit(Document& doc, int overwrite = 0);
+        std::string submit(Document& doc, std::string collection = "", int overwrite = 0);
+
+//        /// Submit a file, such as COMBINE archives or SBML to a SynBioHub Collection
+//        /// @param filename The file to submit
+//        /// @param collection The URI of an SBOL Collection to which the file will be submitted
+//        /// @param overwrite An integer code: 0(default) - do not overwrite, 1 - overwrite, 2 - merge
+//        std::string submit(std::string filename, std::string collection, int overwrite = 0);
         
         /// In order to submit to a PartShop, you must login first. Register on [SynBioHub](http://synbiohub.org) to obtain account credentials.
         /// @param email The email associated with the user's SynBioHub account
@@ -284,14 +246,18 @@ namespace sbol
         /// @return The URL of the online repository
         std::string getURL();
         
-        /// Construct an interface to an instance of SynBioHub or other parts repository
-        /// @param The URL of the online repository
-        PartShop(std::string url) :
-        resource(url)
-        {
-        };
+        /// Upload and attach a file to a TopLevel object in a PartShop.
+        /// @param top_level_uri The identity of the object to which the file will be attached
+        /// @param file_name A path to the file attachment
+        void attachFile(std::string topleveluri, std::string filename);
+
+        /// Download a file attached to a TopLevel object in an online repository.
+        /// @param attachment_uri The full URI of the attached object
+        /// @param path The target path to which the file will be downloaded
+        void downloadAttachment(std::string attachment_uri, std::string path = ".");
+        
     };
-    
+
 //    /// Returns a Document including all objects referenced from this object
 //    template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri);
 
@@ -345,5 +311,58 @@ namespace sbol
         return stoi(response);
     };
     
+    template<>
+    void PartShop::pull<ComponentDefinition>(std::string uri, Document& doc, bool recursive);
+
+    template < class SBOLClass > void PartShop::pull(std::string uri, Document& doc, bool recursive)
+    {
+        std::string get_request = uri + "/sbol";
+        
+        /* Perform HTTP request */
+        std::string response;
+        CURL *curl;
+        CURLcode res;
+        
+        /* In windows, this will init the winsock stuff */
+        curl_global_init(CURL_GLOBAL_ALL);
+        
+        struct curl_slist *headers = NULL;
+        //    headers = curl_slist_append(headers, "Accept: application/json");
+        //    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+        //    headers = curl_slist_append(headers, "charsets: utf-8");
+        
+        /* get a curl handle */
+        curl = curl_easy_init();
+        if(curl) {
+            /* First set the URL that is about to receive our POST. This URL can
+             just as well be a https:// URL if that is what should receive the
+             data. */
+            //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+            curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
+            //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+            
+            /* Now specify the POST data */
+            //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+            
+            /* Now specify the callback to read the response into string */
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+            
+            /* Perform the request, res will get the return code */
+            res = curl_easy_perform(curl);
+            /* Check for errors */
+            if(res != CURLE_OK)
+                throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to access PartShop failed with " + std::string(curl_easy_strerror(res)));
+            
+            /* always cleanup */
+            curl_easy_cleanup(curl);
+        }
+        curl_slist_free_all(headers);
+        curl_global_cleanup();
+        
+        doc.readString(response);
+
+    };
+
 }  // sbol namepsace
 #endif

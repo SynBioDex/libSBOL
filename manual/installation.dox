@@ -39,7 +39,7 @@
 ///
 /// 2. Clone the repository by running the following command in git application or command console or get the stable source [here](https://github.com/SynBioDex/libSBOL/releases/latest):
 /// ```
-/// git clone https://github.com/SynBioDex/libSBOL.git
+/// git clone https://github.com/SynBioDex/libSBOL --recursive
 /// ```
 /// This will create a libSBOL directory with the source.
 ///
@@ -83,7 +83,7 @@
 ///
 /// 2. Clone the repository by running the following command in terminal or get the stable source [here](https://github.com/SynBioDex/libSBOL/releases/latest).
 /// ```
-/// git clone https://github.com/SynBioDex/libSBOL.git
+/// git clone https://github.com/SynBioDex/libSBOL --recursive
 /// ```
 /// This will create a libSBOL directory with the source.
 ///
@@ -141,7 +141,7 @@
 ///
 /// 3. Clone the repository by running the following command in terminal or get the stable source [here](https://github.com/SynBioDex/libSBOL/releases/latest).
 /// ```
-/// git clone https://github.com/SynBioDex/libSBOL.git
+/// git clone https://github.com/SynBioDex/libSBOL.git --recursive
 /// ```
 /// This will create a libSBOL directory with the source. 
 ///

@@ -49,19 +49,20 @@ std::string TextProperty::get()
         {
             // property value not set
             if (this->sbol_owner->properties[type].size() == 0)
-                throw SBOLError(SBOL_ERROR_NOT_FOUND, "Property has not been set");
+                throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
             // property value is found
             else
             {
                 std::string value = this->sbol_owner->properties[type].front();
                 value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                if (value == "")
+                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
                 return value;
             }
         }
     }	else
     {
-        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");
-    }
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "Property " + type + " is not a member of a parent SBOLObject");    }
 };
 
 /// @return A string of characters used to identify a resource
@@ -84,13 +85,14 @@ std::string URIProperty::get()
             {
                 std::string value = this->sbol_owner->properties[type].front();
                 value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                if (value == "")
+                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
                 return value;
             }
         }
     }	else
     {
-        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");
-    }
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "Property " + type + " is not a member of a parent SBOLObject");    }
 };
 
 /// @return An integer
@@ -113,12 +115,14 @@ int IntProperty::get()
             {
                 std::string value = this->sbol_owner->properties[type].front();
                 value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                if (value == "")
+                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
                 return stoi(value);
             }
         }
     }	else
     {
-        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");    }
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "Property " + type + " is not a member of a parent SBOLObject");    }
 };
 
 /// @return An integer
@@ -141,12 +145,14 @@ double FloatProperty::get()
             {
                 std::string value = this->sbol_owner->properties[type].front();
                 value = value.substr(1, value.length() - 2);  // Strips angle brackets from URIs and quotes from literals
+                if (value == "")
+                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "The " + type + " property has not been set");
                 return stod(value);
             }
         }
     }	else
     {
-        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "This Property object is not a member of a parent SBOLObject");    }
+        throw SBOLError(SBOL_ERROR_ORPHAN_OBJECT, "Property " + type + " is not a member of a parent SBOLObject");    }
 };
 
 void VersionProperty::incrementMinor()
@@ -344,17 +350,6 @@ int VersionProperty::patch()
     return patch_version;
 };
 
-//ReferencedObject::ReferencedObject(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value) :
-//URIProperty(type_uri, property_owner, initial_value)
-//{
-//    // Register Property in owner Object
-//    if (this->sbol_owner != NULL)
-//    {
-//        std::vector<std::string> property_store;
-//        this->sbol_owner->properties.insert({ type_uri, property_store });
-//    }
-//};
-
 
 vector<string> VersionProperty::split(const char c)
 {
@@ -462,94 +457,5 @@ string DateTimeProperty::stampTime()
     return stamp;
 }
 
-ReferencedObject::ReferencedObject(sbol_type type_uri, sbol_type reference_type_uri, SBOLObject *property_owner, std::string initial_value) :
-    URIProperty(type_uri, property_owner, initial_value),
-    reference_type_uri(reference_type_uri)
-{
-    // Register Property in owner Object
-    if (this->sbol_owner != NULL)
-    {
-        std::vector<std::string> property_store;
-        this->sbol_owner->properties.insert({ type_uri, property_store });
-    }
-};
 
-void ReferencedObject::set(std::string uri)
-{
-    if (this->sbol_owner)
-    {
-        //sbol_owner->properties[type].push_back( new_value );
-        std::string current_value = this->sbol_owner->properties[this->type][0];
-        if (current_value[0] == '<')  //  this property is a uri
-        {
-            this->sbol_owner->properties[this->type][0] = "<" + uri + ">";
-        }
-        else if (current_value[0] == '"') // this property is a literal
-        {
-            throw;
-        }
-        
-    }
-    //validate((void *)&uri);
-};
-
-void ReferencedObject::set(SBOLObject& obj)
-{
-    set(obj.identity.get());
-};
-
-
-// For compliant URIs
-void ReferencedObject::setReference(const std::string uri)
-{
-    if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
-    {
-        // if not TopLevel throw an error
-        // @TODO search Document by persistentIdentity and retrieve the latest version
-        set(getHomespace() + "/" + parseClassName(this->reference_type_uri) + "/" + uri + "/1.0.0");
-    }
-    else if (hasHomespace())
-    {
-        set(getHomespace() + "/" + uri);
-    }
-    else
-        set(uri);
-};
-
-//// For compliant URIs
-//void ReferencedObject::setReference(const std::string uri_prefix, const std::string display_id, const std::string version)
-//{
-//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
-//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
-//    this->set(compliant_uri);
-//};
-//
-//// For compliant URIs
-//void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id)
-//{
-//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
-//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, "1.0.0");
-//    this->addReference(compliant_uri);
-//};
-//
-//// For compliant URI's
-//void ReferencedObject::addReference(const std::string uri_prefix, const std::string display_id, const std::string version)
-//{
-//    std::string sbol_class_name = parseClassName(this->reference_type_uri);
-//    std::string compliant_uri = getCompliantURI(uri_prefix, sbol_class_name, display_id, version);
-//    this->addReference(compliant_uri);
-//};
-
-
-std::string ReferencedObject::operator[] (const int nIndex)
-{
-    std::vector<std::string> *reference_store = &this->sbol_owner->properties[this->type];
-    return reference_store->at(nIndex);
-};
-
-
-void ReferencedObject::addReference(const std::string uri)
-{
-    this->sbol_owner->properties[this->type].push_back("<" + uri + ">");
-};
 

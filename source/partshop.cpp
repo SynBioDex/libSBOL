@@ -43,7 +43,7 @@ void encode_http(string& text)
 // Advanced search
 SearchResponse& sbol::PartShop::search(SearchQuery& q)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -156,9 +156,9 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
 };
 
 // Exact search
-SearchResponse& sbol::PartShop::search(std::string search_text, sbol_type object_type, std::string property_uri, int offset, int limit)
+SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_type, std::string property_uri, int offset, int limit)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -243,9 +243,9 @@ SearchResponse& sbol::PartShop::search(std::string search_text, sbol_type object
 };
 
 // General search
-SearchResponse& sbol::PartShop::search(std::string search_text, sbol_type object_type, int offset, int limit)
+SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_type, int offset, int limit)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -324,7 +324,7 @@ SearchResponse& sbol::PartShop::search(std::string search_text, sbol_type object
 
 int sbol::PartShop::searchCount(SearchQuery& q)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -413,7 +413,7 @@ int sbol::PartShop::searchCount(SearchQuery& q)
     return count;
 };
 
-int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type, std::string property_uri)
+int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type, std::string property_uri)
 {
     string url = resource;
     
@@ -450,7 +450,7 @@ int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type, 
         
         encode_http(parameters);
         
-        parameters = url + "/remoteSearch/" + parameters;
+        parameters = parseURLDomain(url) + "/remoteSearch/" + parameters;
         
         /* First set the URL that is about to receive our GET. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
@@ -485,9 +485,9 @@ int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type, 
     return count;
 };
 
-int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type)
+int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
 {
-    string url = resource;
+    string url = parseURLDomain(resource);
     
     /* Perform HTTP request */
     string response;
@@ -544,7 +544,7 @@ int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type)
     }
     catch (...)
     {
-        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search failed with error message" + response);
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search failed with error message: " + response);
     }
     return count;
 };
@@ -552,7 +552,6 @@ int sbol::PartShop::searchCount(std::string search_text, sbol_type object_type)
 
 void sbol::PartShop::login(std::string email, std::string password)
 {
-    
     /* Perform HTTP request */
     string response;
     CURL *curl;
@@ -573,7 +572,7 @@ void sbol::PartShop::login(std::string email, std::string password)
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/remoteLogin");
+        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/remoteLogin").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */
@@ -596,10 +595,13 @@ void sbol::PartShop::login(std::string email, std::string password)
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    key = response;
+    if (response == "Your password was not recognized.")
+        std::cout << response << std::endl;
+    else
+        key = response;
 };
 
-std::string sbol::PartShop::submit(Document& doc, int overwrite)
+std::string sbol::PartShop::submit(Document& doc, std::string collection, int overwrite)
 {
     
     /* Perform HTTP request */
@@ -611,8 +613,8 @@ std::string sbol::PartShop::submit(Document& doc, int overwrite)
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-//        headers = curl_slist_append(headers, "Accept: application/json");
-//    headers = curl_slist_append(headers, "Content-Type:  multipart/form-data");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     //    headers = curl_slist_append(headers, "charsets: utf-8");
     
     /* get a curl handle */
@@ -621,41 +623,39 @@ std::string sbol::PartShop::submit(Document& doc, int overwrite)
         /* First set the URL that is about to receive our POST. This URL can
          just as well be a https:// URL if that is what should receive the
          data. */
-        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/remoteSubmit");
-//        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/submit").c_str());
         
         /* Now specify the POST data */
         struct curl_httppost* post = NULL;
         struct curl_httppost* last = NULL;
         
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "id",
-                     CURLFORM_COPYCONTENTS, doc.displayId.get().c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "version",
-                     CURLFORM_COPYCONTENTS, doc.version.get().c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "name",
-                     CURLFORM_COPYCONTENTS, doc.name.get().c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "description",
-                     CURLFORM_COPYCONTENTS, doc.description.get().c_str(), CURLFORM_END);
+        if (doc.displayId.size())
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "id", CURLFORM_COPYCONTENTS, doc.displayId.get().c_str(), CURLFORM_END);
+        if (doc.version.size())
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "version", CURLFORM_COPYCONTENTS, doc.version.get().c_str(), CURLFORM_END);
+        if (doc.name.size())
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "name", CURLFORM_COPYCONTENTS, doc.name.get().c_str(), CURLFORM_END);
+        if (doc.description.size())
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "description", CURLFORM_COPYCONTENTS, doc.description.get().c_str(), CURLFORM_END);
         string citations;
         for (auto citation : doc.citations.getAll())
             citations += citation + ",";
         citations = citations.substr(0, citations.length() - 1);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "citations",
-                     CURLFORM_COPYCONTENTS, citations.c_str(), CURLFORM_END);  // Comma separated list
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "citations", CURLFORM_COPYCONTENTS, citations.c_str(), CURLFORM_END);  // Comma separated list
         string keywords;
         for (auto kw : doc.keywords.getAll())
             keywords += kw + ",";
         keywords = keywords.substr(0, keywords.length() - 1);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords",
-                     CURLFORM_COPYCONTENTS, doc.keywords.get().c_str(), CURLFORM_END);
-
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge",
-                     CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "user",
-                     CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file",
-                     CURLFORM_COPYCONTENTS, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords", CURLFORM_COPYCONTENTS, keywords.c_str(), CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "collectionChoices", CURLFORM_COPYCONTENTS, collection.c_str(), CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge", CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "user", CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_COPYCONTENTS, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
+        if (collection != "")
+            curl_formadd(&post, &last, CURLFORM_COPYNAME, "rootCollections", CURLFORM_COPYCONTENTS, collection.c_str());
+        
         
         /* Set the form info */
         curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
@@ -668,7 +668,7 @@ std::string sbol::PartShop::submit(Document& doc, int overwrite)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to submit Document failed with " + string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -676,28 +676,89 @@ std::string sbol::PartShop::submit(Document& doc, int overwrite)
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    //    Json::Value json_response;
-    //    Json::Reader reader;
-    //    bool parsed = reader.parse( response, json_response );     //parse process
-    //    if ( parsed )
-    //    {
-    //        //response = json_response.get("result", response ).asString();
-    //        //response = json_response.get("valid", response ).asString() << endl;
-    //        //response = json_response.get("output_file", response ).asString() << endl;
-    //        //response = json_response.get("valid", response ).asString();
-    //        if (json_response.get("valid", response ).asString().compare("true") == 0)
-    //            response = "Valid.";
-    //        else
-    //            response = "Invalid.";
-    //        for (auto itr : json_response["errors"])
-    //        {
-    //            response += " " + itr.asString();
-    //        }
-    //    }
-    if (response.compare("Error: Invalid user token") == 0)
+    if (response.compare("Found. Redirecting to /login?next=%2Fsubmit") == 0)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
     return response;
 };
+
+//std::string sbol::PartShop::submit(std::string filename, std::string collection, int overwrite)
+//{
+//    if (filename != "" && filename[0] == '~') {
+//        if (filename[1] != '/'){
+//            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Malformed input path. Potentially missing slash.");
+//        }
+//        char const* home = getenv("HOME");
+//        if (home || (home = getenv("USERPROFILE"))) {
+//            filename.replace(0, 1, home);
+//        }
+//    }
+//    FILE* fh = fopen(filename.c_str(), "rb");
+//    if (!fh)
+//        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + filename + " not found");
+//
+//    /* Perform HTTP request */
+//    string response;
+//    CURL *curl;
+//    CURLcode res;
+//    
+//    /* In windows, this will init the winsock stuff */
+//    curl_global_init(CURL_GLOBAL_ALL);
+//    
+//    struct curl_slist *headers = NULL;
+//    headers = curl_slist_append(headers, "Accept: text/plain");
+//    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
+//    //    headers = curl_slist_append(headers, "charsets: utf-8");
+//    
+//    /* get a curl handle */
+//    curl = curl_easy_init();
+//    if(curl)
+//    {
+//        /* First set the URL that is about to receive our POST. This URL can
+//         just as well be a https:// URL if that is what should receive the
+//         data. */
+//        
+//        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+//        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/submit").c_str());
+//        if (Config::getOption("verbose") == "True")
+//            curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+//
+//        /* Now specify the POST data */
+//        struct curl_httppost* post = NULL;
+//        struct curl_httppost* last = NULL;
+//        
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "id", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "version", CURLFORM_COPYCONTENTS, "1", CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "name", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "description", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "citations", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);  // Comma separated list
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
+//        
+//        
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge", CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "user", CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_FILE, filename.c_str(), CURLFORM_END);  // Upload file
+//        if (collection != "")
+//            curl_formadd(&post, &last, CURLFORM_COPYNAME, "rootCollections", CURLFORM_COPYCONTENTS, collection.c_str());
+//        
+//        
+//        /* Set the form info */
+//        curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
+//        
+//        /* Now specify the callback to read the response into string */
+//        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+//        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+//        
+//        /* Perform the request, res will get the return code */
+//        res = curl_easy_perform(curl);
+//        /* Check for errors */
+//        if(res != CURLE_OK)
+//            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + string(curl_easy_strerror(res)));
+//        
+//        /* always cleanup */
+//        curl_easy_cleanup(curl);
+//    }
+//    return response;
+//};
 
 //template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri)
 //{
@@ -754,7 +815,7 @@ std::string PartShop::searchRootCollections()
 {
     // Form get request
     std::string get_request;
-    get_request = resource + "/rootCollections";
+    get_request = parseURLDomain(resource) + "/rootCollections";
     
     /* Perform HTTP request */
     std::string response;
@@ -840,10 +901,14 @@ std::string PartShop::searchSubCollections(std::string uri)
 };
 
 
-void PartShop::pull(std::string uri, Document& doc)
+void PartShop::pull(std::vector<std::string> uris, Document& doc)
 {
-    std::string get_request = uri + "/sbol";
-    
+    for (auto & uri : uris)
+        pull(uri, doc);
+}
+
+std::string http_get_request(std::string get_request, unordered_map<string, string>* headers = NULL, unordered_map<string, string>* response_headers = NULL)
+{
     /* Perform HTTP request */
     std::string response;
     CURL *curl;
@@ -852,7 +917,12 @@ void PartShop::pull(std::string uri, Document& doc)
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
     
-    struct curl_slist *headers = NULL;
+    
+    struct curl_slist *header_list = NULL;
+    if (headers)
+        for (auto & header : *headers)
+            header_list = curl_slist_append(header_list, (header.first + ": " + header.second).c_str());
+
     //    headers = curl_slist_append(headers, "Accept: application/json");
     //    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
     //    headers = curl_slist_append(headers, "charsets: utf-8");
@@ -865,10 +935,106 @@ void PartShop::pull(std::string uri, Document& doc)
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
-        //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header_list);
         
         /* Now specify the POST data */
         //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Now specify the callback to read response headers */
+        curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, CurlResponseHeader_CallbackFunc);
+        curl_easy_setopt(curl, CURLOPT_HEADERDATA, response_headers);
+
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, std::string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(header_list);
+    curl_global_cleanup();
+    return response;
+}
+
+
+void PartShop::pull(std::string uri, Document& doc)
+{
+    if (Config::getOption("verbose") == "True")
+        std::cout << "Attempting to pull " << getURL() + "/" + uri << std::endl;
+    std::string get_request = getURL() + "/" + uri + "/sbol";  // Assume user supplied only a displayId for the requested part
+    std::string response = http_get_request(get_request);
+    if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
+    {
+        // Reattempt, assuming user supplied a full URI for the requested part
+        if (Config::getOption("verbose") == "True")
+            std::cout << "Not found. Attempting to pull " << uri << std::endl;
+        get_request = uri + "/sbol";
+        response = http_get_request(get_request);
+        if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
+            throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
+    }
+    Document temp_doc = Document();
+    temp_doc.readString(response);
+    temp_doc.copy(resource, &doc);
+};
+
+string PartShop::getURL()
+{
+    return resource;
+}
+
+void PartShop::attachFile(std::string topleveluri, std::string filename)
+{
+    if (filename != "" && filename[0] == '~') {
+        if (filename[1] != '/'){
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Malformed input path. Potentially missing slash.");
+        }
+        char const* home = getenv("HOME");
+        if (home || (home = getenv("USERPROFILE"))) {
+            filename.replace(0, 1, home);
+        }
+    }
+    FILE* fh = fopen(filename.c_str(), "rb");
+    if (!fh)
+        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + filename + " not found");
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_URL, string(topleveluri + "/attach").c_str());
+        
+        /* Now specify the POST data */
+        struct curl_httppost* post = NULL;
+        struct curl_httppost* last = NULL;
+
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_FILE, filename.c_str(), CURLFORM_END);
+        
+        /* Set the form info */
+        curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
         
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
@@ -878,7 +1044,7 @@ void PartShop::pull(std::string uri, Document& doc)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + std::string(curl_easy_strerror(res)));
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to upload attachment failed with " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -886,12 +1052,38 @@ void PartShop::pull(std::string uri, Document& doc)
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    doc.readString(response);
+    if (response.compare("Found. Redirecting to /login?next=%2Fsubmit") == 0)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
+    if (Config::getOption("verbose") == "True")
+        std::cout << response << std::endl;
 };
 
-string PartShop::getURL()
+void PartShop::downloadAttachment(string attachment_uri, string path)
 {
-    return resource;
+    if (parseURLDomain(attachment_uri) != resource)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot download attachment. The URI does not match the domain for this PartShop.");
+    string url = attachment_uri + "/download";
+    unordered_map<string, string> headers;
+    unordered_map<string, string> header_response;
+
+    headers["X-authorization"] = key;
+    headers["Accept"] = "text/plain";
+    string response = http_get_request(url, &headers, &header_response);
+    if (response.find("<!DOCTYPE html>") != std::string::npos)
+        throw SBOLError(SBOL_ERROR_NOT_FOUND, "Unable to download. Attachment " + attachment_uri + " not found.");
+    if (header_response.find("Content-Disposition") == header_response.end())
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
+
+    std::string filename = header_response["Content-Disposition"];
+    filename.erase(0, 23); // remove the substring: attachment; filename="
+    filename.erase(filename.end() - 2, filename.end()); // remove the terminating "
+
+    FILE* fh = fopen((path + "/" + filename).c_str(), "wb");
+    if (!fh)
+        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "Cannot download attachment. The target path " + path + filename + " is invalid.");
+
+    fputs(response.c_str(), fh);
+    fclose(fh);
 }
 
 
@@ -902,3 +1094,20 @@ void SearchResponse::extend(SearchResponse& response)
         records.push_back(&record);
     }
 };
+
+namespace sbol
+{
+    template<>
+    void PartShop::pull<ComponentDefinition>(std::string uri, Document& doc, bool recursive)
+    {
+        pull(uri, doc);
+        ComponentDefinition& cd = doc.get<ComponentDefinition>(uri);
+
+        if (recursive)
+        {
+            pull(cd.sequences.get(), doc);
+            for (auto & c : cd.components)
+                pull(c.definition.get(), doc);
+        }
+    };
+}

@@ -26,57 +26,58 @@
 #ifndef PROVO_INCLUDED
 #define PROVO_INCLUDED
 
-
-
 namespace sbol
 {
     /// An Association is linked to an Agent through the agent relationship. The Association includes the hadRole property to qualify the role of the Agent in the Activity.
     class SBOL_DECLSPEC Association : public Identified
     {
     public:
+        /// Constructor
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        Association(std::string uri = "example", std::string agent = "", std::string role = "", std::string version = "1.0.0") : Association(PROVO_ASSOCIATION, agent, role, uri, version) {};
+
+        /// Constructor used for defining extension classes
+        /// @param rdf_type The RDF type for an extension class derived from this one
+        Association(rdf_type type, std::string uri, std::string agent, std::string role, std::string version) :
+            Identified(type, uri, version),
+            agent(this, PROVO_AGENT_PROPERTY, PROVO_AGENT, '1', '1', ValidationRules({}), agent),
+            roles(this, PROVO_HAD_ROLE, '1', '*', ValidationRules({}), role),
+            plan(this, PROVO_HAD_PLAN, PROVO_PLAN, '0', '1', ValidationRules({}))
+        {
+        };
+        
         /// The agent property is REQUIRED and MUST contain a URI that refers to an Agent object.
         ReferencedObject agent;
         
         /// The hadRole property is REQUIRED and MUST contain a URI that refers to a particular term describing the usage of the agent.
-        URIProperty hadRole;
+        URIProperty roles;
         
         /// The hadPlan property is OPTIONAL and contains a URI that refers to a Plan.
-        ReferencedObject hadPlan;
-        
-        /// Constructor
-        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Association(std::string uri = DEFAULT_NS "/Association/example", std::string agent = "", std::string role = "", std::string version = "1.0.0") : Association(PROVO_ASSOCIATION, agent, role, uri, version) {};
-        
-        Association(sbol_type type, std::string uri, std::string agent, std::string role, std::string version) :
-            Identified(type, uri, version),
-            agent(PROVO_AGENT_PROPERTY, PROVO_AGENT, this, agent),
-            hadRole(PROVO_HAD_ROLE, this, role),
-            hadPlan(PROVO_HAD_PLAN, PROVO_PLAN, this)
-        {
-        };
+        ReferencedObject plan;
     };
 
     /// How different entities are used in an Activity is specified with the Usage class, which is linked from an Activity through the qualifiedUsage relationship. A Usage is then linked to an Entity through the Entity’s URI and the role of this entity is qualified with the hadRole property. When the wasDerivedFrom property is used together with the full provenance described here, the entity pointed at by the wasDerivedFrom property MUST be included in a Usage.
     class SBOL_DECLSPEC Usage : public Identified
     {
     public:
-        
-        /// The entity property is REQUIRED and MUST contain a URI which MAY refer to an SBOL Identified object.
-        ReferencedObject entity;
-        
-        /// The hadRole property is REQUIRED and MAY contain a URI that refers to a particular term describing the usage of an entity referenced by the entity property.
-        URIProperty hadRole;
-        
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Usage(std::string uri = DEFAULT_NS "/Usage/example", std::string entity = "", std::string role = "", std::string version = "1.0.0") : Usage(PROVO_USAGE, entity, role, uri, version) {};
+        Usage(std::string uri = "example", std::string entity = "", std::string role = "", std::string version = "1.0.0") : Usage(PROVO_USAGE, uri, entity, role, version) {};
         
-        Usage(sbol_type type, std::string uri, std::string entity, std::string role, std::string version) :
+        /// Constructor used for defining extension classes
+        /// @param rdf_type The RDF type for an extension class derived from this one
+        Usage(rdf_type type, std::string uri, std::string entity, std::string role, std::string version) :
             Identified(type, uri, version),
-            entity(PROVO_ENTITY, SBOL_IDENTIFIED, this, entity),
-            hadRole(PROVO_HAD_ROLE, this, role)
+            entity(this, PROVO_ENTITY, '1', '1', ValidationRules({}), entity),
+            roles(this, PROVO_HAD_ROLE, '1', '*', ValidationRules({}), role)
         {
         }
+        
+        /// The entity property is REQUIRED and MUST contain a URI which MAY refer to an SBOL Identified object.
+        URIProperty entity;
+        
+        /// The hadRole property is REQUIRED and MAY contain a URI that refers to a particular term describing the usage of an entity referenced by the entity property.
+        URIProperty roles;
     };
     
     /// Examples of agents are person, organisation or software. These agents should be annotated with additional information, such as software version, needed to be able to run the same software again.
@@ -85,9 +86,11 @@ namespace sbol
     public:
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Agent(std::string uri = DEFAULT_NS "/Agent/example", std::string version = "1.0.0") : Agent(PROVO_AGENT, uri, version) {};
+        Agent(std::string uri = "example", std::string version = "1.0.0") : Agent(PROVO_AGENT, uri, version) {};
         
-        Agent(sbol_type type, std::string uri, std::string version) :
+        /// Constructor used for defining extension classes
+        /// @param rdf_type The RDF type for an extension class derived from this one
+        Agent(rdf_type type, std::string uri, std::string version) :
             TopLevel(type, uri, version)
         {
         }
@@ -99,9 +102,11 @@ namespace sbol
     public:
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Plan(std::string uri = DEFAULT_NS "/Plan/example", std::string version = "1.0.0") : Plan(PROVO_PLAN, uri, version) {};
-            
-        Plan(sbol_type type, std::string uri, std::string version) :
+        Plan(std::string uri = "example", std::string version = "1.0.0") : Plan(PROVO_PLAN, uri, version) {};
+
+        /// Constructor used for defining extension classes
+        /// @param rdf_type The RDF type for an extension class derived from this one
+        Plan(rdf_type type, std::string uri, std::string version) :
             TopLevel(type, uri, version)
         {
         }
@@ -111,7 +116,22 @@ namespace sbol
     class SBOL_DECLSPEC Activity : public TopLevel
     {
     public:
- 
+        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
+        Activity(std::string uri = "example", std::string action_type = "", std::string version = "1.0.0") : Activity(PROVO_ACTIVITY, uri, action_type, version) {};
+
+        /// Constructor used for defining extension classes
+        /// @param rdf_type The RDF type for an extension class derived from this one
+        Activity(rdf_type type, std::string uri, std::string action_type, std::string version) :
+            TopLevel(type, uri, version),
+            //type(SBOL_TYPES, this, action_type),
+            startedAtTime(this, PROVO_STARTED_AT_TIME, '0', '1'),
+            endedAtTime(this, PROVO_ENDED_AT_TIME, '0', '1'),
+            wasInformedBy(this, PROVO_WAS_INFORMED_BY, PROVO_ACTIVITY, '0', '*', ValidationRules({})),
+            usages(this, PROVO_QUALIFIED_USAGE, '0', '*', ValidationRules({})),
+            associations(this, PROVO_QUALIFIED_ASSOCIATION, '0', '*', ValidationRules({}))
+            {
+            };
+        
         DateTimeProperty startedAtTime;
         
         /// The endedAtTime property is OPTIONAL and contains a dateTime (see section Section 12.7) value, indicating when the activity ended.
@@ -121,32 +141,16 @@ namespace sbol
         ReferencedObject wasInformedBy;
         
         /// The qualifiedAssociation property is OPTIONAL and MAY contain a set of URIs that refers to Association
-        OwnedObject<Association> qualifiedAssociation;
+        OwnedObject<Association> associations;
         
         /// The qualifiedUsage property is OPTIONAL and MAY contain a set of URIs that refers to Usage objects.
-        OwnedObject<Usage> qualifiedUsage;
+        OwnedObject<Usage> usages;
         
-        /// The type property is a REQUIRED ontology term that designates an activity or stage in the synthetic biology workflow, such as codon optimization or DNA assembly.
-        URIProperty type;
-        
-        /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Activity(std::string uri = DEFAULT_NS "/Activity/example", std::string action_type = "", std::string version = "1.0.0") : Activity(PROVO_ACTIVITY, uri, action_type, version) {};
-        
-        Activity(sbol_type type, std::string uri, std::string action_type, std::string version) :
-            TopLevel(type, uri, version),
-            type(SBOL_TYPES, this, action_type),
-            startedAtTime(PROVO_STARTED_AT_TIME, this),
-            endedAtTime(PROVO_ENDED_AT_TIME, this),
-            wasInformedBy(PROVO_WAS_INFORMED_BY, PROVO_ACTIVITY, this)
-            {
-            };
+        /// The type property is an ontology term that designates an activity or stage in the synthetic biology workflow, such as codon optimization or DNA assembly.
+        //URIProperty type;
         
         virtual ~Activity(){};
-
     };
 }
-
-
-
 
 #endif /* PROVO_INCLUDED */
