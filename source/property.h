@@ -157,6 +157,11 @@ namespace sbol
         
         std::vector<std::string>::iterator python_iter;
         
+        void addValidationRule(ValidationRule rule)
+        {
+            validationRules.push_back(rule);
+        };
+        
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
         void addValidationRule(PyObject* property_object, PyObject* validation_fx)
         {
