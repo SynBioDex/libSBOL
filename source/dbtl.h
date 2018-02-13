@@ -538,10 +538,13 @@ namespace sbol
             Participation& repressor_participation = this->participations.create(uri + "_repressor");
             repressor_participation.roles.set(SBO_INHIBITOR);
             repressor_participation.participant.set(repressor_fc);
-
+//
             Participation& promoter_participation = this->participations.create(uri + "_promoter");
             promoter_participation.roles.set(SBO_PROMOTER);
             promoter_participation.participant.set(promoter_fc);
+            
+            this->repressor.addValidationRule(libsbol_rule_19);
+            this->targetPromoter.addValidationRule(libsbol_rule_19);
         }
         AliasedProperty<FunctionalComponent> repressor;
         AliasedProperty<FunctionalComponent> targetPromoter;
@@ -570,6 +573,9 @@ namespace sbol
             Participation& transcription_factor_participation = this->participations.create(uri + "_transcription_factor");
             transcription_factor_participation.roles.set(SBO_INHIBITED);
             transcription_factor_participation.participant.set(transcription_factor_fc);
+            
+            this->ligand.addValidationRule(libsbol_rule_19);
+            this->transcriptionFactor.addValidationRule(libsbol_rule_19);
         }
         AliasedProperty<FunctionalComponent> ligand;
         AliasedProperty<FunctionalComponent> transcriptionFactor;
@@ -598,6 +604,9 @@ namespace sbol
             Participation& product_participation = this->participations.create(uri + "_product");
             product_participation.roles.set(SBO_PRODUCT);
             product_participation.participant.set(product_fc);
+            
+            this->gene.addValidationRule(libsbol_rule_19);
+            this->product.addValidationRule(libsbol_rule_19);
         }
         AliasedProperty<FunctionalComponent> gene;
         AliasedProperty<FunctionalComponent> product;
@@ -626,6 +635,9 @@ namespace sbol
             Participation& promoter_participation = this->participations.create(uri + "_promoter");
             promoter_participation.roles.set(SBO_PROMOTER);
             promoter_participation.participant.set(promoter_fc);
+            
+            this->activator.addValidationRule(libsbol_rule_19);
+            this->targetPromoter.addValidationRule(libsbol_rule_19);
         }
         AliasedProperty<FunctionalComponent> activator;
         AliasedProperty<FunctionalComponent> targetPromoter;
@@ -654,10 +666,92 @@ namespace sbol
             Participation& transcription_factor_participation = this->participations.create(uri + "_transcription_factor");
             transcription_factor_participation.roles.set(SBO_STIMULATED);
             transcription_factor_participation.participant.set(transcription_factor_fc);
+            
+            this->ligand.addValidationRule(libsbol_rule_19);
+            this->transcriptionFactor.addValidationRule(libsbol_rule_19);
         }
         AliasedProperty<FunctionalComponent> ligand;
         AliasedProperty<FunctionalComponent> transcriptionFactor;
     };
+    
+    class EnzymeCatalysisInteraction : public Interaction
+    {
+    public:
+        EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, std::vector<ComponentDefinition*> substrates, std::vector<ComponentDefinition*> products, std::vector<ComponentDefinition*> cofactors = {}, std::vector<ComponentDefinition*> sideproducts = {}) :
+            Interaction(SBOL_INTERACTION, uri, SBO_CONVERSION),
+            enzyme(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#enzyme", '0', '1', ValidationRules({})),
+            substrates(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#substrates", '0', '*', ValidationRules({})),
+            products(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#products", '0', '*', ValidationRules({})),
+            cofactors(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#cofactors", '0', '*', ValidationRules({})),
+            sideproducts(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#sideproducts", '0', '*', ValidationRules({}))
+        {
+            if (!enzyme.types.find(BIOPAX_PROTEIN))
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid enzyme specified for EnzymaticCatalysisInteraction. The enzyme must have type BIOPAX_PROTEIN");
+            for (auto & S : substrates)
+                if (!S->types.find(BIOPAX_SMALL_MOLECULE))
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid substrates specified for EnzymeCatalysisInteraction. Substrates must have type BIOPAX_SMALL_MOLECULE");
+            for (auto & P : products)
+                if (!P->types.find(BIOPAX_SMALL_MOLECULE))
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid products specified for EnzymeCatalysisInteraction. Products must have type BIOPAX_SMALL_MOLECULE");
+            for (auto & C : cofactors)
+                if (!C->types.find(BIOPAX_SMALL_MOLECULE))
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid cofactors specified for EnzymeCatalysisInteraction. Cofactors must have type BIOPAX_SMALL_MOLECULE");
+            for (auto & X : sideproducts)
+                if (!X->types.find(BIOPAX_SMALL_MOLECULE))
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid sideproducts specified for EnzymeCatalysisInteraction. Sideproducts must have type BIOPAX_SMALL_MOLECULE");
+            
+            FunctionalComponent& enzyme_fc = this->enzyme.define(enzyme);
+            Participation& enzyme_participation = this->participations.create(uri + "_enzyme");
+            enzyme_participation.roles.set(SBO_ENZYME);
+            enzyme_participation.participant.set(enzyme_fc);
+            
+            for (int i = 0; i < substrates.size(); ++i)
+            {
+                ComponentDefinition& S = *substrates[i];
+                FunctionalComponent& substrate_fc = this->substrates.define(S);
+                Participation& substrate_participation = this->participations.create(uri + "_substrate_" + std::to_string(i));
+                substrate_participation.roles.set(SBO_SUBSTRATE);
+                substrate_participation.participant.set(substrate_fc);
+            }
+            for (int i = 0; i < products.size(); ++i)
+            {
+                ComponentDefinition& P = *products[i];
+                FunctionalComponent& product_fc = this->products.define(P);
+                Participation& product_participation = this->participations.create(uri + "_product_" + std::to_string(i));
+                product_participation.roles.set(SBO_PRODUCT);
+                product_participation.participant.set(product_fc);
+            }
+            for (int i = 0; i < cofactors.size(); ++i)
+            {
+                ComponentDefinition& C = *cofactors[i];
+                FunctionalComponent& cofactor_fc = this->cofactors.define(C);
+                Participation& cofactor_participation = this->participations.create(uri + "_cofactor_" + std::to_string(i));
+                cofactor_participation.roles.set(SBO_COFACTOR);
+                cofactor_participation.participant.set(cofactor_fc);
+            }
+            for (int i = 0; i < sideproducts.size(); ++i)
+            {
+                ComponentDefinition& X = *sideproducts[i];
+                FunctionalComponent& sideproduct_fc = this->sideproducts.define(X);
+                Participation& sideproduct_participation = this->participations.create(uri + "_sideproduct_" + std::to_string(i));
+                sideproduct_participation.roles.set(SBO_SIDEPRODUCT);
+                sideproduct_participation.participant.set(sideproduct_fc);
+            }
+            this->enzyme.addValidationRule(libsbol_rule_19);
+            this->substrates.addValidationRule(libsbol_rule_19);
+            this->products.addValidationRule(libsbol_rule_19);
+            this->cofactors.addValidationRule(libsbol_rule_19);
+            this->sideproducts.addValidationRule(libsbol_rule_19);
+
+        }
+        
+        AliasedProperty<FunctionalComponent> enzyme;
+        AliasedProperty<FunctionalComponent> substrates;
+        AliasedProperty<FunctionalComponent> products;
+        AliasedProperty<FunctionalComponent> cofactors;
+        AliasedProperty<FunctionalComponent> sideproducts;
+    };
+    
 };
 
 

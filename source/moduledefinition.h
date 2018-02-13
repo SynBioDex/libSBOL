@@ -93,8 +93,15 @@ namespace sbol
         /// @param input The FunctionalComponent that will be configured
         void setInput(FunctionalComponent& input);
 
+        /// Connects the output of a sub-Module with the input of another sub-Module. Auto-constructs MapsTo objects.
+        /// @param output A FunctionalComponent configured as a Module output (see setOutput)
+        /// @param input A FunctionalComponent configured as a Module input (see setInput)
+        void connect(FunctionalComponent& output, FunctionalComponent& input);
         
-        void connect(FunctionalComponent& input, FunctionalComponent& output);
+        /// Overrides a low-level component in an abstract sub-Module with a high-level component in a parent ModuleDefinition, for example when overriding an abstract template Module with explicit components.
+        /// @param highlevel A high-level FunctionalComponent
+        /// @param lowlevel A low-level FunctionalComponent in a nested sub-Module
+        void override(FunctionalComponent& highlevel, FunctionalComponent& lowlevel);
         
         virtual ~ModuleDefinition() {};
 

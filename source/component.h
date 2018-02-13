@@ -140,7 +140,11 @@ namespace sbol
         /// This method is used to state that FunctionalComponents in separate ModuleDefinitions are functionally equivalent. Using this method will override the  FunctionalComponent in the argument with the FunctionalComponent calling the method.  This is useful for overriding a generic, template component with an explicitly defined component. This convenience method auto-constructs a MapsTo object. See @ref modular_design for an example
         /// @param masked_component The FunctionalComponent that is being masked (over-ridden)
         void mask(FunctionalComponent& masked_component);
-        
+
+        /// This method is used to state that FunctionalComponents in separate ModuleDefinitions are functionally equivalent. Using this method will override the  FunctionalComponent in the argument with the FunctionalComponent calling the method.  This is useful for overriding a generic, template component with an explicitly defined component. This convenience method auto-constructs a MapsTo object. See @ref modular_design for an example
+        /// @param masked_component The FunctionalComponent that is being masked (over-ridden)
+        void override(FunctionalComponent& masked_component);
+
         /// Used to tell if a FunctionalComponent is linked to an equivalent FunctionalComponent in another ModuleDefinition
         /// @return 1 if the FunctionalComponent has been over-rided by another FunctionalComponent, 0 if it hasn't.
         int isMasked();

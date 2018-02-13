@@ -715,9 +715,9 @@ void ModuleDefinition::connect(FunctionalComponent& output, FunctionalComponent&
     if (!object_module)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot connect " + output.identity.get() + " to " + input.identity.get() + ". The input does not belong to a sub-Module of ModuleDefinition " + parent_mdef->identity.get() );
     
-    if (input.direction.get() != SBOL_DIRECTION_IN)
+    if (input.direction.get() != SBOL_DIRECTION_IN && input.direction.get() != SBOL_DIRECTION_NONE)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot connect " + output.identity.get() + " to " + input.identity.get() + ". The input component must have direction SBOL_DIRECTION_IN");
-    if (output.direction.get() != SBOL_DIRECTION_OUT)
+    if (output.direction.get() != SBOL_DIRECTION_OUT && output.direction.get() != SBOL_DIRECTION_NONE)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot connect " + output.identity.get() + " to " + input.identity.get() + ". The output component must have direction SBOL_DIRECTION_OUT");
     
     // Generate URI of new FunctionalComponent for the connection.  Check if an object with that URI is already instantiated.
@@ -840,49 +840,49 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
 {
     if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
-    if (doc == NULL)
-    {
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
-    }
+//    if (doc == NULL)
+//    {
+//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "These FunctionalComponents cannot be connected because they do not belong to a Document.");
+//    }
     
     // Search for ModuleDefinition that this FunctionalComponent belongs to. Throw an error if the ModuleDefinition can't be found
-    ModuleDefinition* subject_mdef = NULL;
-    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
-    {
-        SBOLObject* obj = i_obj->second;
-        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
-        {
-            ModuleDefinition* mdef = (ModuleDefinition*)obj;
-            for (auto i_fc = mdef->functionalComponents.begin(); i_fc != mdef->functionalComponents.end(); ++i_fc)
-            {
-                FunctionalComponent& fc = *i_fc;
-                if (fc.identity.get() == identity.get())
-                {
-                    subject_mdef = mdef;
-                }
-            }
-        }
-    }
+    ModuleDefinition* subject_mdef = (ModuleDefinition*)this->parent;
+//    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+//    {
+//        SBOLObject* obj = i_obj->second;
+//        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+//        {
+//            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+//            for (auto i_fc = mdef->functionalComponents.begin(); i_fc != mdef->functionalComponents.end(); ++i_fc)
+//            {
+//                FunctionalComponent& fc = *i_fc;
+//                if (fc.identity.get() == identity.get())
+//                {
+//                    subject_mdef = mdef;
+//                }
+//            }
+//        }
+//    }
     if (subject_mdef == NULL)
         throw SBOLError(NOT_FOUND_ERROR, "FunctionalComponent must belong to a ModuleDefinition");
     // The masked component must also belong to a ModuleDefinition. Throw an error if the ModuleDefinition can't be found
-    ModuleDefinition* object_mdef = NULL;
-    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
-    {
-        SBOLObject* obj = i_obj->second;
-        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
-        {
-            ModuleDefinition* mdef = (ModuleDefinition*)obj;
-            for (auto i_fc = mdef->functionalComponents.begin(); i_fc != mdef->functionalComponents.end(); ++i_fc)
-            {
-                FunctionalComponent& fc = *i_fc;
-                if (fc.identity.get() == masked_component.identity.get())
-                {
-                    object_mdef = mdef;
-                }
-            }
-        }
-    }
+    ModuleDefinition* object_mdef = (ModuleDefinition*)masked_component.parent;
+//    for (auto i_obj = doc->SBOLObjects.begin(); i_obj != doc->SBOLObjects.end(); ++i_obj)
+//    {
+//        SBOLObject* obj = i_obj->second;
+//        if (obj->getTypeURI() == SBOL_MODULE_DEFINITION)
+//        {
+//            ModuleDefinition* mdef = (ModuleDefinition*)obj;
+//            for (auto i_fc = mdef->functionalComponents.begin(); i_fc != mdef->functionalComponents.end(); ++i_fc)
+//            {
+//                FunctionalComponent& fc = *i_fc;
+//                if (fc.identity.get() == masked_component.identity.get())
+//                {
+//                    object_mdef = mdef;
+//                }
+//            }
+//        }
+//    }
     if (object_mdef == NULL)
         throw SBOLError(NOT_FOUND_ERROR, "FunctionalComponent must belong to a ModuleDefinition");
 
@@ -926,7 +926,22 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
     }
     if (override_map == NULL)
     {
-        override_map = &parent_m->mapsTos.create(identity.get());
+        int instance_count = 0;
+        string map_id;
+        if (Config::getOption("sbol_compliant_uris") == "True")
+            map_id = parent_m->persistentIdentity.get() + "/" + parent_m->displayId.get() + "_map_" + to_string(instance_count) + "/" + version.get();
+        else
+            map_id = parent_m->identity.get() + "_map_" + to_string(instance_count);
+        while (parent_m->find(map_id))
+        {
+            // Find the last instance assigned
+            ++instance_count;
+        }
+        if (Config::getOption("sbol_compliant_uris") == "True")
+            override_map = &parent_m->mapsTos.create(parent_m->displayId.get() + "_map_" + to_string(instance_count));
+        else
+            override_map = &parent_m->mapsTos.create(parent_m->identity.get() + "_map_" + to_string(instance_count));
+
         if (IS_LOCAL == 1)
         {
 
@@ -936,7 +951,6 @@ void FunctionalComponent::mask(FunctionalComponent& masked_component)
         }
         if (IS_LOCAL == 0)
         {
-
             override_map->local.set(masked_component.identity.get());
             override_map->remote.set(identity.get());
             override_map->refinement.set(SBOL_REFINEMENT_USE_REMOTE);
@@ -976,7 +990,6 @@ int FunctionalComponent::isMasked()
             }
         }
     }
-    
     return 0;
 };
 
@@ -2312,4 +2325,15 @@ void ComponentDefinition::linearize(vector<string> primary_structure)
         list_of_components.push_back(&cdef);
     }
     linearize(list_of_components);
+};
+
+void ModuleDefinition::override(FunctionalComponent& highlevel, FunctionalComponent& lowlevel)
+{
+    highlevel.mask(lowlevel);
+};
+
+void FunctionalComponent::override(FunctionalComponent& masked_component)
+{
+    this->mask(masked_component);
+
 };

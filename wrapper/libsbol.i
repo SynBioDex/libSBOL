@@ -401,7 +401,7 @@ typedef std::string sbol::sbol_type;
 
 /* This macro is used to instantiate container properties (OwnedObjects) that can contain more than one type of object, eg, SequenceAnnotation::locations */
 %define TEMPLATE_MACRO_0(SBOLClass)
-    %template(add ## SBOLClass) sbol::OwnedObject::add<SBOLClass>;
+//    %template(add ## SBOLClass) sbol::OwnedObject::add<SBOLClass>;
     %template(create ## SBOLClass) sbol::OwnedObject::create<SBOLClass>;
     %template(get ## SBOLClass) sbol::OwnedObject::get<SBOLClass>;
     
@@ -443,10 +443,12 @@ typedef std::string sbol::sbol_type;
         {
             sbol:: SBOLClass* obj;
             if ((SWIG_ConvertPtr(py_obj,(void **) &obj, $descriptor(sbol:: SBOLClass *),1)) == -1) throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
-            SBOLClass& new_obj = $self->create(uri);
-            if (new_obj.type != obj->type)
-                throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
-            return;
+            $self->add(*obj);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            if (uri == obj->identity.get() || uri  == obj->displayId.get())
+                return;
+            else
+                throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot add " + parseClassName(obj->type) + ". The given URIs do not match");
         }
     }
     
@@ -583,26 +585,42 @@ typedef std::string sbol::sbol_type;
     
     void __setitem__(const std::string uri, PyObject* py_obj)
     {
-        sbol::Location* location;
-        if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::Range *),1)) != -1)
+        Range* range;
+        Cut* cut;
+        GenericLocation* genericlocation;
+        Location* location;
+        Identified* obj;
+        
+        if ((SWIG_ConvertPtr(py_obj,(void **) &range, $descriptor(sbol::Range *),1)) != -1)
         {
-            Range& new_obj = $self->create<Range>(uri);
+            $self->add((Location&)*range);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)range;
         }
-        else if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::Cut *),1)) != -1)
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &cut, $descriptor(sbol::Cut *),1)) != -1)
         {
-            Cut& new_obj = $self->create<Cut>(uri);
+            $self->add((Location&)*cut);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)cut;
         }
-        else if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::GenericLocation *),1)) != -1)
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &genericlocation, $descriptor(sbol::GenericLocation *),1)) != -1)
         {
-            GenericLocation& new_obj = $self->create<GenericLocation>(uri);
+            $self->add((Location&)*genericlocation);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)genericlocation;
         }
-        else if ((SWIG_ConvertPtr(py_obj,(void **) &py_obj, $descriptor(sbol::Location *),1)) != -1)
+        else if ((SWIG_ConvertPtr(py_obj,(void **) &location, $descriptor(sbol::Location *),1)) != -1)
         {
-            Location& new_obj = $self->create<Location>(uri);
+            $self->add(*location);
+            int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)location;
         }
         else
             throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
-        return;
+        if (uri == obj->identity.get() || uri  == obj->displayId.get())
+            return;
+        else
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot add " + parseClassName(obj->type) + ". The given URIs do not match");
     }
 }
     
@@ -636,39 +654,49 @@ typedef std::string sbol::sbol_type;
         TranscriptionalActivationInteraction* transcriptionalactivationinteraction;
         SmallMoleculeActivationInteraction* smallmoleculeactivationinteraction;
         Interaction* interaction;
+        Identified* obj;
         if ((SWIG_ConvertPtr(py_obj,(void **) &transcriptionalrepressioninteraction, $descriptor(sbol::TranscriptionalRepressionInteraction *),1)) != -1)
         {
             $self->add((Interaction&)*transcriptionalrepressioninteraction);
             int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)transcriptionalrepressioninteraction;
         }
         else if ((SWIG_ConvertPtr(py_obj,(void **) &smallmoleculeinhibitioninteraction, $descriptor(sbol::SmallMoleculeInhibitionInteraction *),1)) != -1)
         {
             $self->add((Interaction&)*smallmoleculeinhibitioninteraction);
             int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)smallmoleculeinhibitioninteraction;
         }
         else if ((SWIG_ConvertPtr(py_obj,(void **) &geneproductioninteraction, $descriptor(sbol::GeneProductionInteraction *),1)) != -1)
         {
             $self->add((Interaction&)*geneproductioninteraction);
             int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)geneproductioninteraction;
         }
         else if ((SWIG_ConvertPtr(py_obj,(void **) &transcriptionalactivationinteraction, $descriptor(sbol::TranscriptionalActivationInteraction *),1)) != -1)
         {
             $self->add((Interaction&)*transcriptionalactivationinteraction);
             int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)transcriptionalactivationinteraction;
         }
         else if ((SWIG_ConvertPtr(py_obj,(void **) &smallmoleculeactivationinteraction, $descriptor(sbol::SmallMoleculeActivationInteraction *),1)) != -1)
         {
             $self->add((Interaction&)*smallmoleculeactivationinteraction);
             int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)smallmoleculeactivationinteraction;
         }
         else if ((SWIG_ConvertPtr(py_obj,(void **) &interaction, $descriptor(sbol::Interaction *),1)) != -1)
         {
             $self->add((Interaction&)*interaction);
             int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+            obj = (Identified*)interaction;
         }
         else
             throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Invalid object type for this property");
-        return;
+        if (uri == obj->identity.get() || uri  == obj->displayId.get())
+            return;
+        else
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot add " + parseClassName(obj->type) + ". The given URIs do not match");
     }
 }
     
@@ -777,6 +805,7 @@ TEMPLATE_MACRO_3(SmallMoleculeInhibitionInteraction);
 TEMPLATE_MACRO_3(GeneProductionInteraction);
 TEMPLATE_MACRO_3(TranscriptionalActivationInteraction);
 TEMPLATE_MACRO_3(SmallMoleculeActivationInteraction);
+TEMPLATE_MACRO_3(EnzymeCatalysisInteraction);
 TEMPLATE_MACRO_3(Document);
     
 // Template functions used by PartShop
@@ -789,7 +818,7 @@ TEMPLATE_MACRO_3(Document);
 %template(countCollection) sbol::PartShop::count < Collection >;
 
 // Used to create alias properties for FunctionalComponents used in the design-build-test-learn module
-%template(AliasedProperty) sbol::AliasedProperty<sbol::FunctionalComponent >;
+%template(AliasedOwnedFunctionalComponent) sbol::AliasedProperty<sbol::FunctionalComponent >;
 
     
 %include "assembly.h"
@@ -1090,6 +1119,26 @@ TEMPLATE_MACRO_3(Document);
         std::vector < Identified* > usage_vector = convert_list_to_identified_vector(usage_list);
         Analysis& analysis = $self->generate<Analysis>(uri, agent, plan, usage_vector);
         return SWIG_NewPointerObj(SWIG_as_voidptr(&analysis), $descriptor(sbol::Analysis*), 0 |  0 );
+    }
+}
+    
+%extend sbol::EnzymeCatalysisInteraction
+{
+    EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, PyObject* substrates, PyObject* products)
+    {
+        std::vector<ComponentDefinition*> substrate_v = convert_list_to_cdef_vector(substrates);
+        std::vector<ComponentDefinition*> product_v = convert_list_to_cdef_vector(products);
+        EnzymeCatalysisInteraction(uri, enzyme, substrate_v, product_v, {}, {});
+    }
+
+    
+    EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, PyObject* substrates, PyObject* products, PyObject* cofactors, PyObject* sideproducts)
+    {
+        std::vector<ComponentDefinition*> substrate_v = convert_list_to_cdef_vector(substrates);
+        std::vector<ComponentDefinition*> product_v = convert_list_to_cdef_vector(products);
+        std::vector<ComponentDefinition*> cofactor_v = convert_list_to_cdef_vector(cofactors);
+        std::vector<ComponentDefinition*> sideproduct_v = convert_list_to_cdef_vector(sideproducts);
+        EnzymeCatalysisInteraction(uri, enzyme, substrate_v, product_v, cofactor_v, sideproduct_v);
     }
 }
     
