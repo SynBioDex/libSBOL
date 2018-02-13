@@ -453,3 +453,8 @@ void sbol::libsbol_rule_18(void *sbol_obj, void *arg)
         }
     }
 };
+
+void sbol::libsbol_rule_19(void *sbol_obj, void *arg)
+{
+    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot modify property value. It is read-only.");
+};
