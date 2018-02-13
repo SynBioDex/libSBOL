@@ -697,7 +697,7 @@ namespace sbol {
             child_obj->identity.set(uri);
             child_obj->persistentIdentity.set(uri);
             
-            this->add(*child_obj);
+            this->add((SBOLClass&)*child_obj);
             if (parent_obj->doc)
                 child_obj->doc = parent_obj->doc;
             
@@ -1403,10 +1403,13 @@ namespace sbol {
                     if (uri.compare(obj->identity.get()) == 0)
                     {
                         this->sbol_owner->owned_objects[this->type].erase( this->sbol_owner->owned_objects[this->type].begin() + i_obj);
+
                         // Erase TopLevel objects from Document
                         if (this->sbol_owner->type == SBOL_DOCUMENT)
                             obj->doc->SBOLObjects.erase(uri);
-                        if (!obj->doc->find(uri))
+                        
+                        // Erase nested, hidden TopLevel objects from Document
+                        if (obj->doc && !obj->doc->find(uri))
                             obj->doc = NULL;
                         SBOLClass* cast_obj = dynamic_cast<SBOLClass*>(cast_obj);
                         return *cast_obj;
