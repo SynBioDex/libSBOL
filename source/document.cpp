@@ -709,8 +709,6 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 void Document::parse_annotation_objects()
 {
     // Check if there are any SBOLObjects remaining in the Document's object store which are not recognized as part of the core data model or an explicitly declared extension class
-    std::cout << "Parsing annotation objects" << std::endl;
-
     vector < SBOLObject* > annotation_objects = {};
     for (auto &i_obj : SBOLObjects)
     {
