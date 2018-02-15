@@ -11,6 +11,10 @@ To install libSBOL, go to [Installation](http://synbiodex.github.io/libSBOL/inst
 
 [An API reference and Getting Started tutorial can be found here](http://synbiodex.github.io/libSBOL/#doxygen).
 
+## Open-source Development
+
+We strongly encourage contributions from third-party, open-source developers. For tips on maintaing and updating libSBOL, please check out our GitHub Wiki. Additionally, there are many Google Summer of Code projects related to libSBOL and the Synthetic Biology Open Language sponsored by the National Resource for Network Biology. See their [projects page](  https://github.com/nrnb/GoogleSummerOfCode/issues).
+
 ## Acknowledgements
 
 libSBOL is brought to you by Bryan Bartley, Kiri Choi, and SBOL Developers 
