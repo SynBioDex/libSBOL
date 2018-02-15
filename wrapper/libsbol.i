@@ -1122,26 +1122,6 @@ TEMPLATE_MACRO_3(Document);
     }
 }
     
-%extend sbol::EnzymeCatalysisInteraction
-{
-    EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, PyObject* substrates, PyObject* products)
-    {
-        std::vector<ComponentDefinition*> substrate_v = convert_list_to_cdef_vector(substrates);
-        std::vector<ComponentDefinition*> product_v = convert_list_to_cdef_vector(products);
-        EnzymeCatalysisInteraction(uri, enzyme, substrate_v, product_v, {}, {});
-    }
-
-    
-    EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, PyObject* substrates, PyObject* products, PyObject* cofactors, PyObject* sideproducts)
-    {
-        std::vector<ComponentDefinition*> substrate_v = convert_list_to_cdef_vector(substrates);
-        std::vector<ComponentDefinition*> product_v = convert_list_to_cdef_vector(products);
-        std::vector<ComponentDefinition*> cofactor_v = convert_list_to_cdef_vector(cofactors);
-        std::vector<ComponentDefinition*> sideproduct_v = convert_list_to_cdef_vector(sideproducts);
-        EnzymeCatalysisInteraction(uri, enzyme, substrate_v, product_v, cofactor_v, sideproduct_v);
-    }
-}
-    
 %template(generateDesign) sbol::TopLevel::generate<Design>;
 %template(generateBuild) sbol::TopLevel::generate<Build>;
 %template(generateTest) sbol::TopLevel::generate<Test>;
@@ -1265,7 +1245,18 @@ from __future__ import absolute_import
                 return self.__class__.__name__
 %}
     
-
+%extend sbol::EnzymeCatalysisInteraction
+{
+    EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, PyObject* substrates, PyObject* products)
+    {
+        return new sbol::EnzymeCatalysisInteraction(uri, enzyme, convert_list_to_cdef_vector(substrates), convert_list_to_cdef_vector(products));
+    };
+    
+    EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, PyObject* substrates, PyObject* products, PyObject* cofactors, PyObject* sideproducts)
+    {
+        return new sbol::EnzymeCatalysisInteraction(uri, enzyme, convert_list_to_cdef_vector(substrates), convert_list_to_cdef_vector(products), convert_list_to_cdef_vector(cofactors), convert_list_to_cdef_vector(sideproducts));
+    };
+}
         
         //%extend sbol::Document
         //{

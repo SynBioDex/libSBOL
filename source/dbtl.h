@@ -476,6 +476,11 @@ namespace sbol
             std::size_t size = this->sbol_owner->owned_objects[this->alias].size();
             return (int)size;
         }
+        
+        int __len__()
+        {
+            return this->size();
+        }
     };
     
 //    class RepressorModule : public ModuleDefinition
@@ -677,7 +682,9 @@ namespace sbol
     class EnzymeCatalysisInteraction : public Interaction
     {
     public:
-        EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, std::vector<ComponentDefinition*> substrates, std::vector<ComponentDefinition*> products, std::vector<ComponentDefinition*> cofactors = {}, std::vector<ComponentDefinition*> sideproducts = {}) :
+        EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, std::vector<ComponentDefinition*> substrates, std::vector<ComponentDefinition*> products) : EnzymeCatalysisInteraction(uri, enzyme, substrates, products, {}, {}) {};
+        
+        EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, std::vector<ComponentDefinition*> substrates, std::vector<ComponentDefinition*> products, std::vector<ComponentDefinition*> cofactors, std::vector<ComponentDefinition*> sideproducts) :
             Interaction(SBOL_INTERACTION, uri, SBO_CONVERSION),
             enzyme(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#enzyme", '0', '1', ValidationRules({})),
             substrates(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#substrates", '0', '*', ValidationRules({})),
