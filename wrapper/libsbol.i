@@ -950,7 +950,7 @@ TEMPLATE_MACRO_3(Document);
             {
                 tl->doc = $self;
                 tl->parent = $self;
-                $self->SBOLObjects[$self->identity.get()] = tl;
+                $self->SBOLObjects[sbol_obj->identity.get()] = tl;
                 $self->PythonObjects[sbol_obj->identity.get()] = py_obj;
                 int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
             }
