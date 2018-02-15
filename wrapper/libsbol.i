@@ -1129,6 +1129,7 @@ TEMPLATE_MACRO_3(Document);
         std::vector<ComponentDefinition*> substrate_v = convert_list_to_cdef_vector(substrates);
         std::vector<ComponentDefinition*> product_v = convert_list_to_cdef_vector(products);
         EnzymeCatalysisInteraction(uri, enzyme, substrate_v, product_v, {}, {});
+        return NULL;
     }
 
     
@@ -1139,6 +1140,7 @@ TEMPLATE_MACRO_3(Document);
         std::vector<ComponentDefinition*> cofactor_v = convert_list_to_cdef_vector(cofactors);
         std::vector<ComponentDefinition*> sideproduct_v = convert_list_to_cdef_vector(sideproducts);
         EnzymeCatalysisInteraction(uri, enzyme, substrate_v, product_v, cofactor_v, sideproduct_v);
+        return NULL;
     }
 }
     
