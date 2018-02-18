@@ -218,6 +218,9 @@
 %ignore sbol::ComponentDefinition::assemble(std::vector<std::string> list_of_uris, Document& doc);  // Use variant signature defined in this interface file
 %ignore sbol::ComponentDefinition::assemble(std::vector<std::string> list_of_uris);  // Use variant signature defined in this interface file
 %ignore sbol::ComponentDefinition::linearize(std::vector<std::string> list_of_uris);  // Use variant signature defined in this interface file
+%ignore sbol::ComponentDefinition::assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure);
+%ignore sbol::ComponentDefinition::assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure, Document& doc);
+%ignore sbol::ComponentDefinition::assemblePrimaryStructure(std::vector<std::string> primary_structure);
 %ignore sbol::TopLevel::addToDocument;
 
 // Instantiate STL templates
@@ -856,20 +859,6 @@ TEMPLATE_MACRO_3(Document);
         }
         return;
     }
-
-    void assemblePrimaryStructure(PyObject *list, PyObject *doc)
-    {
-        sbol::Document* cpp_doc;
-        if ((SWIG_ConvertPtr(doc,(void **) &cpp_doc, $descriptor(sbol::Document*),1)) == -1)
-            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Second argument must be a valid Document");
-        std::vector<sbol::ComponentDefinition*> list_of_cdefs = convert_list_to_cdef_vector(list);
-        if (list_of_cdefs.size())
-        {
-            $self->assemblePrimaryStructure(list_of_cdefs, *cpp_doc);
-            return;
-        }
-        return;
-    }
     
     void assemblePrimaryStructure(PyObject *list)
     {
@@ -883,6 +872,21 @@ TEMPLATE_MACRO_3(Document);
         if (list_of_cdefs.size())
         {
             $self->assemblePrimaryStructure(list_of_cdefs);
+            return;
+        }
+        return;
+    }
+    
+    
+    void assemblePrimaryStructure(PyObject *list, PyObject *doc)
+    {        
+        sbol::Document* cpp_doc;
+        if ((SWIG_ConvertPtr(doc,(void **) &cpp_doc, $descriptor(sbol::Document*),1)) == -1)
+            throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Second argument must be a valid Document");
+        std::vector<sbol::ComponentDefinition*> list_of_cdefs = convert_list_to_cdef_vector(list);
+        if (list_of_cdefs.size())
+        {
+            $self->assemblePrimaryStructure(list_of_cdefs, *cpp_doc);
             return;
         }
         return;
