@@ -774,6 +774,7 @@ TEMPLATE_MACRO_2(SampleRoster);
     
 TEMPLATE_MACRO_3(SBOLObject)
 TEMPLATE_MACRO_3(Identified)
+TEMPLATE_MACRO_3(TopLevel)
 TEMPLATE_MACRO_3(ComponentDefinition)
 TEMPLATE_MACRO_3(SequenceAnnotation)
 TEMPLATE_MACRO_3(SequenceConstraint)
