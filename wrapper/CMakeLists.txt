@@ -380,7 +380,7 @@ endif()
 #unset(PYTHON_INCLUDE_PATH )
 
 IF (SBOL_BUILD_PYTHON2)
-    find_package( PythonLibs 2 EXACT)
+    find_package( PythonLibs 2)
 
     message( "FOUND PYTHON = ${PYTHONLIBS_FOUND} at ${PYTHON_LIBRARIES}")
     message( "PYTHON INCLUDE DIRS = ${PYTHON_INCLUDE_DIRS}")
