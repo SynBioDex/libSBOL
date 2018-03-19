@@ -27,8 +27,8 @@ endif()
 endif()
 
 find_library(JsonCpp_LIBRARY
-  NAMES jsoncpp
-  PATHS ~/.linuxbrew/lib  # linuxbrew
+  NAMES jsoncpp jsoncpp_static
+  PATHS ~/.linuxbrew/lib 
   DOC "Specify the JsonCpp library here")
 set(JsonCpp_INCLUDE_DIRS ${JsonCpp_INCLUDE_DIR})
 set(JsonCpp_LIBRARIES "${JsonCpp_LIBRARY}")
