@@ -917,12 +917,11 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
     
-    
     struct curl_slist *header_list = NULL;
     if (headers)
         for (auto & header : *headers)
             header_list = curl_slist_append(header_list, (header.first + ": " + header.second).c_str());
-
+    
     //    headers = curl_slist_append(headers, "Accept: application/json");
     //    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
     //    headers = curl_slist_append(headers, "charsets: utf-8");
@@ -954,7 +953,17 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
         /* Check for errors */
         if(res != CURLE_OK)
             throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, std::string(curl_easy_strerror(res)));
-        
+
+        long http_response_code = 0;
+        curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_response_code);
+        if (Config::getOption("verbose") == "True")
+        {
+            std::cout << "Received response" << std::endl << response << std::endl;
+            std::cout << "HTTP request returned status code " << http_response_code << std::endl;
+        }
+        if (http_response_code == 404)
+            throw SBOLError(SBOL_ERROR_NOT_FOUND, "");
+
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
@@ -966,20 +975,45 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
 
 void PartShop::pull(std::string uri, Document& doc)
 {
+    std::string response;  // holds the response returned from the http get request
+    unordered_map<string, string> headers;
+    headers["X-authorization"] = key;
+    headers["Accept"] = "text/plain";
+
+    // For first attempt at pulling part, assume user supplied only a displayId for the requested part
     if (Config::getOption("verbose") == "True")
         std::cout << "Attempting to pull " << getURL() + "/" + uri << std::endl;
-    std::string get_request = getURL() + "/" + uri + "/sbol";  // Assume user supplied only a displayId for the requested part
-    std::string response = http_get_request(get_request);
-    if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
+    std::string get_request = getURL() + "/" + uri + "/sbol";  
+    try
     {
-        // Reattempt, assuming user supplied a full URI for the requested part
-        if (Config::getOption("verbose") == "True")
-            std::cout << "Not found. Attempting to pull " << uri << std::endl;
-        get_request = uri + "/sbol";
-        response = http_get_request(get_request);
-        if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
-            throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
+            response = http_get_request(get_request, &headers);
     }
+    catch(SBOLError& e1)
+    {
+        if (e1.error_code() == SBOL_ERROR_NOT_FOUND)
+        {
+            // Reattempt, assuming user supplied a full URI for the requested part
+            if (Config::getOption("verbose") == "True")
+                std::cout << "Not found. Attempting to pull " << uri << std::endl;
+            try 
+            {                
+                get_request = uri + "/sbol";
+                response = http_get_request(get_request, &headers);
+            }
+            catch (SBOLError& e2)
+            {
+                if (e2.error_code() == SBOL_ERROR_NOT_FOUND)
+                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
+            }
+        }
+    }
+    // if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
+    // {
+        // if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
+        //     if (Config::getOption("verbose") == "True")
+        //         std::cout << "Received response" << std::endl << response << std::endl;
+        //     throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
+    // }
     Document temp_doc = Document();
     temp_doc.readString(response);
     temp_doc.copy(resource, &doc);
