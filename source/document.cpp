@@ -510,6 +510,12 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 	return rdfxml_string;
 };
 
+void Document::count_triples(void* user_data, raptor_statement* triple)
+{
+	int& c = *(int *)user_data;
+	c = c + 1;
+};
+
 void Document::parse_objects(void* user_data, raptor_statement* triple)
 {
 	Document *doc = (Document *)user_data;
@@ -794,10 +800,10 @@ std::string Document::validate()
 {
 	raptor_world* world = getWorld();
 	raptor_serializer* sbol_serializer;
-	if (getFileFormat().compare("rdfxml") == 0)
+	if (Config::getOption("serialization_format") == "rdfxml")
 		sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
 	else
-		sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
+		sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
 
 	char* sbol_buffer;
 	size_t sbol_buffer_len;
@@ -947,7 +953,7 @@ void Document::append(std::string filename)
     if (!fh)
         throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + filename + " not found");
 	//raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
-    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, getFileFormat().c_str());
+    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
 
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
@@ -983,7 +989,7 @@ void Document::readString(std::string& sbol)
 {
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
     
-    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, getFileFormat().c_str());
+    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
     
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
 
@@ -1016,6 +1022,42 @@ void Document::readString(std::string& sbol)
     parse_extension_objects();
 }
 
+int Document::countTriples()
+{
+    raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
+        
+	char *sbol_buffer;
+	size_t sbol_buffer_len;
+	raptor_serializer* sbol_serializer;
+	if (Config::getOption("serialization_format") == "rdfxml")
+		sbol_serializer = raptor_new_serializer(rdf_graph, "rdfxml-abbrev");
+	else
+		sbol_serializer = raptor_new_serializer(rdf_graph, Config::getOption("serialization_format").c_str());
+	raptor_iostream* ios = raptor_new_iostream_to_string(this->rdf_graph, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
+	raptor_uri *base_uri = NULL;
+    generate(&rdf_graph, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
+
+    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
+    raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
+    ios = raptor_new_iostream_from_string(this->rdf_graph, (void *)sbol_buffer, sbol_buffer_len);
+
+    base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
+    
+    int c = 0;
+    void *user_data = &c;
+    
+    // Read the triple store. On the first pass through the triple store, new SBOLObjects are constructed by the parse_objects handler
+    raptor_parser_set_statement_handler(rdf_parser, user_data, this->count_triples);
+    //base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
+
+    raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
+    raptor_free_iostream(ios);
+ 
+    
+    raptor_free_uri(base_uri);
+    raptor_free_parser(rdf_parser);
+ 	return c;   
+}
 
 void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world)
 {
@@ -1216,10 +1258,10 @@ std::string Document::write(std::string filename)
 
 	raptor_world* world = getWorld();
 	raptor_serializer* sbol_serializer;
-	if (getFileFormat().compare("rdfxml") == 0)
+	if (Config::getOption("serialization_format") == "rdfxml")
 		sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
 	else
-		sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
+		sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
 
 	char *sbol_buffer;
 	size_t sbol_buffer_len;
@@ -1230,12 +1272,11 @@ std::string Document::write(std::string filename)
 	generate(&world, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
 
     // Convert flat RDF/XML into nested SBOL
-	std::string sbol_buffer_string = std::string((char*)sbol_buffer);
-	const int size = (const int)sbol_buffer_len;
-    if (getFileFormat().compare("json") == 0)
-        fputs(sbol_buffer_string.c_str(), fh);
-    else
+    std::string response = "Validation of " + Config::getOption("serialization_format") + " serialization cannot be performed.";
+    std::string sbol_buffer_string = std::string((char*)sbol_buffer);
+    if (Config::getOption("serialization_format") == "rdfxml")
     {
+		const int size = (const int)sbol_buffer_len;
         if (sbol_buffer)
         {
             // Iterate through objects in document and nest them
@@ -1249,18 +1290,19 @@ std::string Document::write(std::string filename)
         {
             throw SBOLError(SBOL_ERROR_SERIALIZATION, "Serialization failed");
         }
-    }
+		// Validate SBOL using online validator
+	    if (Config::getOption("validate") == "True")
+	        response = validate();
+	    else
+	        response = "Validation disabled. To enable use of the online validation tool, use Config::setOption(\"validate\", true)";
 
+	}
+	else
+	{
+		fputs(sbol_buffer_string.c_str(), fh);
+	}
 	raptor_free_iostream(ios);
     raptor_free_uri(base_uri);
-
-	// Validate SBOL using online validator
-    std::string response;
-    if (Config::getOption("validate") == "True")
-        response = validate();
-    else
-        response = "Validation disabled. To enable use of the online validation tool, use Config::setOption(\"validate\", true)";
-
 	fclose(fh);
 
     return response;
@@ -1270,10 +1312,10 @@ std::string Document::writeString()
 {
     raptor_world* world = getWorld();
     raptor_serializer* sbol_serializer;
-    if (getFileFormat().compare("rdfxml") == 0)
+    if (Config::getOption("serialization_format") == "rdfxml")
         sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
     else
-        sbol_serializer = raptor_new_serializer(world, getFileFormat().c_str());
+        sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
     
     char *sbol_buffer;
     size_t sbol_buffer_len;

@@ -280,6 +280,7 @@ namespace sbol {
         static void parse_objects(void* user_data, raptor_statement* triple);
 		static void parse_properties(void* user_data, raptor_statement* triple);
         static void namespaceHandler(void *user_data, raptor_namespace *nspace);
+        static void count_triples(void *user_data, raptor_statement* triple);
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
         void parse_annotation_objects();
         void parse_extension_objects();
@@ -287,6 +288,8 @@ namespace sbol {
         SBOLObject* find_property(std::string uri);
         std::vector<SBOLObject*> find_reference(std::string uri);
         /// @endcond
+        
+        int countTriples();
         
         /// @return A vector of namespaces
         /// Get namespaces contained in this Document

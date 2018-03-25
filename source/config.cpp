@@ -49,7 +49,7 @@ std::map<std::string, std::string> sbol::Config::options {
     {"homespace", "http://examples.org"},
     {"sbol_compliant_uris", "True"},
     {"sbol_typed_uris", "True"},
-    {"output_format", "rdfxml"},
+    {"serialization_format", "rdfxml"},
     {"validate", "True"},
     {"validator_url", "http://www.async.ece.utah.edu/validate/"},
     {"language", "SBOL2"},
@@ -72,7 +72,7 @@ std::map<std::string, std::string> sbol::Config::options {
 std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"sbol_compliant_uris", {"True", "False"}},
     {"sbol_typed_uris", { "True", "False" }},
-    {"output_format", {"rdfxml", "json"}},
+    {"serialization_format", {"rdfxml", "json", "ntriples"}},
     {"validate", { "True", "False" }},
     {"language", { "SBOL2", "FASTA", "GenBank" }},
     {"test_equality", { "True", "False" }},
@@ -368,6 +368,8 @@ void Config::setFileFormat(std::string file_format)
 {
     if (file_format.compare("json") == 0)
         this->format = "json";
+    else if (file_format == "ntriples")
+        this->format = "ntriples";
     else
         this->format = "rdfxml";
 };
