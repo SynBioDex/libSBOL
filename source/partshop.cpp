@@ -822,6 +822,11 @@ std::string PartShop::searchRootCollections()
     CURL *curl;
     CURLcode res;
     
+    struct curl_slist *headers = NULL;
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
+
+    
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
     
@@ -834,6 +839,7 @@ std::string PartShop::searchRootCollections()
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
         //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
@@ -867,6 +873,10 @@ std::string PartShop::searchSubCollections(std::string uri)
     CURL *curl;
     CURLcode res;
     
+    struct curl_slist *headers = NULL;
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
+
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
     
@@ -879,6 +889,7 @@ std::string PartShop::searchSubCollections(std::string uri)
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
         //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
