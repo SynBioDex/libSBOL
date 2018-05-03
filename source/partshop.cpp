@@ -829,9 +829,7 @@ std::string PartShop::searchRootCollections()
     
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
-    
-    struct curl_slist *headers = NULL;
-    
+        
     /* get a curl handle */
     curl = curl_easy_init();
     if(curl) {
@@ -879,9 +877,7 @@ std::string PartShop::searchSubCollections(std::string uri)
 
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
-    
-    struct curl_slist *headers = NULL;
-    
+        
     /* get a curl handle */
     curl = curl_easy_init();
     if(curl) {
