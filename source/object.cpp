@@ -388,8 +388,8 @@ vector<SBOLObject*> SBOLObject::find_property_value(string uri, string value, ve
             matches.insert(matches.end(), more_matches.begin(), more_matches.end());
         }
     }
-    if (properties.find(uri) == properties.end())
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot find property value. " + uri + " is not a valid property type.");
+    // if (properties.find(uri) == properties.end())
+    //     throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot find property value. " + uri + " is not a valid property type.");
     std::vector<std::string> value_store = properties[uri];
     for (auto & val : value_store)
     {
