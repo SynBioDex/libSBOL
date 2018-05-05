@@ -131,6 +131,9 @@ namespace sbol
         /// @param list_of_uris A list of URIs for the constituent ComponentDefinitions, or displayIds if using SBOL-compliant URIs
         void assemble(std::vector<std::string> list_of_uris);
 
+        /// Compiles an abstraction hierarchy of ComponentDefinitions into a nucleotide sequence. If no Sequence object is associated with this ComponentDefinition, one will be automatically instantiated
+        std::string compile();
+
         /// Assemble a parent ComponentDefinition's Sequence from its subcomponent Sequences
         /// @param composite_sequence A recursive parameter, use default value
         /// @return The assembled parent sequence

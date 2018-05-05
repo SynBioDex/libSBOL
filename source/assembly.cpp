@@ -313,7 +313,7 @@ void ComponentDefinition::assemble(vector<ComponentDefinition*> list_of_componen
     // Throw an error if this ComponentDefinition is not attached to a Document
     if (doc == NULL)
     {
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot perform assembly operation on ComponentDefinition because it does not belong to a Document. You may pass a Document as an optional second argument to this method. Otherwise add this ComponentDefinition to a Document");
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot perform assembly operation on ComponentDefinition because it does not belong to a Document.");
     }
     assemble(list_of_components, *doc);
 }
@@ -323,6 +323,33 @@ std::string Sequence::compile()
     assemble();
     return elements.get();
 }
+
+std::string ComponentDefinition::compile()
+{
+    if (doc == NULL)
+    {
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot perform compile operation on ComponentDefinition because it does not belong to a Document.");
+    }
+    Sequence* seq;
+    if (sequence.size() == 0)
+    {
+        if (Config::getOption("sbol_compliant_uris") == "True")
+        {
+            seq = &doc->sequences.create(displayId.get());
+            sequence.set(*seq);
+        } else
+        {
+            seq = &doc->sequences.create(identity.get() + "_seq");
+            sequence.set(*seq);
+        }
+    }
+    else 
+    {
+        seq = &doc->get<Sequence>(sequence.get());
+    }
+    return seq->compile();
+}
+
 
 ComponentDefinition& Sequence::synthesize(std::string clone_id)
 {
