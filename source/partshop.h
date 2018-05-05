@@ -240,7 +240,7 @@ namespace sbol
         /// In order to submit to a PartShop, you must login first. Register on [SynBioHub](http://synbiohub.org) to obtain account credentials.
         /// @param email The email associated with the user's SynBioHub account
         /// @param password The user's password
-        void login(std::string email, std::string password);
+        void login(std::string email, std::string password = "");
         
         /// Returns the network address of the PartShop
         /// @return The URL of the online repository

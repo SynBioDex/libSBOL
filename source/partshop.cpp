@@ -1,6 +1,12 @@
 #include "partshop.h"
 #include <algorithm>
 
+// For UNIX like implementation of getch (see login method)
+// this may not be portable to windows, may need conio.h
+#include <termios.h>
+#include <unistd.h>
+#include <stdio.h>
+
 using namespace std;
 using namespace sbol;
 
@@ -550,8 +556,50 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
 };
 
 
+// Unix-like implementation of getch, might not be portable to Windows
+/* reads from keypress, doesn't echo */
+int getch(void)
+{
+    struct termios oldattr, newattr;
+    int ch;
+    tcgetattr( STDIN_FILENO, &oldattr );
+    newattr = oldattr;
+    newattr.c_lflag &= ~( ICANON | ECHO );
+    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
+    ch = getchar();
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldattr );
+    return ch;
+}
+
 void sbol::PartShop::login(std::string email, std::string password)
 {
+    if (password == "")
+    {
+        cout << "Password: ";
+        int ch;
+        while ((ch = getch()))
+        {
+            if (ch == 10 || ch == 13)
+            {
+                cout << endl;
+                break;
+            }
+            if (ch == 127 || ch == 8)
+            {
+                if (password.length() > 0)
+                {
+                    cout << "\b \b";
+                    password.erase(password.length() - 1);
+                }
+            }
+            else
+            {
+                cout << "*";
+                password += ch;
+            }
+        }
+    }
+
     /* Perform HTTP request */
     string response;
     CURL *curl;
@@ -587,7 +635,7 @@ void sbol::PartShop::login(std::string email, std::string password)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Login failed due to an HTTP error: " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
