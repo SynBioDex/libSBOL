@@ -621,10 +621,8 @@ class TestIterators(unittest.TestCase):
             annotations.append(sa.this)
         self.assertEquals(annotations, [sa1, sa2])
 
-# List of tests
-default_test_list = [TestRoundTripSBOL2, TestComponentDefinitions, TestSequences, TestMemory, TestIterators]
 
-def runTests(test_list = default_test_list):
+def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators]):
     print("Setting up")
     #exec(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "CRISPR_example.py")).read())
     suite_list = []
@@ -636,7 +634,10 @@ def runTests(test_list = default_test_list):
     full_test_suite = unittest.TestSuite(suite_list)
     
     unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(full_test_suite)
-    
+
+def runRoundTripTests(test_list = [TestRoundTripSBOL2, TestRoundTripFailSBOL2]):
+    runTests(test_list)
+
 if __name__ == '__main__':
     runTests()
 
