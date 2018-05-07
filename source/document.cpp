@@ -447,10 +447,23 @@ void sbol::indent(std::string& text, int indentation)
 
 string sbol::convert_ntriples_encoding_to_ascii(string s)
 {
-    s = regex_replace(s, regex("\\\\\""), "\"");
-    s = regex_replace(s, regex("\\\\\\\\"), "\\");
-//    s = regex_replace(s, regex("\\\""), "x");
-//    s = regex_replace(s, regex("\\\\"), "\\");
+	// string original = s;
+	string::size_type n = 0;
+	string replace_token = "\\\"";
+	string replacement = "\"";
+	while ( ( n = s.find( replace_token, n ) ) != std::string::npos )
+	{
+    	s.replace( n, replace_token.size(), replacement );
+    	n += replacement.size();
+	}
+	n = 0;
+	replace_token = "\\\\";
+	replacement = "\\";
+	while ( ( n = s.find( replace_token, n ) ) != std::string::npos )
+	{
+    	s.replace( n, replace_token.size(), replacement );
+    	n += replacement.size();
+	}
     return s;
 };
 
