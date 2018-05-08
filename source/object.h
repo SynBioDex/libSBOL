@@ -140,9 +140,13 @@ namespace sbol
         /// @return A vector of URIs that identify the properties contained in this object
         std::vector < std::string > getProperties();
         
-        /// Set the value for a user-defined annotation property.
-        /// @val If the value is a URI, it should be surrounded by angle brackets, else it will be interpreted as a literal value
+        /// Set and overwrite the value for a user-defined annotation property.
+        /// @val Either a literal or URI value
         void setPropertyValue(std::string property_uri, std::string val);
+
+        /// Append a value to a user-defined annotation property.
+        /// @val Either a literal or URI value
+        void addPropertyValue(std::string property_uri, std::string val);
 
         /// Set the value for a user-defined annotation property. Synonymous with setPropertyValue
         /// @val If the value is a URI, it should be surrounded by angle brackets, else it will be interpreted as a literal value

@@ -456,17 +456,39 @@ std::string SBOLObject::getPropertyValue(std::string property_uri)
 
 void SBOLObject::setPropertyValue(std::string property_uri, std::string val)
 {
-
-        if (val[0] == '<' && val[val.length() - 1] == '>')
+    if (properties.find(property_uri) != properties.end())
+    {
+        if (properties[property_uri][0][0] == '<')
         {
             // Check if new value is a URI...
-            properties[property_uri].push_back(val);
+            properties[property_uri][0] = "<" + val + ">";
         }
-        else
+        else if (properties[property_uri][0][0] == '\"')
+        {
+            // ...else treat the value as a literal
+            properties[property_uri][0] = "\"" + val + "\"";
+        }
+    }
+    else throw SBOLError(SBOL_ERROR_NOT_FOUND, property_uri + " not contained in this object.");
+
+};
+
+void SBOLObject::addPropertyValue(std::string property_uri, std::string val)
+{
+    if (properties.find(property_uri) != properties.end())
+    {
+        if (properties[property_uri][0][0] == '<')
+        {
+            // Check if new value is a URI...
+            properties[property_uri].push_back("<" + val + ">");
+        }
+        else if (properties[property_uri][0][0] == '\"')
         {
             // ...else treat the value as a literal
             properties[property_uri].push_back("\"" + val + "\"");
         }
+    }
+    else throw SBOLError(SBOL_ERROR_NOT_FOUND, property_uri + " not contained in this object.");
 };
 
 std::vector < std::string > SBOLObject::getPropertyValues(std::string property_uri)
