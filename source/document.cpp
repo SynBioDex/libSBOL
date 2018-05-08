@@ -1973,7 +1973,7 @@ std::string Document::search_metadata(std::string role, std::string type, std::s
 };
 
 
-Document& Document::copy(std::string ns, Document* doc)
+Document& Document::copy(std::string ns, Document* doc, std::string version)
 {
     if (!doc)
         doc = new Document();
@@ -1981,7 +1981,10 @@ Document& Document::copy(std::string ns, Document* doc)
     for (auto & id_and_obj_pair : SBOLObjects)
     {
         TopLevel& tl = *(TopLevel*)id_and_obj_pair.second;
-        tl.copy<TopLevel>(doc, ns, VERSION_STRING);
+        if (version == "")
+        	tl.copy<TopLevel>(doc, ns, tl.version.get());
+        else
+        	tl.copy<TopLevel>(doc, ns, VERSION_STRING);        	
     }
     return *doc;
 };

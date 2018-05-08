@@ -199,7 +199,7 @@ namespace sbol {
         /// @return A string containing a message with the validation results
         std::string validate();
         
-        Document& copy(std::string ns, Document* doc = NULL);
+        Document& copy(std::string ns, Document* doc = NULL, std::string version = "");
         
         /// Get the total number of objects in the Document, including SBOL core object and custom annotation objects
         int size()
