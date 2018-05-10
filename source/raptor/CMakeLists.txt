@@ -102,7 +102,7 @@ ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
         PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/raptor2/include/raptor2
         )
         find_path(JsonCpp_INCLUDE_DIR json.h
-        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/jsoncpp/include/json
+        PATHS ${CMAKE_CURRENT_SOURCE_DIR}/linux/jsoncpp/include
         )
     endif()
     if(SBOL_BUILD_SHARED)
