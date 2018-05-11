@@ -79,7 +79,6 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
     set(CMAKE_MODULE_PATH "${SBOL_SOURCE_DIR}/raptor")
     if(NOT SBOL_BUILD_SHARED)
-        # Workaround for issue with dependencies built without PIC support
         # Search for Raptor and JsonCpp as a static library
         message("Using precompiled dependencies")
         unset(JsonCpp_LIBRARY CACHE)

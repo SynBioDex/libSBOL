@@ -21,8 +21,11 @@ ELSE()
 ENDIF()
 
 # set build options
-#OPTION( SBOL_BUILD_STATIC     "Build statically linked library"           TRUE )
-OPTION( SBOL_BUILD_SHARED     "Build dynamically linked library"           FALSE )
+IF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    OPTION( SBOL_BUILD_SHARED     "Build dynamically linked library"           TRUE )
+ELSE()
+    OPTION( SBOL_BUILD_SHARED     "Build dynamically linked library"           FALSE )
+ENDIF()
 #OPTION( SBOL_BUILD_COMBINED  "Build libSBOL and Raptor RDF archives combined" FALSE )
 #OPTION( SBOL_DEBUG_STATEMENTS "Add some print statements for debugging"   FALSE )
 #OPTION( SBOL_BUILD_EXAMPLES   "Build the example programs"                FALSE )
