@@ -564,36 +564,6 @@ class TestSequences(unittest.TestCase):
         seq_read = doc.sequences.get('CRP_b_seq').elements
         self.assertEquals(seq_read, seq)
 
-#class TestPythonMethods(unittest.TestCase):
-
-#    def testAnnotations(self):
-#        for n in range(NUM_SLOW_TESTS):
-#            self.assertEqual(len(self.testees[0].annotations), n)
-#            uri = random_uri()
-#            self.uris.append(uri)
-#            ann = sbol.SequenceAnnotation(self.doc, uri)
-#            self.assertFalse(ann in self.testees[0].annotations)
-#            self.testees[0].annotations += ann
-#            self.assertTrue(ann in self.testees[0].annotations)
-#
-#class TestCollection(TestSBOLCompoundObject):
-#    def createTestees(self):
-#        uri = random_uri()
-#        self.uris.append(uri)
-#        self.testees.append( sbol.Collection(self.doc, uri) )
-#    
-#    def testComponents(self):
-#        col = self.testees[0]
-#        for n in range(NUM_SLOW_TESTS):
-#            self.assertEqual(len(col.components), n)
-#            uri = random_uri()
-#            self.uris.append(uri)
-#            com = sbol.DNAComponent(self.doc, uri)
-#            self.assertFalse(com in col.components)
-#            col.components += com
-#            self.assertTrue(com in col.components)
-#            self.assertEqual(len(col.components), n+1)
-
 class TestMemory(unittest.TestCase):
     
     def setUp(self):
@@ -621,8 +591,36 @@ class TestIterators(unittest.TestCase):
             annotations.append(sa.this)
         self.assertEquals(annotations, [sa1, sa2])
 
+class TestCopy(unittest.TestCase):
 
-def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators]):
+    def setUp(self):
+        pass
+
+    def testCopy(self):
+        Config.setOption('sbol_typed_uris', False)
+        doc = Document()
+        comp = doc.componentDefinitions.create('hi')
+
+        # Copy an object within a single Document, the version should be automatically incrememented
+        comp_copy = comp.copy()  
+        self.assertEquals(comp.version, '1.0.0')
+        self.assertEquals(comp_copy.version, '2.0.0')
+        self.assertEquals(comp_copy.identity, comp.persistentIdentity + '/2.0.0')
+        self.assertEquals(comp_copy.wasDerivedFrom[0], comp.identity)
+
+        # Clone the object to another Document, the wasDerivedFrom should not be a circular reference
+        doc2 = Document()
+        comp_copy = comp_copy.copy(doc2)
+        self.assertEquals(comp_copy.wasDerivedFrom[0], comp.identity)  
+
+        # Import the object into a new namespace and update the version
+        homespace = getHomespace()
+        setHomespace('https://hub.sd2e.org/user/sd2e/test')
+        comp_copy = comp.copy(doc2, homespace, '2')  # Import from old homespace into new homespace
+        self.assertEquals(comp_copy.identity, 'https://hub.sd2e.org/user/sd2e/test/hi/2')
+
+
+def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy ]):
     print("Setting up")
     #exec(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "CRISPR_example.py")).read())
     suite_list = []

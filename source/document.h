@@ -909,6 +909,12 @@ namespace sbol {
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::operator[] (std::string uri)
     {
+        if (Config::getOption("verbose") == "True")
+        {
+            std::cout << "SBOL compliant URIs are set to " << Config::getOption("sbol_compliant_uris") << std::endl;
+            std::cout << "SBOL typed URIs are set to " << Config::getOption("sbol_typed_uris") << std::endl;
+            std::cout << "Searching for " << uri << std::endl;
+        }
         // Search this property's object store for the uri
         std::vector<SBOLObject*> *object_store = &this->sbol_owner->owned_objects[this->type];
         for (auto i_obj = object_store->begin(); i_obj != object_store->end(); ++i_obj)
@@ -942,6 +948,9 @@ namespace sbol {
             // Find latest version if they are using a different semantic versioning scheme
             // This needs some work
             compliant_uri = persistentIdentity + "/" + uri;
+            if (Config::getOption("verbose") == "True")
+                std::cout << "Searching for TopLevel: " << compliant_uri << std::endl;
+
             std::vector< SBOLClass* > persistent_id_matches;
             for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
             {
@@ -977,7 +986,8 @@ namespace sbol {
             {
                 compliant_uri = persistentIdentity + "/" + uri;
             }
-
+            if (Config::getOption("verbose") == "True")
+                std::cout << "Searching for non-TopLevel: " << compliant_uri << std::endl;
             for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
             {
                 SBOLObject* obj = *i_obj;
