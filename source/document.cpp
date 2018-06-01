@@ -104,6 +104,7 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     // Typecast proxy constructors to a constructor for SBOL
     // This makes some ugly syntax, but library users should never see it.
     make_pair(UNDEFINED, &create<SBOLObject>),
+    make_pair(SBOL_IDENTIFIED, (SBOLObject&(*)()) &create<Identified>),
     make_pair(SBOL_COMPONENT_DEFINITION, (SBOLObject&(*)()) &create<ComponentDefinition>),
     make_pair(SBOL_SEQUENCE_ANNOTATION, (SBOLObject&(*)()) &create<SequenceAnnotation>),
     make_pair(SBOL_SEQUENCE, (SBOLObject&(*)()) &create<Sequence>),
@@ -1487,8 +1488,8 @@ std::string ReferencedObject::create(std::string uri)
 Identified& Identified::copy(Document* target_doc, string ns, string version)
 {
     // Call constructor for the copy
-    Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ this->type ]();
-    
+    Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ SBOL_IDENTIFIED ]();
+
     // Assign the new object to the target Document (null for non-TopLevel objects)
     if (target_doc)
         new_obj.doc = target_doc;
@@ -1557,7 +1558,9 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
     	if (this->doc == target_doc)  // In order to create a copy of the object in this Document, it's version must be incremented
         	new_obj.version.incrementMajor();
         else
+        {
         	new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
+        }
 
     if (Config::getOption("sbol_compliant_uris") == "True")
     	new_obj.identity.set(new_obj.persistentIdentity.get() + "/" + new_obj.version.get());
@@ -1986,6 +1989,7 @@ std::string Document::search_metadata(std::string role, std::string type, std::s
 
 Document& Document::copy(std::string ns, Document* doc, std::string version)
 {
+	std::cout << "Copying Document" << std::endl;
     if (!doc)
         doc = new Document();
     /// @TODO Need to copy Python extension objects

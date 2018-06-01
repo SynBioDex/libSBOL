@@ -1070,7 +1070,9 @@ void PartShop::pull(std::string uri, Document& doc)
         //     throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
     // }
     Document temp_doc = Document();
+    std::cout << "Reading response into SBOL file" << std::endl;
     temp_doc.readString(response);
+    std::cout << "Copying to new document" << std::endl;
     temp_doc.copy(resource, &doc);
 };
 
