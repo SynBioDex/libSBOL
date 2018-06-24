@@ -17,6 +17,11 @@ IF( SWIG_FOUND )
         add_definitions(-DLIBXML_STATIC -DLIBXSLT_STATIC -DCURL_STATICLIB -DCURL_STATIC)
     endif()
 
+    # pass definition to compiler for conditional compilation of code
+    if( SBOL_BUILD_MANYLINUX )
+        add_definitions(-DSBOL_BUILD_MANYLINUX)
+    endif()
+
     include_directories(
         ${SBOL_SOURCE_DIR}
         ${RAPTOR_INCLUDE_DIR}

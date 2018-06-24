@@ -36,7 +36,7 @@
 #include <functional>
 #include <vector>
 #include <unordered_map>
-#include <regex>
+
 #include <stdio.h>
 #include <ctype.h>
 #include <algorithm>
@@ -44,6 +44,7 @@
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
 #endif
+
 
 using namespace sbol;
 using namespace std;

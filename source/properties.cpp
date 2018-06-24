@@ -29,8 +29,11 @@
 
 #include <vector>
 #include <utility>
-#include <regex>
 #include <time.h>
+
+#ifndef SBOL_BUILD_MANYLINUX
+#include <regex>
+#endif
 
 using namespace sbol;
 using namespace std;
@@ -157,6 +160,7 @@ double FloatProperty::get()
 
 void VersionProperty::incrementMinor()
 {
+#ifndef SBOL_BUILD_MANYLINUX
     pair< vector<string>, vector<string> > v = this->split();
     vector< string > v_tokens = v.first;
     vector< string > v_delimiters = v.second;
@@ -194,10 +198,12 @@ void VersionProperty::incrementMinor()
         }
         parent_obj->identity.set(persistentIdentity + "/" + new_version);
     }
+#endif
 };
 
 void VersionProperty::incrementMajor()
 {
+#ifndef SBOL_BUILD_MANYLINUX
     pair< vector<string>, vector<string> > v = this->split();
     vector< string > v_tokens = v.first;
     vector< string > v_delimiters = v.second;
@@ -241,10 +247,12 @@ void VersionProperty::incrementMajor()
         }
         parent_obj->identity.set(persistentIdentity + "/" + new_version);
     }
+#endif
 };
 
 void VersionProperty::incrementPatch()
 {
+#ifndef SBOL_BUILD_MANYLINUX
     pair< vector<string>, vector<string> > v = this->split();
     vector< string > v_tokens = v.first;
     vector< string > v_delimiters = v.second;
@@ -281,6 +289,7 @@ void VersionProperty::incrementPatch()
         }
         parent_obj->identity.set(persistentIdentity + "/" + new_version);
     }
+#endif
 };
 
 void VersionProperty::decrementMinor()
@@ -373,6 +382,7 @@ vector<string> VersionProperty::split(const char c)
 
 pair < vector<string>, vector<string> > VersionProperty::split()
 {
+#ifndef SBOL_BUILD_MANYLINUX
     // Adapted from C++ cookbook
     const string& s = this->get();
     vector<string> tokens;
@@ -395,6 +405,7 @@ pair < vector<string>, vector<string> > VersionProperty::split()
     }
     
     return make_pair(tokens, delimiters);
+#endif
 }
 
 string DateTimeProperty::stampTime()

@@ -26,7 +26,9 @@
 #include "sbol.h"
 #include <iostream>
 
+#ifndef SBOL_BUILD_MANYLINUX
 #include <regex>
+#endif
 
 using namespace sbol;
 using namespace std;
@@ -131,6 +133,7 @@ void sbol::libsbol_rule_1(void *sbol_obj, void *arg)
 // Validate XSD date-time format
 void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
 {
+#ifndef SBOL_BUILD_MANYLINUX
 		const char *c_date_time = (const char *)arg;
 		string date_time = string(c_date_time);
         if (date_time.compare("") != 0)
@@ -150,6 +153,7 @@ void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
             if (!(DATETIME_MATCH_1 || DATETIME_MATCH_2 || DATETIME_MATCH_3))
                 throw SBOLError(SBOL_ERROR_NONCOMPLIANT_VERSION, "Invalid datetime format. Datetimes are based on XML Schema dateTime datatype. For example 2016-03-16T20:12:00Z");
         }
+#endif
 };
 
 // Validate Design.structure and Design.function are compatible
