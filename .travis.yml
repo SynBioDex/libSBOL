@@ -47,7 +47,7 @@ script:
   - make -j2 && make install
   #- cd ~/install_x64/test
   #- ./sbol_test
-  - cd cd ~/install_x64/wrapper/sbol
+  - cd ~/install_x64/wrapper/sbol
   - python unit_tests.py
     
 addons:
