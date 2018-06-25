@@ -174,7 +174,7 @@ IF (SBOL_BUILD_PYTHON3)
     elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         ##### Python 3 for Linux 32x #####
         if (SBOL_BUILD_32)
-            set(PYSBOL_TARGET_DIR "sbol")
+            set(PYSBOL_TARGET_DIR "Linux_32_3/sbol")  # target directory is synced with target directory for setup.py script
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
 
             # build the SWIG wrapper
@@ -221,15 +221,15 @@ IF (SBOL_BUILD_PYTHON3)
             add_custom_command(TARGET _libsbol PRE_BUILD
                                COMMAND cp -r ${PROJECT_SOURCE_DIR}/test/SBOLTestSuite/* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR}/test)
             add_custom_command(TARGET _libsbol POST_BUILD
-                               COMMAND cp -r ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+                               COMMAND cp -r ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
-                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/_libsbol.so ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/_libsbol.so ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
-                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
         endif()
         ##### Python 3 for Linux 64x #####
         if(SBOL_BUILD_64)
-            set(PYSBOL_TARGET_DIR "sbol")
+            set(PYSBOL_TARGET_DIR "Linux_64_3/sbol")  # target directory is synced with target directory for setup.py script
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
 
             # build the SWIG wrapper
@@ -277,9 +277,9 @@ IF (SBOL_BUILD_PYTHON3)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND cp -r ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
-                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/_libsbol.so ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/_libsbol.so ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
-                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
         endif()
     else()
         ##### Python 3 for Windows 32x #####
@@ -513,9 +513,9 @@ IF (SBOL_BUILD_PYTHON2)
     elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         ##### Python 2 for Linux 32x ######
         if (SBOL_BUILD_32)
-            set(PYSBOL_TARGET_DIR "sbol")
+            set(PYSBOL_TARGET_DIR "Linux_32_2/sbol")  # target directory is synced with target directory for setup.py script
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m32")
-            
+
             if (${CMAKE_VERSION} VERSION_LESS "3.8.0")
                 swig_add_module( libsbol
                 python
@@ -560,13 +560,13 @@ IF (SBOL_BUILD_PYTHON2)
             add_custom_command(TARGET _libsbol POST_BUILD
                                COMMAND cp -r ${CMAKE_SWIG_OUTDIR}/libsbol.py ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
-                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/_libsbol.so ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/_libsbol.so ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
             add_custom_command(TARGET _libsbol POST_BUILD
-                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR})
+                               COMMAND mv ${CMAKE_SWIG_OUTDIR}/libsbol* ${CMAKE_SWIG_OUTDIR}/${PYSBOL_TARGET_DIR})
         endif()
         ##### Python 2 for Linux 64x ######
         if (SBOL_BUILD_64)
-            set(PYSBOL_TARGET_DIR "sbol")
+            set(PYSBOL_TARGET_DIR "Linux_64_2/sbol")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64")
             
             if (${CMAKE_VERSION} VERSION_LESS "3.8.0")

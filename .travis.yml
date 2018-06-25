@@ -47,7 +47,10 @@ script:
   - make -j2 && make install
   #- cd ~/install_x64/test
   #- ./sbol_test
-  - cd ~/build/libSBOL/release/wrapper/sbol
+  - ls ~
+  - ls ~/build
+  - ls ~/build/libSBOL
+  - cd ~/build/libSBOL/release/wrapper/Linux_64_2/sbol
   - python unit_tests.py
     
 addons:
