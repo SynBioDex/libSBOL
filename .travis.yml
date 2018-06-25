@@ -50,8 +50,8 @@ script:
   - ls ~
   - ls ~/build
   - ls ~/build/libSBOL
-  - ls ~/SynBioDex
-  - cd ~/SynBioDex/libSBOL/release/wrapper/Linux_64_2/sbol
+  - ls ~/build/SynBioDex
+  - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2/sbol
   - python unit_tests.py
     
 addons:
