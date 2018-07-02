@@ -1989,7 +1989,6 @@ std::string Document::search_metadata(std::string role, std::string type, std::s
 
 Document& Document::copy(std::string ns, Document* doc, std::string version)
 {
-	std::cout << "Copying Document" << std::endl;
     if (!doc)
         doc = new Document();
     /// @TODO Need to copy Python extension objects
