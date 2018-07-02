@@ -20,17 +20,21 @@ elseif(TARGET sbol64-shared)
     add_library(sbol ALIAS sbol64-shared)
 endif()
 
-#temporary fix
-IF (SBOL_BUILD_PYTHON3)
-find_package( PythonLibs 3 )
-ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
-include_directories( ${PYTHON_INCLUDE_DIR} )
-ELSEIF(SBOL_BUILD_PYTHON2)
-find_package( PythonLibs 2 )
-ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)
-include_directories( ${PYTHON_INCLUDE_DIR} )
-ENDIF()
-message( "FOUND PYTHON = ${PYTHON_LIBRARIES}")
+# pass definitions to compiler for conditional compilation
+if (SBOL_BUILD_PYTHON3)
+    find_package( PythonLibs 3 )
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
+    include_directories( ${PYTHON_INCLUDE_DIR} )
+elseif(SBOL_BUILD_PYTHON2)
+    find_package( PythonLibs 2 )
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)
+    include_directories( ${PYTHON_INCLUDE_DIR} )
+endif()
+if( SBOL_BUILD_MANYLINUX )
+    add_definitions(-DSBOL_BUILD_MANYLINUX)
+endif()
+
+
 
 IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
     # build test executable

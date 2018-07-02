@@ -17,6 +17,9 @@ if( SBOL_BUILD_PYTHON3 )
     include_directories( ${PYTHON_INCLUDE_DIR} )
     ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
 endif()
+if( SBOL_BUILD_MANYLINUX )
+    add_definitions(-DSBOL_BUILD_MANYLINUX)
+endif()
 
 # gather source files
 FILE(GLOB SBOL_HEADER_FILES
