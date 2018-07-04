@@ -707,6 +707,9 @@ IF (SBOL_BUILD_PYTHON2)
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/Release/_libsbol.pyd ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/_libsbol.pyd)
         endif()
     endif()
+    if(SBOL_BUILD_MANYLINUX)
+        set_target_properties(_libsbol PROPERTIES LINK_FLAGS "-Wl,-lrt")
+    endif(SBOL_BUILD_MANYLINUX)
 endif()
 
 
