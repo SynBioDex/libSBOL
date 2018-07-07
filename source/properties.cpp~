@@ -382,12 +382,12 @@ vector<string> VersionProperty::split(const char c)
 
 pair < vector<string>, vector<string> > VersionProperty::split()
 {
+#ifndef SBOL_BUILD_MANYLINUX
     // Adapted from C++ cookbook
     const string& s = this->get();
     vector<string> tokens;
     vector<string> delimiters;
-
-#ifndef SBOL_BUILD_MANYLINUX    
+    
     std::regex rgx("[-|.|\\\\|_]");
     std::sregex_token_iterator i_token(s.begin(), s.end(), rgx, -1);
     std::sregex_token_iterator end;
@@ -403,8 +403,9 @@ pair < vector<string>, vector<string> > VersionProperty::split()
         delimiters.push_back(*i_delimiter);
         ++i_delimiter;
     }
-#endif   
+    
     return make_pair(tokens, delimiters);
+#endif
 }
 
 string DateTimeProperty::stampTime()
