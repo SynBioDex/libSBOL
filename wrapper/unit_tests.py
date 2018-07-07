@@ -596,11 +596,11 @@ class TestCopy(unittest.TestCase):
     def setUp(self):
         pass
 
-    def testCopy(self):
+    def testCopyAndIncrementVersion(self):
         Config.setOption('sbol_typed_uris', False)
         doc = Document()
         comp = doc.componentDefinitions.create('hi')
-
+        
         # Copy an object within a single Document, the version should be automatically incrememented
         comp_copy = comp.copy()  
         self.assertEquals(comp.version, '1.0.0')
@@ -608,11 +608,21 @@ class TestCopy(unittest.TestCase):
         self.assertEquals(comp_copy.identity, comp.persistentIdentity + '/2.0.0')
         self.assertEquals(comp_copy.wasDerivedFrom[0], comp.identity)
 
+    def testCopyToNewDocument(self):
+        Config.setOption('sbol_typed_uris', False)
+        doc = Document()
+        comp = doc.componentDefinitions.create('hi')
+        
         # Clone the object to another Document, the wasDerivedFrom should not be a circular reference
         doc2 = Document()
         comp_copy = comp_copy.copy(doc2)
         self.assertEquals(comp_copy.wasDerivedFrom[0], comp.identity)  
 
+    def testImportObjectIntoNewNamespace(self):
+        Config.setOption('sbol_typed_uris', False)
+        doc = Document()
+        comp = doc.componentDefinitions.create('hi')
+        
         # Import the object into a new namespace and update the version
         homespace = getHomespace()
         setHomespace('https://hub.sd2e.org/user/sd2e/test')
