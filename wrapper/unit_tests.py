@@ -611,16 +611,20 @@ class TestCopy(unittest.TestCase):
     def testCopyToNewDocument(self):
         Config.setOption('sbol_typed_uris', False)
         doc = Document()
-        comp = doc.componentDefinitions.create('hi')
+        comp1 = doc.componentDefinitions.create('cd1')
+        comp2 = doc.componentDefinitions.create('cd2') 
+        comp2.wasDerivedFrom = comp1.identity
         
         # Clone the object to another Document, the wasDerivedFrom should not be a circular reference
         doc2 = Document()
-        comp_copy = comp_copy.copy(doc2)
-        self.assertEquals(comp_copy.wasDerivedFrom[0], comp.identity)  
+        comp3 = comp2.copy(doc2)
+        self.assertEquals(comp3.wasDerivedFrom[0], comp1.identity)  
+        self.assertNotEqual(comp3.wasDerivedFrom[0], comp2.identity)
 
     def testImportObjectIntoNewNamespace(self):
         Config.setOption('sbol_typed_uris', False)
         doc = Document()
+        doc2 = Document()
         comp = doc.componentDefinitions.create('hi')
         
         # Import the object into a new namespace and update the version
