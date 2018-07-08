@@ -74,6 +74,8 @@ namespace sbol
         /// @param ns_prefix A shorthand symbol for the full namespace as it will appear in the output file, eg, my_extension
         template < class ExtensionClass > void register_extension_class(std::string ns, std::string ns_prefix, std::string class_name);
         
+        template < class SBOLClass > SBOLClass& cast();
+
     public:
         
         /// @cond
@@ -187,6 +189,37 @@ namespace sbol
         };
 
     };
+
+    template <class SBOLClass>
+    SBOLClass& SBOLObject::cast()
+    {
+        std::cout << "Casting " << this->identity.get() << std::endl;
+        SBOLClass& new_obj = *new SBOLClass();
+
+        // Set identity
+        new_obj.identity.set(this->identity.get());
+        
+        // Copy properties
+        for (auto it = this->properties.begin(); it != this->properties.end(); it++)
+        {
+            new_obj.properties[it->first] = this->properties[it->first];
+        }
+        for (auto it = this->owned_objects.begin(); it != this->owned_objects.end(); it++)
+        {
+            new_obj.owned_objects[it->first] = this->owned_objects[it->first];
+        }
+        for (auto it = this->namespaces.begin(); it != this->namespaces.end(); it++)
+        {
+            new_obj.namespaces[it->first] = this->namespaces[it->first];
+        }
+        for (auto it = this->hidden_properties.begin(); it != this->hidden_properties.end(); it++)
+        {
+            new_obj.hidden_properties.push_back(*it);
+        }
+        // new_obj->parent = this->parent;
+        // new_obj->doc = this->doc;
+        return new_obj;
+    }
 
     /// @ingroup extension_layer
     /// @brief A reference to another SBOL object
