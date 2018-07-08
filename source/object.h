@@ -193,7 +193,6 @@ namespace sbol
     template <class SBOLClass>
     SBOLClass& SBOLObject::cast()
     {
-        std::cout << "Casting " << this->identity.get() << std::endl;
         SBOLClass& new_obj = *new SBOLClass();
 
         // Set identity
