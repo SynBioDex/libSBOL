@@ -1406,7 +1406,6 @@ namespace sbol {
     {
         if (this->sbol_owner)
         {
-
             if (this->sbol_owner->owned_objects.find(this->type) != this->sbol_owner->owned_objects.end())
             {
                 std::vector<SBOLObject*>& object_store = this->sbol_owner->owned_objects[this->type];
@@ -1425,7 +1424,8 @@ namespace sbol {
                         // Erase nested, hidden TopLevel objects from Document
                         if (obj->doc && !obj->doc->find(uri))
                             obj->doc = NULL;
-                        SBOLClass* cast_obj = dynamic_cast<SBOLClass*>(cast_obj);
+
+                        SBOLClass* cast_obj = dynamic_cast<SBOLClass*>(obj);
                         return *cast_obj;
                     }
                 }
