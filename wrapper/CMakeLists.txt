@@ -27,7 +27,7 @@ IF( SWIG_FOUND )
         ${RAPTOR_INCLUDE_DIR}
         ${CURL_INCLUDE_DIR}
         ${JsonCpp_INCLUDE_DIR}
-
+	${OPENSSL_INCLUDE_DIR}
         # ${LIBXSLT_INCLUDE_DIR}
         # ${LIBXML2_INCLUDE_DIR}
         # ${LIBZ_INCLUDE_DIR}
@@ -200,6 +200,8 @@ IF (SBOL_BUILD_PYTHON3)
                     ${PYTHON_LIBRARIES}
                     ${RAPTOR_LIBRARY}
                     ${CURL_LIBRARY}
+		    ${OPENSSL_LIBRARY}  # linux only
+		    ${CRYPTO_LIBRARY}   # linux only
                     ${LIBXSLT_LIBRARIES}
                     sbol32)
             ENDIF()
@@ -255,6 +257,8 @@ IF (SBOL_BUILD_PYTHON3)
                     ${PYTHON_LIBRARIES}
                     ${RAPTOR_LIBRARY}
                     ${CURL_LIBRARY}
+		    ${OPENSSL_LIBRARY}  # linux only
+		    ${CRYPTO_LIBRARY}   # linux only
                     ${LIBXSLT_LIBRARIES}
                     sbol64)
             ENDIF()
@@ -538,6 +542,8 @@ IF (SBOL_BUILD_PYTHON2)
                     ${PYTHON_LIBRARIES}
                     ${RAPTOR_LIBRARY}
                     ${CURL_LIBRARY}
+		    ${OPENSSL_LIBRARY}  # linux only
+		    ${CRYPTO_LIBRARY}   # linux only
                     ${LIBXSLT_LIBRARIES}
                     sbol32)
             ENDIF()
@@ -591,6 +597,8 @@ IF (SBOL_BUILD_PYTHON2)
                     ${PYTHON_LIBRARIES}
                     ${RAPTOR_LIBRARY}
                     ${CURL_LIBRARY}
+		    ${OPENSSL_LIBRARY}  # linux only
+		    ${CRYPTO_LIBRARY}   # linux only
                     ${LIBXSLT_LIBRARIES}
                     sbol64)
             ENDIF()
@@ -707,6 +715,9 @@ IF (SBOL_BUILD_PYTHON2)
                                COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SWIG_OUTDIR}/Release/_libsbol.pyd ${CMAKE_INSTALL_PREFIX}/wrapper/${PYSBOL_TARGET_DIR}/sbol/_libsbol.pyd)
         endif()
     endif()
+    if(SBOL_BUILD_MANYLINUX)
+        set_target_properties(_libsbol PROPERTIES LINK_FLAGS "-Wl,-lrt")
+    endif(SBOL_BUILD_MANYLINUX)
 endif()
 
 
