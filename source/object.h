@@ -74,8 +74,6 @@ namespace sbol
         /// @param ns_prefix A shorthand symbol for the full namespace as it will appear in the output file, eg, my_extension
         template < class ExtensionClass > void register_extension_class(std::string ns, std::string ns_prefix, std::string class_name);
         
-        template < class SBOLClass > SBOLClass& cast();
-
     public:
         
         /// @cond
@@ -168,6 +166,8 @@ namespace sbol
         
         PyObject* cast(PyObject* python_class);
 #endif
+
+        template < class SBOLClass > SBOLClass& cast();
 
         /// Use this method to destroy an SBOL object that is not contained by a parent Document.  If the object does have a parent Document, instead use doc.close() with the object's URI identity as an argument.
         /// @TODO Recurse through child objects and delete them.
