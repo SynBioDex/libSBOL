@@ -44,9 +44,12 @@ SBOLObject::~SBOLObject()
     {
         for (auto &i_own : owned_objects)
         {
-            vector<SBOLObject*>& object_store = i_own.second;
-            for (auto &i_obj : object_store)
-                i_obj->close();
+            if (std::find(hidden_properties.begin(), hidden_properties.end(), i_own.first) == hidden_properties.end())
+            {
+                vector<SBOLObject*>& object_store = i_own.second;
+                for (auto &i_obj : object_store)
+                    i_obj->close();              
+            }
         }
     }
 }
@@ -109,6 +112,8 @@ PyObject* SBOLObject::cast(PyObject* python_class)
 };
 
 #endif
+
+
 
 bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
 {

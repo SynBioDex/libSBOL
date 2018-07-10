@@ -169,7 +169,15 @@ namespace sbol
         };
     
 #endif
-        
+
+    protected:
+        bool isHidden()
+        {
+            if (std::find(this->sbol_owner->hidden_properties.begin(), this->sbol_owner->hidden_properties.end(), this->type) != this->sbol_owner->hidden_properties.end())
+                return true;
+            else
+                return false;
+        }
     };
     
     template <class LiteralType>

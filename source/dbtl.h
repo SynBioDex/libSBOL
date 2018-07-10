@@ -85,7 +85,7 @@ namespace sbol
         ReferencedObject characterization;
         
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed
-        ~Design() override;
+        virtual ~Design() {};
 
     private:
         ReferencedObject _structure;
@@ -99,8 +99,15 @@ namespace sbol
     template<>
     Design& TopLevel::generate<Design>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
 
-    template<>
-    Design& OwnedObject<Design>::get(std::string uri);
+    // template<>
+    // Design& OwnedObject<Design>::get(std::string uri);
+
+    // template<>
+    // Design& OwnedObject<Design>::operator[] (std::string uri);
+
+    // template<>
+    // Design& OwnedObject<Design>::operator[] (const int nIndex);
+
     
     /// A Build is a realization of a Design. For practical purposes, a Build can represent a biological clone, a plasmid, or other laboratory sample. For a given Design, there may be multiple Builds realized in the lab. A Build represents the second step in libSBOL's formalized Design-Build-Test-Analyze workflow.
     class Build : public Implementation
@@ -173,9 +180,9 @@ namespace sbol
         OwnedObject < ModuleDefinition > behavior;
         
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed
-        ~Build() override;
+        virtual ~Build() {};
     
-    private:
+    // private:
         URIProperty sysbio_type;
         ReferencedObject _structure;
         ReferencedObject _behavior;
@@ -187,8 +194,14 @@ namespace sbol
     template<>
     Build& TopLevel::generate<Build>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
 
-    template<>
-    Build& OwnedObject<Build>::get(std::string uri);
+    // template<>
+    // Build& OwnedObject<Build>::get(std::string uri);
+    
+    // template<>
+    // Build& OwnedObject<Build>::operator[] (std::string uri);
+
+    // template<>
+    // Build& OwnedObject<Build>::operator[] (const int nIndex);
     
     /// A Test is a container for experimental data. A Test is the product of the third step of libSBOL's formalized Design-Build-Test-Analyze workflow
     class Test : public Collection
@@ -225,6 +238,8 @@ namespace sbol
 
         /// References to file Attachments which contain experimental data sets
         ReferencedObject dataFiles;
+
+        virtual ~Test() {};
     };
 
     template<>
@@ -282,7 +297,7 @@ namespace sbol
 
         std::unordered_map < std::string, std::tuple < int, int, float > > reportAmbiguity();
 
-        ~Analysis() override;
+        virtual ~Analysis() {};
     private:
         ReferencedObject _consensusSequence;
         ReferencedObject _fittedModel;

@@ -345,7 +345,7 @@ std::string ComponentDefinition::compile()
     }
     else 
     {
-        seq = &doc->get<Sequence>(sequence.get());
+        seq = &doc->get<Sequence>(sequences.get());
     }
     return seq->compile();
 }

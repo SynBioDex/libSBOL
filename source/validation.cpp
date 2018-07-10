@@ -94,7 +94,7 @@ void sbol::sbol_rule_10202(void *sbol_obj, void *arg)
 	{
 		if (identified_obj->doc->SBOLObjects.find(new_id) != identified_obj->doc->SBOLObjects.end())  // If the new identity is already in the document throw an error
 		{
-			throw SBOLError(SBOL_ERROR_URI_NOT_UNIQUE, "An object with this URI already exists in the Document. See validation rule sbol-10202.");
+			throw SBOLError(SBOL_ERROR_URI_NOT_UNIQUE, "Cannot add " + new_id + " to Document. An object with this URI already exists. See validation rule sbol-10202.");
 		}
 	}
 };
@@ -461,4 +461,16 @@ void sbol::libsbol_rule_18(void *sbol_obj, void *arg)
 void sbol::libsbol_rule_19(void *sbol_obj, void *arg)
 {
     throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot modify property value. It is read-only.");
+};
+
+void sbol::libsbol_rule_20(void *sbol_obj, void *arg)
+{
+    ComponentDefinition& cd = *(ComponentDefinition*)sbol_obj;
+    Sequence& seq = *(Sequence*)arg;
+    vector<string> seq_ids = cd.sequences.getAll();
+    if (std::find(seq_ids.begin(), seq_ids.end(), seq.identity.get()) == seq_ids.end())
+    {
+        cd.sequences.clear();
+        cd.sequences.set(seq.identity.get());
+    }
 };

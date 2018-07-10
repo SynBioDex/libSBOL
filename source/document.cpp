@@ -53,42 +53,66 @@ using namespace std;
 void Document::parse_extension_objects()
 {
     // Look in Implementation store for objects with sys-bio:type and move them to Build store
-    vector<SBOLObject*>& implementation_store = owned_objects[SBOL_IMPLEMENTATION];
-    vector<SBOLObject*>& build_store = owned_objects[SYSBIO_BUILD];
-    implementation_store.erase( std::remove_if(implementation_store.begin(), implementation_store.end(), [&](SBOLObject* i)
-        {
-            if (i->properties.find(SYSBIO_URI "#type") != i->properties.end() && i->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_BUILD ">")
-            {
-                build_store.push_back(i);
-                return true;
-            }
-            return false;
-        }), implementation_store.end());
+    vector<string> build_ids;
+	for (auto & i : owned_objects[SBOL_IMPLEMENTATION])
+		if (i->properties.find(SYSBIO_URI "#type") != i->properties.end() && i->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_BUILD ">")
+			build_ids.push_back(i->identity.get());
+    for (auto & id : build_ids)
+    {
+    	Implementation& i = this->implementations.remove(id);
+        Build& b = i. template cast<Build>();
+        this->add<Build>(b);
+        i.close();
+    }		
 
     // Look in Collection store for objects with sys-bio:type and move them to Test store
-    vector<SBOLObject*>& collection_store = owned_objects[SBOL_COLLECTION];
-    vector<SBOLObject*>& test_store = owned_objects[SYSBIO_TEST];
-    collection_store.erase( std::remove_if(collection_store.begin(), collection_store.end(), [&](SBOLObject* c)
-        {
-            if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
-            {
-                test_store.push_back(c);
-                return true;
-            }
-            return false;
-        }), collection_store.end());
+    vector<string> test_ids;
+	for (auto & c : owned_objects[SBOL_COLLECTION])
+        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
+			test_ids.push_back(c->identity.get());
+    for (auto & id : test_ids)
+    {
+    	Collection& c = this->collections.remove(id);
+        Test& t = c. template cast<Test>();
+        this->add<Test>(t);
+        c.close();
+    }	
 
     // Look in Collection store for objects with sys-bio:type and move them to SampleRoster store
-    vector<SBOLObject*>& roster_store = owned_objects[SYSBIO_URI "#SampleRoster"];
-    collection_store.erase( std::remove_if(collection_store.begin(), collection_store.end(), [&](SBOLObject* c)
-        {
-            if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_SAMPLE_ROSTER ">")
-            {
-                roster_store.push_back(c);
-                return true;
-            }
-            return false;
-        }), collection_store.end());
+    vector<string> roster_ids;
+	for (auto & c : owned_objects[SBOL_COLLECTION])
+        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
+			roster_ids.push_back(c->identity.get());
+    for (auto & id : roster_ids)
+    {
+    	Collection& c = this->collections.remove(id);
+        SampleRoster& sr = c. template cast<SampleRoster>();
+        this->add<SampleRoster>(sr);
+        c.close();
+    }	
+
+    // Populate hidden properties
+    for (auto & d : this->designs)
+    {
+    	if (d._structure.size() && this->componentDefinitions.find(d._structure.get()))
+    		d.structure.set(this->componentDefinitions.get(d._structure.get()));
+    	if (d._function.size() && this->moduleDefinitions.find(d._function.get()))
+    		d.function.set(this->moduleDefinitions.get(d._function.get()));
+    }
+    for (auto & b : this->builds)
+    {
+    	if (b._structure.size() && this->componentDefinitions.find(b._structure.get()))
+    		b.structure.set(this->componentDefinitions.get(b._structure.get()));
+    	if (b._behavior.size() && this->moduleDefinitions.find(b._behavior.get()))
+    		b.behavior.set(this->moduleDefinitions.get(b._behavior.get()));
+    }
+    for (auto & a : this->analyses)
+    {
+    	if (a._consensusSequence.size() && this->sequences.find(a._consensusSequence.get()))
+    		a.consensusSequence.set(this->sequences.get(a._consensusSequence.get()));
+    	if (a._fittedModel.size() && this->models.find(a._fittedModel.get()))
+    		a.fittedModel.set(this->models.get(a._fittedModel.get()));
+    } 
 };
 
 Document::~Document()
@@ -1489,7 +1513,12 @@ std::string ReferencedObject::create(std::string uri)
 Identified& Identified::copy(Document* target_doc, string ns, string version)
 {
     // Call constructor for the copy
-    Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ SBOL_IDENTIFIED ]();
+	string new_obj_type;
+	if (SBOL_DATA_MODEL_REGISTER.find(this->type) != SBOL_DATA_MODEL_REGISTER.end())
+		new_obj_type = this->type;
+	else 
+		new_obj_type = SBOL_IDENTIFIED;
+    Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ new_obj_type ]();
 
     // Assign the new object to the target Document (null for non-TopLevel objects)
     if (target_doc)
@@ -1529,22 +1558,48 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
                     pos = property_val.find(old_ns, pos);
                     if (pos != std::string::npos)
                     {
-                        SBOLObject* referenced_obj = doc->find(uri);  // Distinguish between a referenced object versus an ontology URI
-                        if (referenced_obj || store_uri == SBOL_PERSISTENT_IDENTITY)
+                        // Copy object reference to new namespace and insert type
+                        string replace_target;
+                    	string replacement;
+                    	string class_name;
+                        if (store_uri == SBOL_PERSISTENT_IDENTITY)
                         {
-                            // Copy object reference to new namespace and insert type
-                            if (Config::getOption("sbol_typed_uris").compare("True") == 0 && dynamic_cast<TopLevel*>(referenced_obj))
+                        	class_name = parseClassName(new_obj.getTypeURI());
+                        	replace_target = old_ns + "/" + class_name;
+                        	pos = property_val.find(replace_target, 0);
+                            if (pos == std::string::npos)
                             {
-                                property_val.erase(pos, old_ns.size());
-                                property_val.insert(pos, getHomespace() + "/" + parseClassName(referenced_obj->getTypeURI()));
-                            }
-                            else
-                            {
-                                property_val.erase(pos, old_ns.size());
-                                property_val.insert(pos, getHomespace());
+                        		replace_target = old_ns;
+                        		pos = property_val.find(replace_target, 0);
                             }
                         }
-                        property_store_copy[i_property_val] = property_val;
+                        else 
+                       	{
+                            SBOLObject* referenced_obj = doc->find(uri);  // Distinguish between a referenced object versus an ontology URI
+                        	if (referenced_obj)
+                        	{
+                        		class_name = parseClassName(referenced_obj->getTypeURI());
+	                        	replace_target = old_ns + "/" + class_name;
+	                        	pos = property_val.find(replace_target, 0);
+	                            if (pos == std::string::npos)
+	                            {
+	                        		replace_target = old_ns;
+	                        		pos = property_val.find(replace_target, 0);
+	                            }
+                        	}
+                        }
+                        // Construct replacement token
+                        if (Config::getOption("sbol_compliant_uris") == "True" && Config::getOption("sbol_typed_uris") == "True")
+                        {
+                            replacement = getHomespace() + "/" + class_name;
+                        }
+                        else
+                        {
+                        	replacement = getHomespace();
+                        }
+                    	property_val.erase(pos, replace_target.size());
+	                    property_val.insert(pos, replacement);
+                    	property_store_copy[i_property_val] = property_val;
                     }
                 }
             }
@@ -1996,12 +2051,22 @@ Document& Document::copy(std::string ns, Document* doc, std::string version)
     for (auto & id_and_obj_pair : SBOLObjects)
     {
         TopLevel& tl = *(TopLevel*)id_and_obj_pair.second;
-        if (version == "" && tl.version.size() == 1)
-        	tl.copy<TopLevel>(doc, ns, tl.version.get());
-        else if (version == "" && tl.version.size() == 0)
-        	tl.copy<TopLevel>(doc, ns);
-        else
-        	tl.copy<TopLevel>(doc, ns, VERSION_STRING);        	
+        try
+        {
+	        if (version == "" && tl.version.size() == 1)
+	        	tl.copy<TopLevel>(doc, ns, tl.version.get());
+	        else if (version == "" && tl.version.size() == 0)
+	        	tl.copy<TopLevel>(doc, ns);
+	        else
+	        	tl.copy<TopLevel>(doc, ns, VERSION_STRING);   
+	    }
+	    catch(SBOLError &e)
+	    {
+	    	if (e.error_code() == SBOL_ERROR_URI_NOT_UNIQUE)
+				continue;
+			else
+				throw e;
+	    }
     }
     return *doc;
 };

@@ -58,12 +58,14 @@ namespace sbol
             TopLevel(type, uri, version),
             types(this, SBOL_TYPES, '1', '*', ValidationRules({}), component_type),
             roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
-            sequence(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
+            // sequence(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
+            sequence(this, SBOL_SEQUENCE, '0', '1', ValidationRules({ libsbol_rule_20 })),
             sequences(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '*', ValidationRules({})),
             sequenceAnnotations(this, SBOL_SEQUENCE_ANNOTATIONS, '0', '*', ValidationRules({})),
             components(this, SBOL_COMPONENTS, '0', '*', ValidationRules({})),
             sequenceConstraints(this, SBOL_SEQUENCE_CONSTRAINTS, '0', '*', ValidationRules({}))
             {
+                hidden_properties.push_back(SBOL_SEQUENCE);
             };
         
         /// The types property is a REQUIRED set of URIs that specifies the category of biochemical or physical entity (for example DNA, protein, or small molecule) that a ComponentDefinition object abstracts for the purpose of engineering design.  The types property of every ComponentDefinition MUST contain one or more URIs that MUST identify terms from appropriate ontologies, such as the BioPAX ontology or the ontology of Chemical Entities of Biological Interest. See the table below for examples.
@@ -97,7 +99,7 @@ namespace sbol
         /// The sequences property is OPTIONAL and MAY include a URI that refer to a Sequence object. The referenced object defines the primary structure of the ComponentDefinition.
         ReferencedObject sequences;
         
-        ReferencedObject sequence;
+        OwnedObject<Sequence> sequence;
         
         /// The sequenceAnnotations property is OPTIONAL and MAY contain a set of SequenceAnnotation objects. Each SequenceAnnotation specifies and describes a potentially discontiguous region on the Sequence objects referred to by the ComponentDefinition.
         OwnedObject<SequenceAnnotation> sequenceAnnotations;

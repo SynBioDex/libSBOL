@@ -619,6 +619,19 @@ class TestCopy(unittest.TestCase):
         comp_copy = comp.copy(doc2, homespace, '2')  # Import from old homespace into new homespace
         self.assertEquals(comp_copy.identity, 'https://hub.sd2e.org/user/sd2e/test/hi/2')
 
+    def testCopyAnnotationObject(self):
+        class GenericTopLevel(TopLevel):
+            def __init__(self, id = 'test'):
+                TopLevel.__init__(self, 'http://extension_namespace.com#GenericTopLevel', id, '1.0.0')
+                self.annotation_property = URIProperty(self.this, 'http://extension_namespace.com#annotation_property', '0', '1', 'foo')
+                self.register_extension_class(GenericTopLevel, 'extension_prefix')
+
+        tl = GenericTopLevel()
+        doc = Document()
+        doc.addExtensionObject(tl)
+        doc2 = doc.copy(getHomespace())
+        doc2.getExtensionObject(tl.identity)
+
 
 def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy ]):
     print("Setting up")

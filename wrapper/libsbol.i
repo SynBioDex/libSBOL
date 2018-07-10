@@ -932,6 +932,12 @@ TEMPLATE_MACRO_3(Document);
             Py_INCREF(py_obj);
             return py_obj;
         }
+        else if ($self->SBOLObjects.find(id) != $self->SBOLObjects.end())
+        {
+            SBOLObject* obj = $self->SBOLObjects[id];
+            PyObject *py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(obj), $descriptor(sbol::TopLevel*), SWIG_POINTER_OWN |  0 );
+            return py_obj;
+        }
         throw SBOLError(NOT_FOUND_ERROR, "Object " + id + " not found");
     }
     
