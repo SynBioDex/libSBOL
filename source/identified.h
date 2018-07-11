@@ -41,7 +41,7 @@ namespace sbol
 	friend class PartShop;
         
 	public:
-        Identified(rdf_type type_uri = SBOL_IDENTIFIED, std::string uri = "example", std::string version = "1.0.0") :
+        Identified(rdf_type type_uri = SBOL_IDENTIFIED, std::string uri = "example", std::string version = VERSION_STRING) :
         SBOLObject(type_uri, uri),
         persistentIdentity(this, SBOL_PERSISTENT_IDENTITY, '0', '1', ValidationRules({}), uri),
         displayId(this, SBOL_DISPLAY_ID, '0', '1', ValidationRules({ sbol_rule_10204 })),
