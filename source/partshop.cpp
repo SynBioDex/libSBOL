@@ -651,6 +651,8 @@ void sbol::PartShop::login(std::string email, std::string password)
 
 std::string sbol::PartShop::submit(Document& doc, std::string collection, int overwrite)
 {
+    if (collection == "" && (doc.displayId.size() == 0 || doc.name.size() == 0 || doc.description.size() == 0))
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot submit Document. The Document must be assigned a displayId, name, and description for upload.");
     
     /* Perform HTTP request */
     string response;
@@ -1036,39 +1038,52 @@ void PartShop::pull(std::string uri, Document& doc)
     headers["Accept"] = "text/plain";
 
     // For first attempt at pulling part, assume user supplied only a displayId for the requested part
-    if (Config::getOption("verbose") == "True")
-        std::cout << "Attempting to pull " << getURL() + "/" + uri << std::endl;
-    std::string get_request = getURL() + "/" + uri + "/sbol";  
+    // if (Config::getOption("verbose") == "True")
+    //     std::cout << "Attempting to pull " << getURL() + "/" + uri << std::endl;
+    // std::string get_request = getURL() + "/" + uri + "/sbol";  
+    // try
+    // {
+    //         response = http_get_request(get_request, &headers);
+    // }
+    // catch(SBOLError& e1)
+    // {
+    //     if (e1.error_code() == SBOL_ERROR_NOT_FOUND)
+    //     {
+    //         // Reattempt, assuming user supplied a full URI for the requested part
+    //         if (Config::getOption("verbose") == "True")
+    //             std::cout << "Not found. Attempting to pull " << uri << std::endl;
+    //         try 
+    //         {                
+    //             get_request = uri + "/sbol";
+    //             response = http_get_request(get_request, &headers);
+    //         }
+    //         catch (SBOLError& e2)
+    //         {
+    //             if (e2.error_code() == SBOL_ERROR_NOT_FOUND)
+    //                 throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
+    //         }
+    //     }
+    // }
+    string query;
+    if (uri.find(resource) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else if (uri.find(parseURLDomain(resource)) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else
+        query = resource + "/" + uri;  // Assume user has only specified displayId
     try
     {
-            response = http_get_request(get_request, &headers);
+        string get_request = query + "/sbol";
+        if (Config::getOption("verbose") == "True")
+            std::cout << "Issuing get request:\n" << get_request << std::endl;
+        response = http_get_request(get_request, &headers);
     }
-    catch(SBOLError& e1)
+    catch (SBOLError& e)
     {
-        if (e1.error_code() == SBOL_ERROR_NOT_FOUND)
-        {
-            // Reattempt, assuming user supplied a full URI for the requested part
-            if (Config::getOption("verbose") == "True")
-                std::cout << "Not found. Attempting to pull " << uri << std::endl;
-            try 
-            {                
-                get_request = uri + "/sbol";
-                response = http_get_request(get_request, &headers);
-            }
-            catch (SBOLError& e2)
-            {
-                if (e2.error_code() == SBOL_ERROR_NOT_FOUND)
-                    throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
-            }
-        }
+        if (e.error_code() == SBOL_ERROR_NOT_FOUND)
+            throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
     }
-    // if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
-    // {
-        // if (response.find("<!DOCTYPE html>") != std::string::npos || response.find("not found") != std::string::npos)
-        //     if (Config::getOption("verbose") == "True")
-        //         std::cout << "Received response" << std::endl << response << std::endl;
-        //     throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
-    // }
+
     Document temp_doc = Document();
     temp_doc.readString(response);
     temp_doc.copy(resource, &doc);
