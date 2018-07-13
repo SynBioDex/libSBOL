@@ -75,7 +75,7 @@ namespace sbol {
 	public:
         /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
-            Identified(SBOL_DOCUMENT, ""),
+            Identified(SBOL_DOCUMENT, "", VERSION_STRING),
             home(""),
             SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
@@ -387,10 +387,13 @@ namespace sbol {
                 std::vector<SBOLObject*>& object_store = i_store->second;
                 for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
                 {
+                    SBOLObject& owned_obj = **i_obj;
                     // // This check for URI duplication adds an inefficiency but is a necessary kludge to accommodate the OwnedObject<TopLevel> pattern
-                    // SBOLObject& owned_obj = **i_obj;
                     // if (this->SBOLObjects.find(owned_obj.identity.get()) == this->SBOLObjects.end()) 
+                    if (owned_obj.doc != this)
+                    {
                         this->add<SBOLObject>(**i_obj);
+                    }
                 }
             }
         }
