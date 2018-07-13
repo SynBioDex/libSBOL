@@ -599,7 +599,8 @@ class TestCopy(unittest.TestCase):
     def testCopyAndIncrementVersion(self):
         Config.setOption('sbol_typed_uris', False)
         doc = Document()
-        comp = doc.componentDefinitions.create('hi')
+        comp = ComponentDefinition('foo', BIOPAX_DNA, '1.0.0')
+        doc.addComponentDefinition(comp)
         
         # Copy an object within a single Document, the version should be automatically incrememented
         comp_copy = comp.copy()  
