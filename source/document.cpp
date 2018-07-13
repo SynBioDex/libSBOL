@@ -839,7 +839,7 @@ std::string Document::validate()
 {
 	raptor_world* world = getWorld();
 	raptor_serializer* sbol_serializer;
-	if (Config::getOption("serialization_format") == "rdfxml")
+	if (Config::getOption("serialization_format") == "sbol" || Config::getOption("serialization_format") == "rdfxml")
 		sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
 	else
 		sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
@@ -992,7 +992,11 @@ void Document::append(std::string filename)
     if (!fh)
         throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + filename + " not found");
 	//raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
-    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
+	raptor_parser* rdf_parser;
+	if (Config::getOption("serialization_format") == "sbol")
+    	rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
+	else
+    	rdf_parser = raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
 
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
@@ -1028,7 +1032,11 @@ void Document::readString(std::string& sbol)
 {
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
     
-    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
+    raptor_parser* rdf_parser;
+    if (Config::getOption("serialization_format") == "sbol")
+    	raptor_new_parser(this->rdf_graph, "rdfxml");    
+    else
+    	raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
     
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
 
@@ -1068,7 +1076,7 @@ int Document::countTriples()
 	char *sbol_buffer;
 	size_t sbol_buffer_len;
 	raptor_serializer* sbol_serializer;
-	if (Config::getOption("serialization_format") == "rdfxml")
+	if (Config::getOption("serialization_format") == "rdfxml" || Config::getOption("serialization_format") == "sbol" )
 		sbol_serializer = raptor_new_serializer(rdf_graph, "rdfxml-abbrev");
 	else
 		sbol_serializer = raptor_new_serializer(rdf_graph, Config::getOption("serialization_format").c_str());
@@ -1076,7 +1084,11 @@ int Document::countTriples()
 	raptor_uri *base_uri = NULL;
     generate(&rdf_graph, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
 
-    raptor_parser* rdf_parser = raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
+    raptor_parser* rdf_parser;
+	if (Config::getOption("serialization_format") == "rdfxml" || Config::getOption("serialization_format") == "sbol" )
+    	raptor_new_parser(this->rdf_graph, "rdfxml");
+	else
+    	raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
     ios = raptor_new_iostream_from_string(this->rdf_graph, (void *)sbol_buffer, sbol_buffer_len);
 
@@ -1297,7 +1309,7 @@ std::string Document::write(std::string filename)
 
 	raptor_world* world = getWorld();
 	raptor_serializer* sbol_serializer;
-	if (Config::getOption("serialization_format") == "rdfxml")
+	if (Config::getOption("serialization_format") == "sbol" || Config::getOption("serialization_format") == "rdfxml")
 		sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
 	else
 		sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
@@ -1313,7 +1325,7 @@ std::string Document::write(std::string filename)
     // Convert flat RDF/XML into nested SBOL
     std::string response = "Validation of " + Config::getOption("serialization_format") + " serialization cannot be performed.";
     std::string sbol_buffer_string = std::string((char*)sbol_buffer);
-    if (Config::getOption("serialization_format") == "rdfxml")
+    if (Config::getOption("serialization_format") == "sbol")
     {
 		const int size = (const int)sbol_buffer_len;
         if (sbol_buffer)
@@ -1329,17 +1341,18 @@ std::string Document::write(std::string filename)
         {
             throw SBOLError(SBOL_ERROR_SERIALIZATION, "Serialization failed");
         }
-		// Validate SBOL using online validator
-	    if (Config::getOption("validate") == "True")
-	        response = validate();
-	    else
-	        response = "Validation disabled. To enable use of the online validation tool, use Config::setOption(\"validate\", true)";
-
 	}
 	else
 	{
 		fputs(sbol_buffer_string.c_str(), fh);
 	}
+
+	// Validate SBOL using online validator
+    if (Config::getOption("validate") == "True" && (Config::getOption("serialization_format") == "sbol" || Config::getOption("serialization_format") == "rdfxml"))
+	    response = validate();
+	else
+	   response = "Validation disabled. To enable use of the online validation tool, use Config::setOption(\"validate\", true)";
+
 	raptor_free_iostream(ios);
     raptor_free_uri(base_uri);
 	fclose(fh);
@@ -1370,11 +1383,12 @@ std::string Document::writeString()
 
     if (sbol_buffer)
     {
-        // Iterate through objects in document and nest them
-        for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
-        {
-            sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
-        }
+    	if (Config::getOption("serialization_format") == "sbol")
+	        // Iterate through objects in document and nest them
+	        for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+	        {
+	            sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
+	        }
     }
     else
     {
@@ -2098,8 +2112,6 @@ void ReferencedObject::set(SBOLObject& obj)
 {
     if (obj.type != reference_type_uri)
         throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
-//    if (!this->sbol_owner->doc)
-//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot set " + this->type + " property of " + this->sbol_owner->identity.get() + " This object does not belong to a Document. Either add it to a Document, or use set(obj.identity) to set an external reference.");
 
     TopLevel* tl = dynamic_cast<TopLevel*>(&obj);
     if (this->sbol_owner->doc)
@@ -2116,8 +2128,6 @@ void ReferencedObject::add(SBOLObject& obj)
 {
     if (obj.type != reference_type_uri)
         throw SBOLError(SBOL_ERROR_TYPE_MISMATCH, "Cannot set " + this->type + " property. The referenced object is not the correct type.");
-//    if (!this->sbol_owner->doc)
-//        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot set " + this->type + " property of " + this->sbol_owner->identity.get() + " This object does not belong to a Document. Either add it to a Document, or use set(obj.identity) to set an external reference.");
 
     TopLevel* tl = dynamic_cast<TopLevel*>(&obj);
     if (this->sbol_owner->doc)

@@ -49,7 +49,7 @@ std::map<std::string, std::string> sbol::Config::options {
     {"homespace", "http://examples.org"},
     {"sbol_compliant_uris", "True"},
     {"sbol_typed_uris", "True"},
-    {"serialization_format", "rdfxml"},
+    {"serialization_format", "sbol"},
     {"validate", "True"},
     {"validator_url", "http://www.async.ece.utah.edu/validate/"},
     {"language", "SBOL2"},
@@ -72,7 +72,7 @@ std::map<std::string, std::string> sbol::Config::options {
 std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"sbol_compliant_uris", {"True", "False"}},
     {"sbol_typed_uris", { "True", "False" }},
-    {"serialization_format", {"rdfxml", "json", "ntriples"}},
+    {"serialization_format", {"sbol", "rdfxml", "json", "ntriples"}},
     {"validate", { "True", "False" }},
     {"language", { "SBOL2", "FASTA", "GenBank" }},
     {"test_equality", { "True", "False" }},
