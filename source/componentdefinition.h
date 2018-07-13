@@ -60,7 +60,7 @@ namespace sbol
             roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
             // sequence(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
             sequence(this, SBOL_SEQUENCE, '0', '1', ValidationRules({ libsbol_rule_20 })),
-            sequences(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '*', ValidationRules({})),
+            sequences(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '*', ValidationRules({ libsbol_rule_21 })),
             sequenceAnnotations(this, SBOL_SEQUENCE_ANNOTATIONS, '0', '*', ValidationRules({})),
             components(this, SBOL_COMPONENTS, '0', '*', ValidationRules({})),
             sequenceConstraints(this, SBOL_SEQUENCE_CONSTRAINTS, '0', '*', ValidationRules({}))

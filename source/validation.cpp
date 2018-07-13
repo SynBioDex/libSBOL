@@ -474,3 +474,61 @@ void sbol::libsbol_rule_20(void *sbol_obj, void *arg)
         cd.sequences.set(seq.identity.get());
     }
 };
+
+void sbol::libsbol_rule_21(void *sbol_obj, void *arg)
+{
+    ComponentDefinition& cd = *(ComponentDefinition*)sbol_obj;
+    string& seq_id = *(string*)arg;
+    if (cd.sequence.size() && seq_id != cd.sequence.get().identity.get())
+    {
+        cd.sequence.remove();
+        if (cd.doc && cd.sequences.find(seq_id))
+        {
+            cd.sequence.set(cd.doc->get<Sequence>(seq_id));
+        }
+    }
+};
+
+void sbol::libsbol_rule_22(void *sbol_obj, void *arg)
+{
+    Activity& activity = *(Activity*)sbol_obj;
+    Agent& agent = *(Agent*)arg;
+
+    if (activity.associations.size() > 1)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot add Agent. This Activity already has an Association that specifies an Agent");
+    
+    if (activity.associations.size() == 1)
+        activity.associations.remove();
+
+    std::string id;
+    if (Config::getOption("sbol_compliant_uris") == "True")
+        id = activity.displayId.get();
+    else
+        id = activity.identity.get();
+    Association& asc = activity.associations.create(id + "_generation_association");
+    asc.agent.set(agent.identity.get());
+    if (activity.plan.size())
+        asc.plan.set(activity.plan.get().identity.get());
+};
+
+void sbol::libsbol_rule_24(void *sbol_obj, void *arg)
+{
+    Activity& activity = *(Activity*)sbol_obj;
+    Plan& plan = *(Plan*)arg;
+
+    if (activity.associations.size() > 1)
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot add Plan. This Activity already has an Association that specifies a Plan");
+    
+    if (activity.associations.size() == 1)
+        activity.associations.remove();
+
+    std::string id;
+    if (Config::getOption("sbol_compliant_uris") == "True")
+        id = activity.displayId.get();
+    else
+        id = activity.identity.get();
+    Association& asc = activity.associations.create(id + "_generation_association");
+    asc.plan.set(plan.identity.get());
+    if (activity.agent.size())
+        asc.agent.set(activity.agent.get().identity.get());
+};
