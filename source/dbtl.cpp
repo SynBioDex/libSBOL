@@ -133,7 +133,7 @@ namespace sbol
         // Auto-construct Association
         Association& asc = a.associations.create(id + "_generation_association");
         asc.roles.set(SBOL_URI "#design");
-        asc.agent.set(plan);
+        asc.agent.set(agent);
         asc.plan.set(plan);
     
         for (auto & usage : usages)
@@ -152,6 +152,7 @@ namespace sbol
             else
                 u.roles.set(SBOL_DESIGN);
         }
+        
         return design;
     };
     
@@ -338,8 +339,9 @@ namespace sbol
         else
             id = test.identity.get();
         Association& asc = a.associations.create(id + "_generation_association");
-        asc.plan.set(plan);
         asc.roles.set(SBOL_URI "#test");
+        asc.agent.set(agent);
+        asc.plan.set(plan);
     
         // Check if the progenitor object is a SampleRoster (collection of Builds)
         if (properties.find(SYSBIO_URI "#type") != properties.end())
