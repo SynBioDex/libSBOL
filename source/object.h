@@ -157,6 +157,8 @@ namespace sbol
         /// @return The value of the property or SBOL_ERROR_NOT_FOUND
         std::string getAnnotation(std::string property_uri);
         
+        void apply(void (*callback_fn)(SBOLObject *, void *), void * user_data);
+        
         void update_uri();
         
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)

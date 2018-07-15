@@ -255,7 +255,9 @@ namespace sbol
         /// @param attachment_uri The full URI of the attached object
         /// @param path The target path to which the file will be downloaded
         void downloadAttachment(std::string attachment_uri, std::string path = ".");
-        
+      
+    // private:
+        void addSynBioHubAnnotations(Document& doc);  
     };
 
 //    /// Returns a Document including all objects referenced from this object

@@ -317,6 +317,25 @@ int SBOLObject::compare(SBOLObject* comparand)
 //    return 0;
 //};
 
+
+void SBOLObject::apply(void (*callback_fn)(SBOLObject *, void *), void * user_data)
+{
+    callback_fn(this, user_data);
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        // Skip hidden properties
+        if (std::find(hidden_properties.begin(), hidden_properties.end(), i_store->first) != hidden_properties.end())
+            continue;
+        vector<SBOLObject*>& store = i_store->second;
+        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+        {
+            SBOLObject& obj = **i_obj;
+            obj.apply(callback_fn, user_data);
+        }
+    }
+    return;
+};
+
 SBOLObject* SBOLObject::find(string uri)
 {
     if (identity.get() == uri)

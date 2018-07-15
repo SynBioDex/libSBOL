@@ -654,8 +654,19 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
     if (collection == "" && (doc.displayId.size() == 0 || doc.name.size() == 0 || doc.description.size() == 0))
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot submit Document. The Document must be assigned a displayId, name, and description for upload.");
     
+    int t_start;  // For timing
+    int t_end;  // For timing
+    if (Config::getOption("verbose") == "True")
+        t_start = getTime();
+
+    if (Config::getOption("serialization_format") == "rdfxml")
+    {
+        addSynBioHubAnnotations(doc);
+    }
+
     /* Perform HTTP request */
     string response;
+    long http_response_code = 0;
     CURL *curl;
     CURLcode res;
     
@@ -713,9 +724,18 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-        
+
+        if (Config::getOption("verbose") == "True")
+        {
+            t_end = getTime();
+            cout << "Serialization took " << t_end - t_start << " seconds" << endl;
+            t_start = getTime();   
+        }        
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
+
+        curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_response_code);
+        
         /* Check for errors */
         if(res != CURLE_OK)
             throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + string(curl_easy_strerror(res)));
@@ -726,8 +746,14 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    if (response.compare("Found. Redirecting to /login?next=%2Fsubmit") == 0)
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
+    if (Config::getOption("verbose") == "True")
+    {
+        cout << "Submission request returned HTTP response code " << http_response_code << endl;
+        t_end = getTime();
+        cout << "Submission request took " << t_end - t_start << " seconds" << endl;
+    }
+    if (http_response_code == 401)
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "You must login with valid credentials before submitting");
     return response;
 };
 
@@ -1037,33 +1063,6 @@ void PartShop::pull(std::string uri, Document& doc)
     headers["X-authorization"] = key;
     headers["Accept"] = "text/plain";
 
-    // For first attempt at pulling part, assume user supplied only a displayId for the requested part
-    // if (Config::getOption("verbose") == "True")
-    //     std::cout << "Attempting to pull " << getURL() + "/" + uri << std::endl;
-    // std::string get_request = getURL() + "/" + uri + "/sbol";  
-    // try
-    // {
-    //         response = http_get_request(get_request, &headers);
-    // }
-    // catch(SBOLError& e1)
-    // {
-    //     if (e1.error_code() == SBOL_ERROR_NOT_FOUND)
-    //     {
-    //         // Reattempt, assuming user supplied a full URI for the requested part
-    //         if (Config::getOption("verbose") == "True")
-    //             std::cout << "Not found. Attempting to pull " << uri << std::endl;
-    //         try 
-    //         {                
-    //             get_request = uri + "/sbol";
-    //             response = http_get_request(get_request, &headers);
-    //         }
-    //         catch (SBOLError& e2)
-    //         {
-    //             if (e2.error_code() == SBOL_ERROR_NOT_FOUND)
-    //                 throw SBOLError(SBOL_ERROR_NOT_FOUND, "Part not found. Unable to pull " + uri);
-    //         }
-    //     }
-    // }
     string query;
     if (uri.find(resource) != std::string::npos)
         query = uri;  // User has specified full URI
@@ -1085,7 +1084,10 @@ void PartShop::pull(std::string uri, Document& doc)
     }
 
     Document temp_doc = Document();
+    string serialization_format = Config::getOption("serialization_format");
+    Config::setOption("serialization_format", "sbol");
     temp_doc.readString(response);
+    Config::setOption("serialization_format", serialization_format);
     temp_doc.copy(resource, &doc);
 };
 
@@ -1111,6 +1113,7 @@ void PartShop::attachFile(std::string topleveluri, std::string filename)
     
     /* Perform HTTP request */
     string response;
+    long http_response_code = 0;
     CURL *curl;
     CURLcode res;
     
@@ -1150,14 +1153,16 @@ void PartShop::attachFile(std::string topleveluri, std::string filename)
         if(res != CURLE_OK)
         throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to upload attachment failed with " + string(curl_easy_strerror(res)));
         
+        curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_response_code);
+
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    if (response.compare("Found. Redirecting to /login?next=%2Fsubmit") == 0)
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "You must login with valid credentials before submitting");
+    if (http_response_code == 401)
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "You must login with valid credentials before submitting");
     if (Config::getOption("verbose") == "True")
         std::cout << response << std::endl;
 };
@@ -1188,6 +1193,20 @@ void PartShop::downloadAttachment(string attachment_uri, string path)
 
     fputs(response.c_str(), fh);
     fclose(fh);
+}
+
+void PartShop::addSynBioHubAnnotations(Document& doc)
+{
+    doc.addNamespace("http://wiki.synbiohub.org/wiki/Terms/synbiohub#", "sbh");
+    for (auto & key_val_pair : doc.SBOLObjects)
+    {
+        SBOLObject* toplevel = key_val_pair.second;
+        toplevel->apply( [](SBOLObject* o, void * user_data) 
+            { 
+                SBOLObject* toplevel = (SBOLObject*)user_data;
+                URIProperty annotation = URIProperty(o, "http://wiki.synbiohub.org/wiki/Terms/synbiohub#topLevel", '0', '1', ValidationRules({}), toplevel->identity.get());
+            }, (void*)toplevel);
+    }
 }
 
 
