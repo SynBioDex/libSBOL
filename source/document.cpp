@@ -91,7 +91,25 @@ void Document::parse_extension_objects()
         c.close();
     }	
 
-    // Populate hidden properties
+    // Populate hidden properties. This is hardcoded for now, but in the future it should be generalized for all hidden properties.
+    for (auto & cd : this->componentDefinitions)
+    {
+    	if (cd.sequences.size() == 1 && this->sequences.find(cd.sequences.get()))
+    	{
+    		cd.sequence.set(this->sequences.get(cd.sequences.get()));
+    	}
+    }
+    for (auto & a : this->activities)
+    {
+    	if (a.associations.size() == 1)
+    	{
+    		Association& asc = a.associations.get();
+    		if (asc.agent.size() && this->agents.find(asc.agent.get()))
+    			a.agent.set(this->agents.get(asc.agent.get()));
+    		if (asc.plan.size() && this->plans.find(asc.plan.get()))
+    			a.plan.set(this->plans.get(asc.plan.get()));
+    	}
+    }
     for (auto & d : this->designs)
     {
     	if (d._structure.size() && this->componentDefinitions.find(d._structure.get()))
@@ -113,6 +131,7 @@ void Document::parse_extension_objects()
     	if (a._fittedModel.size() && this->models.find(a._fittedModel.get()))
     		a.fittedModel.set(this->models.get(a._fittedModel.get()));
     } 
+
 };
 
 Document::~Document()
@@ -1650,8 +1669,25 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         	new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
         }
 
-    if (Config::getOption("sbol_compliant_uris") == "True")
-    	new_obj.identity.set(new_obj.persistentIdentity.get() + "/" + new_obj.version.get());
+    
+    string id;
+	if (Config::getOption("sbol_compliant_uris") == "True")
+    	id = new_obj.persistentIdentity.get() + "/" + new_obj.version.get();
+    else
+    	id = new_obj.persistentIdentity.get();    
+    try
+    {
+    	new_obj.identity.set(id);        	
+    }
+    catch(SBOLError &e)
+    {
+        if (e.error_code() == SBOL_ERROR_URI_NOT_UNIQUE)
+        {
+        	TopLevel& hidden_top_level = target_doc->get<TopLevel>(id);
+            new_obj.close();
+            return (Identified&)hidden_top_level;
+        }
+    }   
 
     // Copy wasDerivedFrom
     if (this->identity.get() != new_obj.identity.get())
@@ -1666,7 +1702,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
         {
             Identified& child_obj = (Identified&)**i_obj;
-            
+
             // Recurse into child objects and copy.  This should be after all other object properties are set, to ensure proper generation of new URIs with updated namespace and version
             Identified& child_obj_copy = child_obj.copy(target_doc, ns, version);
             new_obj.owned_objects[store_uri].push_back((SBOLObject*)&child_obj_copy);  // Copy child object
@@ -2083,21 +2119,24 @@ Document& Document::copy(std::string ns, Document* doc, std::string version)
     for (auto & id_and_obj_pair : SBOLObjects)
     {
         TopLevel& tl = *(TopLevel*)id_and_obj_pair.second;
+        TopLevel* tl_copy;
         try
         {
 	        if (version == "" && tl.version.size() == 1)
-	        	tl.copy<TopLevel>(doc, ns, tl.version.get());
+	        	tl_copy = &tl.copy<TopLevel>(doc, ns, tl.version.get());
 	        else if (version == "" && tl.version.size() == 0)
-	        	tl.copy<TopLevel>(doc, ns);
+	        	tl_copy = &tl.copy<TopLevel>(doc, ns);
 	        else
-	        	tl.copy<TopLevel>(doc, ns, VERSION_STRING);   
+	        	tl_copy = &tl.copy<TopLevel>(doc, ns, VERSION_STRING);   
 	    }
 	    catch(SBOLError &e)
 	    {
 	    	if (e.error_code() == SBOL_ERROR_URI_NOT_UNIQUE)
-				continue;
+	    	{
+	    		continue;
+	    	}
 			else
-				throw e;
+				throw SBOLError(e.error_code(), e.what());
 	    }
     }
     return *doc;

@@ -199,7 +199,7 @@ namespace sbol {
         /// @return A string containing a message with the validation results
         std::string validate();
         
-        Document& copy(std::string ns, Document* doc = NULL, std::string version = "");
+        Document& copy(std::string ns = "", Document* doc = NULL, std::string version = "");
         
         /// Get the total number of objects in the Document, including SBOL core object and custom annotation objects
         int size()
@@ -369,7 +369,9 @@ namespace sbol {
 	{
 		// Check for uniqueness of URI
         if (this->SBOLObjects.find(sbol_obj.identity.get()) != this->SBOLObjects.end())
-            throw SBOLError(DUPLICATE_URI_ERROR, "Cannot add " + sbol_obj.identity.get() + " to Document. An object with this identity is already contained in the Document");
+        {
+            throw SBOLError(SBOL_ERROR_URI_NOT_UNIQUE, "Cannot add " + sbol_obj.identity.get() + " to Document. An object with this identity is already contained in the Document");
+        }
         else
         {
             // If TopLevel add to Document.
@@ -1519,9 +1521,10 @@ namespace sbol {
         catch(SBOLError &e)
         {
             if (e.error_code() == SBOL_ERROR_URI_NOT_UNIQUE)
+            {
                 new_obj.close();
-            else
-                throw SBOLError(e.error_code(), e.what());
+            }
+            throw SBOLError(e.error_code(), e.what());
         }        
         return new_obj;
     };
