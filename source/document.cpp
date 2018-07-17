@@ -50,7 +50,7 @@ using namespace sbol;
 using namespace std;
 
 
-void Document::parse_extension_objects()
+void Document::dress_document()
 {
     // Look in Implementation store for objects with sys-bio:type and move them to Build store
     vector<string> build_ids;
@@ -996,6 +996,10 @@ void Document::read(std::string filename)
 
 void Document::append(std::string filename)
 {
+    int t_start;  // For timing
+    int t_end;
+    if (Config::getOption("verbose") == "True")
+		t_start = getTime();     
 
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
     
@@ -1044,8 +1048,14 @@ void Document::append(std::string filename)
     parse_annotation_objects();
 
     // Process libSBOL objects not part of the SBOL core standard
-    parse_extension_objects();
+    dress_document();
     fclose(fh);
+    
+    if (Config::getOption("verbose") == "True")
+    {
+		t_end = getTime();
+		cout << "Parsing took " << t_end - t_start << " seconds" << endl;
+    }
 }
 
 void Document::readString(std::string& sbol)
@@ -1086,7 +1096,7 @@ void Document::readString(std::string& sbol)
     parse_annotation_objects();
 
     // Process libSBOL objects not part of the SBOL core standard
-    parse_extension_objects();
+    dress_document();
 }
 
 int Document::countTriples()
@@ -1675,19 +1685,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
     	id = new_obj.persistentIdentity.get() + "/" + new_obj.version.get();
     else
     	id = new_obj.persistentIdentity.get();    
-    try
-    {
-    	new_obj.identity.set(id);        	
-    }
-    catch(SBOLError &e)
-    {
-        if (e.error_code() == SBOL_ERROR_URI_NOT_UNIQUE)
-        {
-        	TopLevel& hidden_top_level = target_doc->get<TopLevel>(id);
-            new_obj.close();
-            return (Identified&)hidden_top_level;
-        }
-    }   
+    new_obj.identity.set(id);        	
 
     // Copy wasDerivedFrom
     if (this->identity.get() != new_obj.identity.get())
@@ -1698,6 +1696,9 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
     for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
     {
         string store_uri = i_store->first;
+        if (target_doc && std::find(hidden_properties.begin(), hidden_properties.end(), store_uri) != hidden_properties.end() )
+        	continue;
+
         vector < SBOLObject* >& object_store = i_store->second;
         for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
         {
@@ -2139,6 +2140,7 @@ Document& Document::copy(std::string ns, Document* doc, std::string version)
 				throw SBOLError(e.error_code(), e.what());
 	    }
     }
+    doc->dress_document();
     return *doc;
 };
 
