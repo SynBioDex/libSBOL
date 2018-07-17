@@ -714,6 +714,7 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge", CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "user", CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_COPYCONTENTS, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
+
         if (collection != "")
             curl_formadd(&post, &last, CURLFORM_COPYNAME, "rootCollections", CURLFORM_COPYCONTENTS, collection.c_str());
         
@@ -752,9 +753,13 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         t_end = getTime();
         cout << "Submission request took " << t_end - t_start << " seconds" << endl;
     }
-    if (http_response_code == 401)
+
+    if (http_response_code == 200)
+        return response;
+    else if (http_response_code == 401)
         throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "You must login with valid credentials before submitting");
-    return response;
+    else
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + response);
 };
 
 //std::string sbol::PartShop::submit(std::string filename, std::string collection, int overwrite)
