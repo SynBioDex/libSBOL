@@ -87,15 +87,61 @@ std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"verbose", { "True", "False" }}
 };
 
+std::map<std::string, std::string> sbol::Config::extension_namespaces {};
+
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 std::map<std::string, PyObject*> sbol::Config::PYTHON_DATA_MODEL_REGISTER {};
+
+void sbol::Config::register_extension_class(PyObject* python_class, std::string extension_name)
+{
+    // Construct a dummy object and parse its RDF type
+    string rdf_type;
+    try
+    {
+        PyObject* py_obj = PyObject_CallFunction(python_class, NULL);            
+        PyObject* py_string = PyObject_GetAttr(py_obj, PyUnicode_FromString("type"));
+        if (PyUnicode_Check(py_string)) 
+        {
+            PyObject * temp_bytes = PyUnicode_AsEncodedString(py_string, "UTF-8", "strict"); // Owned reference
+            if (temp_bytes != NULL) 
+            {
+                char* result = PyBytes_AS_STRING(temp_bytes); // Borrowed pointer
+                rdf_type = string(strdup(result));
+                Py_DECREF(temp_bytes);
+            } 
+        }
+        else if (PyBytes_Check(py_string)) 
+        {
+            char* result = PyBytes_AS_STRING(py_string); // Borrowed pointer
+            rdf_type = string(strdup(result));
+        }
+        Py_DECREF(py_string);
+        Py_DECREF(py_obj);
+    }
+    catch(...)
+    {
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Registration of extension class failed. Extension classes must have a valid RDF type and default constructor");
+    }
+
+    // Register the extension's prefix and namespace
+    if (Config::extension_namespaces.find(extension_name) == Config::extension_namespaces.end())
+    {
+        Config::extension_namespaces[extension_name] = parseNamespace(rdf_type);
+    }
+    else if (Config::extension_namespaces[extension_name] != parseNamespace(rdf_type))
+    {
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Registration of extension class failed. This extension is already registered to a different namespace");        
+    }
+
+    // Register the class constructor
+    Config::PYTHON_DATA_MODEL_REGISTER[rdf_type] = python_class;
+};
 #endif
 
 void sbol::Config::setOption(std::string option, char const* value)
 {
     Config::setOption(option, std::string(value));
 }
-
 
 void sbol::Config::setOption(std::string option, std::string value)
 {
