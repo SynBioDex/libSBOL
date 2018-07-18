@@ -103,6 +103,8 @@ namespace sbol {
                 namespaces["dcterms"] = PURL_URI;
                 namespaces["prov"] = PROV_URI "#";
                 namespaces["sys-bio"] = SYSBIO_URI "#";
+                for (auto & ns : Config::extension_namespaces)
+                    namespaces[ns.first] = ns.second;
                 doc = this;
 			};
         
@@ -738,7 +740,7 @@ namespace sbol {
         if (!this->sbol_owner->owned_objects[this->type].size())
             this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
         else
-            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "This property is already set. Call remove before attempting to overwrite the value.");
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot set " + parsePropertyName(this->type) + " property. The property is already set. Call remove before attempting to overwrite the value.");
         sbol_obj.parent = this->sbol_owner;  // Set back-pointer to parent object
         
         // Update URI for the argument object and all its children, if SBOL-compliance is enabled.

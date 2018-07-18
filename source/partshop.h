@@ -87,7 +87,7 @@ namespace sbol
         std::vector < sbol::Identified* > records;
 
         /// Adds more search records to an existing SearchResponse
-        /// @param records A SearchResponse object
+        /// @param response A SearchResponse object
         void extend(SearchResponse& response);
         
         SearchResponse() :

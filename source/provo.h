@@ -158,8 +158,10 @@ namespace sbol
         /// The qualifiedUsage property is OPTIONAL and MAY contain a set of URIs that refers to Usage objects.
         OwnedObject<Usage> usages;
 
+        /// An Agent object may be specified here, and it will be synced with the Association::agent property
         OwnedObject<Agent> agent;
 
+        /// A Plan object may be specified here, and it will be synced with the Association::plan property
         OwnedObject<Plan> plan;
         
         /// The type property is an ontology term that designates an activity or stage in the synthetic biology workflow, such as codon optimization or DNA assembly.

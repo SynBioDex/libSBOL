@@ -94,7 +94,7 @@ void Document::dress_document()
     // Populate hidden properties. This is hardcoded for now, but in the future it should be generalized for all hidden properties.
     for (auto & cd : this->componentDefinitions)
     {
-    	if (cd.sequences.size() == 1 && this->sequences.find(cd.sequences.get()))
+    	if (cd.sequence.size() == 0 && cd.sequences.size() == 1 && this->sequences.find(cd.sequences.get()))
     	{
     		cd.sequence.set(this->sequences.get(cd.sequences.get()));
     	}
@@ -104,31 +104,31 @@ void Document::dress_document()
     	if (a.associations.size() == 1)
     	{
     		Association& asc = a.associations.get();
-    		if (asc.agent.size() && this->agents.find(asc.agent.get()))
+    		if (a.agent.size() == 0 && asc.agent.size() && this->agents.find(asc.agent.get()))
     			a.agent.set(this->agents.get(asc.agent.get()));
-    		if (asc.plan.size() && this->plans.find(asc.plan.get()))
+    		if (a.plan.size() == 0 && asc.plan.size() && this->plans.find(asc.plan.get()))
     			a.plan.set(this->plans.get(asc.plan.get()));
     	}
     }
     for (auto & d : this->designs)
     {
-    	if (d._structure.size() && this->componentDefinitions.find(d._structure.get()))
+    	if (d.structure.size() == 0 && d._structure.size() && this->componentDefinitions.find(d._structure.get()))
     		d.structure.set(this->componentDefinitions.get(d._structure.get()));
-    	if (d._function.size() && this->moduleDefinitions.find(d._function.get()))
+    	if (d.function.size() == 0 && d._function.size() && this->moduleDefinitions.find(d._function.get()))
     		d.function.set(this->moduleDefinitions.get(d._function.get()));
     }
     for (auto & b : this->builds)
     {
-    	if (b._structure.size() && this->componentDefinitions.find(b._structure.get()))
+    	if (b.structure.size() == 0 && b._structure.size() && this->componentDefinitions.find(b._structure.get()))
     		b.structure.set(this->componentDefinitions.get(b._structure.get()));
-    	if (b._behavior.size() && this->moduleDefinitions.find(b._behavior.get()))
+    	if (b.behavior.size() == 0 && b._behavior.size() && this->moduleDefinitions.find(b._behavior.get()))
     		b.behavior.set(this->moduleDefinitions.get(b._behavior.get()));
     }
     for (auto & a : this->analyses)
     {
-    	if (a._consensusSequence.size() && this->sequences.find(a._consensusSequence.get()))
+    	if (a.consensusSequence.size() == 0 && a._consensusSequence.size() && this->sequences.find(a._consensusSequence.get()))
     		a.consensusSequence.set(this->sequences.get(a._consensusSequence.get()));
-    	if (a._fittedModel.size() && this->models.find(a._fittedModel.get()))
+    	if (a.fittedModel.size() == 0 && a._fittedModel.size() && this->models.find(a._fittedModel.get()))
     		a.fittedModel.set(this->models.get(a._fittedModel.get()));
     } 
 
