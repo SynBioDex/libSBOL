@@ -246,13 +246,14 @@ void ComponentDefinition::assemble(vector<string> list_of_uris)
     assemble(list_of_components);
 }
 
-void ComponentDefinition::assemblePrimaryStructure(vector<string> primary_structure)
+void ComponentDefinition::assemblePrimaryStructure(vector<string> primary_structure, string assembly_standard)
 {
+    cout << "Assembling " << assembly_standard << endl;
     assemble(primary_structure);
     linearize(primary_structure);
 };
 
-void ComponentDefinition::assemblePrimaryStructure(vector<ComponentDefinition*> primary_structure)
+void ComponentDefinition::assemblePrimaryStructure(vector<ComponentDefinition*> primary_structure, string assembly_standard)
 {
     assemble(primary_structure);
     linearize(primary_structure);
@@ -458,6 +459,7 @@ string Sequence::assemble(string composite_sequence)
     else if (parent_component.components.size() > 1)
     {
         // Recurse into subcomponents and assemble their sequence
+        size_t composite_sequence_initial_size = composite_sequence.size();
         vector<Component*> subcomponents = parent_component.getInSequentialOrder();
         for (auto i_c = subcomponents.begin(); i_c != subcomponents.end(); i_c++)
         {
@@ -527,12 +529,13 @@ string Sequence::assemble(string composite_sequence)
             r.start.set((int)composite_sequence.size() + 1);
                                 
             composite_sequence = composite_sequence + seq.assemble(composite_sequence);  // Recursive call
+            //composite_sequence = composite_sequence + seq.assemble();  // Recursive call
                                 
             r.end.set((int)composite_sequence.size());
         }
-                                
-        elements.set(composite_sequence);
-        return composite_sequence;
+        string subsequence = composite_sequence.substr(composite_sequence_initial_size, composite_sequence.size());                        
+        elements.set(subsequence);
+        return subsequence;
     }
     else
     {

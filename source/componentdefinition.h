@@ -118,11 +118,11 @@ namespace sbol
 
         /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
         /// @param primary_structure A list of URIs for the constituent ComponentDefinitions, or displayIds if using SBOL-compliant URIs
-        void assemblePrimaryStructure(std::vector<std::string> primary_structure);
+        void assemblePrimaryStructure(std::vector<std::string> primary_structure, std::string assembly_standard = "");
         
         /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
-        void assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure);
+        void assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure, std::string assembly_standard = "");
         
         /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
