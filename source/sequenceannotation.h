@@ -42,7 +42,7 @@ namespace sbol
         /// Construct a ComponentDefinition
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
-        SequenceAnnotation(std::string uri = "example", std::string version = "1.0.0") : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri, version) {};
+        SequenceAnnotation(std::string uri = "example", std::string version = VERSION_STRING) : SequenceAnnotation(SBOL_SEQUENCE_ANNOTATION, uri, version) {};
 
         /// The component property is OPTIONAL and has a data type of URI. This URI MUST refer to a Component that is contained by the same parent ComponentDefinition that contains the SequenceAnnotation. In this way, the properties of the SequenceAnnotation, such as its description and locations, are associated with part of the substructure of its parent ComponentDefinition.
         ReferencedObject component;

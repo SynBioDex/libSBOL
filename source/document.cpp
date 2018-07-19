@@ -2237,7 +2237,7 @@ void SBOLObject::update_uri()
         // Check for uniqueness of URI in local object properties
         vector<SBOLObject*> matches = this->parent->find_property_value(SBOL_IDENTITY, obj_id);
         if (matches.size() > 1)
-            throw SBOLError(DUPLICATE_URI_ERROR, "Cannot update SBOL-compliant URI. The URI " + sbol_obj.identity.get() + " is not unique");
+            throw SBOLError(SBOL_ERROR_URI_NOT_UNIQUE, "Cannot update SBOL-compliant URI. The URI " + sbol_obj.identity.get() + " is not unique");
 
         
         for (auto & property : sbol_obj.owned_objects)
@@ -2253,7 +2253,7 @@ void SBOLObject::update_uri()
     {
         vector<SBOLObject*> matches = parent.doc->find_property_value(SBOL_IDENTITY, sbol_obj.identity.get());
         if (matches.size() > 1)
-            throw SBOLError(DUPLICATE_URI_ERROR, "Cannot update SBOL-compliant URI. An object with URI " + sbol_obj.identity.get() + " is already in the Document");
+            throw SBOLError(SBOL_ERROR_URI_NOT_UNIQUE, "Cannot update SBOL-compliant URI. An object with URI " + sbol_obj.identity.get() + " is already in the Document");
     }
 
 };

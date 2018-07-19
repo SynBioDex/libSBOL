@@ -474,13 +474,28 @@ string Sequence::assemble(string composite_sequence)
             if (sequence_annotations.size() == 0)
             {
                 string sa_id;
+                int sa_instance = 0;
                 if (Config::getOption("sbol_compliant_uris") == "True")
                     sa_id = cdef.displayId.get();
                 else
                     sa_id = cdef.identity.get();
-                SequenceAnnotation& sa = parent_component.sequenceAnnotations.create<SequenceAnnotation>(sa_id + "_annotation");
-                sa.component.set(c);
-                sequence_annotations.push_back((SBOLObject*)&sa);
+                SequenceAnnotation* sa = NULL;
+                while (sa == NULL)
+                {
+                    try
+                    {
+                        sa = &parent_component.sequenceAnnotations.create<SequenceAnnotation>(sa_id + "_annotation_" + to_string(sa_instance));
+                    }
+                    catch(SBOLError& e)
+                    {
+                        if (e.error_code() == SBOL_ERROR_URI_NOT_UNIQUE)
+                            ++sa_instance;
+                        else
+                            throw SBOLError(e.error_code(), e.what());
+                    }
+                }
+                sa->component.set(c);
+                sequence_annotations.push_back((SBOLObject*)sa);
             }
             SequenceAnnotation& sa = *(SequenceAnnotation*)sequence_annotations[0];
             

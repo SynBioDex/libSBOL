@@ -1,5 +1,5 @@
 import unittest
-from sbol import *
+from libsbol import *
 import random
 import string
 import os, sys
@@ -494,11 +494,11 @@ class TestComponentDefinitions(unittest.TestCase):
 		doc = Document()
 		gene = ComponentDefinition("BB0001")
 		promoter = ComponentDefinition("R0010")
-		CDS = ComponentDefinition("B0032")
-		RBS = ComponentDefinition("E0040")
+		RBS = ComponentDefinition("B0032")
+		CDS = ComponentDefinition("E0040")
 		terminator = ComponentDefinition("B0012")
 		
-		doc.addComponentDefinition([gene, promoter, CDS, RBS, terminator])
+		doc.addComponentDefinition([gene, promoter, RBS, CDS, terminator])
 		
 		gene.assemblePrimaryStructure([ promoter, RBS, CDS, terminator ])
 		primary_sequence = gene.getPrimaryStructure()
@@ -511,6 +511,39 @@ class TestComponentDefinitions(unittest.TestCase):
 		else:
 			self.assertCountEqual(listCD, listCD_true)    
 
+class TestAssemblyRoutines(unittest.TestCase):
+
+	def setUp(self):
+		pass
+
+	def testCompileSequence(self):
+		doc = Document()
+		Config.setOption('sbol_typed_uris', True)
+		gene = ComponentDefinition("BB0001")
+		promoter = ComponentDefinition("R0010")
+		CDS = ComponentDefinition("B0032")
+		RBS = ComponentDefinition("E0040")
+		terminator = ComponentDefinition("B0012")	
+		scar = ComponentDefinition('scar')
+
+		promoter.sequence = Sequence('R0010')
+		RBS.sequence = Sequence('B0032')
+		CDS.sequence = Sequence('E0040')
+		terminator.sequence = Sequence('B0012')
+		scar.sequence = Sequence('scar')
+
+		promoter.sequence.elements = 'aaa'
+		RBS.sequence.elements = 'aaa'
+		CDS.sequence.elements = 'aaa'
+		terminator.sequence.elements = 'aaa'
+		scar.sequence.elements = 'ttt'
+
+		doc.addComponentDefinition(gene)
+		gene.assemblePrimaryStructure([ promoter, scar, RBS, scar, CDS, scar, terminator ])
+		target_seq = gene.compile()
+
+		self.assertEquals(target_seq, 'aaatttaaatttaaatttaaa')
+		self.assertEquals(target_seq, gene.sequence.elements)
 
 class TestSequences(unittest.TestCase):
 	
@@ -660,6 +693,10 @@ class TestCopy(unittest.TestCase):
 		self.assertEquals(tl.thisown, False)
 
 class TestDBTL(unittest.TestCase):
+
+	def setUp(self):
+		pass
+
 	def testDBTL(self):	
 		setHomespace("http://examples.org")
 
@@ -712,7 +749,7 @@ class TestDBTL(unittest.TestCase):
 		self.assertEquals(activity.plan.identity, activity.associations[0].plan)
 
 
-def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL ]):
+def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines ]):
 	print("Setting up")
 	#exec(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "CRISPR_example.py")).read())
 	suite_list = []
