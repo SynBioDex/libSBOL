@@ -10,7 +10,7 @@ namespace sbol
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param repeat A URI indicating how many `Component` objects can be derived from the template `Component`
-        VariableComponent(std::string uri = "example", std::string repeat = "http://sbols.org/v2#one", std::string version = "1.0.0") : VariableComponent(SBOL_VARIABLE_COMPONENT, uri, repeat, version) {};
+        VariableComponent(std::string uri = "example", std::string repeat = "http://sbols.org/v2#one", std::string version = VERSION_STRING) : VariableComponent(SBOL_VARIABLE_COMPONENT, uri, repeat, version) {};
 
         /// Constructor used for defining extension classes
         /// @param rdf_type The RDF type for an extension class derived from this one
@@ -53,7 +53,7 @@ namespace sbol
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param strategy A URI indicating SBOL_ENUMERATE or SBOL_SAMPLE
-        CombinatorialDerivation(std::string uri = "example", std::string strategy = "http://sbols.org/v2#enumerate", std::string version = "1.0.0") : CombinatorialDerivation(SBOL_COMBINATORIAL_DERIVATION, uri, strategy, version) {};
+        CombinatorialDerivation(std::string uri = "example", std::string strategy = "http://sbols.org/v2#enumerate", std::string version = VERSION_STRING) : CombinatorialDerivation(SBOL_COMBINATORIAL_DERIVATION, uri, strategy, version) {};
 
         /// Constructor used for defining extension classes
         /// @param rdf_type The RDF type for an extension class derived from this one

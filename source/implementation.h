@@ -36,7 +36,7 @@ namespace sbol
 	public:
         /// Construct an Implementation
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Implementation(std::string uri = "example", std::string version = "1.0.0") : Implementation(SBOL_IMPLEMENTATION, uri, version) {};
+        Implementation(std::string uri = "example", std::string version = VERSION_STRING) : Implementation(SBOL_IMPLEMENTATION, uri, version) {};
 
         /// Constructor used for defining extension classes
         /// @param rdf_type The RDF type for an extension class derived from this one

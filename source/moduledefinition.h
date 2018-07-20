@@ -46,7 +46,7 @@ namespace sbol
         /// Construct a ModuleDefinition
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a valid [Maven version string](http://maven.apache.org/).
-        ModuleDefinition(std::string uri = "example", std::string version = "1.0.0") : ModuleDefinition(SBOL_MODULE_DEFINITION, uri, version) {};
+        ModuleDefinition(std::string uri = "example", std::string version = VERSION_STRING) : ModuleDefinition(SBOL_MODULE_DEFINITION, uri, version) {};
 
         /// Constructor used for defining extension classes
         /// @param rdf_type The RDF type for an extension class derived from this one

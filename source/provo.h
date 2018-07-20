@@ -34,7 +34,7 @@ namespace sbol
     public:
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Association(std::string uri = "example", std::string agent = "", std::string role = "", std::string version = "1.0.0") : Association(PROVO_ASSOCIATION, agent, role, uri, version) {};
+        Association(std::string uri = "example", std::string agent = "", std::string role = "", std::string version = VERSION_STRING) : Association(PROVO_ASSOCIATION, agent, role, uri, version) {};
 
         /// Constructor used for defining extension classes
         /// @param rdf_type The RDF type for an extension class derived from this one
@@ -64,7 +64,7 @@ namespace sbol
     public:
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Usage(std::string uri = "example", std::string entity = "", std::string role = "", std::string version = "1.0.0") : Usage(PROVO_USAGE, uri, entity, role, version) {};
+        Usage(std::string uri = "example", std::string entity = "", std::string role = "", std::string version = VERSION_STRING) : Usage(PROVO_USAGE, uri, entity, role, version) {};
         
         /// Constructor used for defining extension classes
         /// @param rdf_type The RDF type for an extension class derived from this one

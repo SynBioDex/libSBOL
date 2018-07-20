@@ -50,7 +50,7 @@ namespace sbol
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param type A BioPAX ontology term that indicates whether the ComponentDefinition is DNA, RNA, protein, or some other molecule type.
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
-        ComponentDefinition(std::string uri = "example", std::string type = BIOPAX_DNA, std::string version = "1.0.0") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
+        ComponentDefinition(std::string uri = "example", std::string type = BIOPAX_DNA, std::string version = VERSION_STRING) : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
 
         /// Constructor used for defining extension classes
         /// @param type The RDF type for an extension class derived from this one

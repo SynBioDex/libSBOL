@@ -41,12 +41,12 @@ namespace sbol
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param participant A reference to the participating FunctionalComponent in the parent Interaction
-        Participation(std::string uri = "example", std::string participant = "", std::string version = "1.0.0") : Participation(SBOL_PARTICIPATION, uri, participant, version) {};
+        Participation(std::string uri = "example", std::string participant = "", std::string version = VERSION_STRING) : Participation(SBOL_PARTICIPATION, uri, participant, version) {};
 
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param species A ComponentDefinition that represents one of the participating species in the parent Interaction
-        Participation(std::string uri, ComponentDefinition& species, std::string version = "1.0.0") :
+        Participation(std::string uri, ComponentDefinition& species, std::string version = VERSION_STRING) :
             Participation(SBOL_PARTICIPATION, uri, "", version)
             {
             };
