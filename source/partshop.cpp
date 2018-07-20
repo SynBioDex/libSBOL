@@ -217,7 +217,7 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search failed with: " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -1166,10 +1166,13 @@ void PartShop::attachFile(std::string topleveluri, std::string filename)
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    if (http_response_code == 401)
-        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "You must login with valid credentials before submitting");
     if (Config::getOption("verbose") == "True")
         std::cout << response << std::endl;
+
+    if (http_response_code == 401)
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "You must login with valid credentials before submitting");
+    if (http_response_code != 200)
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to attach file failed with HTTP " + to_string(http_response_code));
 };
 
 void PartShop::downloadAttachment(string attachment_uri, string path)
