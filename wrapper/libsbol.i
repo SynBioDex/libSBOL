@@ -864,18 +864,18 @@ TEMPLATE_MACRO_3(Document);
         return;
     }
     
-    void assemblePrimaryStructure(PyObject *list)
+    void assemblePrimaryStructure(PyObject *list, std::string assembly_standard = "")
     {
         std::vector<std::string> list_of_display_ids = convert_list_to_string_vector(list);
         if (list_of_display_ids.size())
         {
-            $self->assemblePrimaryStructure(list_of_display_ids);
+            $self->assemblePrimaryStructure(list_of_display_ids, assembly_standard);
             return;
         }
         std::vector<sbol::ComponentDefinition*> list_of_cdefs = convert_list_to_cdef_vector(list);
         if (list_of_cdefs.size())
         {
-            $self->assemblePrimaryStructure(list_of_cdefs);
+            $self->assemblePrimaryStructure(list_of_cdefs, assembly_standard);
             return;
         }
         return;

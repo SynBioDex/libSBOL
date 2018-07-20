@@ -242,4 +242,6 @@
 #define SYSBIO_ANALYSIS SYSBIO_URI "#Analysis"
 #define SYSBIO_SAMPLE_ROSTER SYSBIO_URI "#SampleRoster"
 
+#define IGEM_URI "http://wiki.synbiohub.org/wiki/Terms/igem"
+#define IGEM_STANDARD_ASSEMBLY IGEM_URI "#assembly/RFC10"
 #endif

@@ -545,6 +545,99 @@ class TestAssemblyRoutines(unittest.TestCase):
 		self.assertEquals(target_seq, 'aaatttaaatttaaatttaaa')
 		self.assertEquals(target_seq, gene.sequence.elements)
 
+	def testRecursiveCompile(self):
+		doc = Document()
+		cd1 = ComponentDefinition('cd1')
+		cd2 = ComponentDefinition('cd2')
+		cd3 = ComponentDefinition('cd3')
+		cd4 = ComponentDefinition('cd4')
+		cd5 = ComponentDefinition('cd5')
+		cd1.sequence = Sequence('cd1')
+		cd2.sequence = Sequence('cd2')
+		cd3.sequence = Sequence('cd3')
+		cd4.sequence = Sequence('cd4')
+		cd5.sequence = Sequence('cd5')
+		cd1.sequence.elements = 'tt'		
+		cd2.sequence.elements = 'gg'		
+		cd3.sequence.elements = 'n'		
+		cd4.sequence.elements = 'aa'		
+		cd5.sequence.elements = 'n'		
+		doc.addComponentDefinition([cd1, cd2, cd3, cd4, cd5])
+		cd3.assemblePrimaryStructure([cd1, cd2])
+		cd5.assemblePrimaryStructure([cd4, cd3])
+		cd5.compile()
+ 		self.assertEquals(cd3.sequence.elements, 'ttgg')
+ 		self.assertEquals(cd5.sequence.elements, 'aattgg')
+ 		r1 = cd3.sequenceAnnotations['cd1_annotation_0'].locations['cd1_annotation_0_range']
+ 		r2 = cd3.sequenceAnnotations['cd2_annotation_0'].locations['cd2_annotation_0_range']
+ 		r4 = cd5.sequenceAnnotations['cd4_annotation_0'].locations['cd4_annotation_0_range']
+ 		self.assertEquals(r1.start, 3)
+ 		self.assertEquals(r1.end, 4)
+ 		self.assertEquals(r2.start, 5)
+ 		self.assertEquals(r2.end, 6)
+ 		self.assertEquals(r4.start, 1)
+ 		self.assertEquals(r4.end, 2)
+
+ 	def testStandardAssembly(self):
+ 		doc = Document()
+		gene = ComponentDefinition("BB0001")
+		promoter = ComponentDefinition("R0010")
+		RBS = ComponentDefinition("B0032")
+		CDS = ComponentDefinition("E0040")
+		terminator = ComponentDefinition("B0012")	
+
+		promoter.sequence = Sequence('R0010')
+		RBS.sequence = Sequence('B0032')
+		CDS.sequence = Sequence('E0040')
+		terminator.sequence = Sequence('B0012')
+
+		promoter.sequence.elements = 'a'
+		RBS.sequence.elements = 't'
+		CDS.sequence.elements = 'c'
+		terminator.sequence.elements = 'g'
+
+		promoter.roles = SO_PROMOTER
+		RBS.roles = SO_RBS
+		CDS.roles = SO_CDS
+		terminator.roles = SO_TERMINATOR
+
+		doc.addComponentDefinition(gene)
+		gene.assemblePrimaryStructure([ promoter, RBS, CDS, terminator ], IGEM_STANDARD_ASSEMBLY)
+		target_seq = gene.compile()
+
+		self.assertEquals(target_seq, 'atactagagttactagctactagagg')
+
+ 	def testAssembleWithDisplayIds(self):
+		Config.setOption('sbol_typed_uris', True)
+
+ 		doc = Document()
+		gene = ComponentDefinition("BB0001")
+		promoter = ComponentDefinition("R0010")
+		RBS = ComponentDefinition("B0032")
+		CDS = ComponentDefinition("E0040")
+		terminator = ComponentDefinition("B0012")	
+
+		promoter.sequence = Sequence('R0010')
+		RBS.sequence = Sequence('B0032')
+		CDS.sequence = Sequence('E0040')
+		terminator.sequence = Sequence('B0012')
+
+		promoter.sequence.elements = 'a'
+		RBS.sequence.elements = 't'
+		CDS.sequence.elements = 'c'
+		terminator.sequence.elements = 'g'
+
+		promoter.roles = SO_PROMOTER
+		RBS.roles = SO_RBS
+		CDS.roles = SO_CDS
+		terminator.roles = SO_TERMINATOR
+
+		doc.addComponentDefinition([ gene, promoter, RBS, CDS, terminator ])
+		gene.assemblePrimaryStructure([ 'R0010', 'B0032', 'E0040', 'B0012' ], IGEM_STANDARD_ASSEMBLY)
+		target_seq = gene.compile()
+
+		self.assertEquals(target_seq, 'atactagagttactagctactagagg')
+
 class TestSequences(unittest.TestCase):
 	
 	def setUp(self):
