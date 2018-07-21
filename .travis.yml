@@ -51,7 +51,7 @@ script:
   - ls ~/build
   - ls ~/build/libSBOL
   - ls ~/build/SynBioDex
-  - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2/sbol
+  - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
   - python unit_tests.py
     
 addons:

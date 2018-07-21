@@ -1,5 +1,5 @@
 import unittest
-from libsbol import *
+from .libsbol import *
 import random
 import string
 import os, sys
@@ -566,20 +566,20 @@ class TestAssemblyRoutines(unittest.TestCase):
 		cd3.assemblePrimaryStructure([cd1, cd2])
 		cd5.assemblePrimaryStructure([cd4, cd3])
 		cd5.compile()
- 		self.assertEquals(cd3.sequence.elements, 'ttgg')
- 		self.assertEquals(cd5.sequence.elements, 'aattgg')
- 		r1 = cd3.sequenceAnnotations['cd1_annotation_0'].locations['cd1_annotation_0_range']
- 		r2 = cd3.sequenceAnnotations['cd2_annotation_0'].locations['cd2_annotation_0_range']
- 		r4 = cd5.sequenceAnnotations['cd4_annotation_0'].locations['cd4_annotation_0_range']
- 		self.assertEquals(r1.start, 3)
- 		self.assertEquals(r1.end, 4)
- 		self.assertEquals(r2.start, 5)
- 		self.assertEquals(r2.end, 6)
- 		self.assertEquals(r4.start, 1)
- 		self.assertEquals(r4.end, 2)
+		self.assertEquals(cd3.sequence.elements, 'ttgg')
+		self.assertEquals(cd5.sequence.elements, 'aattgg')
+		r1 = cd3.sequenceAnnotations['cd1_annotation_0'].locations['cd1_annotation_0_range']
+		r2 = cd3.sequenceAnnotations['cd2_annotation_0'].locations['cd2_annotation_0_range']
+		r4 = cd5.sequenceAnnotations['cd4_annotation_0'].locations['cd4_annotation_0_range']
+		self.assertEquals(r1.start, 3)
+		self.assertEquals(r1.end, 4)
+		self.assertEquals(r2.start, 5)
+		self.assertEquals(r2.end, 6)
+		self.assertEquals(r4.start, 1)
+		self.assertEquals(r4.end, 2)
 
- 	def testStandardAssembly(self):
- 		doc = Document()
+	def testStandardAssembly(self):
+		doc = Document()
 		gene = ComponentDefinition("BB0001")
 		promoter = ComponentDefinition("R0010")
 		RBS = ComponentDefinition("B0032")
@@ -607,10 +607,10 @@ class TestAssemblyRoutines(unittest.TestCase):
 
 		self.assertEquals(target_seq, 'atactagagttactagctactagagg')
 
- 	def testAssembleWithDisplayIds(self):
+	def testAssembleWithDisplayIds(self):
 		Config.setOption('sbol_typed_uris', True)
 
- 		doc = Document()
+		doc = Document()
 		gene = ComponentDefinition("BB0001")
 		promoter = ComponentDefinition("R0010")
 		RBS = ComponentDefinition("B0032")
