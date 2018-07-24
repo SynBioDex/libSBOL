@@ -703,6 +703,28 @@ class TestMemory(unittest.TestCase):
 		bool2 = cd.thisown
 		self.assertNotEquals(bool1, bool2)
 
+class TestExtensionClass(unittest.TestCase):
+
+	def testExtensionClass(self):
+		class ModuleDefinitionExtension(ModuleDefinition):
+		    def __init__(self, id = 'example'):
+		        ModuleDefinition.__init__(self, id)
+		        self.x_coordinate = TextProperty(self.this, 'http://dnaplotlib.org#xCoordinate', '0', '1', '10')  # Initialize property value to 10
+		        self.y_coordinate = IntProperty(self.this, 'http://dnaplotlib.org#yCoordinate', '0', '1', 10)  # Initialize property value to 10
+
+		doc = Document()
+		doc.addNamespace('http://dnaplotlib.org#', 'dnaplotlib')
+		md = ModuleDefinitionExtension('md_example')
+		md_id = md.identity
+		md.y_coordinate = 5
+		self.assertEquals(md.x_coordinate, '10')
+		self.assertEquals(md.y_coordinate, 5)
+		doc.addExtensionObject(md)
+		doc.readString(doc.writeString())
+		md = doc.getExtensionObject(md_id)
+		self.assertEquals(md.x_coordinate, '10')
+		self.assertEquals(md.y_coordinate, 5)
+
 class TestIterators(unittest.TestCase):
 
 	def setUp(self):
@@ -842,8 +864,7 @@ class TestDBTL(unittest.TestCase):
 		self.assertEquals(activity.plan.identity, activity.associations[0].plan)
 
 
-def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines ]):
-	print("Setting up")
+def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass ]):
 	#exec(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "CRISPR_example.py")).read())
 	suite_list = []
 	loader = unittest.TestLoader()
