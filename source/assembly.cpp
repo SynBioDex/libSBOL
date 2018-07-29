@@ -385,16 +385,19 @@ std::string ComponentDefinition::compile()
         throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot perform compile operation on ComponentDefinition because it does not belong to a Document.");
     }
     Sequence* seq;
-    if (sequence.size() == 0)
+    if (sequences.size() == 0)
     {
         if (Config::getOption("sbol_compliant_uris") == "True")
         {
             seq = &doc->sequences.create(displayId.get());
             sequence.set(*seq);
+            sequences.set(seq->identity.get());
+
         } else
         {
             seq = &doc->sequences.create(identity.get() + "_seq");
             sequence.set(*seq);
+            sequences.set(seq->identity.get());
         }
     }
     else 
@@ -518,6 +521,20 @@ string Sequence::assemble(string composite_sequence)
         {
             Component& c = **i_c;
             ComponentDefinition& cdef = doc->get < ComponentDefinition > (c.definition.get());
+            if (cdef.sequences.size() == 0)
+            {
+                if (Config::getOption("sbol_compliant_uris") == "True")
+                {
+                    Sequence& seq = doc->sequences.create(cdef.displayId.get());
+                    cdef.sequence.set(seq);
+                    cdef.sequences.set(seq.identity.get());
+                } else
+                {
+                    Sequence& seq = doc->sequences.create(cdef.identity.get() + "_seq");
+                    cdef.sequence.set(seq);
+                    cdef.sequences.set(seq.identity.get());
+                }
+            }
             Sequence& seq = doc->get < Sequence > (cdef.sequences.get());
             
             // Check for regularity -- only one SequenceAnnotation per Component is allowed
@@ -594,7 +611,10 @@ string Sequence::assemble(string composite_sequence)
     {
         std::string parent_component_seq = parent_component.sequences.get();
         Sequence& seq = doc->get < Sequence >(parent_component.sequences.get());
-        return seq.elements.get();
+        if (seq.elements.size() == 0)
+            return "";
+        else
+            return seq.elements.get();
     }
 };
 
