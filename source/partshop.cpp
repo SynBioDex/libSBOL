@@ -3,8 +3,13 @@
 
 // For UNIX like implementation of getch (see login method)
 // this may not be portable to windows, may need conio.h
+#ifndef SBOL_WIN
 #include <termios.h>
 #include <unistd.h>
+#else
+#include <conio.h>
+#endif
+
 #include <stdio.h>
 
 using namespace std;
@@ -556,6 +561,7 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
 };
 
 
+#ifndef SBOL_WIN
 // Unix-like implementation of getch, might not be portable to Windows
 /* reads from keypress, doesn't echo */
 int getch(void)
@@ -570,6 +576,7 @@ int getch(void)
     tcsetattr( STDIN_FILENO, TCSANOW, &oldattr );
     return ch;
 }
+#endif
 
 void sbol::PartShop::login(std::string email, std::string password)
 {
