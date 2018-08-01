@@ -1,8 +1,0 @@
-digraph "/Users/bbartley/Dev/git/libSBOL/source/assembly.h"
-{
-  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
-  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
-  Node40 [label="/Users/bbartley/Dev\l/git/libSBOL/source\l/assembly.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node40 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
-  Node41 [label="/Users/bbartley/Dev\l/git/libSBOL/source\l/assembly.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$assembly_8cpp.html",tooltip="Convenience methods for manipulating primary sequence structure. "];
-}

@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
-  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="SearchResponse::iterator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsbol_1_1_search_response_1_1iterator.html",tooltip="Provides iterator functionality for SBOL properties that contain multiple objects. "];
-}
