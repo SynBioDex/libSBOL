@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="FunctionalComponent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsbol_1_1_functional_component.html",tooltip="The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside..."];
+}

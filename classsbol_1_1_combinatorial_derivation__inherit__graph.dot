@@ -1,0 +1,12 @@
+digraph "CombinatorialDerivation"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  Node0 [label="{CombinatorialDerivation\n|+ strategy\l+ masterTemplate\l+ variableComponents\l|+ CombinatorialDerivation()\l+ CombinatorialDerivation()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="FreeSans.ttf"];
+  Node1 [label="{TopLevel\n|+ attachments\l|+ TopLevel()\l+ addToDocument()\l+ ~TopLevel()\l+ copy()\l+ simpleCopy()\l+ generate()\l+ generate()\l+ initialize()\l+ generate()\l+ generate()\land 15 more...\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsbol_1_1_top_level.html",tooltip="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="FreeSans.ttf"];
+  Node2 [label="{Identified\n|+ persistentIdentity\l+ displayId\l+ version\l+ wasDerivedFrom\l+ wasGeneratedBy\l+ name\l+ description\l|+ Identified()\l+ generate()\l+ ~Identified()\l+ copy()\l# copy()\l# simpleCopy()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsbol_1_1_identified.html",tooltip="All SBOL-defined classes are directly or indirectly derived from the Identified abstract class..."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="FreeSans.ttf"];
+  Node3 [label="{SBOLObject\n|+ identity\l|+ SBOLObject()\l+ ~SBOLObject()\l+ getTypeURI()\l+ getClassName()\l+ find()\l+ find_property()\l+ find_property_value()\l+ find_reference()\l+ compare()\l+ getPropertyValue()\land 10 more...\l# register_extension\l_class()\l# SBOLObject()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsbol_1_1_s_b_o_l_object.html",tooltip="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..."];
+}

@@ -1,0 +1,13 @@
+digraph "/Users/bbartley/Dev" {
+  compound=true
+  node [ fontsize="10", fontname="FreeSans.ttf"];
+  edge [ labelfontsize="10", labelfontname="FreeSans.ttf"];
+  subgraph clusterdir_a2f46d281c6389dc39997ffcf82aba39 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="bbartley" fontname="FreeSans.ttf", fontsize="10", URL="dir_a2f46d281c6389dc39997ffcf82aba39.html"]
+  subgraph clusterdir_ad2b3518b6ff8020e6ece2469bc5e793 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_ad2b3518b6ff8020e6ece2469bc5e793.html"];
+    dir_ad2b3518b6ff8020e6ece2469bc5e793 [shape=plaintext label="Dev"];
+    dir_59d233a1711e1dd823533c8983d914f6 [shape=box label="git" color="red" fillcolor="white" style="filled" URL="dir_59d233a1711e1dd823533c8983d914f6.html"];
+  }
+  }
+}
