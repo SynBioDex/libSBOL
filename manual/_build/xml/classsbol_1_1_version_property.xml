@@ -1,0 +1,607 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classsbol_1_1_version_property" kind="class" language="C++" prot="public">
+    <compoundname>sbol::VersionProperty</compoundname>
+    <basecompoundref refid="classsbol_1_1_text_property" prot="public" virt="non-virtual">TextProperty</basecompoundref>
+    <includes local="no">/Users/bryan/Dev/libSBOL/source/properties.h</includes>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsbol_1_1_version_property_1a037bed2bdefd23b3c3a8a3bb983dbaec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>pair&lt; vector&lt; string &gt;, vector&lt; string &gt; &gt; split</definition>
+        <argsstring>(const char c)</argsstring>
+        <name>split</name>
+        <param>
+          <type>const char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="273" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="331" bodyend="349"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsbol_1_1_version_property_1a59bd74e005b10e51df0e9d9506565a79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void incrementMajor</definition>
+        <argsstring>()</argsstring>
+        <name>incrementMajor</name>
+        <briefdescription>
+<para>Increment major version. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="279" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="165" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_version_property_1a3bc5541cc1a9874ae4c7093dc7065d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void incrementMinor</definition>
+        <argsstring>()</argsstring>
+        <name>incrementMinor</name>
+        <briefdescription>
+<para>Increment minor version. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="280" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="124" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_version_property_1aaa0b04c29e2419e21e3d95a549b71761" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void incrementPatch</definition>
+        <argsstring>()</argsstring>
+        <name>incrementPatch</name>
+        <briefdescription>
+<para>Increment patch version. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="281" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="212" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_version_property_1af6ea6bf5b0747bc4246ee7c832497928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void decrementMinor</definition>
+        <argsstring>()</argsstring>
+        <name>decrementMinor</name>
+        <briefdescription>
+<para>Decrement major version. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="282" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="252" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_version_property_1a77af477b19bf28eb78deda0f32c44552" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void decrementMajor</definition>
+        <argsstring>()</argsstring>
+        <name>decrementMajor</name>
+        <briefdescription>
+<para>Decrement major version. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="283" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="256" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_version_property_1ac80be9ba4fc5cfd70038b48ffac081f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void decrementPatch</definition>
+        <argsstring>()</argsstring>
+        <name>decrementPatch</name>
+        <briefdescription>
+<para>Decrement major version. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="284" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="260" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_version_property_1acac7476b5a7a885093c61232bb0d7744" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int major</definition>
+        <argsstring>()</argsstring>
+        <name>major</name>
+        <briefdescription>
+<para>Get major version. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The major version as an integer Splits the version string by a delimiter and returns the major version number </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="285" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="266" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_version_property_1ae9afee126d2152713e611047580a3ea0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int minor</definition>
+        <argsstring>()</argsstring>
+        <name>minor</name>
+        <briefdescription>
+<para>Get minor version. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The minor version as an integer Splits the version string by a delimiter and returns the minor version number </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="286" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="277" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_version_property_1aef4adde32f696a302057d1647c9a9442" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int patch</definition>
+        <argsstring>()</argsstring>
+        <name>patch</name>
+        <briefdescription>
+<para>Get patch version. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The patch version as an integer Splits the version string by a delimiter and returns the patch version </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="287" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="299" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_version_property_1a016135bc438f2a8a3220dbceee029c2b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>VersionProperty</definition>
+        <argsstring>(sbol_type type_uri, void *property_owner, std::string initial_value=&quot;&quot;)</argsstring>
+        <name>VersionProperty</name>
+        <param>
+          <type><ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref></type>
+          <declname>type_uri</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>property_owner</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>initial_value</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="288" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="288" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_text_property_1a4879b26a87a0b49f7d535c7a669620f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <briefdescription>
+<para>Basic getter for all SBOL literal properties. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A string literal </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="128" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.cpp" bodystart="39" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1aaeae46cf11cccb87655dc22526bacf3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref></type>
+        <definition>virtual sbol_type getTypeURI</definition>
+        <argsstring>()</argsstring>
+        <name>getTypeURI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="78" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1a536f61dd346bda796d4b3fc116037490" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> &amp;</type>
+        <definition>virtual SBOLObject&amp; getOwner</definition>
+        <argsstring>()</argsstring>
+        <name>getOwner</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="79" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1ae73e64ddeee0dc62640d3d4a090fa07d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt;std::string&gt; getAll</definition>
+        <argsstring>()</argsstring>
+        <name>getAll</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="81" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1a78345a10e37cae70b6b1f6e295034872" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void set</definition>
+        <argsstring>(std::string new_value)</argsstring>
+        <name>set</name>
+        <reimplementedby refid="classsbol_1_1_referenced_object_1acaf5da8d7195921115a14068d914272d">set</reimplementedby>
+        <param>
+          <type>std::string</type>
+          <declname>new_value</declname>
+        </param>
+        <briefdescription>
+<para>Basic setter for SBOL TextProperty and URIProperty. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A new string value for the Property. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="82" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1a60d0f67ccdc9630d89f8bb041cc0f122" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void set</definition>
+        <argsstring>(int new_value)</argsstring>
+        <name>set</name>
+        <param>
+          <type>int</type>
+          <declname>new_value</declname>
+        </param>
+        <briefdescription>
+<para>Basic setter for SBOL IntProperty, but can be used with TextProperty as well. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A new integer value for the property, which is converted to a raw string during serialization. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="83" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1a3291234026df2ae0d53fe60422952384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void add</definition>
+        <argsstring>(std::string new_value)</argsstring>
+        <name>add</name>
+        <param>
+          <type>std::string</type>
+          <declname>new_value</declname>
+        </param>
+        <briefdescription>
+<para>Appends the new value to a list of values, for properties that allow it. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A new string which will be added to a list of values. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="84" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1ab31393d40ce20e4bbf0de65a874040d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void remove</definition>
+        <argsstring>(int index=0)</argsstring>
+        <name>remove</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="85" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1ac8bb3912a3ce86b15842e79d0b421204" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="86" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1aac759501cf6c7895a70eecbef0226ae1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void write</definition>
+        <argsstring>()</argsstring>
+        <name>write</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="87" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1af19ecb2e26889fcc5368c661b5fbdf98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void validate</definition>
+        <argsstring>(void *arg=NULL)</argsstring>
+        <name>validate</name>
+        <param>
+          <type>void *</type>
+          <declname>arg</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="88" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1a3f759a6148161a88c97375716a176b4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string operator[]</definition>
+        <argsstring>(const int nIndex)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const int</type>
+          <declname>nIndex</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the indexed value in a list container. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A numerical index </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="89" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1ad69bd11391be1a1dba5c8202259664f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>iterator</type>
+        <definition>iterator begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="102" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="102" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1acad38d52497a975bfb6f2f6acd76631f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>iterator</type>
+        <definition>iterator end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="108" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="108" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_property_1af4b57d21919c42d55af03391f91a1c08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int size</definition>
+        <argsstring>()</argsstring>
+        <name>size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="114" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="114" bodyend="124"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classsbol_1_1_property_1a905a73fd092fbf7ef93bba047e081418" prot="protected" static="no" mutable="no">
+        <type><ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref></type>
+        <definition>sbol_type type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="62" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsbol_1_1_property_1afd14d27b979a91307d8548061c1ed76b" prot="protected" static="no" mutable="no">
+        <type><ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> *</type>
+        <definition>SBOLObject* sbol_owner</definition>
+        <argsstring></argsstring>
+        <name>sbol_owner</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="63" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsbol_1_1_property_1a6f819250a5965723e1f8110140a7ddeb" prot="protected" static="no" mutable="no">
+        <type>ValidationRules</type>
+        <definition>ValidationRules validationRules</definition>
+        <argsstring></argsstring>
+        <name>validationRules</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="64" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsbol_1_1_property_1a4fe7ea5f74433d397de3b2d5c0f145b9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;::iterator</type>
+        <definition>std::vector&lt;std::string&gt;::iterator python_iter</definition>
+        <argsstring></argsstring>
+        <name>python_iter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="126" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/property.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsbol_1_1_property_1a8eabfd241d9b1e0acf2db965f872d64f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void initializeNamespace</definition>
+        <argsstring>(std::string ns)</argsstring>
+        <name>initializeNamespace</name>
+        <param>
+          <type>std::string</type>
+          <declname>ns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/property.h" line="65" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Contains a version number for an SBOL object. </para>    </briefdescription>
+    <detaileddescription>
+<para>The <ref refid="classsbol_1_1_version_property" kindref="compound">VersionProperty</ref> follows Maven versioning semantics and includes a major, minor, and patch version number. Specifically, libSBOL currently only supports using &apos;.&apos; as a delimiter. Ex: v2.0.1. If the user does not want to follow Maven versioning, they can specify an arbitrary version string using the <ref refid="classsbol_1_1_property_1a78345a10e37cae70b6b1f6e295034872" kindref="member">set()</ref> method. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="814">
+        <label>Property&lt; std::string &gt;</label>
+        <link refid="classsbol_1_1_property"/>
+      </node>
+      <node id="813">
+        <label>TextProperty</label>
+        <link refid="classsbol_1_1_text_property"/>
+        <childnode refid="814" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="812">
+        <label>VersionProperty</label>
+        <link refid="classsbol_1_1_version_property"/>
+        <childnode refid="813" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="820">
+        <label>iterator</label>
+        <link refid="classsbol_1_1_property_1_1iterator"/>
+      </node>
+      <node id="817">
+        <label>Property&lt; std::string &gt;</label>
+        <link refid="classsbol_1_1_property"/>
+        <childnode refid="818" relation="usage">
+          <edgelabel>#sbol_owner</edgelabel>
+        </childnode>
+        <childnode refid="820" relation="usage">
+          <edgelabel>+python_iter</edgelabel>
+        </childnode>
+      </node>
+      <node id="816">
+        <label>TextProperty</label>
+        <link refid="classsbol_1_1_text_property"/>
+        <childnode refid="817" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="818">
+        <label>SBOLObject</label>
+        <link refid="classsbol_1_1_s_b_o_l_object"/>
+        <childnode refid="819" relation="usage">
+          <edgelabel>+identity</edgelabel>
+        </childnode>
+      </node>
+      <node id="819">
+        <label>URIProperty</label>
+        <link refid="classsbol_1_1_u_r_i_property"/>
+        <childnode refid="817" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="815">
+        <label>VersionProperty</label>
+        <link refid="classsbol_1_1_version_property"/>
+        <childnode refid="816" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="271" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="270" bodyend="303"/>
+    <listofallmembers>
+      <member refid="classsbol_1_1_property_1a3291234026df2ae0d53fe60422952384" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>add</name></member>
+      <member refid="classsbol_1_1_property_1ad69bd11391be1a1dba5c8202259664f8" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>begin</name></member>
+      <member refid="classsbol_1_1_property_1ac8bb3912a3ce86b15842e79d0b421204" prot="public" virt="virtual"><scope>sbol::VersionProperty</scope><name>clear</name></member>
+      <member refid="classsbol_1_1_version_property_1a77af477b19bf28eb78deda0f32c44552" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>decrementMajor</name></member>
+      <member refid="classsbol_1_1_version_property_1af6ea6bf5b0747bc4246ee7c832497928" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>decrementMinor</name></member>
+      <member refid="classsbol_1_1_version_property_1ac80be9ba4fc5cfd70038b48ffac081f2" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>decrementPatch</name></member>
+      <member refid="classsbol_1_1_property_1acad38d52497a975bfb6f2f6acd76631f" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>end</name></member>
+      <member refid="classsbol_1_1_text_property_1a4879b26a87a0b49f7d535c7a669620f6" prot="public" virt="virtual"><scope>sbol::VersionProperty</scope><name>get</name></member>
+      <member refid="classsbol_1_1_property_1ae73e64ddeee0dc62640d3d4a090fa07d" prot="public" virt="virtual"><scope>sbol::VersionProperty</scope><name>getAll</name></member>
+      <member refid="classsbol_1_1_property_1a536f61dd346bda796d4b3fc116037490" prot="public" virt="virtual"><scope>sbol::VersionProperty</scope><name>getOwner</name></member>
+      <member refid="classsbol_1_1_property_1aaeae46cf11cccb87655dc22526bacf3e" prot="public" virt="virtual"><scope>sbol::VersionProperty</scope><name>getTypeURI</name></member>
+      <member refid="classsbol_1_1_version_property_1a59bd74e005b10e51df0e9d9506565a79" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>incrementMajor</name></member>
+      <member refid="classsbol_1_1_version_property_1a3bc5541cc1a9874ae4c7093dc7065d1a" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>incrementMinor</name></member>
+      <member refid="classsbol_1_1_version_property_1aaa0b04c29e2419e21e3d95a549b71761" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>incrementPatch</name></member>
+      <member refid="classsbol_1_1_property_1a8eabfd241d9b1e0acf2db965f872d64f" prot="protected" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>initializeNamespace</name></member>
+      <member refid="classsbol_1_1_version_property_1acac7476b5a7a885093c61232bb0d7744" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>major</name></member>
+      <member refid="classsbol_1_1_version_property_1ae9afee126d2152713e611047580a3ea0" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>minor</name></member>
+      <member refid="classsbol_1_1_property_1a3f759a6148161a88c97375716a176b4d" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>operator[]</name></member>
+      <member refid="classsbol_1_1_version_property_1aef4adde32f696a302057d1647c9a9442" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>patch</name></member>
+      <member refid="classsbol_1_1_property_1ad8f40b0d120f2c860386c286f2f598d4" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>Property</name></member>
+      <member refid="classsbol_1_1_property_1a472abfcc949da4aa54ffd6b030ff2438" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>Property</name></member>
+      <member refid="classsbol_1_1_property_1a0f46d656d5f53af3bf202e1b8756cd0a" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>Property</name></member>
+      <member refid="classsbol_1_1_property_1a4fe7ea5f74433d397de3b2d5c0f145b9" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>python_iter</name></member>
+      <member refid="classsbol_1_1_property_1ab31393d40ce20e4bbf0de65a874040d9" prot="public" virt="virtual"><scope>sbol::VersionProperty</scope><name>remove</name></member>
+      <member refid="classsbol_1_1_property_1afd14d27b979a91307d8548061c1ed76b" prot="protected" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>sbol_owner</name></member>
+      <member refid="classsbol_1_1_property_1a78345a10e37cae70b6b1f6e295034872" prot="public" virt="virtual"><scope>sbol::VersionProperty</scope><name>set</name></member>
+      <member refid="classsbol_1_1_property_1a60d0f67ccdc9630d89f8bb041cc0f122" prot="public" virt="virtual"><scope>sbol::VersionProperty</scope><name>set</name></member>
+      <member refid="classsbol_1_1_property_1af4b57d21919c42d55af03391f91a1c08" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>size</name></member>
+      <member refid="classsbol_1_1_version_property_1a037bed2bdefd23b3c3a8a3bb983dbaec" prot="private" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>split</name></member>
+      <member refid="classsbol_1_1_text_property_1ae4a6d1127ffd23262796fc215f6f9f78" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>TextProperty</name></member>
+      <member refid="classsbol_1_1_property_1a905a73fd092fbf7ef93bba047e081418" prot="protected" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>type</name></member>
+      <member refid="classsbol_1_1_property_1af19ecb2e26889fcc5368c661b5fbdf98" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>validate</name></member>
+      <member refid="classsbol_1_1_property_1a6f819250a5965723e1f8110140a7ddeb" prot="protected" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>validationRules</name></member>
+      <member refid="classsbol_1_1_version_property_1a016135bc438f2a8a3220dbceee029c2b" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>VersionProperty</name></member>
+      <member refid="classsbol_1_1_property_1aac759501cf6c7895a70eecbef0226ae1" prot="public" virt="virtual"><scope>sbol::VersionProperty</scope><name>write</name></member>
+      <member refid="classsbol_1_1_property_1aa22be1d5ed856a436d84b3d4b4cb5c8a" prot="public" virt="non-virtual"><scope>sbol::VersionProperty</scope><name>~Property</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

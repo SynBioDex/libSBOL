@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="_find_doxygen_8cmake" kind="file" language="C++">
+    <compoundname>FindDoxygen.cmake</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>-<sp/>This<sp/>module<sp/>looks<sp/>for<sp/>Doxygen<sp/>and<sp/>the<sp/>path<sp/>to<sp/>Graphviz&apos;s<sp/>dot</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Doxygen<sp/>is<sp/>a<sp/>documentation<sp/>generation<sp/>tool.<sp/><sp/>Please<sp/>see</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>http://www.doxygen.org</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>This<sp/>module<sp/>accepts<sp/>the<sp/>following<sp/>optional<sp/>variables:</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/>DOXYGEN_SKIP_DOT<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>If<sp/>true<sp/>this<sp/>module<sp/>will<sp/>skip<sp/>trying<sp/>to<sp/>find<sp/>Dot</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(an<sp/>optional<sp/>component<sp/>often<sp/>used<sp/>by<sp/>Doxygen)</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>This<sp/>modules<sp/>defines<sp/>the<sp/>following<sp/>variables:</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/>DOXYGEN_EXECUTABLE<sp/><sp/><sp/><sp/><sp/>=<sp/>The<sp/>path<sp/>to<sp/>the<sp/>doxygen<sp/>command.</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/>DOXYGEN_FOUND<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>Was<sp/>Doxygen<sp/>found<sp/>or<sp/>not?</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/>DOXYGEN_VERSION<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>The<sp/>version<sp/>reported<sp/>by<sp/>doxygen<sp/>--version</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/>DOXYGEN_DOT_EXECUTABLE<sp/>=<sp/>The<sp/>path<sp/>to<sp/>the<sp/>dot<sp/>program<sp/>used<sp/>by<sp/>doxygen.</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/>DOXYGEN_DOT_FOUND<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>Was<sp/>Dot<sp/>found<sp/>or<sp/>not?</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/>DOXYGEN_DOT_PATH<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>The<sp/>path<sp/>to<sp/>dot<sp/>not<sp/>including<sp/>the<sp/>executable</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#=============================================================================</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Copyright<sp/>2001-2009<sp/>Kitware,<sp/>Inc.</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Distributed<sp/>under<sp/>the<sp/>OSI-approved<sp/>BSD<sp/>License<sp/>(the<sp/>&quot;License&quot;);</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>see<sp/>accompanying<sp/>file<sp/>Copyright.txt<sp/>for<sp/>details.</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>This<sp/>software<sp/>is<sp/>distributed<sp/>WITHOUT<sp/>ANY<sp/>WARRANTY;<sp/>without<sp/>even<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>implied<sp/>warranty<sp/>of<sp/>MERCHANTABILITY<sp/>or<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE.</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>See<sp/>the<sp/>License<sp/>for<sp/>more<sp/>information.</highlight></codeline>
+<codeline><highlight class="normal">#=============================================================================</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>(To<sp/>distribute<sp/>this<sp/>file<sp/>outside<sp/>of<sp/>CMake,<sp/>substitute<sp/>the<sp/>full</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/>License<sp/>text<sp/>for<sp/>the<sp/>above<sp/>reference.)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>For<sp/>backwards<sp/>compatibility<sp/>support</highlight></codeline>
+<codeline><highlight class="normal">IF(Doxygen_FIND_QUIETLY)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>SET(DOXYGEN_FIND_QUIETLY<sp/>TRUE)</highlight></codeline>
+<codeline><highlight class="normal">ENDIF(Doxygen_FIND_QUIETLY)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>=====<sp/>Rationale<sp/>for<sp/>OS<sp/>X<sp/>AppBundle<sp/>mods<sp/>below<sp/>=====</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>With<sp/>the<sp/>OS<sp/>X<sp/>GUI<sp/>version,<sp/>Doxygen<sp/>likes<sp/>to<sp/>be<sp/>installed<sp/>to<sp/>/Applications<sp/>and</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>it<sp/>contains<sp/>the<sp/>doxygen<sp/>executable<sp/>in<sp/>the<sp/>bundle.<sp/>In<sp/>the<sp/>versions<sp/>I&apos;ve<sp/></highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>seen,<sp/>it<sp/>is<sp/>located<sp/>in<sp/>Resources,<sp/>but<sp/>in<sp/>general,<sp/>more<sp/>often<sp/>binaries<sp/>are<sp/></highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>located<sp/>in<sp/>MacOS.</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>NOTE:<sp/>The<sp/>official<sp/>Doxygen.app<sp/>that<sp/>is<sp/>distributed<sp/>for<sp/>OS<sp/>X<sp/>uses<sp/>non-standard<sp/></highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>conventions.<sp/><sp/>Instead<sp/>of<sp/>the<sp/>command-line<sp/>&quot;doxygen&quot;<sp/>tool<sp/>being<sp/>placed<sp/>in</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>Doxygen.app/Contents/MacOS,<sp/>&quot;Doxywizard&quot;<sp/>is<sp/>placed<sp/>there<sp/>instead<sp/>and<sp/></highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>&quot;doxygen&quot;<sp/>is<sp/>placed<sp/>in<sp/>Contents/Resources.<sp/><sp/>This<sp/>is<sp/>most<sp/>likely<sp/>done</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>so<sp/>that<sp/>something<sp/>happens<sp/>when<sp/>people<sp/>double-click<sp/>on<sp/>the<sp/>Doxygen.app</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>package.<sp/><sp/>Unfortunately,<sp/>CMake<sp/>gets<sp/>confused<sp/>by<sp/>this<sp/>as<sp/>when<sp/>it<sp/>sees<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>bundle<sp/>it<sp/>uses<sp/>&quot;Doxywizard&quot;<sp/>as<sp/>the<sp/>executable<sp/>to<sp/>use<sp/>instead<sp/>of</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>&quot;doxygen&quot;.<sp/><sp/>Therefore<sp/>to<sp/>work-around<sp/>this<sp/>issue<sp/>we<sp/>temporarily<sp/>disable</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>the<sp/>app-bundle<sp/>feature,<sp/>just<sp/>for<sp/>this<sp/>CMake<sp/>module:</highlight></codeline>
+<codeline><highlight class="normal">if(APPLE)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>#<sp/><sp/>Save<sp/>the<sp/>old<sp/>setting</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>SET(TEMP_DOXYGEN_SAVE_CMAKE_FIND_APPBUNDLE<sp/>${CMAKE_FIND_APPBUNDLE})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>#<sp/>Disable<sp/>the<sp/>App-bundle<sp/>detection<sp/>feature</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>SET(CMAKE_FIND_APPBUNDLE<sp/>&quot;NEVER&quot;)</highlight></codeline>
+<codeline><highlight class="normal">endif()</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>FYI:</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>In<sp/>the<sp/>older<sp/>versions<sp/>of<sp/>OS<sp/>X<sp/>Doxygen,<sp/>dot<sp/>was<sp/>included<sp/>with<sp/>the<sp/></highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>Doxygen<sp/>bundle.<sp/>But<sp/>the<sp/>new<sp/>versions<sp/>require<sp/>you<sp/>to<sp/>download</highlight></codeline>
+<codeline><highlight class="normal">#<sp/><sp/><sp/><sp/><sp/>Graphviz.app<sp/>which<sp/>contains<sp/>&quot;dot&quot;<sp/>in<sp/>it&apos;s<sp/>bundle.</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>==============<sp/>End<sp/>OSX<sp/>stuff<sp/>================</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Find<sp/>Doxygen...</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">FIND_PROGRAM(DOXYGEN_EXECUTABLE</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>NAMES<sp/>doxygen</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>PATHS</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\doxygen_is1;Inno<sp/>Setup:<sp/>App<sp/>Path]/bin&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>/Applications/Doxygen.app/Contents/Resources</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>/Applications/Doxygen.app/Contents/MacOS</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DOC<sp/>&quot;Doxygen<sp/>documentation<sp/>generation<sp/>tool<sp/>(http://www.doxygen.org)&quot;</highlight></codeline>
+<codeline><highlight class="normal">)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">IF(DOXYGEN_EXECUTABLE)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>EXECUTE_PROCESS(COMMAND<sp/>${DOXYGEN_EXECUTABLE}<sp/>&quot;--version&quot;<sp/>OUTPUT_VARIABLE<sp/>DOXYGEN_VERSION<sp/>OUTPUT_STRIP_TRAILING_WHITESPACE)</highlight></codeline>
+<codeline><highlight class="normal">ENDIF()</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)</highlight></codeline>
+<codeline><highlight class="normal">FIND_PACKAGE_HANDLE_STANDARD_ARGS(Doxygen<sp/>REQUIRED_VARS<sp/>DOXYGEN_EXECUTABLE<sp/>VERSION_VAR<sp/>DOXYGEN_VERSION)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Find<sp/>Dot...</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">IF(NOT<sp/>DOXYGEN_SKIP_DOT)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>FIND_PROGRAM(DOXYGEN_DOT_EXECUTABLE</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>NAMES<sp/>dot</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>PATHS<sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;$ENV{ProgramFiles}/Graphviz<sp/>2.21/bin&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;C:/Program<sp/>Files/Graphviz<sp/>2.21/bin&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;$ENV{ProgramFiles}/ATT/Graphviz/bin&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&quot;C:/Program<sp/>Files/ATT/Graphviz/bin&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>[HKEY_LOCAL_MACHINE\\SOFTWARE\\ATT\\Graphviz;InstallPath]/bin</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>/Applications/Graphviz.app/Contents/MacOS</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>/Applications/Doxygen.app/Contents/Resources</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>/Applications/Doxygen.app/Contents/MacOS</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>DOC<sp/>&quot;Graphviz<sp/>Dot<sp/>tool<sp/>for<sp/>using<sp/>Doxygen&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>if(DOXYGEN_DOT_EXECUTABLE)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>set(DOXYGEN_DOT_FOUND<sp/>TRUE)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>#<sp/>The<sp/>Doxyfile<sp/>wants<sp/>the<sp/>path<sp/>to<sp/>Dot,<sp/>not<sp/>the<sp/>entire<sp/>path<sp/>and<sp/>executable</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>get_filename_component(DOXYGEN_DOT_PATH<sp/>&quot;${DOXYGEN_DOT_EXECUTABLE}&quot;<sp/>PATH<sp/>CACHE)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>endif()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">endif(NOT<sp/>DOXYGEN_SKIP_DOT)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Backwards<sp/>compatibility...</highlight></codeline>
+<codeline><highlight class="normal">#</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">if(APPLE)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>#<sp/>Restore<sp/>the<sp/>old<sp/>app-bundle<sp/>setting<sp/>setting</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>SET(CMAKE_FIND_APPBUNDLE<sp/>${TEMP_DOXYGEN_SAVE_CMAKE_FIND_APPBUNDLE})</highlight></codeline>
+<codeline><highlight class="normal">endif()</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Maintain<sp/>the<sp/>_FOUND<sp/>variables<sp/>as<sp/>&quot;YES&quot;<sp/>or<sp/>&quot;NO&quot;<sp/>for<sp/>backwards<sp/>compatibility</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>(allows<sp/>people<sp/>to<sp/>stuff<sp/>them<sp/>directly<sp/>into<sp/>Doxyfile<sp/>with<sp/>configure_file())</highlight></codeline>
+<codeline><highlight class="normal">if(DOXYGEN_FOUND)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>set(DOXYGEN_FOUND<sp/>&quot;YES&quot;)</highlight></codeline>
+<codeline><highlight class="normal">else()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>set(DOXYGEN_FOUND<sp/>&quot;NO&quot;)</highlight></codeline>
+<codeline><highlight class="normal">endif()</highlight></codeline>
+<codeline><highlight class="normal">if(DOXYGEN_DOT_FOUND)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>set(DOXYGEN_DOT_FOUND<sp/>&quot;YES&quot;)</highlight></codeline>
+<codeline><highlight class="normal">else()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>set(DOXYGEN_DOT_FOUND<sp/>&quot;NO&quot;)</highlight></codeline>
+<codeline><highlight class="normal">endif()</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>For<sp/>backwards<sp/>compatibility<sp/>support</highlight></codeline>
+<codeline><highlight class="normal">SET<sp/>(DOXYGEN<sp/>${DOXYGEN_EXECUTABLE}<sp/>)</highlight></codeline>
+<codeline><highlight class="normal">SET<sp/>(DOT<sp/>${DOXYGEN_DOT_EXECUTABLE}<sp/>)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">MARK_AS_ADVANCED(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DOXYGEN_EXECUTABLE</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DOXYGEN_DOT_EXECUTABLE</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>DOXYGEN_DOT_PATH</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>)</highlight></codeline>
+    </programlisting>
+    <location file="/Users/bryan/Dev/libSBOL/manual/FindDoxygen.cmake"/>
+  </compounddef>
+</doxygen>

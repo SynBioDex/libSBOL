@@ -1,0 +1,2168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="constants_8h" kind="file" language="C++">
+    <compoundname>constants.h</compoundname>
+    <includedby refid="config_8h" local="yes">/Users/bryan/Dev/libSBOL/source/config.h</includedby>
+    <includedby refid="property_8h" local="yes">/Users/bryan/Dev/libSBOL/source/property.h</includedby>
+    <invincdepgraph>
+      <node id="1523">
+        <label>/Users/bryan/Dev/libSBOL/source/componentdefinition.h</label>
+        <link refid="componentdefinition_8h"/>
+        <childnode refid="1524" relation="include">
+        </childnode>
+      </node>
+      <node id="1548">
+        <label>/Users/bryan/Dev/libSBOL/source/sbolerror.h</label>
+        <link refid="sbolerror_8h"/>
+        <childnode refid="1518" relation="include">
+        </childnode>
+      </node>
+      <node id="1522">
+        <label>/Users/bryan/Dev/libSBOL/source/toplevel.h</label>
+        <link refid="toplevel_8h"/>
+        <childnode refid="1523" relation="include">
+        </childnode>
+        <childnode refid="1532" relation="include">
+        </childnode>
+        <childnode refid="1533" relation="include">
+        </childnode>
+        <childnode refid="1534" relation="include">
+        </childnode>
+        <childnode refid="1535" relation="include">
+        </childnode>
+        <childnode refid="1536" relation="include">
+        </childnode>
+      </node>
+      <node id="1519">
+        <label>/Users/bryan/Dev/libSBOL/source/validation.h</label>
+        <link refid="validation_8h"/>
+        <childnode refid="1520" relation="include">
+        </childnode>
+        <childnode refid="1546" relation="include">
+        </childnode>
+      </node>
+      <node id="1520">
+        <label>/Users/bryan/Dev/libSBOL/source/object.h</label>
+        <link refid="object_8h"/>
+        <childnode refid="1521" relation="include">
+        </childnode>
+        <childnode refid="1544" relation="include">
+        </childnode>
+        <childnode refid="1545" relation="include">
+        </childnode>
+      </node>
+      <node id="1521">
+        <label>/Users/bryan/Dev/libSBOL/source/identified.h</label>
+        <link refid="identified_8h"/>
+        <childnode refid="1522" relation="include">
+        </childnode>
+        <childnode refid="1537" relation="include">
+        </childnode>
+        <childnode refid="1538" relation="include">
+        </childnode>
+        <childnode refid="1540" relation="include">
+        </childnode>
+        <childnode refid="1541" relation="include">
+        </childnode>
+        <childnode refid="1539" relation="include">
+        </childnode>
+        <childnode refid="1542" relation="include">
+        </childnode>
+        <childnode refid="1543" relation="include">
+        </childnode>
+      </node>
+      <node id="1549">
+        <label>/Users/bryan/Dev/libSBOL/source/config.cpp</label>
+        <link refid="config_8cpp"/>
+      </node>
+      <node id="1535">
+        <label>/Users/bryan/Dev/libSBOL/source/model.h</label>
+        <link refid="model_8h"/>
+        <childnode refid="1524" relation="include">
+        </childnode>
+      </node>
+      <node id="1545">
+        <label>/Users/bryan/Dev/libSBOL/source/properties.cpp</label>
+        <link refid="properties_8cpp"/>
+      </node>
+      <node id="1544">
+        <label>/Users/bryan/Dev/libSBOL/source/object.cpp</label>
+        <link refid="object_8cpp"/>
+      </node>
+      <node id="1525">
+        <label>/Users/bryan/Dev/libSBOL/source/assembly.h</label>
+        <link refid="assembly_8h"/>
+        <childnode refid="1526" relation="include">
+        </childnode>
+        <childnode refid="1527" relation="include">
+        </childnode>
+        <childnode refid="1530" relation="include">
+        </childnode>
+      </node>
+      <node id="1534">
+        <label>/Users/bryan/Dev/libSBOL/source/moduledefinition.h</label>
+        <link refid="moduledefinition_8h"/>
+        <childnode refid="1524" relation="include">
+        </childnode>
+      </node>
+      <node id="1524">
+        <label>/Users/bryan/Dev/libSBOL/source/document.h</label>
+        <link refid="document_8h"/>
+        <childnode refid="1525" relation="include">
+        </childnode>
+        <childnode refid="1531" relation="include">
+        </childnode>
+      </node>
+      <node id="1530">
+        <label>/Users/bryan/Dev/libSBOL/source/provo.h</label>
+        <link refid="provo_8h"/>
+        <childnode refid="1528" relation="include">
+        </childnode>
+      </node>
+      <node id="1539">
+        <label>/Users/bryan/Dev/libSBOL/source/module.h</label>
+        <link refid="module_8h"/>
+        <childnode refid="1534" relation="include">
+        </childnode>
+        <childnode refid="1524" relation="include">
+        </childnode>
+      </node>
+      <node id="1546">
+        <label>/Users/bryan/Dev/libSBOL/source/property.h</label>
+        <link refid="property_8h"/>
+        <childnode refid="1547" relation="include">
+        </childnode>
+      </node>
+      <node id="1536">
+        <label>/Users/bryan/Dev/libSBOL/source/collection.h</label>
+        <link refid="collection_8h"/>
+        <childnode refid="1524" relation="include">
+        </childnode>
+      </node>
+      <node id="1526">
+        <label>/Users/bryan/Dev/libSBOL/source/assembly.cpp</label>
+        <link refid="assembly_8cpp"/>
+      </node>
+      <node id="1537">
+        <label>/Users/bryan/Dev/libSBOL/source/component.h</label>
+        <link refid="component_8h"/>
+        <childnode refid="1523" relation="include">
+        </childnode>
+        <childnode refid="1524" relation="include">
+        </childnode>
+        <childnode refid="1534" relation="include">
+        </childnode>
+      </node>
+      <node id="1531">
+        <label>/Users/bryan/Dev/libSBOL/source/document.cpp</label>
+        <link refid="document_8cpp"/>
+      </node>
+      <node id="1543">
+        <label>/Users/bryan/Dev/libSBOL/source/participation.h</label>
+        <link refid="participation_8h"/>
+        <childnode refid="1542" relation="include">
+        </childnode>
+      </node>
+      <node id="1518">
+        <label>/Users/bryan/Dev/libSBOL/source/config.h</label>
+        <link refid="config_8h"/>
+        <childnode refid="1519" relation="include">
+        </childnode>
+        <childnode refid="1548" relation="include">
+        </childnode>
+        <childnode refid="1546" relation="include">
+        </childnode>
+        <childnode refid="1549" relation="include">
+        </childnode>
+      </node>
+      <node id="1542">
+        <label>/Users/bryan/Dev/libSBOL/source/interaction.h</label>
+        <link refid="interaction_8h"/>
+        <childnode refid="1534" relation="include">
+        </childnode>
+      </node>
+      <node id="1528">
+        <label>/Users/bryan/Dev/libSBOL/source/sbol.h</label>
+        <link refid="sbol_8h"/>
+        <childnode refid="1529" relation="include">
+        </childnode>
+      </node>
+      <node id="1547">
+        <label>/Users/bryan/Dev/libSBOL/source/properties.h</label>
+        <link refid="properties_8h"/>
+        <childnode refid="1520" relation="include">
+        </childnode>
+      </node>
+      <node id="1532">
+        <label>/Users/bryan/Dev/libSBOL/source/sequenceannotation.h</label>
+        <link refid="sequenceannotation_8h"/>
+        <childnode refid="1523" relation="include">
+        </childnode>
+        <childnode refid="1524" relation="include">
+        </childnode>
+      </node>
+      <node id="1541">
+        <label>/Users/bryan/Dev/libSBOL/source/sequenceconstraint.h</label>
+        <link refid="sequenceconstraint_8h"/>
+        <childnode refid="1523" relation="include">
+        </childnode>
+      </node>
+      <node id="1533">
+        <label>/Users/bryan/Dev/libSBOL/source/sequence.h</label>
+        <link refid="sequence_8h"/>
+        <childnode refid="1524" relation="include">
+        </childnode>
+      </node>
+      <node id="1540">
+        <label>/Users/bryan/Dev/libSBOL/source/location.h</label>
+        <link refid="location_8h"/>
+        <childnode refid="1532" relation="include">
+        </childnode>
+      </node>
+      <node id="1527">
+        <label>/Users/bryan/Dev/libSBOL/source/partshop.h</label>
+        <link refid="partshop_8h"/>
+        <childnode refid="1528" relation="include">
+        </childnode>
+      </node>
+      <node id="1538">
+        <label>/Users/bryan/Dev/libSBOL/source/mapsto.h</label>
+        <link refid="mapsto_8h"/>
+        <childnode refid="1537" relation="include">
+        </childnode>
+        <childnode refid="1539" relation="include">
+        </childnode>
+      </node>
+      <node id="1517">
+        <label>/Users/bryan/Dev/libSBOL/source/constants.h</label>
+        <link refid="constants.h"/>
+        <childnode refid="1518" relation="include">
+        </childnode>
+        <childnode refid="1546" relation="include">
+        </childnode>
+      </node>
+      <node id="1529">
+        <label>/Users/bryan/Dev/libSBOL/source/validation.cpp</label>
+        <link refid="validation_8cpp"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="constants_8h_1a23fc2e2ca62c0397ea0c9e8c3d2ef375" prot="public" static="no">
+        <name>DEFAULT_NS</name>
+        <initializer>&quot;http://examples.org/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="30" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a7903e05384695850fc071ef9507589b4" prot="public" static="no">
+        <name>SBOL_URI</name>
+        <initializer>&quot;http://sbols.org/v2&quot;</initializer>
+        <briefdescription>
+<para>Namespace for the SBOL standard. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="33" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ae431720defc3929a3f8d69c73abdefb4" prot="public" static="no">
+        <name>RDF_URI</name>
+        <initializer>&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="34" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5a7f5d76ccb43b776d7332e7c04293c7" prot="public" static="no">
+        <name>PURL_URI</name>
+        <initializer>&quot;http://purl.org/dc/terms/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="35" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a126392bdec8c8ca24a0c671cd5c7a016" prot="public" static="no">
+        <name>PROV_URI</name>
+        <initializer>&quot;http://www.w3.org/ns/prov&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="36" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a8fa00c9d05c99bee64536cc91594b019" prot="public" static="no">
+        <name>PROVO</name>
+        <initializer>&quot;http://www.w3.org/ns/prov&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="37" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5dcdd26746fae2c1b36492224600e917" prot="public" static="no">
+        <name>NODENAME_ABOUT</name>
+        <initializer>&quot;rdf:about&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="41" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a15164d3de9f6f6185ca8d58025d2b290" prot="public" static="no">
+        <name>NODENAME_RESOURCE</name>
+        <initializer>&quot;rdf:resource&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="42" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a698acb89e1bf5837b33c30ef35c30044" prot="public" static="no">
+        <name>VERSION_STRING</name>
+        <initializer>&quot;1.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="44" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a00d5968014248f2b2204111fc29c6dc1" prot="public" static="no">
+        <name>SBOL_DOCUMENT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Document&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="47" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5f201582f59ade0c7419b5015882c42f" prot="public" static="no">
+        <name>SBOL_IDENTIFIED</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Identified&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="48" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ae5c9566ab900762f16d116be95e99b18" prot="public" static="no">
+        <name>SBOL_DOCUMENTED</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Documented&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="49" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ae67a1bed8d1da6765f94f7e2489fbc0f" prot="public" static="no">
+        <name>SBOL_TOP_LEVEL</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#TopLevel&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="50" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a769af0afc9d958b25e01304e1354e2a1" prot="public" static="no">
+        <name>SBOL_GENERIC_TOP_LEVEL</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#GenericTopLevel&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="51" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ac0319a7e565fa1801b7bd1a0f3250991" prot="public" static="no">
+        <name>SBOL_SEQUENCE_ANNOTATION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#SequenceAnnotation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="52" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ac0108fa2f95fea7983f3a8b177f72a1c" prot="public" static="no">
+        <name>SBOL_COMPONENT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Component&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="53" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ab8d631067b7450715cf68847ad07a71b" prot="public" static="no">
+        <name>SBOL_FUNCTIONAL_COMPONENT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#FunctionalComponent&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="54" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1abfb50fe6f32ad548d7f6c6af8492b47e" prot="public" static="no">
+        <name>SBOL_COMPONENT_DEFINITION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#ComponentDefinition&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="55" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a0d1a3dd725fa8afbc479e9b55c7d2004" prot="public" static="no">
+        <name>SBOL_SEQUENCE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Sequence&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="56" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a4ac9bd0993729ce6a6f639d08400177d" prot="public" static="no">
+        <name>SBOL_MODULE_DEFINITION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#ModuleDefinition&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="57" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a7a7c19d41c9d9eaeee9d7999abd450ab" prot="public" static="no">
+        <name>SBOL_MODULE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Module&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="58" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aa15a6dd1618daf10b69b4e58dbdcab2f" prot="public" static="no">
+        <name>SBOL_MODEL</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Model&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="59" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a23a93ae443f7beae7a6f33fc64331d18" prot="public" static="no">
+        <name>SBOL_MAPS_TO</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#MapsTo&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="60" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a1dcb87481fb379d19fc7cfacf3839e20" prot="public" static="no">
+        <name>SBOL_INTERACTION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Interaction&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="61" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1acb41a1b705668178acf824535f5bf28b" prot="public" static="no">
+        <name>SBOL_PARTICIPATION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Participation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="62" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a2646e0fc962ddc5be1b23ec9b7d5cf14" prot="public" static="no">
+        <name>SBOL_SEQUENCE_CONSTRAINT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#SequenceConstraint&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="63" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a88c161dba66c12e16826261bc027fce9" prot="public" static="no">
+        <name>SBOL_LOCATION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Location&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="64" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a00d5968014248f2b2204111fc29c6dc1" prot="public" static="no">
+        <name>SBOL_DOCUMENT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Document&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="65" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ac1c9a66e02192b33f896e6093d3ca012" prot="public" static="no">
+        <name>SBOL_RANGE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Range&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="66" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ae2e36798519a986e89e6bfe9f12026d4" prot="public" static="no">
+        <name>SBOL_CUT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Cut&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="67" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a9d0544b1ecaa4ae2221bb624e51481c8" prot="public" static="no">
+        <name>SBOL_COLLECTION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Collection&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="68" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a46ba414a73e91f67d830cadb4de842e7" prot="public" static="no">
+        <name>SBOL_GENERIC_LOCATION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#GenericLocation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="69" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a1509b543833df5fd3a4538b29ef97b7a" prot="public" static="no">
+        <name>SBOL_VARIABLE_COMPONENT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#VariableComponent&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="70" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ab53a4f0a56020697861f1c9e6f0f1e49" prot="public" static="no">
+        <name>SBOL_COMBINATORIAL_DERIVATION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#CombinatorialDerivation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="71" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a2dc3870be25a19efa2940150507aaf71" prot="public" static="no">
+        <name>UNDEFINED</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#Undefined&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="72" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a6aa5b500c4b4bbd6e55a3b0a0e12560d" prot="public" static="no">
+        <name>SBOL_IDENTITY</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#identity&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="75" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1af9ae5ef39fc692f961092ad2130af40f" prot="public" static="no">
+        <name>SBOL_PERSISTENT_IDENTITY</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#persistentIdentity&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="76" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aa23c7ad84775b27faf4a54d29c390df1" prot="public" static="no">
+        <name>SBOL_VERSION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#version&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="77" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a7c1a1d018143dead52cbb86bca665a71" prot="public" static="no">
+        <name>SBOL_DISPLAY_ID</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#displayId&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="78" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a67a108fcbb0c2d0832c884d1c5a858ac" prot="public" static="no">
+        <name>SBOL_NAME</name>
+        <initializer>PURL_URI &quot;title&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="79" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a4a44d8afe0516305bf67df0c70813b52" prot="public" static="no">
+        <name>SBOL_DESCRIPTION</name>
+        <initializer>PURL_URI &quot;description&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="80" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a8f0a7d988d8d3ddc7818a16059301a60" prot="public" static="no">
+        <name>SBOL_TYPES</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#type&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="81" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ac682c522754c8deda1dde2c227584a87" prot="public" static="no">
+        <name>SBOL_START</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#start&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="82" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a14336ca300a20d02e8f72e9ed9ec0eba" prot="public" static="no">
+        <name>SBOL_END</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#end&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="83" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aa67c0340797f6ab2caf0302e960ca926" prot="public" static="no">
+        <name>SBOL_SEQUENCE_ANNOTATIONS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#sequenceAnnotation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="84" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a92e65ebb2d5d6e60294c491a110b85e3" prot="public" static="no">
+        <name>SBOL_COMPONENTS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#component&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="85" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a76f5100c994de459cece7e401638de82" prot="public" static="no">
+        <name>SBOL_COMPONENT_PROPERTY</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#component&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="86" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1abb1f8009070fd3cd287baabbd4d14e1c" prot="public" static="no">
+        <name>SBOL_ROLES</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#role&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="87" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a1849f82b626cc7c43db3f175526979c1" prot="public" static="no">
+        <name>SBOL_ELEMENTS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#elements&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="88" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a8885697441ebe22437df1f1dd075c3f8" prot="public" static="no">
+        <name>SBOL_ENCODING</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#encoding&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="89" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a25e04951ba93281ae26b6567d6c40d7c" prot="public" static="no">
+        <name>SBOL_SEQUENCE_PROPERTY</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#sequence&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="90" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ad6a9f1866346cfc90d1fa377c8ef1258" prot="public" static="no">
+        <name>SBOL_WAS_DERIVED_FROM</name>
+        <initializer>PROV_URI &quot;#wasDerivedFrom&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="91" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a9cd6ca717a84297864a4c5529e9d4797" prot="public" static="no">
+        <name>SBOL_DEFINITION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#definition&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="92" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a322c97299398d712cb3854cc995c4959" prot="public" static="no">
+        <name>SBOL_ACCESS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#access&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="93" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1abe4dfa6bf0b64fad41bbe51cc6339944" prot="public" static="no">
+        <name>SBOL_DIRECTION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#direction&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="94" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1af7a0fa00d5dd2fc883815e31dfd0ac68" prot="public" static="no">
+        <name>SBOL_MODELS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#model&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="95" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a25812fa121ab9480810cb5aed25efe16" prot="public" static="no">
+        <name>SBOL_MODULES</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#module&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="96" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a69c8e6df75fe6c66e7f25d83b76e842e" prot="public" static="no">
+        <name>SBOL_FUNCTIONAL_COMPONENTS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#functionalComponent&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="97" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1accd633ab74ddd1d49bda152903af5a92" prot="public" static="no">
+        <name>SBOL_INTERACTIONS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#interaction&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="98" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ac089489416b1d9855d68fcb3e0a1053d" prot="public" static="no">
+        <name>SBOL_MAPS_TOS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#mapsTo&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="99" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a1178673f3f40ffa68b854d7448571cd3" prot="public" static="no">
+        <name>SBOL_PARTICIPATIONS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#participation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="100" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a8e201c313d3d2312aa171788de6a838c" prot="public" static="no">
+        <name>SBOL_PARTICIPANT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#participant&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="101" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5222a850f4ec3aafae4b118ba9ee5544" prot="public" static="no">
+        <name>SBOL_LOCAL</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#local&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="102" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a9de9ecab3acf377cb8fa5628b8c4f96a" prot="public" static="no">
+        <name>SBOL_REMOTE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#remote&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="103" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a43f66b985a78317c2d079bd02f41c549" prot="public" static="no">
+        <name>SBOL_REFINEMENT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#refinement&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="104" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5b3dabfc12899779358c77433dd1353c" prot="public" static="no">
+        <name>SBOL_SOURCE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#source&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="105" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a9bfcd738dc76bcce63457c0b898577ed" prot="public" static="no">
+        <name>SBOL_LANGUAGE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#language&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="106" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a407f0f98747da622ec3757a3a7410bcd" prot="public" static="no">
+        <name>SBOL_FRAMEWORK</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#framework&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="107" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ad26ed3fcf27e6c89af5b5ab7659c800a" prot="public" static="no">
+        <name>SBOL_SEQUENCE_CONSTRAINTS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#sequenceConstraint&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="108" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5eb05b94667b099b48577a79420be4e2" prot="public" static="no">
+        <name>SBOL_SUBJECT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#subject&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="109" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a0ca0f33fda70773f3a8466d2afc714bf" prot="public" static="no">
+        <name>SBOL_OBJECT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#object&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="110" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a10cbd08109e9e3381b69cc4de19b5602" prot="public" static="no">
+        <name>SBOL_RESTRICTION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#restriction&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="111" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1adab9541bff2b5fde9bc4d5a06d031a6c" prot="public" static="no">
+        <name>SBOL_ORIENTATION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#orientation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="112" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1afa84faa909cc4b8fed5fca25f68a3d89" prot="public" static="no">
+        <name>SBOL_LOCATIONS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#location&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="113" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a6f636d2e66bb7319fc697e4172163e4d" prot="public" static="no">
+        <name>SBOL_ROLE_INTEGRATION</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#roleIntegration&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="114" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1abc4f1d17007f41d6ad45dac0de4fb54e" prot="public" static="no">
+        <name>SBOL_MEMBERS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#member&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="115" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a843bd4b8414b4cd2c1fccd2963d3c28c" prot="public" static="no">
+        <name>SBOL_AT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#at&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="116" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aa877d7031f7bff47ada56fb09b058065" prot="public" static="no">
+        <name>SBOL_OPERATOR</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#operator&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="117" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a0fadabf68255827eeefacb2cc1024b72" prot="public" static="no">
+        <name>SBOL_VARIABLE_COMPONENTS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#variableComponents&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="118" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a939d9010f467686016929b40e830e7dc" prot="public" static="no">
+        <name>SBOL_VARIABLE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#variable&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="119" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a09cc9b02afd1d64c2f8eee90eec4e144" prot="public" static="no">
+        <name>SBOL_VARIANTS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#variants&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="120" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aa6f99300b745eba483f892f26118bfac" prot="public" static="no">
+        <name>SBOL_VARIANT_COLLECTIONS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#variantCollections&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="121" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a8213a000c8d6fe11fc8a680e513acde8" prot="public" static="no">
+        <name>SBOL_VARIANT_DERIVATIONS</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#variantDeriviations&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="122" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ad8f55490d72bb3eabc4ddf31447916ad" prot="public" static="no">
+        <name>SBOL_STRATEGY</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#strategy&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="123" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a7689f0145c76aa75a0ed2fcf54ccdec4" prot="public" static="no">
+        <name>SBOL_TEMPLATE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#template&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="124" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1adefcbe8a66856303d261c28c1552cc91" prot="public" static="no">
+        <name>SBOL_ACCESS_PRIVATE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#private&quot;</initializer>
+        <briefdescription>
+<para>Option for Component::access or FunctionalComponent::access property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="128" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a16dbac4860d7b52909f21f70569f6135" prot="public" static="no">
+        <name>SBOL_ACCESS_PUBLIC</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#public&quot;</initializer>
+        <briefdescription>
+<para>Option for Component::access or FunctionalComponent::access property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="129" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ae6db656983a9340e4a8eba94b8e5b90d" prot="public" static="no">
+        <name>SBOL_DIRECTION_IN</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#in&quot;</initializer>
+        <briefdescription>
+<para>Option for FunctionalComponent::access property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="130" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1afcf8a277bc8a8f59743002a8c880d417" prot="public" static="no">
+        <name>SBOL_DIRECTION_OUT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#out&quot;</initializer>
+        <briefdescription>
+<para>Option for FunctionalComponent::direction property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="131" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a0e5443f720071618967874e6410c21bc" prot="public" static="no">
+        <name>SBOL_DIRECTION_IN_OUT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#inout&quot;</initializer>
+        <briefdescription>
+<para>Option for FunctionalComponent::direction property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="132" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a730fd7e1d2934493ebd8ce0d7b7755c0" prot="public" static="no">
+        <name>SBOL_DIRECTION_NONE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#none&quot;</initializer>
+        <briefdescription>
+<para>Option for FunctionalComponent::direction property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="133" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a782de6271b720ebd24a7c0b1f7308ba3" prot="public" static="no">
+        <name>SBOL_RESTRICTION_PRECEDES</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#precedes&quot;</initializer>
+        <briefdescription>
+<para>Option for SequenceConstraint::restriction property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="134" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aeb0fcb29348020c82b9d48c2cdc2ca50" prot="public" static="no">
+        <name>SBOL_RESTRICTION_SAME_ORIENTATION_AS</name>
+        <initializer>&quot;#sameOrientationAs&quot;</initializer>
+        <briefdescription>
+<para>Option for SequenceConstraint::restriction property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="135" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a9a1707a6a16b8bb79d520602b2a63e11" prot="public" static="no">
+        <name>SBOL_RESTRICTION_OPPOSITE_ORIENTATION_AS</name>
+        <initializer>&quot;#oppositeOrientationAs&quot;</initializer>
+        <briefdescription>
+<para>Option for SequenceConstraint::restriction property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="136" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a3bd81e4393a84eb34f935645006909e3" prot="public" static="no">
+        <name>SBOL_ENCODING_IUPAC</name>
+        <initializer>&quot;http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html&quot;</initializer>
+        <briefdescription>
+<para>Option for Sequence::encoding property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="137" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a1f2683e438e1644c45236d3253730ceb" prot="public" static="no">
+        <name>SBOL_ENCODING_IUPAC_PROTEIN</name>
+        <initializer>&quot;http://www.chem.qmul.ac.uk/iupac/AminoAcid/&quot;</initializer>
+        <briefdescription>
+<para>Option for Sequence::encoding property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="138" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ac922731457537d03c3355e3e48d381c5" prot="public" static="no">
+        <name>SBOL_ENCODING_SMILES</name>
+        <initializer>&quot;http://www.opensmiles.org/opensmiles.html&quot;</initializer>
+        <briefdescription>
+<para>Option for Sequence::encoding property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="139" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1af0782863ce0bf266d0b1a88d0e11d384" prot="public" static="no">
+        <name>SBOL_ORIENTATION_INLINE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#inline&quot;</initializer>
+        <briefdescription>
+<para>Option for Location::orientation property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="140" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a3639e62db04166033dd43aecb40a9825" prot="public" static="no">
+        <name>SBOL_ORIENTATION_REVERSE_COMPLEMENT</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#reverseComplement&quot;</initializer>
+        <briefdescription>
+<para>Option for Location::orientation property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="141" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1abd70f69aeaf1fe187ad2164c77b39324" prot="public" static="no">
+        <name>SBOL_REFINEMENT_USE_REMOTE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#useRemote&quot;</initializer>
+        <briefdescription>
+<para>Option for FunctionalComponent::refinement property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="142" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a56e90be243133d852edbfa8a5b2b6ddb" prot="public" static="no">
+        <name>SBOL_REFINEMENT_USE_LOCAL</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#useLocal&quot;</initializer>
+        <briefdescription>
+<para>Option for FunctionalComponent::refinement property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="143" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5aed8ed431905abe171b1b71957b336c" prot="public" static="no">
+        <name>SBOL_REFINEMENT_VERIFY_IDENTICAL</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#verifyIdentical&quot;</initializer>
+        <briefdescription>
+<para>Option for MapsTo::refinement property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="144" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a4462f253a2181285c2b711f09d49ec0d" prot="public" static="no">
+        <name>SBOL_REFINEMENT_MERGE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#merge&quot;</initializer>
+        <briefdescription>
+<para>Option for MapsTo::refinement property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="145" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a6844fbccbcddc53dd59ebbc11d20ccf7" prot="public" static="no">
+        <name>SBOL_ROLE_INTEGRATION_MERGE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#mergeRoles&quot;</initializer>
+        <briefdescription>
+<para>Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="146" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a02d59b45559891678e6af340d56cdc51" prot="public" static="no">
+        <name>SBOL_ROLE_INTEGRATION_OVERRIDE</name>
+        <initializer><ref refid="constants_8h_1a7903e05384695850fc071ef9507589b4" kindref="member">SBOL_URI</ref> &quot;#overrideRoles&quot;</initializer>
+        <briefdescription>
+<para>Option for SequenceAnnotation::roleIntegration or Component::roleIntegration property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="147" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1af4a17a17e4ba4a9ed5bdd9cd73d36e2e" prot="public" static="no">
+        <name>PROVO_ACTIVITY</name>
+        <initializer>PROVO &quot;#Activity&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="150" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a4808c046a1b5e5d37c65c6a0014bfc3e" prot="public" static="no">
+        <name>PROVO_USAGE</name>
+        <initializer>PROVO &quot;#Usage&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="151" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a29b69cbdeda22e46c984486ce0a7470e" prot="public" static="no">
+        <name>PROVO_ASSOCIATION</name>
+        <initializer>PROVO &quot;#Association&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="152" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5763ff666a787b95b2f92a2a6bd7f7fa" prot="public" static="no">
+        <name>PROVO_AGENT</name>
+        <initializer>&quot;#Agent&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="153" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ad20c7aa9293e7ad4ebe9940b61a7dffc" prot="public" static="no">
+        <name>PROVO_PLAN</name>
+        <initializer>PROVO &quot;#Plan&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="154" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a14fbd4c0263972981ea72678c6f6e36b" prot="public" static="no">
+        <name>PROVO_WAS_GENERATED_BY</name>
+        <initializer>PROVO &quot;#wasGeneratedBy&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="155" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a00705afd8aa300f0e55b4463a24a74cf" prot="public" static="no">
+        <name>PROVO_STARTED_AT_TIME</name>
+        <initializer>PROVO &quot;#startedAtTime&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="156" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a613765f3fc3e17a11c3fedb599c12574" prot="public" static="no">
+        <name>PROVO_ENDED_AT_TIME</name>
+        <initializer>PROVO &quot;#endedAtTime&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="157" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a0cf815569c66591aa30a74bf97d8bea3" prot="public" static="no">
+        <name>PROVO_QUALIFIED_ASSOCIATION</name>
+        <initializer>PROVO &quot;#qualifiedAssociation&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="158" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a8d665d327f4fc88f7c45a9cf3a79d69b" prot="public" static="no">
+        <name>PROVO_QUALIFIED_USAGE</name>
+        <initializer>PROVO &quot;#qualifedUsage&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="159" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a90dec90ee13c678598551c9d26d12634" prot="public" static="no">
+        <name>PROVO_WAS_INFORMED_BY</name>
+        <initializer>PROVO &quot;#wasInformedBy&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="160" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a29924c13d2300487a647bb3f3d829b14" prot="public" static="no">
+        <name>PROVO_HAD_PLAN</name>
+        <initializer>PROVO &quot;#hadPlan&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="161" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ab767a18986401018fae67ac89c84ea2b" prot="public" static="no">
+        <name>PROVO_HAD_ROLE</name>
+        <initializer>PROVO &quot;#hadRole&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="162" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ae00d3f156ee929573976b851186338f2" prot="public" static="no">
+        <name>PROVO_AGENT_PROPERTY</name>
+        <initializer>PROVO &quot;#agent&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="163" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ab46842e4e11899a47c9df7dbbe5aa898" prot="public" static="no">
+        <name>PROVO_ENTITY</name>
+        <initializer>&quot;#entity&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="164" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" prot="public" static="no">
+        <name>SBO</name>
+        <initializer>&quot;http://identifiers.org/biomodels.sbo/SBO:&quot;</initializer>
+        <briefdescription>
+<para>Namespace for Systems Biology Ontology (SBO) terms. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="168" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a8dcd4e52a109b7c10a5c7d8f0a69f2cb" prot="public" static="no">
+        <name>SBO_INTERACTION</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000343&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Interaction::type property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="169" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1afe59832356364a849a1f381b0cea6fc7" prot="public" static="no">
+        <name>SBO_INHIBITION</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000169&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Interaction::type property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="170" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a649833b61bee237058d5a95e3a05dc7b" prot="public" static="no">
+        <name>SBO_GENETIC_PRODUCTION</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000589&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Interaction::type property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="171" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a92bc1101225145fec27cf620533ae966" prot="public" static="no">
+        <name>SBO_NONCOVALENT_BINDING</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000177&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Interaction::type property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="172" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1afd4d3f62431cab7f464e42312bda8b60" prot="public" static="no">
+        <name>SBO_STIMULATION</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000170&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Interaction::type property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="173" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aa2e475076f8f36fd2b2058aed85552f7" prot="public" static="no">
+        <name>SBO_DEGRADATION</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000179&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Interaction::type property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="174" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1afa45591643799a875d59f05dab578fd0" prot="public" static="no">
+        <name>SBO_CONTROL</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000168&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Interaction::type property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="175" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5a3eb44c9b801b2fc6bc3bfa136bc887" prot="public" static="no">
+        <name>SBO_BIOCHEMICAL_REACTION</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000176&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Interaction::type property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="176" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a231015d0b8bd51b57c4f1fad0ded4132" prot="public" static="no">
+        <name>SBO_PROMOTER</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000598&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Participant::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="179" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a7f78ef865766bd5e25e3280c03072de9" prot="public" static="no">
+        <name>SBO_GENE</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000243&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Participant::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="180" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a6c7faa198556c0ab014f6dfd654f4473" prot="public" static="no">
+        <name>SBO_INHIBITOR</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000020&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Participant::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="181" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a09f8e3151176a9d34ce16b8d9e20db9f" prot="public" static="no">
+        <name>SBO_STIMULATOR</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000459&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Participant::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="182" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a31150f95ce6ed742cc7e17101ef4daa6" prot="public" static="no">
+        <name>SBO_REACTANT</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000010&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Participant::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="183" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ad4c9bd82ab4b6d3bb0d8738aa047da46" prot="public" static="no">
+        <name>SBO_PRODUCT</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000011&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Participant::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="184" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a1e6c75d60b01d2e9f6948f235a1b0e48" prot="public" static="no">
+        <name>SBO_LIGAND</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000280&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Participant::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="185" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a489a4778968c567ec5ba5bb18e46edf2" prot="public" static="no">
+        <name>SBO_NONCOVALENT_COMPLEX</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000253&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Participant::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="186" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a737c42b159b17f4d0300b33904a3cd11" prot="public" static="no">
+        <name>SBO_BINDING_SITE</name>
+        <initializer>&quot;0000494&quot;</initializer>
+        <briefdescription>
+<para>An SBO term and possible value for an Participant::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="187" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a02cc6d026fad97c4a8c84675a0619d03" prot="public" static="no">
+        <name>SO</name>
+        <initializer>&quot;http://identifiers.org/so/SO:&quot;</initializer>
+        <briefdescription>
+<para>Namespace for Sequence Ontology (SO) terms. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="190" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a27d45d5eb216872a65d23e48f5e4ed95" prot="public" static="no">
+        <name>SO_MISC</name>
+        <initializer><ref refid="constants_8h_1a02cc6d026fad97c4a8c84675a0619d03" kindref="member">SO</ref> &quot;0000001&quot;</initializer>
+        <briefdescription>
+<para>An SO term and possible value for ComponentDefinition::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="191" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a42a7d93b3962154d8e9c68b53d687a31" prot="public" static="no">
+        <name>SO_GENE</name>
+        <initializer><ref refid="constants_8h_1a02cc6d026fad97c4a8c84675a0619d03" kindref="member">SO</ref> &quot;0000704&quot;</initializer>
+        <briefdescription>
+<para>An SO term and possible value for ComponentDefinition::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="192" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a70c6bc61e1f72aeaa7ddae9a2596f97c" prot="public" static="no">
+        <name>SO_PROMOTER</name>
+        <initializer><ref refid="constants_8h_1a02cc6d026fad97c4a8c84675a0619d03" kindref="member">SO</ref> &quot;0000167&quot;</initializer>
+        <briefdescription>
+<para>An SO term and possible value for ComponentDefinition::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="193" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a2434c1c277a0415cf9970975fc4d736d" prot="public" static="no">
+        <name>SO_CDS</name>
+        <initializer><ref refid="constants_8h_1a02cc6d026fad97c4a8c84675a0619d03" kindref="member">SO</ref> &quot;0000316&quot;</initializer>
+        <briefdescription>
+<para>An SO term and possible value for ComponentDefinition::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="194" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a51d5ac228bf38c474fab6899abc60476" prot="public" static="no">
+        <name>SO_RBS</name>
+        <initializer><ref refid="constants_8h_1a02cc6d026fad97c4a8c84675a0619d03" kindref="member">SO</ref> &quot;0000139&quot;</initializer>
+        <briefdescription>
+<para>An SO term and possible value for ComponentDefinition::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="195" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a052791878fe863620703899b4632cee5" prot="public" static="no">
+        <name>SO_TERMINATOR</name>
+        <initializer><ref refid="constants_8h_1a02cc6d026fad97c4a8c84675a0619d03" kindref="member">SO</ref> &quot;0000141&quot;</initializer>
+        <briefdescription>
+<para>An SO term and possible value for ComponentDefinition::role property. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="196" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a9b2b0dc4c7df63db679551807cfceaec" prot="public" static="no">
+        <name>SO_SGRNA</name>
+        <initializer><ref refid="constants_8h_1a02cc6d026fad97c4a8c84675a0619d03" kindref="member">SO</ref> &quot;0001998&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="197" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aa08e807e9ad29c17c56e3b17f088f6cc" prot="public" static="no">
+        <name>BIOPAX_DNA</name>
+        <initializer>&quot;http://www.biopax.org/release/biopax-level3.owl#DnaRegion&quot;</initializer>
+        <briefdescription>
+<para>DNA. </para>        </briefdescription>
+        <detaileddescription>
+<para>A BioPax term and possible value for ComponentDefinition::type property </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="201" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ad5d83dee393dbbc05f76e5cc057a0d21" prot="public" static="no">
+        <name>BIOPAX_RNA</name>
+        <initializer>&quot;http://www.biopax.org/release/biopax-level3.owl#RnaRegion&quot;</initializer>
+        <briefdescription>
+<para>RNA. </para>        </briefdescription>
+        <detaileddescription>
+<para>A BioPax term and possible value for ComponentDefinition::type property </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="203" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a5eeedc63b5c9afebba2dd9e197a1851b" prot="public" static="no">
+        <name>BIOPAX_PROTEIN</name>
+        <initializer>&quot;http://www.biopax.org/release/biopax-level3.owl#Protein&quot;</initializer>
+        <briefdescription>
+<para>PROTEIN. </para>        </briefdescription>
+        <detaileddescription>
+<para>A BioPax term and possible value for ComponentDefinition::type property </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="205" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1af360e83c5660ac711ffa4f2459a479ed" prot="public" static="no">
+        <name>BIOPAX_SMALL_MOLECULE</name>
+        <initializer>&quot;http://www.biopax.org/release/biopax-level3.owl#SmallMolecule&quot;</initializer>
+        <briefdescription>
+<para>SMALL_MOLECULE. </para>        </briefdescription>
+        <detaileddescription>
+<para>A BioPax term and possible value for ComponentDefinition::type property </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="207" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1abcdfbca32134be773472d9af0f825e44" prot="public" static="no">
+        <name>BIOPAX_COMPLEX</name>
+        <initializer>&quot;http://www.biopax.org/release/biopax-level3.owl#Complex&quot;</initializer>
+        <briefdescription>
+<para>COMPLEX. </para>        </briefdescription>
+        <detaileddescription>
+<para>A BioPax term and possible value for ComponentDefinition::type property </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="209" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aad03b9ea9ea4258c350729fc5c676499" prot="public" static="no">
+        <name>EDAM_SBML</name>
+        <initializer>&quot;http://identifiers.org/edam/format_2585&quot;</initializer>
+        <briefdescription>
+<para>An EDAM ontology term and option for Model::language. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="212" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1aaa6d38acaaebf35f387a4bb0938632ca" prot="public" static="no">
+        <name>EDAM_CELLML</name>
+        <initializer>&quot;http://identifiers.org/edam/format_3240&quot;</initializer>
+        <briefdescription>
+<para>An EDAM ontology term and option for Model::language. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="213" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a3125fd7a56e59bd6a7fba68da79faf88" prot="public" static="no">
+        <name>EDAM_BIOPAX</name>
+        <initializer>&quot;http://identifiers.org/edam/format_3156&quot;</initializer>
+        <briefdescription>
+<para>An EDAM ontology term and option for Model::language. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="214" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a2c660235e66d5211aff9375d459585b7" prot="public" static="no">
+        <name>SBO_CONTINUOUS</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000062&quot;</initializer>
+        <briefdescription>
+<para>SBO term and option for Model::framework. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="217" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a2b313aa2a481d10542b1da8d4abbf67e" prot="public" static="no">
+        <name>SBO_DISCRETE</name>
+        <initializer><ref refid="constants_8h_1a85a777bf727dd74ba7bf6978f27c8dbd" kindref="member">SBO</ref> &quot;0000063&quot;</initializer>
+        <briefdescription>
+<para>SBO term and option for Model::framework. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/constants.h" line="218" column="9" bodyfile="/Users/bryan/Dev/libSBOL/source/constants.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Users of libSBOL may find in this file useful and important symbols corresponding to commonly used ontological terms from the Sequence Ontology, Systems Biology Ontology, BioPAX, etc. </para>    </briefdescription>
+    <detaileddescription>
+<para>A number of flags internal to the SBOL standard are also defined here. Finally, for developers and maintains of libSBOL, this file contains important URIs in the SBOL namespace, some of which can be used to control the appearance of the RDF/XML serialization. <simplesect kind="author"><para>Bryan Bartley  <ulink url="mailto:bartleyba@sbolstandard.org">bartleyba@sbolstandard.org</ulink> </para></simplesect>
+</para>    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="26"><highlight class="preprocessor">#ifndef<sp/>CONSTANTS_INCLUDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CONSTANTS_INCLUDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>SBOL<sp/>objects<sp/>will<sp/>be<sp/>created<sp/>in<sp/>the<sp/>default<sp/>namespace,<sp/>unless<sp/>otherwise<sp/>specified</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DEFAULT_NS<sp/>&quot;http://examples.org/&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>URIs<sp/>defined<sp/>here<sp/>determine<sp/>the<sp/>appearance<sp/>of<sp/>serialized<sp/>RDF/XML<sp/>nodes.<sp/><sp/>Change<sp/>these<sp/>URIs<sp/>to<sp/>change<sp/>the<sp/>appearance<sp/>of<sp/>an<sp/>SBOL<sp/>class<sp/>or<sp/>property<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_URI<sp/>&quot;http://sbols.org/v2&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="preprocessor">#define<sp/>RDF_URI<sp/>&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PURL_URI<sp/>&quot;http://purl.org/dc/terms/&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROV_URI<sp/>&quot;http://www.w3.org/ns/prov&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO<sp/>&quot;http://www.w3.org/ns/prov&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//#define<sp/>PROVO<sp/>&quot;https://www.w3.org/TR/prov-o/&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>rdf<sp/>nodes<sp/>used<sp/>in<sp/>SBOL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NODENAME_ABOUT<sp/><sp/><sp/><sp/>&quot;rdf:about&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NODENAME_RESOURCE<sp/>&quot;rdf:resource&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>VERSION_STRING<sp/>&quot;1.0.0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>URIs<sp/>for<sp/>SBOL<sp/>objects<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_DOCUMENT<sp/>SBOL_URI<sp/>&quot;#Document&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_IDENTIFIED<sp/>SBOL_URI<sp/>&quot;#Identified&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_DOCUMENTED<sp/>SBOL_URI<sp/>&quot;#Documented&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_TOP_LEVEL<sp/>SBOL_URI<sp/>&quot;#TopLevel&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_GENERIC_TOP_LEVEL<sp/>SBOL_URI<sp/>&quot;#GenericTopLevel&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_SEQUENCE_ANNOTATION<sp/>SBOL_URI<sp/>&quot;#SequenceAnnotation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_COMPONENT<sp/>SBOL_URI<sp/>&quot;#Component&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_FUNCTIONAL_COMPONENT<sp/>SBOL_URI<sp/>&quot;#FunctionalComponent&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_COMPONENT_DEFINITION<sp/>SBOL_URI<sp/>&quot;#ComponentDefinition&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_SEQUENCE<sp/>SBOL_URI<sp/>&quot;#Sequence&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_MODULE_DEFINITION<sp/>SBOL_URI<sp/>&quot;#ModuleDefinition&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_MODULE<sp/>SBOL_URI<sp/>&quot;#Module&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_MODEL<sp/>SBOL_URI<sp/>&quot;#Model&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_MAPS_TO<sp/>SBOL_URI<sp/>&quot;#MapsTo&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_INTERACTION<sp/>SBOL_URI<sp/>&quot;#Interaction&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_PARTICIPATION<sp/>SBOL_URI<sp/>&quot;#Participation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_SEQUENCE_CONSTRAINT<sp/>SBOL_URI<sp/>&quot;#SequenceConstraint&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_LOCATION<sp/>SBOL_URI<sp/>&quot;#Location&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_DOCUMENT<sp/>SBOL_URI<sp/>&quot;#Document&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_RANGE<sp/>SBOL_URI<sp/>&quot;#Range&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_CUT<sp/>SBOL_URI<sp/>&quot;#Cut&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_COLLECTION<sp/>SBOL_URI<sp/>&quot;#Collection&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_GENERIC_LOCATION<sp/>SBOL_URI<sp/>&quot;#GenericLocation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_VARIABLE_COMPONENT<sp/>SBOL_URI<sp/>&quot;#VariableComponent&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_COMBINATORIAL_DERIVATION<sp/>SBOL_URI<sp/>&quot;#CombinatorialDerivation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>UNDEFINED<sp/>SBOL_URI<sp/>&quot;#Undefined&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>URIs<sp/>for<sp/>SBOL<sp/>Properties<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_IDENTITY<sp/>SBOL_URI<sp/>&quot;#identity&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_PERSISTENT_IDENTITY<sp/>SBOL_URI<sp/>&quot;#persistentIdentity&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_VERSION<sp/>SBOL_URI<sp/>&quot;#version&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_DISPLAY_ID<sp/><sp/>SBOL_URI<sp/>&quot;#displayId&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_NAME<sp/>PURL_URI<sp/>&quot;title&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_DESCRIPTION<sp/>PURL_URI<sp/>&quot;description&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_TYPES<sp/>SBOL_URI<sp/>&quot;#type&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_START<sp/>SBOL_URI<sp/>&quot;#start&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_END<sp/>SBOL_URI<sp/>&quot;#end&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_SEQUENCE_ANNOTATIONS<sp/>SBOL_URI<sp/>&quot;#sequenceAnnotation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_COMPONENTS<sp/>SBOL_URI<sp/>&quot;#component&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_COMPONENT_PROPERTY<sp/>SBOL_URI<sp/>&quot;#component&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_ROLES<sp/>SBOL_URI<sp/>&quot;#role&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_ELEMENTS<sp/>SBOL_URI<sp/>&quot;#elements&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_ENCODING<sp/>SBOL_URI<sp/>&quot;#encoding&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_SEQUENCE_PROPERTY<sp/>SBOL_URI<sp/>&quot;#sequence&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_WAS_DERIVED_FROM<sp/>PROV_URI<sp/>&quot;#wasDerivedFrom&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_DEFINITION<sp/>SBOL_URI<sp/>&quot;#definition&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_ACCESS<sp/>SBOL_URI<sp/>&quot;#access&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_DIRECTION<sp/>SBOL_URI<sp/>&quot;#direction&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_MODELS<sp/>SBOL_URI<sp/>&quot;#model&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_MODULES<sp/>SBOL_URI<sp/>&quot;#module&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_FUNCTIONAL_COMPONENTS<sp/>SBOL_URI<sp/>&quot;#functionalComponent&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_INTERACTIONS<sp/>SBOL_URI<sp/>&quot;#interaction&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_MAPS_TOS<sp/>SBOL_URI<sp/>&quot;#mapsTo&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_PARTICIPATIONS<sp/>SBOL_URI<sp/>&quot;#participation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_PARTICIPANT<sp/>SBOL_URI<sp/>&quot;#participant&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_LOCAL<sp/>SBOL_URI<sp/>&quot;#local&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_REMOTE<sp/>SBOL_URI<sp/>&quot;#remote&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_REFINEMENT<sp/>SBOL_URI<sp/>&quot;#refinement&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_SOURCE<sp/>SBOL_URI<sp/>&quot;#source&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_LANGUAGE<sp/>SBOL_URI<sp/>&quot;#language&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_FRAMEWORK<sp/>SBOL_URI<sp/>&quot;#framework&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_SEQUENCE_CONSTRAINTS<sp/>SBOL_URI<sp/>&quot;#sequenceConstraint&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_SUBJECT<sp/>SBOL_URI<sp/>&quot;#subject&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_OBJECT<sp/>SBOL_URI<sp/>&quot;#object&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_RESTRICTION<sp/>SBOL_URI<sp/>&quot;#restriction&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_ORIENTATION<sp/>SBOL_URI<sp/>&quot;#orientation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_LOCATIONS<sp/>SBOL_URI<sp/>&quot;#location&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_ROLE_INTEGRATION<sp/>SBOL_URI<sp/>&quot;#roleIntegration&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_MEMBERS<sp/>SBOL_URI<sp/>&quot;#member&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_AT<sp/>SBOL_URI<sp/>&quot;#at&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_OPERATOR<sp/>SBOL_URI<sp/>&quot;#operator&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_VARIABLE_COMPONENTS<sp/>SBOL_URI<sp/>&quot;#variableComponents&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_VARIABLE<sp/>SBOL_URI<sp/>&quot;#variable&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_VARIANTS<sp/>SBOL_URI<sp/>&quot;#variants&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_VARIANT_COLLECTIONS<sp/>SBOL_URI<sp/>&quot;#variantCollections&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_VARIANT_DERIVATIONS<sp/>SBOL_URI<sp/>&quot;#variantDeriviations&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_STRATEGY<sp/>SBOL_URI<sp/>&quot;#strategy&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_TEMPLATE<sp/>SBOL_URI<sp/>&quot;#template&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>SBOL<sp/>internal<sp/>ontologies<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBOL_ACCESS_PRIVATE<sp/>SBOL_URI<sp/>&quot;#private&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="preprocessor">#define<sp/>SBOL_ACCESS_PUBLIC<sp/>SBOL_URI<sp/>&quot;#public&quot;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="preprocessor">#define<sp/>SBOL_DIRECTION_IN<sp/>SBOL_URI<sp/>&quot;#in&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="preprocessor">#define<sp/>SBOL_DIRECTION_OUT<sp/>SBOL_URI<sp/>&quot;#out&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="preprocessor">#define<sp/>SBOL_DIRECTION_IN_OUT<sp/>SBOL_URI<sp/>&quot;#inout&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="preprocessor">#define<sp/>SBOL_DIRECTION_NONE<sp/>SBOL_URI<sp/>&quot;#none&quot;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="preprocessor">#define<sp/>SBOL_RESTRICTION_PRECEDES<sp/>SBOL_URI<sp/>&quot;#precedes&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="preprocessor">#define<sp/>SBOL_RESTRICTION_SAME_ORIENTATION_AS<sp/>&quot;#sameOrientationAs&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="preprocessor">#define<sp/>SBOL_RESTRICTION_OPPOSITE_ORIENTATION_AS<sp/>&quot;#oppositeOrientationAs&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="preprocessor">#define<sp/>SBOL_ENCODING_IUPAC<sp/>&quot;http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html&quot;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="preprocessor">#define<sp/>SBOL_ENCODING_IUPAC_PROTEIN<sp/>&quot;http://www.chem.qmul.ac.uk/iupac/AminoAcid/&quot;<sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="preprocessor">#define<sp/>SBOL_ENCODING_SMILES<sp/>&quot;http://www.opensmiles.org/opensmiles.html&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="preprocessor">#define<sp/>SBOL_ORIENTATION_INLINE<sp/>SBOL_URI<sp/>&quot;#inline&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="preprocessor">#define<sp/>SBOL_ORIENTATION_REVERSE_COMPLEMENT<sp/>SBOL_URI<sp/>&quot;#reverseComplement&quot;<sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="preprocessor">#define<sp/>SBOL_REFINEMENT_USE_REMOTE<sp/>SBOL_URI<sp/>&quot;#useRemote&quot;<sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="preprocessor">#define<sp/>SBOL_REFINEMENT_USE_LOCAL<sp/>SBOL_URI<sp/>&quot;#useLocal&quot;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="preprocessor">#define<sp/>SBOL_REFINEMENT_VERIFY_IDENTICAL<sp/>SBOL_URI<sp/>&quot;#verifyIdentical&quot;<sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="preprocessor">#define<sp/>SBOL_REFINEMENT_MERGE<sp/>SBOL_URI<sp/>&quot;#merge&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="preprocessor">#define<sp/>SBOL_ROLE_INTEGRATION_MERGE<sp/>SBOL_URI<sp/>&quot;#mergeRoles&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="preprocessor">#define<sp/>SBOL_ROLE_INTEGRATION_OVERRIDE<sp/>SBOL_URI<sp/>&quot;#overrideRoles&quot;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>PROVO<sp/>ontology<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_ACTIVITY<sp/>PROVO<sp/>&quot;#Activity&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_USAGE<sp/>PROVO<sp/>&quot;#Usage&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_ASSOCIATION<sp/>PROVO<sp/>&quot;#Association&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_AGENT<sp/>&quot;#Agent&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_PLAN<sp/>PROVO<sp/>&quot;#Plan&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_WAS_GENERATED_BY<sp/>PROVO<sp/>&quot;#wasGeneratedBy&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_STARTED_AT_TIME<sp/>PROVO<sp/>&quot;#startedAtTime&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_ENDED_AT_TIME<sp/>PROVO<sp/>&quot;#endedAtTime&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_QUALIFIED_ASSOCIATION<sp/>PROVO<sp/>&quot;#qualifiedAssociation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_QUALIFIED_USAGE<sp/>PROVO<sp/>&quot;#qualifedUsage&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_WAS_INFORMED_BY<sp/>PROVO<sp/>&quot;#wasInformedBy&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_HAD_PLAN<sp/>PROVO<sp/>&quot;#hadPlan&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_HAD_ROLE<sp/>PROVO<sp/>&quot;#hadRole&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_AGENT_PROPERTY<sp/>PROVO<sp/>&quot;#agent&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PROVO_ENTITY<sp/>&quot;#entity&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Systems<sp/>Biology<sp/>Ontology<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Interaction.types<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBO<sp/>&quot;http://identifiers.org/biomodels.sbo/SBO:&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="preprocessor">#define<sp/>SBO_INTERACTION<sp/>SBO<sp/>&quot;0000343&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="preprocessor">#define<sp/>SBO_INHIBITION<sp/>SBO<sp/>&quot;0000169&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="preprocessor">#define<sp/>SBO_GENETIC_PRODUCTION<sp/>SBO<sp/>&quot;0000589&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="preprocessor">#define<sp/>SBO_NONCOVALENT_BINDING<sp/>SBO<sp/>&quot;0000177&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="preprocessor">#define<sp/>SBO_STIMULATION<sp/>SBO<sp/>&quot;0000170&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="preprocessor">#define<sp/>SBO_DEGRADATION<sp/>SBO<sp/>&quot;0000179&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="preprocessor">#define<sp/>SBO_CONTROL<sp/>SBO<sp/>&quot;0000168&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="preprocessor">#define<sp/>SBO_BIOCHEMICAL_REACTION<sp/>SBO<sp/>&quot;0000176&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Participant.roles<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBO_PROMOTER<sp/>SBO<sp/>&quot;0000598&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="preprocessor">#define<sp/>SBO_GENE<sp/>SBO<sp/>&quot;0000243&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="preprocessor">#define<sp/>SBO_INHIBITOR<sp/>SBO<sp/>&quot;0000020&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="preprocessor">#define<sp/>SBO_STIMULATOR<sp/>SBO<sp/>&quot;0000459&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="preprocessor">#define<sp/>SBO_REACTANT<sp/>SBO<sp/>&quot;0000010&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="preprocessor">#define<sp/>SBO_PRODUCT<sp/>SBO<sp/>&quot;0000011&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="preprocessor">#define<sp/>SBO_LIGAND<sp/>SBO<sp/>&quot;0000280&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="preprocessor">#define<sp/>SBO_NONCOVALENT_COMPLEX<sp/>SBO<sp/>&quot;0000253&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="preprocessor">#define<sp/>SBO_BINDING_SITE<sp/>&quot;0000494&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>URIs<sp/>for<sp/>common<sp/>Sequence<sp/>Ontology<sp/>terms<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SO<sp/>&quot;http://identifiers.org/so/SO:&quot;<sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="preprocessor">#define<sp/>SO_MISC<sp/>SO<sp/>&quot;0000001&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="preprocessor">#define<sp/>SO_GENE<sp/>SO<sp/>&quot;0000704&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="preprocessor">#define<sp/>SO_PROMOTER<sp/>SO<sp/>&quot;0000167&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="preprocessor">#define<sp/>SO_CDS<sp/>SO<sp/>&quot;0000316&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="preprocessor">#define<sp/>SO_RBS<sp/>SO<sp/>&quot;0000139&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="preprocessor">#define<sp/>SO_TERMINATOR<sp/>SO<sp/>&quot;0000141&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="preprocessor">#define<sp/>SO_SGRNA<sp/>SO<sp/>&quot;0001998&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>BioPAX<sp/>is<sp/>used<sp/>to<sp/>indicate<sp/>macromolecular<sp/>and<sp/>molecular<sp/>types<sp/>*/</highlight></codeline>
+<codeline lineno="201"><highlight class="preprocessor">#define<sp/>BIOPAX_DNA<sp/>&quot;http://www.biopax.org/release/biopax-level3.owl#DnaRegion&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="preprocessor">#define<sp/>BIOPAX_RNA<sp/>&quot;http://www.biopax.org/release/biopax-level3.owl#RnaRegion&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="preprocessor">#define<sp/>BIOPAX_PROTEIN<sp/>&quot;http://www.biopax.org/release/biopax-level3.owl#Protein&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="preprocessor">#define<sp/>BIOPAX_SMALL_MOLECULE<sp/>&quot;http://www.biopax.org/release/biopax-level3.owl#SmallMolecule&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="preprocessor">#define<sp/>BIOPAX_COMPLEX<sp/>&quot;http://www.biopax.org/release/biopax-level3.owl#Complex&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>EDAM<sp/>ontology<sp/>is<sp/>used<sp/>for<sp/>Model.languages<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>EDAM_SBML<sp/>&quot;http://identifiers.org/edam/format_2585&quot;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="preprocessor">#define<sp/>EDAM_CELLML<sp/>&quot;http://identifiers.org/edam/format_3240&quot;<sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="preprocessor">#define<sp/>EDAM_BIOPAX<sp/>&quot;http://identifiers.org/edam/format_3156&quot;<sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Model.frameworks<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SBO_CONTINUOUS<sp/>SBO<sp/>&quot;0000062&quot;<sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="preprocessor">#define<sp/>SBO_DISCRETE<sp/>SBO<sp/>&quot;0000063&quot;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="/Users/bryan/Dev/libSBOL/source/constants.h"/>
+  </compounddef>
+</doxygen>

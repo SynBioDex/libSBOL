@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="indexpage" kind="page">
+    <compoundname>index</compoundname>
+    <title>libSBOL</title>
+    <detaileddescription>
+<para><heading level="1">libSBOL 2.2.0 </heading>
+</para><para><ulink url="https://github.com/SynBioDex/libSBOL">libSBOL</ulink> is a C++ library for reading, writing, and constructing genetic designs according to the standardized specification of the <ulink url="http://www.sbolstandard.org/">Synthetic Biology Open Language (SBOL)</ulink>.</para><para><heading level="1">INSTALLATION </heading>
+</para><para>To install, go to <ref refid="installation" kindref="compound">Installation</ref> page.</para><para><heading level="1">PLATFORMS </heading>
+</para><para>libSBOL is available for Windows, Mac OSX, and Linux. The library is tested on Windows 7+, Mac OSX 10.9+, and Ubuntu 14.04+.</para><para><heading level="1">ACKNOWLEDGEMENTS </heading>
+</para><para>Current support for the development of libSBOL is generously provided by the NSF through the <ulink url="http://www.nsf.gov/awardsearch/showAward?AWD_ID=1355909">Synthetic Biology Open Language Resource</ulink> collaborative award. </para>    </detaileddescription>
+  </compounddef>
+</doxygen>

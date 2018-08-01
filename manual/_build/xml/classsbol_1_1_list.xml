@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classsbol_1_1_list" kind="class" language="C++" prot="public">
+    <compoundname>sbol::List</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">PropertyType</basecompoundref>
+    <includes local="no">/Users/bryan/Dev/libSBOL/source/properties.h</includes>
+    <templateparamlist>
+      <param>
+        <type>class</type>
+        <declname>PropertyType</declname>
+        <defname>PropertyType</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsbol_1_1_list_1aef2208744051c0bdd2abb460870b8e48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>List</definition>
+        <argsstring>(sbol_type type_uri, SBOLObject *property_owner, std::string initial_value=&quot;&quot;)</argsstring>
+        <name>List</name>
+        <param>
+          <type><ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref></type>
+          <declname>type_uri</declname>
+        </param>
+        <param>
+          <type><ref refid="classsbol_1_1_s_b_o_l_object" kindref="compound">SBOLObject</ref> *</type>
+          <declname>property_owner</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>initial_value</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="548" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="570" bodyend="573"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Provides interface for an SBOL container <ref refid="classsbol_1_1_property" kindref="compound">Property</ref> that is allowed to have more than one object or value. </para>    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>PropertyType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of SBOL <ref refid="classsbol_1_1_property" kindref="compound">Property</ref>, eg, Text, Int, <ref refid="classsbol_1_1_owned_object" kindref="compound">OwnedObject</ref>, etc </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="476">
+        <label>List&lt; PropertyType &gt;</label>
+        <link refid="classsbol_1_1_list"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/bryan/Dev/libSBOL/source/properties.h" line="545" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/properties.h" bodystart="544" bodyend="559"/>
+    <listofallmembers>
+      <member refid="classsbol_1_1_list_1aef2208744051c0bdd2abb460870b8e48" prot="public" virt="non-virtual"><scope>sbol::List</scope><name>List</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="dir_b95c72057d2b987c57e2b46c532d6167" kind="dir">
+    <compoundname>/Users/bryan/Dev/libSBOL/example</compoundname>
+    <innerfile refid="_biosystem_design_example_8cpp">BiosystemDesignExample.cpp</innerfile>
+    <innerfile refid="_c_r_i_s_p_r_repression_example_8cpp">CRISPRRepressionExample.cpp</innerfile>
+    <innerfile refid="_sequence_assembly_example_8cpp">SequenceAssemblyExample.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/bryan/Dev/libSBOL/example/"/>
+  </compounddef>
+</doxygen>

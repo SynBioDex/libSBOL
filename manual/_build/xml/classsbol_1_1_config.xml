@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="classsbol_1_1_config" kind="class" language="C++" prot="public">
+    <compoundname>sbol::Config</compoundname>
+    <includes local="no">/Users/bryan/Dev/libSBOL/source/config.h</includes>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classsbol_1_1_config_1a6c8f3f5f0b8033f50d9bc81bde143b81" prot="private" static="yes" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <initializer>{
+    {&quot;homespace&quot;, &quot;http://examples.org&quot;},
+    {&quot;sbol_compliant_uris&quot;, &quot;True&quot;},
+    {&quot;sbol_typed_uris&quot;, &quot;True&quot;},
+    {&quot;output_format&quot;, &quot;rdfxml&quot;},
+    {&quot;validate&quot;, &quot;True&quot;},
+    {&quot;validator_url&quot;, &quot;http://www.async.ece.utah.edu/validate/&quot;},
+    {&quot;language&quot;, &quot;SBOL2&quot;},
+    {&quot;test_equality&quot;, &quot;False&quot;},
+    {&quot;check_uri_compliance&quot;, &quot;False&quot;},
+    {&quot;check_completeness&quot;, &quot;False&quot;},
+    {&quot;check_best_practices&quot;, &quot;False&quot;},
+    {&quot;fail_on_first_error&quot;, &quot;False&quot;},
+    {&quot;provide_detailed_stack_trace&quot;, &quot;False&quot;},
+    {&quot;uri_prefix&quot;, &quot;&quot;},
+    {&quot;subset_uri&quot;, &quot;&quot;},
+    {&quot;version&quot;, &quot;&quot;},
+    {&quot;insert_type&quot;, &quot;False&quot;},
+    {&quot;main_file_name&quot;, &quot;main file&quot;},
+    {&quot;diff_file_name&quot;, &quot;comparison file&quot;},
+    {&quot;return_file&quot;, &quot;False&quot;}
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="58" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsbol_1_1_config_1ae14c5160da52e4a6f3e8bebbafad94b2" prot="private" static="yes" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; valid_options</definition>
+        <argsstring></argsstring>
+        <name>valid_options</name>
+        <initializer>{
+    {&quot;sbol_compliant_uris&quot;, {&quot;True&quot;, &quot;False&quot;}},
+    {&quot;sbol_typed_uris&quot;, { &quot;True&quot;, &quot;False&quot; }},
+    {&quot;output_format&quot;, {&quot;rdfxml&quot;, &quot;json&quot;}},
+    {&quot;validate&quot;, { &quot;True&quot;, &quot;False&quot; }},
+    {&quot;language&quot;, { &quot;SBOL2&quot;, &quot;FASTA&quot;, &quot;GenBank&quot; }},
+    {&quot;test_equality&quot;, { &quot;True&quot;, &quot;False&quot; }},
+    {&quot;check_uri_compliance&quot;, { &quot;True&quot;, &quot;False&quot; }},
+    {&quot;check_completeness&quot;, { &quot;True&quot;, &quot;False&quot; }},
+    {&quot;check_best_practices&quot;, { &quot;True&quot;, &quot;False&quot; }},
+    {&quot;fail_on_first_error&quot;, { &quot;True&quot;, &quot;False&quot; }},
+    {&quot;provide_detailed_stack_trace&quot;, { &quot;True&quot;, &quot;False&quot; }},
+    {&quot;insert_type&quot;, { &quot;True&quot;, &quot;False&quot; }},
+    {&quot;return_file&quot;, { &quot;True&quot;, &quot;False&quot; }}
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="59" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classsbol_1_1_config_1a79d4f4e2dd390185fd5213cfc6a74389" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string home</definition>
+        <argsstring></argsstring>
+        <name>home</name>
+        <briefdescription>
+<para>The authoritative namespace for the <ref refid="classsbol_1_1_document" kindref="compound">Document</ref>. Setting the home namespace is like signing a piece of paper. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="60" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsbol_1_1_config_1a41aea0129538dc3dcaceb081fec933db" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SBOLCompliantTypes</definition>
+        <argsstring></argsstring>
+        <name>SBOLCompliantTypes</name>
+        <briefdescription>
+<para>Flag indicating whether an object&apos;s type is included in SBOL-compliant URIs. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="61" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsbol_1_1_config_1aff65c64d82e62a04dc781b92dfc93e22" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int catch_exceptions</definition>
+        <argsstring></argsstring>
+        <name>catch_exceptions</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="62" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsbol_1_1_config_1ad77fc85d76514f2d1ea5618480b51108" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <initializer>= &quot;rdfxml&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="63" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsbol_1_1_config_1a539a941e29cde8d13e413c515d9801cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="71" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.h" bodystart="71" bodyend="74"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classsbol_1_1_config_1a178010d9582a8d351e5474ca64287497" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setOption</definition>
+        <argsstring>(std::string option, std::string value)</argsstring>
+        <name>setOption</name>
+        <param>
+          <type>std::string</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Configure options for libSBOL. </para>        </briefdescription>
+        <detaileddescription>
+<para>Access online validation and conversion. <table rows="17" cols="3"><row>
+<entry thead="yes"><para>Option </para></entry><entry thead="yes"><para>Description </para></entry><entry thead="yes"><para>Values  </para></entry></row>
+<row>
+<entry thead="no"><para>homespace </para></entry><entry thead="no"><para>Enable validation and conversion requests through the online validator </para></entry><entry thead="no"><para><ulink url="http://examples.org">http://examples.org</ulink> </para></entry></row>
+<row>
+<entry thead="no"><para>sbol_compliant_uris </para></entry><entry thead="no"><para>Enables autoconstruction of SBOL-compliant URIs from displayIds </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>sbol_typed_uris </para></entry><entry thead="no"><para>Include the SBOL type in SBOL-compliant URIs </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>output_format </para></entry><entry thead="no"><para>File format for serialization </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>validate </para></entry><entry thead="no"><para>Enable validation and conversion requests through the online validator </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>validator_url </para></entry><entry thead="no"><para>The http request endpoint for validation </para></entry><entry thead="no"><para>A valid URL, set to<linebreak/>
+<ulink url="http://www.async.ece.utah.edu/sbol-validator/endpoint.php">http://www.async.ece.utah.edu/sbol-validator/endpoint.php</ulink> by default </para></entry></row>
+<row>
+<entry thead="no"><para>language </para></entry><entry thead="no"><para>File format for conversion </para></entry><entry thead="no"><para>SBOL2, SBOL1, FASTA, GenBank </para></entry></row>
+<row>
+<entry thead="no"><para>test_equality </para></entry><entry thead="no"><para>Report differences between two files </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>check_uri_compliance </para></entry><entry thead="no"><para>If set to false, URIs in the file will not be checked for compliance<linebreak/>
+with the SBOL specification </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>check_completeness </para></entry><entry thead="no"><para>If set to false, not all referenced objects must be described within<linebreak/>
+the given main_file </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>check_best_practices </para></entry><entry thead="no"><para>If set to true, the file is checked for the best practice rules set<linebreak/>
+in the SBOL specification </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>fail_on_first_error </para></entry><entry thead="no"><para>If set to true, the validator will fail at the first error </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>provide_detailed_stack_trace </para></entry><entry thead="no"><para>If set to true (and failOnFirstError is true) the validator will<linebreak/>
+provide a stack trace for the first validation error </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>uri_prefix </para></entry><entry thead="no"><para>Required for conversion from FASTA and GenBank to SBOL1 or SBOL2,<linebreak/>
+used to generate URIs </para></entry><entry thead="no"><para>True or False </para></entry></row>
+<row>
+<entry thead="no"><para>version </para></entry><entry thead="no"><para>Adds the version to all URIs and to the document </para></entry><entry thead="no"><para>A valid Maven version string </para></entry></row>
+<row>
+<entry thead="no"><para>return_file </para></entry><entry thead="no"><para>Whether or not to return the file contents as a string </para></entry><entry thead="no"><para>True or False </para></entry></row>
+</table>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>option</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The option key </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The option value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="108" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="81" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_config_1a0c426e2968a048bf5a07031e34aef94b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setOption</definition>
+        <argsstring>(std::string option, bool value)</argsstring>
+        <name>setOption</name>
+        <param>
+          <type>std::string</type>
+          <declname>option</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="110" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="111" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classsbol_1_1_config_1a19ed24525bc957df9f4b521c3ed62ee2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string getOption</definition>
+        <argsstring>(std::string option)</argsstring>
+        <name>getOption</name>
+        <param>
+          <type>std::string</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+<para>Get current option value for online validation and conversion. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>option</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The option key </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="114" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.cpp" bodystart="151" bodyend="161"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A class which contains global configuration variables for the libSBOL environment. Intended to be used like a static class, configuration variables are accessed through the Config::setOptions and Config::getOptions methods. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="326">
+        <label>Config</label>
+        <link refid="classsbol_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/bryan/Dev/libSBOL/source/config.h" line="56" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/config.h" bodystart="55" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classsbol_1_1_config_1aff65c64d82e62a04dc781b92dfc93e22" prot="private" virt="non-virtual"><scope>sbol::Config</scope><name>catch_exceptions</name></member>
+      <member refid="classsbol_1_1_config_1a539a941e29cde8d13e413c515d9801cd" prot="public" virt="non-virtual"><scope>sbol::Config</scope><name>Config</name></member>
+      <member refid="classsbol_1_1_config_1ad77fc85d76514f2d1ea5618480b51108" prot="private" virt="non-virtual"><scope>sbol::Config</scope><name>format</name></member>
+      <member refid="classsbol_1_1_config_1a19ed24525bc957df9f4b521c3ed62ee2" prot="public" virt="non-virtual"><scope>sbol::Config</scope><name>getOption</name></member>
+      <member refid="classsbol_1_1_config_1a79d4f4e2dd390185fd5213cfc6a74389" prot="private" virt="non-virtual"><scope>sbol::Config</scope><name>home</name></member>
+      <member refid="classsbol_1_1_config_1a6c8f3f5f0b8033f50d9bc81bde143b81" prot="private" virt="non-virtual"><scope>sbol::Config</scope><name>options</name></member>
+      <member refid="classsbol_1_1_config_1a41aea0129538dc3dcaceb081fec933db" prot="private" virt="non-virtual"><scope>sbol::Config</scope><name>SBOLCompliantTypes</name></member>
+      <member refid="classsbol_1_1_config_1a178010d9582a8d351e5474ca64287497" prot="public" virt="non-virtual"><scope>sbol::Config</scope><name>setOption</name></member>
+      <member refid="classsbol_1_1_config_1a0c426e2968a048bf5a07031e34aef94b" prot="public" virt="non-virtual"><scope>sbol::Config</scope><name>setOption</name></member>
+      <member refid="classsbol_1_1_config_1ae14c5160da52e4a6f3e8bebbafad94b2" prot="private" virt="non-virtual"><scope>sbol::Config</scope><name>valid_options</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="dir_75dc0ab483c087c3db187eb05edbce0e" kind="dir">
+    <compoundname>/Users/bryan/Dev/libSBOL/manual</compoundname>
+    <innerfile refid="cmake__install_8cmake">cmake_install.cmake</innerfile>
+    <innerfile refid="_find_doxygen_8cmake">FindDoxygen.cmake</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/bryan/Dev/libSBOL/manual/"/>
+  </compounddef>
+</doxygen>

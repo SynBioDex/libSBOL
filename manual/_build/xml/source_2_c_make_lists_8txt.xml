@@ -1,0 +1,411 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="source_2_c_make_lists_8txt" kind="file" language="C++">
+    <compoundname>CMakeLists.txt</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="source_2_c_make_lists_8txt_1af7a29220d590db79635ead0de6ecb3ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>add_subdirectory</definition>
+        <argsstring>(raptor) include_directories($</argsstring>
+        <name>add_subdirectory</name>
+        <param>
+          <type>raptor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" line="2" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" bodystart="2" bodyend="5"/>
+      </memberdef>
+      <memberdef kind="function" id="source_2_c_make_lists_8txt_1a7bdd59254273866b19572673f888956c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>include_directories</definition>
+        <argsstring>(${JsonCpp_INCLUDE_DIR}) include_directories($</argsstring>
+        <name>include_directories</name>
+        <param>
+          <declname>${JsonCpp_INCLUDE_DIR}</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" line="6" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" bodystart="6" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="source_2_c_make_lists_8txt_1ae98ffc375b0d5bc379812f9e2b2d9849" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>if</definition>
+        <argsstring>(SBOL_BUILD_PYTHON2) find_package(SWIG REQUIRED) find_package(PythonLibs 2 EXACT) include_directories($</argsstring>
+        <name>if</name>
+        <param>
+          <type>SBOL_BUILD_PYTHON2</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" line="8" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" bodystart="8" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="source_2_c_make_lists_8txt_1a0f074b3e2f3b87eb30ebbf2b84faaac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>endif</definition>
+        <argsstring>() if(SBOL_BUILD_PYTHON3) find_package(SWIG REQUIRED) find_package(PythonLibs 3) include_directories($</argsstring>
+        <name>endif</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" line="13" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" bodystart="13" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="source_2_c_make_lists_8txt_1a0d63b25a86c9c264bce49c846b376938" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>MATCHES Linux OR Darwin</type>
+        <definition>MATCHES Linux OR Darwin if</definition>
+        <argsstring>(NOT SBOL_BUILD_SHARED) endif() endif() get_directory_property(DirDefs COMPILE_DEFINITIONS) message(&quot;$</argsstring>
+        <name>if</name>
+        <param>
+          <type>NOT</type>
+          <declname>SBOL_BUILD_SHARED</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" line="82" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" bodystart="82" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="source_2_c_make_lists_8txt_1adb129afced01ee067351e75dd10dce31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>if</definition>
+        <argsstring>(${CMAKE_SYSTEM_NAME}MATCHES&quot;Windows&quot;) add_definitions(-DSBOL_WIN) include_directories($</argsstring>
+        <name>if</name>
+        <param>
+          <declname>${CMAKE_SYSTEM_NAME}MATCHES&quot;Windows&quot;</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" line="92" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" bodystart="92" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="source_2_c_make_lists_8txt_1a480148bc73b5ddd74fec4375f1d9039a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bigobj EHsc</type>
+        <definition>bigobj EHsc if</definition>
+        <argsstring>(SBOL_BUILD_SHARED) add_library(sbol32-shared SHARED $</argsstring>
+        <name>if</name>
+        <param>
+          <type>SBOL_BUILD_SHARED</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" line="101" column="1" bodyfile="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt" bodystart="101" bodyend="104"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal">add_subdirectory(<sp/>raptor<sp/>)</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>gather<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal">include_directories(<sp/>${RAPTOR_INCLUDE_DIR})</highlight></codeline>
+<codeline lineno="6"><highlight class="normal">include_directories(<sp/>${JsonCpp_INCLUDE_DIR})</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">include_directories(<sp/>${CURL_INCLUDE_DIR})</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>SBOL_BUILD_PYTHON2<sp/>)</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>find_package(<sp/>SWIG<sp/>REQUIRED<sp/>)</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>find_package(<sp/>PythonLibs<sp/>2<sp/>EXACT)</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>include_directories(<sp/>${PYTHON_INCLUDE_DIR}<sp/>)</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">endif()</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">if(<sp/>SBOL_BUILD_PYTHON3<sp/>)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>find_package(<sp/>SWIG<sp/>REQUIRED<sp/>)</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>find_package(<sp/>PythonLibs<sp/>3)</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>include_directories(<sp/>${PYTHON_INCLUDE_DIR}<sp/>)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">endif()</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>gather<sp/>source<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal">FILE(GLOB<sp/>SBOL_HEADER_FILES</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>constants.h</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>sbolerror.h</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="config_8cpp_1a8d0776495f1d09c037047d854ba83db3" kindref="member">config</ref>.h</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>validation.h</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>property.h</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>properties.h</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">object</highlight><highlight class="normal">.h</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>identified.h</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>toplevel.h</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sequenceannotation.h</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>component.h</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>componentdefinition.h</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sequence.h</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>document.h</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>interaction.h</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>participation.h</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>location.h</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sequenceconstraint.h</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>moduledefinition.h</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module.h</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mapsto.h</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model.h</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/>collection.h</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/>assembly.h</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/>provo.h</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/>partshop.h</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>combinatorialderivation.h</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacesbol" kindref="compound">sbol</ref>.h)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">FILE(GLOB<sp/>SBOL_SOURCE_FILES</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sbolerror.cpp</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><ref refid="config_8cpp_1a8d0776495f1d09c037047d854ba83db3" kindref="member">config</ref>.cpp</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>validation.cpp</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/>properties.cpp</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">object</highlight><highlight class="normal">.cpp</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>identified.cpp</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>toplevel.cpp</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>document.cpp</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>assembly.cpp</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>partshop.cpp)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">FILE(COPY<sp/>${SBOL_HEADER_FILES}<sp/>DESTINATION<sp/><sp/>${HEADER_OUTPUT_PATH}<sp/>)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">#ADD_EXECUTABLE(<ref refid="namespacesbol" kindref="compound">sbol</ref><sp/>${SBOL_SOURCE_FILES})</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">#<sp/>build<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>library<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>release</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">#<sp/>by<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">,<sp/>GCC<sp/>exports<sp/>everything;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>this<sp/>tells<sp/>it<sp/>to<sp/>stick<sp/>to<sp/>SBOLAPIEXPORTS<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal">IF(CMAKE_COMPILER_IS_GNUCC)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SET_TARGET_PROPERTIES(<sp/>PROPERTIES<sp/>COMPILE_FLAGS<sp/>-fvisibility=hidden)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SET(CMAKE_CXX_FLAGS<sp/>&quot;${CMAKE_CXX_FLAGS}<sp/>-<ref refid="namespacestd" kindref="compound">std</ref>=c++11</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral">ENDIF()</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral">#<sp/>link<sp/>against<sp/>raptor</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral">if(${CMAKE_SYSTEM_NAME}<sp/>MATCHES<sp/>&quot;</highlight><highlight class="normal">Linux</highlight><highlight class="stringliteral">&quot;<sp/>OR<sp/>&quot;</highlight><highlight class="normal">Darwin</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>if(NOT<sp/>SBOL_BUILD_SHARED)</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ADD_DEFINITIONS(-DRAPTOR_STATIC)</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral">endif()</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral">get_directory_property(<sp/>DirDefs<sp/>COMPILE_DEFINITIONS<sp/>)</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral">#message(<sp/>&quot;</highlight><highlight class="normal">COMPILE_DEFINITIONS<sp/>=<sp/>${DirDefs}</highlight><highlight class="stringliteral">&quot;<sp/>)</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral">message(&quot;</highlight><highlight class="normal">${INCLUDE_DIRECTORIES}</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral">if<sp/>(${CMAKE_SYSTEM_NAME}<sp/>MATCHES<sp/>&quot;</highlight><highlight class="normal">Windows</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ADD_DEFINITIONS(-DLIBXML_STATIC<sp/>-DRAPTOR_STATIC<sp/>-DLIBXSLT_STATIC<sp/>-DCURL_STATIC<sp/>-DCURL_STATICLIB)</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>add_definitions(-DSBOL_WIN)</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>include_directories(<sp/>${JSONCPP_INCLUDE_DIR}/..)</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>include_directories(<sp/>${CURL_INCLUDE_DIR}/..)</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>if(SBOL_BUILD_32)</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message(&quot;</highlight><highlight class="normal">Configuring<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>x86</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set(CMAKE_CXX_FLAGS<sp/>&quot;</highlight><highlight class="normal">${CMAKE_CXX_FLAGS}<sp/>/bigobj<sp/>/EHsc</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#Always<sp/>build<sp/>static</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(SBOL_BUILD_SHARED)</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>add_library(<sp/>sbol32-shared</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHARED</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_HEADER_FILES}</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_SOURCE_FILES})</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_link_libraries(<sp/>sbol32-shared</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${raptor2}</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${xml2}</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${zlib}</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${iconv}</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${jsoncpp}</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${libcurl}</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Ws2_32.lib<sp/>)</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties<sp/>(sbol32-shared<sp/>PROPERTIES<sp/>COMPILE_DEFINITIONS<sp/>&quot;</highlight><highlight class="normal">SBOL_SHAREDLIB</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32-shared<sp/>PROPERTIES<sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ARCHIVE_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/bin</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIBRARY_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/bin</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RUNTIME_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/bin</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(TARGETS<sp/>sbol32-shared<sp/>DESTINATION<sp/>bin)<sp/><sp/><sp/>#<sp/>Installs<sp/>to<sp/>C:\Program<sp/>Files<sp/>(x86)\SBOL\bin<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32-shared<sp/>PROPERTIES<sp/>OUTPUT_NAME<sp/>&quot;</highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>add_library(<sp/>sbol32</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>STATIC</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_HEADER_FILES}</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_SOURCE_FILES})</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_link_libraries(<sp/>sbol32</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${raptor2}</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${xml2}</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${zlib}</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${iconv}</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${jsoncpp}</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${libcurl}</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Ws2_32.lib<sp/>)</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32<sp/>PROPERTIES<sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ARCHIVE_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIBRARY_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RUNTIME_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(DIRECTORY<sp/>${HEADER_OUTPUT_PATH}<sp/>DESTINATION<sp/>${CMAKE_INSTALL_PREFIX})</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(NOT<sp/>SBOL_BUILD_SHARED)</highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(TARGETS<sp/>sbol32<sp/>DESTINATION<sp/>lib)<sp/><sp/><sp/>#<sp/>Installs<sp/>to<sp/>C:\Program<sp/>Files<sp/>(x86)\SBOL\lib</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32<sp/>PROPERTIES<sp/>OUTPUT_NAME<sp/>&quot;</highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>if(SBOL_BUILD_64)</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message(&quot;</highlight><highlight class="normal">Configuring<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>x64</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set(CMAKE_CXX_FLAGS<sp/>&quot;</highlight><highlight class="normal">${CMAKE_CXX_FLAGS}<sp/>/bigobj<sp/>/EHsc</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#Always<sp/>build<sp/>static</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(SBOL_BUILD_SHARED)</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>add_library(<sp/>sbol64-shared</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHARED</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_HEADER_FILES}</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_SOURCE_FILES})</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_link_libraries(<sp/>sbol64-shared</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${raptor2}</highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${xml2}</highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${zlib}</highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${iconv}</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${jsoncpp}</highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${libcurl}</highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Ws2_32.lib<sp/>)</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64-shared<sp/>PROPERTIES<sp/>COMPILE_DEFINITIONS<sp/>&quot;</highlight><highlight class="normal">SBOL_SHAREDLIB</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64-shared<sp/>PROPERTIES<sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ARCHIVE_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/bin</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="164"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIBRARY_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/bin</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="165"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RUNTIME_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/bin</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(TARGETS<sp/>sbol64-shared<sp/>DESTINATION<sp/>bin)<sp/><sp/><sp/>#<sp/>Installs<sp/>to<sp/>C:\Program<sp/>Files<sp/>(x86)\SBOL\bin</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64-shared<sp/>PROPERTIES<sp/>OUTPUT_NAME<sp/>&quot;</highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>add_library(<sp/>sbol64</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>STATIC</highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_HEADER_FILES}</highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_SOURCE_FILES})</highlight></codeline>
+<codeline lineno="173"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_link_libraries(<sp/>sbol64</highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${raptor2}</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${xml2}</highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${zlib}</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${iconv}</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${jsoncpp}</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${libcurl}</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Ws2_32.lib<sp/>)</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64<sp/>PROPERTIES<sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ARCHIVE_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIBRARY_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RUNTIME_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(DIRECTORY<sp/>${HEADER_OUTPUT_PATH}<sp/>DESTINATION<sp/>${CMAKE_INSTALL_PREFIX})</highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(NOT<sp/>SBOL_BUILD_SHARED)</highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(TARGETS<sp/>sbol64<sp/>DESTINATION<sp/>lib)<sp/><sp/><sp/>#<sp/>Installs<sp/>to<sp/>C:\Program<sp/>Files<sp/>(x86)\SBOL\lib</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64<sp/>PROPERTIES<sp/>OUTPUT_NAME<sp/>&quot;</highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral">else<sp/>()<sp/><sp/>#<sp/>If<sp/>Mac<sp/>OSX<sp/>or<sp/>Linux</highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>if(SBOL_BUILD_32)</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message(&quot;</highlight><highlight class="normal">Configuring<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>x86</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set(CMAKE_OSX_ARCHITECTURES<sp/>&quot;</highlight><highlight class="normal">i386</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set(CMAKE_CXX_FLAGS<sp/>&quot;</highlight><highlight class="normal">${CMAKE_CXX_FLAGS}<sp/>-std=c++11<sp/>-m32</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(SBOL_BUILD_SHARED)</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>add_library(<sp/>sbol32-shared</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHARED</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_HEADER_FILES}</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_SOURCE_FILES})</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32-shared<sp/>PROPERTIES<sp/>LINKER_LANGUAGE<sp/>CXX)</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_link_libraries(sbol32-shared</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${RAPTOR_LIBRARY}</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${CURL_LIBRARY}</highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${LIBXSLT_LIBRARIES}</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${JsonCpp_LIBRARY})</highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32-shared<sp/>PROPERTIES</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ARCHIVE_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIBRARY_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RUNTIME_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="212"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(TARGETS<sp/>sbol32-shared<sp/>DESTINATION<sp/>lib)<sp/><sp/>#<sp/>Installs<sp/>to<sp/>/usr/local/lib</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(DIRECTORY<sp/>${HEADER_OUTPUT_PATH}<sp/>DESTINATION<sp/>${CMAKE_INSTALL_PREFIX}/include)</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32-shared<sp/>PROPERTIES<sp/>OUTPUT_NAME<sp/>&quot;</highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else()</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>add_library(<sp/>sbol32</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>STATIC</highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_HEADER_FILES}</highlight></codeline>
+<codeline lineno="219"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_SOURCE_FILES})<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32<sp/>PROPERTIES<sp/>LINKER_LANGUAGE<sp/>CXX)</highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_link_libraries(sbol32</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${RAPTOR_LIBRARY}</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${CURL_LIBRARY}</highlight></codeline>
+<codeline lineno="224"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${LIBXSLT_LIBRARIES}</highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${JsonCpp_LIBRARY})</highlight></codeline>
+<codeline lineno="226"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32<sp/>PROPERTIES</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ARCHIVE_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="228"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIBRARY_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="229"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RUNTIME_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(DIRECTORY<sp/>${HEADER_OUTPUT_PATH}<sp/>DESTINATION<sp/>${CMAKE_INSTALL_PREFIX}/include)</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(TARGETS<sp/>sbol32<sp/>DESTINATION<sp/>lib)<sp/><sp/>#<sp/>Installs<sp/>to<sp/>/usr/local/lib</highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol32<sp/>PROPERTIES<sp/>OUTPUT_NAME<sp/>&quot;</highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="234"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="235"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>if(SBOL_BUILD_64)</highlight></codeline>
+<codeline lineno="236"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message(&quot;</highlight><highlight class="normal">Configuring<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>x64</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="237"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set(CMAKE_OSX_ARCHITECTURES<sp/>&quot;</highlight><highlight class="normal">x86_64</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="238"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set(CMAKE_CXX_FLAGS<sp/>&quot;</highlight><highlight class="normal">${CMAKE_CXX_FLAGS}<sp/>-std=c++11<sp/>-m64</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="239"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>get_directory_property(<sp/>DirDefs<sp/>COMPILE_DEFINITIONS<sp/>)</highlight></codeline>
+<codeline lineno="240"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message(<sp/>&quot;</highlight><highlight class="normal">COMPILE_DEFINITIONS<sp/>=<sp/>${DirDefs}</highlight><highlight class="stringliteral">&quot;<sp/>)</highlight></codeline>
+<codeline lineno="241"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(SBOL_BUILD_SHARED)</highlight></codeline>
+<codeline lineno="242"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>add_library(<sp/>sbol64-shared</highlight></codeline>
+<codeline lineno="243"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHARED</highlight></codeline>
+<codeline lineno="244"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_HEADER_FILES}</highlight></codeline>
+<codeline lineno="245"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_SOURCE_FILES})</highlight></codeline>
+<codeline lineno="246"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64-shared<sp/>PROPERTIES<sp/>LINKER_LANGUAGE<sp/>CXX)</highlight></codeline>
+<codeline lineno="247"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_link_libraries(sbol64-shared</highlight></codeline>
+<codeline lineno="248"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${RAPTOR_LIBRARY}</highlight></codeline>
+<codeline lineno="249"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${CURL_LIBRARY}</highlight></codeline>
+<codeline lineno="250"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${LIBXSLT_LIBRARIES}</highlight></codeline>
+<codeline lineno="251"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${JsonCpp_LIBRARY})</highlight></codeline>
+<codeline lineno="252"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64-shared<sp/>PROPERTIES</highlight></codeline>
+<codeline lineno="253"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ARCHIVE_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="254"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIBRARY_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="255"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RUNTIME_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="256"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(TARGETS<sp/>sbol64-shared<sp/>DESTINATION<sp/>lib)<sp/><sp/>#<sp/>Installs<sp/>to<sp/>/usr/local/lib</highlight></codeline>
+<codeline lineno="257"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(DIRECTORY<sp/>${HEADER_OUTPUT_PATH}<sp/>DESTINATION<sp/>${CMAKE_INSTALL_PREFIX}/include)</highlight></codeline>
+<codeline lineno="258"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64-shared<sp/>PROPERTIES<sp/>OUTPUT_NAME<sp/>&quot;</highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="259"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else()</highlight></codeline>
+<codeline lineno="260"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>add_library(<sp/>sbol64</highlight></codeline>
+<codeline lineno="261"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>STATIC</highlight></codeline>
+<codeline lineno="262"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_HEADER_FILES}</highlight></codeline>
+<codeline lineno="263"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${SBOL_SOURCE_FILES})</highlight></codeline>
+<codeline lineno="264"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64<sp/>PROPERTIES<sp/>LINKER_LANGUAGE<sp/>CXX)</highlight></codeline>
+<codeline lineno="265"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_link_libraries(sbol64</highlight></codeline>
+<codeline lineno="266"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${RAPTOR_LIBRARY}</highlight></codeline>
+<codeline lineno="267"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${CURL_LIBRARY}</highlight></codeline>
+<codeline lineno="268"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${LIBXSLT_LIBRARIES}</highlight></codeline>
+<codeline lineno="269"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>${JsonCpp_LIBRARY})</highlight></codeline>
+<codeline lineno="270"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64<sp/>PROPERTIES</highlight></codeline>
+<codeline lineno="271"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ARCHIVE_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="272"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIBRARY_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;</highlight></codeline>
+<codeline lineno="273"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RUNTIME_OUTPUT_DIRECTORY<sp/>&quot;</highlight><highlight class="normal">${SBOL_LIBRARY_OUTPUT_PATH}/lib</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="274"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(TARGETS<sp/>sbol64<sp/>DESTINATION<sp/>lib)<sp/><sp/>#<sp/>Installs<sp/>to<sp/>/usr/local/lib</highlight></codeline>
+<codeline lineno="275"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>install(DIRECTORY<sp/>${HEADER_OUTPUT_PATH}<sp/>DESTINATION<sp/>${CMAKE_INSTALL_PREFIX}/include)</highlight></codeline>
+<codeline lineno="276"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set_target_properties(sbol64<sp/>PROPERTIES<sp/>OUTPUT_NAME<sp/>&quot;</highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="277"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif()</highlight></codeline>
+<codeline lineno="278"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>endif(SBOL_BUILD_64)</highlight></codeline>
+<codeline lineno="279"><highlight class="stringliteral">ENDIF<sp/>()</highlight></codeline>
+<codeline lineno="280"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="281"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="282"><highlight class="stringliteral">#<sp/>Print<sp/>include<sp/>directories</highlight></codeline>
+<codeline lineno="283"><highlight class="stringliteral">#get_property(dirs<sp/>DIRECTORY<sp/>${CMAKE_CURRENT_SOURCE_DIR}<sp/>PROPERTY<sp/>INCLUDE_DIRECTORIES)</highlight></codeline>
+<codeline lineno="284"><highlight class="stringliteral">#foreach(dir<sp/>${dirs})</highlight></codeline>
+<codeline lineno="285"><highlight class="stringliteral">#message(STATUS<sp/>&quot;</highlight><highlight class="normal">dir=</highlight><highlight class="stringliteral">&apos;${dir}&apos;</highlight><highlight class="stringliteral">&quot;)</highlight></codeline>
+<codeline lineno="286"><highlight class="stringliteral">#endforeach()</highlight></codeline>
+    </programlisting>
+    <location file="/Users/bryan/Dev/libSBOL/source/CMakeLists.txt"/>
+  </compounddef>
+</doxygen>

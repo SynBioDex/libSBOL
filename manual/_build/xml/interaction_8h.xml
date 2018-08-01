@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="interaction_8h" kind="file" language="C++">
+    <compoundname>interaction.h</compoundname>
+    <includes refid="identified_8h" local="yes">identified.h</includes>
+    <includes refid="participation_8h" local="yes">participation.h</includes>
+    <includedby refid="moduledefinition_8h" local="yes">/Users/bryan/Dev/libSBOL/source/moduledefinition.h</includedby>
+    <incdepgraph>
+      <node id="1679">
+        <label>sbolerror.h</label>
+        <link refid="sbolerror_8h"/>
+        <childnode refid="1678" relation="include">
+        </childnode>
+        <childnode refid="1680" relation="include">
+        </childnode>
+        <childnode refid="1681" relation="include">
+        </childnode>
+      </node>
+      <node id="1676">
+        <label>validation.h</label>
+        <link refid="validation_8h"/>
+        <childnode refid="1677" relation="include">
+        </childnode>
+        <childnode refid="1678" relation="include">
+        </childnode>
+      </node>
+      <node id="1675">
+        <label>object.h</label>
+        <link refid="object_8h"/>
+        <childnode refid="1676" relation="include">
+        </childnode>
+        <childnode refid="1685" relation="include">
+        </childnode>
+        <childnode refid="1687" relation="include">
+        </childnode>
+        <childnode refid="1680" relation="include">
+        </childnode>
+        <childnode refid="1677" relation="include">
+        </childnode>
+        <childnode refid="1681" relation="include">
+        </childnode>
+        <childnode refid="1683" relation="include">
+        </childnode>
+        <childnode refid="1688" relation="include">
+        </childnode>
+      </node>
+      <node id="1674">
+        <label>identified.h</label>
+        <link refid="identified_8h"/>
+        <childnode refid="1675" relation="include">
+        </childnode>
+        <childnode refid="1680" relation="include">
+        </childnode>
+      </node>
+      <node id="1680">
+        <label>string</label>
+      </node>
+      <node id="1683">
+        <label>map</label>
+      </node>
+      <node id="1690">
+        <label>regex</label>
+      </node>
+      <node id="1686">
+        <label>property.h</label>
+        <link refid="property_8h"/>
+        <childnode refid="1682" relation="include">
+        </childnode>
+        <childnode refid="1678" relation="include">
+        </childnode>
+        <childnode refid="1676" relation="include">
+        </childnode>
+        <childnode refid="1687" relation="include">
+        </childnode>
+        <childnode refid="1680" relation="include">
+        </childnode>
+        <childnode refid="1677" relation="include">
+        </childnode>
+        <childnode refid="1681" relation="include">
+        </childnode>
+        <childnode refid="1683" relation="include">
+        </childnode>
+        <childnode refid="1688" relation="include">
+        </childnode>
+      </node>
+      <node id="1684">
+        <label>curl/curl.h</label>
+      </node>
+      <node id="1691">
+        <label>participation.h</label>
+        <link refid="participation_8h"/>
+        <childnode refid="1674" relation="include">
+        </childnode>
+      </node>
+      <node id="1678">
+        <label>config.h</label>
+        <link refid="config_8h"/>
+        <childnode refid="1679" relation="include">
+        </childnode>
+        <childnode refid="1682" relation="include">
+        </childnode>
+        <childnode refid="1680" relation="include">
+        </childnode>
+        <childnode refid="1683" relation="include">
+        </childnode>
+        <childnode refid="1677" relation="include">
+        </childnode>
+        <childnode refid="1684" relation="include">
+        </childnode>
+        <childnode refid="1681" relation="include">
+        </childnode>
+      </node>
+      <node id="1673">
+        <label>/Users/bryan/Dev/libSBOL/source/interaction.h</label>
+        <link refid="interaction.h"/>
+        <childnode refid="1674" relation="include">
+        </childnode>
+        <childnode refid="1691" relation="include">
+        </childnode>
+      </node>
+      <node id="1677">
+        <label>vector</label>
+      </node>
+      <node id="1685">
+        <label>properties.h</label>
+        <link refid="properties_8h"/>
+        <childnode refid="1686" relation="include">
+        </childnode>
+        <childnode refid="1687" relation="include">
+        </childnode>
+        <childnode refid="1680" relation="include">
+        </childnode>
+        <childnode refid="1677" relation="include">
+        </childnode>
+        <childnode refid="1681" relation="include">
+        </childnode>
+        <childnode refid="1683" relation="include">
+        </childnode>
+        <childnode refid="1688" relation="include">
+        </childnode>
+        <childnode refid="1689" relation="include">
+        </childnode>
+        <childnode refid="1690" relation="include">
+        </childnode>
+      </node>
+      <node id="1689">
+        <label>utility</label>
+      </node>
+      <node id="1681">
+        <label>iostream</label>
+      </node>
+      <node id="1687">
+        <label>raptor2.h</label>
+      </node>
+      <node id="1688">
+        <label>unordered_map</label>
+      </node>
+      <node id="1682">
+        <label>constants.h</label>
+        <link refid="constants_8h"/>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1695">
+        <label>/Users/bryan/Dev/libSBOL/source/assembly.h</label>
+        <link refid="assembly_8h"/>
+        <childnode refid="1696" relation="include">
+        </childnode>
+        <childnode refid="1697" relation="include">
+        </childnode>
+        <childnode refid="1700" relation="include">
+        </childnode>
+      </node>
+      <node id="1694">
+        <label>/Users/bryan/Dev/libSBOL/source/document.h</label>
+        <link refid="document_8h"/>
+        <childnode refid="1695" relation="include">
+        </childnode>
+        <childnode refid="1701" relation="include">
+        </childnode>
+      </node>
+      <node id="1693">
+        <label>/Users/bryan/Dev/libSBOL/source/moduledefinition.h</label>
+        <link refid="moduledefinition_8h"/>
+        <childnode refid="1694" relation="include">
+        </childnode>
+      </node>
+      <node id="1700">
+        <label>/Users/bryan/Dev/libSBOL/source/provo.h</label>
+        <link refid="provo_8h"/>
+        <childnode refid="1698" relation="include">
+        </childnode>
+      </node>
+      <node id="1696">
+        <label>/Users/bryan/Dev/libSBOL/source/assembly.cpp</label>
+        <link refid="assembly_8cpp"/>
+      </node>
+      <node id="1701">
+        <label>/Users/bryan/Dev/libSBOL/source/document.cpp</label>
+        <link refid="document_8cpp"/>
+      </node>
+      <node id="1692">
+        <label>/Users/bryan/Dev/libSBOL/source/interaction.h</label>
+        <link refid="interaction.h"/>
+        <childnode refid="1693" relation="include">
+        </childnode>
+      </node>
+      <node id="1698">
+        <label>/Users/bryan/Dev/libSBOL/source/sbol.h</label>
+        <link refid="sbol_8h"/>
+        <childnode refid="1699" relation="include">
+        </childnode>
+      </node>
+      <node id="1697">
+        <label>/Users/bryan/Dev/libSBOL/source/partshop.h</label>
+        <link refid="partshop_8h"/>
+        <childnode refid="1698" relation="include">
+        </childnode>
+      </node>
+      <node id="1699">
+        <label>/Users/bryan/Dev/libSBOL/source/validation.cpp</label>
+        <link refid="validation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classsbol_1_1_interaction" prot="public">sbol::Interaction</innerclass>
+    <innernamespace refid="namespacesbol">sbol</innernamespace>
+    <briefdescription>
+<para>Interaction class. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Bryan Bartley  <ulink url="mailto:bartleyba@sbolstandard.org">bartleyba@sbolstandard.org</ulink> </para></simplesect>
+</para>    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="26"><highlight class="preprocessor">#ifndef<sp/>INTERACTION_INCLUDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INTERACTION_INCLUDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="identified_8h" kindref="compound">identified.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="participation_8h" kindref="compound">participation.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35" refid="classsbol_1_1_interaction" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SBOL_DECLSPEC<sp/><ref refid="classsbol_1_1_interaction" kindref="compound">Interaction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classsbol_1_1_identified" kindref="compound">Identified</ref></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_list" kindref="compound">List&lt;URIProperty&gt;</ref><sp/>types;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_list" kindref="compound">List&lt;OwnedObject&lt;Participation&gt;</ref>&gt;<sp/>participations;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_interaction" kindref="compound">Interaction</ref>(std::string<sp/>uri<sp/>=<sp/>DEFAULT_NS<sp/></highlight><highlight class="stringliteral">&quot;/Interaction/example&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/>interaction_type<sp/>=<sp/><ref refid="constants_8h_1a8dcd4e52a109b7c10a5c7d8f0a69f2cb" kindref="member">SBO_INTERACTION</ref>)<sp/>:<sp/><ref refid="classsbol_1_1_interaction" kindref="compound">Interaction</ref>(SBOL_INTERACTION,<sp/>uri,<sp/>interaction_type)<sp/>{};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interaction(std::string<sp/>uri_prefix,<sp/>std::string<sp/>display_id,<sp/>std::string<sp/>version,<sp/>std::string<sp/>interaction_type)<sp/>:<sp/>Interaction(SBOL_INTERACTION,<sp/>uri_prefix,<sp/>display_id,<sp/>version,<sp/>interaction_type)<sp/>{};</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~<ref refid="classsbol_1_1_interaction" kindref="compound">Interaction</ref>()<sp/>{};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_interaction" kindref="compound">Interaction</ref>(<ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref><sp/>type,<sp/>std::string<sp/>uri,<sp/>std::string<sp/>interaction_type)<sp/>:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_identified" kindref="compound">Identified</ref>(type,<sp/>uri),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>types(SBOL_TYPES,<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>interaction_type),</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>participations(SBOL_PARTICIPATIONS,<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interaction(sbol_type<sp/>type,<sp/>std::string<sp/>uri_prefix,<sp/>std::string<sp/>display_id,<sp/>std::string<sp/>version,<sp/>std::string<sp/>interaction_type)<sp/>:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Identified(type,<sp/>uri_prefix,<sp/>display_id,<sp/>version),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>types(SBOL_TYPES,<sp/>this,<sp/>interaction_type),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>participations(SBOL_PARTICIPATIONS,<sp/>this)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="/Users/bryan/Dev/libSBOL/source/interaction.h"/>
+  </compounddef>
+</doxygen>

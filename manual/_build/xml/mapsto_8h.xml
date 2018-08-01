@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.11">
+  <compounddef id="mapsto_8h" kind="file" language="C++">
+    <compoundname>mapsto.h</compoundname>
+    <includes refid="identified_8h" local="yes">identified.h</includes>
+    <includedby refid="component_8h" local="yes">/Users/bryan/Dev/libSBOL/source/component.h</includedby>
+    <includedby refid="module_8h" local="yes">/Users/bryan/Dev/libSBOL/source/module.h</includedby>
+    <incdepgraph>
+      <node id="1737">
+        <label>sbolerror.h</label>
+        <link refid="sbolerror_8h"/>
+        <childnode refid="1736" relation="include">
+        </childnode>
+        <childnode refid="1738" relation="include">
+        </childnode>
+        <childnode refid="1739" relation="include">
+        </childnode>
+      </node>
+      <node id="1734">
+        <label>validation.h</label>
+        <link refid="validation_8h"/>
+        <childnode refid="1735" relation="include">
+        </childnode>
+        <childnode refid="1736" relation="include">
+        </childnode>
+      </node>
+      <node id="1733">
+        <label>object.h</label>
+        <link refid="object_8h"/>
+        <childnode refid="1734" relation="include">
+        </childnode>
+        <childnode refid="1743" relation="include">
+        </childnode>
+        <childnode refid="1745" relation="include">
+        </childnode>
+        <childnode refid="1738" relation="include">
+        </childnode>
+        <childnode refid="1735" relation="include">
+        </childnode>
+        <childnode refid="1739" relation="include">
+        </childnode>
+        <childnode refid="1741" relation="include">
+        </childnode>
+        <childnode refid="1746" relation="include">
+        </childnode>
+      </node>
+      <node id="1732">
+        <label>identified.h</label>
+        <link refid="identified_8h"/>
+        <childnode refid="1733" relation="include">
+        </childnode>
+        <childnode refid="1738" relation="include">
+        </childnode>
+      </node>
+      <node id="1738">
+        <label>string</label>
+      </node>
+      <node id="1741">
+        <label>map</label>
+      </node>
+      <node id="1748">
+        <label>regex</label>
+      </node>
+      <node id="1744">
+        <label>property.h</label>
+        <link refid="property_8h"/>
+        <childnode refid="1740" relation="include">
+        </childnode>
+        <childnode refid="1736" relation="include">
+        </childnode>
+        <childnode refid="1734" relation="include">
+        </childnode>
+        <childnode refid="1745" relation="include">
+        </childnode>
+        <childnode refid="1738" relation="include">
+        </childnode>
+        <childnode refid="1735" relation="include">
+        </childnode>
+        <childnode refid="1739" relation="include">
+        </childnode>
+        <childnode refid="1741" relation="include">
+        </childnode>
+        <childnode refid="1746" relation="include">
+        </childnode>
+      </node>
+      <node id="1742">
+        <label>curl/curl.h</label>
+      </node>
+      <node id="1736">
+        <label>config.h</label>
+        <link refid="config_8h"/>
+        <childnode refid="1737" relation="include">
+        </childnode>
+        <childnode refid="1740" relation="include">
+        </childnode>
+        <childnode refid="1738" relation="include">
+        </childnode>
+        <childnode refid="1741" relation="include">
+        </childnode>
+        <childnode refid="1735" relation="include">
+        </childnode>
+        <childnode refid="1742" relation="include">
+        </childnode>
+        <childnode refid="1739" relation="include">
+        </childnode>
+      </node>
+      <node id="1735">
+        <label>vector</label>
+      </node>
+      <node id="1743">
+        <label>properties.h</label>
+        <link refid="properties_8h"/>
+        <childnode refid="1744" relation="include">
+        </childnode>
+        <childnode refid="1745" relation="include">
+        </childnode>
+        <childnode refid="1738" relation="include">
+        </childnode>
+        <childnode refid="1735" relation="include">
+        </childnode>
+        <childnode refid="1739" relation="include">
+        </childnode>
+        <childnode refid="1741" relation="include">
+        </childnode>
+        <childnode refid="1746" relation="include">
+        </childnode>
+        <childnode refid="1747" relation="include">
+        </childnode>
+        <childnode refid="1748" relation="include">
+        </childnode>
+      </node>
+      <node id="1747">
+        <label>utility</label>
+      </node>
+      <node id="1739">
+        <label>iostream</label>
+      </node>
+      <node id="1745">
+        <label>raptor2.h</label>
+      </node>
+      <node id="1746">
+        <label>unordered_map</label>
+      </node>
+      <node id="1740">
+        <label>constants.h</label>
+        <link refid="constants_8h"/>
+      </node>
+      <node id="1731">
+        <label>/Users/bryan/Dev/libSBOL/source/mapsto.h</label>
+        <link refid="mapsto.h"/>
+        <childnode refid="1732" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1751">
+        <label>/Users/bryan/Dev/libSBOL/source/componentdefinition.h</label>
+        <link refid="componentdefinition_8h"/>
+        <childnode refid="1752" relation="include">
+        </childnode>
+      </node>
+      <node id="1753">
+        <label>/Users/bryan/Dev/libSBOL/source/assembly.h</label>
+        <link refid="assembly_8h"/>
+        <childnode refid="1754" relation="include">
+        </childnode>
+        <childnode refid="1755" relation="include">
+        </childnode>
+        <childnode refid="1758" relation="include">
+        </childnode>
+      </node>
+      <node id="1760">
+        <label>/Users/bryan/Dev/libSBOL/source/moduledefinition.h</label>
+        <link refid="moduledefinition_8h"/>
+        <childnode refid="1752" relation="include">
+        </childnode>
+      </node>
+      <node id="1752">
+        <label>/Users/bryan/Dev/libSBOL/source/document.h</label>
+        <link refid="document_8h"/>
+        <childnode refid="1753" relation="include">
+        </childnode>
+        <childnode refid="1759" relation="include">
+        </childnode>
+      </node>
+      <node id="1758">
+        <label>/Users/bryan/Dev/libSBOL/source/provo.h</label>
+        <link refid="provo_8h"/>
+        <childnode refid="1756" relation="include">
+        </childnode>
+      </node>
+      <node id="1761">
+        <label>/Users/bryan/Dev/libSBOL/source/module.h</label>
+        <link refid="module_8h"/>
+        <childnode refid="1760" relation="include">
+        </childnode>
+        <childnode refid="1752" relation="include">
+        </childnode>
+      </node>
+      <node id="1754">
+        <label>/Users/bryan/Dev/libSBOL/source/assembly.cpp</label>
+        <link refid="assembly_8cpp"/>
+      </node>
+      <node id="1750">
+        <label>/Users/bryan/Dev/libSBOL/source/component.h</label>
+        <link refid="component_8h"/>
+        <childnode refid="1751" relation="include">
+        </childnode>
+        <childnode refid="1752" relation="include">
+        </childnode>
+        <childnode refid="1760" relation="include">
+        </childnode>
+      </node>
+      <node id="1759">
+        <label>/Users/bryan/Dev/libSBOL/source/document.cpp</label>
+        <link refid="document_8cpp"/>
+      </node>
+      <node id="1756">
+        <label>/Users/bryan/Dev/libSBOL/source/sbol.h</label>
+        <link refid="sbol_8h"/>
+        <childnode refid="1757" relation="include">
+        </childnode>
+      </node>
+      <node id="1755">
+        <label>/Users/bryan/Dev/libSBOL/source/partshop.h</label>
+        <link refid="partshop_8h"/>
+        <childnode refid="1756" relation="include">
+        </childnode>
+      </node>
+      <node id="1749">
+        <label>/Users/bryan/Dev/libSBOL/source/mapsto.h</label>
+        <link refid="mapsto.h"/>
+        <childnode refid="1750" relation="include">
+        </childnode>
+        <childnode refid="1761" relation="include">
+        </childnode>
+      </node>
+      <node id="1757">
+        <label>/Users/bryan/Dev/libSBOL/source/validation.cpp</label>
+        <link refid="validation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classsbol_1_1_maps_to" prot="public">sbol::MapsTo</innerclass>
+    <innernamespace refid="namespacesbol">sbol</innernamespace>
+    <briefdescription>
+<para>MapsTo class. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Bryan Bartley  <ulink url="mailto:bartleyba@sbolstandard.org">bartleyba@sbolstandard.org</ulink> </para></simplesect>
+</para>    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="26"><highlight class="preprocessor">#ifndef<sp/>MAPS_TO_INCLUDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MAPS_TO_INCLUDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="identified_8h" kindref="compound">identified.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesbol" kindref="compound">sbol</ref></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ComponentInstance;<sp/><sp/></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>necessary<sp/>for<sp/>ReferencedObject<sp/>templates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="classsbol_1_1_maps_to" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SBOL_DECLSPEC<sp/><ref refid="classsbol_1_1_maps_to" kindref="compound">MapsTo</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classsbol_1_1_identified" kindref="compound">Identified</ref></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_u_r_i_property" kindref="compound">URIProperty</ref><sp/>refinement;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_referenced_object" kindref="compound">ReferencedObject</ref><sp/>local;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_referenced_object" kindref="compound">ReferencedObject</ref><sp/>remote;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_maps_to" kindref="compound">MapsTo</ref>(std::string<sp/>uri<sp/>=<sp/>DEFAULT_NS<sp/></highlight><highlight class="stringliteral">&quot;/MapsTo/example&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/>local<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/>remote<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/>refinement<sp/>=<sp/><ref refid="constants_8h_1a5aed8ed431905abe171b1b71957b336c" kindref="member">SBOL_REFINEMENT_VERIFY_IDENTICAL</ref>)<sp/>:<sp/><ref refid="classsbol_1_1_maps_to" kindref="compound">MapsTo</ref>(SBOL_MAPS_TO,<sp/>uri,<sp/>local,<sp/>remote,<sp/>refinement)<sp/>{};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~<ref refid="classsbol_1_1_maps_to" kindref="compound">MapsTo</ref>()<sp/>{};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_maps_to" kindref="compound">MapsTo</ref>(<ref refid="property_8h_1addc3413015529a8d51e055f32748821f" kindref="member">sbol_type</ref><sp/>type,<sp/>std::string<sp/>uri,<sp/>std::string<sp/>local,<sp/>std::string<sp/>remote,<sp/>std::string<sp/>refinement)<sp/>:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classsbol_1_1_identified" kindref="compound">Identified</ref>(type,<sp/>uri),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>refinement(SBOL_REFINEMENT,<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>refinement),</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>local(SBOL_LOCAL,<sp/>SBOL_COMPONENT,<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>local),</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>remote(SBOL_REMOTE,<sp/><sp/>SBOL_COMPONENT,<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>remote)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="/Users/bryan/Dev/libSBOL/source/mapsto.h"/>
+  </compounddef>
+</doxygen>
