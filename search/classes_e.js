@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['variablecomponent',['VariableComponent',['../classsbol_1_1_variable_component.html',1,'sbol']]],
-  ['versionproperty',['VersionProperty',['../classsbol_1_1_version_property.html',1,'sbol']]]
+  ['uriproperty',['URIProperty',['../classsbol_1_1_u_r_i_property.html',1,'sbol']]],
+  ['usage',['Usage',['../classsbol_1_1_usage.html',1,'sbol']]]
 ];

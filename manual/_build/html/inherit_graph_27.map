@@ -1,9 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classsbol_1_1_property.html" title="Property\&lt; std::string \&gt;" alt="" coords="5,80,158,105"/>
-<area shape="rect" id="node2" href="$classsbol_1_1_text_property.html" title="TextProperty objects are used to contain string literals. " alt="" coords="206,55,302,80"/>
-<area shape="rect" id="node5" href="$classsbol_1_1_u_r_i_property.html" title="A URIProperty may contain a restricted type of string that conforms to the specification for a Unifor..." alt="" coords="207,104,301,129"/>
-<area shape="rect" id="node3" href="$classsbol_1_1_date_time_property.html" title="Contains a DateTime string following XML Schema. " alt="" coords="371,5,500,31"/>
-<area shape="rect" id="node4" href="$classsbol_1_1_version_property.html" title="Contains a version number for an SBOL object. " alt="" coords="377,55,493,80"/>
-<area shape="rect" id="node6" href="$classsbol_1_1_list.html" title="List\&lt; sbol::URIProperty \&gt;" alt="" coords="350,104,520,129"/>
-<area shape="rect" id="node7" href="$classsbol_1_1_referenced_object.html" title="A reference to another SBOL object Contains a Uniform Resource Identifier (URI) that refers to an an ..." alt="" coords="371,153,500,179"/>
-</map>

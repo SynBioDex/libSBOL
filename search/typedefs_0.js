@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sbol_5ftype',['sbol_type',['../property_8h.html#addc3413015529a8d51e055f32748821f',1,'sbol']]]
+  ['rdf_5ftype',['rdf_type',['../property_8h.html#a5532ed6f074b661a11defd996f0c7f5d',1,'sbol']]]
 ];
