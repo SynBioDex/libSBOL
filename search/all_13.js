@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['validate',['validate',['../classsbol_1_1_document.html#a6d8e9b5eac5eba563746daba1cc52018',1,'sbol::Document']]],
-  ['validation_2ecpp',['validation.cpp',['../validation_8cpp.html',1,'']]],
-  ['validation_2eh',['validation.h',['../validation_8h.html',1,'']]],
-  ['variablecomponent',['VariableComponent',['../classsbol_1_1_variable_component.html',1,'sbol']]],
-  ['variablecomponents',['variableComponents',['../classsbol_1_1_combinatorial_derivation.html#aff91d2f2572266ea83a770e44a6338e3',1,'sbol::CombinatorialDerivation']]],
-  ['version',['version',['../classsbol_1_1_identified.html#a5079b9e48247695504e3705983b06ab5',1,'sbol::Identified']]],
-  ['versionproperty',['VersionProperty',['../classsbol_1_1_version_property.html',1,'sbol']]]
+  ['wasderivedfrom',['wasDerivedFrom',['../classsbol_1_1_identified.html#acc70a7be39e8fb18e4b82ec8069cefd7',1,'sbol::Identified']]],
+  ['wasgeneratedby',['wasGeneratedBy',['../classsbol_1_1_identified.html#a09b31bcba9970529f7c5e5cf8d80177a',1,'sbol::Identified']]],
+  ['wasinformedby',['wasInformedBy',['../classsbol_1_1_activity.html#a901bf9174814809f6536b6d07e5f7811',1,'sbol::Activity']]],
+  ['write',['write',['../classsbol_1_1_document.html#ac624cfecce7834da553f611ffaf424b8',1,'sbol::Document']]],
+  ['writestring',['writeString',['../classsbol_1_1_document.html#ad81545a2ba6422c310e1ab506f14fa26',1,'sbol::Document']]]
 ];

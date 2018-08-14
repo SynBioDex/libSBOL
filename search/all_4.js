@@ -7,8 +7,8 @@ var searchData=
   ['encoding',['encoding',['../classsbol_1_1_sequence.html#ac1e179e2331aed561eb0615167b524f4',1,'sbol::Sequence']]],
   ['end',['end',['../classsbol_1_1_range.html#ac91246ef6a7f41903bad7b14c123058e',1,'sbol::Range']]],
   ['endedattime',['endedAtTime',['../classsbol_1_1_activity.html#af0f5ce13d731941bcff2504c272ae7cc',1,'sbol::Activity']]],
-  ['entity',['entity',['../classsbol_1_1_usage.html#a5d7f42fc372f7376a3c22c2b0fb11529',1,'sbol::Usage']]],
-  ['exceptionsenabled',['exceptionsEnabled',['../config_8h.html#a18596d0e5b84674e8a208c9201063054',1,'sbol']]],
+  ['entity',['entity',['../classsbol_1_1_usage.html#a7ba6b39dfb0e0246c32913b688cc7a15',1,'sbol::Usage']]],
   ['extend',['extend',['../classsbol_1_1_search_response.html#a16fc11a837bf7603bdf0c4bf54f9bb56',1,'sbol::SearchResponse']]],
-  ['extension_20interface',['Extension Interface',['../group__extension__layer.html',1,'']]]
+  ['extension_20interface',['Extension Interface',['../group__extension__layer.html',1,'']]],
+  ['extract',['extract',['../classsbol_1_1_sequence_annotation.html#a077c749f33df334164756438709fe894',1,'sbol::SequenceAnnotation']]]
 ];

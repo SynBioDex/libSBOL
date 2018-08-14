@@ -1,0 +1,9 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="Property\< sbol::Component \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsbol_1_1_property.html"];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node1 [label="OwnedObject\< sbol::\lComponent \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsbol_1_1_owned_object.html"];
+}

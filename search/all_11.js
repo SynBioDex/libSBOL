@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['textproperty',['TextProperty',['../classsbol_1_1_text_property.html',1,'sbol']]],
-  ['toggleexceptions',['toggleExceptions',['../config_8h.html#ac33d994091baeab30cb4aec46468ff32',1,'sbol']]],
-  ['togglesbolcomplianttypes',['toggleSBOLCompliantTypes',['../config_8h.html#a11ca6c4d8f1587db24018cc268b34a58',1,'sbol']]],
-  ['toplevel',['TopLevel',['../classsbol_1_1_top_level.html',1,'sbol']]],
-  ['toplevel_2eh',['toplevel.h',['../toplevel_8h.html',1,'']]],
-  ['type',['type',['../classsbol_1_1_activity.html#a4ea3fae44ee4b342a6cf0c664a84563b',1,'sbol::Activity']]],
-  ['types',['types',['../classsbol_1_1_component_definition.html#ab563237ddc0363ecbd245b5f791f2900',1,'sbol::ComponentDefinition::types()'],['../classsbol_1_1_interaction.html#ab563237ddc0363ecbd245b5f791f2900',1,'sbol::Interaction::types()']]]
+  ['updatesequence',['updateSequence',['../classsbol_1_1_component_definition.html#adfa0a8867aab5246e09cf38b6e73701d',1,'sbol::ComponentDefinition']]],
+  ['uriproperty',['URIProperty',['../classsbol_1_1_u_r_i_property.html',1,'URIProperty'],['../classsbol_1_1_u_r_i_property.html#ab1d7af02738bb0d1a4f381ca7a96b936',1,'sbol::URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value)'],['../classsbol_1_1_u_r_i_property.html#af2d07b1c5c019f74ecfab4a3cc198903',1,'sbol::URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules)']]],
+  ['usage',['Usage',['../classsbol_1_1_usage.html',1,'Usage'],['../classsbol_1_1_usage.html#a4f7edeb535151b325774ed5a39186eba',1,'sbol::Usage::Usage(std::string uri=&quot;example&quot;, std::string entity=&quot;&quot;, std::string role=&quot;&quot;, std::string version=VERSION_STRING)'],['../classsbol_1_1_usage.html#a79f0693c245114b0c00ce0ad7a81ce5b',1,'sbol::Usage::Usage(rdf_type type, std::string uri, std::string entity, std::string role, std::string version)']]],
+  ['usages',['usages',['../classsbol_1_1_activity.html#a089da1c3b7e232b1fb5fcdbe2e8b0f56',1,'sbol::Activity']]]
 ];

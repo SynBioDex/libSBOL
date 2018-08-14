@@ -1,0 +1,10 @@
+digraph "VersionProperty"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  Node0 [label="{VersionProperty\n||+ incrementMajor()\l+ incrementMinor()\l+ incrementPatch()\l+ decrementMinor()\l+ decrementMajor()\l+ decrementPatch()\l+ major()\l+ minor()\l+ patch()\l+ VersionProperty()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="FreeSans.ttf"];
+  Node1 [label="{TextProperty\n||+ TextProperty()\l+ TextProperty()\l+ TextProperty()\l+ TextProperty()\l+ get()\l+ getAll()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsbol_1_1_text_property.html",tooltip="TextProperty objects are used to contain string literals. "];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="FreeSans.ttf"];
+  Node2 [label="{Property\< std::string \>\n|+ python_iter\l# type\l# sbol_owner\l# lowerBound\l# upperBound\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ set()\l+ set()\l+ set()\land 15 more...\l# isHidden()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsbol_1_1_property.html"];
+}
