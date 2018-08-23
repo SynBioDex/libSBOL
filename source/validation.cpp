@@ -497,18 +497,21 @@ void sbol::libsbol_rule_22(void *sbol_obj, void *arg)
     if (activity.associations.size() > 1)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot add Agent. This Activity already has an Association that specifies an Agent");
     
-    if (activity.associations.size() == 1)
-        activity.associations.remove();
+    if (activity.associations.size() == 1) {
+        Association &asc = activity.associations.get();
+        asc.agent.set(agent.identity.get());
 
-    std::string id;
-    if (Config::getOption("sbol_compliant_uris") == "True")
-        id = activity.displayId.get();
-    else
-        id = activity.identity.get();
-    Association& asc = activity.associations.create(id + "_generation_association");
-    asc.agent.set(agent.identity.get());
-    if (activity.plan.size())
-        asc.plan.set(activity.plan.get().identity.get());
+    } else {
+        std::string id;
+        if (Config::getOption("sbol_compliant_uris") == "True")
+            id = activity.displayId.get();
+        else
+            id = activity.identity.get();
+        Association& asc = activity.associations.create(id + "_generation_association");
+        asc.agent.set(agent.identity.get());
+        if (activity.plan.size())
+            asc.plan.set(activity.plan.get().identity.get());
+    }
 };
 
 void sbol::libsbol_rule_24(void *sbol_obj, void *arg)
@@ -519,16 +522,19 @@ void sbol::libsbol_rule_24(void *sbol_obj, void *arg)
     if (activity.associations.size() > 1)
         throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot add Plan. This Activity already has an Association that specifies a Plan");
     
-    if (activity.associations.size() == 1)
-        activity.associations.remove();
+    if (activity.associations.size() == 1) {
+        Association &asc = activity.associations.get();
+        asc.plan.set(plan.identity.get());
 
-    std::string id;
-    if (Config::getOption("sbol_compliant_uris") == "True")
-        id = activity.displayId.get();
-    else
-        id = activity.identity.get();
-    Association& asc = activity.associations.create(id + "_generation_association");
-    asc.plan.set(plan.identity.get());
-    if (activity.agent.size())
-        asc.agent.set(activity.agent.get().identity.get());
+    } else {
+        std::string id;
+        if (Config::getOption("sbol_compliant_uris") == "True")
+            id = activity.displayId.get();
+        else
+            id = activity.identity.get();
+        Association& asc = activity.associations.create(id + "_generation_association");
+        asc.plan.set(plan.identity.get());
+        if (activity.agent.size())
+            asc.agent.set(activity.agent.get().identity.get());
+    }
 };
