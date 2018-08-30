@@ -807,10 +807,10 @@ void Document::parse_annotation_objects()
 
             // Find all parent objects containing a reference to the annotation object
             vector<SBOLObject*> matches = find_reference(obj->identity.get());
-            
+
             // Does this reference belong to the appropriate member property?
             matches.erase( std::remove_if (matches.begin(), matches.end(), [property_uri] (SBOLObject* o) {
-                    if (o->properties.find(property_uri) != o->properties.end())
+                    if (o->properties.find(property_uri) == o->properties.end())
                         return true;
                     else
                         return false;
