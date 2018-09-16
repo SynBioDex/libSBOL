@@ -707,10 +707,10 @@ class TestExtensionClass(unittest.TestCase):
 
 	def testExtensionClass(self):
 		class ModuleDefinitionExtension(ModuleDefinition):
-		    def __init__(self, id = 'example'):
-		        ModuleDefinition.__init__(self, id)
-		        self.x_coordinate = TextProperty(self.this, 'http://dnaplotlib.org#xCoordinate', '0', '1', '10')  # Initialize property value to 10
-		        self.y_coordinate = IntProperty(self.this, 'http://dnaplotlib.org#yCoordinate', '0', '1', 10)  # Initialize property value to 10
+			def __init__(self, id = 'example'):
+				ModuleDefinition.__init__(self, id)
+				self.x_coordinate = TextProperty(self.this, 'http://dnaplotlib.org#xCoordinate', '0', '1', '10')  # Initialize property value to 10
+				self.y_coordinate = IntProperty(self.this, 'http://dnaplotlib.org#yCoordinate', '0', '1', 10)  # Initialize property value to 10
 
 		doc = Document()
 		doc.addNamespace('http://dnaplotlib.org#', 'dnaplotlib')
@@ -736,6 +736,7 @@ class TestIterators(unittest.TestCase):
 		for i_cd in range(0, 10):
 			cd = doc.componentDefinitions.create('cd%d' %i_cd)
 			cds.append(cd.identity)
+			self.assertEquals(cd.displayId, 'cd%d' %i_cd)  # Verify TopLevel properties are accessible
 		i_cd = 0
 		for obj in doc:
 			cds.remove(obj.identity)

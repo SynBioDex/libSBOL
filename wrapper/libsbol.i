@@ -997,11 +997,11 @@ TEMPLATE_MACRO_3(Document);
 		return $self;
 	}
 	
-	SBOLObject* next()
+	TopLevel* next()
 	{
 		if ($self->python_iter != $self->end())
 		{
-			SBOLObject& obj = *self->python_iter;
+			TopLevel& obj = *self->python_iter;
 			$self->python_iter++;
 			if ($self->python_iter == $self->end())
 			{
@@ -1013,12 +1013,12 @@ TEMPLATE_MACRO_3(Document);
 		return NULL;
 	}
 	
-	SBOLObject* __next__()
+	TopLevel* __next__()
 	{
 		if ($self->python_iter != $self->end())
 		{
 			
-			SBOLObject& obj = *$self->python_iter;
+			TopLevel& obj = *$self->python_iter;
 			$self->python_iter++;
 			return &obj;
 		}

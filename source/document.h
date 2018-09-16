@@ -255,8 +255,9 @@ namespace sbol {
             }
             
             // override the indirection operator
-            sbol::SBOLObject& operator*() {
-                return *std::unordered_map<std::string, sbol::SBOLObject*>::iterator::operator*().second;
+            sbol::TopLevel& operator*() {
+                SBOLObject* obj = std::unordered_map<std::string, sbol::SBOLObject*>::iterator::operator*().second;
+                return *(TopLevel*)obj;
             }
         };
         
