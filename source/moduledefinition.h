@@ -103,6 +103,12 @@ namespace sbol
         /// @param lowlevel A low-level FunctionalComponent in a nested sub-Module
         void override(FunctionalComponent& highlevel, FunctionalComponent& lowlevel);
         
+        /// Perform an operation on every ModuleDefinition in a structurally-linked hierarchy of ModuleDefinitions by applying a callback function. If no callback is specified, the default behavior is to return a pointer list of each ModuleDefinition in the hierarchy.
+        /// @param callback_fun A pointer to a callback function with signature void callback_fn(ModuleDefinition *, void *).
+        /// @param user_data Arbitrary user data which can be passed in and out of the callback as an argument or return value.
+        /// @return Returns a flat list of pointers to all ModuleDefinitions in the hierarchy.
+        std::vector<ModuleDefinition*> applyToModuleHierarchy(void (*callback_fn)(ModuleDefinition *, void *) = NULL, void * user_data = NULL);
+        
         virtual ~ModuleDefinition() {};
 
         /// Assemble a high-level ModuleDefinition from lower-level submodules. Autoconstructs Module objects in the process.

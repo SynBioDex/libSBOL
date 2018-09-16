@@ -638,6 +638,32 @@ class TestAssemblyRoutines(unittest.TestCase):
 
 		self.assertEquals(target_seq, 'atactagagttactagctactagagg')
 
+	def testApplyCallbackRecursively(self):
+		# Assemble module hierarchy
+		doc = Document()
+		root = ModuleDefinition('root')
+		sub = ModuleDefinition('sub')
+		leaf = ModuleDefinition('leaf')
+		doc.addModuleDefinition([root, sub, leaf])
+		root.assemble([sub])
+		sub.assemble([leaf])
+
+		# Define callback which performs an operation on every ModuleDefinition in the hierarchy
+		def callback(md, params):
+			level = params[0]
+			level += 1
+			params[0] = level
+
+		# Apply callback
+		level = 0
+		params = [ level ]
+		flattened_module_tree = root.applyToModuleHierarchy(callback, params)
+		level = params[0]
+		flattened_module_tree = [md.identity for md in flattened_module_tree]
+		expected_module_tree = [md.identity for md in [root, sub, leaf]]
+		self.assertItemsEqual(flattened_module_tree, expected_module_tree)
+		self.assertEquals(level, 3)
+
 class TestSequences(unittest.TestCase):
 	
 	def setUp(self):

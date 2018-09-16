@@ -1155,6 +1155,51 @@ vector<ComponentDefinition*> ComponentDefinition::applyToComponentHierarchy(void
     return component_nodes;
 };
 
+vector<ModuleDefinition*> ModuleDefinition::applyToModuleHierarchy(void (*callback_fn)(ModuleDefinition *, void *), void* user_data)
+{
+    /* Assumes parent_component is an SBOL data structure of the general form ComponentDefinition(->Component->ComponentDefinition)n where n+1 is an integer describing how many hierarchical levels are in the SBOL structure */
+    /* Look at each of the ComponentDef's SequenceAnnotations, is the target base there? */
+    if (!doc)
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Cannot traverse Component hierarchy without a Document");
+    
+    bool GET_ALL = true;
+    vector<ModuleDefinition*> module_nodes;
+    if (modules.size() == 0)
+    {
+        //        cout << "Adding subcomponent : " << identity.get() << endl;
+        module_nodes.push_back(this);  // Add leaf components
+        if (callback_fn)
+            callback_fn(this, user_data);
+    }
+    else
+    {
+        if (GET_ALL)
+        {
+            //            cout << "Adding subcomponent : " << identity.get() << endl;
+            module_nodes.push_back(this);  // Add components with children
+            if (callback_fn)
+                callback_fn(this, user_data);
+        }
+        for (auto& subm : modules)
+        {
+            if (!doc->find(subm.definition.get()))
+            {
+                //                std::cout << "Not found" << std::endl;
+                throw SBOLError(SBOL_ERROR_NOT_FOUND, subm.definition.get() + "not found");
+            }
+            ModuleDefinition& submdef = doc->get<ModuleDefinition>(subm.definition.get());
+            //            std::cout << subcdef.identity.get() << std::endl;
+            //            cout << "Descending one level : " << subcdef.identity.get() << endl;
+            vector < sbol::ModuleDefinition* > submodules = submdef.applyToModuleHierarchy(callback_fn, user_data);
+            //            cout << "Found " << subcomponents.size() << " components" << std::endl;
+            module_nodes.reserve(module_nodes.size() + distance(submodules.begin(), submodules.end()));
+            module_nodes.insert(module_nodes.end(), submodules.begin(),submodules.end());
+        }
+    }
+    return module_nodes;
+};
+
+
 bool SequenceAnnotation::precedes(SequenceAnnotation& comparand)
 {
     if (locations.size() > 0 && comparand.locations.size() > 0)

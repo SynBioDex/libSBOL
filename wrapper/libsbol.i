@@ -1473,16 +1473,42 @@ from __future__ import absolute_import
 				if callback_fn:
 					callback_fn(self, user_data)
 			for subc in self.components:
-				if not self.doc.find(subc.definition.get()):
-					raise Exception(subc.definition.get() + 'not found')
-				subcdef = self.doc.getComponentDefinition(subc.definition.get())
+				if not self.doc.find(subc.definition):
+					raise Exception(subc.definition + 'not found')
+				subcdef = self.doc.getComponentDefinition(subc.definition)
 				subcomponents = subcdef.applyToComponentHierarchy(callback_fn, user_data)
 				component_nodes.extend(subcomponents)
 		return component_nodes
 
 	
 	ComponentDefinition.applyToComponentHierarchy = applyToComponentHierarchy
+
+	def applyToModuleHierarchy(self, callback_fn, user_data):
+		# Applies the callback to an SBOL data structure of the general form ModuleDefinition(->Module->ModuleDefinition)n where n+1 is an integer describing how many hierarchical levels are in the SBOL structure
+		if not self.doc:
+			raise Exception('Cannot traverse Module hierarchy without a Document')
 	
+		GET_ALL = True
+		module_nodes = []
+		if len(self.modules) == 0:
+			module_nodes.append(self)  # Add leaf components
+			if (callback_fn):
+				callback_fn(self, user_data)
+		else:
+			if GET_ALL:
+				module_nodes.append(self)  # Add components with children
+				if callback_fn:
+					callback_fn(self, user_data)
+			for subm in self.modules:
+				if not self.doc.find(subm.definition):
+					raise Exception(subm.definition + 'not found')
+				submdef = self.doc.getModuleDefinition(subm.definition)
+				submodules = submdef.applyToModuleHierarchy(callback_fn, user_data)
+				module_nodes.extend(submodules)
+		return module_nodes
+
+	
+	ModuleDefinition.applyToModuleHierarchy = applyToModuleHierarchy
 	
 	def testSBOL():
 		"""
