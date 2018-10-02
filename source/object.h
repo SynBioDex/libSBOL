@@ -79,7 +79,7 @@ namespace sbol
         /// @cond
         Document *doc = NULL;
         rdf_type type;
-        SBOLObject* parent;
+        SBOLObject* parent = NULL;
         
         std::map<sbol::rdf_type, std::vector< std::string > > properties;
         std::map<sbol::rdf_type, std::vector< sbol::SBOLObject* > > owned_objects;
