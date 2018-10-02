@@ -996,10 +996,10 @@ std::string PartShop::searchSubCollections(std::string uri)
 };
 
 
-void PartShop::pull(std::vector<std::string> uris, Document& doc)
+void PartShop::pull(std::vector<std::string> uris, Document& doc, bool recursive)
 {
     for (auto & uri : uris)
-        pull(uri, doc);
+        pull(uri, doc, recursive);
 }
 
 std::string http_get_request(std::string get_request, unordered_map<string, string>* headers = NULL, unordered_map<string, string>* response_headers = NULL)
@@ -1068,7 +1068,7 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
 }
 
 
-void PartShop::pull(std::string uri, Document& doc)
+void PartShop::pull(std::string uri, Document& doc, bool recursive)
 {
     std::string response;  // holds the response returned from the http get request
     unordered_map<string, string> headers;
@@ -1085,6 +1085,8 @@ void PartShop::pull(std::string uri, Document& doc)
     try
     {
         string get_request = query + "/sbol";
+        if (!recursive)
+            get_request += "nr";
         if (Config::getOption("verbose") == "True")
             std::cout << "Issuing get request:\n" << get_request << std::endl;
         response = http_get_request(get_request, &headers);

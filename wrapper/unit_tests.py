@@ -648,7 +648,7 @@ class TestAssemblyRoutines(unittest.TestCase):
 		root.assemble([sub])
 		sub.assemble([leaf])
 
-		# Define callback which performs an operation on every ModuleDefinition in the hierarchy
+		# Define callback which performs an operation on the given ModuleDefinition
 		def callback(md, params):
 			level = params[0]
 			level += 1

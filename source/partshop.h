@@ -172,12 +172,12 @@ namespace sbol
         /// Retrieve an object from an online resource
         /// @param uri The identity of the SBOL object you want to retrieve
         /// @param doc A document to add the data to
-        void pull(std::string uri, Document& doc);
+        void pull(std::string uri, Document& doc, bool recursive = true);
 
         /// Retrieve an object from an online resource
         /// @param uris A vector of URIs for multiple SBOL objects you want to retrieve
         /// @param doc A document to add the data to
-        void pull(std::vector<std::string> uris, Document& doc);
+        void pull(std::vector<std::string> uris, Document& doc, bool recursive = true );
         
         template < class SBOLClass > void pull(std::string uri, Document& doc, bool recursive = true);
         
