@@ -2,6 +2,14 @@
 add_subdirectory( raptor )
 
 # gather headers
+if( RASQAL_LIBRARY )
+    include_directories( ${RASQAL_INCLUDE_DIR})
+    ADD_DEFINITIONS(-DHAVE_LIBRASQAL)
+    SET(RASQAL_HEADERS RasqalDataGraph.hh RasqalQueryResults.hh
+                      PtrWrapper.hh SharedPtrWrapper.hh)
+    SET(RASQAL_SOURCES RasqalDataGraph.cc RasqalQueryResults.cc)
+endif()
+
 include_directories( ${RAPTOR_INCLUDE_DIR})
 include_directories( ${JsonCpp_INCLUDE_DIR})
 include_directories( ${CURL_INCLUDE_DIR})
@@ -54,7 +62,10 @@ FILE(GLOB SBOL_HEADER_FILES
     dbtl.h
     attachment.h
     implementation.h
-	sbol.h)
+	sbol.h
+        ${RASQAL_HEADERS}
+        )
+
 FILE(GLOB SBOL_SOURCE_FILES
 	sbolerror.cpp
   config.cpp
@@ -66,7 +77,9 @@ FILE(GLOB SBOL_SOURCE_FILES
 	document.cpp
   assembly.cpp
   partshop.cpp
-    dbtl.cpp)
+    dbtl.cpp
+    ${RASQAL_SOURCES})
+
 
 
 FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )
