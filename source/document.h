@@ -119,6 +119,8 @@ namespace sbol {
         /// @cond
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
+        std::map<std::string, sbol::SBOLObject*> objectCache;
+
         
         TopLevel& getTopLevel(std::string);
         raptor_world* getWorld();
@@ -223,6 +225,7 @@ namespace sbol {
         };
 
 #endif
+        void cacheObjects();
         
         /// Get a summary of objects in the Document, including SBOL core object and custom annotation objects
         std::string summary()
@@ -286,6 +289,13 @@ namespace sbol {
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
         void parse_annotation_objects();
         void dress_document();
+
+        void parse_objects_inner(const std::string &subject,
+                                 const std::string &object);
+
+        void parse_properties_inner(const std::string &subject,
+                                    const std::string &predicate,
+                                    const std::string &object);
 
         SBOLObject* find_property(std::string uri);
         std::vector<SBOLObject*> find_reference(std::string uri);
@@ -723,19 +733,21 @@ namespace sbol {
     /// @param sbol_obj The child object
     /// Sets the first object in the container
     template < class SBOLClass>
-    void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
+    void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj, bool skip_top_level_check)
     {
-        TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
-        if (check_top_level && this->sbol_owner->doc)
-        {
-            Document& doc = (Document &)*this->sbol_owner->doc;
-            if (this->isHidden() && doc.find(sbol_obj.identity.get())) // In order to avoid a duplicate URI error, don't attempt to add the object if this is a hidden property, 
-            {
-            }
-            else
-                doc.add<SBOLClass>(sbol_obj);
+        if(!skip_top_level_check) {
+            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
+            if (check_top_level && this->sbol_owner->doc)
+                {
+                    Document& doc = (Document &)*this->sbol_owner->doc;
+                    if (this->isHidden() && doc.find(sbol_obj.identity.get())) // In order to avoid a duplicate URI error, don't attempt to add the object if this is a hidden property, 
+                        {
+                        }
+                    else
+                        doc.add<SBOLClass>(sbol_obj);
+                }
         }
-        
+
         // Add to parent object
         if (!this->sbol_owner->owned_objects[this->type].size())
             this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);

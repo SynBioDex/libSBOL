@@ -104,6 +104,8 @@ namespace sbol
         /// @return A pointer to theobject with this URI if it exists, NULL otherwise
         SBOLObject* find(std::string uri);
 
+        void cacheObjects(std::map<std::string, sbol::SBOLObject*> &objectCache);
+
         /// Search this object recursively to see if it contains a member property with the given RDF type.
         /// @param uri The RDF type of the property to search for.
         /// @return A pointer to the object that contains a member property with the specified RDF type, NULL otherwise
@@ -398,7 +400,7 @@ namespace sbol
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @param sbol_obj A child object to add to this container property.
         /// Assigns a child object to this OwnedObject container property. This method always overwrites the first SBOLObject in the container. appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
-        void set(SBOLClass& sbol_obj);
+        void set(SBOLClass& sbol_obj, bool skip_top_level_check=false);
         
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @param sbol_obj A child object to add to this container property.

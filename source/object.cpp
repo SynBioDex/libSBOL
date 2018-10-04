@@ -336,6 +336,24 @@ void SBOLObject::apply(void (*callback_fn)(SBOLObject *, void *), void * user_da
     return;
 };
 
+void SBOLObject::cacheObjects(std::map<std::string, sbol::SBOLObject*> &cache) {
+    cache[identity.get()] = this;
+
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        if (std::find(hidden_properties.begin(), hidden_properties.end(), i_store->first) != hidden_properties.end())
+            continue;
+        vector<SBOLObject*>& store = i_store->second;
+        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+        {
+          SBOLObject &obj = **i_obj;
+          if(obj.owned_objects.size() > 0) {
+              obj.cacheObjects(cache);
+          }
+        }
+    }
+}
+
 SBOLObject* SBOLObject::find(string uri)
 {
     if (identity.get() == uri)

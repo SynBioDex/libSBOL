@@ -27,6 +27,12 @@
 #include "document.h"
 
 #include <raptor2.h>
+
+#ifdef HAVE_LIBRASQAL
+#include "RasqalDataGraph.hh"
+#include "RasqalQueryResults.hh"
+#endif
+
 #include <json/json.h>
 #include <curl/curl.h>
 
@@ -587,121 +593,157 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 	predicate = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
 	object = object.substr(1, object.length() - 2);  // Removes flanking < and > from uri
 
-    // Triples that have a predicate matching the following uri signal to the parser that a new SBOL object should be constructred
+    // Triples that have a predicate matching the following uri signal
+    // to the parser that a new SBOL object should be constructred
 	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
 	{
-#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-        
-        typedef struct {
-            PyObject_HEAD
-            void *ptr; // This is the pointer to the actual C++ instance
-            void *ty;  // swig_type_info originally, but shouldn't matter
-            int own;
-            PyObject *next;
-        } SwigPyObject;
-//        if (!doc->find(subject))
-//        {
-//                std::cout << "Skipping object: " << subject << "\t" << predicate << "\t" << object << std::endl;
-//        }
-        // Instantiate Python extension objects
-        if ((!doc->find(subject)) && (doc->PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
-        {
-            PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
-
-//            PyObject* py_obj = PyObject_CallFunction(constructor, (char *)"s", subject.c_str());
-            PyObject* py_obj = PyObject_CallFunction(constructor, NULL);
-            SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
-            SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
-            
-            // Wipe default property values passed from default constructor. New property values will be added as properties are parsed from the input file
-            for (auto it = new_obj->properties.begin(); it != new_obj->properties.end(); it++)
-            {
-                std::string token = it->second.front();
-                if (token[0] == '<')  // clear defaults and re-initialize this property as a URI
-                {
-                    new_obj->properties[it->first].clear();
-                    new_obj->properties[it->first].push_back("<>");
-                }
-                else if (token[0] == '"')  // clear defaults and re-initialize as a literal
-                {
-                    new_obj->properties[it->first].clear();
-                    new_obj->properties[it->first].push_back("\"\"");
-                }
-            }
-            
-            // Set identity
-            new_obj->identity.set(subject);
-
-            // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
-            // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
-            doc->SBOLObjects[new_obj->identity.get()] = new_obj;
-            new_obj->doc = doc;  //  Set's the objects back-pointer to the parent Document
-            
-            doc->PythonObjects[subject] = py_obj;
-            //Py_DECREF(py_obj); // Clean up
-        }
-        else
-#endif
-        // Checks if the object has already been created and whether a constructor for this type of object exists
-        if ((!doc->find(subject)) && (doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
-		{
-            SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();  // Call constructor for the appropriate SBOLObject
-
-			// Wipe default property values passed from default constructor. New property values will be added as properties are parsed from the input file
-			for (auto it = new_obj.properties.begin(); it != new_obj.properties.end(); it++)
-			{
-				std::string token = it->second.front();
-				if (token[0] == '<')  // clear defaults and re-initialize this property as a URI
-				{
-					new_obj.properties[it->first].clear();
-					new_obj.properties[it->first].push_back("<>");
-				} 
-				else if (token[0] == '"')  // clear defaults and re-initialize as a literal
-				{
-					new_obj.properties[it->first].clear();
-					new_obj.properties[it->first].push_back("\"\"");
-				}
-			}
-			new_obj.identity.set(subject);
-
-			// All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
-			// Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
-			//doc->add<SBOLObject>(new_obj);
-            doc->SBOLObjects[new_obj.identity.get()] = &new_obj;
-            new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
-            
-            // If the new object is TopLevel, add to the Document's property store
-            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&new_obj);
-            if (check_top_level)
-                doc->owned_objects[new_obj.type].push_back(&new_obj);  // Adds objects to the Document's property store, eg, componentDefinitions, moduleDefinitions, etc
-		}
-        // Generic TopLevels
-        else if ((!doc->find(subject)) && (doc->SBOLObjects.count(subject) == 0) && (SBOL_DATA_MODEL_REGISTER.count(object) == 0))
-        {
-            SBOLObject& new_obj = *new SBOLObject();  // Call constructor for the appropriate SBOLObject
-            new_obj.identity.set(subject);
-            new_obj.type = object;
-            // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
-            // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
-            doc->SBOLObjects[new_obj.identity.get()] = &new_obj;
-            new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
-        }
+        doc->parse_objects_inner(subject, object);
 	}
 
+}
+
+void Document::parse_objects_inner(const std::string &subject,
+                                   const std::string &object)
+{
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+
+    typedef struct {
+        PyObject_HEAD
+        void *ptr; // This is the pointer to the actual C++ instance
+        void *ty;  // swig_type_info originally, but shouldn't matter
+        int own;
+        PyObject *next;
+    } SwigPyObject;
+
+    bool foundSubject = (objectCache.find(subject) != objectCache.end());
+    // Instantiate Python extension objects
+
+    if ( !foundSubject        && (PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
+    {
+        PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
+
+        PyObject* py_obj = PyObject_CallFunction(constructor, NULL);
+        SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
+        SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
+
+        // Wipe default property values passed from default
+        // constructor. New property values will be added as properties
+        // are parsed from the input file
+        for (auto it = new_obj->properties.begin(); it != new_obj->properties.end(); it++)
+        {
+            std::string token = it->second.front();
+            if (token[0] == '<')  // clear defaults and re-initialize this property as a URI
+            {
+                new_obj->properties[it->first].clear();
+                new_obj->properties[it->first].push_back("<>");
+            }
+            else if (token[0] == '"')  // clear defaults and re-initialize as a literal
+            {
+                new_obj->properties[it->first].clear();
+                new_obj->properties[it->first].push_back("\"\"");
+            }
+        }
+
+        // Set identity
+        new_obj->identity.set(subject);
+
+        // All created objects are placed in the document's object store.  However, only toplevel objects will be left permanently.
+        // Owned objects are kept in the object store as a temporary convenience and will be removed later by the parse_properties handler.
+        SBOLObjects[new_obj->identity.get()] = new_obj;
+        new_obj->doc = this;  //  Set's the objects back-pointer to the parent Document
+
+        PythonObjects[subject] = py_obj;
+        //Py_DECREF(py_obj); // Clean up
+    }
+#endif
+    // Checks if the object has already been created and whether a
+    // constructor for this type of object exists
+    if ( !foundSubject && (SBOLObjects.count(subject) == 0) &&
+         (SBOL_DATA_MODEL_REGISTER.count(object) == 1))
+    {
+        SBOLObject& new_obj = SBOL_DATA_MODEL_REGISTER[ object ]();  // Call constructor for the appropriate SBOLObject
+
+        // Wipe default property values passed from default
+        // constructor. New property values will be added as properties
+        // are parsed from the input file
+        for (auto it = new_obj.properties.begin(); it != new_obj.properties.end(); it++)
+        {
+            std::string token = it->second.front();
+            if (token[0] == '<')  // clear defaults and re-initialize this property as a URI
+            {
+                new_obj.properties[it->first].clear();
+                new_obj.properties[it->first].push_back("<>");
+            }
+            else if (token[0] == '"')  // clear defaults and re-initialize as a literal
+            {
+                new_obj.properties[it->first].clear();
+                new_obj.properties[it->first].push_back("\"\"");
+            }
+        }
+        new_obj.identity.set(subject);
+
+        // All created objects are placed in the document's object
+        // store.  However, only toplevel objects will be left
+        // permanently.  Owned objects are kept in the object store as a
+        // temporary convenience and will be removed later by the
+        // parse_properties handler.
+        SBOLObjects[new_obj.identity.get()] = &new_obj;
+        objectCache[subject] = &new_obj;
+        new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
+
+        // If the new object is TopLevel, add to the Document's property store
+        TopLevel* check_top_level = dynamic_cast<TopLevel*>(&new_obj);
+        if (check_top_level)
+        {
+            // Adds objects to the Document's property store, eg,
+            // componentDefinitions, moduleDefinitions, etc
+            owned_objects[new_obj.type].push_back(&new_obj);
+        }
+    }
+    // Generic TopLevels
+    else if ( !foundSubject && (doc->SBOLObjects.count(subject) == 0) &&
+              (SBOL_DATA_MODEL_REGISTER.count(object) == 0))
+    {
+        SBOLObject& new_obj = *new SBOLObject();  // Call constructor for the appropriate SBOLObject
+        new_obj.identity.set(subject);
+        new_obj.type = object;
+        // All created objects are placed in the document's object
+        // store.  However, only toplevel objects will be left
+        // permanently.  Owned objects are kept in the object
+        // store as a temporary convenience and will be removed
+        // later by the parse_properties handler.
+        SBOLObjects[new_obj.identity.get()] = &new_obj;
+        new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
+        objectCache[subject] = &new_obj;
+    }
 }
 
 void Document::parse_properties(void* user_data, raptor_statement* triple)
 {
 	Document *doc = (Document *)user_data;
 
-	string subject = reinterpret_cast<char*>(raptor_term_to_string(triple->subject));
 	string predicate = reinterpret_cast<char*>(raptor_term_to_string(triple->predicate));
-	string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
-
-	string id = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from the uri
 	string property_uri = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
-	//string property_value = object.substr(1, object.length() - 2);  // Removes flanking " from literal
+
+    if (property_uri.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") != 0)
+    {
+        string subject = reinterpret_cast<char*>(raptor_term_to_string(triple->subject));
+        string id = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from the uri
+
+        string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
+
+        doc->parse_properties_inner(id, property_uri, object);
+    }
+};
+
+void Document::parse_properties_inner(const std::string &subject,
+                                      const std::string &predicate,
+                                      const std::string &object)
+{
+	string id = subject;
+	string property_uri = predicate;
 	string property_value = convert_ntriples_encoding_to_ascii(object);
+
     std::size_t found = property_uri.find_last_of('#');
     if (found == std::string::npos)
     {
@@ -710,67 +752,65 @@ void Document::parse_properties(void* user_data, raptor_statement* triple)
 	if (found != std::string::npos)
 	{
 		string property_ns = property_uri.substr(0, found);
-		string property_name = property_uri.substr(found + 1, subject.length() - 1);
+		string property_name = property_uri.substr(found + 1);
 
-		// If property name is something other than "type" than the triple matches the pattern for defining properties
-		if (property_uri.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") != 0)
-		{
-//            if (!doc->find(owned_obj_id))
-//            {
-//                    std::cout << "Skipping property: " << subject << "\t" << predicate << "\t" << object << std::endl;
-//            }
-			// Checks if the object to which this property belongs already exists
-			if (doc->SBOLObjects.find(id) != doc->SBOLObjects.end())
-			{
-				SBOLObject *sbol_obj = doc->SBOLObjects[id];
+        // Checks if the object to which this property belongs already exists
+        if (SBOLObjects.find(id) != SBOLObjects.end())
+        {
+            SBOLObject *sbol_obj = SBOLObjects[id];
+
+            // Decide if this triple corresponds to a simple property,
+            // a list property, an owned property or a referenced
+            // property
+            if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
+            {
+                // TODO: double-check this, is there a memory-leak here?`
+
+                if (sbol_obj->properties[property_uri][0].compare("<>") == 0 ||
+                    sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
+                    sbol_obj->properties[property_uri].clear();  // Clear an empty property
+                sbol_obj->properties[property_uri].push_back(property_value);
+            }
+            else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
+            {
+                // Strip off the angle brackets from the URI value.
+                // Note that a Document's object_store and
+                // correspondingly, an SBOLObject's property_store
+                // uses stripped URIs as keys, while libSBOL uses as a
+                // convention angle brackets or quotes for Literal
+                // values
+                string owned_obj_id = property_value.substr(1, property_value.length() - 2);
                 
-				// Decide if this triple corresponds to a simple property, a list property, an owned property or a referenced property
-				if (sbol_obj->properties.find(property_uri) != sbol_obj->properties.end())
-				{
-					// TODO: double-check this, is there a memory-leak here?`
-                    
-                    if (sbol_obj->properties[property_uri][0].compare("<>") == 0 || sbol_obj->properties[property_uri][0].compare("\"\"") == 0 )
-                        sbol_obj->properties[property_uri].clear();  // Clear an empty property
-					sbol_obj->properties[property_uri].push_back(property_value);
-				}
-				else if (sbol_obj->owned_objects.find(property_uri) != sbol_obj->owned_objects.end())
-				{
-                    // Strip off the angle brackets from the URI value.  Note that a Document's object_store
-                    // and correspondingly, an SBOLObject's property_store uses stripped URIs as keys,
-                    // while libSBOL uses as a convention angle brackets or quotes for Literal values
-                    string owned_obj_id = property_value.substr(1, property_value.length() - 2);
-                    
-                    // Form a composite SBOL data structure.  The owned object is added to its parent
-                    // TopLevel object.  The owned object is then removed from its temporary location in the Document's object store
-                    // and is now associated only with it's parent TopLevel object.
-                    if (doc->SBOLObjects.find(owned_obj_id) != doc->SBOLObjects.end())
-                    {
-                        SBOLObject *owned_obj = doc->SBOLObjects[owned_obj_id];
-                        sbol_obj->owned_objects[property_uri].push_back(owned_obj);
-                        owned_obj->parent = sbol_obj;
-                        doc->SBOLObjects.erase(owned_obj_id);
-                        // doc->owned_objects.erase(owned_object->type);  // Remove temporary, non-toplevel objects from the Document's property store
-                    }
-#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
-                    if (doc->PythonObjects.find(owned_obj_id) != doc->PythonObjects.end())
-                    {
-                        PyObject *owned_obj = doc->PythonObjects[owned_obj_id];
-                        sbol_obj->PythonObjects[owned_obj_id] = owned_obj;
-                        doc->PythonObjects.erase(owned_obj_id);
-                    }
-#endif
-                }
-                // Extension data
-                else
+                // Form a composite SBOL data structure.  The owned
+                // object is added to its parent TopLevel object.  The
+                // owned object is then removed from its temporary
+                // location in the Document's object store and is now
+                // associated only with it's parent TopLevel object.
+                auto owned_obj_lookup = objectCache.find(owned_obj_id);
+                if(owned_obj_lookup != objectCache.end())
                 {
-//                    cout << "Setting " << property_uri << " of " << id << " to " << property_value << endl;
-                    sbol_obj->properties[property_uri].push_back(property_value);
+                    SBOLObject *owned_obj = owned_obj_lookup->second;
+                    sbol_obj->owned_objects[property_uri].push_back(owned_obj);
+                    owned_obj->parent = sbol_obj;
+                    SBOLObjects.erase(owned_obj_id);
                 }
-			}
-		}
-	}
-};
-
+#if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
+                if (PythonObjects.find(owned_obj_id) != PythonObjects.end())
+                {
+                    PyObject *owned_obj = PythonObjects[owned_obj_id];
+                    sbol_obj->PythonObjects[owned_obj_id] = owned_obj;
+                    PythonObjects.erase(owned_obj_id);
+                }
+#endif
+            }
+            // Extension data
+            else
+            {
+                sbol_obj->properties[property_uri].push_back(property_value);
+            }
+        }
+    }
+}
 void Document::parse_annotation_objects()
 {
     // Check if there are any SBOLObjects remaining in the Document's object store which are not recognized as part of the core data model or an explicitly declared extension class
@@ -922,6 +962,16 @@ SBOLObject* Document::find(std::string uri)
     return NULL;
 };
 
+void Document::cacheObjects() {
+    objectCache.clear();
+
+    for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
+    {
+        SBOLObject& obj = *i_obj->second;
+        obj.cacheObjects(objectCache);
+    }
+}
+
 SBOLObject* Document::find_property(std::string uri)
 {
     for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
@@ -1000,6 +1050,8 @@ void Document::append(std::string filename)
     int t_end;
     if (Config::getOption("verbose") == "True")
 		t_start = getTime();     
+
+    cacheObjects();
 
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
     
