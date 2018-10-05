@@ -34,6 +34,10 @@ public:
   rasqal_world *rasqalWorld() const {
     return m_rasqalWorld;
   }
+
+  raptor_world *raptorWorld() const {
+    return rasqal_world_get_raptor(m_rasqalWorld);
+  }
   
   rasqal_data_graph *dataGraph() const {
     return m_dataGraph;

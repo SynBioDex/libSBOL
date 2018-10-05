@@ -1125,19 +1125,48 @@ void Document::append(std::string filename)
 
     RasqalQueryResults allResults = graph.query(allQuery);
 
+    // Find the graph base uri.  This is the location of the sbol
+    // file, and begins with the "file://" scheme.  Any URI in the
+    // file without a scheme will appear relative to this URI, after
+    // the file is parsed.  Therefore, if the any URI property value
+    // begins with the graph base uri, the base part of the URI is
+    // removed.
+    auto graphBaseURI = graph.dataGraph()->uri;
+    std::string graphBaseURIStr =
+        reinterpret_cast<char*>(raptor_uri_as_string(graphBaseURI));
+
+    // Remove the file name from the path
+    std::string::size_type pos = graphBaseURIStr.rfind("/");
+    if(pos != std::string::npos)
+    {
+        ++pos;
+    }
+
+    auto baseURI = raptor_new_uri(graph.raptorWorld(),
+                                  (const unsigned char *)"http://www.sbol.org/");
+
     std::string rdf_type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
     for(auto &amap: allResults.bindingResults()) {
         std::string predicate((const char *)rasqal_literal_as_string(amap.at("p")));
 
         // Look for properties
-        if(predicate != rdf_type) {
+        if(predicate != rdf_type)
+        {
             std::string subject((const char *)rasqal_literal_as_string(amap.at("s")));
             auto objectLiteral = amap.at("o");
+            auto lval = rasqal_literal_as_string(objectLiteral);
+            auto ltype = rasqal_literal_get_rdf_term_type(objectLiteral);
+
+            if((ltype == RASQAL_LITERAL_URI) && (pos != std::string::npos))
+            {
+                if(strncmp((const char *)lval, graphBaseURIStr.c_str(), pos) == 0)
+                {
+                    lval += pos;
+                }
+            }
 
             // If the literal value is a URI, wrap it in < and >,
             // otherwise wrap it in quotes
-            auto lval = rasqal_literal_as_string(objectLiteral);
-            auto ltype = rasqal_literal_get_rdf_term_type(objectLiteral);
             std::string padStart = (ltype == RASQAL_LITERAL_URI) ? "<" : "\"";
             std::string padEnd = (ltype == RASQAL_LITERAL_URI) ? ">" : "\"";
             std::string object = padStart + (const char *)lval + padEnd;
