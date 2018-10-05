@@ -195,6 +195,8 @@ namespace sbol {
         std::string query_repository(std::string command);
 
         std::string search_metadata(std::string role, std::string type, std::string name, std::string collection);
+
+        static std::string string_from_raptor_term(raptor_term *term, bool addWrapper=false);
         
 		/// Generates rdf/xml
         void generate(raptor_world** world, raptor_serializer** sbol_serializer, char** sbol_buffer, size_t* sbol_buffer_len, raptor_iostream** ios, raptor_uri** base_uri);

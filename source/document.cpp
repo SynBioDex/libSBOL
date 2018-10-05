@@ -595,25 +595,50 @@ void Document::count_triples(void* user_data, raptor_statement* triple)
 	c = c + 1;
 };
 
+std::string Document::string_from_raptor_term(raptor_term *term, bool addWrapper) {
+    std::string result;
+
+    switch(term->type) {
+    case RAPTOR_TERM_TYPE_URI:
+        result = std::string((const char *)raptor_uri_as_string(term->value.uri));
+
+        if(addWrapper)
+        {
+            result = std::string("<") + result + std::string(">");
+        }
+        break;
+
+    case RAPTOR_TERM_TYPE_LITERAL:
+        result = std::string((const char *)term->value.literal.string);
+
+        if(addWrapper)
+        {
+            result = std::string("\"") + result + std::string("\"");
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    return result;
+}
+
 void Document::parse_objects(void* user_data, raptor_statement* triple)
 {
-	Document *doc = (Document *)user_data;
+    Document *doc = (Document *)user_data;
 
-	string subject = reinterpret_cast<char*>(raptor_term_to_string(triple->subject));
-	string predicate = reinterpret_cast<char*>(raptor_term_to_string(triple->predicate));
-	string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
-	
-	subject = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from uri
-	predicate = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
-	object = object.substr(1, object.length() - 2);  // Removes flanking < and > from uri
+    string predicate = string_from_raptor_term(triple->predicate);
 
     // Triples that have a predicate matching the following uri signal
     // to the parser that a new SBOL object should be constructred
-	if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
-	{
-        doc->parse_objects_inner(subject, object);
-	}
+    if (predicate.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") == 0)
+    {
+        string subject = string_from_raptor_term(triple->subject);
+        string object = string_from_raptor_term(triple->object);
 
+        doc->parse_objects_inner(subject, object);
+    }
 }
 
 void Document::parse_objects_inner(const std::string &subject,
@@ -734,19 +759,16 @@ void Document::parse_objects_inner(const std::string &subject,
 
 void Document::parse_properties(void* user_data, raptor_statement* triple)
 {
-	Document *doc = (Document *)user_data;
+    Document *doc = (Document *)user_data;
 
-	string predicate = reinterpret_cast<char*>(raptor_term_to_string(triple->predicate));
-	string property_uri = predicate.substr(1, predicate.length() - 2);  // Removes flanking < and > from uri
+    string property_uri = string_from_raptor_term(triple->predicate);
 
     if (property_uri.compare("http://www.w3.org/1999/02/22-rdf-syntax-ns#type") != 0)
     {
-        string subject = reinterpret_cast<char*>(raptor_term_to_string(triple->subject));
-        string id = subject.substr(1, subject.length() - 2);  // Removes flanking < and > from the uri
+        string subject = string_from_raptor_term(triple->subject);
+        string object = string_from_raptor_term(triple->object, true);
 
-        string object = reinterpret_cast<char*>(raptor_term_to_string(triple->object));
-
-        doc->parse_properties_inner(id, property_uri, object);
+        doc->parse_properties_inner(subject, property_uri, object);
     }
 };
 
