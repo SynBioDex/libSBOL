@@ -97,14 +97,28 @@ void Document::dress_document()
         c.close();
     }	
 
+    auto &mySequences = owned_objects[sequences.getTypeURI()];
+
+    std::map<std::string, Sequence*> sequenceCacheMap;
+    for(auto &sbolObj : mySequences) {
+        sequenceCacheMap[sbolObj->identity.get()] = (Sequence *)sbolObj;
+    }
+
     // Populate hidden properties. This is hardcoded for now, but in the future it should be generalized for all hidden properties.
     for (auto & cd : this->componentDefinitions)
     {
-    	if (cd.sequence.size() == 0 && cd.sequences.size() == 1 && this->sequences.find(cd.sequences.get()))
-    	{
-    		cd.sequence.set(this->sequences.get(cd.sequences.get()));
-    	}
+        if (cd.sequence.size() == 0 && cd.sequences.size() == 1)
+        {
+            auto uri = cd.sequences.get();
+
+            auto findResult = sequenceCacheMap.find(uri);
+            if(findResult != sequenceCacheMap.end())
+            {
+                cd.sequence.set(*findResult->second, true);
+            }
+        }
     }
+
     for (auto & a : this->activities)
     {
     	if (a.associations.size() == 1)
@@ -1080,7 +1094,62 @@ void Document::append(std::string filename)
 	raptor_uri *uri, *base_uri;
     base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
     void *user_data = this;
-    
+
+#ifdef HAVE_LIBRASQAL
+    RasqalDataGraph graph(filename, base_uri);
+
+    // Find all the SBOL objects
+    std::string topQuery =
+        "PREFIX : <http://example.org/ns#> "
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+        "PREFIX sbol: <http://sbols.org/v2#> "
+        "SELECT ?s ?o "
+        "{ ?s a ?o }";
+
+    RasqalQueryResults topLevelResults = graph.query(topQuery);
+
+    for(auto &amap: topLevelResults.bindingResults()) {
+        std::string subject((const char *)rasqal_literal_as_string(amap.at("s")));
+        std::string object((const char *)rasqal_literal_as_string(amap.at("o")));
+
+        parse_objects_inner(subject, object);
+    }
+
+    // Find everything in the triple store
+    std::string allQuery =
+        "PREFIX : <http://example.org/ns#> "
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+        "PREFIX sbol: <http://sbols.org/v2#> "
+        "SELECT ?s ?p ?o "
+        "{ ?s ?p ?o }";
+
+    RasqalQueryResults allResults = graph.query(allQuery);
+
+    std::string rdf_type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+    for(auto &amap: allResults.bindingResults()) {
+        std::string predicate((const char *)rasqal_literal_as_string(amap.at("p")));
+
+        // Look for properties
+        if(predicate != rdf_type) {
+            std::string subject((const char *)rasqal_literal_as_string(amap.at("s")));
+            auto objectLiteral = amap.at("o");
+
+            // If the literal value is a URI, wrap it in < and >,
+            // otherwise wrap it in quotes
+            auto lval = rasqal_literal_as_string(objectLiteral);
+            auto ltype = rasqal_literal_get_rdf_term_type(objectLiteral);
+            std::string padStart = (ltype == RASQAL_LITERAL_URI) ? "<" : "\"";
+            std::string padEnd = (ltype == RASQAL_LITERAL_URI) ? ">" : "\"";
+            std::string object = padStart + (const char *)lval + padEnd;
+
+            parse_properties_inner(subject, predicate, object);
+        }
+    }
+
+    // Use raptor to parse the namespaces.  The callback is set to NULL.
+    raptor_parser_set_statement_handler(rdf_parser, user_data, NULL);
+
+#else
     // Read the triple store. On the first pass through the triple store, new SBOLObjects are constructed by the parse_objects handler
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
 	//base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
@@ -1090,6 +1159,8 @@ void Document::append(std::string filename)
 	rewind(fh);
 	ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
 	raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_properties);
+
+#endif
 	raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
     raptor_free_iostream(ios);
     
