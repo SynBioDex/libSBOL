@@ -870,7 +870,9 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
         }
 
 
-        if((propValues.size() == 1) && (propValues.at(0).size() == 2)) {
+        if((propValues.size() == 1) &&
+           (propValues.at(0) == "\"\"") || (propValues.at(0) == "<>"))
+        {
             // No properties of this type
             continue;
         }
@@ -886,10 +888,14 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
                    << "\"/>" << std::endl;
 
             } else {
+                // Non-URI Literal
+
+                // Some characters need to be escaped
                 std::string::size_type pos = 0;
                 while(true) {
                     const char *cStr = propValue.c_str();
                     std::string::size_type len = propValue.size();
+                    bool done = true;
 
                     for(; pos<len; ++pos)
                     {
@@ -897,6 +903,7 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
                         {
                             propValue = propValue.replace(pos, 1, "&lt;");
                             pos += 4;
+                            done = false;
                             break;
                         }
 
@@ -904,6 +911,7 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
                         {
                             propValue = propValue.replace(pos, 1, "&gt;");
                             pos += 4;
+                            done = false;
                             break;
                         }
 
@@ -911,15 +919,16 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
                         {
                             propValue = propValue.replace(pos, 1, "&amp;");
                             pos += 5;
+                            done = false;
                             break;
                         }
                     }
 
-                    if(pos == len) {
+                    if(done) {
                         break;
                     }
                 }
-                // Non-URI Literal
+
                 os << indentString2
                    << "<" << predicate << ">"
                    << propValue.substr(1, propValue.size()-2)

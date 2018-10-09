@@ -1020,22 +1020,36 @@ void Document::serialize_rdfxml(std::ostream &os) {
     }
     os << ">" << std::endl;
 
-    for(auto ownedPair : owned_objects)
-    {
-        if(ownedPair.second.size() == 0) {
-            continue;
+    for(auto objPair : SBOLObjects) {
+        SBOLObject &obj = *objPair.second;
+        bool topLevel = false;
+        SBOLObject *parent = obj.parent;
+        auto typeURI = obj.getTypeURI();
+
+        if(parent == NULL)
+        {
+            topLevel = true;
+        }
+        else
+        {
+            if (std::find(parent->hidden_properties.begin(),
+                          parent->hidden_properties.end(),
+                          typeURI) != hidden_properties.end())
+            {
+                topLevel = true;
+            }
+
         }
 
-        std::string rdfType = addNamespace(ownedPair.first);
-
-        for(auto &i_obj : ownedPair.second)
+        if(topLevel)
         {
-            std::string identity = i_obj->identity.get();
+            std::string identity = obj.identity.get();
+            std::string rdfType = addNamespace(typeURI);
 
             os << "  <" << rdfType << " rdf:about=\""
                << identity << "\">" << std::endl;
 
-            i_obj->serialize_rdfxml(os, 1);
+            obj.serialize_rdfxml(os, 1);
 
             os << "  </" << rdfType << ">" << std::endl;
         }
