@@ -120,7 +120,7 @@ namespace sbol {
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
         std::map<std::string, sbol::SBOLObject*> objectCache;
-
+        
         
         TopLevel& getTopLevel(std::string);
         raptor_world* getWorld();
@@ -201,6 +201,8 @@ namespace sbol {
 		/// Generates rdf/xml
         void generate(raptor_world** world, raptor_serializer** sbol_serializer, char** sbol_buffer, size_t* sbol_buffer_len, raptor_iostream** ios, raptor_uri** base_uri);
 
+        void serialize_rdfxml(std::ostream &os);
+
         /// Run validation on this Document via the online validation tool.
         /// @return A string containing a message with the validation results
         std::string validate();
@@ -229,6 +231,28 @@ namespace sbol {
 #endif
         void cacheObjects();
         
+
+        std::string addNamespace(const std::string uri) const {
+            std::string newURI = uri;
+
+            for(auto nsPair : namespaces)
+            {
+                std::string::size_type pos = newURI.find(nsPair.second);
+                if(pos == std::string::npos)
+                {
+                    continue;
+                }
+
+                newURI = newURI.replace(pos, nsPair.second.size(),
+                                        nsPair.first + ":");
+
+                // Assume only one namespace per URI
+                break;
+            }
+
+            return newURI;
+        }
+
         /// Get a summary of objects in the Document, including SBOL core object and custom annotation objects
         std::string summary()
         {

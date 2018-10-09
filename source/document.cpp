@@ -36,6 +36,7 @@
 #include <json/json.h>
 #include <curl/curl.h>
 
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -69,7 +70,7 @@ void Document::dress_document()
         Build& b = i. template cast<Build>();
         this->add<Build>(b);
         i.close();
-    }		
+    }
 
     // Look in Collection store for objects with sys-bio:type and move them to Test store
     vector<string> test_ids;
@@ -82,7 +83,7 @@ void Document::dress_document()
         Test& t = c. template cast<Test>();
         this->add<Test>(t);
         c.close();
-    }	
+    }
 
     // Look in Collection store for objects with sys-bio:type and move them to SampleRoster store
     vector<string> roster_ids;
@@ -95,7 +96,7 @@ void Document::dress_document()
         SampleRoster& sr = c. template cast<SampleRoster>();
         this->add<SampleRoster>(sr);
         c.close();
-    }	
+    }
 
     auto &mySequences = owned_objects[sequences.getTypeURI()];
 
@@ -150,7 +151,7 @@ void Document::dress_document()
     		a.consensusSequence.set(this->sequences.get(a._consensusSequence.get()));
     	if (a.fittedModel.size() == 0 && a._fittedModel.size() && this->models.find(a._fittedModel.get()))
     		a.fittedModel.set(this->models.get(a._fittedModel.get()));
-    } 
+    }
 
 };
 
@@ -207,7 +208,7 @@ void sbol::seek_element(std::istringstream& xml_buffer, std::string uri)
 	while (xml_buffer)
 	{
 		int START_OF_ELEMENT = xml_buffer.tellg();
-		// Parse element into qname and tag 
+		// Parse element into qname and tag
 		// This assumes xml elements have a certain form which is not generally true,
 		// so sometimes the parsed qname and about_id will not make sense
 		vector<string> subtokens = parse_element(xml_buffer);
@@ -286,13 +287,13 @@ void sbol::seek_end_of_node(std::istringstream& xml_buffer, std::string uri)
 	// The qname for open element is the search term for close element
 	vector<string> subtokens = parse_element(xml_buffer);
 	std::string qname = subtokens.front();
-	std::string SEARCH_TOKEN = qname;  
-	
+	std::string SEARCH_TOKEN = qname;
+
 	seek_next_element(xml_buffer);
 	while (xml_buffer)
 	{
-		
-		// Parse element into qname and tag 
+
+		// Parse element into qname and tag
 		// This assumes xml elements have a certain form which is not generally true,
 		// so sometimes the parsed qname and about_id will not make sense
 		vector<string> subtokens = parse_element(xml_buffer);
@@ -340,7 +341,7 @@ void sbol::seek_resource(std::istringstream& xml_buffer, std::string qname, std:
 	while (xml_buffer)
 	{
 		int START_OF_ELEMENT = xml_buffer.tellg();
-		// Parse element into qname and tag 
+		// Parse element into qname and tag
 		// This assumes xml elements have a certain form which is not generally true,
 		// so sometimes the parsed qname and resource_id will not make sense
 		vector<string> subtokens = parse_element(xml_buffer);
@@ -409,7 +410,7 @@ bool sbol::is_open_node(std::istringstream& xml_buffer)
 
 /*
 As the first step in turning the flat RDF/XML serialization produced by Raptor into structured SBOL,
-this procedure cuts the node corresponding to the specified resource. 
+this procedure cuts the node corresponding to the specified resource.
 */
 std::string sbol::cut_sbol_resource(std::string& xml_string, const std::string resource_id)
 {
@@ -447,7 +448,7 @@ void sbol::seek_property_element(istringstream& xml_buffer, string property_name
 //        // so sometimes the parsed qname and resource_id will not make sense
 //        vector<string> subtokens = parse_element(xml_buffer);
 //        std::string resource_id = subtokens.back();
-//        
+//
 //        if (resource_id.compare(SEARCH_TOKEN) == 0 && is_open_node(xml_buffer))
 //        {
 //            xml_buffer.seekg(START_OF_ELEMENT);
@@ -459,9 +460,9 @@ void sbol::seek_property_element(istringstream& xml_buffer, string property_name
 };
 
 
-/* 
+/*
 Replace a reference node in flat RDF/XML with a nested node. The resource text is modified before inserting
-it 
+it
 */
 void sbol::replace_reference_to_resource(std::string& xml_string, const std::string property_name, const std::string resource_id, std::string& replacement_text)
 {
@@ -485,7 +486,7 @@ void sbol::replace_reference_to_resource(std::string& xml_string, const std::str
     seek_end_of_line(xml_buffer);
     repl_end = xml_buffer.tellg();
     repl_length = repl_end - repl_start;
-    
+
     // Before inserting the new nested SBOL node, a few modifications have to be made first.
     // New open and close elements for the nested node are created.
     // Then the original node text is indented.
@@ -556,7 +557,7 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 		// Recurse through each object in the object store that belongs to this property
 		std::string property_name = i->first;
 		vector<SBOLObject*> object_store = i->second;
-        
+
         if (std::find(hidden_properties.begin(), hidden_properties.end(), property_name) != hidden_properties.end())
             continue;
 
@@ -816,7 +817,7 @@ void Document::parse_properties_inner(const std::string &subject,
                 // convention angle brackets or quotes for Literal
                 // values
                 string owned_obj_id = property_value.substr(1, property_value.length() - 2);
-                
+
                 // Form a composite SBOL data structure.  The owned
                 // object is added to its parent TopLevel object.  The
                 // owned object is then removed from its temporary
@@ -918,7 +919,7 @@ void sbol::raptor_error_handler(void *user_data, raptor_log_message* message)
     if (message->level == RAPTOR_LOG_LEVEL_ERROR) cout << "RAPTOR_LOG_LEVEL_ERROR" << endl;
     if (message->level == RAPTOR_LOG_LEVEL_FATAL) cout << "RAPTOR_LOG_LEVEL_FATAL" << endl;
     if (message->level == RAPTOR_LOG_LEVEL_LAST) cout << "RAPTOR_LOG_LEVEL_LAST" << endl;
-    
+
     if (message->locator != NULL)
         {
         cout << message->locator->line << ", " << message->locator->column << endl;
@@ -1003,10 +1004,46 @@ void Document::cacheObjects() {
 
     for (auto i_obj = SBOLObjects.begin(); i_obj != SBOLObjects.end(); ++i_obj)
     {
-        SBOLObject& obj = *i_obj->second;
+        SBOLObject &obj = *i_obj->second;
         obj.cacheObjects(objectCache);
     }
 }
+
+void Document::serialize_rdfxml(std::ostream &os) {
+    // RDF/XML Header
+    os << "<?xml version=\"1.0\" ?>" << std::endl;
+
+    os << "<rdf:RDF ";
+    for(auto nsPair : namespaces) {
+        os << "xmlns:" << nsPair.first << "=\""
+           << nsPair.second << "\" ";
+    }
+    os << ">" << std::endl;
+
+    for(auto ownedPair : owned_objects)
+    {
+        if(ownedPair.second.size() == 0) {
+            continue;
+        }
+
+        std::string rdfType = addNamespace(ownedPair.first);
+
+        for(auto &i_obj : ownedPair.second)
+        {
+            std::string identity = i_obj->identity.get();
+
+            os << "  <" << rdfType << " rdf:about=\""
+               << identity << "\">" << std::endl;
+
+            i_obj->serialize_rdfxml(os, 1);
+
+            os << "  </" << rdfType << ">" << std::endl;
+        }
+    }
+
+    os << "</rdf:RDF>" << std::endl;
+}
+
 
 SBOLObject* Document::find_property(std::string uri)
 {
@@ -1074,7 +1111,7 @@ void Document::read(std::string filename)
         o.second.clear();
     }
     namespaces.clear();
-    
+
     // Create new RDF graph
     this->rdf_graph = raptor_new_world();
     this->append(filename);
@@ -1085,12 +1122,12 @@ void Document::append(std::string filename)
     int t_start;  // For timing
     int t_end;
     if (Config::getOption("verbose") == "True")
-		t_start = getTime();     
+		t_start = getTime();
 
     cacheObjects();
 
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
-    
+
     if (filename != "" && filename[0] == '~') {
         if (filename[1] != '/'){
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Malformed input path. Potentially missing slash.");
@@ -1214,7 +1251,7 @@ void Document::append(std::string filename)
 #endif
 	raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
     raptor_free_iostream(ios);
-    
+
     raptor_free_uri(base_uri);
 	raptor_free_parser(rdf_parser);
 
@@ -1224,7 +1261,7 @@ void Document::append(std::string filename)
     // Process libSBOL objects not part of the SBOL core standard
     dress_document();
     fclose(fh);
-    
+
     if (Config::getOption("verbose") == "True")
     {
 		t_end = getTime();
@@ -1235,13 +1272,13 @@ void Document::append(std::string filename)
 void Document::readString(std::string& sbol)
 {
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
-    
+
     raptor_parser* rdf_parser;
     if (Config::getOption("serialization_format") == "sbol")
-    	rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");    
+    	rdf_parser = raptor_new_parser(this->rdf_graph, "rdfxml");
     else
     	rdf_parser = raptor_new_parser(this->rdf_graph, Config::getOption("serialization_format").c_str());
-    
+
     raptor_parser_set_namespace_handler(rdf_parser, this, this->namespaceHandler);
 
     raptor_iostream* ios = raptor_new_iostream_from_string(this->rdf_graph, (void *)sbol.c_str(), sbol.size());
@@ -1249,23 +1286,23 @@ void Document::readString(std::string& sbol)
     raptor_uri *uri, *base_uri;
     base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
     void *user_data = this;
-    
+
     // Read the triple store. On the first pass through the triple store, new SBOLObjects are constructed by the parse_objects handler
     raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_objects);
     //base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
 
     raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
     raptor_free_iostream(ios);
-    
+
     // Read the triple store again. On the second pass through the triple store, property values are assigned to each SBOLObject's member properties by the parse_properties handler
     ios = raptor_new_iostream_from_string(this->rdf_graph, (void *)sbol.c_str(), sbol.size());
     raptor_parser_set_statement_handler(rdf_parser, user_data, this->parse_properties);
     raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
     raptor_free_iostream(ios);
-    
+
     raptor_free_uri(base_uri);
     raptor_free_parser(rdf_parser);
-    
+
     // On the final pass, nested annotations not in the SBOL namespace are identified
     parse_annotation_objects();
 
@@ -1276,7 +1313,7 @@ void Document::readString(std::string& sbol)
 int Document::countTriples()
 {
     raptor_world_set_log_handler(this->rdf_graph, NULL, raptor_error_handler); // Intercept raptor errors
-        
+
 	char *sbol_buffer;
 	size_t sbol_buffer_len;
 	raptor_serializer* sbol_serializer;
@@ -1297,21 +1334,21 @@ int Document::countTriples()
     ios = raptor_new_iostream_from_string(this->rdf_graph, (void *)sbol_buffer, sbol_buffer_len);
 
     base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
-    
+
     int c = 0;
     void *user_data = &c;
-    
+
     // Read the triple store. On the first pass through the triple store, new SBOLObjects are constructed by the parse_objects handler
     raptor_parser_set_statement_handler(rdf_parser, user_data, this->count_triples);
     //base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)(getHomespace() + "#").c_str());  //This can be used to import URIs into a namespace
 
     raptor_parser_parse_iostream(rdf_parser, ios, base_uri);
     raptor_free_iostream(ios);
- 
-    
+
+
     raptor_free_uri(base_uri);
     raptor_free_parser(rdf_parser);
- 	return c;   
+ 	return c;
 }
 
 void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world)
@@ -1351,11 +1388,11 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
             std::string new_predicate = it->first;  // The triple's predicate identifies an SBOL property
             if (std::find(hidden_properties.begin(), hidden_properties.end(), new_predicate) != hidden_properties.end())
                 continue;
-            
+
 			// This RDF triple makes the following statement:
 			// "This SBOL object has a property called X and its value is Y"
 			raptor_statement *triple2 = raptor_new_statement(sbol_world);
-            
+
 			// Serialize each of the values in a List property as an RDF triple
 			vector<std::string> property_values = it->second;
 			for (auto i_val = property_values.begin(); i_val != property_values.end(); ++i_val)
@@ -1363,7 +1400,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 				std::string new_object = *i_val;
 				triple2->subject = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)subject.c_str());
 				triple2->predicate = raptor_new_term_from_uri_string(sbol_world, (const unsigned char *)new_predicate.c_str());
-				
+
 				// TODO:  the condition below, new_object.length() > 2, should be replaced with a function is_empty()
 				if (new_object.length() > 2 && new_object.front() == '<' && new_object.back() == '>') // Angle brackets indicate a uri
 				{
@@ -1384,7 +1421,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 				}
 			}
 
-			// Delete the triple 
+			// Delete the triple
 			raptor_free_statement(triple2);
 		}
 
@@ -1398,13 +1435,13 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 
             if (std::find(hidden_properties.begin(), hidden_properties.end(), property_name) != hidden_properties.end())
                 continue;
-            
+
 			if (object_store.size() > 0)
 			{
-				// TODO:  this triple appears to be unneccessary and creates an extra 
+				// TODO:  this triple appears to be unneccessary and creates an extra
 				// xml node in serialization <rdf:type rdf:resource="someSBOLProperty">
 				// Double check this conclusion and remove code as necessary
-                
+
 				// This RDF triple makes the following statement:
 				// "This instance of an SBOL object has property called X"
 				raptor_statement *triple2 = raptor_new_statement(sbol_world);
@@ -1419,7 +1456,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 				// Write the triples
 				//raptor_serializer_serialize_statement(sbol_serializer, triple2);
 
-				// Delete the triple 
+				// Delete the triple
 				raptor_free_statement(triple2);
 
 				int i_o = 0;
@@ -1447,7 +1484,7 @@ void SBOLObject::serialize(raptor_serializer* sbol_serializer, raptor_world *sbo
 					// Write the triples
 					raptor_serializer_serialize_statement(sbol_serializer, triple);
 
-					// Delete the triple 
+					// Delete the triple
 					raptor_free_statement(triple);
 
 					// Recursive call to serialize child objects
@@ -1514,53 +1551,70 @@ std::string Document::write(std::string filename)
         }
     }
 
-	FILE* fh = fopen(filename.c_str(), "wb");
-
-	raptor_world* world = getWorld();
-	raptor_serializer* sbol_serializer;
+    std::string response = "";
 	if (Config::getOption("serialization_format") == "sbol" || Config::getOption("serialization_format") == "rdfxml")
-		sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
-	else
+    {
+        try {
+            std::ofstream outFile(filename);
+            serialize_rdfxml(outFile);
+        } catch(std::exception &e) {
+            throw SBOLError(SBOL_ERROR_SERIALIZATION, e.what());
+        }
+		//sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
+	}
+    else
+    {
+        raptor_world* world = getWorld();
+        raptor_serializer* sbol_serializer;
+
 		sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
 
-	char *sbol_buffer;
-	size_t sbol_buffer_len;
 
-	raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
-	raptor_uri *base_uri = NULL;
-    
-	generate(&world, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
+        FILE* fh = fopen(filename.c_str(), "wb");
 
-    // Convert flat RDF/XML into nested SBOL
-    std::string response = "Validation of " + Config::getOption("serialization_format") + " serialization cannot be performed.";
-    std::string sbol_buffer_string = std::string((char*)sbol_buffer);
-    if (Config::getOption("serialization_format") == "sbol")
-    {
-		const int size = (const int)sbol_buffer_len;
-        if (sbol_buffer)
+        char *sbol_buffer;
+        size_t sbol_buffer_len;
+
+        raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
+        raptor_uri *base_uri = NULL;
+
+        generate(&world, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
+
+        // Convert flat RDF/XML into nested SBOL
+        response = "Validation of " + Config::getOption("serialization_format") + " serialization cannot be performed.";
+        std::string sbol_buffer_string = std::string((char*)sbol_buffer);
+        if (Config::getOption("serialization_format") == "sbol")
         {
-            // Iterate through objects in document and nest them
-            for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+            const int size = (const int)sbol_buffer_len;
+            if (sbol_buffer)
             {
-                sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
+                // Iterate through objects in document and nest them
+                for (auto obj_i = SBOLObjects.begin(); obj_i != SBOLObjects.end(); ++obj_i)
+                {
+                    sbol_buffer_string = obj_i->second->nest(sbol_buffer_string);
+                }
+                fputs(sbol_buffer_string.c_str(), fh);
             }
-            fputs(sbol_buffer_string.c_str(), fh);
+            else
+            {
+                throw SBOLError(SBOL_ERROR_SERIALIZATION, "Serialization failed");
+            }
         }
         else
         {
-            throw SBOLError(SBOL_ERROR_SERIALIZATION, "Serialization failed");
+            fputs(sbol_buffer_string.c_str(), fh);
         }
-	}
-	else
-	{
-		fputs(sbol_buffer_string.c_str(), fh);
-	}
-	if (Config::getOption("verbose") == "True")
-	{
-		t_end = getTime();
-		cout << "Serialization took " << t_end - t_start << " seconds" << endl;
-		t_start = t_end;
-	}
+        if (Config::getOption("verbose") == "True")
+        {
+            t_end = getTime();
+            cout << "Serialization took " << t_end - t_start << " seconds" << endl;
+            t_start = t_end;
+        }
+
+        raptor_free_iostream(ios);
+        raptor_free_uri(base_uri);
+        fclose(fh);
+    }
 
 	// Validate SBOL using online validator
     if (Config::getOption("validate") == "True" && (Config::getOption("serialization_format") == "sbol" || Config::getOption("serialization_format") == "rdfxml"))
@@ -1574,10 +1628,6 @@ std::string Document::write(std::string filename)
 		cout << "Validation request took " << t_end - t_start << " seconds" << endl;
 	}
 
-	raptor_free_iostream(ios);
-    raptor_free_uri(base_uri);
-	fclose(fh);
-
     return response;
 };
 
@@ -1589,15 +1639,15 @@ std::string Document::writeString()
         sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
     else
         sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
-    
+
     char *sbol_buffer;
     size_t sbol_buffer_len;
-    
+
     raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
     raptor_uri *base_uri = NULL;
-    
+
     generate(&world, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
-    
+
     // Convert flat RDF/XML into nested SBOL
     std::string sbol_buffer_string = std::string((char*)sbol_buffer);
     const int size = (const int)sbol_buffer_len;
@@ -1615,7 +1665,7 @@ std::string Document::writeString()
     {
         throw SBOLError(SBOL_ERROR_SERIALIZATION, "Serialization failed");
     }
-    
+
     raptor_free_iostream(ios);
     raptor_free_uri(base_uri);
 
@@ -1649,15 +1699,15 @@ void Document::generate(raptor_world** world, raptor_serializer** sbol_serialize
 	//    raptor_uri *sbol_uri = raptor_new_uri(world, (const unsigned char *)SBOL_URI "#");
 	//    raptor_uri *purl_uri = raptor_new_uri(world, (const unsigned char *)PURL_URI );
 	//    raptor_uri *prov_uri = raptor_new_uri(world, (const unsigned char *)PROV_URI "#");
-	//    
+	//
 	//    const unsigned char *sbol_prefix = (const unsigned char *)"sbol";
 	//    const unsigned char *purl_prefix = (const unsigned char *)"dcterms";
 	//    const unsigned char *prov_prefix = (const unsigned char *)"prov";
-	//    
+	//
 	//    raptor_namespace *sbol_namespace = raptor_new_namespace_from_uri(sbol_namespaces, sbol_prefix, sbol_uri, 1);
 	//    raptor_namespace *purl_namespace = raptor_new_namespace_from_uri(sbol_namespaces, purl_prefix, purl_uri, 1);
 	//    raptor_namespace *prov_namespace = raptor_new_namespace_from_uri(sbol_namespaces, prov_prefix, prov_uri, 1);
-	//    
+	//
 	//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, sbol_namespace);
 	//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, purl_namespace);
 	//    raptor_serializer_set_namespace_from_namespace(sbol_serializer, prov_namespace);
@@ -1715,7 +1765,7 @@ std::string ReferencedObject::create(std::string uri)
     Identified& parent_obj = (Identified&)*sbol_owner;
     if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
-    
+
         Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ reference_type_uri ]();  // Call constructor for the referenced object
         new_obj.identity.set(getHomespace() + "/" + parseClassName(reference_type_uri) + "/" + uri + "/" + parent_obj.version.get());
         new_obj.persistentIdentity.set(getHomespace() + "/" + parseClassName(reference_type_uri) + "/" + uri);
@@ -1734,7 +1784,7 @@ std::string ReferencedObject::create(std::string uri)
         }
         else
             new_id = uri;
-        
+
         Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ reference_type_uri ]();  // Call constructor for the referenced object
         new_obj.identity.set(new_id);
         new_obj.persistentIdentity.set(new_id);
@@ -1751,7 +1801,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
 	string new_obj_type;
 	if (SBOL_DATA_MODEL_REGISTER.find(this->type) != SBOL_DATA_MODEL_REGISTER.end())
 		new_obj_type = this->type;
-	else 
+	else
 		new_obj_type = SBOL_IDENTIFIED;
     Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ new_obj_type ]();
 
@@ -1760,14 +1810,14 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         new_obj.doc = target_doc;
 
     new_obj.type = this->type;
-    
+
     // Copy properties
     for (auto i_store = properties.begin(); i_store != properties.end(); ++i_store)
     {
         string store_uri = i_store->first;
         vector < string > property_store = i_store->second;
         vector < string > property_store_copy = property_store;   // Copy properties
-        
+
         // Add the property namespace to the target document if not present
         string property_ns = parseNamespace(store_uri);
         for (auto i_document_ns : this->doc->namespaces)
@@ -1777,7 +1827,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
             if (!document_ns.compare(property_ns))
                 target_doc->namespaces[prefix] = property_ns;
         }
-        
+
         // If caller specified a namespace argument, then replace namespace in URIs
         // Don't overwrite namespaces for the wasDerivedFrom field, which points back to the original object
         if (ns.compare("") != 0 && store_uri.compare(SBOL_WAS_DERIVED_FROM) != 0)
@@ -1808,7 +1858,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
                         		pos = property_val.find(replace_target, 0);
                             }
                         }
-                        else 
+                        else
                        	{
                             SBOLObject* referenced_obj = doc->find(uri);  // Distinguish between a referenced object versus an ontology URI
                         	if (referenced_obj)
@@ -1841,11 +1891,11 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         }
         new_obj.properties[store_uri] = property_store_copy;
     }
-    
+
     // Set version
-    if (version.compare("") != 0)  
+    if (version.compare("") != 0)
     	new_obj.version.set(version);
-    else if (this->version.size() > 0)  
+    else if (this->version.size() > 0)
     	if (this->doc == target_doc)  // In order to create a copy of the object in this Document, it's version must be incremented
         	new_obj.version.incrementMajor();
         else
@@ -1853,13 +1903,13 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         	new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
         }
 
-    
+
     string id;
 	if (Config::getOption("sbol_compliant_uris") == "True")
     	id = new_obj.persistentIdentity.get() + "/" + new_obj.version.get();
     else
-    	id = new_obj.persistentIdentity.get();    
-    new_obj.identity.set(id);        	
+    	id = new_obj.persistentIdentity.get();
+    new_obj.identity.set(id);
 
     // Copy wasDerivedFrom
     if (this->identity.get() != new_obj.identity.get())
@@ -1891,7 +1941,7 @@ Identified& Identified::simpleCopy(string uri)
 {
     // Call constructor for the copy
     Identified& new_obj = (Identified&)SBOL_DATA_MODEL_REGISTER[ this->type ]();
- 
+
     // Copy properties
     for (auto i_store = properties.begin(); i_store != properties.end(); ++i_store)
     {
@@ -1905,7 +1955,7 @@ Identified& Identified::simpleCopy(string uri)
         }
         new_obj.properties[store_uri] = property_store_copy;
     }
-    
+
     // Initialize the object's URI, this code is same as Identified's constructor
     if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
     {
@@ -1927,10 +1977,10 @@ Identified& Identified::simpleCopy(string uri)
     }
 
     new_obj.type = this->type;
-    
+
     // Record provenance of object
     new_obj.wasDerivedFrom.set(this->identity.get());
-    
+
     return new_obj;
 };
 
@@ -1956,21 +2006,21 @@ std::string Document::request_validation(std::string& sbol)
     request["main_file"] = sbol;
     Json::StyledWriter writer;
     string json = writer.write( request );
-    
-    
+
+
     /* Perform HTTP request */
     string response;
     CURL *curl;
     CURLcode res;
-    
+
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
-    
+
     struct curl_slist *headers = NULL;
     headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/json");
     headers = curl_slist_append(headers, "charsets: utf-8");
-    
+
     /* get a curl handle */
     curl = curl_easy_init();
     if(curl) {
@@ -1979,10 +2029,10 @@ std::string Document::request_validation(std::string& sbol)
          data. */
         curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
         /* Now specify the POST data */
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
-        
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -1992,7 +2042,7 @@ std::string Document::request_validation(std::string& sbol)
         /* Check for errors */
         if(res != CURLE_OK)
             throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Cannot validate online. HTTP post request failed with: " + string(curl_easy_strerror(res)));
-        
+
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
@@ -2024,7 +2074,7 @@ std::string Document::request_comparison(Document& diff_file)
 {
     /* Form validation options in JSON */
     Json::Value request;   // 'root' will contain the root value after parsing.
-    
+
     vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
     for (auto const& opt : opts)
     {
@@ -2046,20 +2096,20 @@ std::string Document::request_comparison(Document& diff_file)
 
     Json::StyledWriter writer;
     string json = writer.write( request );
-    
+
     /* Perform HTTP request */
     string response;
     CURL *curl;
     CURLcode res;
-    
+
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
-    
+
     struct curl_slist *headers = NULL;
     headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/json");
     headers = curl_slist_append(headers, "charsets: utf-8");
-    
+
     /* get a curl handle */
     curl = curl_easy_init();
     if(curl) {
@@ -2068,26 +2118,26 @@ std::string Document::request_comparison(Document& diff_file)
          data. */
         curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
         /* Now specify the POST data */
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
-        
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-        
+
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
             throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Cannot compare documents with online validator. HTTP get request failed with: " + string(curl_easy_strerror(res)));
-        
+
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
     curl_slist_free_all(headers);
     curl_global_cleanup();
-    
+
     Json::Value json_response;
     Json::Reader reader;
     bool parsed = reader.parse( response, json_response );     //parse process
@@ -2110,7 +2160,7 @@ std::string Document::query_repository(std::string command)
 {
 //    /* Form validation options in JSON */
 //    Json::Value request;   // 'root' will contain the root value after parsing.
-//    
+//
 //    vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
 //    for (auto const& opt : opts)
 //    {
@@ -2128,21 +2178,21 @@ std::string Document::query_repository(std::string command)
 //    request["main_file"] = sbol;
 //    Json::StyledWriter writer;
 //    string json = writer.write( request );
-    
-    
+
+
     /* Perform HTTP request */
     string response;
     CURL *curl;
     CURLcode res;
-    
+
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
-    
+
     struct curl_slist *headers = NULL;
 //    headers = curl_slist_append(headers, "Accept: application/json");
 //    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
 //    headers = curl_slist_append(headers, "charsets: utf-8");
-    
+
     /* get a curl handle */
     curl = curl_easy_init();
     if(curl) {
@@ -2152,20 +2202,20 @@ std::string Document::query_repository(std::string command)
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.utah.edu/public/igem/BBa_F2620/1/sbol");
 //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
         /* Now specify the POST data */
 //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
-        
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-        
+
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
             throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
-        
+
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
@@ -2199,11 +2249,11 @@ std::string Document::search_metadata(std::string role, std::string type, std::s
     /* Form validation options in JSON */
     Json::Value request;   // 'root' will contain the root value after parsing.
     Json::Value criteria = Json::Value(Json::arrayValue);
-    
+
     request["offset"] = 0;
     request["limit"] = 25;
     request["criteria"] = criteria;
-    
+
     map<string, string> Q = { {"role", role}, {"type", type}, {"name", name}, {"collection", collection} };
     vector<string> option_keys = { "role", "type", "name", "collection" };
     for (auto const& key : option_keys)
@@ -2218,24 +2268,24 @@ std::string Document::search_metadata(std::string role, std::string type, std::s
         }
     }
     request["criteria"] = criteria;
-    
+
     Json::StyledWriter writer;
     string json = writer.write( request );
 //    cout << json << endl;
-    
+
     /* Perform HTTP request */
     string response;
     CURL *curl;
     CURLcode res;
-    
+
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
-    
+
     struct curl_slist *headers = NULL;
     //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/json");
     //    headers = curl_slist_append(headers, "charsets: utf-8");
-    
+
     /* get a curl handle */
     curl = curl_easy_init();
     if(curl)
@@ -2246,26 +2296,26 @@ std::string Document::search_metadata(std::string role, std::string type, std::s
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, "http://synbiohub.org/component/search/metadata");
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
         /* Now specify the POST data */
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
-        
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-        
+
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
             throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
-        
+
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
     curl_slist_free_all(headers);
     curl_global_cleanup();
-    
+
     cout << response << endl;
     Json::Value json_response;
     Json::Reader reader;
@@ -2302,7 +2352,7 @@ Document& Document::copy(std::string ns, Document* doc, std::string version)
 	        else if (version == "" && tl.version.size() == 0)
 	        	tl_copy = &tl.copy<TopLevel>(doc, ns);
 	        else
-	        	tl_copy = &tl.copy<TopLevel>(doc, ns, VERSION_STRING);   
+	        	tl_copy = &tl.copy<TopLevel>(doc, ns, VERSION_STRING);
 	    }
 	    catch(SBOLError &e)
 	    {
@@ -2407,13 +2457,13 @@ void SBOLObject::update_uri()
         // Reset SBOLCompliant properties
         sbol_obj.identity.set(obj_id);
         sbol_obj.persistentIdentity.set(persistent_id);
-        
+
         // Check for uniqueness of URI in local object properties
         vector<SBOLObject*> matches = this->parent->find_property_value(SBOL_IDENTITY, obj_id);
         if (matches.size() > 1)
             throw SBOLError(SBOL_ERROR_URI_NOT_UNIQUE, "Cannot update SBOL-compliant URI. The URI " + sbol_obj.identity.get() + " is not unique");
 
-        
+
         for (auto & property : sbol_obj.owned_objects)
         {
             std::string property_name = property.first;

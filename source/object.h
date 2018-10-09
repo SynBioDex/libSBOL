@@ -171,6 +171,9 @@ namespace sbol
         PyObject* cast(PyObject* python_class);
 #endif
 
+        void serialize_rdfxml(std::ostream &os, size_t indentLevel);
+        void serialize_rdfxml_owned_objects(std::ostream &os, size_t indentLevel);
+
         template < class SBOLClass > SBOLClass& cast();
 
         /// Use this method to destroy an SBOL object that is not contained by a parent Document.  If the object does have a parent Document, instead use doc.close() with the object's URI identity as an argument.
