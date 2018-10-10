@@ -1136,7 +1136,7 @@ void Document::append(std::string filename)
 	raptor_iostream* ios = raptor_new_iostream_from_file_handle(this->rdf_graph, fh);
 	unsigned char *uri_string;
 	raptor_uri *uri, *base_uri;
-    base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)SBOL_URI "#");
+    base_uri = raptor_new_uri(this->rdf_graph, (const unsigned char *)" ");
     void *user_data = this;
 
 #ifdef HAVE_LIBRASQAL
