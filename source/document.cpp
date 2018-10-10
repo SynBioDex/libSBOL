@@ -1596,7 +1596,7 @@ std::string Document::write(std::string filename)
     }
 
     std::string response = "";
-	if (Config::getOption("serialization_format") == "sbol" || Config::getOption("serialization_format") == "rdfxml")
+	if (Config::getOption("serialization_format") == "sbol")
     {
         try {
             std::ofstream outFile(filename);
@@ -1604,15 +1604,21 @@ std::string Document::write(std::string filename)
         } catch(std::exception &e) {
             throw SBOLError(SBOL_ERROR_SERIALIZATION, e.what());
         }
-		//sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
 	}
     else
     {
         raptor_world* world = getWorld();
         raptor_serializer* sbol_serializer;
 
-		sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
-
+        if((Config::getOption("serialization_format") == "rdfxml") ||
+           (Config::getOption("serialization_format") == "sbol_raptor"))
+        {
+            sbol_serializer = raptor_new_serializer(world, "rdfxml-abbrev");
+        }
+        else
+        {
+            sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
+        }
 
         FILE* fh = fopen(filename.c_str(), "wb");
 
@@ -1627,7 +1633,7 @@ std::string Document::write(std::string filename)
         // Convert flat RDF/XML into nested SBOL
         response = "Validation of " + Config::getOption("serialization_format") + " serialization cannot be performed.";
         std::string sbol_buffer_string = std::string((char*)sbol_buffer);
-        if (Config::getOption("serialization_format") == "sbol")
+        if (Config::getOption("serialization_format") == "sbol_raptor")
         {
             const int size = (const int)sbol_buffer_len;
             if (sbol_buffer)
