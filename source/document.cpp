@@ -1036,6 +1036,9 @@ void Document::serialize_rdfxml(std::ostream &os) {
     os << "<?xml version=\"1.0\" ?>" << std::endl;
 
     os << "<rdf:RDF ";
+    if(default_namespace.size() > 0) {
+        os << "xmlns=\"" << default_namespace << "\" ";
+    }
     for(auto nsPair : namespaces) {
         os << "xmlns:" << nsPair.first << "=\""
            << nsPair.second << "\" ";
@@ -1066,7 +1069,7 @@ void Document::serialize_rdfxml(std::ostream &os) {
         if(topLevel)
         {
             std::string identity = obj.identity.get();
-            std::string rdfType = addNamespace(typeURI);
+            std::string rdfType = referenceNamespace(typeURI);
 
             os << "  <" << rdfType << " rdf:about=\""
                << identity << "\">" << std::endl;
@@ -1111,10 +1114,15 @@ void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
     //vector<std::string>* namespaces = (vector<string>*)user_data;
     Document* doc = (Document *)user_data;
     string ns = string((const char *)raptor_uri_as_string(raptor_namespace_get_uri(nspace)));
+
     if (raptor_namespace_get_prefix(nspace))
     {
         string prefix = string((const char *)raptor_namespace_get_prefix(nspace));
         doc->namespaces[prefix] = ns;
+    }
+    else
+    {
+        doc->default_namespace = ns;
     }
 }
 

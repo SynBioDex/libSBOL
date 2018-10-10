@@ -232,8 +232,19 @@ namespace sbol {
         void cacheObjects();
         
 
-        std::string addNamespace(const std::string uri) const {
+        std::string referenceNamespace(const std::string uri) const {
             std::string newURI = uri;
+
+            if(default_namespace.size() > 0) {
+                std::string::size_type pos = newURI.find(default_namespace);
+
+                if(pos != std::string::npos)
+                {
+                    newURI = newURI.replace(pos, default_namespace.size(),
+                                            "");
+                    return newURI;
+                }
+            }
 
             for(auto nsPair : namespaces)
             {

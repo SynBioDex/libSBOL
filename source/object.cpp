@@ -885,7 +885,7 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
             continue;
         }
 
-        auto predicate = doc->addNamespace(propPair.first);
+        auto predicate = doc->referenceNamespace(propPair.first);
 
         for(auto propValue : propValues) {
             if(propValue[0] == '<') {
@@ -961,7 +961,7 @@ void SBOLObject::serialize_rdfxml_owned_objects(std::ostream &os, size_t indentL
             continue;
         }
 
-        std::string subject = doc->addNamespace(ownedPair.first);
+        std::string subject = doc->referenceNamespace(ownedPair.first);
 
         for(auto &i_obj : ownedPair.second)
         {
@@ -972,7 +972,7 @@ void SBOLObject::serialize_rdfxml_owned_objects(std::ostream &os, size_t indentL
                 continue;
             }
 
-            std::string rdfType = doc->addNamespace(typeURI);
+            std::string rdfType = doc->referenceNamespace(typeURI);
 
             std::string identity = i_obj->identity.get();
 

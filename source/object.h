@@ -61,6 +61,7 @@ namespace sbol
     protected:
         /// @cond
         std::unordered_map<std::string, std::string> namespaces;
+        std::string default_namespace;
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);  // Convert an SBOL object into RDF triples
         std::string nest(std::string& rdfxml_buffer);  // Pretty-writer that converts flat RDF/XML into nested RDF/XML (ie, SBOL)
         std::string makeQName(std::string uri);
