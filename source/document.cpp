@@ -900,8 +900,30 @@ void Document::parse_annotation_objects()
                 SBOLObject* match = matches.front();
                 match->owned_objects[property_uri].push_back(obj);
                 obj->parent = match;
-                match->properties.erase(property_uri);
-                SBOLObjects.erase(obj->identity.get());  // Remove nested object from TopLevel store
+
+                // Remove obj from match's property list
+                auto identity = obj->identity.get();
+                auto &propList = match->properties[property_uri];
+
+                // Loop through properties with type property_uri
+                for(auto it=propList.begin(); it != propList.end(); ++it)
+                {
+                    if(it->compare(1, it->size()-2, identity) == 0)
+                    {
+                        // Erase reference to obj
+                        propList.erase(it);
+
+                        if(propList.size() == 0)
+                        {
+                            // If there are no more properties of type
+                            // property_uri, remove the property
+                            // reference vector
+                            match->properties.erase(property_uri);
+                        }
+                        break;
+                    }
+                }
+                SBOLObjects.erase(identity);  // Remove nested object from TopLevel store
             }
         }
     }
