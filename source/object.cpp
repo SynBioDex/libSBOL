@@ -457,18 +457,26 @@ vector<SBOLObject*> SBOLObject::find_reference(string uri)
         for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
         {
             SBOLObject& obj = **i_obj;
-            matches = obj.find_reference(uri);
+            vector<SBOLObject*> newMatches = obj.find_reference(uri);
+            for(auto &el : newMatches)
+            {
+                matches.push_back(el);
+            }
         }
     }
+
     for (auto &i_p : properties)
     {
-        string val = i_p.second.front();
-        if (val.compare("<" + uri + ">") == 0)
+        for(string val : i_p.second)
         {
-            matches.push_back(this);
-            break;
+            if (val.compare("<" + uri + ">") == 0)
+            {
+                matches.push_back(this);
+                break;
+            }
         }
     }
+
     return matches;
 };
 
