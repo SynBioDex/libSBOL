@@ -173,7 +173,6 @@ namespace sbol
 #endif
 
         void serialize_rdfxml(std::ostream &os, size_t indentLevel);
-        void serialize_rdfxml_owned_objects(std::ostream &os, size_t indentLevel);
 
         template < class SBOLClass > SBOLClass& cast();
 

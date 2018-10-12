@@ -1035,49 +1035,57 @@ void Document::serialize_rdfxml(std::ostream &os) {
     // RDF/XML Header
     os << "<?xml version=\"1.0\" ?>" << std::endl;
 
+    bool firstNS = true;
     os << "<rdf:RDF ";
-    if(default_namespace.size() > 0) {
-        os << "xmlns=\"" << default_namespace << "\" ";
+
+    // Add default namespace if there is one
+    if(default_namespace.size() > 0)
+    {
+        os << "xmlns=\"" << default_namespace << "\"";
+        firstNS = false;
     }
+
+    // Add namespaces
     for(auto nsPair : namespaces) {
+        if(firstNS) {
+            firstNS = false;
+        } else {
+            os << " ";
+        }
+
         os << "xmlns:" << nsPair.first << "=\""
-           << nsPair.second << "\" ";
+           << nsPair.second << "\"";
     }
     os << ">" << std::endl;
 
-    for(auto objPair : SBOLObjects) {
+    // Add top level SBOL objects
+    for(auto objPair : SBOLObjects)
+    {
         SBOLObject &obj = *objPair.second;
         bool topLevel = false;
         SBOLObject *parent = obj.parent;
         auto typeURI = obj.getTypeURI();
 
-        if(parent == NULL)
+        // If an object has a parent andis not a hidden property it is
+        // not a top-level object
+        if((parent != NULL) &&
+           (std::find(parent->hidden_properties.begin(),
+                      parent->hidden_properties.end(),
+                      typeURI) == hidden_properties.end()))
         {
-            topLevel = true;
-        }
-        else
-        {
-            if (std::find(parent->hidden_properties.begin(),
-                          parent->hidden_properties.end(),
-                          typeURI) != hidden_properties.end())
-            {
-                topLevel = true;
-            }
-
+            continue;
         }
 
-        if(topLevel)
-        {
-            std::string identity = obj.identity.get();
-            std::string rdfType = referenceNamespace(typeURI);
+        std::string identity = obj.identity.get();
+        std::string rdfType = referenceNamespace(typeURI);
 
-            os << "  <" << rdfType << " rdf:about=\""
-               << identity << "\">" << std::endl;
+        os << "  <" << rdfType << " rdf:about=\""
+           << identity << "\">" << std::endl;
 
-            obj.serialize_rdfxml(os, 1);
+        // Add object properties
+        obj.serialize_rdfxml(os, 2);
 
-            os << "  </" << rdfType << ">" << std::endl;
-        }
+        os << "  </" << rdfType << ">" << std::endl;
     }
 
     os << "</rdf:RDF>" << std::endl;

@@ -865,9 +865,6 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
     std::string indentString = std::string(spaces_per_indent * indentLevel,
                                            ' ');
 
-    std::string indentString2 =
-        std::string(spaces_per_indent * (indentLevel + 1), ' ');
-
     // Serialize properties
     for(auto &propPair : properties) {
         auto &propValues = propPair.second;
@@ -890,7 +887,7 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
         for(auto propValue : propValues) {
             if(propValue[0] == '<') {
                 // URI
-                os << indentString2
+                os << indentString
                    << "<" << predicate << " rdf:resource=\""
                    << propValue.substr(1, propValue.size()-2)
                    << "\"/>" << std::endl;
@@ -937,7 +934,7 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
                     }
                 }
 
-                os << indentString2
+                os << indentString
                    << "<" << predicate << ">"
                    << propValue.substr(1, propValue.size()-2)
                    << "</" << predicate << ">"
@@ -946,22 +943,17 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
         }
     }
 
+    std::string indentString2 =
+      std::string(spaces_per_indent * (indentLevel + 1), ' ');
+
     // Serialize owned objects
-    serialize_rdfxml_owned_objects(os, indentLevel + 1);
-}
-
-void SBOLObject::serialize_rdfxml_owned_objects(std::ostream &os, size_t indentLevel) {
-    const size_t spaces_per_indent = 2;
-
-    std::string indentString = std::string(spaces_per_indent * indentLevel,
-                                           ' ');
     for(auto ownedPair : owned_objects)
     {
         if(ownedPair.second.size() == 0) {
             continue;
         }
 
-        std::string subject = doc->referenceNamespace(ownedPair.first);
+        std::string predicate = doc->referenceNamespace(ownedPair.first);
 
         for(auto &i_obj : ownedPair.second)
         {
@@ -973,14 +965,10 @@ void SBOLObject::serialize_rdfxml_owned_objects(std::ostream &os, size_t indentL
             }
 
             std::string rdfType = doc->referenceNamespace(typeURI);
-
             std::string identity = i_obj->identity.get();
 
-            os << indentString << "<" << subject
+            os << indentString << "<" << predicate
                << ">" << std::endl;
-
-            std::string indentString2 =
-                std::string(spaces_per_indent * (indentLevel + 1), ' ');
 
             os << indentString2
                << "<" << rdfType << " rdf:about=\""
@@ -992,7 +980,7 @@ void SBOLObject::serialize_rdfxml_owned_objects(std::ostream &os, size_t indentL
                << "</" << rdfType << ">" << std::endl;
 
             os << indentString
-               << "</" << subject << ">" << std::endl;
+               << "</" << predicate << ">" << std::endl;
         }
     }
 }
