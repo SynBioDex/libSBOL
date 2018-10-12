@@ -124,5 +124,10 @@ int main(int argc, char* argv[])
     cout << "Passed: " << passed << endl;
     cout << "Expected Failures: " << expected << endl;
     cout << "FAILED: " << failed << endl;
-    
+
+    if(failed > 0) {
+        return 1;
+    }
+
+    return 0;
 }
