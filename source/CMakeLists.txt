@@ -2,7 +2,7 @@
 add_subdirectory( raptor )
 
 # gather headers
-if( RASQAL_LIBRARY )
+if( RASQAL_LIBRARY AND SBOL_BUILD_RASQAL )
     include_directories( ${RASQAL_INCLUDE_DIR})
     ADD_DEFINITIONS(-DHAVE_LIBRASQAL)
     SET(RASQAL_HEADERS RasqalDataGraph.hh RasqalQueryResults.hh
