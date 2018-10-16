@@ -403,8 +403,10 @@ namespace sbol
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @param sbol_obj A child object to add to this container property.
         /// Assigns a child object to this OwnedObject container property. This method always overwrites the first SBOLObject in the container. appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
-        void set(SBOLClass& sbol_obj, bool skip_top_level_check=false);
-        
+        void set(SBOLClass& sbol_obj);
+
+        void set_notoplevelcheck(SBOLClass& sbol_obj);
+          
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @param sbol_obj A child object to add to this container property.
         /// Adds a child object to the parent object. This method always appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred

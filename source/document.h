@@ -770,21 +770,25 @@ namespace sbol {
     /// @param sbol_obj The child object
     /// Sets the first object in the container
     template < class SBOLClass>
-    void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj, bool skip_top_level_check)
+    void OwnedObject<SBOLClass>::set(SBOLClass& sbol_obj)
     {
-        if(!skip_top_level_check) {
-            TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
-            if (check_top_level && this->sbol_owner->doc)
-                {
-                    Document& doc = (Document &)*this->sbol_owner->doc;
-                    if (this->isHidden() && doc.find(sbol_obj.identity.get())) // In order to avoid a duplicate URI error, don't attempt to add the object if this is a hidden property, 
-                        {
-                        }
-                    else
-                        doc.add<SBOLClass>(sbol_obj);
-                }
+        TopLevel* check_top_level = dynamic_cast<TopLevel*>(&sbol_obj);
+        if (check_top_level && this->sbol_owner->doc)
+        {
+            Document& doc = (Document &)*this->sbol_owner->doc;
+            if (this->isHidden() && doc.find(sbol_obj.identity.get())) // In order to avoid a duplicate URI error, don't attempt to add the object if this is a hidden property,
+            {
+            }
+            else
+                doc.add<SBOLClass>(sbol_obj);
         }
 
+        set_notoplevelcheck(sbol_obj);
+    };
+
+    template < class SBOLClass>
+    void OwnedObject<SBOLClass>::set_notoplevelcheck(SBOLClass& sbol_obj)
+    {
         // Add to parent object
         if (!this->sbol_owner->owned_objects[this->type].size())
             this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);

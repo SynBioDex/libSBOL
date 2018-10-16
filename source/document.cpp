@@ -115,7 +115,7 @@ void Document::dress_document()
             auto findResult = sequenceCacheMap.find(uri);
             if(findResult != sequenceCacheMap.end())
             {
-                cd.sequence.set(*findResult->second, true);
+                cd.sequence.set_notoplevelcheck(*findResult->second);
             }
         }
     }
