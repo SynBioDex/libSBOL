@@ -9,41 +9,42 @@
 #include "SharedPtrWrapper.hh"
 #include "RasqalQueryResults.hh"
 
-class RasqalDataGraph {
-  SharedPtrWrapper<rasqal_world> m_rasqalWorld;
-  SharedPtrWrapper<raptor_uri> m_baseURI;
-  SharedPtrWrapper<rasqal_data_graph> m_dataGraph;
+class RasqalDataGraph
+{
+    SharedPtrWrapper<rasqal_world> m_rasqalWorld;
+    SharedPtrWrapper<raptor_uri> m_baseURI;
+    SharedPtrWrapper<rasqal_data_graph> m_dataGraph;
 
 public:
-  RasqalDataGraph(const std::string &fName, raptor_uri *nameURI = NULL);
-  RasqalDataGraph() {};
+    RasqalDataGraph(const std::string &fName, raptor_uri *nameURI = NULL);
+    RasqalDataGraph() {};
 
-  RasqalDataGraph(const RasqalDataGraph &src) : m_rasqalWorld(src.m_rasqalWorld) {
-    m_dataGraph = rasqal_new_data_graph_from_data_graph(src.m_dataGraph);
-    m_baseURI = raptor_uri_copy(src.m_baseURI);
-  }
+    RasqalDataGraph(const RasqalDataGraph &src) : m_rasqalWorld(src.m_rasqalWorld) {
+        m_dataGraph = rasqal_new_data_graph_from_data_graph(src.m_dataGraph);
+        m_baseURI = raptor_uri_copy(src.m_baseURI);
+    }
 
-  RasqalDataGraph &operator=(const RasqalDataGraph &rhs) {
-    m_dataGraph = rasqal_new_data_graph_from_data_graph(rhs.m_dataGraph);
-    m_baseURI = raptor_uri_copy(rhs.m_baseURI);
-    m_rasqalWorld = rhs.m_rasqalWorld;
+    RasqalDataGraph &operator=(const RasqalDataGraph &rhs) {
+        m_dataGraph = rasqal_new_data_graph_from_data_graph(rhs.m_dataGraph);
+        m_baseURI = raptor_uri_copy(rhs.m_baseURI);
+        m_rasqalWorld = rhs.m_rasqalWorld;
 
-    return *this;
-  }
-  
-  rasqal_world *rasqalWorld() const {
-    return m_rasqalWorld;
-  }
+        return *this;
+    }
 
-  raptor_world *raptorWorld() const {
-    return rasqal_world_get_raptor(m_rasqalWorld);
-  }
-  
-  rasqal_data_graph *dataGraph() const {
-    return m_dataGraph;
-  }
-  
-  RasqalQueryResults query(const std::string &queryString) const;
+    rasqal_world *rasqalWorld() const {
+        return m_rasqalWorld;
+    }
+
+    raptor_world *raptorWorld() const {
+        return rasqal_world_get_raptor(m_rasqalWorld);
+    }
+
+    rasqal_data_graph *dataGraph() const {
+        return m_dataGraph;
+    }
+
+    RasqalQueryResults query(const std::string &queryString) const;
 };
 
 #endif
