@@ -4,6 +4,9 @@
 #include <memory>
 #include "PtrWrapper.hh"
 
+// This class, along with PtrWrapper, manage an opaque "C" pointer.
+// Refernce counting is used to automatically free the "C" pointer
+// when it is no longer referenced.
 template<class T>
 class SharedPtrWrapper
 {

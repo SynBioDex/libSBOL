@@ -9,12 +9,16 @@ RasqalDataGraph::RasqalDataGraph(const std::string &fName, raptor_uri *nameURI)
     m_rasqalWorld.setDeleter(rasqal_free_world);
     if(m_rasqalWorld == NULL)
     {
+        // Note this will cause rasqal_free_world() to be called
+        m_rasqalWorld = NULL;
         throw std::runtime_error("rasqal_new_world() failed");
     }
 
     int res = rasqal_world_open(m_rasqalWorld);
     if(res != 0)
     {
+        // Note this will cause rasqal_free_world() to be called
+        m_rasqalWorld = NULL;
         throw std::runtime_error("Failed to open rasqal world");
     }
 
@@ -35,6 +39,10 @@ RasqalDataGraph::RasqalDataGraph(const std::string &fName, raptor_uri *nameURI)
     m_dataGraph.setDeleter(rasqal_free_data_graph);
     if(m_dataGraph == NULL)
     {
+        // Note this will cause rasqal_free_world() to be called
+        m_rasqalWorld = NULL;
+        // Note this will cause rasqal_free_uri() to be called
+        m_baseURI = NULL;
         throw std::runtime_error("Failed to create data graph");
     }
 }
@@ -46,7 +54,6 @@ RasqalQueryResults RasqalDataGraph::query(const std::string &queryString) const
 
     if(rasqalQuery == NULL)
     {
-        rasqal_free_query(rasqalQuery);
         throw std::runtime_error("rasqual_new_query() failed");
     }
 
@@ -73,6 +80,7 @@ RasqalQueryResults RasqalDataGraph::query(const std::string &queryString) const
 
     if(results == NULL)
     {
+        rasqal_free_data_graph(dg);
         rasqal_free_query(rasqalQuery);
         throw std::runtime_error("Query failed!");
     }

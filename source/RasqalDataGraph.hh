@@ -11,6 +11,8 @@
 
 class RasqalDataGraph
 {
+    // Note the order is important here.  The objects will be deleted
+    // in the opposite order they are listed.
     SharedPtrWrapper<rasqal_world> m_rasqalWorld;
     SharedPtrWrapper<raptor_uri> m_baseURI;
     SharedPtrWrapper<rasqal_data_graph> m_dataGraph;
@@ -25,6 +27,7 @@ public:
     }
 
     RasqalDataGraph &operator=(const RasqalDataGraph &rhs) {
+        // m_dataGraph and m_baseURI are copied, and m_rasqalWorld is shared
         m_dataGraph = rasqal_new_data_graph_from_data_graph(rhs.m_dataGraph);
         m_baseURI = raptor_uri_copy(rhs.m_baseURI);
         m_rasqalWorld = rhs.m_rasqalWorld;

@@ -16,6 +16,8 @@ public:
     typedef std::vector<std::map<std::string, rasqal_literal *>> BindingResults;
 
 private:
+    // Note the order is important here.  The objects will be deleted
+    // in the opposite order they are listed.
     SharedPtrWrapper<rasqal_world> m_rasqalWorld;
     SharedPtrWrapper<rasqal_query> m_query;
     SharedPtrWrapper<rasqal_query_results> m_results;
@@ -33,12 +35,12 @@ public:
                        rasqal_query *query,
                        rasqal_query_results *results) : m_rasqalWorld(rasqalWorld),
                                                         m_query(query),
-                                                        m_results(results)
-        {
-            m_results.setDeleter(rasqal_free_query_results);
-            m_query.setDeleter(rasqal_free_query);
-            loadBindingResults();
-        }
+                                                        m_results(results) {
+        m_rasqalWorld.setDeleter(rasqal_free_world);
+        m_results.setDeleter(rasqal_free_query_results);
+        m_query.setDeleter(rasqal_free_query);
+        loadBindingResults();
+    }
 
     RasqalQueryResults &operator=(const RasqalQueryResults &rhs) {
         m_bindingResults = rhs.m_bindingResults;
