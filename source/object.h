@@ -406,7 +406,7 @@ namespace sbol
         void set(SBOLClass& sbol_obj);
 
         void set_notoplevelcheck(SBOLClass& sbol_obj);
-          
+
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @param sbol_obj A child object to add to this container property.
         /// Adds a child object to the parent object. This method always appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred

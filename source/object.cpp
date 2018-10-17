@@ -347,10 +347,8 @@ void SBOLObject::cacheObjects(std::map<std::string, sbol::SBOLObject*> &cache) {
         vector<SBOLObject*>& store = i_store->second;
         for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
         {
-          SBOLObject &obj = **i_obj;
-          if(obj.owned_objects.size() > 0) {
-              obj.cacheObjects(cache);
-          }
+            SBOLObject &obj = **i_obj;
+            obj.cacheObjects(cache);
         }
     }
 }

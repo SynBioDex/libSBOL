@@ -1,7 +1,7 @@
-# Copyright (C) 2012 - 2013 by Pedro Mendes, Virginia Tech Intellectual 
-# Properties, Inc., University of Heidelberg, and The University 
-# of Manchester. 
-# All rights reserved. 
+# Copyright (C) 2012 - 2013 by Pedro Mendes, Virginia Tech Intellectual
+# Properties, Inc., University of Heidelberg, and The University
+# of Manchester.
+# All rights reserved.
 
 # - Try to find the Rasqal RDF query library (http://librdf.org/rasqal)
 # Once done this will define
@@ -30,7 +30,7 @@ ENDMACRO ()
 if (NOT (RASQAL_INCLUDE_DIR AND RASQAL_LIBRARIES) OR NOT RASQAL_FOUND)
 
     set(RASQAL_LDFLAGS)
-    
+
     find_path(RASQAL_INCLUDE_DIR rasqal.h
         PATHS $ENV{RASQAL_DIR}/include
               $ENV{RASQAL_DIR}
@@ -49,7 +49,7 @@ if (NOT (RASQAL_INCLUDE_DIR AND RASQAL_LIBRARIES) OR NOT RASQAL_FOUND)
              NO_DEFAULT_PATH)
 
     find_path(RASQAL_INCLUDE_DIR rasqal.h)
-    
+
     if(SBOL_BUILD_SHARED)
     if(RASQAL_LIBRARY MATCHES "(.*).(a|lib)")
     unset(RASQAL_LIBRARY CACHE)
@@ -60,7 +60,7 @@ if (NOT (RASQAL_INCLUDE_DIR AND RASQAL_LIBRARIES) OR NOT RASQAL_FOUND)
     endif()
     endif()
 
-    find_library(RASQAL_LIBRARY 
+    find_library(RASQAL_LIBRARY
         NAMES rasqal librasqal
         PATHS $ENV{RASQAL_DIR}/lib
               $ENV{RASQAL_DIR}/lib-dbg
@@ -100,11 +100,11 @@ if (NOT (RASQAL_INCLUDE_DIR AND RASQAL_LIBRARIES) OR NOT RASQAL_FOUND)
             string( REGEX REPLACE "-lexpat[;]*" "" RASQAL_LDFLAGS "${RASQAL_LDFLAGS}")
         endif (PC_RASQAL_FOUND)
     endif (NOT WIN32)
-    
+
     if (RASQAL_LDFLAGS)
         set(RASQAL_LIBRARY ${RASQAL_LIBRARY} ${RASQAL_LDFLAGS})
     endif (RASQAL_LDFLAGS)
-    
+
     mark_as_advanced(RASQAL_INCLUDE_DIR RASQAL_LIBRARY)
 
 endif () # Check for cached values

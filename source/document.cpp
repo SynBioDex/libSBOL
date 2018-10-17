@@ -823,8 +823,8 @@ void Document::parse_properties_inner(const std::string &subject,
                 // owned object is then removed from its temporary
                 // location in the Document's object store and is now
                 // associated only with it's parent TopLevel object.
-                auto owned_obj_lookup = objectCache.find(owned_obj_id);
-                if(owned_obj_lookup != objectCache.end())
+                auto owned_obj_lookup = SBOLObjects.find(owned_obj_id);
+                if(owned_obj_lookup != SBOLObjects.end())
                 {
                     SBOLObject *owned_obj = owned_obj_lookup->second;
                     sbol_obj->owned_objects[property_uri].push_back(owned_obj);
@@ -1066,7 +1066,7 @@ void Document::serialize_rdfxml(std::ostream &os) {
         SBOLObject *parent = obj.parent;
         auto typeURI = obj.getTypeURI();
 
-        // If an object has a parent andis not a hidden property it is
+        // If an object has a parent and is not a hidden property it is
         // not a top-level object
         if((parent != NULL) &&
            (std::find(parent->hidden_properties.begin(),
@@ -1253,9 +1253,6 @@ void Document::append(std::string filename)
         ++pos;
     }
 
-    auto baseURI = raptor_new_uri(graph.raptorWorld(),
-                                  (const unsigned char *)"http://www.sbol.org/");
-
     std::string rdf_type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
     for(auto &amap: allResults.bindingResults()) {
         std::string predicate((const char *)rasqal_literal_as_string(amap.at("p")));
@@ -1272,6 +1269,7 @@ void Document::append(std::string filename)
             {
                 if(strncmp((const char *)lval, graphBaseURIStr.c_str(), pos) == 0)
                 {
+                    // This was a URI without a scheme.  Remove URI base
                     lval += pos;
                 }
             }
@@ -1604,7 +1602,7 @@ std::string Document::write(std::string filename)
     }
 
     std::string response = "";
-	if (Config::getOption("serialization_format") == "sbol")
+    if (Config::getOption("serialization_format") == "sbol")
     {
         try {
             std::ofstream outFile(filename);
@@ -1612,7 +1610,7 @@ std::string Document::write(std::string filename)
         } catch(std::exception &e) {
             throw SBOLError(SBOL_ERROR_SERIALIZATION, e.what());
         }
-	}
+    }
     else
     {
         raptor_world* world = getWorld();
