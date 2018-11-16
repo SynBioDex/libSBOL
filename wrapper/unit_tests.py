@@ -77,7 +77,7 @@ class TestRoundTripSBOL2(unittest.TestCase):
 		self.doc2 = Document()  # Document to compare for equality
 		self.doc2.read(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1]))
 		self.assertEqual(self.doc.compare(self.doc2), 1)
-	
+
 	def test_case000(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[0]))
 
@@ -89,6 +89,9 @@ class TestRoundTripSBOL2(unittest.TestCase):
 
 	def test_case003(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[3]))
+
+	def test_case004(self):
+		self.run_round_trip(str(TEST_FILES_SBOL2[4]))
 
 	def test_case005(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[5]))
@@ -140,6 +143,9 @@ class TestRoundTripSBOL2(unittest.TestCase):
 
 	def test_case021(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[21]))
+
+        def test_case022(self):
+                self.run_round_trip(str(TEST_FILES_SBOL2[22]))
 
 	def test_case023(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[23]))
@@ -266,31 +272,31 @@ class TestRoundTripSBOL2(unittest.TestCase):
 
 	def test_case064(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[64]))
-	   
+
 	def test_case065(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[65]))
 
 	def test_case066(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[66]))
-		
+
 	def test_case067(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[67]))
 
 	def test_case068(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[68]))
-		
+
 	def test_case069(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[69]))
 
 	def test_case070(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[70]))
-		
+
 	def test_case071(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[71]))
 
 	def test_case072(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[72]))
-   
+
 	def test_case073(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[73]))
 
@@ -318,20 +324,38 @@ class TestRoundTripSBOL2(unittest.TestCase):
 	def test_case081(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[81]))
 
+	def test_case082(self):
+		self.run_round_trip(str(TEST_FILES_SBOL2[82]))
+
 	def test_case083(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[83]))
+
+	def test_case084(self):
+		self.run_round_trip(str(TEST_FILES_SBOL2[84]))
 
 	def test_case085(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[85]))
 
+	def test_case086(self):
+		self.run_round_trip(str(TEST_FILES_SBOL2[86]))
+
 	def test_case087(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[87]))
+
+	def test_case088(self):
+		self.run_round_trip(str(TEST_FILES_SBOL2[88]))
 
 	def test_case089(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[89]))
 
+	def test_case090(self):
+		self.run_round_trip(str(TEST_FILES_SBOL2[90]))
+
 	def test_case091(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[91]))
+
+	def test_case092(self):
+		self.run_round_trip(str(TEST_FILES_SBOL2[92]))
 
 	def test_case093(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[93]))
@@ -396,8 +420,8 @@ class TestRoundTripSBOL2(unittest.TestCase):
 	def test_case113(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[113]))
 
-		
-	
+
+
 class TestRoundTripFailSBOL2(unittest.TestCase):
 	def setUp(self):
 		# Create temp directory
@@ -418,39 +442,14 @@ class TestRoundTripFailSBOL2(unittest.TestCase):
 		self.doc2.read(os.path.join(self.temp_out_dir, split_path[0] + '_out' + split_path[1]))
 		# Expected to fail
 		self.assertRaises(AssertionError, lambda: self.assertEqual(self.doc.compare(self.doc2), 1))
-		
-	def test_case04(self):
-		self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[4]))
-		
-# Disabled because it raises RuntimeError
-#    def test_case22(self):
-#        self.run_round_trip_runtime_fail(str(TEST_FILES_SBOL2[22]))
 
-	def test_case82(self):
-		self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[82]))
-		
-	def test_case84(self):
-		self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[84]))
-		
-	def test_case86(self):
-		self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[86]))
-		
-	def test_case88(self):
-		self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[88]))
 
-	def test_case90(self):
-		self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[90]))
-		
-	def test_case92(self):
-		self.run_round_trip_assert_fail(str(TEST_FILES_SBOL2[92]))
-	  
-		
-		
+
 class TestComponentDefinitions(unittest.TestCase):
-	
+
 	def setUp(self):
 		pass
-	
+
 	def testAddComponentDefinition(self):
 		test_CD = ComponentDefinition("BB0001")
 		doc = Document()
@@ -458,36 +457,36 @@ class TestComponentDefinitions(unittest.TestCase):
 		self.assertIsNotNone(doc.componentDefinitions.get("BB0001"))
 		displayId = doc.componentDefinitions.get("BB0001").displayId
 		self.assertEqual(displayId, "BB0001")
-		
+
 	def testRemoveComponentDefinition(self):
 		test_CD = ComponentDefinition("BB0001")
 		doc = Document()
 		doc.addComponentDefinition(test_CD)
 		doc.componentDefinitions.remove(0)
 		self.assertRaises(RuntimeError, lambda: doc.componentDefinitions.get("BB0001"))
-		
+
 	def testCDDisplayId(self):
 		listCD_read = []
 		doc = Document()
 		doc.read(os.path.join(MODULE_LOCATION, 'crispr_example.xml'))
 
-		# List of displayIds        
+		# List of displayIds
 		listCD = ['CRP_b', 'CRa_U6', 'EYFP', 'EYFP_cds', 'EYFP_gene', 'Gal4VP16',
 				  'Gal4VP16_cds', 'Gal4VP16_gene', 'cas9_gRNA_complex', 'cas9_generic',
 				  'cas9m_BFP', 'cas9m_BFP_cds', 'cas9m_BFP_gRNA_b', 'cas9m_BFP_gene',
 				  'gRNA_b', 'gRNA_b_gene', 'gRNA_b_nc', 'gRNA_b_terminator',
 				  'gRNA_generic', 'mKate', 'mKate_cds', 'mKate_gene', 'pConst',
 				  'target', 'target_gene']
-		
+
 		for CD in doc.componentDefinitions:
 			listCD_read.append(CD.displayId)
-			
+
 		# Python 3 compatability
 		if sys.version_info[0] < 3:
 			self.assertItemsEqual(listCD_read, listCD)
 		else:
 			self.assertCountEqual(listCD_read, listCD)
-			
+
 	def testPrimaryStructureIteration(self):
 		listCD = []
 		listCD_true = ["R0010", "E0040", "B0032", "B0012"]
@@ -497,19 +496,19 @@ class TestComponentDefinitions(unittest.TestCase):
 		RBS = ComponentDefinition("B0032")
 		CDS = ComponentDefinition("E0040")
 		terminator = ComponentDefinition("B0012")
-		
+
 		doc.addComponentDefinition([gene, promoter, RBS, CDS, terminator])
-		
+
 		gene.assemblePrimaryStructure([ promoter, RBS, CDS, terminator ])
 		primary_sequence = gene.getPrimaryStructure()
 		for component in primary_sequence:
 			listCD.append(component.displayId)
-		
+
 		# Python 3 compatability
 		if sys.version_info[0] < 3:
 			self.assertItemsEqual(listCD, listCD_true)
 		else:
-			self.assertCountEqual(listCD, listCD_true)    
+			self.assertCountEqual(listCD, listCD_true)
 
 class TestAssemblyRoutines(unittest.TestCase):
 
@@ -523,7 +522,7 @@ class TestAssemblyRoutines(unittest.TestCase):
 		promoter = ComponentDefinition("R0010")
 		CDS = ComponentDefinition("B0032")
 		RBS = ComponentDefinition("E0040")
-		terminator = ComponentDefinition("B0012")	
+		terminator = ComponentDefinition("B0012")
 		scar = ComponentDefinition('scar')
 
 		promoter.sequence = Sequence('R0010')
@@ -557,11 +556,11 @@ class TestAssemblyRoutines(unittest.TestCase):
 		cd3.sequence = Sequence('cd3')
 		cd4.sequence = Sequence('cd4')
 		cd5.sequence = Sequence('cd5')
-		cd1.sequence.elements = 'tt'		
-		cd2.sequence.elements = 'gg'		
-		cd3.sequence.elements = 'n'		
-		cd4.sequence.elements = 'aa'		
-		cd5.sequence.elements = 'n'		
+		cd1.sequence.elements = 'tt'
+		cd2.sequence.elements = 'gg'
+		cd3.sequence.elements = 'n'
+		cd4.sequence.elements = 'aa'
+		cd5.sequence.elements = 'n'
 		doc.addComponentDefinition([cd1, cd2, cd3, cd4, cd5])
 		cd3.assemblePrimaryStructure([cd1, cd2])
 		cd5.assemblePrimaryStructure([cd4, cd3])
@@ -584,7 +583,7 @@ class TestAssemblyRoutines(unittest.TestCase):
 		promoter = ComponentDefinition("R0010")
 		RBS = ComponentDefinition("B0032")
 		CDS = ComponentDefinition("E0040")
-		terminator = ComponentDefinition("B0012")	
+		terminator = ComponentDefinition("B0012")
 
 		promoter.sequence = Sequence('R0010')
 		RBS.sequence = Sequence('B0032')
@@ -615,7 +614,7 @@ class TestAssemblyRoutines(unittest.TestCase):
 		promoter = ComponentDefinition("R0010")
 		RBS = ComponentDefinition("B0032")
 		CDS = ComponentDefinition("E0040")
-		terminator = ComponentDefinition("B0012")	
+		terminator = ComponentDefinition("B0012")
 
 		promoter.sequence = Sequence('R0010')
 		RBS.sequence = Sequence('B0032')
@@ -639,42 +638,42 @@ class TestAssemblyRoutines(unittest.TestCase):
 		self.assertEquals(target_seq, 'atactagagttactagctactagagg')
 
 class TestSequences(unittest.TestCase):
-	
+
 	def setUp(self):
 		pass
-		
+
 	def testAddSeqence(self):
 		test_seq = Sequence("R0010", "ggctgca")
 		doc = Document()
 		doc.addSequence(test_seq)
 		seq = doc.sequences.get("R0010").elements
-		
+
 		self.assertEqual(seq, 'ggctgca')
-		
+
 	def testRemoveSequence(self):
 		test_seq = Sequence("R0010", "ggctgca")
 		doc = Document()
 		doc.addSequence(test_seq)
 		doc.sequences.remove(0)
 		self.assertRaises(RuntimeError, lambda: doc.sequences.get("R0010"))
-		
+
 	def testSeqDisplayId(self):
 		listseq_read = []
 		doc = Document()
 		doc.read(os.path.join(MODULE_LOCATION, 'crispr_example.xml'))
 
-		# List of displayIds        
+		# List of displayIds
 		listseq = ['CRP_b_seq', 'CRa_U6_seq', 'gRNA_b_seq', 'mKate_seq']
-		
+
 		for seq in doc.sequences:
 			listseq_read.append(seq.displayId)
-		
+
 		# Python 3 compatability
 		if sys.version_info[0] < 3:
 			self.assertItemsEqual(listseq_read, listseq)
 		else:
 			self.assertCountEqual(listseq_read, listseq)
-			
+
 	def testSequenceElement(self):
 		setHomespace('http://sbols.org/CRISPR_Example')
 		Config.setOption('sbol_typed_uris', False)
@@ -686,15 +685,15 @@ class TestSequences(unittest.TestCase):
 			   'GGAGTTCTGTCCTCCGAGCGGAGACTCTAGATACCTCATCAGGAACATGTTGGAATTCTAGG'
 			   'CGTGTACGGTGGGAGGCCTATATAAGCAGAGCTCGTTTAGTGAACCGTCAGATCGCCTCGAG'
 			   'TACCTCATCAGGAACATGTTGGATCCAATTCGACC')
-			   
+
 		seq_read = doc.sequences.get('CRP_b_seq').elements
 		self.assertEquals(seq_read, seq)
 
 class TestMemory(unittest.TestCase):
-	
+
 	def setUp(self):
 		pass
-	
+
 	def testDiscard(self):
 		doc = Document()
 		cd = ComponentDefinition()
@@ -729,7 +728,7 @@ class TestIterators(unittest.TestCase):
 
 	def setUp(self):
 		pass
-	
+
 	def testDocumentIterator(self):
 		doc = Document()
 		cds = []
@@ -760,9 +759,9 @@ class TestCopy(unittest.TestCase):
 		doc = Document()
 		comp = ComponentDefinition('foo', BIOPAX_DNA, '1.0.0')
 		doc.addComponentDefinition(comp)
-		
+
 		# Copy an object within a single Document, the version should be automatically incrememented
-		comp_copy = comp.copy()  
+		comp_copy = comp.copy()
 		self.assertEquals(comp.version, '1.0.0')
 		self.assertEquals(comp_copy.version, '2.0.0')
 		self.assertEquals(comp_copy.identity, comp.persistentIdentity + '/2.0.0')
@@ -773,13 +772,13 @@ class TestCopy(unittest.TestCase):
 		Config.setOption('sbol_typed_uris', False)
 		doc = Document()
 		comp1 = doc.componentDefinitions.create('cd1')
-		comp2 = doc.componentDefinitions.create('cd2') 
+		comp2 = doc.componentDefinitions.create('cd2')
 		comp2.wasDerivedFrom = comp1.identity
-		
+
 		# Clone the object to another Document, the wasDerivedFrom should not be a circular reference
 		doc2 = Document()
 		comp3 = comp2.copy(doc2)
-		self.assertEquals(comp3.wasDerivedFrom[0], comp1.identity)  
+		self.assertEquals(comp3.wasDerivedFrom[0], comp1.identity)
 		self.assertNotEqual(comp3.wasDerivedFrom[0], comp2.identity)
 
 	def testImportObjectIntoNewNamespace(self):
@@ -787,7 +786,7 @@ class TestCopy(unittest.TestCase):
 		doc = Document()
 		doc2 = Document()
 		comp = doc.componentDefinitions.create('hi')
-		
+
 		# Import the object into a new namespace and update the version
 		homespace = getHomespace()
 		setHomespace('https://hub.sd2e.org/user/sd2e/test')
@@ -812,7 +811,7 @@ class TestDBTL(unittest.TestCase):
 	def setUp(self):
 		pass
 
-	def testDBTL(self):	
+	def testDBTL(self):
 		setHomespace("http://examples.org")
 
 		doc = Document()
@@ -871,9 +870,9 @@ def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, T
 	for test_class in test_list:
 		suite = loader.loadTestsFromTestCase(test_class)
 		suite_list.append(suite)
-   
+
 	full_test_suite = unittest.TestSuite(suite_list)
-	
+
 	unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(full_test_suite)
 
 def runRoundTripTests(test_list = [TestRoundTripSBOL2, TestRoundTripFailSBOL2]):
@@ -881,5 +880,3 @@ def runRoundTripTests(test_list = [TestRoundTripSBOL2, TestRoundTripFailSBOL2]):
 
 if __name__ == '__main__':
 	runTests()
-
-   

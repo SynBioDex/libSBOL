@@ -61,6 +61,7 @@ namespace sbol
     protected:
         /// @cond
         std::unordered_map<std::string, std::string> namespaces;
+        std::string default_namespace;
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);  // Convert an SBOL object into RDF triples
         std::string nest(std::string& rdfxml_buffer);  // Pretty-writer that converts flat RDF/XML into nested RDF/XML (ie, SBOL)
         std::string makeQName(std::string uri);
@@ -103,6 +104,8 @@ namespace sbol
         /// @param uri The URI to search for.
         /// @return A pointer to theobject with this URI if it exists, NULL otherwise
         SBOLObject* find(std::string uri);
+
+        void cacheObjects(std::map<std::string, sbol::SBOLObject*> &objectCache);
 
         /// Search this object recursively to see if it contains a member property with the given RDF type.
         /// @param uri The RDF type of the property to search for.
@@ -168,6 +171,8 @@ namespace sbol
         
         PyObject* cast(PyObject* python_class);
 #endif
+
+        void serialize_rdfxml(std::ostream &os, size_t indentLevel);
 
         template < class SBOLClass > SBOLClass& cast();
 
@@ -399,7 +404,9 @@ namespace sbol
         /// @param sbol_obj A child object to add to this container property.
         /// Assigns a child object to this OwnedObject container property. This method always overwrites the first SBOLObject in the container. appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
         void set(SBOLClass& sbol_obj);
-        
+
+        void set_notoplevelcheck(SBOLClass& sbol_obj);
+
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @param sbol_obj A child object to add to this container property.
         /// Adds a child object to the parent object. This method always appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred

@@ -103,7 +103,7 @@ ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")   # If Linux
     set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
     find_package( LibXslt )
     find_package( CURL )
-
+    find_package( rasqal )
 
 ELSE ()  # If Mac OSX
     set(CMAKE_MODULE_PATH "${SBOL_SOURCE_DIR}/raptor")
@@ -125,6 +125,8 @@ ELSE ()  # If Mac OSX
     set(CMAKE_FIND_LIBRARY_SUFFIXES .dll .dylib .so)
     find_package( LibXslt )
     find_package( CURL )
+    find_package( rasqal )
+
 ENDIF ()
 
 
