@@ -60,10 +60,15 @@ ELSE ()
     # build test executable
     add_executable( sbol_test ${APPLICATION_FILES} )
     set_target_properties(sbol_test PROPERTIES LINKER_LANGUAGE CXX)
+
+    if( RASQAL_LIBRARY )
+        SET(RASQAL_LDFLAGS ${RASQAL_LIBRARY})
+    endif()
     target_link_libraries( sbol_test
         sbol
         #${PYTHON_LIBRARIES} #temporary fix
         ${RAPTOR_LIBRARY}
+        ${RASQAL_LDFLAGS}
         ${CURL_LIBRARY}
         ${LIBXSLT_LIBRARIES}
         ${JsonCpp_LIBRARY}

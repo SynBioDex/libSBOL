@@ -119,6 +119,7 @@ namespace sbol {
         /// @cond
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
+        std::map<std::string, sbol::SBOLObject*> objectCache;
         
         TopLevel& getTopLevel(std::string);
         raptor_world* getWorld();
@@ -193,9 +194,13 @@ namespace sbol {
         std::string query_repository(std::string command);
 
         std::string search_metadata(std::string role, std::string type, std::string name, std::string collection);
-        
+
+        static std::string string_from_raptor_term(raptor_term *term, bool addWrapper=false);
+
 		/// Generates rdf/xml
         void generate(raptor_world** world, raptor_serializer** sbol_serializer, char** sbol_buffer, size_t* sbol_buffer_len, raptor_iostream** ios, raptor_uri** base_uri);
+
+        void serialize_rdfxml(std::ostream &os);
 
         /// Run validation on this Document via the online validation tool.
         /// @return A string containing a message with the validation results
@@ -223,7 +228,40 @@ namespace sbol {
         };
 
 #endif
-        
+        void cacheObjects();
+
+        std::string referenceNamespace(const std::string uri) const {
+            std::string newURI = uri;
+
+            if(default_namespace.size() > 0) {
+                std::string::size_type pos = newURI.find(default_namespace);
+
+                if(pos != std::string::npos)
+                {
+                    newURI = newURI.replace(pos, default_namespace.size(),
+                                            "");
+                    return newURI;
+                }
+            }
+
+            for(auto nsPair : namespaces)
+            {
+                std::string::size_type pos = newURI.find(nsPair.second);
+                if(pos == std::string::npos)
+                {
+                    continue;
+                }
+
+                newURI = newURI.replace(pos, nsPair.second.size(),
+                                        nsPair.first + ":");
+
+                // Assume only one namespace per URI
+                break;
+            }
+
+            return newURI;
+        }
+
         /// Get a summary of objects in the Document, including SBOL core object and custom annotation objects
         std::string summary()
         {
@@ -287,6 +325,13 @@ namespace sbol {
         void addNamespace(std::string ns, std::string prefix, raptor_serializer* sbol_serializer);
         void parse_annotation_objects();
         void dress_document();
+
+        void parse_objects_inner(const std::string &subject,
+                                 const std::string &object);
+
+        void parse_properties_inner(const std::string &subject,
+                                    const std::string &predicate,
+                                    const std::string &object);
 
         SBOLObject* find_property(std::string uri);
         std::vector<SBOLObject*> find_reference(std::string uri);
@@ -730,13 +775,19 @@ namespace sbol {
         if (check_top_level && this->sbol_owner->doc)
         {
             Document& doc = (Document &)*this->sbol_owner->doc;
-            if (this->isHidden() && doc.find(sbol_obj.identity.get())) // In order to avoid a duplicate URI error, don't attempt to add the object if this is a hidden property, 
+            if (this->isHidden() && doc.find(sbol_obj.identity.get())) // In order to avoid a duplicate URI error, don't attempt to add the object if this is a hidden property,
             {
             }
             else
                 doc.add<SBOLClass>(sbol_obj);
         }
-        
+
+        set_notoplevelcheck(sbol_obj);
+    };
+
+    template < class SBOLClass>
+    void OwnedObject<SBOLClass>::set_notoplevelcheck(SBOLClass& sbol_obj)
+    {
         // Add to parent object
         if (!this->sbol_owner->owned_objects[this->type].size())
             this->sbol_owner->owned_objects[this->type].push_back((SBOLObject *)&sbol_obj);
