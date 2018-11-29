@@ -40,6 +40,7 @@
 #include "combinatorialderivation.h"
 #include "implementation.h"
 #include "dbtl.h"
+#include "experiment.h"
 
 #include <raptor2.h>
 #include <unordered_map>
@@ -95,10 +96,13 @@ namespace sbol {
             attachments(this, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
             combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({})),
             implementations(this, SBOL_IMPLEMENTATION, '0', '*', ValidationRules({})),
+            experiments(this, SBOL_EXPERIMENT, '0', '*', ValidationRules({})),
+            experimentalData(this, SBOL_EXPERIMENTAL_DATA, '0', '*', ValidationRules({})),
             sampleRosters(this, SYSBIO_SAMPLE_ROSTER, '0', '*', { libsbol_rule_16 }),
             citations(this, PURL_URI "bibliographicCitation", '0', '*', ValidationRules({})),
             keywords(this, PURL_URI "elements/1.1/subject", '0', '*', ValidationRules({}))
 			{
+                namespaces["rdf"] = RDF_URI;
                 namespaces["sbol"] = SBOL_URI "#";
                 namespaces["dcterms"] = PURL_URI;
                 namespaces["prov"] = PROV_URI "#";
@@ -141,6 +145,8 @@ namespace sbol {
         OwnedObject<CombinatorialDerivation> combinatorialderivations;
         OwnedObject<Implementation> implementations;
         OwnedObject<SampleRoster> sampleRosters;
+        OwnedObject<Experiment> experiments;
+        OwnedObject<ExperimentalData> experimentalData;
 
         URIProperty citations;
         URIProperty keywords;

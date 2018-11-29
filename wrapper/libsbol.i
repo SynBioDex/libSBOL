@@ -361,6 +361,7 @@
 %include "attachment.h"
 %include "implementation.h"
 %include "dbtl.h"
+%include "experiment.h"
 
 // Converts json-formatted text into Python data structures, eg, lists, dictionaries
 %pythonappend sbol::PartShop::search
@@ -764,6 +765,8 @@ TEMPLATE_MACRO_1(Build);
 TEMPLATE_MACRO_1(Test);
 TEMPLATE_MACRO_1(Analysis);
 TEMPLATE_MACRO_1(SampleRoster);
+TEMPLATE_MACRO_1(Experiment);
+TEMPLATE_MACRO_1(ExperimentalData);
 
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
@@ -781,6 +784,8 @@ TEMPLATE_MACRO_2(Build);
 TEMPLATE_MACRO_2(Test);
 TEMPLATE_MACRO_2(Analysis);
 TEMPLATE_MACRO_2(SampleRoster);
+TEMPLATE_MACRO_2(Experiment);
+TEMPLATE_MACRO_2(ExperimentalData);
 	
 TEMPLATE_MACRO_3(SBOLObject)
 TEMPLATE_MACRO_3(Identified)
@@ -821,6 +826,8 @@ TEMPLATE_MACRO_3(GeneProductionInteraction);
 TEMPLATE_MACRO_3(TranscriptionalActivationInteraction);
 TEMPLATE_MACRO_3(SmallMoleculeActivationInteraction);
 TEMPLATE_MACRO_3(EnzymeCatalysisInteraction);
+TEMPLATE_MACRO_3(Experiment);
+TEMPLATE_MACRO_3(ExperimentalData);
 TEMPLATE_MACRO_3(Document);
 	
 // Template functions used by PartShop

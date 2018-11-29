@@ -196,7 +196,10 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SBOL_IMPLEMENTATION, (SBOLObject&(*)()) &create<Implementation> ),
     make_pair(SYSBIO_DESIGN, (SBOLObject&(*)()) &create<Design> ),
     make_pair(SYSBIO_ANALYSIS, (SBOLObject&(*)()) &create<Analysis> ),
-    make_pair(SYSBIO_SAMPLE_ROSTER, (SBOLObject&(*)()) &create<SampleRoster> )
+    make_pair(SYSBIO_SAMPLE_ROSTER, (SBOLObject&(*)()) &create<SampleRoster> ),
+    make_pair(SBOL_EXPERIMENT, (SBOLObject&(*)()) &create<Experiment> ),
+    make_pair(SBOL_EXPERIMENTAL_DATA, (SBOLObject&(*)()) &create<ExperimentalData> )
+
 };
 
 
@@ -729,7 +732,8 @@ void Document::parse_objects_inner(const std::string &subject,
         // parse_properties handler.
         SBOLObjects[new_obj.identity.get()] = &new_obj;
         objectCache[subject] = &new_obj;
-        new_obj.doc = doc;  //  Set's the objects back-pointer to the parent Document
+        new_obj.doc = doc;     // Set the object's back-pointer to the parent Document
+        new_obj.parent = doc;  // For now, set the parent point to the Document.  This may get overwritten later for child objects
 
         // If the new object is TopLevel, add to the Document's property store
         TopLevel* check_top_level = dynamic_cast<TopLevel*>(&new_obj);
@@ -1068,13 +1072,19 @@ void Document::serialize_rdfxml(std::ostream &os) {
 
         // If an object has a parent and is not a hidden property it is
         // not a top-level object
-        if((parent != NULL) &&
-           (std::find(parent->hidden_properties.begin(),
-                      parent->hidden_properties.end(),
-                      typeURI) == hidden_properties.end()))
+        // if((parent != NULL) &&
+        //    (std::find(parent->hidden_properties.begin(),
+        //               parent->hidden_properties.end(),
+        //               typeURI) == hidden_properties.end()))
+        // {
+        //     continue;
+        // }
+
+        if(dynamic_cast<TopLevel*>(&obj) == NULL)
         {
-            continue;
+        	continue;
         }
+
 
         std::string identity = obj.identity.get();
         std::string rdfType = referenceNamespace(typeURI);

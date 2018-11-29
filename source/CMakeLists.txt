@@ -62,6 +62,7 @@ FILE(GLOB SBOL_HEADER_FILES
     dbtl.h
     attachment.h
     implementation.h
+    experiment.h
 	sbol.h
         ${RASQAL_HEADERS}
         )

@@ -72,6 +72,9 @@
 #define SBOL_COMBINATORIAL_DERIVATION SBOL_URI "#CombinatorialDerivation"
 #define SBOL_ATTACHMENT SBOL_URI "#Attachment"
 #define SBOL_IMPLEMENTATION SBOL_URI "#Implementation"
+#define SBOL_EXPERIMENT SBOL_URI "#Experiment"
+#define SBOL_EXPERIMENTAL_DATA SBOL_URI "#ExperimentalData"
+
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */

@@ -144,8 +144,8 @@ class TestRoundTripSBOL2(unittest.TestCase):
 	def test_case021(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[21]))
 
-        def test_case022(self):
-                self.run_round_trip(str(TEST_FILES_SBOL2[22]))
+	def test_case022(self):
+		self.run_round_trip(str(TEST_FILES_SBOL2[22]))
 
 	def test_case023(self):
 		self.run_round_trip(str(TEST_FILES_SBOL2[23]))
