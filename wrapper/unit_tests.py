@@ -481,11 +481,12 @@ class TestComponentDefinitions(unittest.TestCase):
 		for CD in doc.componentDefinitions:
 			listCD_read.append(CD.displayId)
 
-		# Python 3 compatability
-		if sys.version_info[0] < 3:
-			self.assertItemsEqual(listCD_read, listCD)
-		else:
-			self.assertCountEqual(listCD_read, listCD)
+		self.assertSequenceEqual(listCD_read, listCD)
+		# # Python 3 compatability
+		# if sys.version_info[0] < 3:
+		# 	self.assertItemsEqual(listCD_read, listCD)
+		# else:
+		# 	self.assertCountEqual(listCD_read, listCD)
 
 	def testPrimaryStructureIteration(self):
 		listCD = []
@@ -660,7 +661,7 @@ class TestAssemblyRoutines(unittest.TestCase):
 		level = params[0]
 		flattened_module_tree = [md.identity for md in flattened_module_tree]
 		expected_module_tree = [md.identity for md in [root, sub, leaf]]
-		self.assertItemsEqual(flattened_module_tree, expected_module_tree)
+		self.assertSequenceEqual(flattened_module_tree, expected_module_tree)
 		self.assertEquals(level, 3)
 
 class TestSequences(unittest.TestCase):
