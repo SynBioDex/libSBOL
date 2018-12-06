@@ -46,6 +46,7 @@
 #include <unordered_map>
 #include <istream>
 #include <algorithm>
+#include <set>
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
@@ -68,8 +69,6 @@ namespace sbol {
         friend class SBOLObject;
         
 	private:
-        std::string home; ///< The authoritative namespace for the Document. Setting the home namespace is like signing a piece of paper.
-        int SBOLCompliant; ///< Flag indicating whether to autoconstruct URI's consistent with SBOL's versioning scheme
         ValidationRules validationRules;  ///< A list of validation functions to run on the Document prior to serialization
         raptor_world *rdf_graph;  ///< RDF triple store that holds SBOL objects and properties
         
@@ -77,8 +76,6 @@ namespace sbol {
         /// Construct a Document.  The Document is a container for Components, Modules, and all other SBOLObjects
 		Document() :
             Identified(SBOL_DOCUMENT, "", VERSION_STRING),
-            home(""),
-            SBOLCompliant(0),
 			rdf_graph(raptor_new_world()),
             validationRules({ }),
             designs(this, SYSBIO_DESIGN, '0', '*', { libsbol_rule_11 }),
@@ -124,7 +121,8 @@ namespace sbol {
         /// The Document's register of objects
 		std::unordered_map<std::string, sbol::SBOLObject*> SBOLObjects;
         std::map<std::string, sbol::SBOLObject*> objectCache;
-        
+        std::set<std::string> resource_namespaces;
+
         TopLevel& getTopLevel(std::string);
         raptor_world* getWorld();
         /// @endcond
@@ -997,29 +995,83 @@ namespace sbol {
                 return (SBOLClass&)*obj;
             }
         }
-        // In SBOLCompliant mode, the user may retrieve an object by displayId as well
-        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
-        {
-            // Form compliant URI for child object
-            SBOLObject* parent_obj = this->sbol_owner;
-            std::string compliant_uri;
-            std::string persistentIdentity;
-            std::string version;
-            
-            // Assume the parent object is TopLevel and form the compliant URI
-            if (Config::getOption("sbol_typed_uris").compare("True") == 0)
-            {
 
-                persistentIdentity = getHomespace() + "/" + parseClassName(this->type);
+        // If searching by the full URI fails, assume the user is searching for an SBOL-compliant URI using the displayId only
+  
+        // Form compliant URI for child object
+        SBOLObject* parent_obj = this->sbol_owner;
+        std::string compliant_uri;
+        std::string persistentIdentity;
+        std::string version;
+
+        std::vector<std::string> resource_namespaces;
+        resource_namespaces.push_back(getHomespace());
+        if (parent_obj->doc)
+        {
+            for (auto & ns : parent_obj->doc->resource_namespaces)
+                resource_namespaces.push_back(ns);
+        }  
+
+        // Check for regular, SBOL-compliant URIs 
+        for (auto & ns : resource_namespaces)
+        {
+            // Assume the parent object is TopLevel and form the compliant URI
+            compliant_uri = ns + "/" + uri + "/";
+            if (Config::getOption("verbose") == "True")
+                std::cout << "Searching for TopLevel: " << compliant_uri << std::endl;
+
+            std::vector< SBOLClass* > persistent_id_matches;
+            for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+            {
+                SBOLObject* obj = *i_obj;
+                size_t found;
+                found = obj->identity.get().find(compliant_uri);
+                if (found != std::string::npos)
+                {
+                    persistent_id_matches.push_back((SBOLClass*)obj);
+                }
+                // Sort objects with same persistentIdentity by version
+                sort(persistent_id_matches.begin(), persistent_id_matches.end(), [](SBOLClass* a, SBOLClass* b) {
+                    return (a->version.get() < b->version.get());
+                });
+            }
+            // If objects matching the persistentIdentity were found, return the most recent version
+            if (persistent_id_matches.size() > 0)
+                return (SBOLClass&)*persistent_id_matches.back();
+            
+            // Assume the object is not TopLevel
+            if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())
+            {
+                persistentIdentity = parent_obj->properties[SBOL_PERSISTENT_IDENTITY].front();
+                persistentIdentity = persistentIdentity.substr(1, persistentIdentity.length() - 2);  // Removes flanking < and > from the uri
+            }
+            if (parent_obj->properties.find(SBOL_VERSION) != parent_obj->properties.end())
+            {
+                version = parent_obj->properties[SBOL_VERSION].front();
+                version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+                compliant_uri = persistentIdentity + "/" + uri + "/" + version;
             }
             else
             {
-                persistentIdentity = getHomespace();
+                compliant_uri = persistentIdentity + "/" + uri;
             }
+            if (Config::getOption("verbose") == "True")
+                std::cout << "Searching for non-TopLevel: " << compliant_uri << std::endl;
+            for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
+            {
+                SBOLObject* obj = *i_obj;
+                if (compliant_uri.compare(obj->identity.get()) == 0)
+                {
+                    return (SBOLClass&)*obj;
+                }
+            }
+        }
+        // Check for typed, SBOL-compliant URIs
+        for (auto & ns : resource_namespaces)
+        {
+            // Assume the parent object is TopLevel and form the typed, compliant URI
+            compliant_uri = ns + "/" + parseClassName(this->type) + "/" + uri + "/";
 
-            // Find latest version if they are using a different semantic versioning scheme
-            // This needs some work
-            compliant_uri = persistentIdentity + "/" + uri;
             if (Config::getOption("verbose") == "True")
                 std::cout << "Searching for TopLevel: " << compliant_uri << std::endl;
 

@@ -59,6 +59,32 @@ using namespace std;
 
 void Document::dress_document()
 {
+	// Infer resource namespaces in order to enable retrieval of SBOL-compliant OwnedObjects by displayId
+	for (auto & o : SBOLObjects)
+	{
+		Identified* obj = dynamic_cast<Identified*>(o.second);
+		// Check if compliant URI
+		if (obj != NULL && obj->persistentIdentity.size() && obj->displayId.size() && obj->version.size())
+		{
+			string uri = obj->identity.get();
+			string sbol_compliant_pattern = "/" + obj->displayId.get() + "/" + obj->version.get();
+			string sbol_typed_pattern = "/" + parseClassName(obj->type) + sbol_compliant_pattern;
+        	size_t found = uri.find(sbol_typed_pattern);
+			if (found != std::string::npos)
+			{
+				string ns = uri.substr(0, found);
+				resource_namespaces.insert(ns);
+				continue;
+			}
+        	found = uri.find(sbol_compliant_pattern);
+			if (found != std::string::npos)
+			{
+				string ns = uri.substr(0, found);
+				resource_namespaces.insert(ns);
+			}			
+		}
+	}
+
     // Look in Implementation store for objects with sys-bio:type and move them to Build store
     vector<string> build_ids;
 	for (auto & i : owned_objects[SBOL_IMPLEMENTATION])

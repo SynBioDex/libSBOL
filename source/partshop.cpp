@@ -1100,9 +1100,9 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
     Document temp_doc = Document();
     string serialization_format = Config::getOption("serialization_format");
     Config::setOption("serialization_format", "sbol");
-    temp_doc.readString(response);
+    doc.readString(response);
     Config::setOption("serialization_format", serialization_format);
-    temp_doc.copy(resource, &doc);
+    doc.resource_namespaces.insert(resource);
 };
 
 string PartShop::getURL()
