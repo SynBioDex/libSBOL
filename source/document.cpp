@@ -1170,7 +1170,7 @@ void Document::namespaceHandler(void *user_data, raptor_namespace *nspace)
     }
 }
 
-void Document::read(std::string filename)
+void Document::clear()
 {
     // Wipe existing contents of this Document first. This should
     raptor_free_world(this->rdf_graph);  //  Probably need to free other objects as well...
@@ -1202,6 +1202,11 @@ void Document::read(std::string filename)
 
     // Create new RDF graph
     this->rdf_graph = raptor_new_world();
+}
+
+void Document::read(std::string filename)
+{
+	clear();
     this->append(filename);
 };
 

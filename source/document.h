@@ -195,6 +195,9 @@ namespace sbol {
         /// @return The comparison results
         std::string request_comparison(Document& diff_file);
 
+        /// Delete all properties and objects in the Document
+        void clear();
+
         std::string query_repository(std::string command);
 
         std::string search_metadata(std::string role, std::string type, std::string name, std::string collection);
@@ -1598,6 +1601,13 @@ namespace sbol {
                 for (auto i_obj = object_store.begin(); i_obj != object_store.end(); ++i_obj)
                 {
                     SBOLObject* obj = *i_obj;
+                    if (dynamic_cast<TopLevel*>(obj))
+                    {
+                        if (obj->doc) 
+                        {
+                            obj->doc->SBOLObjects.erase(obj->identity.get());
+                        }
+                    }
                     obj->close();
                 }
                 object_store.clear();
