@@ -611,6 +611,13 @@ namespace sbol
             if (obj->identity.get() == uri)
                 return true;
         }
+        if (Config::getOption("sbol_compliant_uris") == "True")
+            if (this->sbol_owner->properties.find(SBOL_DISPLAY_ID) != this->sbol_owner->properties.end())
+                for (auto & obj : this->sbol_owner->owned_objects[this->type])
+                {
+                    if (obj->properties[SBOL_DISPLAY_ID].front() == "\"" + uri + "\"")
+                        return true;
+                }           
         return false;
     };
 

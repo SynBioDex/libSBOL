@@ -456,6 +456,15 @@ typedef std::string sbol::sbol_type;
 			else
 				throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot add " + parseClassName(obj->type) + ". The given URIs do not match");
 		}
+
+		bool __contains__(const std::string uri)
+		{
+			if ($self->find(uri))
+				return true;
+			else 
+				return false;
+		}
+
 	}
 	
 	/* Instantiate templates */

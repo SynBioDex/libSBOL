@@ -168,7 +168,14 @@ namespace sbol
         {
             pythonValidationRules.push_back(std::make_pair(validation_fx, property_object));
         };
-    
+        
+        bool __contains__(std::string value)
+        {
+            if (this->find(value))
+                return true;
+            else
+                return false;
+        }    
 #endif
 
     protected:
