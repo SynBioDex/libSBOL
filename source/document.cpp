@@ -1916,14 +1916,17 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         vector < string > property_store_copy = property_store;   // Copy properties
 
         // Add the property namespace to the target document if not present
-        string property_ns = parseNamespace(store_uri);
-        for (auto i_document_ns : this->doc->namespaces)
+        if (doc)
         {
-            string prefix = i_document_ns.first;
-            string document_ns = i_document_ns.second;
-            if (!document_ns.compare(property_ns))
-                target_doc->namespaces[prefix] = property_ns;
-        }
+	        string property_ns = parseNamespace(store_uri);
+	        for (auto i_document_ns : this->doc->namespaces)
+	        {
+	            string prefix = i_document_ns.first;
+	            string document_ns = i_document_ns.second;
+	            if (!document_ns.compare(property_ns))
+	                target_doc->namespaces[prefix] = property_ns;
+	        }
+	    }
 
         // If caller specified a namespace argument, then replace namespace in URIs
         // Don't overwrite namespaces for the wasDerivedFrom field, which points back to the original object
@@ -1993,7 +1996,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
     if (version.compare("") != 0)
     	new_obj.version.set(version);
     else if (this->version.size() > 0)
-    	if (this->doc == target_doc)  // In order to create a copy of the object in this Document, it's version must be incremented
+    	if (this->doc != NULL && this->doc == target_doc)  // In order to create a copy of the object in this Document, it's version must be incremented
         	new_obj.version.incrementMajor();
         else
         {

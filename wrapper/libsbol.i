@@ -777,6 +777,7 @@ TEMPLATE_MACRO_1(SampleRoster);
 TEMPLATE_MACRO_1(Experiment);
 TEMPLATE_MACRO_1(ExperimentalData);
 
+TEMPLATE_MACRO_2(TopLevel)
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
 TEMPLATE_MACRO_2(Sequence)
@@ -956,7 +957,6 @@ TEMPLATE_MACRO_3(Document);
 		if ($self->PythonObjects.find(id) != $self->PythonObjects.end())
 		{
 			PyObject* py_obj = $self->PythonObjects[id];
-			Py_INCREF(py_obj);
 			return py_obj;
 		}
 		else if ($self->SBOLObjects.find(id) != $self->SBOLObjects.end())
@@ -992,6 +992,7 @@ TEMPLATE_MACRO_3(Document);
 				$self->SBOLObjects[sbol_obj->identity.get()] = tl;
 				$self->PythonObjects[sbol_obj->identity.get()] = py_obj;
 				int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+				Py_INCREF(py_obj);
 			}
 			// Call the add method to recursively add child objects and set their back-pointer to this Document
 			for (auto i_store = sbol_obj->owned_objects.begin(); i_store != sbol_obj->owned_objects.end(); ++i_store)

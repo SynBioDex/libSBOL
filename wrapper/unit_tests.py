@@ -782,6 +782,11 @@ class TestCopy(unittest.TestCase):
 	def setUp(self):
 		pass
 
+	def testCloneObject(self):
+		cd = ComponentDefinition()
+		cd_copy = cd.copy()
+		self.assertEquals(cd.compare(cd_copy), 1)
+
 	def testCopyAndIncrementVersion(self):
 		Config.setOption('sbol_typed_uris', False)
 		doc = Document()
@@ -821,6 +826,17 @@ class TestCopy(unittest.TestCase):
 		comp_copy = comp.copy(doc2, homespace, '2')  # Import from old homespace into new homespace
 		self.assertEquals(comp_copy.identity, 'https://hub.sd2e.org/user/sd2e/test/hi/2')
 		setHomespace('http://examples.org')
+
+	def testExtensionObjects(self):
+		class GenericTopLevel(TopLevel):
+			def __init__(self, id = 'example'):
+				TopLevel.__init__(self, 'http://extension_namespace.com#GenericTopLevel', id, '1.0.0')
+
+		tl1 = GenericTopLevel()
+		doc = Document()
+		doc.addExtensionObject(tl1)
+		tl2 = doc.getExtensionObject(tl1.identity)
+		self.assertEquals(tl1.this, tl2.this)
 
 	def testCopyExtensionObjects(self):
 		class GenericTopLevel(TopLevel):
