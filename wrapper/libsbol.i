@@ -957,6 +957,7 @@ TEMPLATE_MACRO_3(Document);
 		if ($self->PythonObjects.find(id) != $self->PythonObjects.end())
 		{
 			PyObject* py_obj = $self->PythonObjects[id];
+			Py_INCREF(py_obj);
 			return py_obj;
 		}
 		else if ($self->SBOLObjects.find(id) != $self->SBOLObjects.end())
@@ -964,6 +965,7 @@ TEMPLATE_MACRO_3(Document);
 			SBOLObject* obj = $self->SBOLObjects[id];
 			PyObject *py_obj = SWIG_NewPointerObj(SWIG_as_voidptr(obj), $descriptor(sbol::TopLevel*), 0 |  0 );
 			int check = PyObject_SetAttr(py_obj, PyUnicode_FromString("thisown"), Py_False);
+			Py_INCREF(py_obj);
 			return py_obj;
 		}
 		throw SBOLError(NOT_FOUND_ERROR, "Object " + id + " not found");
