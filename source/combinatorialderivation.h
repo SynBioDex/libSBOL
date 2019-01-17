@@ -18,9 +18,9 @@ namespace sbol
             Identified(type, uri, version),
             variable(this, SBOL_VARIABLE, SBOL_COMPONENT, '0', '1', ValidationRules({})),
             repeat(this, SBOL_OPERATOR, '1', '1', ValidationRules({}), repeat),
-            variants(this, SBOL_VARIANTS, SBOL_COMPONENT_DEFINITION, '0', '1', ValidationRules({})),
-            variantCollections(this, SBOL_VARIANT_COLLECTIONS, SBOL_COLLECTION, '0', '1', ValidationRules({})),
-            variantDerivations(this, SBOL_VARIANT_DERIVATIONS, SBOL_COMBINATORIAL_DERIVATION, '0', '1', ValidationRules({}))
+            variants(this, SBOL_VARIANTS, SBOL_COMPONENT_DEFINITION, '0', '*', ValidationRules({})),
+            variantCollections(this, SBOL_VARIANT_COLLECTIONS, SBOL_COLLECTION, '0', '*', ValidationRules({})),
+            variantDerivations(this, SBOL_VARIANT_DERIVATIONS, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({}))
         {
         };
 

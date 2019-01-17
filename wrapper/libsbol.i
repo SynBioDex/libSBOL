@@ -363,42 +363,22 @@
 %include "dbtl.h"
 %include "experiment.h"
 
-// Converts json-formatted text into Python data structures, eg, lists, dictionaries
-%pythonappend sbol::PartShop::search
-%{
-	if val[0] == '[' :
-		exec('val = ' + val)
-		return val
-	else :
-		return val
-%}
-//
-//// Converts json-formatted text into Python data structures, eg, lists, dictionaries
-%pythonappend sbol::PartShop::submit
-%{
-	if val[0] == '[' :
-		exec('val = ' + val)
-		return val
-	else :
-		return val
-%}
 
 %pythonappend sbol::PartShop::searchRootCollections
 %{
-	true = True
-	false = False
-	exec('val = ' + val)
-	return val
+	return json.loads(val)
 %}
 
 %pythonappend sbol::PartShop::searchSubCollections
 %{
-	true = True
-	false = False
-	exec('val = ' + val)
-	return val
+	return json.loads(val)
 %}
-	
+
+%pythonappend sbol::PartShop::sparqlQuery
+%{
+	return json.loads(val)
+%}
+
 %include "partshop.h"
 	
 %include "document.h"
@@ -819,6 +799,7 @@ TEMPLATE_MACRO_3(Collection)
 TEMPLATE_MACRO_3(Attachment)
 TEMPLATE_MACRO_3(Implementation)
 TEMPLATE_MACRO_3(CombinatorialDerivation)
+TEMPLATE_MACRO_3(VariableComponent)
 TEMPLATE_MACRO_3(Agent)
 TEMPLATE_MACRO_3(Plan)
 TEMPLATE_MACRO_3(Association);
@@ -1470,6 +1451,7 @@ TEMPLATE_MACRO_3(Document);
 
 %pythonbegin %{
 from __future__ import absolute_import
+import json
 %}
 	
 %pythoncode

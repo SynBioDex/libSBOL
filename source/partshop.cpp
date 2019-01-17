@@ -28,27 +28,49 @@ void replace(string& text, string target, string replacement)
 };
 
 // A utility function for encoding text into UTF8 for http requests
-void encode_http(string& text)
+void encode_url(string& text)
 {
-    string UTF8_AMPERSAND = "%26";
-    string UTF8_EQUALS = "%3D";
-    string UTF8_LESS_THAN = "%3C";
-    string UTF8_GREATER_THAN = "%3E";
-    string UTF8_COLON = "%3A";
-    string UTF8_HASH = "%23";
-    string UTF8_APOSTROPHE = "%27";
-    string UTF8_SPACE = "%20";
-    string UTF8_SLASH = "%2F";
-    
-    replace(text, "&", UTF8_AMPERSAND);
-    replace(text, "=", UTF8_EQUALS);
-    replace(text, "<", UTF8_LESS_THAN);
-    replace(text, ">", UTF8_GREATER_THAN);
-    replace(text, ":", UTF8_COLON);
-    replace(text, "#", UTF8_HASH);
-    replace(text, "'", UTF8_APOSTROPHE);
-    replace(text, " ", UTF8_SPACE);
-    replace(text, "/", UTF8_SLASH);
+    // string UTF8_AMPERSAND = "%26";
+    // string UTF8_EQUALS = "%3D";
+    // string UTF8_LESS_THAN = "%3C";
+    // string UTF8_GREATER_THAN = "%3E";
+    // string UTF8_COLON = "%3A";
+    // string UTF8_HASH = "%23";
+    // string UTF8_APOSTROPHE = "%27";
+    // string UTF8_SPACE = "%20";
+    // string UTF8_SLASH = "%2F";
+    // string UTF8_CURLYBRACE_OPEN = "%7B";
+    // string UTF8_CURLYBRACE_CLOSED = "%7D";
+    // string UTF8_SEMICOLON = "%3B";
+    // string UTF8_DOT = "%2E";
+    // string UTF8_QUOTE = "%22";
+    // string UTF8_QUESTION_MARK = "%3F";
+    // string UTF8_OPEN_PARENTHESES = "%28";
+    // string UTF8_CLOSE_PARENTHESES = "%29";
+    // string UTF8_LINEFEED = "%0A";
+    // string UTF8_CARRIAGE_RETURN = "%0D";
+
+    // replace(text, "&", UTF8_AMPERSAND);
+    // replace(text, "=", UTF8_EQUALS);
+    // replace(text, "<", UTF8_LESS_THAN);
+    // replace(text, ">", UTF8_GREATER_THAN);
+    // replace(text, ":", UTF8_COLON);
+    // replace(text, "#", UTF8_HASH);
+    // replace(text, "'", UTF8_APOSTROPHE);
+    // replace(text, " ", UTF8_SPACE);
+    // replace(text, "/", UTF8_SLASH);
+    // replace(text, "{", UTF8_CURLYBRACE_OPEN);
+    // replace(text, "}", UTF8_CURLYBRACE_CLOSED);
+    // replace(text, ";", UTF8_SEMICOLON);
+    // replace(text, ".", UTF8_DOT);
+    // replace(text, "\"", UTF8_DOT);
+    // replace(text, "?", UTF8_DOT);
+    // replace(text, ".", UTF8_DOT);
+    // replace(text, "(", UTF8_DOT);
+    // replace(text, ")", UTF8_DOT);
+    CURL *curl;
+    char * encoded_text = curl_easy_escape(curl, text.c_str(), text.size());
+    text = string(encoded_text);
 };
 
 // Advanced search
@@ -119,7 +141,7 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
         else
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid limit parameter specified");
         
-        encode_http(parameters);
+        encode_url(parameters);
         parameters = url + "/remoteSearch/" + parameters;
         
         /* First set the URL that is about to receive our GET. */
@@ -202,7 +224,7 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
             // Encode as a literal
             parameters += "'" + search_text + "'&";
         
-        encode_http(parameters);
+        encode_url(parameters);
         
         // Specify how many records to retrieve
         parameters += "/?offset=" + to_string(offset) + "&limit=" + to_string(limit);
@@ -253,6 +275,11 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
     return search_response;
 };
 
+std::string sbol::PartShop::getKey()
+{
+    return key;
+};
+
 // General search
 SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_type, int offset, int limit)
 {
@@ -281,7 +308,7 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
         // Specify partial search text. Specify how many records to retrieve
         parameters = parameters + search_text;
         
-        encode_http(search_text);
+        encode_url(search_text);
         
         // Specify how many records to retrieve
         parameters += "/?offset=" + to_string(offset) + "&limit=" + to_string(limit);
@@ -388,7 +415,7 @@ int sbol::PartShop::searchCount(SearchQuery& q)
                 }
             }
         
-        encode_http(parameters);
+        encode_url(parameters);
         parameters = url + "/searchCount/" + parameters;
         
         /* First set the URL that is about to receive our GET. */
@@ -459,7 +486,7 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type, s
             // Encode as a literal
             parameters += "'" + search_text + "'&";
         
-        encode_http(parameters);
+        encode_url(parameters);
         
         parameters = parseURLDomain(url) + "/remoteSearch/" + parameters;
         
@@ -523,7 +550,7 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
         // Specify partial search text. Specify how many records to retrieve
         parameters = parameters + search_text;
         
-        encode_http(search_text);
+        encode_url(search_text);
         
         parameters = url + "/searchCount/" + parameters;
         
@@ -578,8 +605,10 @@ int getch(void)
 }
 #endif
 
-void sbol::PartShop::login(std::string email, std::string password)
+void sbol::PartShop::login(std::string user_id, std::string password)
 {
+    this->user = user_id;
+    
     if (password == "")
     {
         cout << "Password: ";
@@ -611,7 +640,8 @@ void sbol::PartShop::login(std::string email, std::string password)
     string response;
     CURL *curl;
     CURLcode res;
-    
+    long http_response_code = 0;
+
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
     
@@ -631,7 +661,7 @@ void sbol::PartShop::login(std::string email, std::string password)
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         /* Now specify the POST data */
-        string parameters = "email=" + email + "&" + "password=" + password;
+        string parameters = "email=" + user_id + "&" + "password=" + password;
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
         
         /* Now specify the callback to read the response into string */
@@ -643,17 +673,20 @@ void sbol::PartShop::login(std::string email, std::string password)
         /* Check for errors */
         if(res != CURLE_OK)
             throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Login failed due to an HTTP error: " + string(curl_easy_strerror(res)));
-        
+
+        curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_response_code);
+
+
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
     curl_slist_free_all(headers);
     curl_global_cleanup();
     
-    if (response == "Your password was not recognized.")
-        std::cout << response << std::endl;
-    else
-        key = response;
+    if (http_response_code != 200)
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Login failed due to a " + to_string(http_response_code) + " HTTP error: " + response);
+
+    key = response;
 };
 
 std::string sbol::PartShop::submit(Document& doc, std::string collection, int overwrite)
@@ -1008,7 +1041,7 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
     std::string response;
     CURL *curl;
     CURLcode res;
-    
+
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
     
@@ -1080,6 +1113,8 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
         query = uri;  // User has specified full URI
     else if (uri.find(parseURLDomain(resource)) != std::string::npos)
         query = uri;  // User has specified full URI
+    else if (uri.find(spoofed_resource) != std::string::npos)
+        query = uri.replace(uri.find(spoofed_resource), spoofed_resource.size(), resource);
     else
         query = resource + "/" + uri;  // Assume user has only specified displayId
     try
@@ -1103,6 +1138,62 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
     doc.readString(response);
     Config::setOption("serialization_format", serialization_format);
     doc.resource_namespaces.insert(resource);
+};
+
+void sbol::PartShop::spoof(std::string spoofed_url)
+{
+    spoofed_resource = spoofed_url;
+};
+
+std::string sbol::PartShop::sparqlQuery(std::string query)
+{
+    string endpoint = parseURLDomain(this->resource) + "/sparql?query=";
+    string resource;
+    if (spoofed_resource == "")
+        resource = this->resource;
+    else
+        resource = this->spoofed_resource;
+
+    size_t p = query.find("WHERE");
+    if (p != std::string::npos)
+    {
+        string from_clause = "  FROM <" + parseURLDomain(resource) + "/user/" + user + "> ";
+        query = query.insert(p, from_clause);
+    }
+    encode_url(query);
+    query = endpoint + query;
+
+    unordered_map<string, string> headers;
+    unordered_map<string, string> header_response;
+    headers["X-authorization"] = key;
+    headers["Accept"] = "application/json";
+    
+    string response;
+    if (Config::getOption("verbose") == "True")
+        std::cout << "Issuing SPARQL:\n" << query << std::endl;
+    response = http_get_request(query, &headers);
+
+    return response;
+};
+
+void sbol::PartShop::remove(string uri)
+{
+    if (spoofed_resource != "")
+    {
+        size_t p = uri.find(resource);
+        if (p != std::string::npos)
+        {
+            uri = uri.insert(p, spoofed_resource);
+        }
+    }
+    string endpoint = uri + "/remove";
+    
+    unordered_map<string, string> headers;
+    unordered_map<string, string> header_response;
+    headers["X-authorization"] = key;
+    headers["Accept"] = "application/json";
+    
+    http_get_request(endpoint, &headers);
 };
 
 string PartShop::getURL()
