@@ -48,7 +48,7 @@ namespace sbol
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param definition The identity of the Component with this structural constraint
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
-        Module(std::string uri = "example", std::string definition = "", std::string version = "1.0.0") : Module(SBOL_MODULE, uri, definition, version) {};
+        Module(std::string uri = "example", std::string definition = "", std::string version = VERSION_STRING) : Module(SBOL_MODULE, uri, definition, version) {};
 
         /// Constructor used for defining extension classes
         /// @param type The RDF type for an extension class derived from this one

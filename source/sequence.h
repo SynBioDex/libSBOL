@@ -41,7 +41,7 @@ namespace sbol
         /// @param elements A string representation of the primary structure of DNA, RNA, protein, or a SMILES string for small molecules.
         /// @param encoding A URI that describes the representation format used for the elements property. Set to SBOL_ENCODING_IUPAC by default
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string.
-        Sequence(std::string uri = "example", std::string elements = "", std::string encoding = SBOL_ENCODING_IUPAC, std::string version = "1.0.0") : Sequence(SBOL_SEQUENCE, uri, elements, encoding, version) {};
+        Sequence(std::string uri = "example", std::string elements = "", std::string encoding = SBOL_ENCODING_IUPAC, std::string version = VERSION_STRING) : Sequence(SBOL_SEQUENCE, uri, elements, encoding, version) {};
         
         /// Constructor used for defining extension classes
         /// @param type_uri The RDF type for an extension class derived from this one

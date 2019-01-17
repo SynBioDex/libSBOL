@@ -37,6 +37,7 @@
 #include <map>
 #include <unordered_map>
 #include <stdexcept>
+#include <algorithm>
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
@@ -167,9 +168,24 @@ namespace sbol
         {
             pythonValidationRules.push_back(std::make_pair(validation_fx, property_object));
         };
-    
-#endif
         
+        bool __contains__(std::string value)
+        {
+            if (this->find(value))
+                return true;
+            else
+                return false;
+        }    
+#endif
+
+    protected:
+        bool isHidden()
+        {
+            if (std::find(this->sbol_owner->hidden_properties.begin(), this->sbol_owner->hidden_properties.end(), this->type) != this->sbol_owner->hidden_properties.end())
+                return true;
+            else
+                return false;
+        }
     };
     
     template <class LiteralType>

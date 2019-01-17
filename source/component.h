@@ -93,7 +93,7 @@ namespace sbol
         /// @param definition A URI referring to the ComponentDefinition that defines this instance
         /// @param access Flag indicating whether the Component can be referred to remotely by a MapsTo
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
-        Component(std::string uri = "example", std::string definition = "", std::string access = SBOL_ACCESS_PUBLIC, std::string version = "1.0.0") :
+        Component(std::string uri = "example", std::string definition = "", std::string access = SBOL_ACCESS_PUBLIC, std::string version = VERSION_STRING) :
             Component(SBOL_COMPONENT, uri, definition, access, version) {};
         
 //        Component(std::string uri_prefix, std::string display_id, std::string version, std::string definition,std::string access) : Component(SBOL_COMPONENT, uri_prefix, display_id, version, definition, access) {};
@@ -129,7 +129,7 @@ namespace sbol
         /// @param access Flag indicating whether the FunctionalComponent can be referred to remotely by a MapsTo
         /// @param direction The direction property specifies whether a FunctionalComponent serves as an input, output, both, or neither for its parent ModuleDefinition object
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
-        FunctionalComponent(std::string uri = "example", std::string definition = "", std::string access = SBOL_ACCESS_PUBLIC, std::string direction = SBOL_DIRECTION_NONE, std::string version = "1.0.0") : FunctionalComponent(SBOL_FUNCTIONAL_COMPONENT, uri, definition, access, direction, version) {};
+        FunctionalComponent(std::string uri = "example", std::string definition = "", std::string access = SBOL_ACCESS_PUBLIC, std::string direction = SBOL_DIRECTION_NONE, std::string version = VERSION_STRING) : FunctionalComponent(SBOL_FUNCTIONAL_COMPONENT, uri, definition, access, direction, version) {};
         
 //        FunctionalComponent(std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access, std::string direction) : FunctionalComponent(SBOL_FUNCTIONAL_COMPONENT, uri_prefix, display_id, version, definition, access, direction) {};
         

@@ -61,6 +61,7 @@ namespace sbol
     protected:
         /// @cond
         std::unordered_map<std::string, std::string> namespaces;
+        std::string default_namespace;
         void serialize(raptor_serializer* sbol_serializer, raptor_world *sbol_world = NULL);  // Convert an SBOL object into RDF triples
         std::string nest(std::string& rdfxml_buffer);  // Pretty-writer that converts flat RDF/XML into nested RDF/XML (ie, SBOL)
         std::string makeQName(std::string uri);
@@ -79,7 +80,7 @@ namespace sbol
         /// @cond
         Document *doc = NULL;
         rdf_type type;
-        SBOLObject* parent;
+        SBOLObject* parent = NULL;
         
         std::map<sbol::rdf_type, std::vector< std::string > > properties;
         std::map<sbol::rdf_type, std::vector< sbol::SBOLObject* > > owned_objects;
@@ -103,6 +104,8 @@ namespace sbol
         /// @param uri The URI to search for.
         /// @return A pointer to theobject with this URI if it exists, NULL otherwise
         SBOLObject* find(std::string uri);
+
+        void cacheObjects(std::map<std::string, sbol::SBOLObject*> &objectCache);
 
         /// Search this object recursively to see if it contains a member property with the given RDF type.
         /// @param uri The RDF type of the property to search for.
@@ -140,9 +143,13 @@ namespace sbol
         /// @return A vector of URIs that identify the properties contained in this object
         std::vector < std::string > getProperties();
         
-        /// Set the value for a user-defined annotation property.
-        /// @val If the value is a URI, it should be surrounded by angle brackets, else it will be interpreted as a literal value
+        /// Set and overwrite the value for a user-defined annotation property.
+        /// @val Either a literal or URI value
         void setPropertyValue(std::string property_uri, std::string val);
+
+        /// Append a value to a user-defined annotation property.
+        /// @val Either a literal or URI value
+        void addPropertyValue(std::string property_uri, std::string val);
 
         /// Set the value for a user-defined annotation property. Synonymous with setPropertyValue
         /// @val If the value is a URI, it should be surrounded by angle brackets, else it will be interpreted as a literal value
@@ -153,6 +160,8 @@ namespace sbol
         /// @return The value of the property or SBOL_ERROR_NOT_FOUND
         std::string getAnnotation(std::string property_uri);
         
+        void apply(void (*callback_fn)(SBOLObject *, void *), void * user_data);
+        
         void update_uri();
         
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
@@ -162,6 +171,10 @@ namespace sbol
         
         PyObject* cast(PyObject* python_class);
 #endif
+
+        void serialize_rdfxml(std::ostream &os, size_t indentLevel);
+
+        template < class SBOLClass > SBOLClass& cast();
 
         /// Use this method to destroy an SBOL object that is not contained by a parent Document.  If the object does have a parent Document, instead use doc.close() with the object's URI identity as an argument.
         /// @TODO Recurse through child objects and delete them.
@@ -183,6 +196,36 @@ namespace sbol
         };
 
     };
+
+    template <class SBOLClass>
+    SBOLClass& SBOLObject::cast()
+    {
+        SBOLClass& new_obj = *new SBOLClass();
+
+        // Set identity
+        new_obj.identity.set(this->identity.get());
+        
+        // Copy properties
+        for (auto it = this->properties.begin(); it != this->properties.end(); it++)
+        {
+            new_obj.properties[it->first] = this->properties[it->first];
+        }
+        for (auto it = this->owned_objects.begin(); it != this->owned_objects.end(); it++)
+        {
+            new_obj.owned_objects[it->first] = this->owned_objects[it->first];
+        }
+        for (auto it = this->namespaces.begin(); it != this->namespaces.end(); it++)
+        {
+            new_obj.namespaces[it->first] = this->namespaces[it->first];
+        }
+        for (auto it = this->hidden_properties.begin(); it != this->hidden_properties.end(); it++)
+        {
+            new_obj.hidden_properties.push_back(*it);
+        }
+        // new_obj->parent = this->parent;
+        // new_obj->doc = this->doc;
+        return new_obj;
+    }
 
     /// @ingroup extension_layer
     /// @brief A reference to another SBOL object
@@ -361,7 +404,9 @@ namespace sbol
         /// @param sbol_obj A child object to add to this container property.
         /// Assigns a child object to this OwnedObject container property. This method always overwrites the first SBOLObject in the container. appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
         void set(SBOLClass& sbol_obj);
-        
+
+        void set_notoplevelcheck(SBOLClass& sbol_obj);
+
         /// @tparam SBOLClass The type of SBOL object contained in this OwnedObject property
         /// @param sbol_obj A child object to add to this container property.
         /// Adds a child object to the parent object. This method always appends another object to those already contained in this OwnedObject property. In SBOLCompliant mode, the create method is preferred
@@ -566,6 +611,13 @@ namespace sbol
             if (obj->identity.get() == uri)
                 return true;
         }
+        if (Config::getOption("sbol_compliant_uris") == "True")
+            if (this->sbol_owner->properties.find(SBOL_DISPLAY_ID) != this->sbol_owner->properties.end())
+                for (auto & obj : this->sbol_owner->owned_objects[this->type])
+                {
+                    if (obj->properties[SBOL_DISPLAY_ID].front() == "\"" + uri + "\"")
+                        return true;
+                }           
         return false;
     };
 

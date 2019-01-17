@@ -20,17 +20,21 @@ elseif(TARGET sbol64-shared)
     add_library(sbol ALIAS sbol64-shared)
 endif()
 
-#temporary fix
-IF (SBOL_BUILD_PYTHON3)
-find_package( PythonLibs 3 )
-ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
-include_directories( ${PYTHON_INCLUDE_DIR} )
-ELSEIF(SBOL_BUILD_PYTHON2)
-find_package( PythonLibs 2 )
-ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)
-include_directories( ${PYTHON_INCLUDE_DIR} )
-ENDIF()
-message( "FOUND PYTHON = ${PYTHON_LIBRARIES}")
+# pass definitions to compiler for conditional compilation
+if (SBOL_BUILD_PYTHON3)
+    find_package( PythonLibs 3 )
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
+    include_directories( ${PYTHON_INCLUDE_DIR} )
+elseif(SBOL_BUILD_PYTHON2)
+    find_package( PythonLibs 2 )
+    ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)
+    include_directories( ${PYTHON_INCLUDE_DIR} )
+endif()
+if( SBOL_BUILD_MANYLINUX )
+    add_definitions(-DSBOL_BUILD_MANYLINUX)
+endif()
+
+
 
 IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
     # build test executable
@@ -56,16 +60,21 @@ ELSE ()
     # build test executable
     add_executable( sbol_test ${APPLICATION_FILES} )
     set_target_properties(sbol_test PROPERTIES LINKER_LANGUAGE CXX)
+
+    if( RASQAL_LIBRARY )
+        SET(RASQAL_LDFLAGS ${RASQAL_LIBRARY})
+    endif()
     target_link_libraries( sbol_test
         sbol
-        ${PYTHON_LIBRARIES} #temporary fix
+        #${PYTHON_LIBRARIES} #temporary fix
         ${RAPTOR_LIBRARY}
+        ${RASQAL_LDFLAGS}
         ${CURL_LIBRARY}
         ${LIBXSLT_LIBRARIES}
         ${JsonCpp_LIBRARY}
         )
     file(MAKE_DIRECTORY "${SBOL_RELEASE_DIR}/test")
-    add_custom_command(TARGET sbol_test PRE_BUILD COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/SBOLTestSuite/SBOL2 ${SBOL_RELEASE_DIR}/test/roundtrip)
+    add_custom_command(TARGET sbol_test PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/SBOLTestSuite/SBOL2 ${SBOL_RELEASE_DIR}/test/roundtrip)
     set_target_properties(sbol_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${SBOL_RELEASE_DIR}/test")
 ENDIF ()
 
