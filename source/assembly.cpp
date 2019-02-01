@@ -1979,6 +1979,27 @@ void nest_ranges(std::vector < sbol::Range* > ranges, ComponentDefinition* cdef_
         removed_ann->close();
 }
 
+vector<SequenceAnnotation*> ComponentDefinition::sortSequenceAnnotations()
+{
+    vector<Range*> unsorted_ranges;
+    vector<SequenceAnnotation*> sorted_annotations;
+    for (auto & ann : sequenceAnnotations)
+    {
+        for (auto & l : ann.locations)
+        {
+            if (l.type == SBOL_RANGE)
+                unsorted_ranges.push_back((Range*)&l);
+        }
+    }
+    sort(unsorted_ranges.begin(), unsorted_ranges.end(), compare_ranges);
+    for (auto & r : unsorted_ranges)
+    {
+        sorted_annotations.push_back((SequenceAnnotation*)r->parent);
+    }
+    return sorted_annotations;
+};
+
+
 void disassemble(ComponentDefinition * cdef_node, int range_start)
 {
 //    std::cout << "Dissembling " << cdef_node->identity.get() << " at " << range_start << std::endl;

@@ -246,6 +246,19 @@
 	PyErr_Clear();
 }
 
+// This typemap is here in order to convert the return type of ComponentDefinition::sortSequenceAnnotations into a Python list. 
+%typemap(out) std::vector < sbol::SequenceAnnotation* > {
+	int len = $1.size();
+	PyObject* list = PyList_New(0);
+	for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+	{
+		PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::SequenceAnnotation*), 0 |  0 );
+		PyList_Append(list, elem);
+	}
+	$result  = list;
+	$1.clear();
+	PyErr_Clear();
+}
 
 // Typemap the hash table returned by Analysis::report methods
 %typemap(out) std::unordered_map < std::string, std::tuple < int, int, float > > {
