@@ -674,6 +674,8 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 void Document::parse_objects_inner(const std::string &subject,
                                    const std::string &object)
 {
+    bool foundSubject = (objectCache.find(subject) != objectCache.end());
+
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 
     typedef struct {
@@ -684,7 +686,6 @@ void Document::parse_objects_inner(const std::string &subject,
         PyObject *next;
     } SwigPyObject;
 
-    bool foundSubject = (objectCache.find(subject) != objectCache.end());
     // Instantiate Python extension objects
 
     if ( !foundSubject        && (PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
