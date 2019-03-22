@@ -37,6 +37,7 @@ namespace sbol
                          NOT_FOUND_ERROR,
                          SBOL_ERROR_NOT_FOUND,
                          END_OF_LIST,
+                         SBOL_ERROR_URI_NOT_UNIQUE,
                          SBOL_ERROR_END_OF_LIST,
                          SBOL_ERROR_SERIALIZATION,
                          SBOL_ERROR_PARSE,
@@ -49,7 +50,7 @@ namespace sbol
                          SBOL_ERROR_ORPHAN_OBJECT,
                          SBOL_ERROR_TYPE_MISMATCH,
                          SBOL_ERROR_BAD_HTTP_REQUEST,
-                         SBOL_ERROR_URI_NOT_UNIQUE
+                         SBOL_ERROR_HTTP_UNAUTHORIZED
                         };
 
 	//SBOLErrorCode SBOLError(SBOLErrorCode error_code, const std::string message);
@@ -66,6 +67,10 @@ namespace sbol
         };
         virtual const char* what() const throw() {
             return message_.c_str();
+        }
+        std::string error_message()
+        {
+            return message_;
         }
         SBOLErrorCode error_code() const
         {

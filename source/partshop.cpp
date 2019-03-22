@@ -157,7 +157,7 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search request failed with " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -1075,6 +1075,11 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
         curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, CurlResponseHeader_CallbackFunc);
         curl_easy_setopt(curl, CURLOPT_HEADERDATA, response_headers);
 
+        if (Config::getOption("verbose") == "True")
+        {
+            std::cout << "Issuing get request: " << get_request << std::endl;
+        }
+
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
         
@@ -1091,6 +1096,12 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
         }
         if (http_response_code == 404)
             throw SBOLError(SBOL_ERROR_NOT_FOUND, "");
+        else if (http_response_code == 401)
+            throw SBOLError(SBOL_ERROR_HTTP_UNAUTHORIZED, "Please login with valid credentials");
+        else if (http_response_code == 302)
+            ;  // Do nothing in case of redirect. This occurs sometimes with spoofed resources
+        else if (http_response_code != 200)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, response);
 
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -1113,7 +1124,7 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
         query = uri;  // User has specified full URI
     else if (uri.find(parseURLDomain(resource)) != std::string::npos)
         query = uri;  // User has specified full URI
-    else if (uri.find(spoofed_resource) != std::string::npos)
+    else if (spoofed_resource != "" && uri.find(spoofed_resource) != std::string::npos)
         query = uri.replace(uri.find(spoofed_resource), spoofed_resource.size(), resource);
     else
         query = resource + "/" + uri;  // Assume user has only specified displayId
@@ -1142,6 +1153,8 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
 
 void sbol::PartShop::spoof(std::string spoofed_url)
 {
+    if (spoofed_url.size() && spoofed_url.back() == '/')
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "PartShop initialization failed. The spoofed URL should not contain a terminal backslash");
     spoofed_resource = spoofed_url;
 };
 
@@ -1178,15 +1191,17 @@ std::string sbol::PartShop::sparqlQuery(std::string query)
 
 void sbol::PartShop::remove(string uri)
 {
-    if (spoofed_resource != "")
-    {
-        size_t p = uri.find(resource);
-        if (p != std::string::npos)
-        {
-            uri = uri.insert(p, spoofed_resource);
-        }
-    }
-    string endpoint = uri + "/remove";
+    string query;
+    if (uri.find(resource) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else if (uri.find(parseURLDomain(resource)) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else if (spoofed_resource != "" && uri.find(spoofed_resource) != std::string::npos)
+        query = uri.replace(uri.find(spoofed_resource), spoofed_resource.size(), resource);
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Removal of " + uri + " failed. The object does not exist in the resource namespace");
+
+    string endpoint = query + "/remove";
     
     unordered_map<string, string> headers;
     unordered_map<string, string> header_response;
@@ -1196,9 +1211,19 @@ void sbol::PartShop::remove(string uri)
     http_get_request(endpoint, &headers);
 };
 
+string PartShop::getUser()
+{
+    return user;
+}
+
 string PartShop::getURL()
 {
     return resource;
+}
+
+string PartShop::getSpoofedURL()
+{
+    return spoofed_resource;
 }
 
 void PartShop::attachFile(std::string topleveluri, std::string filename)
@@ -1317,6 +1342,43 @@ void PartShop::addSynBioHubAnnotations(Document& doc)
     }
 }
 
+bool sbol::PartShop::exists(std::string uri)
+{
+    unordered_map<string, string> headers;
+    headers["X-authorization"] = key;
+    headers["Accept"] = "text/plain";
+
+    string query;
+    string response;
+
+    if (uri.find(resource) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else if (uri.find(parseURLDomain(resource)) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else if (spoofed_resource != "" && uri.find(spoofed_resource) != std::string::npos)
+        query = uri.replace(uri.find(spoofed_resource), spoofed_resource.size(), resource);
+    try
+    {
+        string get_request = query + "/metadata";
+        if (Config::getOption("verbose") == "True")
+            std::cout << "Issuing get request:\n" << get_request << std::endl;
+        response = http_get_request(get_request, &headers);
+    }   
+    catch (SBOLError& e)
+    {
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search request failed with response: " + e.error_message());
+    }
+
+    Json::Value json_response;
+    Json::Reader reader;
+    bool parsed = reader.parse(response, json_response);
+    if (!parsed)
+        return false;
+    else if (response == "[]")
+        return false;
+    else
+        return true;
+};
 
 void SearchResponse::extend(SearchResponse& response)
 {

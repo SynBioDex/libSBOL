@@ -167,6 +167,10 @@ namespace sbol
             key(""),
             spoofed_resource(spoofed_url)
             {
+                if (url.size() && url.back() == '/')
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "PartShop initialization failed. The resource URL should not contain a terminal backslash");
+                if (spoofed_url.size() && spoofed_url.back() == '/')
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "PartShop initialization failed. The spoofed URL should not contain a terminal backslash");
             };
         
         /// Return the count of objects contained in a PartShop
@@ -260,6 +264,10 @@ namespace sbol
 
         std::string getKey();        
 
+        std::string getUser();        
+
+        std::string getSpoofedURL();        
+
         /// Upload and attach a file to a TopLevel object in a PartShop.
         /// @param top_level_uri The identity of the object to which the file will be attached
         /// @param file_name A path to the file attachment
@@ -270,8 +278,9 @@ namespace sbol
         /// @param path The target path to which the file will be downloaded
         void downloadAttachment(std::string attachment_uri, std::string path = ".");
       
-    // private:
-        void addSynBioHubAnnotations(Document& doc);  
+        void addSynBioHubAnnotations(Document& doc); 
+
+        bool exists(std::string uri); 
     };
 
 //    /// Returns a Document including all objects referenced from this object
