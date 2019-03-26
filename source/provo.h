@@ -131,9 +131,9 @@ namespace sbol
         /// @param rdf_type The RDF type for an extension class derived from this one
         Activity(rdf_type type, std::string uri, std::string action_type, std::string version) :
             TopLevel(type, uri, version),
-            //type(SBOL_TYPES, this, action_type),
             plan(this, PROVO_PLAN, '0', '1', ValidationRules({ libsbol_rule_24 })),
             agent(this, PROVO_AGENT, '0', '1', ValidationRules({ libsbol_rule_22 })),
+            types(this, SBOL_TYPES, '0', '1', ValidationRules({})),
             startedAtTime(this, PROVO_STARTED_AT_TIME, '0', '1'),
             endedAtTime(this, PROVO_ENDED_AT_TIME, '0', '1'),
             wasInformedBy(this, PROVO_WAS_INFORMED_BY, PROVO_ACTIVITY, '0', '*', ValidationRules({})),
@@ -143,10 +143,14 @@ namespace sbol
                 hidden_properties.push_back(PROVO_PLAN);
                 hidden_properties.push_back(PROVO_AGENT);                
             };
+
+        /// A URI describing a type of Activity in a workflow, e.g., SBOL_DESIGN, SBOL_BUILD, SBOL_TEST, or SBOL_LEARN
+        URIProperty types;
         
+        /// The startedAtTime property is OPTIONAL and contains an XML dateTime value of the form "YYYY-MM-DDThh:mm:ss" indicating when the activity started.
         DateTimeProperty startedAtTime;
         
-        /// The endedAtTime property is OPTIONAL and contains a dateTime (see section Section 12.7) value, indicating when the activity ended.
+        /// The endedAtTime property is OPTIONAL and contains an XML dateTime value of the form "YYYY-MM-DDThh:mm:ss" indicating when the activity ended.
         DateTimeProperty endedAtTime;
         
         /// The wasInformedBy property is OPTIONAL and contains a URI of another activity.
