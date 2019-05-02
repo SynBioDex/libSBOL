@@ -389,7 +389,10 @@ std::string ComponentDefinition::compile()
     {
         if (Config::getOption("sbol_compliant_uris") == "True")
         {
-            seq = &doc->sequences.create(displayId.get());
+            string display_id = displayId.get();
+            if (Config::getOption("sbol_typed_uris") == "False")
+                display_id = display_id + "_seq";
+            seq = &doc->sequences.create(display_id);
             sequence.set(*seq);
             sequences.set(seq->identity.get());
 
