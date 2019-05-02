@@ -595,16 +595,16 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
 			{
 				SBOLObject* obj = *o;
-                // if (Config::getOption("verbose") == "True")
-                //     std::cout << rdfxml_string << std::endl;
+//                if (Config::getOption("verbose") == "True")
+//                    std::cout << rdfxml_string << std::endl;
                 rdfxml_string = obj->nest(rdfxml_string);  // Recurse, start nesting with leaf objects
                 string id = obj->identity.get();
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
-                // if (Config::getOption("verbose") == "True")
-                // {
-                //     std::cout << rdfxml_string << std::endl;
-                //     getchar();
-                // }
+//                if (Config::getOption("verbose") == "True")
+//                {
+//                    std::cout << rdfxml_string << std::endl;
+//                    getchar();
+//                }
                 try
                 {
                     replace_reference_to_resource(rdfxml_string, doc->makeQName(property_name), id, cut_text);
@@ -1642,7 +1642,7 @@ std::string Document::write(std::string filename)
             filename.replace(0, 1, home);
         }
     }
-
+    
     std::string response = "";
     if (Config::getOption("serialization_format") == "sbol")
     {
@@ -1657,7 +1657,7 @@ std::string Document::write(std::string filename)
     {
         raptor_world* world = getWorld();
         raptor_serializer* sbol_serializer;
-
+        
         if((Config::getOption("serialization_format") == "rdfxml") ||
            (Config::getOption("serialization_format") == "sbol_raptor"))
         {
@@ -1667,15 +1667,15 @@ std::string Document::write(std::string filename)
         {
             sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
         }
-
+        
         FILE* fh = fopen(filename.c_str(), "wb");
-
+        
         char *sbol_buffer;
         size_t sbol_buffer_len;
-
+        
         raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
         raptor_uri *base_uri = NULL;
-
+        
         generate(&world, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
 
         // Convert flat RDF/XML into nested SBOL
@@ -2004,9 +2004,8 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
         	new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
         }
 
-
     string id;
-	if (Config::getOption("sbol_compliant_uris") == "True")
+	if (Config::getOption("sbol_compliant_uris") == "True" && this->version.size() > 0)
     	id = new_obj.persistentIdentity.get() + "/" + new_obj.version.get();
     else
     	id = new_obj.persistentIdentity.get();
