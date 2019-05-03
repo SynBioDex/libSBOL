@@ -63,6 +63,7 @@ FILE(GLOB SBOL_HEADER_FILES
     attachment.h
     implementation.h
     experiment.h
+    measure.h
 	sbol.h
         ${RASQAL_HEADERS}
         )

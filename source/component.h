@@ -29,6 +29,7 @@
 #include "identified.h"
 #include "mapsto.h"
 #include "location.h"
+#include "measurement.h"
 
 #include <string>
 
@@ -57,13 +58,17 @@ namespace sbol
         /// The mapsTos property is OPTIONAL and MAY contain a set of MapsTo objects that refer to and link together ComponentInstance objects (both Component objects and FunctionalComponent objects) within a larger design.
 		OwnedObject<MapsTo> mapsTos;
 
+        /// The measurements property links a ComponentInstance to parameters or measurements and their associated units. For example a Measurement attached to a FunctionalComponent might indicate the quantity of a component ingredient in a growth medium recipe.
+        OwnedObject<Measurement> measurements;
+        
         virtual ~ComponentInstance() {};
 	protected:
         ComponentInstance(rdf_type type, std::string uri, std::string definition, std::string access, std::string version) :
             Identified(type, uri, version),
             definition(this, SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), definition),
             access(this, SBOL_ACCESS, '0', '1', ValidationRules({}), access),
-            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({}))
+            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({})),
+            measurements(this, SBOL_MEASUREMENTS, '0', '*', ValidationRules({}))
             {
             };
         

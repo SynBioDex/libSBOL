@@ -33,6 +33,7 @@
 	#include "dbtl.h"
 	#include "attachment.h"
 	#include "implementation.h"
+    #include "measurement.h"
 	#include "sbol.h"
 
 	#include <vector>
@@ -375,7 +376,7 @@
 %include "implementation.h"
 %include "dbtl.h"
 %include "experiment.h"
-
+%include "measurement.h"
 
 %pythonappend sbol::PartShop::searchRootCollections
 %{
@@ -770,6 +771,9 @@ TEMPLATE_MACRO_1(SampleRoster);
 TEMPLATE_MACRO_1(Experiment);
 TEMPLATE_MACRO_1(ExperimentalData);
 
+// Templates used by Measured objects
+TEMPLATE_MACRO_1(Measurement)
+    
 TEMPLATE_MACRO_2(TopLevel)
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
@@ -832,6 +836,7 @@ TEMPLATE_MACRO_3(SmallMoleculeActivationInteraction);
 TEMPLATE_MACRO_3(EnzymeCatalysisInteraction);
 TEMPLATE_MACRO_3(Experiment);
 TEMPLATE_MACRO_3(ExperimentalData);
+TEMPLATE_MACRO_3(Measurement)
 TEMPLATE_MACRO_3(Document);
 	
 // Template functions used by PartShop

@@ -28,6 +28,7 @@
 
 #include "identified.h"
 #include "participation.h"
+#include "measurement.h"
 
 namespace sbol
 {
@@ -47,7 +48,8 @@ namespace sbol
             Identified(type, uri),
             functionalComponents(this, SBOL_FUNCTIONAL_COMPONENTS, '0', '*', { libsbol_rule_18 }),
             types(this, SBOL_TYPES, '1', '*', ValidationRules({}), interaction_type),
-            participations(this, SBOL_PARTICIPATIONS, '0', '*', ValidationRules({}))
+            participations(this, SBOL_PARTICIPATIONS, '0', '*', ValidationRules({})),
+            measurements(this, SBOL_MEASUREMENTS, '0', '*', ValidationRules({}))
             {
                 hidden_properties.push_back(SBOL_FUNCTIONAL_COMPONENTS);
             };
@@ -68,6 +70,9 @@ namespace sbol
 		OwnedObject<Participation> participations;
         
         OwnedObject<FunctionalComponent> functionalComponents;
+        
+        /// The measurements property links an Interaction to parameters or measurements and their associated units. For example, an Interaction that represents a chemical reaction may have parameters added to it and each Participation it contains to capture its chemical kinetic rate and the stoichiometries of its reactants and products.
+        OwnedObject<Measurement> measurements;
         
         virtual ~Interaction() { owned_objects.erase(SBOL_FUNCTIONAL_COMPONENTS); };
 	};
