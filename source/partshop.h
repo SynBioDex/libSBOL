@@ -76,6 +76,8 @@ namespace sbol
                 return TextProperty(this, uri, '0', '1', ValidationRules({}));
         };  ///< Retrieve a child object by URI
         
+        std::string __str__();
+        
         ~SearchQuery() {};
 
     };
@@ -147,6 +149,8 @@ namespace sbol
         };
         
         std::vector<Identified*>::iterator python_iter;
+        
+        std::string __str__();
     };
     
     

@@ -87,9 +87,9 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -202,9 +202,9 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -294,9 +294,9 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -373,9 +373,9 @@ int sbol::PartShop::searchCount(SearchQuery& q)
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -464,9 +464,9 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type, s
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -536,9 +536,9 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -1506,6 +1506,58 @@ void SearchResponse::extend(SearchResponse& response)
         records.push_back(&record);
     }
 };
+
+string SearchResponse::__str__()
+{
+    Json::Value json;
+    Json::Reader reader;
+
+    for(auto & r : records)
+    {
+        Json::Value json_entry;
+        json_entry["identity"] = r->identity.get();
+        if (r->displayId.size())
+            json_entry["displayId"] = r->displayId.get();
+        if (r->name.size())
+            json_entry["name"] = r->name.get();
+        if (r->description.size())
+            json_entry["description"] = r->description.get();
+        if (r->version.size())
+            json_entry["version"] = r->version.get();
+        json.append(json_entry);
+    }
+    Json::StreamWriterBuilder builder;
+    builder["indentation"] = "  "; // If you want whitespace-less output
+    const std::string output = Json::writeString(builder, json);
+    return output;
+};
+
+string SearchQuery::__str__()
+{
+    Json::Value json;
+    Json::Reader reader;
+    
+    for (auto & p : getProperties())
+    {
+        if (p == SBOL_IDENTITY)
+            continue;
+        string p_name = parsePropertyName(p);
+        string p_val = properties[p].front();
+        p_val = p_val.substr(1, p_val.length() - 2);
+        // Check if property store is empty
+        if (p_val != "")
+        {
+            if (p_name == "title")
+                p_name = "name";
+            json[p_name] = p_val;
+        }
+    }
+    Json::StreamWriterBuilder builder;
+    builder["indentation"] = "  ";
+    const std::string output = Json::writeString(builder, json);
+    return output;
+};
+
 
 namespace sbol
 {
