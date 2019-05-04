@@ -53,7 +53,8 @@ script:
   - ls ~/build/SynBioDex
   - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
   - python -c "from sbol import *; testSBOL()"
-    
+  - python -c "from sbol.unit_tests import *; runRoundTripTests()"
+  
 addons:
   apt:
     sources:
