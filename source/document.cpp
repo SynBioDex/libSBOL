@@ -1187,6 +1187,21 @@ void Document::clear()
 //    owned_objects.clear();
     for (auto & p : properties)
     {
+        if (p.first == SBOL_VERSION)
+            continue;
+        else if (p.first == SBOL_PERSISTENT_IDENTITY)
+            continue;
+        else if (p.first == SBOL_DISPLAY_ID)
+            continue;
+        else if (p.first == SBOL_WAS_DERIVED_FROM)
+            continue;
+        else if (p.first == PROVO_WAS_GENERATED_BY)
+            continue;
+        else if (p.first == SBOL_NAME)
+            continue;
+        else if (p.first == SBOL_DESCRIPTION)
+            continue;
+
         std::string reinitialized_property;
         if (p.second.front()[0] == '<')
             reinitialized_property = "<>";
