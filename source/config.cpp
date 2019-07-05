@@ -66,7 +66,9 @@ std::map<std::string, std::string> sbol::Config::options {
     {"main_file_name", "main file"},
     {"diff_file_name", "comparison file"},
     {"return_file", "False"},
-    {"verbose", "False"}
+    {"verbose", "False"},
+    {"ca-path", ""}
+
 };
 
 std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {

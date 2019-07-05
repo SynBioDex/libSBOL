@@ -659,7 +659,10 @@ void sbol::PartShop::login(std::string user_id, std::string password)
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/remoteLogin").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the POST data */
         string parameters = "email=" + user_id + "&" + "password=" + password;
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
