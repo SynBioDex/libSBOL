@@ -742,6 +742,9 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/submit").c_str());
+
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
         
         /* Now specify the POST data */
         struct curl_httppost* post = NULL;
@@ -975,8 +978,10 @@ std::string PartShop::searchRootCollections()
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
-        //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -1023,8 +1028,10 @@ std::string PartShop::searchSubCollections(std::string uri)
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
-        //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -1078,7 +1085,9 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header_list);
-        
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the POST data */
         //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
         
@@ -1089,6 +1098,8 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
         /* Now specify the callback to read response headers */
         curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, CurlResponseHeader_CallbackFunc);
         curl_easy_setopt(curl, CURLOPT_HEADERDATA, response_headers);
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
 
         if (Config::getOption("verbose") == "True")
         {
@@ -1278,7 +1289,9 @@ void PartShop::attachFile(std::string topleveluri, std::string filename)
         
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, string(topleveluri + "/attach").c_str());
-        
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the POST data */
         struct curl_httppost* post = NULL;
         struct curl_httppost* last = NULL;
@@ -1448,7 +1461,9 @@ std::string Document::convert(string language, string output_path)
          data. */
         curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the POST data */
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
         
