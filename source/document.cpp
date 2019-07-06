@@ -2009,15 +2009,26 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
     }
 
     // Set version
-    if (version.compare("") != 0)
+
+    if (version != "")
     	new_obj.version.set(version);
-    else if (this->version.size() > 0)
-    	if (this->doc != NULL && this->doc == target_doc)  // In order to create a copy of the object in this Document, it's version must be incremented
-        	new_obj.version.incrementMajor();
-        else
-        {
-        	new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
-        }
+    else if (version == "" && ns == "")
+    {
+        if (this->version.size() > 0)
+            if (this->doc != NULL && this->doc == target_doc)  // In order to create a copy of the object in this Document, it's version must be incremented
+                new_obj.version.incrementMajor();
+            else
+            {
+                new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
+            }
+    }
+    else if (version == "" && ns != "")
+    {
+        if (this->version.size() > 0)
+            {
+                new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
+            }
+    }
 
     string id;
 	if (Config::getOption("sbol_compliant_uris") == "True" && this->version.size() > 0)
@@ -2047,6 +2058,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
             Identified& child_obj_copy = child_obj.copy(target_doc, ns, version);
             new_obj.owned_objects[store_uri].push_back((SBOLObject*)&child_obj_copy);  // Copy child object
             child_obj_copy.parent = &new_obj;
+            child_obj_copy.update_uri();
         }
     }
     return new_obj;

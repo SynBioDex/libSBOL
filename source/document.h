@@ -628,6 +628,8 @@ namespace sbol {
             {
                 version = parent_obj->properties[SBOL_VERSION].front();
                 version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+                if (version == "")
+                    version = VERSION_STRING;
             }
             else
             {
