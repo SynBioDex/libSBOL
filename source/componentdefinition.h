@@ -50,7 +50,7 @@ namespace sbol
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param type A BioPAX ontology term that indicates whether the ComponentDefinition is DNA, RNA, protein, or some other molecule type.
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
-        ComponentDefinition(std::string uri = "example", std::string type = BIOPAX_DNA, std::string version = "1.0.0") : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
+        ComponentDefinition(std::string uri = "example", std::string type = BIOPAX_DNA, std::string version = VERSION_STRING) : ComponentDefinition(SBOL_COMPONENT_DEFINITION, uri, type, version) {};
 
         /// Constructor used for defining extension classes
         /// @param type The RDF type for an extension class derived from this one
@@ -58,12 +58,14 @@ namespace sbol
             TopLevel(type, uri, version),
             types(this, SBOL_TYPES, '1', '*', ValidationRules({}), component_type),
             roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
-            sequence(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
-            sequences(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '*', ValidationRules({})),
+            // sequence(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '1', ValidationRules({})),
+            sequence(this, SBOL_SEQUENCE, '0', '1', ValidationRules({ libsbol_rule_20 })),
+            sequences(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '*', ValidationRules({ libsbol_rule_21 })),
             sequenceAnnotations(this, SBOL_SEQUENCE_ANNOTATIONS, '0', '*', ValidationRules({})),
             components(this, SBOL_COMPONENTS, '0', '*', ValidationRules({})),
             sequenceConstraints(this, SBOL_SEQUENCE_CONSTRAINTS, '0', '*', ValidationRules({}))
             {
+                hidden_properties.push_back(SBOL_SEQUENCE);
             };
         
         /// The types property is a REQUIRED set of URIs that specifies the category of biochemical or physical entity (for example DNA, protein, or small molecule) that a ComponentDefinition object abstracts for the purpose of engineering design.  The types property of every ComponentDefinition MUST contain one or more URIs that MUST identify terms from appropriate ontologies, such as the BioPAX ontology or the ontology of Chemical Entities of Biological Interest. See the table below for examples.
@@ -97,7 +99,7 @@ namespace sbol
         /// The sequences property is OPTIONAL and MAY include a URI that refer to a Sequence object. The referenced object defines the primary structure of the ComponentDefinition.
         ReferencedObject sequences;
         
-        ReferencedObject sequence;
+        OwnedObject<Sequence> sequence;
         
         /// The sequenceAnnotations property is OPTIONAL and MAY contain a set of SequenceAnnotation objects. Each SequenceAnnotation specifies and describes a potentially discontiguous region on the Sequence objects referred to by the ComponentDefinition.
         OwnedObject<SequenceAnnotation> sequenceAnnotations;
@@ -107,29 +109,38 @@ namespace sbol
         
         /// Assembles ComponentDefinitions into an abstraction hierarchy. The resulting data structure is a partial design, still lacking a primary structure or explicit sequence. To form a primary structure out of the ComponentDefinitions, call linearize after calling assemble. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
-        void assemble(std::vector<ComponentDefinition*> list_of_components);
+        /// @param assembly_standard An optional argument such as IGEM_STANDARD_ASSEMBLY that affects how components are composed and the final target sequence
+        void assemble(std::vector<ComponentDefinition*>& list_of_components, std::string assembly_standard = "");
 
         /// Assembles ComponentDefinitions into an abstraction hierarchy. The resulting data structure is a partial design, still lacking a primary structure or explicit sequence. To form a primary structure out of the ComponentDefinitions, call linearize after calling assemble. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
         /// @param doc The Document to which the assembled ComponentDefinitions will be added
-        void assemble(std::vector<ComponentDefinition*> list_of_components, Document& doc);
+        /// @param assembly_standard An optional argument such as IGEM_STANDARD_ASSEMBLY that affects how components are composed and the final target sequence
+        void assemble(std::vector<ComponentDefinition*>& list_of_components, Document& doc, std::string assembly_standard = "");
 
         /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
         /// @param primary_structure A list of URIs for the constituent ComponentDefinitions, or displayIds if using SBOL-compliant URIs
-        void assemblePrimaryStructure(std::vector<std::string> primary_structure);
+        /// @param assembly_standard An optional argument such as IGEM_STANDARD_ASSEMBLY that affects how components are composed and the final target sequence
+        void assemblePrimaryStructure(std::vector<std::string>& primary_structure, std::string assembly_standard = "");
         
         /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
-        void assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure);
+        /// @param assembly_standard An optional argument such as IGEM_STANDARD_ASSEMBLY that affects how components are composed and the final target sequence
+        void assemblePrimaryStructure(std::vector<ComponentDefinition*>& primary_structure, std::string assembly_standard = "");
         
         /// Assembles ComponentDefinition into a linear primary structure. The resulting data structure is a partial design, still lacking an explicit sequence. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_components A list of subcomponents that will compose this ComponentDefinition
         /// @param doc The Document to which the assembled ComponentDefinitions will be added
-        void assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure, Document& doc);
+        /// @param assembly_standard An optional argument such as IGEM_STANDARD_ASSEMBLY that affects how components are composed and the final target sequence
+        void assemblePrimaryStructure(std::vector<ComponentDefinition*>& primary_structure, Document& doc, std::string assembly_standard = "");
 
         /// Assembles ComponentDefinitions into an abstraction hierarchy. The resulting data structure is a partial design, still lacking a primary structure or explicit sequence. To form a primary structure out of the ComponentDefinitions, call linearize after calling assemble. To fully realize the target sequence, use Sequence::assemble().
         /// @param list_of_uris A list of URIs for the constituent ComponentDefinitions, or displayIds if using SBOL-compliant URIs
-        void assemble(std::vector<std::string> list_of_uris);
+        /// @param assembly_standard An optional argument such as IGEM_STANDARD_ASSEMBLY that affects how components are composed and the final target sequence
+        void assemble(std::vector<std::string>& list_of_uris, std::string assembly_standard = "");
+
+        /// Compiles an abstraction hierarchy of ComponentDefinitions into a nucleotide sequence. If no Sequence object is associated with this ComponentDefinition, one will be automatically instantiated
+        std::string compile();
 
         /// Assemble a parent ComponentDefinition's Sequence from its subcomponent Sequences
         /// @param composite_sequence A recursive parameter, use default value
@@ -223,6 +234,8 @@ namespace sbol
         
         ComponentDefinition& build();
         
+        std::vector<SequenceAnnotation*> sortSequenceAnnotations();
+
         /// A convenience method that assigns a component to participate in a biochemical reaction.  Behind the scenes, it auto-constructs a FunctionalComponent for this ComponentDefinition and assigns it to a Participation
         /// @param species A Participation object (ie, participant species in a biochemical Interaction).
         void participate(Participation& species);

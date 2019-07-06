@@ -2,12 +2,21 @@
 add_subdirectory( raptor )
 
 # gather headers
+if( RASQAL_LIBRARY AND SBOL_BUILD_RASQAL )
+    include_directories( ${RASQAL_INCLUDE_DIR})
+    ADD_DEFINITIONS(-DHAVE_LIBRASQAL)
+    SET(RASQAL_HEADERS RasqalDataGraph.hh RasqalQueryResults.hh
+                      PtrWrapper.hh SharedPtrWrapper.hh)
+    SET(RASQAL_SOURCES RasqalDataGraph.cc RasqalQueryResults.cc)
+endif()
+
 include_directories( ${RAPTOR_INCLUDE_DIR})
 include_directories( ${JsonCpp_INCLUDE_DIR})
 include_directories( ${CURL_INCLUDE_DIR})
+include_directories( ${OPENSSL_INCLUDE_DIR})
 if( SBOL_BUILD_PYTHON2 )
     find_package( SWIG REQUIRED )
-    find_package( PythonLibs 2 EXACT)
+    find_package( PythonLibs 2)
     include_directories( ${PYTHON_INCLUDE_DIR} )
     ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON2)
 endif()
@@ -16,6 +25,9 @@ if( SBOL_BUILD_PYTHON3 )
     find_package( PythonLibs 3)
     include_directories( ${PYTHON_INCLUDE_DIR} )
     ADD_DEFINITIONS(-DSBOL_BUILD_PYTHON3)
+endif()
+if( SBOL_BUILD_MANYLINUX )
+    add_definitions(-DSBOL_BUILD_MANYLINUX)
 endif()
 
 # gather source files
@@ -28,6 +40,7 @@ FILE(GLOB SBOL_HEADER_FILES
     properties.h
     object.h
 	identified.h
+    measure.h
 	toplevel.h
 	sequenceannotation.h
 	component.h
@@ -50,7 +63,11 @@ FILE(GLOB SBOL_HEADER_FILES
     dbtl.h
     attachment.h
     implementation.h
-	sbol.h)
+    experiment.h
+	sbol.h
+        ${RASQAL_HEADERS}
+        )
+
 FILE(GLOB SBOL_SOURCE_FILES
 	sbolerror.cpp
   config.cpp
@@ -62,7 +79,9 @@ FILE(GLOB SBOL_SOURCE_FILES
 	document.cpp
   assembly.cpp
   partshop.cpp
-    dbtl.cpp)
+    dbtl.cpp
+    ${RASQAL_SOURCES})
+
 
 
 FILE(COPY ${SBOL_HEADER_FILES} DESTINATION  ${HEADER_OUTPUT_PATH} )
@@ -225,6 +244,8 @@ else ()  # If Mac OSX or Linux
             target_link_libraries(sbol32
                 ${RAPTOR_LIBRARY}
                 ${CURL_LIBRARY}
+		${OPENSSL_LIBRARY}  # linux only
+		${CRYPTO_LIBRARY}   # linux only
                 ${LIBXSLT_LIBRARIES}
                 ${JsonCpp_LIBRARY})
             set_target_properties(sbol32 PROPERTIES
@@ -269,6 +290,8 @@ else ()  # If Mac OSX or Linux
             target_link_libraries(sbol64
                 ${RAPTOR_LIBRARY}
                 ${CURL_LIBRARY}
+		${OPENSSL_LIBRARY}  # linux only
+		${CRYPTO_LIBRARY}   # linux only
                 ${LIBXSLT_LIBRARIES}
                 ${JsonCpp_LIBRARY})
             set_target_properties(sbol64 PROPERTIES

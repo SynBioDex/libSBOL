@@ -27,6 +27,7 @@
 #define PARTICIPATION_INCLUDED
 
 #include "identified.h"
+#include "measurement.h"
 
 namespace sbol
 {
@@ -41,12 +42,12 @@ namespace sbol
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param participant A reference to the participating FunctionalComponent in the parent Interaction
-        Participation(std::string uri = "example", std::string participant = "", std::string version = "1.0.0") : Participation(SBOL_PARTICIPATION, uri, participant, version) {};
+        Participation(std::string uri = "example", std::string participant = "", std::string version = VERSION_STRING) : Participation(SBOL_PARTICIPATION, uri, participant, version) {};
 
         /// Constructor
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param species A ComponentDefinition that represents one of the participating species in the parent Interaction
-        Participation(std::string uri, ComponentDefinition& species, std::string version = "1.0.0") :
+        Participation(std::string uri, ComponentDefinition& species, std::string version = VERSION_STRING) :
             Participation(SBOL_PARTICIPATION, uri, "", version)
             {
             };
@@ -56,7 +57,8 @@ namespace sbol
         Participation(rdf_type type, std::string uri, std::string participant, std::string version) :
             Identified(type, uri, version),
             roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
-            participant(this, SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, '1', '1', ValidationRules({}), participant)
+            participant(this, SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, '1', '1', ValidationRules({}), participant),
+            measurements(this, SBOL_MEASUREMENTS, '0', '*', ValidationRules({}))
             {
             };
         
@@ -74,6 +76,9 @@ namespace sbol
         
         /// The participant property MUST specify precisely one FunctionalComponent object that plays the designated  role in its parent Interaction object.
         ReferencedObject participant;
+        
+        /// The measurements property links a Participation to parameters or measurements and their associated units. For example, an Interaction that represents a chemical reaction may have parameters added to it and each Participation it contains to capture its chemical kinetic rate and the stoichiometries of its reactants and products.
+        OwnedObject<Measurement> measurements;
         
         void define(ComponentDefinition& species, std::string role = "");
         

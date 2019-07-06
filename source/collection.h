@@ -41,7 +41,7 @@ namespace sbol
  
         /// Construct a Collection
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
-        Collection(std::string uri = "example", std::string version = "1.0.0") : Collection(SBOL_COLLECTION, uri, version) {};
+        Collection(std::string uri = "example", std::string version = VERSION_STRING) : Collection(SBOL_COLLECTION, uri, version) {};
 
         /// Constructor used for defining extension classes
         /// @param rdf_type The RDF type for an extension class derived from this one

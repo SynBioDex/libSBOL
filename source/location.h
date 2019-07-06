@@ -37,7 +37,8 @@ namespace sbol
         // A public constructor is required so objects can be auto created by the SBOLObject.OwnedObjects.create(...) method
         Location(rdf_type type = SBOL_LOCATION, std::string uri = "example", std::string orientation = SBOL_ORIENTATION_INLINE) :
             Identified(type, uri),
-            orientation(this, SBOL_ORIENTATION, '1', '1', ValidationRules({}), orientation)
+            orientation(this, SBOL_ORIENTATION, '1', '1', ValidationRules({}), orientation),
+            sequence(this, SBOL_SEQUENCE_PROPERTY, SBOL_SEQUENCE, '0', '1', ValidationRules({}))
             {
             }
         
@@ -48,6 +49,9 @@ namespace sbol
         /// | http://sbols.org/v2#reverseComplement | SBOL_ORIENTATION_REVERSE_COMPLEMENT |
         URIProperty orientation;
 
+        /// Links a Location to the Sequence it is annotating, in case the parent ComponentDefinition has multiple Sequences and it is ambiguous which Sequence the Location is referring to
+        ReferencedObject sequence;
+        
         virtual ~Location() {};;
     };
 

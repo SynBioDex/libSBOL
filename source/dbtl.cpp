@@ -34,26 +34,26 @@ using namespace sbol;
 
 namespace sbol
 {
-    Design::~Design()
-    {
-        // Remove these properties to prevent double deletion of child objects by the base destructor
-        owned_objects.erase(SBOL_COMPONENT_DEFINITION);
-        owned_objects.erase(SBOL_MODULE_DEFINITION);
-    }
+    // Design::~Design()
+    // {
+    //     // Remove these properties to prevent double deletion of child objects by the base destructor
+    //     // owned_objects.erase(SBOL_COMPONENT_DEFINITION);
+    //     // owned_objects.erase(SBOL_MODULE_DEFINITION);
+    // }
     
-    Build::~Build()
-    {
-        // Remove these properties to prevent double deletion of child objects by the base destructor
-        owned_objects.erase(SBOL_COMPONENT_DEFINITION);
-        owned_objects.erase(SBOL_MODULE_DEFINITION);
-    }
+    // Build::~Build()
+    // {
+    //     // Remove these properties to prevent double deletion of child objects by the base destructor
+    //     // owned_objects.erase(SBOL_COMPONENT_DEFINITION);
+    //     // owned_objects.erase(SBOL_MODULE_DEFINITION);
+    // }
     
-    Analysis::~Analysis()
-    {
-        // Remove these properties to prevent double deletion of child objects by the base destructor
-        owned_objects.erase(SYSBIO_URI "#consensusSequence");
-        owned_objects.erase(SYSBIO_URI "#model");
-    }
+    // Analysis::~Analysis()
+    // {
+    //     // Remove these properties to prevent double deletion of child objects by the base destructor
+    //     // owned_objects.erase(SYSBIO_URI "#consensusSequence");
+    //     // owned_objects.erase(SYSBIO_URI "#model");
+    // }
 
 /* Specialized templates for Design, Build, Test, Analysis workflows */
     
@@ -133,7 +133,7 @@ namespace sbol
         // Auto-construct Association
         Association& asc = a.associations.create(id + "_generation_association");
         asc.roles.set(SBOL_URI "#design");
-        asc.agent.set(plan);
+        asc.agent.set(agent);
         asc.plan.set(plan);
     
         for (auto & usage : usages)
@@ -152,6 +152,7 @@ namespace sbol
             else
                 u.roles.set(SBOL_DESIGN);
         }
+        
         return design;
     };
     
@@ -284,14 +285,13 @@ namespace sbol
                 // If the progenitor object is a Build, set samples property to the Build
                 test.samples.set(this->identity.get());
             }
-            else if (properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
-            {
-                // The progenitor object is another Test
-                Test& progenitor = *(Test*)this;
-                test.samples.copy(progenitor.samples);
-            }
         }
-        
+        else if (this->type == SBOL_TEST)
+        {
+            // The progenitor object is another Test
+            Test& progenitor = *(Test*)this;
+            test.samples.copy(progenitor.samples);
+        }
         // Form URI for auto-constructing an Activity
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
@@ -338,8 +338,9 @@ namespace sbol
         else
             id = test.identity.get();
         Association& asc = a.associations.create(id + "_generation_association");
-        asc.plan.set(plan);
         asc.roles.set(SBOL_URI "#test");
+        asc.agent.set(agent);
+        asc.plan.set(plan);
     
         // Check if the progenitor object is a SampleRoster (collection of Builds)
         if (properties.find(SYSBIO_URI "#type") != properties.end())
@@ -455,65 +456,79 @@ namespace sbol
     };
     
     
-    template<>
-    Design& OwnedObject<Design>::get(std::string uri)
-    {
-        Design& design = (Design&)get<TopLevel>(uri);
-        Document* doc = this->sbol_owner->doc;
-        if (doc)
-        {
-            if (!design.structure.size() && design._structure.size())
-                if (doc->find(design._structure.get()))
-                    design.structure.set(doc->get<ComponentDefinition>(design._structure.get()));
-            if (!design.function.size() && design._function.size())
-                if (doc->find(design._function.get()))
-                    design.function.set(doc->get<ModuleDefinition>(design._function.get()));
-        }
-        return design;
-    }
+    // template<>
+    // Design& OwnedObject<Design>::get(std::string uri)
+    // {
 
-    template<>
-    Build& OwnedObject<Build>::get(std::string uri)
-    {
-        Build& build = (Build&)get<TopLevel>(uri);
-        Document* doc = this->sbol_owner->doc;
-        if (doc)
-        {
-            if (!build.structure.size() && build._structure.size())
-                if (doc->find(build._structure.get()))
-                    build.structure.set(doc->get<ComponentDefinition>(build._structure.get()));
-            if (!build.behavior.size() && build._behavior.size())
-                if (doc->find(build._behavior.get()))
-                    build.behavior.set(doc->get<ModuleDefinition>(build._behavior.get()));
-        }
-        return build;
-    }
+    // };
+
+    // template<>
+    // Design& OwnedObject<Design>::operator[] (std::string uri)
+    // {
+    // };
+
+    // template<>
+    // Design& OwnedObject<Design>::operator[] (const int nIndex)
+    // {
+    // };
+
+    // template<>
+    // Build& OwnedObject<Build>::get(std::string uri)
+    // {
+
+    // };
+
+    // template<>
+    // Build& OwnedObject<Build>::operator[] (std::string uri)
+    // {
+    // };
+
+    // template<>
+    // Build& OwnedObject<Build>::operator[] (const int nIndex)
+    // {
+    // };
     
-    template<>
-    Design& Document::get<Design>(std::string uri)
-    {
-        Design& design = (Design&)get<TopLevel>(uri);
-        if (!design.structure.size() && design._structure.size())
-            if (this->find(design._structure.get()))
-                design.structure.set(doc->get<ComponentDefinition>(design._structure.get()));
-        if (!design.function.size() && design._function.size())
-            if (this->find(design._function.get()))
-                design.function.set(doc->get<ModuleDefinition>(design._function.get()));
-        return design;
-    }
+    // template<>
+    // Design& Document::get<Design>(std::string uri)
+    // {
+    //     Design& design = (Design&)get<TopLevel>(uri);
+    //     if (!design.structure.size() && design._structure.size())
+    //         if (this->find(design._structure.get()))
+    //         {
+    //             ComponentDefinition& structure = doc->get<ComponentDefinition>(design._structure.get());
+    //             design.owned_objects[SBOL_COMPONENT_DEFINITION].push_back(&structure);
+    //             // design.structure.set(doc->get<ComponentDefinition>(design._structure.get()));
+    //         }
+    //     if (!design.function.size() && design._function.size())
+    //         if (this->find(design._function.get()))
+    //         {
+    //             ModuleDefinition& function = doc->get<ModuleDefinition>(design._function.get());
+    //             design.owned_objects[SBOL_MODULE_DEFINITION].push_back(&function);
+    //             // design.function.set(doc->get<ModuleDefinition>(design._function.get()));
+    //         }
+    //     return design;
+    // }
     
-    template<>
-    Build& Document::get<Build>(std::string uri)
-    {
-        Build& build = (Build&)get<TopLevel>(uri);
-        if (!build.structure.size() && build._structure.size())
-            if (this->find(build._structure.get()))
-                build.structure.set(doc->get<ComponentDefinition>(build._structure.get()));
-        if (!build.behavior.size() && build._behavior.size())
-            if (this->find(build._behavior.get()))
-                build.behavior.set(doc->get<ModuleDefinition>(build._behavior.get()));
-        return build;
-    }
+    // template<>
+    // Build& Document::get<Build>(std::string uri)
+    // {
+    //     Build& build = (Build&)get<TopLevel>(uri);
+    //     if (!build.structure.size() && build._structure.size())
+    //         if (doc->find(build._structure.get()))
+    //         {
+    //             ComponentDefinition& structure = doc->get<ComponentDefinition>(build._structure.get());
+    //             build.owned_objects[SBOL_COMPONENT_DEFINITION].push_back(&structure);
+    //             //build.structure.set(doc->get<ComponentDefinition>(build._structure.get()));
+    //         }
+    //     if (!build.behavior.size() && build._behavior.size())
+    //         if (doc->find(build._behavior.get()))
+    //         {
+    //             ModuleDefinition& behavior = doc->get<ModuleDefinition>(build._behavior.get());
+    //             build.owned_objects[SBOL_URI "#built"].push_back(&behavior);
+    //             // build.behavior.set(doc->get<ModuleDefinition>(build._behavior.get()));
+    //         }
+    //     return build;
+    // }
     
     // The Build class requires a specialized adder at the Document level. Since its rdf:type is identical to Implementation, it will get added to the Implementation store by default. It must be moved to the Build store.
     template<>
@@ -528,16 +543,16 @@ namespace sbol
 
     }
 
-    template<>
-    void Document::add<Test>(Test& sbol_obj)
-    {
-        // Call recursive adder
-        add<Collection>((Collection&)sbol_obj);
-        
-        // Move from Collection store to Test store
-        this->owned_objects[SBOL_COLLECTION].pop_back();
-        this->owned_objects[SYSBIO_TEST].push_back(&sbol_obj);
-    }
+//    template<>
+//    void Document::add<Test>(Test& sbol_obj)
+//    {
+//        // Call recursive adder
+//        add<Collection>((Collection&)sbol_obj);
+//
+//        // Move from Collection store to Test store
+//        this->owned_objects[SBOL_COLLECTION].pop_back();
+//        this->owned_objects[SYSBIO_TEST].push_back(&sbol_obj);
+//    }
     
 //    template<>
 //    Build& OwnedObject<Build>::get(std::string uri)
@@ -619,67 +634,67 @@ namespace sbol
         }
     }
 
-    template<>
-    Test& OwnedObject<Test>::create(std::string uri)
-    {
-        Test* child_obj = new Test();
-
-        SBOLObject* parent_obj = this->sbol_owner;
-        Document* parent_doc = this->sbol_owner->doc;
-
-        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
-        {
-            string persistent_id = getHomespace();
-            if (Config::getOption("sbol_typed_uris").compare("True") == 0)
-                persistent_id += "/" + parseClassName(SYSBIO_TEST);
-            string version = VERSION_STRING;
-            
-            string child_persistent_id =  persistent_id + "/" + uri;
-            string child_id = child_persistent_id + "/" + version;
-            
-            // Check for uniqueness of URI in the Document
-            if (parent_doc && parent_doc->find(child_id))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
-                                                      
-            // Initialize SBOLCompliant properties
-            child_obj->identity.set(child_id);
-            child_obj->persistentIdentity.set(child_persistent_id);
-            child_obj->displayId.set(uri);
-            child_obj->version.set(version);
-
-            // Add the new object to this OwnedObject property
-            // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
-            child_obj->parent = parent_obj;  // Set back-pointer to parent object
-            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
-            object_store.push_back((SBOLObject*)child_obj);
-
-            // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects, otherwise the returned object will not be registered
-            if (parent_doc)
-            {
-                child_obj->doc = parent_doc;
-                parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
-            }
-            this->validate(child_obj);
-            return *child_obj;
-        }
-        else
-        {
-            if (parent_doc && parent_doc->find(uri))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
-            
-            // Add the new object to this OwnedObject property
-            Identified* parent_obj = (Identified*)this->sbol_owner;
-            child_obj->parent = parent_obj;  // Set back-pointer to parent object
-            child_obj->identity.set(uri);
-            child_obj->persistentIdentity.set(uri);
-            
-            this->add(*child_obj);
-            if (parent_doc)
-                child_obj->doc = parent_doc;
-            this->validate(child_obj);
-            return *child_obj;
-        }
-    }
+//    template<>
+//    Test& OwnedObject<Test>::create(std::string uri)
+//    {
+//        Test* child_obj = new Test();
+//
+//        SBOLObject* parent_obj = this->sbol_owner;
+//        Document* parent_doc = this->sbol_owner->doc;
+//
+//        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+//        {
+//            string persistent_id = getHomespace();
+//            if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+//                persistent_id += "/" + parseClassName(SYSBIO_TEST);
+//            string version = VERSION_STRING;
+//
+//            string child_persistent_id =  persistent_id + "/" + uri;
+//            string child_id = child_persistent_id + "/" + version;
+//
+//            // Check for uniqueness of URI in the Document
+//            if (parent_doc && parent_doc->find(child_id))
+//                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
+//
+//            // Initialize SBOLCompliant properties
+//            child_obj->identity.set(child_id);
+//            child_obj->persistentIdentity.set(child_persistent_id);
+//            child_obj->displayId.set(uri);
+//            child_obj->version.set(version);
+//
+//            // Add the new object to this OwnedObject property
+//            // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
+//            child_obj->parent = parent_obj;  // Set back-pointer to parent object
+//            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+//            object_store.push_back((SBOLObject*)child_obj);
+//
+//            // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects, otherwise the returned object will not be registered
+//            if (parent_doc)
+//            {
+//                child_obj->doc = parent_doc;
+//                parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
+//            }
+//            this->validate(child_obj);
+//            return *child_obj;
+//        }
+//        else
+//        {
+//            if (parent_doc && parent_doc->find(uri))
+//                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
+//
+//            // Add the new object to this OwnedObject property
+//            Identified* parent_obj = (Identified*)this->sbol_owner;
+//            child_obj->parent = parent_obj;  // Set back-pointer to parent object
+//            child_obj->identity.set(uri);
+//            child_obj->persistentIdentity.set(uri);
+//
+//            this->add(*child_obj);
+//            if (parent_doc)
+//                child_obj->doc = parent_doc;
+//            this->validate(child_obj);
+//            return *child_obj;
+//        }
+//    }
 
 //
 //    template<>
@@ -736,8 +751,8 @@ namespace sbol
 
     void addQCAnnotations(ComponentDefinition& target, ComponentDefinition& construct)
     {
-        Sequence& target_s = target.doc->get<Sequence>(target.sequence.get());
-        Sequence& construct_s = construct.doc->get<Sequence>(construct.sequence.get());
+        Sequence& target_s = target.doc->get<Sequence>(target.sequences.get());
+        Sequence& construct_s = construct.doc->get<Sequence>(construct.sequences.get());
         string target_sequence = target_s.elements.get();
         string verified_sequence = construct_s.elements.get();
         
@@ -892,10 +907,10 @@ namespace sbol
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target, because the Design does not specify a target Sequence or the Sequence is not in the Document.");
         
         ComponentDefinition& design_structure = design.structure.get();
-        if (!design_structure.sequence.size() || !doc->sequences.find(design_structure.sequence.get()))
+        if (!design_structure.sequence.size() || !doc->sequences.find(design_structure.sequences.get()))
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot verify target because the Design does not specify a target Sequence or the Sequence is not in the Document.");
         
-        Sequence& target = doc->get<Sequence>(design_structure.sequence.get());
+        Sequence& target = doc->get<Sequence>(design_structure.sequences.get());
         string target_sequence = target.elements.get();
         string verified_sequence = consensus.elements.get();
         if (target_sequence.size() != verified_sequence.size())
@@ -1103,7 +1118,7 @@ namespace sbol
         }
         
         // Calculate cumulative statistics at the highest level of the component hierarchy.
-        Sequence& target_seq = target.doc->get<Sequence>(target.sequence.get());
+        Sequence& target_seq = target.doc->get<Sequence>(target.sequences.get());
         SequenceAnnotation target_sa = SequenceAnnotation("temporary");
         Range& r = target_sa.locations.create<Range>("r");
         r.start.set(1);

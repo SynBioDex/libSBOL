@@ -76,6 +76,8 @@ namespace sbol
                 return TextProperty(this, uri, '0', '1', ValidationRules({}));
         };  ///< Retrieve a child object by URI
         
+        std::string __str__();
+        
         ~SearchQuery() {};
 
     };
@@ -87,7 +89,7 @@ namespace sbol
         std::vector < sbol::Identified* > records;
 
         /// Adds more search records to an existing SearchResponse
-        /// @param records A SearchResponse object
+        /// @param response A SearchResponse object
         void extend(SearchResponse& response);
         
         SearchResponse() :
@@ -147,6 +149,8 @@ namespace sbol
         };
         
         std::vector<Identified*>::iterator python_iter;
+        
+        std::string __str__();
     };
     
     
@@ -155,30 +159,46 @@ namespace sbol
     {
     private:
         std::string resource;
+        std::string spoofed_resource;
         std::string key;
-        
+        std::string user;
+
     public:
         /// Construct an interface to an instance of SynBioHub or other parts repository
         /// @param The URL of the online repository
-        PartShop(std::string url) :
-            resource(url)
+        PartShop(std::string url, std::string spoofed_url = "") :
+            resource(url),
+            key(""),
+            spoofed_resource(spoofed_url)
             {
+                if (url.size() && url.back() == '/')
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "PartShop initialization failed. The resource URL should not contain a terminal backslash");
+                if (spoofed_url.size() && spoofed_url.back() == '/')
+                    throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "PartShop initialization failed. The spoofed URL should not contain a terminal backslash");
             };
         
         /// Return the count of objects contained in a PartShop
         /// @tparam SBOLClass The type of SBOL object, usually a ComponentDefinition
         template < class SBOLClass > int count();
         
+        /// Issue a SPARQL query
+        std::string sparqlQuery(std::string query);
+
+        /// Specify the URL of a resource that is simulated or spoofed by this PartShop
+        void spoof(std::string spoofed_url);
+
+        void remove(std::string uri);
+        
         /// Retrieve an object from an online resource
         /// @param uri The identity of the SBOL object you want to retrieve
         /// @param doc A document to add the data to
-        void pull(std::string uri, Document& doc);
+        void pull(std::string uri, Document& doc, bool recursive = true);
 
         /// Retrieve an object from an online resource
         /// @param uris A vector of URIs for multiple SBOL objects you want to retrieve
         /// @param doc A document to add the data to
-        void pull(std::vector<std::string> uris, Document& doc);
-        
+        void pull(std::vector<std::string> uris, Document& doc, bool recursive = true );
+
         template < class SBOLClass > void pull(std::string uri, Document& doc, bool recursive = true);
         
         /// Returns all Collections that are not members of any other Collections
@@ -240,12 +260,18 @@ namespace sbol
         /// In order to submit to a PartShop, you must login first. Register on [SynBioHub](http://synbiohub.org) to obtain account credentials.
         /// @param email The email associated with the user's SynBioHub account
         /// @param password The user's password
-        void login(std::string email, std::string password);
+        void login(std::string user_id, std::string password = "");
         
         /// Returns the network address of the PartShop
         /// @return The URL of the online repository
         std::string getURL();
-        
+
+        std::string getKey();        
+
+        std::string getUser();        
+
+        std::string getSpoofedURL();        
+
         /// Upload and attach a file to a TopLevel object in a PartShop.
         /// @param top_level_uri The identity of the object to which the file will be attached
         /// @param file_name A path to the file attachment
@@ -255,7 +281,10 @@ namespace sbol
         /// @param attachment_uri The full URI of the attached object
         /// @param path The target path to which the file will be downloaded
         void downloadAttachment(std::string attachment_uri, std::string path = ".");
-        
+      
+        void addSynBioHubAnnotations(Document& doc); 
+
+        bool exists(std::string uri); 
     };
 
 //    /// Returns a Document including all objects referenced from this object

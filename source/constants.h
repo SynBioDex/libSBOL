@@ -42,7 +42,7 @@
 #define NODENAME_ABOUT    "rdf:about"
 #define NODENAME_RESOURCE "rdf:resource"
 
-#define VERSION_STRING "1.0.0"
+#define VERSION_STRING "1"
 
 /* URIs for SBOL objects */
 #define SBOL_DOCUMENT SBOL_URI "#Document"
@@ -72,6 +72,9 @@
 #define SBOL_COMBINATORIAL_DERIVATION SBOL_URI "#CombinatorialDerivation"
 #define SBOL_ATTACHMENT SBOL_URI "#Attachment"
 #define SBOL_IMPLEMENTATION SBOL_URI "#Implementation"
+#define SBOL_EXPERIMENT SBOL_URI "#Experiment"
+#define SBOL_EXPERIMENTAL_DATA SBOL_URI "#ExperimentalData"
+#define SBOL_MEASURE SBOL_URI "#Measure"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */
@@ -118,7 +121,7 @@
 #define SBOL_MEMBERS SBOL_URI "#member"
 #define SBOL_AT SBOL_URI "#at"
 #define SBOL_OPERATOR SBOL_URI "#operator"
-#define SBOL_VARIABLE_COMPONENTS SBOL_URI "#variableComponents"
+#define SBOL_VARIABLE_COMPONENTS SBOL_URI "#variableComponent"
 #define SBOL_VARIABLE SBOL_URI "#variable"
 #define SBOL_VARIANTS SBOL_URI "#variants"
 #define SBOL_VARIANT_COLLECTIONS SBOL_URI "#variantCollections"
@@ -126,6 +129,9 @@
 #define SBOL_STRATEGY SBOL_URI "#strategy"
 #define SBOL_TEMPLATE SBOL_URI "#template"
 #define SBOL_ATTACHMENTS SBOL_URI "#attachment"
+#define SBOL_VALUE SBOL_URI "#hasNumericalValue"
+#define SBOL_UNIT SBOL_URI "#unit"
+#define SBOL_MEASUREMENTS SBOL_URI "#measure"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property
@@ -242,4 +248,6 @@
 #define SYSBIO_ANALYSIS SYSBIO_URI "#Analysis"
 #define SYSBIO_SAMPLE_ROSTER SYSBIO_URI "#SampleRoster"
 
+#define IGEM_URI "http://wiki.synbiohub.org/wiki/Terms/igem"
+#define IGEM_STANDARD_ASSEMBLY IGEM_URI "#assembly/RFC10"
 #endif

@@ -30,6 +30,7 @@
 #include "moduledefinition.h"
 #include "collection.h"
 #include "implementation.h"
+#include "experiment.h"
 
 #include <tuple>
 
@@ -85,7 +86,7 @@ namespace sbol
         ReferencedObject characterization;
         
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed
-        ~Design() override;
+        virtual ~Design() {};
 
     private:
         ReferencedObject _structure;
@@ -99,8 +100,15 @@ namespace sbol
     template<>
     Design& TopLevel::generate<Design>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
 
-    template<>
-    Design& OwnedObject<Design>::get(std::string uri);
+    // template<>
+    // Design& OwnedObject<Design>::get(std::string uri);
+
+    // template<>
+    // Design& OwnedObject<Design>::operator[] (std::string uri);
+
+    // template<>
+    // Design& OwnedObject<Design>::operator[] (const int nIndex);
+
     
     /// A Build is a realization of a Design. For practical purposes, a Build can represent a biological clone, a plasmid, or other laboratory sample. For a given Design, there may be multiple Builds realized in the lab. A Build represents the second step in libSBOL's formalized Design-Build-Test-Analyze workflow.
     class Build : public Implementation
@@ -173,9 +181,9 @@ namespace sbol
         OwnedObject < ModuleDefinition > behavior;
         
         // The destructor is over-ridden here thus preventing objects in the structure and function containers from being freed
-        ~Build() override;
+        virtual ~Build() {};
     
-    private:
+    // private:
         URIProperty sysbio_type;
         ReferencedObject _structure;
         ReferencedObject _behavior;
@@ -187,37 +195,40 @@ namespace sbol
     template<>
     Build& TopLevel::generate<Build>(std::string uri, Agent& agent, Plan& plan, std::vector < Identified* > usages);
 
-    template<>
-    Build& OwnedObject<Build>::get(std::string uri);
+    // template<>
+    // Build& OwnedObject<Build>::get(std::string uri);
+    
+    // template<>
+    // Build& OwnedObject<Build>::operator[] (std::string uri);
+
+    // template<>
+    // Build& OwnedObject<Build>::operator[] (const int nIndex);
     
     /// A Test is a container for experimental data. A Test is the product of the third step of libSBOL's formalized Design-Build-Test-Analyze workflow
-    class Test : public Collection
+    class Test : public ExperimentalData
     {
     friend class Document;
     friend class OwnedObject<Test>;
-        
-    private:
-        URIProperty sysbio_type;
         
     public:
         /// Construct a new Test object.
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Test(std::string uri = "example", std::string version = VERSION_STRING) :
-            Collection(uri, version),
+            ExperimentalData(uri, version),
             samples(this, SYSBIO_URI "#samples", SBOL_IMPLEMENTATION, '0', '*', { libsbol_rule_9 }),
-            dataFiles(this, SBOL_MEMBERS, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
-            sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_TEST)
+            dataFiles(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', ValidationRules({}))
+//            sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_TEST)
         {
-            // Overwrite the typed URI formed by base constructor by replacing Collection with Test
-            if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
-            {
-                if (Config::getOption("sbol_typed_uris") == "True")
-                {
-                    identity.set(getHomespace() + "/" + getClassName(SYSBIO_TEST) + "/" + displayId.get() + "/" + version);
-                    persistentIdentity.set(getHomespace() + "/" + getClassName(SYSBIO_TEST) + "/" + displayId.get());
-                }
-            }
+//            // Overwrite the typed URI formed by base constructor by replacing Collection with Test
+//            if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+//            {
+//                if (Config::getOption("sbol_typed_uris") == "True")
+//                {
+//                    identity.set(getHomespace() + "/" + getClassName(SYSBIO_TEST) + "/" + displayId.get() + "/" + version);
+//                    persistentIdentity.set(getHomespace() + "/" + getClassName(SYSBIO_TEST) + "/" + displayId.get());
+//                }
+//            }
         }
 
         /// References to Builds which were tested in the experiment
@@ -225,6 +236,8 @@ namespace sbol
 
         /// References to file Attachments which contain experimental data sets
         ReferencedObject dataFiles;
+
+        virtual ~Test() {};
     };
 
     template<>
@@ -244,7 +257,7 @@ namespace sbol
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Analysis(std::string uri = "example", std::string version = VERSION_STRING) :
             TopLevel(SYSBIO_ANALYSIS, uri, version),
-            rawData(this, SYSBIO_URI "#rawData", SBOL_COLLECTION, '0', '1', { libsbol_rule_10 }),
+            rawData(this, SYSBIO_URI "#rawData", SBOL_EXPERIMENTAL_DATA, '0', '1', { libsbol_rule_10 }),
             dataFiles(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
             consensusSequence(this, SYSBIO_URI "#consensusSequence", '0', '1', ValidationRules({})),
             fittedModel(this, SYSBIO_URI "#model", '0', '1', ValidationRules({})),
@@ -282,7 +295,7 @@ namespace sbol
 
         std::unordered_map < std::string, std::tuple < int, int, float > > reportAmbiguity();
 
-        ~Analysis() override;
+        virtual ~Analysis() {};
     private:
         ReferencedObject _consensusSequence;
         ReferencedObject _fittedModel;
@@ -475,6 +488,11 @@ namespace sbol
         {
             std::size_t size = this->sbol_owner->owned_objects[this->alias].size();
             return (int)size;
+        }
+        
+        int __len__()
+        {
+            return this->size();
         }
     };
     
@@ -677,7 +695,9 @@ namespace sbol
     class EnzymeCatalysisInteraction : public Interaction
     {
     public:
-        EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, std::vector<ComponentDefinition*> substrates, std::vector<ComponentDefinition*> products, std::vector<ComponentDefinition*> cofactors = {}, std::vector<ComponentDefinition*> sideproducts = {}) :
+        EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, std::vector<ComponentDefinition*> substrates, std::vector<ComponentDefinition*> products) : EnzymeCatalysisInteraction(uri, enzyme, substrates, products, {}, {}) {};
+        
+        EnzymeCatalysisInteraction(std::string uri, ComponentDefinition& enzyme, std::vector<ComponentDefinition*> substrates, std::vector<ComponentDefinition*> products, std::vector<ComponentDefinition*> cofactors, std::vector<ComponentDefinition*> sideproducts) :
             Interaction(SBOL_INTERACTION, uri, SBO_CONVERSION),
             enzyme(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#enzyme", '0', '1', ValidationRules({})),
             substrates(this, SBOL_FUNCTIONAL_COMPONENTS, SYSBIO_URI "#substrates", '0', '*', ValidationRules({})),

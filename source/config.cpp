@@ -49,7 +49,7 @@ std::map<std::string, std::string> sbol::Config::options {
     {"homespace", "http://examples.org"},
     {"sbol_compliant_uris", "True"},
     {"sbol_typed_uris", "True"},
-    {"output_format", "rdfxml"},
+    {"serialization_format", "sbol"},
     {"validate", "True"},
     {"validator_url", "http://www.async.ece.utah.edu/validate/"},
     {"language", "SBOL2"},
@@ -66,13 +66,15 @@ std::map<std::string, std::string> sbol::Config::options {
     {"main_file_name", "main file"},
     {"diff_file_name", "comparison file"},
     {"return_file", "False"},
-    {"verbose", "False"}
+    {"verbose", "False"},
+    {"ca-path", ""}
+
 };
 
 std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"sbol_compliant_uris", {"True", "False"}},
     {"sbol_typed_uris", { "True", "False" }},
-    {"output_format", {"rdfxml", "json"}},
+    {"serialization_format", {"sbol", "rdfxml", "json", "ntriples"}},
     {"validate", { "True", "False" }},
     {"language", { "SBOL2", "FASTA", "GenBank" }},
     {"test_equality", { "True", "False" }},
@@ -86,15 +88,61 @@ std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"verbose", { "True", "False" }}
 };
 
+std::map<std::string, std::string> sbol::Config::extension_namespaces {};
+
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 std::map<std::string, PyObject*> sbol::Config::PYTHON_DATA_MODEL_REGISTER {};
+
+void sbol::Config::register_extension_class(PyObject* python_class, std::string extension_name)
+{
+    // Construct a dummy object and parse its RDF type
+    string rdf_type;
+    try
+    {
+        PyObject* py_obj = PyObject_CallFunction(python_class, NULL);            
+        PyObject* py_string = PyObject_GetAttr(py_obj, PyUnicode_FromString("type"));
+        if (PyUnicode_Check(py_string)) 
+        {
+            PyObject * temp_bytes = PyUnicode_AsEncodedString(py_string, "UTF-8", "strict"); // Owned reference
+            if (temp_bytes != NULL) 
+            {
+                char* result = PyBytes_AS_STRING(temp_bytes); // Borrowed pointer
+                rdf_type = string(strdup(result));
+                Py_DECREF(temp_bytes);
+            } 
+        }
+        else if (PyBytes_Check(py_string)) 
+        {
+            char* result = PyBytes_AS_STRING(py_string); // Borrowed pointer
+            rdf_type = string(strdup(result));
+        }
+        Py_DECREF(py_string);
+        Py_DECREF(py_obj);
+    }
+    catch(...)
+    {
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Registration of extension class failed. Extension classes must have a valid RDF type and default constructor");
+    }
+
+    // Register the extension's prefix and namespace
+    if (Config::extension_namespaces.find(extension_name) == Config::extension_namespaces.end())
+    {
+        Config::extension_namespaces[extension_name] = parseNamespace(rdf_type);
+    }
+    else if (Config::extension_namespaces[extension_name] != parseNamespace(rdf_type))
+    {
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Registration of extension class failed. This extension is already registered to a different namespace");        
+    }
+
+    // Register the class constructor
+    Config::PYTHON_DATA_MODEL_REGISTER[rdf_type] = python_class;
+};
 #endif
 
 void sbol::Config::setOption(std::string option, char const* value)
 {
     Config::setOption(option, std::string(value));
 }
-
 
 void sbol::Config::setOption(std::string option, std::string value)
 {
@@ -346,6 +394,48 @@ std::string sbol::getFileFormat()
     return config.getFileFormat();
 };
 
+int sbol::getTime()
+{
+    time_t curtime;
+    struct tm * GMT;
+    string stamp;
+    
+    time(&curtime);
+    GMT = gmtime(&curtime);
+    curtime = mktime(GMT);
+    stamp = string(ctime(&curtime));
+    stamp.erase(stamp.length()-1, 1);
+
+    // // Split date string at delimiter (adapted from C++ cookbook)
+    // char delimiter = ' ';
+    // vector<string> tokens;
+    // string::size_type i = 0;
+    // string::size_type j = stamp.find(delimiter);
+    
+    // while (j != string::npos)
+    // {
+    //     string token = stamp.substr(i, j - i);
+    //     if (token != " ")
+    //         tokens.push_back(token);
+    //     i = ++j;
+    //     j = stamp.find(delimiter, j);
+    //     if (j == string::npos)
+    //         tokens.push_back(stamp.substr(i, stamp.length()));
+    // }
+    
+
+    // Split date string at delimiter (adapted from C++ cookbook)
+    char delimiter = ':';
+    string::size_type i = stamp.find(delimiter);
+    string hours = stamp.substr(i-2, 2);
+    string minutes = stamp.substr(i+1, 2);
+    i = stamp.find(delimiter, i+1);
+    string seconds = stamp.substr(i+1, 2);
+
+    int total_seconds = stoi(hours)*3600 + stoi(minutes)*60 + stoi(seconds);
+    return total_seconds;
+};
+
 void Config::setHomespace(std::string ns)
 {
     options["homespace"] = ns;
@@ -368,6 +458,8 @@ void Config::setFileFormat(std::string file_format)
 {
     if (file_format.compare("json") == 0)
         this->format = "json";
+    else if (file_format == "ntriples")
+        this->format = "ntriples";
     else
         this->format = "rdfxml";
 };
@@ -399,17 +491,20 @@ size_t sbol::CurlWrite_CallbackFunc_StdString(void *contents, size_t size, size_
 
 size_t sbol::CurlResponseHeader_CallbackFunc(char *buffer,   size_t size,   size_t nitems,   void *userdata)
 {
-    std::unordered_map<std::string, std::string>& headers = *(std::unordered_map<std::string, std::string>*)userdata;
-    size_t header_length = size * nitems;
-    std::string header = std::string(buffer);
-    std::size_t delimiter_pos = header.find(':');
-    if (delimiter_pos != std::string::npos)
+    if (userdata)
     {
-        std::string key = header.substr(0, delimiter_pos);
-        std::string val = header.substr(delimiter_pos + 1, header_length - 2 - delimiter_pos);
-        headers[key] = val;
+        std::unordered_map<std::string, std::string>& headers = *(std::unordered_map<std::string, std::string>*)userdata;
+        size_t header_length = size * nitems;
+        std::string header = std::string(buffer);
+        std::size_t delimiter_pos = header.find(':');
+        if (delimiter_pos != std::string::npos)
+        {
+            std::string key = header.substr(0, delimiter_pos);
+            std::string val = header.substr(delimiter_pos + 1, header_length - 2 - delimiter_pos);
+            headers[key] = val;
+        }
+        //userdata = &headers;
     }
-    userdata = &headers;
     return size * nitems;
 };
 

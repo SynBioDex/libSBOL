@@ -23,20 +23,27 @@ before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   
   # cache refresh required to install packages
-  - sudo apt-get update -qq
+  - sudo apt-get update -q=2
 
   # install dependencies
-  - sudo apt-get -y install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev libjsoncpp-dev swig3.0 python-dev
-
+  - sudo apt-get -y install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev swig3.0 python-dev
+  - curl --tlsv1.2 -L https://github.com/open-source-parsers/jsoncpp/archive/1.7.7.tar.gz > jsoncpp-1.7.7.tar.gz
+  - tar -xzf jsoncpp-1.7.7.tar.gz
+  - cd jsoncpp-1.7.7
+  - cmake . -Bbuild -DBUILD_SHARED_LIBS=TRUE
+  - cd build
+  - sudo make install
+  - cd ../..
+  - ls /usr/local/lib
   - echo "TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR"
   # build 
   - mkdir -p ~/build/libSBOL
 
 install:
   - cd ~/build/libSBOL
-  - sudo apt-get install -qq g++-4.8
+  - sudo apt-get install -q=2 g++-4.8
   - export CXX="g++-5" CC="gcc-5"
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON -DSBOL_BUILD_SHARED=ON -DCURL_LIBRARY=/usr/lib/x86_64-linux-gnu/libcurl.so -DJsonCpp_LIBRARY=/usr/lib/x86_64-linux-gnu/libjsoncpp.so -DLIBXSLT_LIBRARIES=/usr/lib/x86_64-linux-gnu/libxslt.so -DRAPTOR_LIBRARY=/usr/lib/x86_64-linux-gnu/libraptor2.so -DSBOL_BUILD_PYTHON2=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DSWIG_EXECUTABLE=/usr/bin/swig3.0 "$TRAVIS_BUILD_DIR"
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON -DSBOL_BUILD_SHARED=ON -DCURL_LIBRARY=/usr/lib/x86_64-linux-gnu/libcurl.so -DLIBXSLT_LIBRARIES=/usr/lib/x86_64-linux-gnu/libxslt.so -DRAPTOR_LIBRARY=/usr/lib/x86_64-linux-gnu/libraptor2.so -DSBOL_BUILD_PYTHON2=ON -DPYTHON_EXECUTABLE=/usr/bin/python -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DSWIG_EXECUTABLE=/usr/bin/swig3.0 "$TRAVIS_BUILD_DIR"
   - make 
   - make install
 
@@ -47,9 +54,14 @@ script:
   - make -j2 && make install
   #- cd ~/install_x64/test
   #- ./sbol_test
-  - cd ~/install_x64/wrapper/sbol
-  - python unit_tests.py
-    
+  - ls ~
+  - ls ~/build
+  - ls ~/build/libSBOL
+  - ls ~/build/SynBioDex
+  - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
+  - python -c "from sbol import *; testSBOL()"
+  - python -c "from sbol.unit_tests import *; runRoundTripTests()"
+  
 addons:
   apt:
     sources:

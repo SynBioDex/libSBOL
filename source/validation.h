@@ -90,6 +90,19 @@ namespace sbol
     // Property is read-only
     SBOL_DECLSPEC void libsbol_rule_19(void *sbol_obj, void *arg);
 
+    // ComponentDefinition sequence and sequences property are synced
+    SBOL_DECLSPEC void libsbol_rule_20(void *sbol_obj, void *arg);
+
+    // ComponentDefinition sequence and sequences property are synced
+    SBOL_DECLSPEC void libsbol_rule_21(void *sbol_obj, void *arg);
+
+    // Activity::agent is synced with Association::agent
+    SBOL_DECLSPEC void libsbol_rule_22(void *sbol_obj, void *arg);
+
+    // Activity::plan is synced with Association::plan
+    SBOL_DECLSPEC void libsbol_rule_24(void *sbol_obj, void *arg);
+
+
     bool is_alphanumeric_or_underscore(char c);
     
     bool is_not_alphanumeric_or_underscore(char c);

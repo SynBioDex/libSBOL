@@ -29,6 +29,7 @@
 #include <vector>
 #include <functional>
 #include <iostream>
+#include "document.h"
 
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 #include "Python.h"
@@ -44,9 +45,12 @@ SBOLObject::~SBOLObject()
     {
         for (auto &i_own : owned_objects)
         {
-            vector<SBOLObject*>& object_store = i_own.second;
-            for (auto &i_obj : object_store)
-                i_obj->close();
+            if (std::find(hidden_properties.begin(), hidden_properties.end(), i_own.first) == hidden_properties.end())
+            {
+                vector<SBOLObject*>& object_store = i_own.second;
+                for (auto &i_obj : object_store)
+                    i_obj->close();
+            }
         }
     }
 }
@@ -62,7 +66,7 @@ void SBOLObject::register_extension_class(PyObject* python_class, std::string ex
 //        size_t left_class_name = repr_name.find_last_of('.') + 1;
 //        size_t len_class_name = repr_name.size() - left_class_name - 2;  // eg, <class '__main__.ComponentDerivation'>
 //        std::string class_name = repr_name.substr(left_class_name, len_class_name);
-        
+
         // Register namespace and its prefix (extension name)
         Config::PYTHON_DATA_MODEL_REGISTER[getTypeURI()] = python_class;
         std::string ns = parseNamespace(getTypeURI());
@@ -80,15 +84,15 @@ PyObject* SBOLObject::cast(PyObject* python_class)
         int own;
         PyObject *next;
     } SwigPyObject;
-    
+
     PyObject* py_obj = PyObject_CallObject(python_class, NULL);  // Call constructor
     PyObject* temp_py_object = PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
     SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
     SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
-    
+
     // Set identity
     new_obj->identity.set(this->identity.get());
-    
+
     // Copy properties
     for (auto it = this->properties.begin(); it != this->properties.end(); it++)
     {
@@ -104,11 +108,13 @@ PyObject* SBOLObject::cast(PyObject* python_class)
     }
     new_obj->parent = this->parent;
     new_obj->doc = this->doc;
-    
+
     return py_obj;
 };
 
 #endif
+
+
 
 bool sbol::operator !=(const SBOLObject &a, const SBOLObject &b)
 {
@@ -163,7 +169,7 @@ int SBOLObject::compare(SBOLObject* comparand)
             int IS_EQUAL = 0;
         }
     }
-    
+
     std::string l_id;
     std::string r_id;
     std::map < std::string, std::vector<std::string> >::iterator i_lp;  // iterator for left-hand side
@@ -237,7 +243,7 @@ int SBOLObject::compare(SBOLObject* comparand)
     for (auto i_p = owned_objects.begin(); i_p != owned_objects.end(); ++i_p)
     {
         string p = i_p->first;
-        
+
         SBOLObject* l;
         SBOLObject* r;
         if (this->owned_objects[p].size() >= comparand->owned_objects[p].size())
@@ -253,7 +259,7 @@ int SBOLObject::compare(SBOLObject* comparand)
 
         vector<SBOLObject*>& l_object_store = l->owned_objects[p];
         vector<SBOLObject*>& r_object_store = r->owned_objects[p];
-        
+
         map<string, SBOLObject*> l_store_map;
         map<string, SBOLObject*> r_store_map;
         for (auto i_obj = l_object_store.begin(); i_obj != l_object_store.end(); ++i_obj)
@@ -311,6 +317,41 @@ int SBOLObject::compare(SBOLObject* comparand)
 //    }
 //    return 0;
 //};
+
+
+void SBOLObject::apply(void (*callback_fn)(SBOLObject *, void *), void * user_data)
+{
+    callback_fn(this, user_data);
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        // Skip hidden properties
+        if (std::find(hidden_properties.begin(), hidden_properties.end(), i_store->first) != hidden_properties.end())
+            continue;
+        vector<SBOLObject*>& store = i_store->second;
+        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+        {
+            SBOLObject& obj = **i_obj;
+            obj.apply(callback_fn, user_data);
+        }
+    }
+    return;
+};
+
+void SBOLObject::cacheObjects(std::map<std::string, sbol::SBOLObject*> &cache) {
+    cache[identity.get()] = this;
+
+    for (auto i_store = owned_objects.begin(); i_store != owned_objects.end(); ++i_store)
+    {
+        if (std::find(hidden_properties.begin(), hidden_properties.end(), i_store->first) != hidden_properties.end())
+            continue;
+        vector<SBOLObject*>& store = i_store->second;
+        for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
+        {
+            SBOLObject &obj = **i_obj;
+            obj.cacheObjects(cache);
+        }
+    }
+}
 
 SBOLObject* SBOLObject::find(string uri)
 {
@@ -388,8 +429,11 @@ vector<SBOLObject*> SBOLObject::find_property_value(string uri, string value, ve
             matches.insert(matches.end(), more_matches.begin(), more_matches.end());
         }
     }
+    // if (properties.find(uri) == properties.end())
+    //     throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot find property value. " + uri + " is not a valid property type.");
     if (properties.find(uri) == properties.end())
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot find property value. " + uri + " is not a valid property type.");
+        return matches;
+    
     std::vector<std::string> value_store = properties[uri];
     for (auto & val : value_store)
     {
@@ -414,18 +458,26 @@ vector<SBOLObject*> SBOLObject::find_reference(string uri)
         for (auto i_obj = store.begin(); i_obj != store.end(); ++i_obj)
         {
             SBOLObject& obj = **i_obj;
-            matches = obj.find_reference(uri);
+            vector<SBOLObject*> newMatches = obj.find_reference(uri);
+            for(auto &el : newMatches)
+            {
+                matches.push_back(el);
+            }
         }
     }
+
     for (auto &i_p : properties)
     {
-        string val = i_p.second.front();
-        if (val.compare("<" + uri + ">") == 0)
+        for(string val : i_p.second)
         {
-            matches.push_back(this);
-            break;
+            if (val.compare("<" + uri + ">") == 0)
+            {
+                matches.push_back(this);
+                break;
+            }
         }
     }
+
     return matches;
 };
 
@@ -456,17 +508,39 @@ std::string SBOLObject::getPropertyValue(std::string property_uri)
 
 void SBOLObject::setPropertyValue(std::string property_uri, std::string val)
 {
-
-        if (val[0] == '<' && val[val.length() - 1] == '>')
+    if (properties.find(property_uri) != properties.end())
+    {
+        if (properties[property_uri][0][0] == '<')
         {
             // Check if new value is a URI...
-            properties[property_uri].push_back(val);
+            properties[property_uri][0] = "<" + val + ">";
         }
-        else
+        else if (properties[property_uri][0][0] == '\"')
+        {
+            // ...else treat the value as a literal
+            properties[property_uri][0] = "\"" + val + "\"";
+        }
+    }
+    else throw SBOLError(SBOL_ERROR_NOT_FOUND, property_uri + " not contained in this object.");
+
+};
+
+void SBOLObject::addPropertyValue(std::string property_uri, std::string val)
+{
+    if (properties.find(property_uri) != properties.end())
+    {
+        if (properties[property_uri][0][0] == '<')
+        {
+            // Check if new value is a URI...
+            properties[property_uri].push_back("<" + val + ">");
+        }
+        else if (properties[property_uri][0][0] == '\"')
         {
             // ...else treat the value as a literal
             properties[property_uri].push_back("\"" + val + "\"");
         }
+    }
+    else throw SBOLError(SBOL_ERROR_NOT_FOUND, property_uri + " not contained in this object.");
 };
 
 std::vector < std::string > SBOLObject::getPropertyValues(std::string property_uri)
@@ -786,3 +860,128 @@ void ReferencedObject::addReference(const std::string uri)
     this->sbol_owner->properties[this->type].push_back("<" + uri + ">");
 };
 
+void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
+    const size_t spaces_per_indent = 2;
+
+    std::string indentString = std::string(spaces_per_indent * indentLevel,
+                                           ' ');
+    
+    // Serialize properties
+    for(auto &propPair : properties) {
+
+        auto &propValues = propPair.second;
+
+        if(propPair.first.compare("http://sbols.org/v2#identity") == 0) {
+            // This property is not serialized
+            continue;
+        }
+
+        if(propValues.size() == 1 &&
+           (propValues.at(0) == "\"\"" || propValues.at(0) == "<>"))
+        {
+            // No properties of this type
+            continue;
+        }
+        
+        auto predicate = doc->referenceNamespace(propPair.first);
+
+        for(auto propValue : propValues) {
+            if(propValue[0] == '<') {
+                // URI
+                os << indentString
+                   << "<" << predicate << " rdf:resource=\""
+                   << propValue.substr(1, propValue.size()-2)
+                   << "\"/>" << std::endl;
+
+            } else {
+                // Non-URI Literal
+
+                // Some characters need to be escaped
+                std::string::size_type pos = 0;
+                while(true) {
+                    const char *cStr = propValue.c_str();
+                    std::string::size_type len = propValue.size();
+                    bool done = true;
+
+                    for(; pos<len; ++pos)
+                    {
+                        if(cStr[pos] == '<')
+                        {
+                            propValue = propValue.replace(pos, 1, "&lt;");
+                            pos += 4;
+                            done = false;
+                            break;
+                        }
+
+                        if(cStr[pos] == '>')
+                        {
+                            propValue = propValue.replace(pos, 1, "&gt;");
+                            pos += 4;
+                            done = false;
+                            break;
+                        }
+
+                        if(cStr[pos] == '&')
+                        {
+                            propValue = propValue.replace(pos, 1, "&amp;");
+                            pos += 5;
+                            done = false;
+                            break;
+                        }
+                    }
+
+                    if(done) {
+                        break;
+                    }
+                }
+
+                os << indentString
+                   << "<" << predicate << ">"
+                   << propValue.substr(1, propValue.size()-2)
+                   << "</" << predicate << ">"
+                   << std::endl;
+            }
+        }
+    }
+
+    std::string indentString2 =
+      std::string(spaces_per_indent * (indentLevel + 1), ' ');
+
+    // Serialize owned objects
+    for(auto ownedPair : owned_objects)
+    {
+        if(ownedPair.second.size() == 0) {
+            continue;
+        }
+
+        std::string predicate = doc->referenceNamespace(ownedPair.first);
+
+        for(auto &i_obj : ownedPair.second)
+        {
+            auto typeURI = i_obj->getTypeURI();
+
+            if (std::find(hidden_properties.begin(), hidden_properties.end(), typeURI)
+                != hidden_properties.end()) {
+                continue;
+            }
+
+            std::string rdfType = doc->referenceNamespace(typeURI);
+            std::string identity = i_obj->identity.get();
+
+            os << indentString << "<" << predicate
+               << ">" << std::endl;
+
+            os << indentString2
+               << "<" << rdfType << " rdf:about=\""
+               << identity << "\">" << std::endl;
+
+            i_obj->serialize_rdfxml(os, indentLevel + 2);
+
+            os << indentString2
+               << "</" << rdfType << ">" << std::endl;
+
+            os << indentString
+               << "</" << predicate << ">" << std::endl;
+        }
+    }
+}

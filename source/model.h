@@ -39,7 +39,7 @@ namespace sbol
         /// @param source A URI reference to the model file
         /// @param An EDAM ontology term that specifies the language in which the model was implemented
         /// @param An SBOL ontology term that specifies whether the model is continuous, discrete, or other modeling technique
-        Model(std::string uri = "example", std::string source = "", std::string language = EDAM_SBML, std::string framework = SBO_CONTINUOUS, std::string version = "1.0.0") : Model(SBOL_MODEL, uri, source, language, framework, version) {};
+        Model(std::string uri = "example", std::string source = "", std::string language = EDAM_SBML, std::string framework = SBO_CONTINUOUS, std::string version = VERSION_STRING) : Model(SBOL_MODEL, uri, source, language, framework, version) {};
 
         /// Constructor used for defining extension classes
         /// @param type The RDF type for an extension class derived from this one

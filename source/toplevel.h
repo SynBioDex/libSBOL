@@ -43,7 +43,7 @@ namespace sbol
     public:
         ReferencedObject attachments;
         
-        TopLevel(rdf_type type_uri = SBOL_TOP_LEVEL, std::string uri = "example", std::string version = "1.0.0") :
+        TopLevel(rdf_type type_uri = SBOL_TOP_LEVEL, std::string uri = "example", std::string version = VERSION_STRING) :
             Identified(type_uri, uri, version),
             attachments(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', ValidationRules({}))
         {
@@ -52,13 +52,19 @@ namespace sbol
                 displayId.set(uri);
                 if (Config::getOption("sbol_typed_uris").compare("True") == 0)
                 {
-                    identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get() + "/" + version);
                     persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
+                    if (version != "")
+                        identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get() + "/" + version);
+                    else
+                        identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
                 }
                 else
                 {
-                    identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
                     persistentIdentity.set(getHomespace() + "/" + displayId.get());
+                    if (version != "")
+                        identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
+                    else
+                        identity.set(getHomespace() + "/" + displayId.get());
                 }
             }
         };

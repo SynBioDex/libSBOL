@@ -28,6 +28,7 @@
 
 #include "identified.h"
 #include "mapsto.h"
+#include "measurement.h"
 
 namespace sbol
 {
@@ -44,18 +45,22 @@ namespace sbol
         /// The mapsTos property is an OPTIONAL set of MapsTo objects that refer to and link ComponentInstance objects together within the heterarchy of Module, ModuleDefinition, ComponentInstance, and ComponentDefinition objects.
         OwnedObject<MapsTo> mapsTos;
         
+        /// The measurements property links a Module to parameters or measurements and their associated units. For example Measurements attached to a Module may indicate the experimental or environmental context in which a ModuleDefinition is instantiated.
+        OwnedObject<Measurement> measurements;
+        
         /// Construct a Module. If operating in SBOL-compliant mode, use ModuleDefinition::modules::create instead.
         /// @param uri If operating in open-world mode, this should be a full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param definition The identity of the Component with this structural constraint
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
-        Module(std::string uri = "example", std::string definition = "", std::string version = "1.0.0") : Module(SBOL_MODULE, uri, definition, version) {};
+        Module(std::string uri = "example", std::string definition = "", std::string version = VERSION_STRING) : Module(SBOL_MODULE, uri, definition, version) {};
 
         /// Constructor used for defining extension classes
         /// @param type The RDF type for an extension class derived from this one
         Module(rdf_type type, std::string uri, std::string definition, std::string version) :
             Identified(type, uri, version),
             definition(this, SBOL_DEFINITION, SBOL_MODULE_DEFINITION, '1', '1', ValidationRules({}), definition),
-            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({}))
+            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({})),
+            measurements(this, SBOL_MEASUREMENTS, '0', '*', ValidationRules({}))
         {
         };
 
