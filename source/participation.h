@@ -27,6 +27,7 @@
 #define PARTICIPATION_INCLUDED
 
 #include "identified.h"
+#include "measurement.h"
 
 namespace sbol
 {
@@ -56,7 +57,8 @@ namespace sbol
         Participation(rdf_type type, std::string uri, std::string participant, std::string version) :
             Identified(type, uri, version),
             roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
-            participant(this, SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, '1', '1', ValidationRules({}), participant)
+            participant(this, SBOL_PARTICIPANT, SBOL_FUNCTIONAL_COMPONENT, '1', '1', ValidationRules({}), participant),
+            measurements(this, SBOL_MEASUREMENTS, '0', '*', ValidationRules({}))
             {
             };
         
@@ -74,6 +76,9 @@ namespace sbol
         
         /// The participant property MUST specify precisely one FunctionalComponent object that plays the designated  role in its parent Interaction object.
         ReferencedObject participant;
+        
+        /// The measurements property links a Participation to parameters or measurements and their associated units. For example, an Interaction that represents a chemical reaction may have parameters added to it and each Participation it contains to capture its chemical kinetic rate and the stoichiometries of its reactants and products.
+        OwnedObject<Measurement> measurements;
         
         void define(ComponentDefinition& species, std::string role = "");
         

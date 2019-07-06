@@ -98,23 +98,23 @@ void Document::dress_document()
         i.close();
     }
 
-    // Look in Collection store for objects with sys-bio:type and move them to Test store
-    vector<string> test_ids;
-	for (auto & c : owned_objects[SBOL_COLLECTION])
-        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
-			test_ids.push_back(c->identity.get());
-    for (auto & id : test_ids)
-    {
-    	Collection& c = this->collections.remove(id);
-        Test& t = c. template cast<Test>();
-        this->add<Test>(t);
-        c.close();
-    }
+//    // Look in Collection store for objects with sys-bio:type and move them to Test store
+//    vector<string> test_ids;
+//    for (auto & c : owned_objects[SBOL_COLLECTION])
+//        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
+//            test_ids.push_back(c->identity.get());
+//    for (auto & id : test_ids)
+//    {
+//        Collection& c = this->collections.remove(id);
+//        Test& t = c. template cast<Test>();
+//        this->add<Test>(t);
+//        c.close();
+//    }
 
     // Look in Collection store for objects with sys-bio:type and move them to SampleRoster store
     vector<string> roster_ids;
 	for (auto & c : owned_objects[SBOL_COLLECTION])
-        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
+        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_URI "#SampleRoster>")
 			roster_ids.push_back(c->identity.get());
     for (auto & id : roster_ids)
     {
@@ -224,7 +224,7 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SYSBIO_ANALYSIS, (SBOLObject&(*)()) &create<Analysis> ),
     make_pair(SYSBIO_SAMPLE_ROSTER, (SBOLObject&(*)()) &create<SampleRoster> ),
     make_pair(SBOL_EXPERIMENT, (SBOLObject&(*)()) &create<Experiment> ),
-    make_pair(SBOL_EXPERIMENTAL_DATA, (SBOLObject&(*)()) &create<ExperimentalData> )
+    make_pair(SBOL_EXPERIMENTAL_DATA, (SBOLObject&(*)()) &create<Test> )
 
 };
 
@@ -595,16 +595,16 @@ std::string SBOLObject::nest(std::string& rdfxml_string)
 			for (auto o = object_store.begin(); o != object_store.end(); ++o)
 			{
 				SBOLObject* obj = *o;
-                // if (Config::getOption("verbose") == "True")
-                //     std::cout << rdfxml_string << std::endl;
+//                if (Config::getOption("verbose") == "True")
+//                    std::cout << rdfxml_string << std::endl;
                 rdfxml_string = obj->nest(rdfxml_string);  // Recurse, start nesting with leaf objects
                 string id = obj->identity.get();
 				string cut_text = cut_sbol_resource(rdfxml_string, id);
-                // if (Config::getOption("verbose") == "True")
-                // {
-                //     std::cout << rdfxml_string << std::endl;
-                //     getchar();
-                // }
+//                if (Config::getOption("verbose") == "True")
+//                {
+//                    std::cout << rdfxml_string << std::endl;
+//                    getchar();
+//                }
                 try
                 {
                     replace_reference_to_resource(rdfxml_string, doc->makeQName(property_name), id, cut_text);
@@ -674,6 +674,8 @@ void Document::parse_objects(void* user_data, raptor_statement* triple)
 void Document::parse_objects_inner(const std::string &subject,
                                    const std::string &object)
 {
+    bool foundSubject = (objectCache.find(subject) != objectCache.end());
+
 #if defined(SBOL_BUILD_PYTHON2) || defined(SBOL_BUILD_PYTHON3)
 
     typedef struct {
@@ -684,7 +686,6 @@ void Document::parse_objects_inner(const std::string &subject,
         PyObject *next;
     } SwigPyObject;
 
-    bool foundSubject = (objectCache.find(subject) != objectCache.end());
     // Instantiate Python extension objects
 
     if ( !foundSubject        && (PythonObjects.count(subject) == 0) && (Config::PYTHON_DATA_MODEL_REGISTER.count(object) == 1))
@@ -1186,6 +1187,21 @@ void Document::clear()
 //    owned_objects.clear();
     for (auto & p : properties)
     {
+        if (p.first == SBOL_VERSION)
+            continue;
+        else if (p.first == SBOL_PERSISTENT_IDENTITY)
+            continue;
+        else if (p.first == SBOL_DISPLAY_ID)
+            continue;
+        else if (p.first == SBOL_WAS_DERIVED_FROM)
+            continue;
+        else if (p.first == PROVO_WAS_GENERATED_BY)
+            continue;
+        else if (p.first == SBOL_NAME)
+            continue;
+        else if (p.first == SBOL_DESCRIPTION)
+            continue;
+
         std::string reinitialized_property;
         if (p.second.front()[0] == '<')
             reinitialized_property = "<>";
@@ -1641,7 +1657,7 @@ std::string Document::write(std::string filename)
             filename.replace(0, 1, home);
         }
     }
-
+    
     std::string response = "";
     if (Config::getOption("serialization_format") == "sbol")
     {
@@ -1656,7 +1672,7 @@ std::string Document::write(std::string filename)
     {
         raptor_world* world = getWorld();
         raptor_serializer* sbol_serializer;
-
+        
         if((Config::getOption("serialization_format") == "rdfxml") ||
            (Config::getOption("serialization_format") == "sbol_raptor"))
         {
@@ -1666,15 +1682,15 @@ std::string Document::write(std::string filename)
         {
             sbol_serializer = raptor_new_serializer(world, Config::getOption("serialization_format").c_str());
         }
-
+        
         FILE* fh = fopen(filename.c_str(), "wb");
-
+        
         char *sbol_buffer;
         size_t sbol_buffer_len;
-
+        
         raptor_iostream* ios = raptor_new_iostream_to_string(world, (void **)&sbol_buffer, &sbol_buffer_len, NULL);
         raptor_uri *base_uri = NULL;
-
+        
         generate(&world, &sbol_serializer, &sbol_buffer, &sbol_buffer_len, &ios, &base_uri);
 
         // Convert flat RDF/XML into nested SBOL
@@ -1993,19 +2009,29 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
     }
 
     // Set version
-    if (version.compare("") != 0)
-    	new_obj.version.set(version);
-    else if (this->version.size() > 0)
-    	if (this->doc != NULL && this->doc == target_doc)  // In order to create a copy of the object in this Document, it's version must be incremented
-        	new_obj.version.incrementMajor();
-        else
-        {
-        	new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
-        }
 
+    if (version != "")
+    	new_obj.version.set(version);
+    else if (version == "" && ns == "")
+    {
+        if (this->version.size() > 0)
+            if (this->doc != NULL && this->doc == target_doc)  // In order to create a copy of the object in this Document, it's version must be incremented
+                new_obj.version.incrementMajor();
+            else
+            {
+                new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
+            }
+    }
+    else if (version == "" && ns != "")
+    {
+        if (this->version.size() > 0)
+            {
+                new_obj.version.set(this->version.get());  // Copy this object's version if the user doesn't specify a new one
+            }
+    }
 
     string id;
-	if (Config::getOption("sbol_compliant_uris") == "True")
+	if (Config::getOption("sbol_compliant_uris") == "True" && this->version.size() > 0)
     	id = new_obj.persistentIdentity.get() + "/" + new_obj.version.get();
     else
     	id = new_obj.persistentIdentity.get();
@@ -2032,6 +2058,7 @@ Identified& Identified::copy(Document* target_doc, string ns, string version)
             Identified& child_obj_copy = child_obj.copy(target_doc, ns, version);
             new_obj.owned_objects[store_uri].push_back((SBOLObject*)&child_obj_copy);  // Copy child object
             child_obj_copy.parent = &new_obj;
+            child_obj_copy.update_uri();
         }
     }
     return new_obj;

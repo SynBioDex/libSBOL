@@ -87,9 +87,9 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -157,7 +157,7 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
         res = curl_easy_perform(curl);
         /* Check for errors */
         if(res != CURLE_OK)
-            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + string(curl_easy_strerror(res)));
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search request failed with " + string(curl_easy_strerror(res)));
         
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -202,9 +202,9 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -294,9 +294,9 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -373,9 +373,9 @@ int sbol::PartShop::searchCount(SearchQuery& q)
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -464,9 +464,9 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type, s
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -536,9 +536,9 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-    //    headers = curl_slist_append(headers, "charsets: utf-8");
+    headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     
     /* get a curl handle */
     curl = curl_easy_init();
@@ -659,7 +659,10 @@ void sbol::PartShop::login(std::string user_id, std::string password)
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/remoteLogin").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the POST data */
         string parameters = "email=" + user_id + "&" + "password=" + password;
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, parameters.c_str());
@@ -691,8 +694,20 @@ void sbol::PartShop::login(std::string user_id, std::string password)
 
 std::string sbol::PartShop::submit(Document& doc, std::string collection, int overwrite)
 {
-    if (collection == "" && (doc.displayId.size() == 0 || doc.name.size() == 0 || doc.description.size() == 0))
-        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot submit Document. The Document must be assigned a displayId, name, and description for upload.");
+    if (collection == "")
+    {
+        // If a Document is submitted as a new collection, then Document metadata must be specified
+        if (doc.displayId.size() == 0 || doc.name.size() == 0 || doc.description.size() == 0)
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot submit Document. The Document must be assigned a displayId, name, and description for upload.");
+    }
+    else
+    {
+        // Correct collection URI in case a spoofed resource is being used
+        if (spoofed_resource != "" && collection.find(resource) != std::string::npos)
+            collection = collection.replace(collection.find(resource), resource.size(), spoofed_resource);
+        if (Config::getOption("verbose") == "True")
+            cout << "Submitting Document to existing collection: " << collection << endl;
+    }
     
     int t_start;  // For timing
     int t_end;  // For timing
@@ -727,6 +742,9 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/submit").c_str());
+
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
         
         /* Now specify the POST data */
         struct curl_httppost* post = NULL;
@@ -960,8 +978,10 @@ std::string PartShop::searchRootCollections()
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
-        //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -1008,8 +1028,10 @@ std::string PartShop::searchSubCollections(std::string uri)
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
-        //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -1063,7 +1085,9 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header_list);
-        
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the POST data */
         //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
         
@@ -1074,6 +1098,13 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
         /* Now specify the callback to read response headers */
         curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, CurlResponseHeader_CallbackFunc);
         curl_easy_setopt(curl, CURLOPT_HEADERDATA, response_headers);
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
+        if (Config::getOption("verbose") == "True")
+        {
+            std::cout << "Issuing get request: " << get_request << std::endl;
+        }
 
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
@@ -1091,6 +1122,12 @@ std::string http_get_request(std::string get_request, unordered_map<string, stri
         }
         if (http_response_code == 404)
             throw SBOLError(SBOL_ERROR_NOT_FOUND, "");
+        else if (http_response_code == 401)
+            throw SBOLError(SBOL_ERROR_HTTP_UNAUTHORIZED, "Please login with valid credentials");
+        else if (http_response_code == 302)
+            ;  // Do nothing in case of redirect. This occurs sometimes with spoofed resources
+        else if (http_response_code != 200)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, response);
 
         /* always cleanup */
         curl_easy_cleanup(curl);
@@ -1113,7 +1150,7 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
         query = uri;  // User has specified full URI
     else if (uri.find(parseURLDomain(resource)) != std::string::npos)
         query = uri;  // User has specified full URI
-    else if (uri.find(spoofed_resource) != std::string::npos)
+    else if (spoofed_resource != "" && uri.find(spoofed_resource) != std::string::npos)
         query = uri.replace(uri.find(spoofed_resource), spoofed_resource.size(), resource);
     else
         query = resource + "/" + uri;  // Assume user has only specified displayId
@@ -1142,6 +1179,8 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
 
 void sbol::PartShop::spoof(std::string spoofed_url)
 {
+    if (spoofed_url.size() && spoofed_url.back() == '/')
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "PartShop initialization failed. The spoofed URL should not contain a terminal backslash");
     spoofed_resource = spoofed_url;
 };
 
@@ -1178,15 +1217,17 @@ std::string sbol::PartShop::sparqlQuery(std::string query)
 
 void sbol::PartShop::remove(string uri)
 {
-    if (spoofed_resource != "")
-    {
-        size_t p = uri.find(resource);
-        if (p != std::string::npos)
-        {
-            uri = uri.insert(p, spoofed_resource);
-        }
-    }
-    string endpoint = uri + "/remove";
+    string query;
+    if (uri.find(resource) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else if (uri.find(parseURLDomain(resource)) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else if (spoofed_resource != "" && uri.find(spoofed_resource) != std::string::npos)
+        query = uri.replace(uri.find(spoofed_resource), spoofed_resource.size(), resource);
+    else
+        throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Removal of " + uri + " failed. The object does not exist in the resource namespace");
+
+    string endpoint = query + "/remove";
     
     unordered_map<string, string> headers;
     unordered_map<string, string> header_response;
@@ -1196,9 +1237,19 @@ void sbol::PartShop::remove(string uri)
     http_get_request(endpoint, &headers);
 };
 
+string PartShop::getUser()
+{
+    return user;
+}
+
 string PartShop::getURL()
 {
     return resource;
+}
+
+string PartShop::getSpoofedURL()
+{
+    return spoofed_resource;
 }
 
 void PartShop::attachFile(std::string topleveluri, std::string filename)
@@ -1238,7 +1289,9 @@ void PartShop::attachFile(std::string topleveluri, std::string filename)
         
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, string(topleveluri + "/attach").c_str());
-        
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the POST data */
         struct curl_httppost* post = NULL;
         struct curl_httppost* last = NULL;
@@ -1317,6 +1370,152 @@ void PartShop::addSynBioHubAnnotations(Document& doc)
     }
 }
 
+bool sbol::PartShop::exists(std::string uri)
+{
+    unordered_map<string, string> headers;
+    headers["X-authorization"] = key;
+    headers["Accept"] = "text/plain";
+
+    string query;
+    string response;
+
+    if (uri.find(resource) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else if (uri.find(parseURLDomain(resource)) != std::string::npos)
+        query = uri;  // User has specified full URI
+    else if (spoofed_resource != "" && uri.find(spoofed_resource) != std::string::npos)
+        query = uri.replace(uri.find(spoofed_resource), spoofed_resource.size(), resource);
+    try
+    {
+        string get_request = query + "/metadata";
+        if (Config::getOption("verbose") == "True")
+            std::cout << "Issuing get request:\n" << get_request << std::endl;
+        response = http_get_request(get_request, &headers);
+    }   
+    catch (SBOLError& e)
+    {
+        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Search request failed with response: " + e.error_message());
+    }
+
+    Json::Value json_response;
+    Json::Reader reader;
+    bool parsed = reader.parse(response, json_response);
+    if (!parsed)
+        return false;
+    else if (response == "[]")
+        return false;
+    else
+        return true;
+};
+
+std::string Document::convert(string language, string output_path)
+{
+    string original_language = Config::getOption("language");
+    string original_return_file = Config::getOption("return_file");
+    if (language != "")
+    {
+        Config::setOption("language", language);
+        Config::setOption("return_file", "True");
+    }
+
+    /* Form validation options in JSON */
+    Json::Value request;   // 'root' will contain the root value after parsing.
+    
+    vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
+    for (auto const& opt : opts)
+    {
+        if (Config::getOption(opt).compare("True") == 0)
+            request["options"][opt] = true;
+        else if (Config::getOption(opt).compare("False") == 0)
+            request["options"][opt] = false;
+        else
+            request["options"][opt] = Config::getOption(opt);
+    }
+    if (Config::getOption("return_file").compare("True") == 0)
+        request["return_file"] = true;
+    else if (Config::getOption("return_file").compare("False") == 0)
+        request["return_file"] = false;
+    request["main_file"] = writeString();
+    Json::StyledWriter writer;
+    string json = writer.write( request );
+    
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
+        /* Now specify the POST data */
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Cannot validate online. HTTP post request failed with: " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    Json::Value json_response;
+    Json::Reader reader;
+    bool parsed = reader.parse( response, json_response );     //parse process
+    if ( parsed )
+    {
+        if (json_response.get("valid", response ).asString().compare("true") == 0)
+        {
+            response = json_response.get("output_file", response ).asString();
+            string converted_file = http_get_request(response);  // retrieve converted file from URL
+
+            if (output_path == "")
+                output_path = parseClassName(response);  // parse filename from URL
+            FILE* fh = fopen(output_path.c_str(), "wb");
+            if (!fh)
+                throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "Cannot download converted file. The target path " + output_path + " is invalid.");
+            
+            fputs(converted_file.c_str(), fh);
+            fclose(fh);
+        }
+        else
+        {
+            response = "Invalid.";
+            for (auto itr : json_response["errors"])
+            {
+                response += " " + itr.asString();
+            }
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, response);
+        }
+    }
+    Config::setOption("language", original_language);
+    Config::setOption("return_file", original_return_file);
+    return response;
+};
 
 void SearchResponse::extend(SearchResponse& response)
 {
@@ -1325,6 +1524,58 @@ void SearchResponse::extend(SearchResponse& response)
         records.push_back(&record);
     }
 };
+
+string SearchResponse::__str__()
+{
+    Json::Value json;
+    Json::Reader reader;
+
+    for(auto & r : records)
+    {
+        Json::Value json_entry;
+        json_entry["identity"] = r->identity.get();
+        if (r->displayId.size())
+            json_entry["displayId"] = r->displayId.get();
+        if (r->name.size())
+            json_entry["name"] = r->name.get();
+        if (r->description.size())
+            json_entry["description"] = r->description.get();
+        if (r->version.size())
+            json_entry["version"] = r->version.get();
+        json.append(json_entry);
+    }
+    Json::StreamWriterBuilder builder;
+    builder["indentation"] = "  "; // If you want whitespace-less output
+    const std::string output = Json::writeString(builder, json);
+    return output;
+};
+
+string SearchQuery::__str__()
+{
+    Json::Value json;
+    Json::Reader reader;
+    
+    for (auto & p : getProperties())
+    {
+        if (p == SBOL_IDENTITY)
+            continue;
+        string p_name = parsePropertyName(p);
+        string p_val = properties[p].front();
+        p_val = p_val.substr(1, p_val.length() - 2);
+        // Check if property store is empty
+        if (p_val != "")
+        {
+            if (p_name == "title")
+                p_name = "name";
+            json[p_name] = p_val;
+        }
+    }
+    Json::StreamWriterBuilder builder;
+    builder["indentation"] = "  ";
+    const std::string output = Json::writeString(builder, json);
+    return output;
+};
+
 
 namespace sbol
 {

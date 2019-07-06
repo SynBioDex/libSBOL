@@ -74,7 +74,7 @@
 #define SBOL_IMPLEMENTATION SBOL_URI "#Implementation"
 #define SBOL_EXPERIMENT SBOL_URI "#Experiment"
 #define SBOL_EXPERIMENTAL_DATA SBOL_URI "#ExperimentalData"
-
+#define SBOL_MEASURE SBOL_URI "#Measure"
 #define UNDEFINED SBOL_URI "#Undefined"
 
 /* URIs for SBOL Properties */
@@ -129,6 +129,9 @@
 #define SBOL_STRATEGY SBOL_URI "#strategy"
 #define SBOL_TEMPLATE SBOL_URI "#template"
 #define SBOL_ATTACHMENTS SBOL_URI "#attachment"
+#define SBOL_VALUE SBOL_URI "#hasNumericalValue"
+#define SBOL_UNIT SBOL_URI "#unit"
+#define SBOL_MEASUREMENTS SBOL_URI "#measure"
 
 /* SBOL internal ontologies */
 #define SBOL_ACCESS_PRIVATE SBOL_URI "#private"  ///< Option for Component::access or FunctionalComponent::access property

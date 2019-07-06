@@ -80,7 +80,7 @@ namespace sbol {
             validationRules({ }),
             designs(this, SYSBIO_DESIGN, '0', '*', { libsbol_rule_11 }),
             builds(this, SYSBIO_BUILD, '0', '*', { libsbol_rule_12 }),
-            tests(this, SYSBIO_TEST, '0', '*', { libsbol_rule_13 }),
+            tests(this, SBOL_EXPERIMENTAL_DATA, '0', '*', { libsbol_rule_13 }),
             analyses(this, SYSBIO_ANALYSIS, '0', '*', { libsbol_rule_14 }),
             componentDefinitions(this, SBOL_COMPONENT_DEFINITION, '0', '*', ValidationRules({})),
             moduleDefinitions(this, SBOL_MODULE_DEFINITION, '0', '*', ValidationRules({})),
@@ -94,7 +94,7 @@ namespace sbol {
             combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({})),
             implementations(this, SBOL_IMPLEMENTATION, '0', '*', ValidationRules({})),
             experiments(this, SBOL_EXPERIMENT, '0', '*', ValidationRules({})),
-            experimentalData(this, SBOL_EXPERIMENTAL_DATA, '0', '*', ValidationRules({})),
+//            experimentalData(this, SBOL_EXPERIMENTAL_DATA, '0', '*', ValidationRules({})),
             sampleRosters(this, SYSBIO_SAMPLE_ROSTER, '0', '*', { libsbol_rule_16 }),
             citations(this, PURL_URI "bibliographicCitation", '0', '*', ValidationRules({})),
             keywords(this, PURL_URI "elements/1.1/subject", '0', '*', ValidationRules({}))
@@ -144,7 +144,7 @@ namespace sbol {
         OwnedObject<Implementation> implementations;
         OwnedObject<SampleRoster> sampleRosters;
         OwnedObject<Experiment> experiments;
-        OwnedObject<ExperimentalData> experimentalData;
+//        OwnedObject<ExperimentalData> experimentalData;
 
         URIProperty citations;
         URIProperty keywords;
@@ -212,6 +212,9 @@ namespace sbol {
         /// Run validation on this Document via the online validation tool.
         /// @return A string containing a message with the validation results
         std::string validate();
+
+        /// Convert this SBOL Document to GenBank or FASTA.
+        std::string convert(std::string language = "", std::string output_path = "");
         
         Document& copy(std::string ns = "", Document* doc = NULL, std::string version = "");
         
@@ -278,6 +281,8 @@ namespace sbol {
             for (auto & property : owned_objects)
             {
                 std::string property_name = parsePropertyName(property.first);
+                if (property_name == "ExperimentalData")
+                    property_name = "Test";
                 int obj_count = property.second.size();
                 total_core_objects += obj_count;
                 summary += property_name + std::string(col_size - property_name.length(), '.') + std::to_string(obj_count) + "\n";
@@ -417,8 +422,8 @@ namespace sbol {
     template<>
     void Document::add<Build>(Build& sbol_obj);  // Definition in dbtl.cpp
     
-    template<>
-    void Document::add<Test>(Test& sbol_obj);  // Definition in dbtl.cpp
+//    template<>
+//    void Document::add<Test>(Test& sbol_obj);  // Definition in dbtl.cpp
     
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
 	{
@@ -572,8 +577,8 @@ namespace sbol {
     template<>
     Build& OwnedObject<Build>::create(std::string uri);  // Definition of specialized template in dbtl.cpp
 
-    template<>
-    Test& OwnedObject<Test>::create(std::string uri);  // Definition of specialized template in dbtl.cpp
+//    template<>
+//    Test& OwnedObject<Test>::create(std::string uri);  // Definition of specialized template in dbtl.cpp
 
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::define(SBOLObject& definition_object)
@@ -623,6 +628,8 @@ namespace sbol {
             {
                 version = parent_obj->properties[SBOL_VERSION].front();
                 version = version.substr(1, version.length() - 2);  // Removes flanking " from the uri
+                if (version == "")
+                    version = VERSION_STRING;
             }
             else
             {
@@ -1013,34 +1020,41 @@ namespace sbol {
         {
             for (auto & ns : parent_obj->doc->resource_namespaces)
                 resource_namespaces.push_back(ns);
-        }  
-
-        // Check for regular, SBOL-compliant URIs 
+        }
+        
+        // Check for regular, SBOL-compliant URIs
         for (auto & ns : resource_namespaces)
         {
             // Assume the parent object is TopLevel and form the compliant URI
-            compliant_uri = ns + "/" + uri + "/";
+            compliant_uri = ns + "/" + uri;
             if (Config::getOption("verbose") == "True")
                 std::cout << "Searching for TopLevel: " << compliant_uri << std::endl;
-
+            
             std::vector< SBOLClass* > persistent_id_matches;
             for (auto i_obj = object_store->begin(); i_obj != object_store->end(); i_obj++)
             {
                 SBOLObject* obj = *i_obj;
+                if (obj->identity.get() == compliant_uri)
+                    return (SBOLClass&)*obj;
+                // Match by persistentIdentity
                 size_t found;
-                found = obj->identity.get().find(compliant_uri);
+                found = obj->identity.get().find(compliant_uri + "/");
                 if (found != std::string::npos)
                 {
                     persistent_id_matches.push_back((SBOLClass*)obj);
                 }
+            }
+            if (persistent_id_matches.size() > 0)
+            {
                 // Sort objects with same persistentIdentity by version
                 sort(persistent_id_matches.begin(), persistent_id_matches.end(), [](SBOLClass* a, SBOLClass* b) {
                     return (a->version.get() < b->version.get());
                 });
+                
+                // If objects matching the persistentIdentity were found, return the most recent version
+                if (persistent_id_matches.size() > 0)
+                    return (SBOLClass&)*persistent_id_matches.back();
             }
-            // If objects matching the persistentIdentity were found, return the most recent version
-            if (persistent_id_matches.size() > 0)
-                return (SBOLClass&)*persistent_id_matches.back();
             
             // Assume the object is not TopLevel
             if (parent_obj->properties.find(SBOL_PERSISTENT_IDENTITY) != parent_obj->properties.end())

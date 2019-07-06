@@ -28,6 +28,8 @@
 
 #include "identified.h"
 #include "mapsto.h"
+#include "location.h"
+#include "measurement.h"
 
 #include <string>
 
@@ -56,13 +58,17 @@ namespace sbol
         /// The mapsTos property is OPTIONAL and MAY contain a set of MapsTo objects that refer to and link together ComponentInstance objects (both Component objects and FunctionalComponent objects) within a larger design.
 		OwnedObject<MapsTo> mapsTos;
 
+        /// The measurements property links a ComponentInstance to parameters or measurements and their associated units. For example a Measurement attached to a FunctionalComponent might indicate the quantity of a component ingredient in a growth medium recipe.
+        OwnedObject<Measurement> measurements;
+        
         virtual ~ComponentInstance() {};
 	protected:
         ComponentInstance(rdf_type type, std::string uri, std::string definition, std::string access, std::string version) :
             Identified(type, uri, version),
             definition(this, SBOL_DEFINITION, SBOL_COMPONENT_DEFINITION, '1', '1', ValidationRules({}), definition),
             access(this, SBOL_ACCESS, '0', '1', ValidationRules({}), access),
-            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({}))
+            mapsTos(this, SBOL_MAPS_TOS, '0', '*', ValidationRules({})),
+            measurements(this, SBOL_MEASUREMENTS, '0', '*', ValidationRules({}))
             {
             };
         
@@ -87,6 +93,10 @@ namespace sbol
         /// | http://sbols.org/v2#mergeRoles     | Use the union of the two sets: both the set of zero or more roles given for this Component as well |
         /// |                                    | as the set of zero or more roles given for the included sub-ComponentDefinition.                   |
         URIProperty roleIntegration;
+
+        /// The sourceLocations property allows only a portion of the Component's sequence to be used when compiling a composite Sequence from a component hierarchy. This serves two related purposes: (1) To support the insertion of parts within a larger plasmid or genome "backbone". Typically, this will replace a small segment of the backbone which, currently, cannot be expressed in SBOL. (2) To support the "trimming" of part boundaries as it may happen during DNA assembly.
+        OwnedObject<Location> sourceLocations;
+        
         
         /// Construct a Component. If operating in SBOL-compliant mode, use ComponentDefinition::components::create instead.
         /// @param A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
@@ -104,7 +114,8 @@ namespace sbol
         Component(rdf_type type, std::string uri, std::string definition, std::string access, std::string version) :
             ComponentInstance(type, uri, definition, access, version),
             roles(this, SBOL_ROLES, '0', '*', ValidationRules({})),
-            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}), SBOL_ROLE_INTEGRATION_MERGE)
+            roleIntegration(this, SBOL_ROLE_INTEGRATION, '0', '1', ValidationRules({}), SBOL_ROLE_INTEGRATION_MERGE),
+            sourceLocations(this, SBOL_LOCATIONS, '0', '*', ValidationRules({}))
             {};
         
 //        Component(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) : ComponentInstance(type, uri_prefix, display_id, version, definition, access) {};

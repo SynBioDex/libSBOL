@@ -54,26 +54,34 @@ namespace sbol
             if(Config::getOption("sbol_compliant_uris").compare("True") == 0)
             {
                 displayId.set(uri);
-                identity.set(getHomespace() + "/" + uri + "/" + version);
                 persistentIdentity.set(getHomespace() + "/" + uri);
+                if (version != "")
+                    identity.set(getHomespace() + "/" + uri + "/" + version);
+                else
+                    identity.set(getHomespace() + "/" + uri);
 
-//                if (Config::getOption("sbol_typed_uris").compare("True") == 0)
-//                {
-//                    identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
-//                    persistentIdentity.set(getHomespace() + "/" + uri);
-//                }
-//                else
-//                {
-//                    identity.set(getHomespace() + "/" + uri + "/" + version);
-//                    persistentIdentity.set(getHomespace() + "/" + uri);
-//                }
+                if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+                {
+                    persistentIdentity.set(getHomespace() + "/" + uri);
+                    if (version != "")
+                        identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri + "/" + version);
+                    else
+                        identity.set(getHomespace() + "/" + getClassName(type) + "/" + uri);
+                }
+                else
+                {
+                    persistentIdentity.set(getHomespace() + "/" + uri);
+                    if (version != "")
+                        identity.set(getHomespace() + "/" + uri + "/" + version);
+                    else
+                        identity.set(getHomespace() + "/" + uri);
+                }
             }
             else if (hasHomespace())
             {
                 identity.set(getHomespace() + "/" + uri);
                 persistentIdentity.set(getHomespace() + "/" + uri);
             }
-            identity.validate();
         }
         
         /// The persistentIdentity property is OPTIONAL and has a data type of URI. This URI serves to uniquely refer to a set of SBOL objects that are different versions of each other. An Identified object MUST be referred to using either its identity URI or its persistentIdentity URI.

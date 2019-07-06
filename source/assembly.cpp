@@ -389,7 +389,10 @@ std::string ComponentDefinition::compile()
     {
         if (Config::getOption("sbol_compliant_uris") == "True")
         {
-            seq = &doc->sequences.create(displayId.get());
+            string display_id = displayId.get();
+            if (Config::getOption("sbol_typed_uris") == "False")
+                display_id = display_id + "_seq";
+            seq = &doc->sequences.create(display_id);
             sequence.set(*seq);
             sequences.set(seq->identity.get());
 
@@ -1978,6 +1981,27 @@ void nest_ranges(std::vector < sbol::Range* > ranges, ComponentDefinition* cdef_
     for (auto & removed_ann : removed_anns)
         removed_ann->close();
 }
+
+vector<SequenceAnnotation*> ComponentDefinition::sortSequenceAnnotations()
+{
+    vector<Range*> unsorted_ranges;
+    vector<SequenceAnnotation*> sorted_annotations;
+    for (auto & ann : sequenceAnnotations)
+    {
+        for (auto & l : ann.locations)
+        {
+            if (l.type == SBOL_RANGE)
+                unsorted_ranges.push_back((Range*)&l);
+        }
+    }
+    sort(unsorted_ranges.begin(), unsorted_ranges.end(), compare_ranges);
+    for (auto & r : unsorted_ranges)
+    {
+        sorted_annotations.push_back((SequenceAnnotation*)r->parent);
+    }
+    return sorted_annotations;
+};
+
 
 void disassemble(ComponentDefinition * cdef_node, int range_start)
 {

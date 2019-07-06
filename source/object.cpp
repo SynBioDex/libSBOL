@@ -431,6 +431,9 @@ vector<SBOLObject*> SBOLObject::find_property_value(string uri, string value, ve
     }
     // if (properties.find(uri) == properties.end())
     //     throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot find property value. " + uri + " is not a valid property type.");
+    if (properties.find(uri) == properties.end())
+        return matches;
+    
     std::vector<std::string> value_store = properties[uri];
     for (auto & val : value_store)
     {
@@ -862,9 +865,10 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
 
     std::string indentString = std::string(spaces_per_indent * indentLevel,
                                            ' ');
-
+    
     // Serialize properties
     for(auto &propPair : properties) {
+
         auto &propValues = propPair.second;
 
         if(propPair.first.compare("http://sbols.org/v2#identity") == 0) {
@@ -872,14 +876,13 @@ void SBOLObject::serialize_rdfxml(std::ostream &os, size_t indentLevel) {
             continue;
         }
 
-
-        if((propValues.size() == 1) &&
-           (propValues.at(0) == "\"\"") || (propValues.at(0) == "<>"))
+        if(propValues.size() == 1 &&
+           (propValues.at(0) == "\"\"" || propValues.at(0) == "<>"))
         {
             // No properties of this type
             continue;
         }
-
+        
         auto predicate = doc->referenceNamespace(propPair.first);
 
         for(auto propValue : propValues) {

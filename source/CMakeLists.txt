@@ -40,6 +40,7 @@ FILE(GLOB SBOL_HEADER_FILES
     properties.h
     object.h
 	identified.h
+    measure.h
 	toplevel.h
 	sequenceannotation.h
 	component.h

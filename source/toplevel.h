@@ -52,13 +52,19 @@ namespace sbol
                 displayId.set(uri);
                 if (Config::getOption("sbol_typed_uris").compare("True") == 0)
                 {
-                    identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get() + "/" + version);
                     persistentIdentity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
+                    if (version != "")
+                        identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get() + "/" + version);
+                    else
+                        identity.set(getHomespace() + "/" + getClassName(type) + "/" + displayId.get());
                 }
                 else
                 {
-                    identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
                     persistentIdentity.set(getHomespace() + "/" + displayId.get());
+                    if (version != "")
+                        identity.set(getHomespace() + "/" + displayId.get() + "/" + version);
+                    else
+                        identity.set(getHomespace() + "/" + displayId.get());
                 }
             }
         };
