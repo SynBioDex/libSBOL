@@ -109,6 +109,7 @@ class TestRoundTripSBOL2NoncompliantURIs(unittest.TestCase):
 
 def test_generator(test_file):
     def run_round_trip(self):
+        print(str(test_file))
         split_path = os.path.splitext(test_file)
         self.doc = Document()   # Document for read and write
         # self.doc.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + split_path[1]))
@@ -123,11 +124,11 @@ def test_generator(test_file):
 # Dynamically generate test cases
 i_f = 0
 for f in os.listdir(TEST_LOC_SBOL2):
-    f = os.path.join(TEST_LOC_SBOL2, f)
     if f == '.' or f == '..' or f == 'manifest':
         continue
-    if f == 'pICH42211.xml' or f == 'pICH42222':
+    if f == 'pICH42211.xml' or f == 'pICH42222.xml':
         continue
+    f = os.path.join(TEST_LOC_SBOL2, f)
     test_name = 'testRoundTripSBOL2_{:03d}'.format(i_f)
     test = test_generator(f)
     setattr(TestRoundTripSBOL2, test_name, test)
@@ -136,9 +137,9 @@ for f in os.listdir(TEST_LOC_SBOL2):
 
 i_f = 0
 for f in os.listdir(TEST_LOC_SBOL2_bp):
-    f = os.path.join(TEST_LOC_SBOL2_bp, f)
     if f == '.' or f == '..' or f == 'manifest':
         continue
+    f = os.path.join(TEST_LOC_SBOL2_bp, f)
     test_name = 'testRoundTripBestPractices_{:03d}'.format(i_f)
     test = test_generator(f)
     setattr(TestRoundTripSBOL2BestPractices, test_name, test)
@@ -146,9 +147,9 @@ for f in os.listdir(TEST_LOC_SBOL2_bp):
 
 i_f = 0
 for f in os.listdir(TEST_LOC_SBOL2_ic):
-    f = os.path.join(TEST_LOC_SBOL2_ic, f)
     if f == '.' or f == '..' or f == 'manifest':
         continue
+    f = os.path.join(TEST_LOC_SBOL2_ic, f)
     test_name = 'testRoundTripSBOL2IncompleteDocuments_{:03d}'.format(i_f)
     test = test_generator(f)
     setattr(TestRoundTripSBOL2IncompleteDocuments, test_name, test)
@@ -156,9 +157,9 @@ for f in os.listdir(TEST_LOC_SBOL2_ic):
 
 i_f = 0
 for f in os.listdir(TEST_LOC_SBOL2_nc):
-    f = os.path.join(TEST_LOC_SBOL2_nc, f)
     if f == '.' or f == '..' or f == 'manifest':
         continue
+    f = os.path.join(TEST_LOC_SBOL2_nc, f)
     test_name = 'testRoundTripSBOL2NoncompliantURIs_{:03d}'.format(i_f)
     test = test_generator(f)
     setattr(TestRoundTripSBOL2NoncompliantURIs, test_name, test)
@@ -551,6 +552,7 @@ class TestCopy(unittest.TestCase):
         # Clone the object to another Document, the wasDerivedFrom should not be a circular reference
         doc2 = Document()
         comp3 = comp2.copy(doc2)
+        self.assertEquals(comp3.identity, comp2.identity)
         self.assertEquals(comp3.wasDerivedFrom[0], comp1.identity)
         self.assertNotEqual(comp3.wasDerivedFrom[0], comp2.identity)
 
@@ -559,10 +561,15 @@ class TestCopy(unittest.TestCase):
         doc = Document()
         doc2 = Document()
         comp = doc.componentDefinitions.create('hi')
+        comp.version = '3'
 
-        # Import the object into a new namespace and update the version
+        # Import the object into a new namespace and retain the same version
         homespace = getHomespace()
         setHomespace('https://hub.sd2e.org/user/sd2e/test')
+        comp_copy = comp.copy(doc2, homespace)  # Import from old homespace into new homespace
+        self.assertEquals(comp_copy.identity, 'https://hub.sd2e.org/user/sd2e/test/hi/3')
+
+        # Import the object into a new namespace and set the version
         comp_copy = comp.copy(doc2, homespace, '2')  # Import from old homespace into new homespace
         self.assertEquals(comp_copy.identity, 'https://hub.sd2e.org/user/sd2e/test/hi/2')
         setHomespace('http://examples.org')
@@ -589,6 +596,84 @@ class TestCopy(unittest.TestCase):
         doc2 = doc.copy(getHomespace())
         tl = doc2.getExtensionObject(tl.identity)
         self.assertEquals(tl.thisown, False)
+
+    def testUpdateComponentProperty(self):
+        # See issue #89
+        Config.setOption('sbol_compliant_uris', True)
+        Config.setOption('sbol_typed_uris', False)
+        setHomespace('http://examples.org')
+
+        doc = Document()
+
+        lacZ = ComponentDefinition('lacZ_cassette', BIOPAX_DNA, '1')
+        doc.addComponentDefinition(lacZ)
+
+        pLac = ComponentDefinition('pLac', BIOPAX_DNA, '1')
+        doc.addComponentDefinition(pLac)
+
+        pLac_comp = lacZ.components.create('pLac_comp')
+        pLac_comp.definition = pLac.identity
+
+        pLac_anno = lacZ.sequenceAnnotations.create('pLac_anno')
+        l = pLac_anno.locations.createGenericLocation('pLac_loc')
+        pLac_anno.component = pLac_comp.identity
+        self.assertEquals(pLac_anno.identity, 'http://examples.org/lacZ_cassette/pLac_anno/1')
+        self.assertEquals(pLac_comp.identity, 'http://examples.org/lacZ_cassette/pLac_comp/1')
+        self.assertEquals(pLac_anno.component, 'http://examples.org/lacZ_cassette/pLac_comp/1')
+        self.assertEquals(l.identity, 'http://examples.org/lacZ_cassette/pLac_anno/pLac_loc/1')
+
+        setHomespace('http://testing.org')
+
+        lacZ_copy = lacZ.copy(doc, 'http://examples.org')
+        self.assertEquals(lacZ_copy.identity, 'http://testing.org/lacZ_cassette/' + VERSION_STRING)
+        self.assertEquals(lacZ_copy.sequenceAnnotations[0].identity, 'http://testing.org/lacZ_cassette/pLac_anno/' + VERSION_STRING)
+        self.assertEquals(lacZ_copy.components[0].identity, 'http://testing.org/lacZ_cassette/pLac_comp/' + VERSION_STRING)
+        self.assertEquals(lacZ_copy.sequenceAnnotations[0].component, 'http://testing.org/lacZ_cassette/pLac_comp/' + VERSION_STRING)
+        self.assertEquals(lacZ_copy.sequenceAnnotations[0].locations[0].identity, 'http://testing.org/lacZ_cassette/pLac_anno/pLac_loc/' + VERSION_STRING)
+        
+        setHomespace('http://examples.org')
+        Config.setOption('sbol_compliant_uris', True)
+        Config.setOption('sbol_typed_uris', True)
+
+    def testUpdateComponentPropertyTypedURI(self):
+        # See issue #89
+        Config.setOption('sbol_compliant_uris', True)
+        Config.setOption('sbol_typed_uris', True)
+        setHomespace('http://examples.org')
+        doc = Document()
+
+        lacZ = ComponentDefinition('lacZ_cassette', BIOPAX_DNA, '1')
+        doc.addComponentDefinition(lacZ)
+
+        pLac = ComponentDefinition('pLac', BIOPAX_DNA, '1')
+        doc.addComponentDefinition(pLac)
+
+        pLac_comp = lacZ.components.create('pLac_comp')
+        pLac_comp.definition = pLac.identity
+
+        pLac_anno = lacZ.sequenceAnnotations.create('pLac_anno')
+        l = pLac_anno.locations.createGenericLocation('pLac_loc')
+        pLac_anno.component = pLac_comp.identity
+        self.assertEquals(pLac_anno.identity, 'http://examples.org/ComponentDefinition/lacZ_cassette/pLac_anno/1')
+        self.assertEquals(pLac_comp.identity, 'http://examples.org/ComponentDefinition/lacZ_cassette/pLac_comp/1')
+        self.assertEquals(pLac_anno.component, 'http://examples.org/ComponentDefinition/lacZ_cassette/pLac_comp/1')
+        self.assertEquals(l.identity, 'http://examples.org/ComponentDefinition/lacZ_cassette/pLac_anno/pLac_loc/1')
+
+        setHomespace('http://testing.org')
+        lacZ_copy = lacZ.copy(doc, 'http://examples.org')
+        self.assertEquals(lacZ_copy.identity, 'http://testing.org/ComponentDefinition/lacZ_cassette/' + VERSION_STRING)
+        self.assertEquals(lacZ_copy.sequenceAnnotations[0].identity, 'http://testing.org/ComponentDefinition/lacZ_cassette/pLac_anno/' + VERSION_STRING)
+        self.assertEquals(lacZ_copy.components[0].identity, 'http://testing.org/ComponentDefinition/lacZ_cassette/pLac_comp/' + VERSION_STRING)
+        self.assertEquals(lacZ_copy.sequenceAnnotations[0].component, 'http://testing.org/ComponentDefinition/lacZ_cassette/pLac_comp/' + VERSION_STRING)
+        self.assertEquals(lacZ_copy.sequenceAnnotations[0].locations[0].identity, 'http://testing.org/ComponentDefinition/lacZ_cassette/pLac_anno/pLac_loc/' + VERSION_STRING)
+        setHomespace('http://examples.org')
+
+    def testCopyIntoNewConfig(self):
+        '''
+        Copy a typed compliant URI to a non-typed compliant URI
+        Copy a non-typed compliant URI to a typed URI
+        '''
+        pass
 
 class TestDBTL(unittest.TestCase):
 
@@ -646,8 +731,82 @@ class TestDBTL(unittest.TestCase):
         self.assertEquals(activity.agent.identity, activity.associations[0].agent)
         self.assertEquals(activity.plan.identity, activity.associations[0].plan)
 
+class TestURIAutoConstruction(unittest.TestCase):
+    def setUp(self):
+        pass
 
-def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass ]):
+    def testCompliantURIWithVersion(self):
+        Config.setOption('sbol_compliant_uris', True)
+        Config.setOption('sbol_typed_uris', True)
+        tl = TopLevel(SBOL_TOP_LEVEL, 'test', '1b')
+        self.assertEquals(tl.identity, getHomespace() + '/TopLevel/test/1b')
+        identified = Identified(SBOL_IDENTIFIED, 'test', '1b')
+        self.assertEquals(identified.identity, getHomespace() + '/Identified/test/1b')
+        
+        Config.setOption('sbol_typed_uris', False)
+        tl = TopLevel(SBOL_TOP_LEVEL, 'test', '1b')
+        self.assertEquals(tl.identity, getHomespace() + '/test/1b')
+        identified = Identified(SBOL_IDENTIFIED, 'test', '1b')
+        self.assertEquals(identified.identity, getHomespace() + '/test/1b')
+
+    def testCompliantURINoVersion(self):
+        Config.setOption('sbol_compliant_uris', True)
+        Config.setOption('sbol_typed_uris', True)
+        tl = TopLevel(SBOL_TOP_LEVEL, 'test', '')
+        self.assertEquals(tl.identity, getHomespace() + '/TopLevel/test')
+        identified = Identified(SBOL_IDENTIFIED, 'test', '')
+        self.assertEquals(identified.identity, getHomespace() + '/Identified/test')
+        
+        Config.setOption('sbol_typed_uris', False)
+        tl = TopLevel(SBOL_TOP_LEVEL, 'test', '')
+        self.assertEquals(tl.identity, getHomespace() + '/test')
+        identified = Identified(SBOL_IDENTIFIED, 'test', '')
+        self.assertEquals(identified.identity, getHomespace() + '/test')
+
+    def testCreateMethods(self):
+        # If the parent Document does not have a version specified, child objects should
+        # be initialized with default version string
+        Config.setOption('sbol_compliant_uris', True)
+        Config.setOption('sbol_typed_uris', True)
+        doc = Document()
+        self.assertEquals(doc.version, VERSION_STRING)
+
+        doc.version = ''
+        cd0 = doc.componentDefinitions.create('cd0')
+        self.assertEquals(cd0.version, VERSION_STRING)
+        self.assertEquals(cd0.identity, getHomespace() + '/ComponentDefinition/cd0/' + VERSION_STRING)
+
+        sa0 = cd0.sequenceAnnotations.create('ann0')
+        self.assertEquals(sa0.version, VERSION_STRING)
+        self.assertEquals(sa0.identity, getHomespace() + '/ComponentDefinition/cd0/ann0/' + VERSION_STRING)
+        
+        # If the parent Document does have a version specified, child objects should
+        # inherit that version
+        doc = Document()
+        doc.version = '2'
+        cd0 = doc.componentDefinitions.create('cd0')
+        self.assertEquals(cd0.version, '2')
+        self.assertEquals(cd0.identity, getHomespace() + '/ComponentDefinition/cd0/2')
+
+        sa0 = cd0.sequenceAnnotations.create('ann0')
+        self.assertEquals(sa0.version, '2')
+        self.assertEquals(sa0.identity, getHomespace() + '/ComponentDefinition/cd0/ann0/2')
+
+    def testAddChildObjects(self):
+        Config.setOption('sbol_compliant_uris', True)
+        Config.setOption('sbol_typed_uris', True)
+        cd = ComponentDefinition('cd')
+        sa = SequenceAnnotation('sa')
+        self.assertEquals(sa.identity, getHomespace() + '/SequenceAnnotation/sa/' + VERSION_STRING)
+        cd.sequenceAnnotations.add(sa)
+        self.assertEquals(sa.identity, getHomespace() + '/ComponentDefinition/cd/sa/' + VERSION_STRING)
+
+
+    def tearDown(self):
+        Config.setOption('sbol_compliant_uris', True)
+        Config.setOption('sbol_typed_uris', True)
+
+def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction ]):
     VALIDATE = Config.getOption('validate')
     Config.setOption('validate', False)
 
