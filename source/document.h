@@ -80,7 +80,7 @@ namespace sbol {
             validationRules({ }),
             designs(this, SYSBIO_DESIGN, '0', '*', { libsbol_rule_11 }),
             builds(this, SYSBIO_BUILD, '0', '*', { libsbol_rule_12 }),
-            tests(this, SYSBIO_TEST, '0', '*', { libsbol_rule_13 }),
+            tests(this, SBOL_EXPERIMENTAL_DATA, '0', '*', { libsbol_rule_13 }),
             analyses(this, SYSBIO_ANALYSIS, '0', '*', { libsbol_rule_14 }),
             componentDefinitions(this, SBOL_COMPONENT_DEFINITION, '0', '*', ValidationRules({})),
             moduleDefinitions(this, SBOL_MODULE_DEFINITION, '0', '*', ValidationRules({})),
@@ -94,7 +94,7 @@ namespace sbol {
             combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({})),
             implementations(this, SBOL_IMPLEMENTATION, '0', '*', ValidationRules({})),
             experiments(this, SBOL_EXPERIMENT, '0', '*', ValidationRules({})),
-            experimentalData(this, SBOL_EXPERIMENTAL_DATA, '0', '*', ValidationRules({})),
+//            experimentalData(this, SBOL_EXPERIMENTAL_DATA, '0', '*', ValidationRules({})),
             sampleRosters(this, SYSBIO_SAMPLE_ROSTER, '0', '*', { libsbol_rule_16 }),
             citations(this, PURL_URI "bibliographicCitation", '0', '*', ValidationRules({})),
             keywords(this, PURL_URI "elements/1.1/subject", '0', '*', ValidationRules({}))
@@ -144,7 +144,7 @@ namespace sbol {
         OwnedObject<Implementation> implementations;
         OwnedObject<SampleRoster> sampleRosters;
         OwnedObject<Experiment> experiments;
-        OwnedObject<ExperimentalData> experimentalData;
+//        OwnedObject<ExperimentalData> experimentalData;
 
         URIProperty citations;
         URIProperty keywords;
@@ -281,6 +281,8 @@ namespace sbol {
             for (auto & property : owned_objects)
             {
                 std::string property_name = parsePropertyName(property.first);
+                if (property_name == "ExperimentalData")
+                    property_name = "Test";
                 int obj_count = property.second.size();
                 total_core_objects += obj_count;
                 summary += property_name + std::string(col_size - property_name.length(), '.') + std::to_string(obj_count) + "\n";
@@ -420,8 +422,8 @@ namespace sbol {
     template<>
     void Document::add<Build>(Build& sbol_obj);  // Definition in dbtl.cpp
     
-    template<>
-    void Document::add<Test>(Test& sbol_obj);  // Definition in dbtl.cpp
+//    template<>
+//    void Document::add<Test>(Test& sbol_obj);  // Definition in dbtl.cpp
     
 	template <class SBOLClass > void Document::add(SBOLClass& sbol_obj)
 	{
@@ -575,8 +577,8 @@ namespace sbol {
     template<>
     Build& OwnedObject<Build>::create(std::string uri);  // Definition of specialized template in dbtl.cpp
 
-    template<>
-    Test& OwnedObject<Test>::create(std::string uri);  // Definition of specialized template in dbtl.cpp
+//    template<>
+//    Test& OwnedObject<Test>::create(std::string uri);  // Definition of specialized template in dbtl.cpp
 
     template <class SBOLClass>
     SBOLClass& OwnedObject<SBOLClass>::define(SBOLObject& definition_object)

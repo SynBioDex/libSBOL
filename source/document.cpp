@@ -98,23 +98,23 @@ void Document::dress_document()
         i.close();
     }
 
-    // Look in Collection store for objects with sys-bio:type and move them to Test store
-    vector<string> test_ids;
-	for (auto & c : owned_objects[SBOL_COLLECTION])
-        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
-			test_ids.push_back(c->identity.get());
-    for (auto & id : test_ids)
-    {
-    	Collection& c = this->collections.remove(id);
-        Test& t = c. template cast<Test>();
-        this->add<Test>(t);
-        c.close();
-    }
+//    // Look in Collection store for objects with sys-bio:type and move them to Test store
+//    vector<string> test_ids;
+//    for (auto & c : owned_objects[SBOL_COLLECTION])
+//        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
+//            test_ids.push_back(c->identity.get());
+//    for (auto & id : test_ids)
+//    {
+//        Collection& c = this->collections.remove(id);
+//        Test& t = c. template cast<Test>();
+//        this->add<Test>(t);
+//        c.close();
+//    }
 
     // Look in Collection store for objects with sys-bio:type and move them to SampleRoster store
     vector<string> roster_ids;
 	for (auto & c : owned_objects[SBOL_COLLECTION])
-        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
+        if (c->properties.find(SYSBIO_URI "#type") != c->properties.end() && c->properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_URI "#SampleRoster>")
 			roster_ids.push_back(c->identity.get());
     for (auto & id : roster_ids)
     {
@@ -224,7 +224,7 @@ unordered_map<string, SBOLObject&(*)()> sbol::SBOL_DATA_MODEL_REGISTER =
     make_pair(SYSBIO_ANALYSIS, (SBOLObject&(*)()) &create<Analysis> ),
     make_pair(SYSBIO_SAMPLE_ROSTER, (SBOLObject&(*)()) &create<SampleRoster> ),
     make_pair(SBOL_EXPERIMENT, (SBOLObject&(*)()) &create<Experiment> ),
-    make_pair(SBOL_EXPERIMENTAL_DATA, (SBOLObject&(*)()) &create<ExperimentalData> )
+    make_pair(SBOL_EXPERIMENTAL_DATA, (SBOLObject&(*)()) &create<Test> )
 
 };
 

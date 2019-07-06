@@ -109,7 +109,6 @@ class TestRoundTripSBOL2NoncompliantURIs(unittest.TestCase):
 
 def test_generator(test_file):
     def run_round_trip(self):
-        print(str(test_file))
         split_path = os.path.splitext(test_file)
         self.doc = Document()   # Document for read and write
         # self.doc.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + split_path[1]))
@@ -176,7 +175,6 @@ class TestRoundTripFailSBOL2(unittest.TestCase):
         shutil.rmtree(self.temp_out_dir)
 
     def run_round_trip_assert_fail(self, test_file):
-        print(str(test_file))
         split_path = os.path.splitext(test_file)
         self.doc = Document()   # Document for read and write
         self.doc.read(os.path.join(TEST_LOC_SBOL2, split_path[0] + split_path[1]))

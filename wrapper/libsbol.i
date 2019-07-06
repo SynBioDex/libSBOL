@@ -11,6 +11,7 @@
     #include "properties.h"
     #include "object.h"
     #include "identified.h"
+    #include "measurement.h"
     #include "toplevel.h"
     #include "sequenceannotation.h"
     #include "component.h"
@@ -30,10 +31,10 @@
     #include "provo.h"
     #include "partshop.h"
     #include "combinatorialderivation.h"
-    #include "dbtl.h"
     #include "attachment.h"
     #include "implementation.h"
-    #include "measurement.h"
+    #include "experiment.h"
+    #include "dbtl.h"
     #include "sbol.h"
 
     #include <vector>
@@ -356,6 +357,7 @@
 %include "properties.h"
 %include "object.h"
 %include "identified.h"
+%include "measurement.h"
 %include "toplevel.h"
 %include "location.h"
 %include "sequenceannotation.h"
@@ -374,9 +376,8 @@
 %include "combinatorialderivation.h"
 %include "attachment.h"
 %include "implementation.h"
-%include "dbtl.h"
 %include "experiment.h"
-%include "measurement.h"
+%include "dbtl.h"
 
 %pythonappend sbol::PartShop::searchRootCollections
 %{
@@ -722,6 +723,9 @@ TEMPLATE_MACRO_0(Range);
 TEMPLATE_MACRO_0(Cut);
 TEMPLATE_MACRO_0(GenericLocation);
 
+// Template used by Measured class
+TEMPLATE_MACRO_1(Measurement)
+
 // Templates used in SequenceAnnotation class
 TEMPLATE_MACRO_1(Location);
         
@@ -763,17 +767,14 @@ TEMPLATE_MACRO_1(Agent);
 TEMPLATE_MACRO_1(Attachment);
 TEMPLATE_MACRO_1(Implementation);
 TEMPLATE_MACRO_1(CombinatorialDerivation);
+TEMPLATE_MACRO_1(Experiment);
+TEMPLATE_MACRO_1(ExperimentalData);
 TEMPLATE_MACRO_1(Design);
 TEMPLATE_MACRO_1(Build);
 TEMPLATE_MACRO_1(Test);
 TEMPLATE_MACRO_1(Analysis);
 TEMPLATE_MACRO_1(SampleRoster);
-TEMPLATE_MACRO_1(Experiment);
-TEMPLATE_MACRO_1(ExperimentalData);
 
-// Templates used by Measured objects
-TEMPLATE_MACRO_1(Measurement)
-    
 TEMPLATE_MACRO_2(TopLevel)
 TEMPLATE_MACRO_2(ComponentDefinition)
 TEMPLATE_MACRO_2(ModuleDefinition)
@@ -786,16 +787,17 @@ TEMPLATE_MACRO_2(Agent);
 TEMPLATE_MACRO_2(Attachment);
 TEMPLATE_MACRO_2(Implementation);
 TEMPLATE_MACRO_2(CombinatorialDerivation);
+TEMPLATE_MACRO_2(Experiment);
+TEMPLATE_MACRO_2(ExperimentalData);
 TEMPLATE_MACRO_2(Design);
 TEMPLATE_MACRO_2(Build);
 TEMPLATE_MACRO_2(Test);
 TEMPLATE_MACRO_2(Analysis);
 TEMPLATE_MACRO_2(SampleRoster);
-TEMPLATE_MACRO_2(Experiment);
-TEMPLATE_MACRO_2(ExperimentalData);
     
 TEMPLATE_MACRO_3(SBOLObject)
 TEMPLATE_MACRO_3(Identified)
+TEMPLATE_MACRO_3(Measurement)
 TEMPLATE_MACRO_3(TopLevel)
 TEMPLATE_MACRO_3(ComponentDefinition)
 TEMPLATE_MACRO_3(SequenceAnnotation)
@@ -822,6 +824,8 @@ TEMPLATE_MACRO_3(Plan)
 TEMPLATE_MACRO_3(Association);
 TEMPLATE_MACRO_3(Usage)
 TEMPLATE_MACRO_3(Activity)
+TEMPLATE_MACRO_3(Experiment);
+TEMPLATE_MACRO_3(ExperimentalData);
 TEMPLATE_MACRO_3(Design)
 TEMPLATE_MACRO_3(Build)
 TEMPLATE_MACRO_3(Test)
@@ -834,9 +838,6 @@ TEMPLATE_MACRO_3(GeneProductionInteraction);
 TEMPLATE_MACRO_3(TranscriptionalActivationInteraction);
 TEMPLATE_MACRO_3(SmallMoleculeActivationInteraction);
 TEMPLATE_MACRO_3(EnzymeCatalysisInteraction);
-TEMPLATE_MACRO_3(Experiment);
-TEMPLATE_MACRO_3(ExperimentalData);
-TEMPLATE_MACRO_3(Measurement)
 TEMPLATE_MACRO_3(Document);
     
 // Template functions used by PartShop

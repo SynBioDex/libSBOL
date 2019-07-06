@@ -285,14 +285,13 @@ namespace sbol
                 // If the progenitor object is a Build, set samples property to the Build
                 test.samples.set(this->identity.get());
             }
-            else if (properties[SYSBIO_URI "#type"].front() == "<" SYSBIO_TEST ">")
-            {
-                // The progenitor object is another Test
-                Test& progenitor = *(Test*)this;
-                test.samples.copy(progenitor.samples);
-            }
         }
-        
+        else if (this->type == SBOL_TEST)
+        {
+            // The progenitor object is another Test
+            Test& progenitor = *(Test*)this;
+            test.samples.copy(progenitor.samples);
+        }
         // Form URI for auto-constructing an Activity
         std::string id;
         if (Config::getOption("sbol_compliant_uris") == "True")
@@ -544,16 +543,16 @@ namespace sbol
 
     }
 
-    template<>
-    void Document::add<Test>(Test& sbol_obj)
-    {
-        // Call recursive adder
-        add<Collection>((Collection&)sbol_obj);
-        
-        // Move from Collection store to Test store
-        this->owned_objects[SBOL_COLLECTION].pop_back();
-        this->owned_objects[SYSBIO_TEST].push_back(&sbol_obj);
-    }
+//    template<>
+//    void Document::add<Test>(Test& sbol_obj)
+//    {
+//        // Call recursive adder
+//        add<Collection>((Collection&)sbol_obj);
+//
+//        // Move from Collection store to Test store
+//        this->owned_objects[SBOL_COLLECTION].pop_back();
+//        this->owned_objects[SYSBIO_TEST].push_back(&sbol_obj);
+//    }
     
 //    template<>
 //    Build& OwnedObject<Build>::get(std::string uri)
@@ -635,67 +634,67 @@ namespace sbol
         }
     }
 
-    template<>
-    Test& OwnedObject<Test>::create(std::string uri)
-    {
-        Test* child_obj = new Test();
-
-        SBOLObject* parent_obj = this->sbol_owner;
-        Document* parent_doc = this->sbol_owner->doc;
-
-        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
-        {
-            string persistent_id = getHomespace();
-            if (Config::getOption("sbol_typed_uris").compare("True") == 0)
-                persistent_id += "/" + parseClassName(SYSBIO_TEST);
-            string version = VERSION_STRING;
-            
-            string child_persistent_id =  persistent_id + "/" + uri;
-            string child_id = child_persistent_id + "/" + version;
-            
-            // Check for uniqueness of URI in the Document
-            if (parent_doc && parent_doc->find(child_id))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
-                                                      
-            // Initialize SBOLCompliant properties
-            child_obj->identity.set(child_id);
-            child_obj->persistentIdentity.set(child_persistent_id);
-            child_obj->displayId.set(uri);
-            child_obj->version.set(version);
-
-            // Add the new object to this OwnedObject property
-            // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
-            child_obj->parent = parent_obj;  // Set back-pointer to parent object
-            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
-            object_store.push_back((SBOLObject*)child_obj);
-
-            // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects, otherwise the returned object will not be registered
-            if (parent_doc)
-            {
-                child_obj->doc = parent_doc;
-                parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
-            }
-            this->validate(child_obj);
-            return *child_obj;
-        }
-        else
-        {
-            if (parent_doc && parent_doc->find(uri))
-                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
-            
-            // Add the new object to this OwnedObject property
-            Identified* parent_obj = (Identified*)this->sbol_owner;
-            child_obj->parent = parent_obj;  // Set back-pointer to parent object
-            child_obj->identity.set(uri);
-            child_obj->persistentIdentity.set(uri);
-            
-            this->add(*child_obj);
-            if (parent_doc)
-                child_obj->doc = parent_doc;
-            this->validate(child_obj);
-            return *child_obj;
-        }
-    }
+//    template<>
+//    Test& OwnedObject<Test>::create(std::string uri)
+//    {
+//        Test* child_obj = new Test();
+//
+//        SBOLObject* parent_obj = this->sbol_owner;
+//        Document* parent_doc = this->sbol_owner->doc;
+//
+//        if (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+//        {
+//            string persistent_id = getHomespace();
+//            if (Config::getOption("sbol_typed_uris").compare("True") == 0)
+//                persistent_id += "/" + parseClassName(SYSBIO_TEST);
+//            string version = VERSION_STRING;
+//
+//            string child_persistent_id =  persistent_id + "/" + uri;
+//            string child_id = child_persistent_id + "/" + version;
+//
+//            // Check for uniqueness of URI in the Document
+//            if (parent_doc && parent_doc->find(child_id))
+//                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + child_id + " is already in the Document");
+//
+//            // Initialize SBOLCompliant properties
+//            child_obj->identity.set(child_id);
+//            child_obj->persistentIdentity.set(child_persistent_id);
+//            child_obj->displayId.set(uri);
+//            child_obj->version.set(version);
+//
+//            // Add the new object to this OwnedObject property
+//            // this->add(*child_obj);   Can't use this because the add method is prohibited in SBOLCompliant mode!!!
+//            child_obj->parent = parent_obj;  // Set back-pointer to parent object
+//            std::vector< sbol::SBOLObject* >& object_store = this->sbol_owner->owned_objects[this->type];
+//            object_store.push_back((SBOLObject*)child_obj);
+//
+//            // The following effectively adds the child object to the Document by setting its back-pointer.  However, the Document itself only maintains a register of TopLevel objects, otherwise the returned object will not be registered
+//            if (parent_doc)
+//            {
+//                child_obj->doc = parent_doc;
+//                parent_doc->SBOLObjects[child_id] = (SBOLObject*)child_obj;
+//            }
+//            this->validate(child_obj);
+//            return *child_obj;
+//        }
+//        else
+//        {
+//            if (parent_doc && parent_doc->find(uri))
+//                throw SBOLError(DUPLICATE_URI_ERROR, "An object with URI " + uri + " is already in the Document");
+//
+//            // Add the new object to this OwnedObject property
+//            Identified* parent_obj = (Identified*)this->sbol_owner;
+//            child_obj->parent = parent_obj;  // Set back-pointer to parent object
+//            child_obj->identity.set(uri);
+//            child_obj->persistentIdentity.set(uri);
+//
+//            this->add(*child_obj);
+//            if (parent_doc)
+//                child_obj->doc = parent_doc;
+//            this->validate(child_obj);
+//            return *child_obj;
+//        }
+//    }
 
 //
 //    template<>

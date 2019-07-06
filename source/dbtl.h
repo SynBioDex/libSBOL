@@ -30,6 +30,7 @@
 #include "moduledefinition.h"
 #include "collection.h"
 #include "implementation.h"
+#include "experiment.h"
 
 #include <tuple>
 
@@ -204,33 +205,30 @@ namespace sbol
     // Build& OwnedObject<Build>::operator[] (const int nIndex);
     
     /// A Test is a container for experimental data. A Test is the product of the third step of libSBOL's formalized Design-Build-Test-Analyze workflow
-    class Test : public Collection
+    class Test : public ExperimentalData
     {
     friend class Document;
     friend class OwnedObject<Test>;
-        
-    private:
-        URIProperty sysbio_type;
         
     public:
         /// Construct a new Test object.
         /// @param uri A full URI including a scheme, namespace, and identifier.  If SBOLCompliance configuration is enabled, then this argument is simply the displayId for the new object and a full URI will automatically be constructed.
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Test(std::string uri = "example", std::string version = VERSION_STRING) :
-            Collection(uri, version),
+            ExperimentalData(uri, version),
             samples(this, SYSBIO_URI "#samples", SBOL_IMPLEMENTATION, '0', '*', { libsbol_rule_9 }),
-            dataFiles(this, SBOL_MEMBERS, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
-            sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_TEST)
+            dataFiles(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', ValidationRules({}))
+//            sysbio_type(this, SYSBIO_URI "#type", '1', '1', ValidationRules({}), SYSBIO_TEST)
         {
-            // Overwrite the typed URI formed by base constructor by replacing Collection with Test
-            if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
-            {
-                if (Config::getOption("sbol_typed_uris") == "True")
-                {
-                    identity.set(getHomespace() + "/" + getClassName(SYSBIO_TEST) + "/" + displayId.get() + "/" + version);
-                    persistentIdentity.set(getHomespace() + "/" + getClassName(SYSBIO_TEST) + "/" + displayId.get());
-                }
-            }
+//            // Overwrite the typed URI formed by base constructor by replacing Collection with Test
+//            if  (Config::getOption("sbol_compliant_uris").compare("True") == 0)
+//            {
+//                if (Config::getOption("sbol_typed_uris") == "True")
+//                {
+//                    identity.set(getHomespace() + "/" + getClassName(SYSBIO_TEST) + "/" + displayId.get() + "/" + version);
+//                    persistentIdentity.set(getHomespace() + "/" + getClassName(SYSBIO_TEST) + "/" + displayId.get());
+//                }
+//            }
         }
 
         /// References to Builds which were tested in the experiment
@@ -259,7 +257,7 @@ namespace sbol
         /// @param version An arbitrary version string. If SBOLCompliance is enabled, this should be a Maven version string of the form "major.minor.patch".
         Analysis(std::string uri = "example", std::string version = VERSION_STRING) :
             TopLevel(SYSBIO_ANALYSIS, uri, version),
-            rawData(this, SYSBIO_URI "#rawData", SBOL_COLLECTION, '0', '1', { libsbol_rule_10 }),
+            rawData(this, SYSBIO_URI "#rawData", SBOL_EXPERIMENTAL_DATA, '0', '1', { libsbol_rule_10 }),
             dataFiles(this, SBOL_ATTACHMENTS, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
             consensusSequence(this, SYSBIO_URI "#consensusSequence", '0', '1', ValidationRules({})),
             fittedModel(this, SYSBIO_URI "#model", '0', '1', ValidationRules({})),
