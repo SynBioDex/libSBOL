@@ -716,7 +716,7 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
 
     if (Config::getOption("serialization_format") == "rdfxml")
     {
-        addSynBioHubAnnotations(doc);
+        addSynbiohubAnnotations(doc);
     }
 
     /* Perform HTTP request */
@@ -820,136 +820,6 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + response);
 };
 
-//std::string sbol::PartShop::submit(std::string filename, std::string collection, int overwrite)
-//{
-//    if (filename != "" && filename[0] == '~') {
-//        if (filename[1] != '/'){
-//            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Malformed input path. Potentially missing slash.");
-//        }
-//        char const* home = getenv("HOME");
-//        if (home || (home = getenv("USERPROFILE"))) {
-//            filename.replace(0, 1, home);
-//        }
-//    }
-//    FILE* fh = fopen(filename.c_str(), "rb");
-//    if (!fh)
-//        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + filename + " not found");
-//
-//    /* Perform HTTP request */
-//    string response;
-//    CURL *curl;
-//    CURLcode res;
-//    
-//    /* In windows, this will init the winsock stuff */
-//    curl_global_init(CURL_GLOBAL_ALL);
-//    
-//    struct curl_slist *headers = NULL;
-//    headers = curl_slist_append(headers, "Accept: text/plain");
-//    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
-//    //    headers = curl_slist_append(headers, "charsets: utf-8");
-//    
-//    /* get a curl handle */
-//    curl = curl_easy_init();
-//    if(curl)
-//    {
-//        /* First set the URL that is about to receive our POST. This URL can
-//         just as well be a https:// URL if that is what should receive the
-//         data. */
-//        
-//        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-//        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/submit").c_str());
-//        if (Config::getOption("verbose") == "True")
-//            curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-//
-//        /* Now specify the POST data */
-//        struct curl_httppost* post = NULL;
-//        struct curl_httppost* last = NULL;
-//        
-//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "id", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
-//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "version", CURLFORM_COPYCONTENTS, "1", CURLFORM_END);
-//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "name", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
-//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "description", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
-//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "citations", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);  // Comma separated list
-//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "keywords", CURLFORM_COPYCONTENTS, "blah", CURLFORM_END);
-//        
-//        
-//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge", CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
-//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "user", CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
-//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_FILE, filename.c_str(), CURLFORM_END);  // Upload file
-//        if (collection != "")
-//            curl_formadd(&post, &last, CURLFORM_COPYNAME, "rootCollections", CURLFORM_COPYCONTENTS, collection.c_str());
-//        
-//        
-//        /* Set the form info */
-//        curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
-//        
-//        /* Now specify the callback to read the response into string */
-//        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
-//        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-//        
-//        /* Perform the request, res will get the return code */
-//        res = curl_easy_perform(curl);
-//        /* Check for errors */
-//        if(res != CURLE_OK)
-//            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + string(curl_easy_strerror(res)));
-//        
-//        /* always cleanup */
-//        curl_easy_cleanup(curl);
-//    }
-//    return response;
-//};
-
-//template <> sbol::Document& sbol::PartShop::pull<sbol::Document>(std::string uri)
-//{
-//    std::string get_request = uri + "/sbol";
-//    
-//    /* Perform HTTP request */
-//    std::string response;
-//    CURL *curl;
-//    CURLcode res;
-//    
-//    /* In windows, this will init the winsock stuff */
-//    curl_global_init(CURL_GLOBAL_ALL);
-//    
-//    struct curl_slist *headers = NULL;
-//    //    headers = curl_slist_append(headers, "Accept: application/json");
-//    //    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-//    //    headers = curl_slist_append(headers, "charsets: utf-8");
-//    
-//    /* get a curl handle */
-//    curl = curl_easy_init();
-//    if(curl) {
-//        /* First set the URL that is about to receive our POST. This URL can
-//         just as well be a https:// URL if that is what should receive the
-//         data. */
-//        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-//        curl_easy_setopt(curl, CURLOPT_URL, get_request.c_str());
-//        //        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-//        
-//        /* Now specify the POST data */
-//        //        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
-//        
-//        /* Now specify the callback to read the response into string */
-//        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
-//        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-//        
-//        /* Perform the request, res will get the return code */
-//        res = curl_easy_perform(curl);
-//        /* Check for errors */
-//        if(res != CURLE_OK)
-//            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Attempt to validate online failed with " + std::string(curl_easy_strerror(res)));
-//            
-//        /* always cleanup */
-//            curl_easy_cleanup(curl);
-//            }
-//    curl_slist_free_all(headers);
-//    curl_global_cleanup();
-//    
-//    Document& doc = *new Document();
-//    doc.readString(response);
-//    return doc;
-//};
-//
 std::string PartShop::searchRootCollections()
 {
     // Form get request
@@ -1175,6 +1045,13 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
     doc.readString(response);
     Config::setOption("serialization_format", serialization_format);
     doc.resource_namespaces.insert(resource);
+    
+    // If the target object is a Collection, then re-uploading new objects
+    // to the same Collection can result in duplicate Collections
+    if (doc.collections.find(uri))
+        doc.collections.remove(uri);
+    
+    stripSynbiohubAnnotations(doc);
 };
 
 void sbol::PartShop::spoof(std::string spoofed_url)
@@ -1356,7 +1233,7 @@ void PartShop::downloadAttachment(string attachment_uri, string path)
     fclose(fh);
 }
 
-void PartShop::addSynBioHubAnnotations(Document& doc)
+void PartShop::addSynbiohubAnnotations(Document& doc)
 {
     doc.addNamespace("http://wiki.synbiohub.org/wiki/Terms/synbiohub#", "sbh");
     for (auto & key_val_pair : doc.SBOLObjects)
@@ -1367,6 +1244,23 @@ void PartShop::addSynBioHubAnnotations(Document& doc)
                 SBOLObject* toplevel = (SBOLObject*)user_data;
                 URIProperty annotation = URIProperty(o, "http://wiki.synbiohub.org/wiki/Terms/synbiohub#topLevel", '0', '1', ValidationRules({}), toplevel->identity.get());
             }, (void*)toplevel);
+    }
+}
+
+void PartShop::stripSynbiohubAnnotations(Document& doc)
+{
+    for (auto & key_val_pair : doc.SBOLObjects)
+    {
+        SBOLObject* toplevel = key_val_pair.second;
+        toplevel->apply( [](SBOLObject* o, void * user_data)
+                        {
+                            SBOLObject* toplevel = (SBOLObject*)user_data;
+                            URIProperty toplevel_annotation = URIProperty(o, "http://wiki.synbiohub.org/wiki/Terms/synbiohub#topLevel", '0', '1', ValidationRules({}));
+                            URIProperty ownedby_annotation = URIProperty(o, "http://wiki.synbiohub.org/wiki/Terms/synbiohub#ownedBy", '0', '1', ValidationRules({}));
+                            toplevel_annotation.clear();
+                            ownedby_annotation.clear();
+                            
+                        }, (void*)toplevel);
     }
 }
 
