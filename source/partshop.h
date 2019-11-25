@@ -248,7 +248,7 @@ namespace sbol
         /// Submit an SBOL Document to SynBioHub
         /// @param doc The Document to submit
         /// @param collection The URI of an SBOL Collection to which the Document contents will be uploaded
-        /// @param overwrite An integer code: 0(default) - do not overwrite, 1 - overwrite, 2 - merge
+        /// @param overwrite An integer code: '0' prevent, '1' overwrite, '2' merge and prevent, '3' merge and overwrite
         std::string submit(Document& doc, std::string collection = "", int overwrite = 0);
 
 //        /// Submit a file, such as COMBINE archives or SBML to a SynBioHub Collection
@@ -282,7 +282,9 @@ namespace sbol
         /// @param path The target path to which the file will be downloaded
         void downloadAttachment(std::string attachment_uri, std::string path = ".");
       
-        void addSynBioHubAnnotations(Document& doc); 
+        void addSynbiohubAnnotations(Document& doc);
+
+        void stripSynbiohubAnnotations(Document& doc);
 
         bool exists(std::string uri); 
     };
@@ -390,7 +392,6 @@ namespace sbol
         curl_global_cleanup();
         
         doc.readString(response);
-
     };
 
 }  // sbol namepsace
