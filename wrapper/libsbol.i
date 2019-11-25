@@ -1895,7 +1895,8 @@ import json
     %pythoncode %{
  
     def insert(self, cd_to_insert, insert_point, display_id):
-        """Constuct SBOL representing a genetic insert. Inserts cd_to_insert
+        """
+        Construct SBOL representing a genetic insert. Inserts cd_to_insert
         into self at insert_point.
         
         This method constructs a new ComponentDefinition that is annotated
@@ -1941,6 +1942,13 @@ import json
         # ComponentDefinition
         self_comp = cd.components.create('%s_comp' %self.displayId)
         self_comp.definition = self
+        source_loc_1 = self_comp.sourceLocations.createRange('%s_r1' %self.displayId)
+        source_loc_1.start = 1
+        source_loc_1.end = insert_point
+
+        source_loc_2 = self_comp.sourceLocations.createRange('%s_r2' %self.displayId)
+        source_loc_2.start = insert_point + 1
+        source_loc_2.end = orig_len
         sa.component = self_comp
         
         # Now link the insert to the new cd
