@@ -226,7 +226,6 @@
 %ignore sbol::ComponentDefinition::assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure, Document& doc);
 %ignore sbol::ComponentDefinition::assemblePrimaryStructure(std::vector<std::string> primary_structure);
 %ignore sbol::TopLevel::addToDocument;
-%ignore sbol::PartShop::submit;  // A pure Python method is monkey-patched over this one in this file
 
 // Instantiate STL templates
 %include "std_string.i"
@@ -1468,82 +1467,10 @@ TEMPLATE_MACRO_3(Document);
     %}
 };
 
-%extend sbol::PartShop {
-    %pythoncode %{
-    def submit(self, doc, collection='', overwrite=0):
-        """
-        Submit a SBOL Document to SynBioHub
-        :param doc: The Document to submit
-        :param collection: The URI of a SBOL Collection to which the Document
-        contents will be uploaded
-        :param overwrite: An integer code: '0' prevent, '1' overwrite,
-            '2' merge and prevent, '3' merge and overwrite
-        :return: the HTTP response object
-        """
-        if collection == '':
-            # If a Document is submitted as a new collection,
-            # then Document metadata must be specified
-            if not (doc.displayId and doc.name and doc.description):
-                raise ValueError('Cannot submit Document. The Document must be '
-                                 'assigned a displayId, name, and ' +
-                                 'description for upload.')
-        else:
-            if self.getSpoofedURL() != '' and self.getURL() in collection:
-                # Correct collection URI in case a spoofed resource is being used
-                collection = collection.replace(self.getURL(),
-                                                self.getSpoofedURL())
-                if Config.getOption('verbose') is True:
-                    self.logger.info('Submitting Document to an existing collection: ' + collection)
-        # if Config.getOption(ConfigOptions.SERIALIZATION_FORMAT.value) == 'rdfxml':
-        #     self.addSynBioHubAnnotations(doc)
-        files = {}
-        if doc.displayId:
-            files['id'] = (None, doc.displayId)
-        if doc.version:
-            files['version'] = (None, doc.version)
-        if doc.name:
-            files['name'] = (None, doc.name)
-        if doc.description:
-            files['description'] = (None, doc.description)
-        citations = ''
-        for citation in doc.citations:
-            citations += citation + ','
-        citations = citations[0:-1]  # chop off final comma
-        files['citations'] = (None, citations)
-        keywords = ''
-        for kw in doc.keywords:
-            keywords += kw + ','
-        keywords = keywords[0:-1]
-        files['keywords'] = (None, keywords)
-        files['overwrite_merge'] = (None, str(overwrite))
-        files['user'] = (None, self.getKey())
-        files['file'] = ('file', doc.writeString(), 'text/xml')
-
-        if collection != '':
-            files['rootCollections'] = (None, collection)
-
-        # Send POST request
-        response = requests.post(self.getURL() + '/submit',
-                                 files=files,
-                                 headers={'Accept': 'text/plain',
-                                     'X-authorization': self.getKey()})
-        if response:
-            return response
-        elif response.status_code == 401:
-            raise HTTPError('You must login with valid credentials '
-                            'before submitting')
-        else:
-            raise HTTPError('HTTP post request failed with: ' +
-                            str(response.status_code) +
-                            ' - ' + str(response.content))
-    %}
-};
 
 %pythonbegin %{
 from __future__ import absolute_import
 import json
-import requests
-from urllib3.exceptions import HTTPError
 %}
     
 %pythoncode
@@ -1603,12 +1530,12 @@ from urllib3.exceptions import HTTPError
     
     ModuleDefinition.applyToModuleHierarchy = applyToModuleHierarchy
     
-    def testSBOL(username = None, password = None, resource = None, spoofed_resource = None):
+    def testSBOL():
         """
         Function to test pySBOL API
         """
         import sbol.unit_tests as unit_tests
-        unit_tests.runTests(username=username, password=password, resource=resource, spoofed_resource=spoofed_resource)
+        unit_tests.runTests()
 
     def testRoundTrip():
         """
@@ -1616,7 +1543,8 @@ from urllib3.exceptions import HTTPError
         """
         import sbol.unit_tests as unit_tests
         unit_tests.runRoundTripTests()
-
+            
+            
     def is_extension_property(obj, name):
         attribute_dict = object.__getattribute__(obj, '__dict__')
         if name in attribute_dict:
