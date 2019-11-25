@@ -1008,7 +1008,15 @@ def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, T
 
 def runRoundTripTests(test_list = [TestRoundTripSBOL2, TestRoundTripSBOL2BestPractices, TestRoundTripSBOL2IncompleteDocuments, TestRoundTripSBOL2NoncompliantURIs
 , TestRoundTripFailSBOL2]):
-    runTests(test_list)
+    VALIDATE = Config.getOption('validate')
+    Config.setOption('validate', False)
+
+    test_suite = []
+    loader = unittest.TestLoader()
+    for test_class in test_list:
+        test_suite.append(loader.loadTestsFromTestCase(test_class))
+    unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(unittest.TestSuite(test_suite))
+    Config.setOption('validate', VALIDATE)
 
 if __name__ == '__main__':
     runTests()
