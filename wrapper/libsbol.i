@@ -225,6 +225,9 @@
 %ignore sbol::ComponentDefinition::assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure);
 %ignore sbol::ComponentDefinition::assemblePrimaryStructure(std::vector<ComponentDefinition*> primary_structure, Document& doc);
 %ignore sbol::ComponentDefinition::assemblePrimaryStructure(std::vector<std::string> primary_structure);
+%ignore sbol::ComponentDefinition::compile;               // Overriden in this file in native python
+%ignore sbol::ComponentDefinition::getInSequentialOrder;  // Overriden in this file in native python
+
 %ignore sbol::TopLevel::addToDocument;
 
 // Instantiate STL templates
@@ -407,6 +410,20 @@ typedef std::string sbol::sbol_type;
     %template(get ## SBOLClass) sbol::OwnedObject::get<SBOLClass>;
     
 %enddef
+
+/* Convert C++ vector of pointers --> Python list */
+%template(ComponentVector) std::vector<sbol::Component*>;
+%typemap(out) std::vector<sbol::Component*> {
+    int len = $1.size();
+    PyObject* list = PyList_New(0);
+    for(auto i_elem = $1.begin(); i_elem != $1.end(); i_elem++)
+    {
+        PyObject *elem = SWIG_NewPointerObj(SWIG_as_voidptr(*i_elem), $descriptor(sbol::Component*), 0 |  0 );
+        PyList_Append(list, elem);
+    }
+    $result  = list;
+    $1.clear();
+}
 
 /* This macro is used to instantiate container properties (OwnedObjects) that can contain a single type of object, eg, ComponentDefinition::sequenceAnnotations */
 %define TEMPLATE_MACRO_1(SBOLClass)
@@ -1140,6 +1157,257 @@ TEMPLATE_MACRO_3(Document);
         return NULL;
     }
 }
+
+%extend sbol::ComponentDefinition {
+    %pythoncode %{
+
+    def getInSequentialOrder(self):
+        subcomponents = []
+        if len(self.components) == 1:
+            subcomponents.append(self.components[0])
+        else:
+            # Check if this is a complete primary structure (note this isn't a perfect test)
+            if len(self.sequenceConstraints) != (len(self.components) - 1):
+                raise ValueError('ComponentDefinition <%s> does not appear to describe a complete primary structure ' \
+                                 'It appears to be missing SequenceConstraints.' %self.identity)
+
+            c_first = self.getFirstComponent()
+            subcomponents.append(c_first)
+            c_next = c_first;
+            while self.hasDownstreamComponent(c_next):
+                c_next = self.getDownstreamComponent(c_next)
+                subcomponents.append(c_next)
+        return subcomponents
+
+    def assemble(self, component_list, doc=None, assembly_standard=None):
+
+        if not Config.getOption('sbol_compliant_uris'):
+            raise EnvironmentError('Assemble method requires SBOL-compliance enabled')
+
+        # Validate doc
+        if not self.doc and not doc:
+            raise ValueError('Missing doc argument. If the ComponentDefinition does not belong to a Document, ' \
+                             'a target Document must be specified using the doc keyword argument.')
+        if doc and self.doc != doc:
+            raise ValueError('Invalid doc argument. Do not use the doc keyword argument if the ComponentDefinition ' \
+                             'already belongs to a Document')
+
+        # Validate component_list
+        doc = doc if doc else self.doc
+        if isinstance(component_list, list) and all(isinstance(c, ComponentDefinition) \
+                                                    for c in component_list):
+            for cdef in component_list:
+                if cdef.doc.this and cdef.doc.this != doc.this:
+                    raise ValueError('Invalid component_list specified. Assembly subcomponents cannot ' \
+                                     'belong to a different Document than the calling object.')
+        elif isinstance(component_list, list) and all(isinstance(c, str) \
+                                                      for c in component_list):
+            component_identities = component_list.copy()
+            component_list = []
+            for c_id in component_identities:
+                if not c_id in doc.componentDefinitions:
+                    raise ValueError('Invalid component_list specified. ComponentDefinition <%s> not found.' \
+                                     %c_id)
+                cdef = doc.getComponentDefinition(c_id)
+                component_list.append(cdef)
+        else:
+            raise TypeError('Invalid component_list specified. Please provide a list of ' \
+                            'ComponentDefinitions or, alternatively, a list of ComponentDefinition' \
+                            'displayIds')
+        
+        if not self.doc:
+            doc.addComponentDefinition(self)
+
+        if assembly_standard == IGEM_STANDARD_ASSEMBLY:
+            pass
+
+        # Instantiate a Component for each ComponentDefinition in the list
+        instance_list = []
+        for cdef in component_list:
+            if not cdef.doc:
+                self.doc.addComponentDefinition(cdef)
+            
+            # Generate URI of new Component.  Check if an object with that URI is already instantiated.
+            instance_count = 0
+            component_id = self.persistentIdentity + "/" + cdef.displayId + "_" + str(instance_count) + \
+                           "/" + self.version
+            while self.find(component_id):
+                # Find the last instance assigned
+                instance_count += 1
+                component_id = self.persistentIdentity + "/" + cdef.displayId + "_" + str(instance_count) + \
+                               "/" + self.version
+            
+            c = self.components.create(cdef.displayId + "_" + str(instance_count))
+            c.definition = cdef.identity
+            instance_list.append(c)
+        return
+        
+    def compile(self):
+        if not self.doc:
+            raise ValueError('Cannot compile <%s>. The ComponentDefinition must belong to a Document ' \
+                             'in order to compile.' %self.identity)
+
+        if not self.sequence:
+            if Config.getOption('sbol_compliant_uris'):
+                display_id = self.displayId
+                if not Config.getOption('sbol_typed_uris'):
+                    display_id += '_seq'
+                seq = self.doc.sequences.create(display_id)
+                self.sequence = seq
+                self.sequences = seq.identity
+            else:
+                seq = self.sequences.create(self.identity + '_seq')
+                self.sequence = seq
+                self.sequences = seq.identity
+
+        return self.sequence.compile()
+    %}
+};
+    
+%extend sbol::Sequence {
+    %pythoncode %{
+        def compile(self, composite_sequence = ''):
+            if not self.doc:
+                raise ValueError('Cannot compile Sequence <%s>. The Sequence must belong to a Document ' \
+                                 'in order to compile.' %self.identity)
+
+            # Search for the parent ComponentDefinition to which this Sequence belongs
+            parent_cdef = None
+            for cd in self.doc.componentDefinitions:
+                if cd.sequence and cd.sequence.identity == self.identity:
+                    parent_cdef = cd
+                    break
+        
+            if not parent_cdef:
+                raise ValueError('Cannot compile Sequence <%s>. The Sequence must be associated ' \
+                                 'with a ComponentDefinition in order to compile.' %self.identity)
+        
+            if len(parent_cdef.components) == 1:
+                c = parent_cdef.components[0]
+                cdef = self.doc.getComponentDefinition(c.definition)
+                seq = cdef.sequence
+                
+                # Check for regularity -- only one SequenceAnnotation per Component is allowed
+                sequence_annotations = parent_cdef.find_property_value(SBOL_COMPONENT_PROPERTY, c.identity)
+                sequence_annotations = [o.cast(SequenceAnnotation) for o in sequence_annotations]
+                if len(sequence_annotations) > 1:
+                    raise ValueError('Cannote compile Sequence. Component <%s> is irregular. ' \
+                                     'More than one SequenceAnnotation is associated with ' \
+                                     'this Component' %c.identity)
+                
+                # Auto-construct a SequenceAnnotation for this Component if one doesn't already exist
+                if len(sequence_annotations) == 0:
+                    sa_instance = 0
+                    sa_id = cdef.displayId if Config.getOption('sbol_compliant_uris') else cdef.identity
+                    sa_id += '_annotation'
+                    sa_uri = '%s/%s_%d/%s' %(parent_cdef.persistentIdentity, sa_id, sa_instance, cdef.version)
+                    while sa_uri in parent_cdef.sequenceAnnotations:
+                        sa_instance += 1
+                        sa_uri = '%s/%s_%d/%s' %(parent_cdef.persistentIdentity, sa_id, sa_instance, cdef.version)
+                    sa = parent_cdef.sequenceAnnotations.create('%s_%d' %(sa_id, sa_instance))
+                    sa.component = c
+                    sequence_annotations.append(sa)
+                    
+                sa = sequence_annotations[0]
+                
+                # Check for regularity -- only one Range per SequenceAnnotation is allowed
+                ranges = []
+                if len(sa.locations):
+                    # Look for an existing Range that can be re-used
+                    for l in sa.locations:
+                        if l.type == SBOL_RANGE:
+                            ranges.append(l.cast(Range))
+                else:
+                    # Auto-construct a Range
+                    range_id = sa.displayId if Config.getOption('sbol_compliant_uris') else sa.identity
+                    r = sa.locations.createRange(range_id + '_range')
+                    ranges.append(r)
+                if len(ranges) > 1:
+                    raise ValueError('Cannot compile Sequence <%s> because SequenceAnnotation <%s> has ' \
+                                     'more than one Range.' %(self.identity, sa.identity))
+                
+                r = ranges[0]
+                r.start = len(composite_sequence) + 1
+                r.end = len(composite_sequence) + len(seq.elements)
+                
+                # Validate parent sequence element are same as this one
+                return seq.elements
+                    
+            elif len(parent_cdef.components) > 1:
+                # Recurse into subcomponents and assemble their sequence
+                composite_sequence_initial_size = len(composite_sequence)
+                    
+                subcomponents = parent_cdef.getInSequentialOrder()
+                for c in subcomponents:
+                    cdef = self.doc.getComponentDefinition(c.definition)
+                    if not cdef.sequence:
+                        if Config.getOption('sbol_compliant_uris'):
+                            seq = self.doc.sequences.create(cdef.displayId)
+                            cdef.sequence = seq
+                            cdef.sequences = seq.identity
+                        else:
+                            seq = self.doc.sequences.create(cdef.identity+ '_seq')
+                            cdef.sequence = seq
+                            cdef.sequences = seq.identity
+                    seq = cdef.sequence
+                    
+                    # Check for regularity -- only one SequenceAnnotation per Component is allowed
+                    sequence_annotations = parent_cdef.find_property_value(SBOL_COMPONENT_PROPERTY, c.identity)
+                    sequence_annotations = [o.cast(SequenceAnnotation) for o in sequence_annotations]
+                    if len(sequence_annotations) > 1:
+                        raise ValueError('Cannot compile Sequence. Component <%s> is irregular. ' \
+                                         'More than one SequenceAnnotation is associated with ' \
+                                         'this Component' %c.identity)
+                            
+                    # Auto-construct a SequenceAnnotation for this Component if one doesn't already exist
+                    if len(sequence_annotations) == 0:
+                        sa_instance = 0
+                        sa_id = cdef.displayId if Config.getOption('sbol_compliant_uris') else cdef.identity
+                        sa_id += '_annotation'
+                        sa_uri = '%s/%s_%d/%s' %(parent_cdef.persistentIdentity, sa_id, sa_instance, cdef.version)
+                        while sa_uri in parent_cdef.sequenceAnnotations:
+                            sa_instance += 1
+                            sa_uri = '%s/%s_%d/%s' %(parent_cdef.persistentIdentity, sa_id, sa_instance, cdef.version)
+                        sa = parent_cdef.sequenceAnnotations.create('%s_%d' %(sa_id, sa_instance))
+                        sa.component = c
+                        sequence_annotations.append(sa)
+
+                    sa = sequence_annotations[0]
+                    
+                    # Check for regularity -- only one Range per SequenceAnnotation is allowed
+                    ranges = []
+                    if len(sa.locations):
+                        # Look for an existing Range that can be re-used
+                        for l in sa.locations:
+                            if l.type == SBOL_RANGE:
+                                ranges.append(l.cast(Range))
+                    else:
+                        # Auto-construct a Range
+                        range_id = sa.displayId if Config.getOption('sbol_compliant_uris') else sa.identity
+                        r = sa.locations.createRange(range_id + '_range')
+                        ranges.append(r)
+                    if len(ranges) > 1:
+                        raise ValueError('Cannot compile Sequence <%s> because SequenceAnnotation <%s> has ' \
+                                         'more than one Range.' %(self.identity, sa.identity))
+                    
+                    
+                    r = ranges[0]
+                    r.start = len(composite_sequence) + 1
+                    composite_sequence = composite_sequence + seq.compile(composite_sequence)  # Recursive call
+                    r.end = len(composite_sequence)
+                #string subsequence = composite_sequence.substr(composite_sequence_initial_size, composite_sequence.size());
+                #elements.set(subsequence);
+                subsequence = composite_sequence[composite_sequence_initial_size:(composite_sequence_initial_size+len(composite_sequence))]
+                self.elements = subsequence
+                return subsequence;
+            else:
+                if not parent_cdef.sequence.elements:
+                    return ''
+                else:
+                    return parent_cdef.sequence.elements
+
+    %}
+};
 
 %extend sbol::Activity {
     %pythoncode %{

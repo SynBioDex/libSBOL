@@ -257,6 +257,39 @@ class TestAssemblyRoutines(unittest.TestCase):
     def setUp(self):
         pass
 
+    def testAssemble(self):
+        doc = Document()
+        gene = ComponentDefinition("BB0001")
+        promoter = ComponentDefinition("R0010")
+        RBS = ComponentDefinition("B0032")
+        CDS = ComponentDefinition("E0040")
+        terminator = ComponentDefinition("B0012")
+
+        promoter.sequence = Sequence('R0010')
+        RBS.sequence = Sequence('B0032')
+        CDS.sequence = Sequence('E0040')
+        terminator.sequence = Sequence('B0012')
+
+        promoter.sequence.elements = 'a'
+        RBS.sequence.elements = 't'
+        CDS.sequence.elements = 'c'
+        terminator.sequence.elements = 'g'
+
+        promoter.roles = SO_PROMOTER
+        RBS.roles = SO_RBS
+        CDS.roles = SO_CDS
+        terminator.roles = SO_TERMINATOR
+
+        doc.addComponentDefinition([ gene, promoter, RBS, CDS, terminator ])
+        gene.assemblePrimaryStructure([ 'R0010', 'B0032', 'E0040', 'B0012' ])
+        primary_structure = gene.getPrimaryStructure()
+        primary_structure = [c.identity for c in primary_structure]
+        # Python 3 compatability
+        if sys.version_info[0] < 3:
+            self.assertItemsEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
+        else:
+            self.assertCountEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
+
     def testCompileSequence(self):
         doc = Document()
         Config.setOption('sbol_typed_uris', True)
@@ -374,7 +407,17 @@ class TestAssemblyRoutines(unittest.TestCase):
         terminator.roles = SO_TERMINATOR
 
         doc.addComponentDefinition([ gene, promoter, RBS, CDS, terminator ])
-        gene.assemblePrimaryStructure([ 'R0010', 'B0032', 'E0040', 'B0012' ], IGEM_STANDARD_ASSEMBLY)
+        gene.assemblePrimaryStructure([ 'R0010', 'B0032', 'E0040', 'B0012' ])
+        primary_structure = gene.getPrimaryStructure()
+        primary_structure = [c.identity for c in primary_structure]
+
+        # Python 3 compatability
+        if sys.version_info[0] < 3:
+            self.assertItemsEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
+        else:
+            self.assertCountEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
+
+
         target_seq = gene.compile()
 
         self.assertEquals(target_seq, 'atactagagttactagctactagagg')
