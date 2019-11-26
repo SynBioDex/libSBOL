@@ -1393,10 +1393,14 @@ TEMPLATE_MACRO_3(Document);
                     
                     r = ranges[0]
                     r.start = len(composite_sequence) + 1
-                    composite_sequence = composite_sequence + seq.compile(composite_sequence)  # Recursive call
+                    subsequence = seq.compile(composite_sequence)  # Recursive call
+                    # If sourceLocation is specified, don't use the entire sequence for the subcomponent
+                    if len(c.sourceLocations) == 1:
+                        source_loc = c.sourceLocations.getRange()
+                        subsequence = subsequence[(source_loc.start - 1):(source_loc.end)]
+                    composite_sequence = composite_sequence + subsequence
                     r.end = len(composite_sequence)
-                #string subsequence = composite_sequence.substr(composite_sequence_initial_size, composite_sequence.size());
-                #elements.set(subsequence);
+
                 subsequence = composite_sequence[composite_sequence_initial_size:(composite_sequence_initial_size+len(composite_sequence))]
                 self.elements = subsequence
                 return subsequence;
@@ -1927,43 +1931,59 @@ import json
             insert_point = orig_len + 1
                 
         cd = ComponentDefinition(display_id)
-        sa = cd.sequenceAnnotations.create('%s_sa' %self.displayId)
-        if insert_point > 1:
-            # If insert point is not at the beginning, construct a range
-            # that precedes the insert point.
-            range1 = sa.locations.createRange('%s_r1' %self.displayId)
-            range1.start = 1
-            range1.end = insert_point - 1
-        range2 = sa.locations.createRange('%s_r2' %self.displayId)
-        range2.start = insert_point + insert_len
-        range2.end = orig_len + insert_len
-        
-        # Now link myself into the structure of the new
-        # ComponentDefinition
-        self_comp = cd.components.create('%s_comp' %self.displayId)
-        self_comp.definition = self
-        source_loc_1 = self_comp.sourceLocations.createRange('%s_r1' %self.displayId)
-        source_loc_1.start = 1
-        source_loc_1.end = insert_point
+            
+        #sa = cd.sequenceAnnotations.create('%s_sa' %self.displayId)
+        #if insert_point > 1:
+        #    # If insert point is not at the beginning, construct a range
+        #    # that precedes the insert point.
+        #    range1 = sa.locations.createRange('%s_r1' %self.displayId)
+        #    range1.start = 1
+        #    range1.end = insert_point - 1
+        #range2 = sa.locations.createRange('%s_r2' %self.displayId)
+        #range2.start = insert_point + insert_len
+        #range2.end = orig_len + insert_len
 
-        source_loc_2 = self_comp.sourceLocations.createRange('%s_r2' %self.displayId)
-        source_loc_2.start = insert_point + 1
-        source_loc_2.end = orig_len
-        sa.component = self_comp
-        
+        self_comp_0 = None
+        if insert_point > 1:
+            # Now link myself into the structure of the new
+            # ComponentDefinition
+            self_comp_0 = cd.components.create('%s_comp_0' %self.displayId)
+            self_comp_0.definition = self
+            source_loc_0 = self_comp_0.sourceLocations.createRange('%s_r0' %self.displayId)
+            source_loc_0.start = 1
+            source_loc_0.end = insert_point - 1
+
         # Now link the insert to the new cd
         insert_comp = cd.components.create('%s_comp' %cd_to_insert.displayId)
         insert_comp.definition = cd_to_insert
-        insert_sa = cd.sequenceAnnotations.create('%s_sa' %cd_to_insert.displayId)
-        insert_sa.component = insert_comp
-        
+        #insert_sa = cd.sequenceAnnotations.create('%s_sa' %cd_to_insert.displayId)
+
         # Add the range to the insert_sa
-        insert_range = insert_sa.locations.createRange('%s_r1' %cd_to_insert.displayId)
-        insert_range.start = insert_point
-        insert_range.end = insert_point + insert_len - 1
-        
+        #insert_range = insert_sa.locations.createRange('%s_r1' %cd_to_insert.displayId)
+        #insert_range.start = insert_point
+        #insert_range.end = insert_point + insert_len - 1
+
+        self_comp_1 = None
+        if insert_point <= orig_len:
+            self_comp_1 = cd.components.create('%s_comp_1' %self.displayId)
+            self_comp_1.definition = self
+            source_loc_1 = self_comp_1.sourceLocations.createRange('%s_r1' %self.displayId)
+            source_loc_1.start = insert_point
+            source_loc_1.end = orig_len
+
+        if self_comp_0:
+            sc0 = cd.sequenceConstraints.create('%s_constraint_0' %cd.displayId)
+            sc0.subject = self_comp_0
+            sc0.object = insert_comp
+            sc0.restriction = SBOL_RESTRICTION_PRECEDES
+         
+        if self_comp_1:
+            sc1 = cd.sequenceConstraints.create('%s_constraint_1' %cd.displayId)
+            sc1.subject = insert_comp
+            sc1.object = self_comp_1
+            sc1.restriction = SBOL_RESTRICTION_PRECEDES
+            
         self.doc.addComponentDefinition(cd)
-        
         return cd
                     
     def compileInsert(self):

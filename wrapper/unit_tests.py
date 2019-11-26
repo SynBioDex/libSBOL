@@ -420,7 +420,7 @@ class TestAssemblyRoutines(unittest.TestCase):
 
         target_seq = gene.compile()
 
-        self.assertEquals(target_seq, 'atactagagttactagctactagagg')
+        self.assertEquals(target_seq, 'atcg')
 
     def testApplyCallbackRecursively(self):
         # Assemble module hierarchy
@@ -852,7 +852,7 @@ class TestInsert(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        setHomespace('https://example.com')
+        setHomespace('https://example.com')      
 
     def makeInsert(self, dst_seq, insert_seq, insert_loc):
         doc = Document()
@@ -877,49 +877,93 @@ class TestInsert(unittest.TestCase):
         # the insertion.
         doc, uri = self.makeInsert('atcg', 'gg', -3)
         cd = doc.getComponentDefinition(uri)
-        cd.compileInsert()
+        cd.compile()
         self.assertEqual(cd.sequence.elements, 'ggatcg')
 
     def testInsert0(self):
         # Test inserting before the beginning of the sequence. Prepending.
         doc, uri = self.makeInsert('atcg', 'gg', 0)
         cd = doc.getComponentDefinition(uri)
-        cd.compileInsert()
+        cd.compile()
         self.assertEqual(cd.sequence.elements, 'ggatcg')
 
     def testInsert1(self):
         # Test inserting at the beginning of the sequence. Prepending.
         doc, uri = self.makeInsert('atcg', 'gg', 1)
         cd = doc.getComponentDefinition(uri)
-        cd.compileInsert()
+        cd.compile()
         self.assertEqual(cd.sequence.elements, 'ggatcg')
 
     def testInsert2(self):
         # Test inserting within the sequence.
         doc, uri = self.makeInsert('atcg', 'gg', 2)
         cd = doc.getComponentDefinition(uri)
-        cd.compileInsert()
+        cd.compile()
         self.assertEqual(cd.sequence.elements, 'aggtcg')
+
+    def testSourceLocation(self):
+        # Test insertion splits the targt ComponentDefinition
+        # into 2 Components each with a SourceLocation
+        doc = Document()
+        cd0 = ComponentDefinition('wt_cd')
+        cd0.sequence = Sequence('wt_seq', 'atcg')
+        doc.addComponentDefinition(cd0)
+
+        insert_cd = ComponentDefinition('insert_cd')
+        insert_cd.sequence = Sequence('insert_seq', 'gg')
+        doc.addComponentDefinition(insert_cd)
+
+        cd = cd0.insert(insert_cd, 3, 'new_cd')
+        components = [c for c in cd.components if c.definition == cd0.identity]
+        self.assertEqual(len(components), 2)
+        self.assertEqual(len(components[0].sourceLocations), 1)
+        self.assertEqual(len(components[1].sourceLocations), 1)
+        l0 = components[0].sourceLocations.getRange()
+        l1 = components[1].sourceLocations.getRange()
+        self.assertEqual(l0.start, 1)
+        self.assertEqual(l0.end, 2)
+        self.assertEqual(l1.start, 3)
+        self.assertEqual(l1.end, 4)
+
+    def testInsertPrimaryStructure(self):
+        doc = Document()
+        cd0 = ComponentDefinition('wt_cd')
+        cd0.sequence = Sequence('wt_seq', 'atcg')
+        doc.addComponentDefinition(cd0)
+
+        insert_cd = ComponentDefinition('insert_cd')
+        insert_cd.sequence = Sequence('insert_seq', 'gg')
+        doc.addComponentDefinition(insert_cd)
+
+        cd = cd0.insert(insert_cd, 3, 'new_cd')
+        primary_structure = cd.getPrimaryStructure()
+        primary_structure = [c.identity for c in primary_structure]
+
+        # Python 3 compatability
+        if sys.version_info[0] < 3:
+            self.assertItemsEqual(primary_structure, [cd0.identity, insert_cd.identity, cd0.identity])
+        else:
+            self.assertCountEqual(primary_structure, [cd0.identity, insert_cd.identity, cd0.identity])        
 
     def testInsert3(self):
         # Test inserting within the sequence.
         doc, uri = self.makeInsert('atcg', 'aa', 3)
         cd = doc.getComponentDefinition(uri)
-        cd.compileInsert()
+        cd.compile()
         self.assertEqual(cd.sequence.elements, 'ataacg')
 
     def testInsert4(self):
         # Test inserting one base before the end of the sequence.
         doc, uri = self.makeInsert('atcg', 'aa', 4)
         cd = doc.getComponentDefinition(uri)
-        cd.compileInsert()
+        cd.compile()
         self.assertEqual(cd.sequence.elements, 'atcaag')
 
     def testInsertN(self):
         # Test appending at the end of the initial sequence.
         doc, uri = self.makeInsert('atcg', 'gg', 5)
         cd = doc.getComponentDefinition(uri)
-        cd.compileInsert()
+        cd.compile()
         self.assertEqual(cd.sequence.elements, 'atcggg')
 
     def testInsertPositive(self):
@@ -927,33 +971,34 @@ class TestInsert(unittest.TestCase):
         # sequence.
         doc, uri = self.makeInsert('atcg', 'gg', 8)
         cd = doc.getComponentDefinition(uri)
-        cd.compileInsert()
+        cd.compile()
         self.assertEqual(cd.sequence.elements, 'atcggg')
 
     def testEmptyCD(self):
-        # Test that compileInsert fails with a raised exception when
+        # Test that compile fails with a raised exception when
         # preconditions are not met.
-        test_cd = ComponentDefinition('test_cd')
+        doc = Document()
+        test_cd = doc.componentDefinitions.create('test_cd')
         with self.assertRaises(InsertionError):
-            test_cd.compileInsert()
+            test_cd.compile()
 
     def testCDwithSequence(self):
-        # Test that compileInsert fails when the CD already has a sequence.
-        test_cd = ComponentDefinition('test_cd')
+        # Test that compile fails when the CD already has a sequence.
+        test_cd = doc.componentDefinitions.create('test_cd')
         test_cd.sequence = Sequence('seq', 'atcg')
         with self.assertRaises(InsertionError):
-            test_cd.compileInsert()
+            test_cd.compile()
 
     def testDoubleInsertion(self):
         # 
         doc, uri = self.makeInsert('atcg', 'aa', 3)
         cd = doc.getComponentDefinition(uri)
-        cd.compileInsert()
+        cd.compile()
         insert_cd = ComponentDefinition('insert2_cd')
         insert_cd.sequence = Sequence('insert2_seq', 'gcta')
         doc.addComponentDefinition(insert_cd)
         cd = cd.insert(insert_cd, 4, 'new_new_cd')
-        cd.compileInsert()
+        cd.compile()
         print(cd.sequence.elements)
         self.assertEqual(cd.sequence.elements, 'atagctaacg')
 
