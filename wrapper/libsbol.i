@@ -1281,59 +1281,14 @@ TEMPLATE_MACRO_3(Document);
             if not parent_cdef:
                 raise ValueError('Cannot compile Sequence <%s>. The Sequence must be associated ' \
                                  'with a ComponentDefinition in order to compile.' %self.identity)
-        
-            if len(parent_cdef.components) == 1:
-                c = parent_cdef.components[0]
-                cdef = self.doc.getComponentDefinition(c.definition)
-                seq = cdef.sequence
-                
-                # Check for regularity -- only one SequenceAnnotation per Component is allowed
-                sequence_annotations = parent_cdef.find_property_value(SBOL_COMPONENT_PROPERTY, c.identity)
-                sequence_annotations = [o.cast(SequenceAnnotation) for o in sequence_annotations]
-                if len(sequence_annotations) > 1:
-                    raise ValueError('Cannote compile Sequence. Component <%s> is irregular. ' \
-                                     'More than one SequenceAnnotation is associated with ' \
-                                     'this Component' %c.identity)
-                
-                # Auto-construct a SequenceAnnotation for this Component if one doesn't already exist
-                if len(sequence_annotations) == 0:
-                    sa_instance = 0
-                    sa_id = cdef.displayId if Config.getOption('sbol_compliant_uris') else cdef.identity
-                    sa_id += '_annotation'
-                    sa_uri = '%s/%s_%d/%s' %(parent_cdef.persistentIdentity, sa_id, sa_instance, cdef.version)
-                    while sa_uri in parent_cdef.sequenceAnnotations:
-                        sa_instance += 1
-                        sa_uri = '%s/%s_%d/%s' %(parent_cdef.persistentIdentity, sa_id, sa_instance, cdef.version)
-                    sa = parent_cdef.sequenceAnnotations.create('%s_%d' %(sa_id, sa_instance))
-                    sa.component = c
-                    sequence_annotations.append(sa)
-                    
-                sa = sequence_annotations[0]
-                
-                # Check for regularity -- only one Range per SequenceAnnotation is allowed
-                ranges = []
-                if len(sa.locations):
-                    # Look for an existing Range that can be re-used
-                    for l in sa.locations:
-                        if l.type == SBOL_RANGE:
-                            ranges.append(l.cast(Range))
+
+            if len(parent_cdef.components) == 0:
+                if parent_cdef.sequence.elements:
+                    return parent_cdef.sequence.elements
                 else:
-                    # Auto-construct a Range
-                    range_id = sa.displayId if Config.getOption('sbol_compliant_uris') else sa.identity
-                    r = sa.locations.createRange(range_id + '_range')
-                    ranges.append(r)
-                if len(ranges) > 1:
-                    raise ValueError('Cannot compile Sequence <%s> because SequenceAnnotation <%s> has ' \
-                                     'more than one Range.' %(self.identity, sa.identity))
-                
-                r = ranges[0]
-                r.start = len(composite_sequence) + 1
-                r.end = len(composite_sequence) + len(seq.elements)
-                
-                # Validate parent sequence element are same as this one
-                return seq.elements
+                    return ''  # Maybe this should raise an Exception ?
                     
-            elif len(parent_cdef.components) > 1:
+            elif len(parent_cdef.components) > 0:
                 # Recurse into subcomponents and assemble their sequence
                 composite_sequence_initial_size = len(composite_sequence)
                     
@@ -1389,9 +1344,13 @@ TEMPLATE_MACRO_3(Document);
                     if len(ranges) > 1:
                         raise ValueError('Cannot compile Sequence <%s> because SequenceAnnotation <%s> has ' \
                                          'more than one Range.' %(self.identity, sa.identity))
-                    
-                    
+
                     r = ranges[0]
+
+                    #if len(parent_cdef.components) == 1:
+                    #    r.start = len(composite_sequence) + 1
+                    #   r.end = len(composite_sequence) + len(seq.elements)
+                    #    #return seq.elements
                     r.start = len(composite_sequence) + 1
                     subsequence = seq.compile(composite_sequence)  # Recursive call
                     # If sourceLocation is specified, don't use the entire sequence for the subcomponent
@@ -1404,11 +1363,7 @@ TEMPLATE_MACRO_3(Document);
                 subsequence = composite_sequence[composite_sequence_initial_size:(composite_sequence_initial_size+len(composite_sequence))]
                 self.elements = subsequence
                 return subsequence;
-            else:
-                if not parent_cdef.sequence.elements:
-                    return ''
-                else:
-                    return parent_cdef.sequence.elements
+
 
     %}
 };
@@ -1920,16 +1875,41 @@ import json
                 instance_count += 1
                 auto_id = '%s_%d' %(display_id, instance_count)
                 return auto_id
-        
+
+        if not self.doc:
+            raise ValueError('Insert failed. ComponentDefinition <%s> must be added to a Document before proceeding.' \
+                             %self.identity)
+        if not cd_to_insert.doc:
+            raise ValueError('Insert failed. ComponentDefinition <%s> must be added to a Document before proceeding.' \
+                             %cd_to_insert.identity)
+        if self.doc.this != cd_to_insert.doc.this:
+            raise ValueError('Insert failed. ComponentDefinition <%s> and ComponentDefinition <%s> must belong to ' \
+                             'the same Document.' %(self.identity, cd_to_insert.identity))
+        if not self.sequence:
+            raise ValueError('Insert failed. ComponentDefinition <%s> is not associated with a Sequence. ' \
+                             'The sequence property should point to a valid Sequence before proceeding.' %self.identity)
+        if not self.sequence.elements:
+            raise ValueError('Insert failed. The elements property of Sequence <%s> must be set before proceeding.' \
+                             'The sequence property should point to a valid Sequence before proceeding.'
+                             %self.sequence.identity)
+        if not cd_to_insert.sequence:
+            raise ValueError('Insert failed. ComponentDefinition <%s> is not associated with a Sequence. ' \
+                             'The sequence property must point to a valid Sequence before proceeding.' \
+                             %cd_to_insert.identity)
+        if not cd_to_insert.sequence.elements:
+            raise ValueError('Insert failed. The elements property of Sequence <%s> must be set before proceeding.' \
+                             'The sequence property should point to a valid Sequence before proceeding.'
+                             %cd_to_insert.sequence.identity)
+            
         orig_len = len(self.sequence.elements)
         insert_len = len(cd_to_insert.sequence.elements)
-        
+
         # Keep insert_point in bounds
         if insert_point < 1:
-            insert_point = 1
+            raise ValueError('Insert failed. The insert_point must be a base coordinate equal to or greater than 1')
         if insert_point > orig_len + 1:
-            insert_point = orig_len + 1
-                
+            raise ValueError('Insert failed. The insert_point exceeds the length of the target sequence.')
+
         cd = ComponentDefinition(display_id)
             
         #sa = cd.sequenceAnnotations.create('%s_sa' %self.displayId)
