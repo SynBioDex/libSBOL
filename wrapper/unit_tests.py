@@ -871,36 +871,6 @@ class TestInsert(unittest.TestCase):
         # any way.
         return doc, cd.identity
 
-    def testInsertNegative(self):
-        # Test inserting before the beginning of the sequence with a negative
-        # location. This should get adjusted to a simple prepending of
-        # the insertion.
-        doc, uri = self.makeInsert('atcg', 'gg', -3)
-        cd = doc.getComponentDefinition(uri)
-        cd.compile()
-        self.assertEqual(cd.sequence.elements, 'ggatcg')
-
-    def testInsert0(self):
-        # Test inserting before the beginning of the sequence. Prepending.
-        doc, uri = self.makeInsert('atcg', 'gg', 0)
-        cd = doc.getComponentDefinition(uri)
-        cd.compile()
-        self.assertEqual(cd.sequence.elements, 'ggatcg')
-
-    def testInsert1(self):
-        # Test inserting at the beginning of the sequence. Prepending.
-        doc, uri = self.makeInsert('atcg', 'gg', 1)
-        cd = doc.getComponentDefinition(uri)
-        cd.compile()
-        self.assertEqual(cd.sequence.elements, 'ggatcg')
-
-    def testInsert2(self):
-        # Test inserting within the sequence.
-        doc, uri = self.makeInsert('atcg', 'gg', 2)
-        cd = doc.getComponentDefinition(uri)
-        cd.compile()
-        self.assertEqual(cd.sequence.elements, 'aggtcg')
-
     def testSourceLocation(self):
         # Test insertion splits the targt ComponentDefinition
         # into 2 Components each with a SourceLocation
@@ -945,6 +915,32 @@ class TestInsert(unittest.TestCase):
         else:
             self.assertCountEqual(primary_structure, [cd0.identity, insert_cd.identity, cd0.identity])        
 
+    def testInsertNegative(self):
+        # An exception should be raised if user tries to insert
+        # at a negative base coordinate 
+        with self.assertRaises(ValueError):
+            doc, uri = self.makeInsert('atcg', 'gg', -3)
+
+    def testInsert0(self):
+        # An exception should be raised if user tries to insert
+        # at 0 base coordinate. Base coordinates are indexed from 1
+        with self.assertRaises(ValueError):
+            doc, uri = self.makeInsert('atcg', 'gg', 0)
+
+    def testInsert1(self):
+        # Test inserting at the beginning of the sequence. Prepending.
+        doc, uri = self.makeInsert('atcg', 'gg', 1)
+        cd = doc.getComponentDefinition(uri)
+        cd.compile()
+        self.assertEqual(cd.sequence.elements, 'ggatcg')
+
+    def testInsert2(self):
+        # Test inserting within the sequence.
+        doc, uri = self.makeInsert('atcg', 'gg', 2)
+        cd = doc.getComponentDefinition(uri)
+        cd.compile()
+        self.assertEqual(cd.sequence.elements, 'aggtcg')
+
     def testInsert3(self):
         # Test inserting within the sequence.
         doc, uri = self.makeInsert('atcg', 'aa', 3)
@@ -967,27 +963,76 @@ class TestInsert(unittest.TestCase):
         self.assertEqual(cd.sequence.elements, 'atcggg')
 
     def testInsertPositive(self):
-        # Test appending at a location beyond the end of the initial
+        # An exception should be raised if the user attempts to
+        # appending at a location beyond the end of the initial
         # sequence.
-        doc, uri = self.makeInsert('atcg', 'gg', 8)
-        cd = doc.getComponentDefinition(uri)
-        cd.compile()
-        self.assertEqual(cd.sequence.elements, 'atcggg')
+        with self.assertRaises(ValueError):
+            doc, uri = self.makeInsert('atcg', 'gg', 8)
 
-    def testEmptyCD(self):
+    def testMissingDocument(self):
         # Test that compile fails with a raised exception when
-        # preconditions are not met.
+        # this CD or the insert is not associated with a Document
         doc = Document()
-        test_cd = doc.componentDefinitions.create('test_cd')
-        with self.assertRaises(InsertionError):
-            test_cd.compile()
+        cd = ComponentDefinition('cd')
+        insert_cd = doc.componentDefinitions.create('insert_cd')
+        with self.assertRaises(ValueError):
+            cd = cd.insert(insert_cd, 4, 'new_cd')
+        doc = Document()
+        cd = doc.componentDefinitions.create('cd')
+        insert_cd = ComponentDefinition('insert_cd')
+        with self.assertRaises(ValueError):
+            cd = cd.insert(insert_cd, 4, 'new_cd')
 
-    def testCDwithSequence(self):
-        # Test that compile fails when the CD already has a sequence.
-        test_cd = doc.componentDefinitions.create('test_cd')
-        test_cd.sequence = Sequence('seq', 'atcg')
-        with self.assertRaises(InsertionError):
-            test_cd.compile()
+    def testDifferentDocuments(self):
+        # Test that compile fails with a raised exception when
+        # this CD and the insert belong to different Documents
+        doc0 = Document()
+        doc1 = Document()
+        cd = doc0.componentDefinitions.create('cd')
+        insert_cd = doc1.componentDefinitions.create('insert_cd')
+        with self.assertRaises(ValueError):
+            cd = cd.insert(insert_cd, 4, 'new_cd')
+
+    def testCDwithoutSequence(self):
+        # Test that compile fails with a raised exception when
+        # the CD doesn't have a Sequence
+        doc = Document()
+        cd = doc.componentDefinitions.create('cd')
+        insert_cd = doc.componentDefinitions.create('insert_cd')
+        with self.assertRaises(ValueError):
+            cd = cd.insert(insert_cd, 4, 'new_cd')
+
+    def testCDwithoutSequenceElements(self):
+        # Test that compile fails with a raised exception when
+        # the Sequence doesn't have valid elements
+        doc = Document()
+        cd = doc.componentDefinitions.create('cd')
+        cd.sequence = Sequence('cd_seq')
+        insert_cd = doc.componentDefinitions.create('insert_cd')
+        with self.assertRaises(ValueError):
+            cd = cd.insert(insert_cd, 4, 'new_cd')
+
+    def testInsertwithoutSequence(self):
+        # Test that compile fails with a raised exception when
+        # the insert CD doesn't have a Sequence
+        doc = Document()
+        cd = doc.componentDefinitions.create('cd')
+        cd.sequence = Sequence('cd_seq', 'tttttt')
+        insert_cd = doc.componentDefinitions.create('insert_cd')
+        with self.assertRaises(ValueError):
+            cd = cd.insert(insert_cd, 4, 'new_cd')
+
+    def testInsertwithoutSequenceElements(self):
+        # Test that compile fails with a raised exception when
+        # the insert Sequence doesn't have valid elements
+        doc = Document()
+        cd = doc.componentDefinitions.create('cd')
+        cd.sequence = Sequence('cd_seq', 'tttttt')
+        insert_cd = doc.componentDefinitions.create('insert_cd')
+        insert_cd.sequence = Sequence('insert_seq')
+        with self.assertRaises(ValueError):
+            cd = cd.insert(insert_cd, 4, 'new_cd')
+
 
     def testDoubleInsertion(self):
         # 
@@ -999,8 +1044,16 @@ class TestInsert(unittest.TestCase):
         doc.addComponentDefinition(insert_cd)
         cd = cd.insert(insert_cd, 4, 'new_new_cd')
         cd.compile()
-        print(cd.sequence.elements)
         self.assertEqual(cd.sequence.elements, 'atagctaacg')
+        ranges = []
+        for sa in cd.sequenceAnnotations:
+            r = sa.locations.getRange()
+            ranges.append((r.start, r.end))
+        ranges.sort()
+        self.assertEqual(len(ranges), 3)
+        self.assertEqual(ranges[0], (1, 3))
+        self.assertEqual(ranges[1], (4, 7))
+        self.assertEqual(ranges[2], (8, 10))
 
 def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction, TestInsert ]):
     VALIDATE = Config.getOption('validate')
