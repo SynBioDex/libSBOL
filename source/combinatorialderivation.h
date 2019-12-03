@@ -60,7 +60,7 @@ namespace sbol
         CombinatorialDerivation(rdf_type type, std::string uri, std::string strategy, std::string version) :
             TopLevel(type, uri, version),
             strategy(this, SBOL_STRATEGY, '1', '1', ValidationRules({})),
-            masterTemplate(this, SBOL_TEMPLATE, SBOL_COMBINATORIAL_DERIVATION, '0', '1', ValidationRules({})),
+            masterTemplate(this, SBOL_TEMPLATE, SBOL_COMPONENT_DEFINITION, '0', '1', ValidationRules({})),
             variableComponents(this, SBOL_VARIABLE_COMPONENTS, '0', '*', ValidationRules({}))
         {
         };
