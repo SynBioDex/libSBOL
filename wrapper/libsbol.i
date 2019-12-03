@@ -1160,8 +1160,8 @@ TEMPLATE_MACRO_3(Document);
 
 %extend sbol::ComponentDefinition {
     %pythoncode %{
-
-    def getInSequentialOrder(self):
+        
+    def getPrimaryStructureComponents(self):
         subcomponents = []
         if len(self.components) == 1:
             subcomponents.append(self.components[0])
@@ -1179,8 +1179,13 @@ TEMPLATE_MACRO_3(Document);
                 subcomponents.append(c_next)
         return subcomponents
 
-    def assemble(self, component_list, doc=None, assembly_standard=None):
-
+    def assemble(self, component_list, assembly_method=None, doc=None):
+        '''
+        Due to the recursive nature of this routine, it is hard to completely validate that all the necessary
+        preconditions for successful execution are met prior to execution.  That means if a call fails, it may result
+        in a modified and incomplete data structure that will be difficult to fix when the user is working interactively
+        in the interpreter
+        '''
         if not Config.getOption('sbol_compliant_uris'):
             raise EnvironmentError('Assemble method requires SBOL-compliance enabled')
 
@@ -1197,7 +1202,7 @@ TEMPLATE_MACRO_3(Document);
         if isinstance(component_list, list) and all(isinstance(c, ComponentDefinition) \
                                                     for c in component_list):
             for cdef in component_list:
-                if cdef.doc.this and cdef.doc.this != doc.this:
+                if cdef.doc and cdef.doc.this != doc.this:
                     raise ValueError('Invalid component_list specified. Assembly subcomponents cannot ' \
                                      'belong to a different Document than the calling object.')
         elif isinstance(component_list, list) and all(isinstance(c, str) \
@@ -1208,24 +1213,28 @@ TEMPLATE_MACRO_3(Document);
                 if not c_id in doc.componentDefinitions:
                     raise ValueError('Invalid component_list specified. ComponentDefinition <%s> not found.' \
                                      %c_id)
-                cdef = doc.getComponentDefinition(c_id)
+                cdef = doc.componentDefinitions[c_id]
                 component_list.append(cdef)
         else:
             raise TypeError('Invalid component_list specified. Please provide a list of ' \
                             'ComponentDefinitions or, alternatively, a list of ComponentDefinition' \
                             'displayIds')
-        
+
         if not self.doc:
             doc.addComponentDefinition(self)
-
-        if assembly_standard == IGEM_STANDARD_ASSEMBLY:
-            pass
-
-        # Instantiate a Component for each ComponentDefinition in the list
-        instance_list = []
         for cdef in component_list:
             if not cdef.doc:
                 self.doc.addComponentDefinition(cdef)
+                
+        if assembly_method:
+            component_list = assembly_method(component_list)
+            if not all(type(c) is ComponentDefinition for c in component_list):
+                raise TypeError('Invalid callback specified for assembly_method. The callback must return a list ' \
+                                'of ComponentDefinitions')
+                           
+        # Instantiate a Component for each ComponentDefinition in the list
+        instance_list = []
+        for cdef in component_list:
             
             # Generate URI of new Component.  Check if an object with that URI is already instantiated.
             instance_count = 0
@@ -1240,9 +1249,51 @@ TEMPLATE_MACRO_3(Document);
             c = self.components.create(cdef.displayId + "_" + str(instance_count))
             c.definition = cdef.identity
             instance_list.append(c)
-        return
+        return component_list
+    
+    def assemblePrimaryStructure(self, primary_structure, assembly_method=None, doc=None):
+                           
+        primary_structure = self.assemble(primary_structure, assembly_method, doc)
+
+        # If user specifies a list of IDs rather than ComponentDefinitions, convert to list of ComponentDefinitions
+        # (Some parameter validation is done by the preceding call to ComponentDefinition.assemble)
+        doc = doc if doc else self.doc
+        if all(isinstance(c, str) for c in primary_structure):
+            component_identities = primary_structure.copy()
+            primary_structure = []
+            for c_id in component_identities:
+                cdef = doc.componentDefinitions[c_id]
+                primary_structure.append(cdef)
+                    
+        self.types += [SO_LINEAR]
+
         
-    def compile(self):
+        component_map = {}
+        for c in self.components:
+            if not c.definition in component_map:
+                component_map[c.definition] = [c]
+            else:
+                component_map[c.definition].append(c)
+        primary_structure_components = []
+        for cd in primary_structure:
+            primary_structure_components.append(component_map[cd.identity].pop())
+            
+        # Iterate pairwise through the primary_structure, and place SequenceConstraints between adjacent
+        # ComponentDefinitions.
+        if len(self.sequenceConstraints):
+            self.sequenceConstraints.clear()
+        for upstream, downstream in zip(primary_structure_components[:-1], primary_structure_components[1:]):
+            instance_count = 0
+            constraint_id = 'constraint_%d' %instance_count
+            while constraint_id in self.sequenceConstraints:
+                instance_count += 1
+                constraint_id = 'constraint_%d' %instance_count
+            sc = self.sequenceConstraints.create(constraint_id)
+            sc.subject = upstream
+            sc.object = downstream
+            sc.restriction = SBOL_RESTRICTION_PRECEDES
+                
+    def compile(self, assembly_method = None):
         if not self.doc:
             raise ValueError('Cannot compile <%s>. The ComponentDefinition must belong to a Document ' \
                              'in order to compile.' %self.identity)
@@ -1260,13 +1311,13 @@ TEMPLATE_MACRO_3(Document);
                 self.sequence = seq
                 self.sequences = seq.identity
 
-        return self.sequence.compile()
+        return self.sequence.compile(assembly_method = assembly_method)
     %}
 };
     
 %extend sbol::Sequence {
     %pythoncode %{
-        def compile(self, composite_sequence = ''):
+        def compile(self, composite_sequence = '', assembly_method = None):
             if not self.doc:
                 raise ValueError('Cannot compile Sequence <%s>. The Sequence must belong to a Document ' \
                                  'in order to compile.' %self.identity)
@@ -1292,7 +1343,7 @@ TEMPLATE_MACRO_3(Document);
                 # Recurse into subcomponents and assemble their sequence
                 composite_sequence_initial_size = len(composite_sequence)
                     
-                subcomponents = parent_cdef.getInSequentialOrder()
+                subcomponents = parent_cdef.getPrimaryStructureComponents()
                 for c in subcomponents:
                     cdef = self.doc.getComponentDefinition(c.definition)
                     if not cdef.sequence:
@@ -1353,6 +1404,12 @@ TEMPLATE_MACRO_3(Document);
                     #    #return seq.elements
                     r.start = len(composite_sequence) + 1
                     subsequence = seq.compile(composite_sequence)  # Recursive call
+                    if assembly_method:
+                        subsequence = assembly_method(subsequence)
+                        if not type(subsequence) is str:
+                            raise TypeError('Invalid callback specified for assembly_method. The callback must return' \
+                                            ' a string.')
+
                     # If sourceLocation is specified, don't use the entire sequence for the subcomponent
                     if len(c.sourceLocations) == 1:
                         source_loc = c.sourceLocations.getRange()
@@ -1363,8 +1420,6 @@ TEMPLATE_MACRO_3(Document);
                 subsequence = composite_sequence[composite_sequence_initial_size:(composite_sequence_initial_size+len(composite_sequence))]
                 self.elements = subsequence
                 return subsequence;
-
-
     %}
 };
 
@@ -1704,7 +1759,151 @@ import json
 %{
     class InsertionError(Exception):
         pass
-    
+
+    def IGEM_STANDARD_ASSEMBLY(parts_list):
+        if not all(type(part) is ComponentDefinition for part in parts_list):
+            raise TypeError()
+        doc = parts_list[0].doc
+        G0000_uri = 'https://synbiohub.org/public/igem/BBa_G0000/1'
+        G0000_seq_uri = 'https://synbiohub.org/public/igem/BBa_G0000_sequence/1'
+        G0002_uri = 'https://synbiohub.org/public/igem/BBa_G0002/1'
+        G0002_seq_uri = 'https://synbiohub.org/public/igem/BBa_G0002_sequence/1'
+        if not (G0000_uri in doc.componentDefinitions and G0002_uri in doc.componentDefinitions and G0000_seq_uri \
+                in doc.sequences and G0002_seq_uri in doc.sequences):
+            doc.readString('''<?xml version="1.0" encoding="utf-8"?>
+                       <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/"
+                       xmlns:dcterms="http://purl.org/dc/terms/"
+                       xmlns:gbconv="http://sbols.org/genBankConversion#"
+                       xmlns:genbank="http://www.ncbi.nlm.nih.gov/genbank#"
+                       xmlns:igem="http://wiki.synbiohub.org/wiki/Terms/igem#"
+                       xmlns:ncbi="http://www.ncbi.nlm.nih.gov#"
+                       xmlns:obo="http://purl.obolibrary.org/obo/"
+                       xmlns:om="http://www.ontology-of-units-of-measure.org/resource/om-2/"
+                       xmlns:prov="http://www.w3.org/ns/prov#"
+                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                       xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+                       xmlns:sbh="http://wiki.synbiohub.org/wiki/Terms/synbiohub#"
+                       xmlns:sbol="http://sbols.org/v2#"
+                       xmlns:sybio="http://www.sybio.ncl.ac.uk#"
+                       xmlns:synbiohub="http://synbiohub.org#"
+                       xmlns:xsd="http://www.w3.org/2001/XMLSchema#dateTime/">
+                       <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem/BBa_G0000/1">
+                       <dc:creator>Reshma Shetty</dc:creator>
+                       <dcterms:created>2007-07-22T11:00:00Z</dcterms:created>
+                       <dcterms:description>SpeI/XbaI scar for RBS-CDS junctions</dcterms:description>
+                       <dcterms:modified>2015-08-31T04:07:27Z</dcterms:modified>
+                       <dcterms:title>scar</dcterms:title>
+                       <sbol:displayId>BBa_G0000</sbol:displayId>
+                       <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/BBa_G0000"/>
+                       <sbol:role rdf:resource="http://identifiers.org/so/SO:0000110"/>
+                       <sbol:role rdf:resource="http://wiki.synbiohub.org/wiki/Terms/igem#partType/DNA"/>
+                       <sbol:sequence rdf:resource="https://synbiohub.org/public/igem/BBa_G0000_sequence/1"/>
+                       <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+                       <sbol:version>1</sbol:version>
+                       <igem:discontinued>false</igem:discontinued>
+                       <igem:dominant>true</igem:dominant>
+                       <igem:experience rdf:resource="http://wiki.synbiohub.org/wiki/Terms/igem#experience/None"/>
+                       <igem:group_u_list>_41_</igem:group_u_list>
+                       <igem:m_user_id>0</igem:m_user_id>
+                       <igem:owner_id>126</igem:owner_id>
+                       <igem:owning_group_id>162</igem:owning_group_id>
+                       <igem:sampleStatus>Not in stock</igem:sampleStatus>
+                       <igem:status rdf:resource="http://wiki.synbiohub.org/wiki/Terms/igem#status/Unavailable"/>
+                       <sbh:bookmark>false</sbh:bookmark>
+                       <sbh:mutableDescription>This is the sequence of the SpeI/XbaI scar for RBS-CDS junctions in BioBricks standard assembly.</sbh:mutableDescription>
+                       <sbh:mutableNotes>This is a shorter scar to ensure proper spacing between the RBS and CDS.</sbh:mutableNotes>
+                       <sbh:mutableProvenance>SpeI/XbaI scar</sbh:mutableProvenance>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/james"/>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/myers"/>
+                       <sbh:star>false</sbh:star>
+                       <sbh:topLevel rdf:resource="https://synbiohub.org/public/igem/BBa_G0000/1"/>
+                       <prov:wasDerivedFrom rdf:resource="http://parts.igem.org/Part:BBa_G0000"/>
+                       <prov:wasGeneratedBy rdf:resource="https://synbiohub.org/public/igem/igem2sbol/1"/>
+                       </sbol:ComponentDefinition>
+                       <sbol:Sequence rdf:about="https://synbiohub.org/public/igem/BBa_G0000_sequence/1">
+                       <sbol:displayId>BBa_G0000_sequence</sbol:displayId>
+                       <sbol:elements>tactag</sbol:elements>
+                       <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+                       <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/BBa_G0000_sequence"/>
+                       <sbol:version>1</sbol:version>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/james"/>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/myers"/>
+                       <sbh:topLevel rdf:resource="https://synbiohub.org/public/igem/BBa_G0000_sequence/1"/>
+                       <prov:wasDerivedFrom rdf:resource="http://parts.igem.org/Part:BBa_G0000"/>
+                       <prov:wasGeneratedBy rdf:resource="https://synbiohub.org/public/igem/igem2sbol/1"/>
+                       </sbol:Sequence>
+                       <sbol:ComponentDefinition rdf:about="https://synbiohub.org/public/igem/BBa_G0002/1">
+                       <dc:creator>Reshma Shetty</dc:creator>
+                       <dcterms:created>2007-02-26T12:00:00Z</dcterms:created>
+                       <dcterms:description>SpeI/XbaI mixed site</dcterms:description>
+                       <dcterms:modified>2015-08-31T04:07:27Z</dcterms:modified>
+                       <dcterms:title>SX scar</dcterms:title>
+                       <sbol:displayId>BBa_G0002</sbol:displayId>
+                       <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/BBa_G0002"/>
+                       <sbol:role rdf:resource="http://identifiers.org/so/SO:0000110"/>
+                       <sbol:role rdf:resource="http://wiki.synbiohub.org/wiki/Terms/igem#partType/DNA"/>
+                       <sbol:sequence rdf:resource="https://synbiohub.org/public/igem/BBa_G0002_sequence/1"/>
+                       <sbol:type rdf:resource="http://www.biopax.org/release/biopax-level3.owl#DnaRegion"/>
+                       <sbol:version>1</sbol:version>
+                       <igem:discontinued>false</igem:discontinued>
+                       <igem:dominant>true</igem:dominant>
+                       <igem:experience rdf:resource="http://wiki.synbiohub.org/wiki/Terms/igem#experience/None"/>
+                       <igem:group_u_list>_41_</igem:group_u_list>
+                       <igem:m_user_id>0</igem:m_user_id>
+                       <igem:owner_id>126</igem:owner_id>
+                       <igem:owning_group_id>70</igem:owning_group_id>
+                       <igem:sampleStatus>Not in stock</igem:sampleStatus>
+                       <igem:status rdf:resource="http://wiki.synbiohub.org/wiki/Terms/igem#status/Unavailable"/>
+                       <sbh:bookmark>false</sbh:bookmark>
+                       <sbh:mutableDescription>XbaI/SpeI mixed site.  Simply used to aid in entry of parts into the registry.</sbh:mutableDescription>
+                       <sbh:mutableNotes>None.</sbh:mutableNotes>
+                       <sbh:mutableProvenance>XbaI and SpeI sites</sbh:mutableProvenance>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/james"/>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/myers"/>
+                       <sbh:star>false</sbh:star>
+                       <sbh:topLevel rdf:resource="https://synbiohub.org/public/igem/BBa_G0002/1"/>
+                       <prov:wasDerivedFrom rdf:resource="http://parts.igem.org/Part:BBa_G0002"/>
+                       <prov:wasGeneratedBy rdf:resource="https://synbiohub.org/public/igem/igem2sbol/1"/>
+                       </sbol:ComponentDefinition>
+                       <sbol:Sequence rdf:about="https://synbiohub.org/public/igem/BBa_G0002_sequence/1">
+                       <sbol:displayId>BBa_G0002_sequence</sbol:displayId>
+                       <sbol:elements>tactagag</sbol:elements>
+                       <sbol:encoding rdf:resource="http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html"/>
+                       <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/BBa_G0002_sequence"/>
+                       <sbol:version>1</sbol:version>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/james"/>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/myers"/>
+                       <sbh:topLevel rdf:resource="https://synbiohub.org/public/igem/BBa_G0002_sequence/1"/>
+                       <prov:wasDerivedFrom rdf:resource="http://parts.igem.org/Part:BBa_G0002"/>
+                       <prov:wasGeneratedBy rdf:resource="https://synbiohub.org/public/igem/igem2sbol/1"/>
+                       </sbol:Sequence>
+                       <prov:Activity rdf:about="https://synbiohub.org/public/igem/igem2sbol/1">
+                       <dc:creator>Chris J. Myers</dc:creator>
+                       <dc:creator>James Alastair McLaughlin</dc:creator>
+                       <dcterms:description>Conversion of the iGEM parts registry to SBOL2.1</dcterms:description>
+                       <dcterms:title>iGEM to SBOL conversion</dcterms:title>
+                       <sbol:displayId>igem2sbol</sbol:displayId>
+                       <sbol:persistentIdentity rdf:resource="https://synbiohub.org/public/igem/igem2sbol"/>
+                       <sbol:version>1</sbol:version>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/james"/>
+                       <sbh:ownedBy rdf:resource="https://synbiohub.org/user/myers"/>
+                       <sbh:topLevel rdf:resource="https://synbiohub.org/public/igem/igem2sbol/1"/>
+                       <prov:endedAtTime>2017-03-06T15:00:00.000Z</prov:endedAtTime>
+                       </prov:Activity>
+                       </rdf:RDF>''')
+
+        G0000 = doc.componentDefinitions[G0000_uri]
+        G0002 = doc.componentDefinitions[G0002_uri]
+        new_parts_list = []
+        for upstream, downstream in zip(parts_list[:-1], parts_list[1:]):
+            new_parts_list.append(upstream)
+            if SO_RBS in upstream.roles and SO_CDS in downstream.roles:
+                new_parts_list.append(G0000)
+            else:
+                new_parts_list.append(G0002)
+        new_parts_list.append(downstream)
+        return new_parts_list
+
     def applyToComponentHierarchy(self, callback_fn, user_data):
         # Assumes parent_component is an SBOL data structure of the general form ComponentDefinition(->Component->ComponentDefinition)n where n+1 is an integer describing how many hierarchical levels are in the SBOL structure
         # Look at each of the ComponentDef's SequenceAnnotations, is the target base there?
@@ -1875,7 +2074,7 @@ import json
                 instance_count += 1
                 auto_id = '%s_%d' %(display_id, instance_count)
                 return auto_id
-
+                
         if not self.doc:
             raise ValueError('Insert failed. ComponentDefinition <%s> must be added to a Document before proceeding.' \
                              %self.identity)
