@@ -806,7 +806,34 @@ class TestURIAutoConstruction(unittest.TestCase):
         Config.setOption('sbol_compliant_uris', True)
         Config.setOption('sbol_typed_uris', True)
 
-def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction ]):
+class TestCombinatorial(unittest.TestCase):
+
+    def testCombinatorial(self):
+        doc = Document()
+
+        # Create template
+        pathway_template = doc.componentDefinitions.create('pathway_template')
+        pathway_genes = []
+        for i_gene in range(3):
+            gene = pathway_template.components.create('gene_%d' %i_gene)
+            gene.definition = ComponentDefinition('gene_%d' %i_gene)
+            pathway_genes.append(gene)
+
+        vioA = doc.componentDefinitions.create('vioA')
+        vioB = doc.componentDefinitions.create('vioB')
+        vioC = doc.componentDefinitions.create('vioC')
+
+        # Create combinatorial design
+        combinatorial_pathway = doc.combinatorialDerivations.create('combinatorial_pathway')
+        combinatorial_pathway.masterTemplate = pathway_template
+        for i_gene in range(3):
+            variable_component = combinatorial_pathway.variableComponents.create('variable_component_%d' %i_gene)
+            variable_component.variable = pathway_genes[i_gene]
+            variable_component.variants = [vioA, vioB, vioC]
+            variable_component.variantCollections = Collection('c')
+            variable_component.repeat = 'http://sbols.org/v2#one'
+
+def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction, TestCombinatorial ]):
     VALIDATE = Config.getOption('validate')
     Config.setOption('validate', False)
 
