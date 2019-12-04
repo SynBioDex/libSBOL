@@ -130,7 +130,7 @@
 #define SBOL_TEMPLATE SBOL_URI "#template"
 #define SBOL_ATTACHMENTS SBOL_URI "#attachment"
 #define SBOL_VALUE SBOL_URI "#hasNumericalValue"
-#define SBOL_UNIT SBOL_URI "#unit"
+#define SBOL_UNIT SBOL_URI "#hasUnit"
 #define SBOL_MEASUREMENTS SBOL_URI "#measure"
 
 /* SBOL internal ontologies */
