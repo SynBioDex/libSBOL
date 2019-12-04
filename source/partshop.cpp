@@ -708,7 +708,7 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         if (Config::getOption("verbose") == "True")
             cout << "Submitting Document to existing collection: " << collection << endl;
     }
-    
+
     int t_start;  // For timing
     int t_end;  // For timing
     if (Config::getOption("verbose") == "True")
@@ -724,32 +724,32 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
     long http_response_code = 0;
     CURL *curl;
     CURLcode res;
-    
+
     /* In windows, this will init the winsock stuff */
     curl_global_init(CURL_GLOBAL_ALL);
-    
+
     struct curl_slist *headers = NULL;
     headers = curl_slist_append(headers, "Accept: text/plain");
     headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
     //    headers = curl_slist_append(headers, "charsets: utf-8");
-    
+
     /* get a curl handle */
     curl = curl_easy_init();
     if(curl) {
         /* First set the URL that is about to receive our POST. This URL can
          just as well be a https:// URL if that is what should receive the
          data. */
-        
+
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/submit").c_str());
 
         if (Config::getOption("ca-path") != "")
             curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
-        
+
         /* Now specify the POST data */
         struct curl_httppost* post = NULL;
         struct curl_httppost* last = NULL;
-        
+
         if (doc.displayId.size())
             curl_formadd(&post, &last, CURLFORM_COPYNAME, "id", CURLFORM_COPYCONTENTS, doc.displayId.get().c_str(), CURLFORM_END);
         if (doc.version.size())
@@ -771,15 +771,15 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
 //        curl_formadd(&post, &last, CURLFORM_COPYNAME, "collectionChoices", CURLFORM_COPYCONTENTS, collection.c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "overwrite_merge", CURLFORM_COPYCONTENTS, std::to_string(overwrite).c_str(), CURLFORM_END);
         curl_formadd(&post, &last, CURLFORM_COPYNAME, "user", CURLFORM_COPYCONTENTS, key.c_str(), CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_COPYCONTENTS, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
+//        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_COPYCONTENTS, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
+        curl_formadd(&post, &last, CURLFORM_COPYNAME, "file", CURLFORM_BUFFERPTR, doc.writeString().c_str(), CURLFORM_CONTENTTYPE, "text/xml", CURLFORM_END);
 
         if (collection != "")
             curl_formadd(&post, &last, CURLFORM_COPYNAME, "rootCollections", CURLFORM_COPYCONTENTS, collection.c_str());
-        
-        
+
         /* Set the form info */
         curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
-        
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -788,23 +788,34 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         {
             t_end = getTime();
             cout << "Serialization took " << t_end - t_start << " seconds" << endl;
-            t_start = getTime();   
-        }        
+            t_start = getTime();
+        }
         /* Perform the request, res will get the return code */
-        res = curl_easy_perform(curl);
-
-        curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_response_code);
+        if (collection == "")
+        {
+            res = curl_easy_perform(curl);
+        }
+        else if (doc.collections.find(collection))
+        {
+            // If the target object is a Collection, then re-uploading new objects
+            // to the same Collection can result in duplicate Collections
+            Collection& c = doc.collections.remove(collection);
+            res = curl_easy_perform(curl);
+            doc.collections.add(c);
+        }
         
+        curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_response_code);
+
         /* Check for errors */
         if(res != CURLE_OK)
             throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + string(curl_easy_strerror(res)));
-        
+
         /* always cleanup */
         curl_easy_cleanup(curl);
     }
     curl_slist_free_all(headers);
     curl_global_cleanup();
-    
+
     if (Config::getOption("verbose") == "True")
     {
         cout << "Submission request returned HTTP response code " << http_response_code << endl;
@@ -819,6 +830,180 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
     else
         throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " + response);
 };
+
+//std::string sbol::PartShop::submit(Document& doc, std::string collection, int overwrite)
+//{
+//    if (collection == "")
+//    {
+//        // If a Document is submitted as a new collection, then Document metadata must be specified
+//        if (doc.displayId.size() == 0 || doc.name.size() == 0 || doc.description.size() == 0)
+//            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Cannot submit Document. The Document must be assigned a displayId, name, and description for upload.");
+//    }
+//    else
+//    {
+//        // Correct collection URI in case a spoofed resource is being used
+//        if (spoofed_resource != "" && collection.find(resource) != std::string::npos)
+//            collection = collection.replace(collection.find(resource), resource.size(), spoofed_resource);
+//        if (Config::getOption("verbose") == "True")
+//            cout << "Submitting Document to existing collection: " << collection << endl;
+//    }
+//
+//    int t_start;  // For timing
+//    int t_end;  // For timing
+//    if (Config::getOption("verbose") == "True")
+//        t_start = getTime();
+//
+//    if (Config::getOption("serialization_format") == "rdfxml")
+//    {
+//        addSynbiohubAnnotations(doc);
+//    }
+//
+//    /* Perform HTTP request */
+//    string response;
+//    long http_response_code = 0;
+//    CURL *curl;
+//    CURLcode res;
+//    curl_mime *form = NULL;
+//    curl_mimepart *field = NULL;
+//    static const char buf[] = "Expect:";
+//
+//    /* In windows, this will init the winsock stuff */
+//    curl_global_init(CURL_GLOBAL_ALL);
+//
+//    struct curl_slist *headers = NULL;
+//    headers = curl_slist_append(headers, "Accept: text/plain");
+//    headers = curl_slist_append(headers, string("X-authorization: " + key).c_str());
+//    //    headers = curl_slist_append(headers, "charsets: utf-8");
+//
+//    /* get a curl handle */
+//    curl = curl_easy_init();
+//    if(curl) {
+//        /* First set the URL that is about to receive our POST. This URL can
+//         just as well be a https:// URL if that is what should receive the
+//         data. */
+//
+//        /* Create the form */
+//        form = curl_mime_init(curl);
+//
+//        /* Fill in the file upload field */
+//        if (doc.displayId.size())
+//        {
+//            field = curl_mime_addpart(form);
+//            curl_mime_name(field, "id");
+//            curl_mime_data(field, doc.displayId.get().c_str(), CURL_ZERO_TERMINATED);
+//        }
+//
+//        /* Fill in the filename field */
+//        if (doc.version.size())
+//        {
+//            field = curl_mime_addpart(form);
+//            curl_mime_name(field, "version");
+//            curl_mime_data(field, doc.version.get().c_str(), CURL_ZERO_TERMINATED);
+//        }
+//
+//        if (doc.name.size())
+//        {
+//            field = curl_mime_addpart(form);
+//            curl_mime_name(field, "name");
+//            curl_mime_data(field, doc.name.get().c_str(), CURL_ZERO_TERMINATED);
+//        }
+//
+//        if (doc.description.size())
+//        {
+//            field = curl_mime_addpart(form);
+//            curl_mime_name(field, "description");
+//            curl_mime_data(field, doc.description.get().c_str(), CURL_ZERO_TERMINATED);
+//        }
+//
+//        if (doc.citations.size())
+//        {
+//            string citations;
+//            for (auto citation : doc.citations.getAll())
+//                citations += citation + ",";
+//            citations = citations.substr(0, citations.length() - 1);
+//            field = curl_mime_addpart(form);
+//            curl_mime_name(field, "citations");
+//            curl_mime_data(field, citations.c_str(), CURL_ZERO_TERMINATED);
+//        }
+//
+//        if (doc.keywords.size())
+//        {
+//            string keywords;
+//            for (auto kw : doc.keywords.getAll())
+//                keywords += kw + ",";
+//            keywords = keywords.substr(0, keywords.length() - 1);
+//            field = curl_mime_addpart(form);
+//            curl_mime_name(field, "keywords");
+//            curl_mime_data(field, keywords.c_str(), CURL_ZERO_TERMINATED);
+//        }
+//
+//        field = curl_mime_addpart(form);
+//        curl_mime_name(field, "overwrite_merge");
+//        curl_mime_data(field, std::to_string(overwrite).c_str(), CURL_ZERO_TERMINATED);
+//
+//        field = curl_mime_addpart(form);
+//        curl_mime_name(field, "user");
+//        curl_mime_data(field, key.c_str(), CURL_ZERO_TERMINATED);
+//
+//        if (collection != "")
+//        {
+//            field = curl_mime_addpart(form);
+//            curl_mime_name(field, "rootCollections");
+//            curl_mime_data(field, collection.c_str(), CURL_ZERO_TERMINATED);
+//        }
+//
+//        field = curl_mime_addpart(form);
+//        curl_mime_name(field, "file");
+//        curl_mime_data(field, doc.writeString().c_str(), CURL_ZERO_TERMINATED);
+//
+//
+//        /* what URL that receives this POST */
+//        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/submit").c_str());
+//        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+//        curl_easy_setopt(curl, CURLOPT_MIMEPOST, form);
+//
+//        /* set certificate path for https */
+//        if (Config::getOption("ca-path") != "")
+//            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+//
+//        /* Now specify the callback to read the response into string */
+//        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+//        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+//
+//        /* Perform the request, res will get the return code */
+//        res = curl_easy_perform(curl);
+//
+//        if (Config::getOption("verbose") == "True")
+//        {
+//            t_end = getTime();
+//            cout << "Submission took " << t_end - t_start << " seconds" << endl;
+//            t_start = getTime();
+//        }
+//
+//        /* Check for errors */
+//        curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_response_code);
+//        if(res != CURLE_OK)
+//            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Post request failed with HTTP " +
+//                            std::to_string(http_response_code) + ":" + string(curl_easy_strerror(res)));
+//
+//        /* always cleanup */
+//        curl_easy_cleanup(curl);
+//
+//        /* then cleanup the form */
+//        curl_mime_free(form);
+//    }
+//    /* free slist */
+//    curl_slist_free_all(headers);
+//    curl_global_cleanup();
+//    if (http_response_code == 200)
+//        return response;
+//    else if (http_response_code == 401)
+//        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "You must login with valid credentials before submitting");
+//    else
+//        throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "HTTP post request failed with: " +
+//                        std::to_string(http_response_code) + ":" + response);
+//}
+
 
 std::string PartShop::searchRootCollections()
 {
@@ -1045,11 +1230,6 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
     doc.readString(response);
     Config::setOption("serialization_format", serialization_format);
     doc.resource_namespaces.insert(resource);
-    
-    // If the target object is a Collection, then re-uploading new objects
-    // to the same Collection can result in duplicate Collections
-    if (doc.collections.find(uri))
-        doc.collections.remove(uri);
     
     stripSynbiohubAnnotations(doc);
 };

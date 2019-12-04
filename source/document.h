@@ -91,7 +91,7 @@ namespace sbol {
             plans(this, PROVO_PLAN, '0', '*', ValidationRules({})),
             agents(this, PROVO_AGENT, '0', '*', ValidationRules({})),
             attachments(this, SBOL_ATTACHMENT, '0', '*', ValidationRules({})),
-            combinatorialderivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({})),
+            combinatorialDerivations(this, SBOL_COMBINATORIAL_DERIVATION, '0', '*', ValidationRules({})),
             implementations(this, SBOL_IMPLEMENTATION, '0', '*', ValidationRules({})),
             experiments(this, SBOL_EXPERIMENT, '0', '*', ValidationRules({})),
 //            experimentalData(this, SBOL_EXPERIMENTAL_DATA, '0', '*', ValidationRules({})),
@@ -140,7 +140,7 @@ namespace sbol {
         OwnedObject<Plan> plans;
         OwnedObject<Agent> agents;
         OwnedObject<Attachment> attachments;
-        OwnedObject<CombinatorialDerivation> combinatorialderivations;
+        OwnedObject<CombinatorialDerivation> combinatorialDerivations;
         OwnedObject<Implementation> implementations;
         OwnedObject<SampleRoster> sampleRosters;
         OwnedObject<Experiment> experiments;

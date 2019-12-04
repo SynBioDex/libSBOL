@@ -123,14 +123,14 @@
 #define SBOL_OPERATOR SBOL_URI "#operator"
 #define SBOL_VARIABLE_COMPONENTS SBOL_URI "#variableComponent"
 #define SBOL_VARIABLE SBOL_URI "#variable"
-#define SBOL_VARIANTS SBOL_URI "#variants"
-#define SBOL_VARIANT_COLLECTIONS SBOL_URI "#variantCollections"
-#define SBOL_VARIANT_DERIVATIONS SBOL_URI "#variantDeriviations"
+#define SBOL_VARIANTS SBOL_URI "#variant"
+#define SBOL_VARIANT_COLLECTIONS SBOL_URI "#variantCollection"
+#define SBOL_VARIANT_DERIVATIONS SBOL_URI "#variantDeriviation"
 #define SBOL_STRATEGY SBOL_URI "#strategy"
 #define SBOL_TEMPLATE SBOL_URI "#template"
 #define SBOL_ATTACHMENTS SBOL_URI "#attachment"
 #define SBOL_VALUE SBOL_URI "#hasNumericalValue"
-#define SBOL_UNIT SBOL_URI "#unit"
+#define SBOL_UNIT SBOL_URI "#hasUnit"
 #define SBOL_MEASUREMENTS SBOL_URI "#measure"
 
 /* SBOL internal ontologies */
