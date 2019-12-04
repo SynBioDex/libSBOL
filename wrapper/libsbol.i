@@ -1519,14 +1519,26 @@ TEMPLATE_MACRO_3(Document);
         files['user'] = (None, self.getKey())
         files['file'] = ('file', doc.writeString(), 'text/xml')
 
+        
+        collection_instance = None
         if collection != '':
             files['rootCollections'] = (None, collection)
-
+            
+            # When uploading to a Collection, if the same Collection
+            # exists in the submission Document, it can result in duplicate Collections.
+            # Removing the Collection first will prevent that
+            if collection in doc.collections:
+                collection_instance = doc.collections.remove(collection)
+                
         # Send POST request
         response = requests.post(self.getURL() + '/submit',
                                  files=files,
                                  headers={'Accept': 'text/plain',
                                      'X-authorization': self.getKey()})
+        
+        if collection_instance:
+            doc.collections.add(collection_instance)
+            
         if response:
             return response
         elif response.status_code == 401:

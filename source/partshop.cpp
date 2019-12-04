@@ -777,7 +777,6 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
         if (collection != "")
             curl_formadd(&post, &last, CURLFORM_COPYNAME, "rootCollections", CURLFORM_COPYCONTENTS, collection.c_str());
 
-
         /* Set the form info */
         curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
 
@@ -792,8 +791,19 @@ std::string sbol::PartShop::submit(Document& doc, std::string collection, int ov
             t_start = getTime();
         }
         /* Perform the request, res will get the return code */
-        res = curl_easy_perform(curl);
-
+        if (collection == "")
+        {
+            res = curl_easy_perform(curl);
+        }
+        else if (doc.collections.find(collection))
+        {
+            // If the target object is a Collection, then re-uploading new objects
+            // to the same Collection can result in duplicate Collections
+            Collection& c = doc.collections.remove(collection);
+            res = curl_easy_perform(curl);
+            doc.collections.add(c);
+        }
+        
         curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_response_code);
 
         /* Check for errors */
@@ -1220,11 +1230,6 @@ void PartShop::pull(std::string uri, Document& doc, bool recursive)
     doc.readString(response);
     Config::setOption("serialization_format", serialization_format);
     doc.resource_namespaces.insert(resource);
-    
-    // If the target object is a Collection, then re-uploading new objects
-    // to the same Collection can result in duplicate Collections
-    if (doc.collections.find(uri))
-        doc.collections.remove(uri);
     
     stripSynbiohubAnnotations(doc);
 };

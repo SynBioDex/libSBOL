@@ -860,7 +860,7 @@ class TestCombinatorial(unittest.TestCase):
             variable_component.variants = [vioA, vioB, vioC]
             variable_component.variantCollections = Collection('c')
             variable_component.repeat = 'http://sbols.org/v2#one'
-            
+
 class TestPartShop(unittest.TestCase):
 
     # These parameters for the Synbiohub test instance are set externally by the test runner
@@ -950,15 +950,34 @@ class TestPartShop(unittest.TestCase):
 
         # Change bar's description field from what it was set to in test_submit_overwrite
         bar.roles = SO_CDS
+        TestPartShop.PART_SHOP.submit(doc, TestPartShop.TEST_COLLECTION_URI, 3)            
+
+    def testPreventDuplicateCollections(self):
+        # Synbiohub is janky when trying to merge a Collection that already exists
+        # on Synbiohub and also exists in the submission Document. This can result
+        # in a duplicate Collection.
+        DUPLICATE_COLLECTION_URI = TestPartShop.RESOURCE + '/user/' + TestPartShop.USER + '/' + \
+                                   TestPartShop.TEST_COLLECTION + '/user_' + TestPartShop.USER + '_' + \
+                                   TestPartShop.TEST_COLLECTION + '_' + TestPartShop.TEST_COLLECTION + '_collection/1'
+
+        doc = Document()
+        TestPartShop.PART_SHOP.pull(TestPartShop.TEST_COLLECTION_URI, doc)
+        self.assertTrue(TestPartShop.TEST_COLLECTION_URI in doc.collections)
         TestPartShop.PART_SHOP.submit(doc, TestPartShop.TEST_COLLECTION_URI, 3)    
+        self.assertTrue(TestPartShop.TEST_COLLECTION_URI in doc.collections)
+        self.assertFalse(TestPartShop.PART_SHOP.exists(DUPLICATE_COLLECTION_URI))
 
     def testPullAndMerge(self):
         # Synbiohub is janky when trying to merge Documents that are already
         # populated with objects in the PartShop's namespace. Therefore,
         # a succesful merge operation requires this workaround
+        DUPLICATE_COLLECTION_URI = TestPartShop.RESOURCE + '/user/' + TestPartShop.USER + '/' + \
+                                   TestPartShop.TEST_COLLECTION + '/user_' + TestPartShop.USER + '_' + \
+                                   TestPartShop.TEST_COLLECTION + '_' + TestPartShop.TEST_COLLECTION + '_collection/1'
+
         doc = Document()
         TestPartShop.PART_SHOP.pull(TestPartShop.TEST_COLLECTION_URI, doc)
-        doc = doc.copy(TestPartShop.RESOURCE)
+        doc = doc.copy(TestPartShop.RESOURCE + '/user/' + TestPartShop.USER)
         for obj in doc:
             obj.wasDerivedFrom = None
         foo = doc.componentDefinitions.create('foo')
@@ -969,6 +988,7 @@ class TestPartShop(unittest.TestCase):
             '/' + TestPartShop.TEST_COLLECTION + '/foo/1'))
         self.assertTrue(TestPartShop.PART_SHOP.exists(TestPartShop.RESOURCE + '/user/' + TestPartShop.USER + \
             '/' + TestPartShop.TEST_COLLECTION + '/bar/1'))
+        self.assertFalse(TestPartShop.PART_SHOP.exists(DUPLICATE_COLLECTION_URI))
 
     def testRemove(self):
         TestPartShop.PART_SHOP.remove(TestPartShop.TEST_COLLECTION_URI)
@@ -978,7 +998,7 @@ class TestPartShop(unittest.TestCase):
 # Test runners
 ##############
 
-def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction ], username = None, password = None, resource = None, spoofed_resource = None):
+def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction, TestCombinatorial ], username = None, password = None, resource = None, spoofed_resource = None):
     
     # Test methods will be executed in the order in which they are declared in this file
     # (Necessary for testing HTTP interface with Synbiohub which relies on database state)
@@ -1021,7 +1041,6 @@ def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, T
     elif username or password or resource:
         raise ValueError('Cannot run PartShop tests. A username, password, and resource must be specified as keyword arguments.')
 
-def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction, TestCombinatorial ]):
     VALIDATE = Config.getOption('validate')
     Config.setOption('validate', False)
 
