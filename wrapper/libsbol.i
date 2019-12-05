@@ -1209,7 +1209,7 @@ TEMPLATE_MACRO_3(Document);
                                      'belong to a different Document than the calling object.')
         elif isinstance(component_list, list) and all(isinstance(c, str) \
                                                       for c in component_list):
-            component_identities = component_list.copy()
+            component_identities = component_list[:]
             component_list = []
             for c_id in component_identities:
                 if not c_id in doc.componentDefinitions:
@@ -1261,7 +1261,7 @@ TEMPLATE_MACRO_3(Document);
         # (Some parameter validation is done by the preceding call to ComponentDefinition.assemble)
         doc = doc if doc else self.doc
         if all(isinstance(c, str) for c in primary_structure):
-            component_identities = primary_structure.copy()
+            component_identities = primary_structure[:]
             primary_structure = []
             for c_id in component_identities:
                 cdef = doc.componentDefinitions[c_id]
