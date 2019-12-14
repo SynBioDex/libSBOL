@@ -85,9 +85,8 @@ PyObject* SBOLObject::cast(PyObject* python_class)
         PyObject *next;
     } SwigPyObject;
 
-    PyObject* py_obj = PyObject_CallObject(python_class, NULL);  // Call constructor
-    PyObject* temp_py_object = PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
-    SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
+    PyObject* py_obj = PyObject_CallFunction(python_class, NULL);  // Call constructor
+    SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttrString(py_obj, "this");
     SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
 
     // Set identity

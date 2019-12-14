@@ -693,7 +693,7 @@ void Document::parse_objects_inner(const std::string &subject,
         PyObject* constructor = Config::PYTHON_DATA_MODEL_REGISTER[object];
 
         PyObject* py_obj = PyObject_CallFunction(constructor, NULL);
-        SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj, PyUnicode_FromString("this"));
+        SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttrString(py_obj, "this");
         SBOLObject* new_obj = (SBOLObject *)swig_py_object->ptr;
 
         // Wipe default property values passed from default

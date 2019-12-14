@@ -590,6 +590,18 @@ class TestIterators(unittest.TestCase):
             annotations.append(sa.this)
         self.assertEquals(annotations, [sa1, sa2])
 
+class TestCast(unittest.TestCase):
+
+    def testDowncast(self):
+        obj = SBOLObject()
+        cd = obj.cast(ComponentDefinition)
+        self.assertEquals(cd.type, 'http://sbols.org/v2#ComponentDefinition')
+
+    def testUpcast(self):
+        cd = ComponentDefinition()
+        obj = cd.cast(SBOLObject)
+        self.assertEquals(obj.type, 'http://sbols.org/v2#Undefined')
+
 class TestCopy(unittest.TestCase):
 
     def setUp(self):
@@ -1248,7 +1260,7 @@ class TestPartShop(unittest.TestCase):
 # Test runners
 ##############
 
-def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction, TestInsert, TestCombinatorial], username = None, password = None, resource = None, spoofed_resource = None):
+def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCast, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction, TestInsert, TestCombinatorial], username = None, password = None, resource = None, spoofed_resource = None):
     
     # Test methods will be executed in the order in which they are declared in this file
     # (Necessary for testing HTTP interface with Synbiohub which relies on database state)

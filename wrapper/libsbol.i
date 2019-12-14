@@ -1001,7 +1001,7 @@ TEMPLATE_MACRO_3(Document);
         } SwigPyObject;
         
         // Get pointer to wrapped object
-        SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttr(py_obj,  PyUnicode_FromString("this"));
+        SwigPyObject* swig_py_object = (SwigPyObject*)PyObject_GetAttrString(py_obj, "this");
         if (swig_py_object)
         {
             SBOLObject* sbol_obj = (SBOLObject *)swig_py_object->ptr;
