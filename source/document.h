@@ -213,8 +213,11 @@ namespace sbol {
         /// @return A string containing a message with the validation results
         std::string validate();
 
-        /// Convert this SBOL Document to GenBank or FASTA.
-        std::string convert(std::string language = "", std::string output_path = "");
+        /// Convert this SBOL Document to GenBank, FASTA, or GFF3.
+        std::string exportToFormat(std::string language = "", std::string output_path = "");
+        
+        /// Import GenBank, FASTA, or GFF3 to an SBOL Document
+        std::string importFromFormat(std::string language, std::string input_path);
         
         Document& copy(std::string ns = "", Document* doc = NULL, std::string version = "");
         

@@ -1482,7 +1482,7 @@ bool sbol::PartShop::exists(std::string uri)
         return true;
 };
 
-std::string Document::convert(string language, string output_path)
+std::string Document::exportToFormat(string language, string output_path)
 {
     string original_language = Config::getOption("language");
     string original_return_file = Config::getOption("return_file");
@@ -1556,7 +1556,11 @@ std::string Document::convert(string language, string output_path)
     }
     curl_slist_free_all(headers);
     curl_global_cleanup();
-    
+
+    // Restore original config values
+    Config::setOption("language", original_language);
+    Config::setOption("return_file", original_return_file);
+
     Json::Value json_response;
     Json::Reader reader;
     bool parsed = reader.parse( response, json_response );     //parse process
@@ -1575,6 +1579,122 @@ std::string Document::convert(string language, string output_path)
             
             fputs(converted_file.c_str(), fh);
             fclose(fh);
+        }
+        else
+        {
+            response = "Invalid.";
+            for (auto itr : json_response["errors"])
+            {
+                response += " " + itr.asString();
+            }
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, response);
+        }
+    }
+    return response;
+};
+
+std::string Document::importFromFormat(string language, string input_path)
+{
+    if (input_path != "" && input_path[0] == '~') {
+        if (input_path[1] != '/'){
+            throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Malformed input path. Potentially missing slash.");
+        }
+        char const* home = getenv("HOME");
+        if (home || (home = getenv("USERPROFILE"))) {
+            input_path.replace(0, 1, home);
+        }
+    }
+    FILE* fh = fopen(input_path.c_str(), "rb");
+    if (!fh)
+        throw SBOLError(SBOL_ERROR_FILE_NOT_FOUND, "File " + input_path + " not found");
+    string input;
+    fseek(fh, 0, SEEK_END);
+    input.resize(ftell(fh));
+    rewind(fh);
+    fread(&input[0], 1, input.size(), fh);
+    fclose(fh);
+    
+    string original_language = Config::getOption("language");
+    string original_return_file = Config::getOption("return_file");
+
+    /* Form validation options in JSON */
+    Json::Value request;   // 'root' will contain the root value after parsing.
+    
+    vector<string> opts = {"language", "test_equality", "check_uri_compliance", "check_completeness", "check_best_practices", "fail_on_first_error", "provide_detailed_stack_trace", "subset_uri", "uri_prefix", "version", "insert_type", "main_file_name", "diff_file_name" };
+    for (auto const& opt : opts)
+    {
+        if (Config::getOption(opt).compare("True") == 0)
+            request["options"][opt] = true;
+        else if (Config::getOption(opt).compare("False") == 0)
+            request["options"][opt] = false;
+        else
+            request["options"][opt] = Config::getOption(opt);
+    }
+    if (Config::getOption("uri_prefix") == "")
+        request["options"]["uri_prefix"] = getHomespace();
+    if (Config::getOption("return_file").compare("True") == 0)
+        request["return_file"] = true;
+    else
+        request["return_file"] = false;
+    request["options"]["language"] = "SBOL2";
+    request["main_file"] = input;
+    Json::StyledWriter writer;
+    string json = writer.write( request );
+    
+    
+    /* Perform HTTP request */
+    string response;
+    CURL *curl;
+    CURLcode res;
+    
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+    
+    struct curl_slist *headers = NULL;
+    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers = curl_slist_append(headers, "charsets: utf-8");
+    
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if(curl) {
+        /* First set the URL that is about to receive our POST. This URL can
+         just as well be a https:// URL if that is what should receive the
+         data. */
+        curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+        
+        /* Now specify the POST data */
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
+        
+        /* Now specify the callback to read the response into string */
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if(res != CURLE_OK)
+            throw SBOLError(SBOL_ERROR_BAD_HTTP_REQUEST, "Cannot validate online. HTTP post request failed with: " + string(curl_easy_strerror(res)));
+        
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_slist_free_all(headers);
+    curl_global_cleanup();
+    
+    Json::Value json_response;
+    Json::Reader reader;
+    bool parsed = reader.parse( response, json_response );     //parse process
+    if ( parsed )
+    {
+        if (json_response.get("valid", response ).asString().compare("true") == 0)
+        {
+            response = json_response.get("output_file", response ).asString();
+            string converted_file = http_get_request(response);  // retrieve converted file from URL
+            readString(converted_file);
         }
         else
         {
