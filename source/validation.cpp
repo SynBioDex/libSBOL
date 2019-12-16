@@ -136,22 +136,19 @@ void sbol::libsbol_rule_2(void *sbol_obj, void *arg)
 #ifndef SBOL_BUILD_MANYLINUX
 		const char *c_date_time = (const char *)arg;
 		string date_time = string(c_date_time);
+        date_time.replace(0, 1, "");
         if (date_time.compare("") != 0)
         {
-            bool DATETIME_MATCH_1 = false;
-            bool DATETIME_MATCH_2 = false;
-            bool DATETIME_MATCH_3 = false;
             std::regex date_time_1("([0-9]{4})-([0-9]{2})-([0-9]{2})([A-Z])?");
             std::regex date_time_2("([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})([.][0-9]+)?[A-Z]?");
             std::regex date_time_3("([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})([.][0-9]+)?[A-Z]?([\\+|-]([0-9]{2}):([0-9]{2}))?");
             if (std::regex_match(date_time.begin(), date_time.end(), date_time_1))
-                DATETIME_MATCH_1 = true;
+                return;
             if (std::regex_match(date_time.begin(), date_time.end(), date_time_2))
-                DATETIME_MATCH_2 = true;
+                return;
             if (std::regex_match(date_time.begin(), date_time.end(), date_time_3))
-                DATETIME_MATCH_3 = true;
-            if (!(DATETIME_MATCH_1 || DATETIME_MATCH_2 || DATETIME_MATCH_3))
-                throw SBOLError(SBOL_ERROR_NONCOMPLIANT_VERSION, "Invalid datetime format. Datetimes are based on XML Schema dateTime datatype. For example 2016-03-16T20:12:00Z");
+                return;
+            throw SBOLError(SBOL_ERROR_NONCOMPLIANT_VERSION, "Invalid datetime format. Datetimes are based on XML Schema dateTime datatype. For example 2016-03-16T20:12:00Z");
         }
 #endif
 };
