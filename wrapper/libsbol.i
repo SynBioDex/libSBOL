@@ -2137,7 +2137,7 @@ from urllib3.exceptions import HTTPError
 %extend sbol::ComponentDefinition {
     %pythoncode %{
  
-    def insert(self, cd_to_insert, insert_point, display_id):
+    def integrate(self, cd_to_insert, insert_point, display_id):
         """
         Construct SBOL representing a genetic insert. Inserts cd_to_insert
         into self at insert_point.
