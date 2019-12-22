@@ -1402,31 +1402,31 @@ void ComponentDefinition::insertDownstream(Component& upstream, ComponentDefinit
     // Generate URI of a Component to be created.  Check if an object with that URI is already instantiated.
     int instance_count = 0;
     string component_id;
-    component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+    component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "_" + to_string(instance_count) + "/" + version.get();
     while (find(component_id) != NULL)
     {
         // Find the last instance assigned
         ++instance_count;
-        component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+        component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "_" + to_string(instance_count) + "/" + version.get();
     }
     // Autoconstruct the new Component
-    Component& c_insert = components.create(insert.displayId.get() + "/" + to_string(instance_count));
+    Component& c_insert = components.create(insert.displayId.get() + "_" + to_string(instance_count));
     c_insert.definition.set(insert.identity.get());
     
     // Generate URI of new SequenceConstraint.  Check if an object with that URI is already instantiated.
     instance_count = 0;
     string sc_id;
-    sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+    sc_id = persistentIdentity.get() + "/constraint_" + to_string(instance_count) + "/" + version.get();
     while (find(sc_id) != NULL)
     {
         // Find the last instance assigned
         ++instance_count;
-        sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+        sc_id = persistentIdentity.get() + "/constraint_" + to_string(instance_count) + "/" + version.get();
 
     }
 
     // Autoconstruct the new SequenceConstraint
-    SequenceConstraint& sc_new = sequenceConstraints.create("constraint" + to_string(instance_count));
+    SequenceConstraint& sc_new = sequenceConstraints.create("constraint_" + to_string(instance_count));
     sc_new.subject.set(upstream.identity.get());
     sc_new.object.set(component_id);
     sc_new.restriction.set(SBOL_RESTRICTION_PRECEDES);
@@ -1472,30 +1472,30 @@ void ComponentDefinition::insertUpstream(Component& downstream, ComponentDefinit
     // Generate URI of a Component to be created.  Check if an object with that URI is already instantiated.
     int instance_count = 0;
     string component_id;
-    component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+    component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "_" + to_string(instance_count) + "/" + version.get();
     while (find(component_id) != NULL)
     {
         // Find the last instance assigned
         ++instance_count;
-        component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "/" + to_string(instance_count) + "/" + version.get();
+        component_id = persistentIdentity.get() + "/" + insert.displayId.get() + "_" + to_string(instance_count) + "/" + version.get();
     }
     // Autoconstruct the new Component
-    Component& c_insert = components.create(insert.displayId.get() + "/" + to_string(instance_count));
+    Component& c_insert = components.create(insert.displayId.get() + "_" + to_string(instance_count));
     c_insert.definition.set(insert.identity.get());
     
     // Generate URI of new SequenceConstraint.  Check if an object with that URI is already instantiated.
     instance_count = 0;
     string sc_id;
-    sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+    sc_id = persistentIdentity.get() + "/constraint_" + to_string(instance_count) + "/" + version.get();
     while (find(sc_id) != NULL)
     {
         // Find the last instance assigned
         ++instance_count;
-        sc_id = persistentIdentity.get() + "/constraint" + to_string(instance_count) + "/" + version.get();
+        sc_id = persistentIdentity.get() + "/constraint_" + to_string(instance_count) + "/" + version.get();
     }
     
     // Autoconstruct the new SequenceConstraint
-    SequenceConstraint& sc_new = sequenceConstraints.create("constraint" + to_string(instance_count));
+    SequenceConstraint& sc_new = sequenceConstraints.create("constraint_" + to_string(instance_count));
     sc_new.subject.set(component_id);
     sc_new.object.set(downstream.identity.get());
     sc_new.restriction.set(SBOL_RESTRICTION_PRECEDES);
@@ -1518,7 +1518,7 @@ void ComponentDefinition::addUpstreamFlank(Component& downstream, std::string el
     // Generate URI of flanking ComponentDefinition.  Check if an object with that URI is already instantiated.
     ComponentDefinition* flank = NULL;
     int instance_count = 0;
-    string flank_display_id = "flank" + to_string(instance_count);
+    string flank_display_id = "flank_" + to_string(instance_count);
     while (flank == NULL)
     {
         try
@@ -1528,7 +1528,7 @@ void ComponentDefinition::addUpstreamFlank(Component& downstream, std::string el
         catch(SBOLError &e)
         {
             instance_count++;
-            flank_display_id = "flank" + to_string(instance_count);
+            flank_display_id = "flank_" + to_string(instance_count);
         }
     }
     
@@ -1538,7 +1538,7 @@ void ComponentDefinition::addUpstreamFlank(Component& downstream, std::string el
     // Generate URI of flanking Sequence.  Check if an object with that URI is already instantiated.
     Sequence* flank_seq = NULL;
     instance_count = 0;
-    flank_display_id = "flank_seq" + to_string(instance_count);
+    flank_display_id = "flank_seq_" + to_string(instance_count);
     while (flank_seq == NULL)
     {
         try
@@ -1548,7 +1548,7 @@ void ComponentDefinition::addUpstreamFlank(Component& downstream, std::string el
         catch(sbol::SBOLError &e)
         {
             instance_count++;
-            flank_display_id = "flank_seq" + to_string(instance_count);
+            flank_display_id = "flank_seq_" + to_string(instance_count);
         }
     }
     

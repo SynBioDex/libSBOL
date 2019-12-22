@@ -251,16 +251,11 @@ class TestComponentDefinitions(unittest.TestCase):
         for CD in doc.componentDefinitions:
             listCD_read.append(CD.displayId)
 
-        self.assertSequenceEqual(listCD_read, listCD)
-        # # Python 3 compatability
-        # if sys.version_info[0] < 3:
-        #   self.assertItemsEqual(listCD_read, listCD)
-        # else:
-        #   self.assertCountEqual(listCD_read, listCD)
+        self.assertListEqual(listCD_read, listCD)
 
     def testPrimaryStructureIteration(self):
         listCD = []
-        listCD_true = ["R0010", "E0040", "B0032", "B0012"]
+        listCD_true = ["R0010", "B0032", "E0040", "B0012"]
         doc = Document()
         gene = ComponentDefinition("BB0001")
         promoter = ComponentDefinition("R0010")
@@ -275,11 +270,7 @@ class TestComponentDefinitions(unittest.TestCase):
         for component in primary_sequence:
             listCD.append(component.displayId)
 
-        # Python 3 compatability
-        if sys.version_info[0] < 3:
-            self.assertItemsEqual(listCD, listCD_true)
-        else:
-            self.assertCountEqual(listCD, listCD_true)
+        self.assertListEqual(listCD, listCD_true)
 
 class TestAssemblyRoutines(unittest.TestCase):
 
@@ -313,11 +304,8 @@ class TestAssemblyRoutines(unittest.TestCase):
         gene.assemblePrimaryStructure([ 'R0010', 'B0032', 'E0040', 'B0012' ])
         primary_structure = gene.getPrimaryStructure()
         primary_structure = [c.identity for c in primary_structure]
-        # Python 3 compatability
-        if sys.version_info[0] < 3:
-            self.assertItemsEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
-        else:
-            self.assertCountEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
+
+        self.assertListEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
 
     def testCompileSequence(self):
         doc = Document()
@@ -439,16 +427,9 @@ class TestAssemblyRoutines(unittest.TestCase):
         gene.assemblePrimaryStructure([ 'R0010', 'B0032', 'E0040', 'B0012' ])
         primary_structure = gene.getPrimaryStructure()
         primary_structure = [c.identity for c in primary_structure]
-
-        # Python 3 compatability
-        if sys.version_info[0] < 3:
-            self.assertItemsEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
-        else:
-            self.assertCountEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
-
+        self.assertListEqual(primary_structure, [promoter.identity, RBS.identity, CDS.identity, terminator.identity])
 
         target_seq = gene.compile()
-
         self.assertEquals(target_seq, 'atcg')
 
     def testApplyCallbackRecursively(self):
@@ -476,6 +457,79 @@ class TestAssemblyRoutines(unittest.TestCase):
         expected_module_tree = [md.identity for md in [root, sub, leaf]]
         self.assertSequenceEqual(flattened_module_tree, expected_module_tree)
         self.assertEquals(level, 3)
+
+    def testDeleteUpstream(self):
+        doc = Document()
+        gene = ComponentDefinition("BB0001")
+        promoter = ComponentDefinition("R0010")
+        rbs = ComponentDefinition("B0032")
+        cds = ComponentDefinition("E0040")
+        terminator = ComponentDefinition("B0012")
+
+        doc.addComponentDefinition([ gene, promoter, rbs, cds, terminator ])
+        gene.assemblePrimaryStructure([promoter, rbs, cds, terminator])
+        primary_structure_components = gene.getPrimaryStructureComponents()
+        c_promoter = primary_structure_components[0]
+        c_rbs = primary_structure_components[1]
+        c_cds = primary_structure_components[2]
+        c_terminator = primary_structure_components[3]
+
+        gene.deleteUpstreamComponent(c_cds)
+        primary_structure = gene.getPrimaryStructure()
+        primary_structure = [cd.identity for cd in primary_structure]
+        valid_primary_structure = [promoter.identity, cds.identity, terminator.identity]
+        self.assertListEqual(primary_structure, valid_primary_structure)
+
+        # Test deletion when the target Component is the first Component
+        gene.deleteUpstreamComponent(c_cds)
+        primary_structure = gene.getPrimaryStructure()
+        primary_structure = [cd.identity for cd in primary_structure]
+        valid_primary_structure = [cds.identity, terminator.identity]
+        self.assertListEqual(primary_structure, valid_primary_structure)
+
+        # Test failure when user tries to delete a Component upstream of the first Component
+        with self.assertRaises(ValueError):
+            gene.deleteUpstreamComponent(c_promoter)
+        # Test failure when the user supplies a Component that isn't part of the primary structure
+        with self.assertRaises(ValueError):
+            gene.deleteUpstreamComponent(Component())
+
+    def testDeleteDownstream(self):
+        doc = Document()
+        gene = ComponentDefinition("BB0001")
+        promoter = ComponentDefinition("R0010")
+        rbs = ComponentDefinition("B0032")
+        cds = ComponentDefinition("E0040")
+        terminator = ComponentDefinition("B0012")
+
+        doc.addComponentDefinition([ gene, promoter, rbs, cds, terminator ])
+        gene.assemblePrimaryStructure([promoter, rbs, cds, terminator])
+        primary_structure_components = gene.getPrimaryStructureComponents()
+        c_promoter = primary_structure_components[0]
+        c_rbs = primary_structure_components[1]
+        c_cds = primary_structure_components[2]
+        c_terminator = primary_structure_components[3]
+
+        gene.deleteDownstreamComponent(c_rbs)
+        primary_structure = gene.getPrimaryStructure()
+        primary_structure = [cd.identity for cd in primary_structure]
+        valid_primary_structure = [promoter.identity, rbs.identity, terminator.identity]
+        self.assertListEqual(primary_structure, valid_primary_structure)
+
+        # Test deletion when the target Component is the last Component
+        gene.deleteDownstreamComponent(c_rbs)
+        primary_structure = gene.getPrimaryStructure()
+        primary_structure = [cd.identity for cd in primary_structure]
+        valid_primary_structure = [promoter.identity, rbs.identity]
+        self.assertListEqual(primary_structure, valid_primary_structure)
+
+        # Test failure when user tries to delete Component upstream of the first Component
+        with self.assertRaises(ValueError):
+            gene.deleteDownstreamComponent(c_cds)
+        # Test failure when the user supplies a Component that isn't part of the primary structure
+        with self.assertRaises(ValueError):
+            gene.deleteDownstreamComponent(Component())
+
 
 class TestSequences(unittest.TestCase):
 
@@ -508,11 +562,7 @@ class TestSequences(unittest.TestCase):
         for seq in doc.sequences:
             listseq_read.append(seq.displayId)
 
-        # Python 3 compatability
-        if sys.version_info[0] < 3:
-            self.assertItemsEqual(listseq_read, listseq)
-        else:
-            self.assertCountEqual(listseq_read, listseq)
+        self.assertListEqual(listseq_read, listseq)
 
     def testSequenceElement(self):
         setHomespace('http://sbols.org/CRISPR_Example')
@@ -949,12 +999,8 @@ class TestIntegrate(unittest.TestCase):
         cd = cd0.integrate(insert_cd, 3, 'new_cd')
         primary_structure = cd.getPrimaryStructure()
         primary_structure = [c.identity for c in primary_structure]
-
-        # Python 3 compatability
-        if sys.version_info[0] < 3:
-            self.assertItemsEqual(primary_structure, [cd0.identity, insert_cd.identity, cd0.identity])
-        else:
-            self.assertCountEqual(primary_structure, [cd0.identity, insert_cd.identity, cd0.identity])        
+ 
+        self.assertListEqual(primary_structure, [cd0.identity, insert_cd.identity, cd0.identity])        
 
     def testIntegrationNegative(self):
         # An exception should be raised if user tries to insert

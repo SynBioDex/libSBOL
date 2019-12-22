@@ -2153,6 +2153,59 @@ if platform.system() == 'Linux':
 %extend sbol::ComponentDefinition {
     %pythoncode %{
  
+    def deleteUpstreamComponent(self, downstream_component):
+        if Config.getOption('sbol_compliant_uris') == False:
+            raise ValueError('SBOL-compliant URIs must be enabled to use this method')
+        if not downstream_component.identity in self.components:
+            raise ValueError('Deletion failed. No Components were found upstream of %s' %downstream_component.identity)
+        primary_structure = self.getPrimaryStructureComponents()
+        if downstream_component.identity == primary_structure[0].identity:
+            raise ValueError('Deletion failed. Component %s does not have an upstream component' %downstream_component.identity)
+        upstream_component = None
+        upstream_sequence_constraint = None
+        downstream_sequence_constraint = None
+        for c_upstream, c_downstream in zip(primary_structure[:-1], primary_structure[1:]):
+            for sc in self.sequenceConstraints:
+                if sc.subject == c_upstream.identity and sc.object == c_downstream.identity and sc.restriction == SBOL_RESTRICTION_PRECEDES:
+                    upstream_sequence_constraint = downstream_sequence_constraint
+                    downstream_sequence_constraint = sc
+            if c_downstream.identity == downstream_component.identity:
+                upstream_component = c_upstream
+                break
+        if upstream_component:
+            self.components.remove(upstream_component.identity)
+            self.sequenceConstraints.remove(downstream_sequence_constraint.identity)
+            if upstream_sequence_constraint:
+                upstream_sequence_constraint.object = downstream_sequence_constraint.object
+
+    def deleteDownstreamComponent(self, upstream_component):
+        if Config.getOption('sbol_compliant_uris') == False:
+            raise ValueError('SBOL-compliant URIs must be enabled to use this method')
+        if not upstream_component.identity in self.components:
+            raise ValueError('Deletion failed. ComponentDefinition %s has no child component %s' %(self.identity, upstream_component.identity))
+        primary_structure = self.getPrimaryStructureComponents()
+        if upstream_component.identity == primary_structure[-1].identity:
+            raise ValueError('Deletion failed. No Components were found downstream of %s' %upstream_component.identity)
+        downstream_component = None
+        upstream_sequence_constraint = None
+        downstream_sequence_constraint = None
+        for c_upstream, c_downstream in zip(primary_structure[:-1], primary_structure[1:]):
+            for sc in self.sequenceConstraints:
+                if sc.subject == c_upstream.identity and sc.object == c_downstream.identity and sc.restriction == SBOL_RESTRICTION_PRECEDES:
+                    upstream_sequence_constraint = downstream_sequence_constraint
+                    downstream_sequence_constraint = sc
+            if downstream_component:
+                break
+            if c_upstream.identity == upstream_component.identity:
+                downstream_component = c_downstream
+        if downstream_component:
+            self.components.remove(downstream_component.identity)
+            self.sequenceConstraints.remove(downstream_sequence_constraint.identity)
+            # The following condition is False when the downstream component is the last
+            # component
+            if downstream_sequence_constraint.subject == downstream_component.identity:
+                upstream_sequence_constraint.object = downstream_sequence_constraint.object
+
     def integrate(self, cd_to_insert, insert_point, display_id):
         """
         Construct SBOL representing a genetic insert. Inserts cd_to_insert
