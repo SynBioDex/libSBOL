@@ -48,8 +48,9 @@ script:
 - ls ~/build/libSBOL
 - ls ~/build/SynBioDex
 - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
-- python -c "from sbol import *; testSBOL(resource='https://synbiohub.utah.edu')"
-- python -c "from sbol import *; testSBOL(resource='https://tang.ece.utah.edu', spoofed_resource='https://synbiohub.utah.edu')
+- python -c "from sbol.unit_tests import *; runTests(resource='https://synbiohub.utah.edu')"
+- python -c "from sbol.unit_tests import *; runTests(resource='https://tang.ece.utah.edu',
+  spoofed_resource='https://synbiohub.utah.edu')"
 - python -c "from sbol.unit_tests import *; runRoundTripTests()"
 addons:
   apt:
@@ -61,5 +62,5 @@ addons:
     - g++-5
 env:
   global:
-  - secure: CmIs5gm7+qhQ28FL1hNkSxI9i2I9cXmA1eihKEYNK3Iy9RCQnE+UmOHNG4kam4MKSXl89sPfVANpWCKK8Cvtj8NJ5UqMTUwY1BBJ/uVG1pKb5Rjwj4v7hosiKYSJIWejfqT7eQ8gCXQdj4PpuhHhoaMFfXikPp/REW9+ZWoEe8I=
-  - secure: Swx9em9ajq0ezIaol3/s2hfA5MJrn0j4erJ4t07MVqCA+l33qFUsEA4lY8yrF7qK+Xds+/bMlJ1HcRTxaqGxcvhuS/IFDjdYboP3evu4pPEwDg0P9SbOzB3NltAz8PUj9dbCPqyZV0vy5AvJF00Ru6asid12wieIo6A++HrMpfE=
+  - secure: LRfQSQPdCcjDYos+ZRCnmznE08+o+cBwcWJJLtIU86SwnntdJ/QWNR8xVoVfyNVAzoFjPLKjukNp3xMBKY7w+EtkV93E2IiAAJn7Ryxj6hD5w9sgxk+6LqXmelExMgd0Z5PoxL7nvOFQwxBLDaomHsso5feBdXwjGbD/jRxlT8Q=
+  - secure: MM6yYoJJh67J1lE/9SoP2i4Zo6SdWxfH3qFfJqgDO1qdbtwuG0um+bX8FBirsnVr5kp4I+8XZoJU5YsN8i2BPIdbKeVMe0W/wkQ4AFY+pDqrEhInmR5UfpRgXs1U+Z2URH5Dtx/cARVwtHS6V/0Eqg24Delub29aidIksfH2jdw=

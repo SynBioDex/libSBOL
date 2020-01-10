@@ -1840,21 +1840,6 @@ import json
 import requests
 from urllib3.exceptions import HTTPError
 import platform
-
-# Set default certificate path for HTTPS requests on Linux distros
-if platform.system() == 'Linux':
-    import warnings
-    warnings.filterwarnings('ignore')
-    current_platform = platform.linux_distribution()[0]  # deprecated on Python >3.5, discontinued 3.8
-    warnings.resetwarnings()
-    if 'Ubuntu' in current_platform:
-        Config.setOption('ca-path', '/etc/ssl/certs/ca-certificates.crt')
-    elif 'debian' in current_platform:
-        # Stock Python does not detect Ubuntu and instead returns debian.
-        # Or at least it does in some build environments like Travis CI
-        Config.setOption('ca-path', '/etc/ssl/certs/ca-certificates.crt')
-    elif 'OpenSuse' in current_platform:
-        Config.setOption('ca-path', '/var/lib/ca-certificates/ca-bundle.pem')
 %}
     
 %pythoncode
@@ -2330,7 +2315,25 @@ if platform.system() == 'Linux':
         return new sbol::EnzymeCatalysisInteraction(uri, enzyme, convert_list_to_cdef_vector(substrates), convert_list_to_cdef_vector(products), convert_list_to_cdef_vector(cofactors), convert_list_to_cdef_vector(sideproducts));
     };
 }
-        
+
+%pythoncode 
+%{
+# Set default certificate path for HTTPS requests on Linux distros
+if platform.system() == 'Linux':
+    import warnings
+    warnings.filterwarnings('ignore')
+    current_platform = platform.linux_distribution()[0]  # deprecated on Python >3.5, discontinued 3.8
+    warnings.resetwarnings()
+    if 'Ubuntu' in current_platform:
+        Config.setOption('ca-path', '/etc/ssl/certs/ca-certificates.crt')
+    elif 'debian' in current_platform:
+        # Stock Python does not detect Ubuntu and instead returns debian.
+        # Or at least it does in some build environments like Travis CI
+        Config.setOption('ca-path', '/etc/ssl/certs/ca-certificates.crt')
+    elif 'OpenSuse' in current_platform:
+        Config.setOption('ca-path', '/var/lib/ca-certificates/ca-bundle.pem')
+%}
+    
         //%extend sbol::Document
         //{
         //    std::string __getitem__(const int nIndex)

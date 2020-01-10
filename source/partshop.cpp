@@ -142,7 +142,7 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
             throw SBOLError(SBOL_ERROR_INVALID_ARGUMENT, "Invalid limit parameter specified");
         
         encode_url(parameters);
-        parameters = url + "/remoteSearch/" + parameters;
+        parameters = url + "/search/" + parameters;
         
         /* First set the URL that is about to receive our GET. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
@@ -229,7 +229,7 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
         // Specify how many records to retrieve
         parameters += "/?offset=" + to_string(offset) + "&limit=" + to_string(limit);
         
-        parameters = url + "/remoteSearch/" + parameters;
+        parameters = url + "/search/" + parameters;
         
         /* First set the URL that is about to receive our GET. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
@@ -313,7 +313,7 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
         // Specify how many records to retrieve
         parameters += "/?offset=" + to_string(offset) + "&limit=" + to_string(limit);
         
-        parameters = url + "/remoteSearch/" + parameters;
+        parameters = url + "/search/" + parameters;
         
         /* First set the URL that is about to receive our GET. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
@@ -488,7 +488,7 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type, s
         
         encode_url(parameters);
         
-        parameters = parseURLDomain(url) + "/remoteSearch/" + parameters;
+        parameters = parseURLDomain(url) + "/search/" + parameters;
         
         /* First set the URL that is about to receive our GET. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
@@ -657,7 +657,7 @@ void sbol::PartShop::login(std::string user_id, std::string password)
          just as well be a https:// URL if that is what should receive the
          data. */
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/remoteLogin").c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, (parseURLDomain(resource) + "/login").c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
         if (Config::getOption("ca-path") != "")
