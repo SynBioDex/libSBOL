@@ -50,12 +50,14 @@ def random_invalid_position(limit=1000):
 #     TestPartShop.RESOURCE = os.environ['TestPartShop.RESOURCE']
 # else:
 #     raise ValueError('Must specify TestPartShop.RESOURCE environment variable with the URL for the repository')
-# if 'USER' in os.environ:
-#     USER = os.environ['USER']
-# else:
-#     raise ValueError('Must specify USER environment variable with the repository login')
-# if 'PASS' in os.environ:
-#     PASSWORD = os.environ['PASS']
+if 'SBH_USER' in os.environ:
+    SBH_USER = os.environ['SBH_USER']
+else:
+    SBH_USER = None
+if 'SBH_PASSWORD' in os.environ:
+    SBH_PASSWORD = os.environ['SBH_PASSWORD']
+else:
+    SBH_PASSWORD = None
 # else:
 #     raise ValueError('Must specify PASS environment variable with the user password')
 # if 'SPOOF' in os.environ:
@@ -1439,7 +1441,7 @@ class TestPartShop(unittest.TestCase):
 # Test runners
 ##############
 
-def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCast, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction, TestIntegrate, TestCombinatorial], username = None, password = None, resource = None, spoofed_resource = None):
+def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, TestIterators, TestCast, TestCopy, TestDBTL, TestAssemblyRoutines, TestExtensionClass, TestURIAutoConstruction, TestIntegrate, TestCombinatorial], username = SBH_USER, password = SBH_PASSWORD, resource = None, spoofed_resource = None):
     
     # Test methods will be executed in the order in which they are declared in this file
     # (Necessary for testing HTTP interface with Synbiohub which relies on database state)
