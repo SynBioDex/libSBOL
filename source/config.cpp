@@ -76,7 +76,7 @@ std::map<std::string, std::vector<std::string>> sbol::Config::valid_options {
     {"sbol_typed_uris", { "True", "False" }},
     {"serialization_format", {"sbol", "rdfxml", "json", "ntriples"}},
     {"validate", { "True", "False" }},
-    {"language", { "SBOL2", "FASTA", "GenBank", "GFF3", "SnapGene" }},
+    {"language", { "SBOL2", "SBOL1", "FASTA", "GenBank", "GFF3", "SnapGene" }},
     {"test_equality", { "True", "False" }},
     {"check_uri_compliance", { "True", "False" }},
     {"check_completeness", { "True", "False" }},
