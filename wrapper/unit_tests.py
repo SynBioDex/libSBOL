@@ -532,6 +532,46 @@ class TestAssemblyRoutines(unittest.TestCase):
         with self.assertRaises(ValueError):
             gene.deleteDownstreamComponent(Component())
 
+    def testInsertDownstream(self):
+        doc = Document()
+        gene = ComponentDefinition("BB0001")
+        promoter = ComponentDefinition("R0010")
+        rbs = ComponentDefinition("B0032")
+        cds = ComponentDefinition("E0040")
+        terminator = ComponentDefinition("B0012")
+
+        doc.addComponentDefinition([ gene, promoter, rbs, cds, terminator])
+        gene.assemblePrimaryStructure([promoter, rbs, cds])
+        primary_structure_components = gene.getPrimaryStructureComponents()
+        c_promoter = primary_structure_components[0]
+        c_rbs = primary_structure_components[1]
+        c_cds = primary_structure_components[2]
+        gene.insertDownstreamComponent(c_cds, terminator)
+        primary_structure = gene.getPrimaryStructure()
+        primary_structure = [cd.identity for cd in primary_structure]
+        valid_primary_structure = [promoter.identity, rbs.identity, cds.identity, terminator.identity]
+        self.assertListEqual(primary_structure, valid_primary_structure)
+
+
+    def testInsertUpstream(self):
+        doc = Document()
+        gene = ComponentDefinition("BB0001")
+        promoter = ComponentDefinition("R0010")
+        rbs = ComponentDefinition("B0032")
+        cds = ComponentDefinition("E0040")
+        terminator = ComponentDefinition("B0012")
+
+        doc.addComponentDefinition([ gene, promoter, rbs, cds, terminator])
+        gene.assemblePrimaryStructure([rbs, cds, terminator])
+        primary_structure_components = gene.getPrimaryStructureComponents()
+        c_rbs = primary_structure_components[0]
+        c_cds = primary_structure_components[1]
+        c_terminator = primary_structure_components[2]
+        gene.insertUpstreamComponent(c_rbs, promoter)
+        primary_structure = gene.getPrimaryStructure()
+        primary_structure = [cd.identity for cd in primary_structure]
+        valid_primary_structure = [promoter.identity, rbs.identity, cds.identity, terminator.identity]
+        self.assertListEqual(primary_structure, valid_primary_structure)
 
 class TestSequences(unittest.TestCase):
 
@@ -1391,7 +1431,7 @@ class TestPartShop(unittest.TestCase):
         doc.description = 'A temporary collection used for running pySBOL integration tests'
         bar = doc.componentDefinitions.create('bar')
 
-        # Change bar's description field from what it was set to in test_submit_overwrite
+        # Change bar's roles field from what it was set to in test_submit_overwrite
         bar.roles = SO_CDS
         TestPartShop.PART_SHOP.submit(doc, TestPartShop.TEST_COLLECTION_URI, 3)            
 

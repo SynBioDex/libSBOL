@@ -1368,12 +1368,12 @@ int SequenceAnnotation::length()
     return r_target.length();
 };
 
-void ComponentDefinition::insertDownstream(Component& upstream, ComponentDefinition& insert)
+void ComponentDefinition::insertDownstreamComponent(Component& upstream, ComponentDefinition& insert)
 {
     if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
     if (doc == NULL)
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before calling insertDownstream");
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before calling insertDownstreamComponent");
     if (doc != insert.doc)
         throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Invalid Document for ComponentDefinition " + insert.identity.get() + " Add the insert to the same Document as the calling object.");
     // If the user makes a mistake and tries to insert a ComponentDefinition that doesn't already belong to this Document
@@ -1439,12 +1439,12 @@ void ComponentDefinition::insertDownstream(Component& upstream, ComponentDefinit
 
 };
 
-void ComponentDefinition::insertUpstream(Component& downstream, ComponentDefinition& insert)
+void ComponentDefinition::insertUpstreamComponent(Component& downstream, ComponentDefinition& insert)
 {
     if (Config::getOption("sbol_compliant_uris").compare("False") == 0)
         throw SBOLError(SBOL_ERROR_COMPLIANCE, "SBOL-compliant URIs must be enabled to use this method");
     if (doc == NULL)
-        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before calling insertUpstream");
+        throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "ComponentDefinition " + identity.get() + " does not belong to a Document. Add this ComponentDefinition to a Document before calling insertUpstreamComponent");
     if (doc != insert.doc)
         throw SBOLError(SBOL_ERROR_MISSING_DOCUMENT, "Invalid Document for ComponentDefinition " + insert.identity.get() + " Add the insert to the same Document as the calling object.");
     // If the user makes a mistake and tries to insert a ComponentDefinition that doesn't already belong to this Document
@@ -1559,7 +1559,7 @@ void ComponentDefinition::addUpstreamFlank(Component& downstream, std::string el
     flank->sequences.set(flank_seq->identity.get());
 
     // Insert the new flank upstream
-    insertUpstream(downstream, *flank);
+    insertUpstreamComponent(downstream, *flank);
 };
 
 void ComponentDefinition::addDownstreamFlank(Component& upstream, std::string elements)
@@ -1613,7 +1613,7 @@ void ComponentDefinition::addDownstreamFlank(Component& upstream, std::string el
     flank->sequences.set(flank_seq->identity.get());
     
     // Insert the new flank upstream
-    insertDownstream(upstream, *flank);
+    insertDownstreamComponent(upstream, *flank);
 };
 
 std::vector<ComponentDefinition*> ComponentDefinition::getPrimaryStructure()

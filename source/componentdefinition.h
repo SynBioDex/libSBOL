@@ -189,12 +189,12 @@ namespace sbol
         /// Insert a Component downstream of another in a primary sequence, shifting any adjacent Components dowstream as well
         /// @param target The target Component will be upstream of the insert Component after this operation.
         /// @param insert The insert Component is inserted downstream of the target Component.
-        void insertDownstream(Component& target, ComponentDefinition& insert);
+        void insertDownstreamComponent(Component& target, ComponentDefinition& insert);
         
         /// Insert a Component upstream of another in a primary sequence, shifting any adjacent Components upstream as well
         /// @param target The target Component will be downstream of the insert Component after this operation.
         /// @param insert The insert Component is inserted upstream of the target Component.
-        void insertUpstream(Component& target, ComponentDefinition& insert);
+        void insertUpstreamComponent(Component& target, ComponentDefinition& insert);
 
         /// This may be a useful method when building up SBOL representations of natural DNA sequences. For example it is often necessary to specify components that are assumed to have no meaningful role in the design, but are nevertheless important to fill in regions of sequence. This method autoconstructs a ComponentDefinition and Sequence object to create an arbitrary flanking sequence around design Components. The new ComponentDefinition will have Sequence Ontology type of flanking_region or SO:0000239
         /// @param target The new flanking sequence will be placed upstream of the target

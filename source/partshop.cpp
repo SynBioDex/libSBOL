@@ -646,7 +646,7 @@ void sbol::PartShop::login(std::string user_id, std::string password)
     curl_global_init(CURL_GLOBAL_ALL);
     
     struct curl_slist *headers = NULL;
-    //    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, "Accept: text/plain");
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
     //    headers = curl_slist_append(headers, "charsets: utf-8");
     
