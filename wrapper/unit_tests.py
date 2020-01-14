@@ -1533,8 +1533,11 @@ def runTests(test_list = [TestComponentDefinitions, TestSequences, TestMemory, T
 
     for test_class in test_list:
         test_suite.append(loader.loadTestsFromTestCase(test_class))
-    unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(unittest.TestSuite(test_suite))
+    testResult = unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(unittest.TestSuite(test_suite))
+    # restore the validate config option
     Config.setOption('validate', VALIDATE)
+    return testResult.wasSuccessful()
+
 
 def runRoundTripTests(test_list = [TestRoundTripSBOL2, TestRoundTripSBOL2BestPractices, TestRoundTripSBOL2IncompleteDocuments, TestRoundTripSBOL2NoncompliantURIs
 , TestRoundTripFailSBOL2]):
@@ -1545,8 +1548,33 @@ def runRoundTripTests(test_list = [TestRoundTripSBOL2, TestRoundTripSBOL2BestPra
     loader = unittest.TestLoader()
     for test_class in test_list:
         test_suite.append(loader.loadTestsFromTestCase(test_class))
-    unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(unittest.TestSuite(test_suite))
+    testResult = unittest.TextTestRunner(verbosity=2,stream=sys.stderr).run(unittest.TestSuite(test_suite))
+    # restore the validate config option
     Config.setOption('validate', VALIDATE)
+    return testResult.wasSuccessful()
+
+
+def travisRunTests(**kwargs):
+    """This is a convenience function to execute runTests in
+    TravisCI. This function accepts any keyword args and passes them
+    along to `runTests()`. Then this function causes the interpreter
+    to exit with a status of 0 if tests were successful and 1
+    otherwise.
+
+    """
+    sys.exit(not runTests(**kwargs))
+
+
+def travisRunRoundTripTests(**kwargs):
+    """This is a convenience function to execute runRoundTripTests in
+    TravisCI. This function accepts any keyword args and passes them
+    along to `runRoundTripTests()`. Then this function causes the interpreter
+    to exit with a status of 0 if tests were successful and 1
+    otherwise.
+
+    """
+    sys.exit(not runRoundTripTests(**kwargs))
+
 
 if __name__ == '__main__':
     runTests()
