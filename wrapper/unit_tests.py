@@ -1553,5 +1553,28 @@ def runRoundTripTests(test_list = [TestRoundTripSBOL2, TestRoundTripSBOL2BestPra
     Config.setOption('validate', VALIDATE)
     return testResult.wasSuccessful()
 
+
+def travisRunTests(**kwargs):
+    """This is a convenience function to execute runTests in
+    TravisCI. This function accepts any keyword args and passes them
+    along to `runTests()`. Then this function causes the interpreter
+    to exit with a status of 0 if tests were successful and 1
+    otherwise.
+
+    """
+    sys.exit(not runTests(**kwargs))
+
+
+def travisRunRoundTripTests(**kwargs):
+    """This is a convenience function to execute runRoundTripTests in
+    TravisCI. This function accepts any keyword args and passes them
+    along to `runRoundTripTests()`. Then this function causes the interpreter
+    to exit with a status of 0 if tests were successful and 1
+    otherwise.
+
+    """
+    sys.exit(not runRoundTripTests(**kwargs))
+
+
 if __name__ == '__main__':
     runTests()

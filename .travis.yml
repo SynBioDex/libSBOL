@@ -48,10 +48,10 @@ script:
 - ls ~/build/libSBOL
 - ls ~/build/SynBioDex
 - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
-- python -c "from sbol.unit_tests import *; runTests(resource='https://synbiohub.utah.edu')"
-- python -c "from sbol.unit_tests import *; runTests(resource='https://tang.ece.utah.edu',
+- python -c "from sbol.unit_tests import *; travisRunTests(resource='https://synbiohub.utah.edu')"
+- python -c "from sbol.unit_tests import *; travisRunTests(resource='https://tang.ece.utah.edu',
   spoofed_resource='https://synbiohub.utah.edu')"
-- python -c "from sbol.unit_tests import *; runRoundTripTests()"
+- python -c "from sbol.unit_tests import *; travisRunRoundTripTests()"
 addons:
   apt:
     sources:
