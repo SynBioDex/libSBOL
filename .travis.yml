@@ -48,9 +48,14 @@ script:
 - ls ~/build/libSBOL
 - ls ~/build/SynBioDex
 - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
-# For debugging test failure "SSLError: hostname 'synbiohub.utah.edu' doesn't match 'tang.ece.utah.edu'"
+# Work around SSL issues in the painfully old versions of python and python-requests
+# See https://2.python-requests.org//en/master/community/faq/#what-are-hostname-doesn-t-match-errors
+# See https://stackoverflow.com/questions/18578439/using-requests-with-tls-doesnt-give-sni-support/18579484#18579484
 - python --version
 - python -c "import requests; print(requests.__version__)"
+- sudo apt install -y python-pip python-openssl
+- sudo pip install ndg-httpsclient
+# End SSL workaround
 - python -c "from sbol.unit_tests import *; travisRunTests(resource='https://synbiohub.utah.edu')"
 - python -c "from sbol.unit_tests import *; travisRunTests(resource='https://tang.ece.utah.edu',
   spoofed_resource='https://synbiohub.utah.edu')"
