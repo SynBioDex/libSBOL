@@ -29,8 +29,8 @@ before_install:
 - mkdir -p ~/build/libSBOL
 install:
 - cd ~/build/libSBOL
-- sudo apt-get install -q=2 g++-4.8
-- export CXX="g++-5" CC="gcc-5"
+# - sudo apt-get install -q=2 g++-4.8
+# - export CXX="g++-5" CC="gcc-5"
 - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON
   -DSBOL_BUILD_SHARED=ON -DCURL_LIBRARY=/usr/lib/x86_64-linux-gnu/libcurl.so -DLIBXSLT_LIBRARIES=/usr/lib/x86_64-linux-gnu/libxslt.so
   -DRAPTOR_LIBRARY=/usr/lib/x86_64-linux-gnu/libraptor2.so -DSBOL_BUILD_PYTHON2=ON
@@ -42,7 +42,7 @@ install:
 before_script: true
 script:
 - cd ~/build/libSBOL
-- make -j2 && make install
+# - make -j2 && make install
 - ls ~
 - ls ~/build
 - ls ~/build/libSBOL
