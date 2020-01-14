@@ -48,6 +48,9 @@ script:
 - ls ~/build/libSBOL
 - ls ~/build/SynBioDex
 - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
+# For debugging test failure "SSLError: hostname 'synbiohub.utah.edu' doesn't match 'tang.ece.utah.edu'"
+- python --version
+- python -c "import requests; print(requests.__version__)"
 - python -c "from sbol.unit_tests import *; travisRunTests(resource='https://synbiohub.utah.edu')"
 - python -c "from sbol.unit_tests import *; travisRunTests(resource='https://tang.ece.utah.edu',
   spoofed_resource='https://synbiohub.utah.edu')"
