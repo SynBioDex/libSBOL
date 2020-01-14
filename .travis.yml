@@ -36,6 +36,8 @@ install:
   -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DSWIG_EXECUTABLE=/usr/bin/swig3.0
   "$TRAVIS_BUILD_DIR"
 - make install
+- mkdir -p ~/build/libSBOL3
+- cd ~/build/libSBOL3
 - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON
   -DSBOL_BUILD_SHARED=ON -DCURL_LIBRARY=/usr/lib/x86_64-linux-gnu/libcurl.so -DLIBXSLT_LIBRARIES=/usr/lib/x86_64-linux-gnu/libxslt.so
   -DRAPTOR_LIBRARY=/usr/lib/x86_64-linux-gnu/libraptor2.so -DSBOL_BUILD_PYTHON3=ON
