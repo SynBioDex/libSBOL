@@ -52,6 +52,9 @@ script:
 - ls ~/build
 - ls ~/build/libSBOL
 - ls ~/build/SynBioDex
+- ls ~/build/SynBioDex/libSBOL/release/wrapper
+- ls ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
+- ls ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_3
 - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
 # Work around SSL issues in the painfully old versions of python and python-requests
 # See https://2.python-requests.org//en/master/community/faq/#what-are-hostname-doesn-t-match-errors
