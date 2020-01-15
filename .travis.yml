@@ -56,14 +56,14 @@ script:
 - python -c "from sbol.unit_tests import *; travisRunTests(resource='https://tang.ece.utah.edu',
   spoofed_resource='https://synbiohub.utah.edu')"
 - python -c "from sbol.unit_tests import *; travisRunRoundTripTests()"
-addons:
-  apt:
-    sources:
-    - llvm-toolchain-precise
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-5
-    - g++-5
+# addons:
+#   apt:
+#     sources:
+#     - llvm-toolchain-precise
+#     - ubuntu-toolchain-r-test
+#     packages:
+#     - gcc-5
+#     - g++-5
 env:
   global:
   - secure: LRfQSQPdCcjDYos+ZRCnmznE08+o+cBwcWJJLtIU86SwnntdJ/QWNR8xVoVfyNVAzoFjPLKjukNp3xMBKY7w+EtkV93E2IiAAJn7Ryxj6hD5w9sgxk+6LqXmelExMgd0Z5PoxL7nvOFQwxBLDaomHsso5feBdXwjGbD/jRxlT8Q=
