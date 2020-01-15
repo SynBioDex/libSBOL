@@ -19,9 +19,9 @@ addons:
       - swig3.0
 before_install:
 - lsb_release -a
-# - sudo apt-get -q update -q=2
-# - sudo apt-get -y install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev
-#   swig3.0 python-dev
+# --------------------------------------------------
+# Build jsoncpp
+# --------------------------------------------------
 - curl -L -o jsoncpp-1.7.7.tar.gz https://github.com/open-source-parsers/jsoncpp/archive/1.7.7.tar.gz
 - tar xf jsoncpp-1.7.7.tar.gz
 - cd jsoncpp-1.7.7
@@ -29,10 +29,16 @@ before_install:
 - cd build
 - sudo make install
 - cd ../..
+# --------------------------------------------------
+# End build jsoncpp
+# --------------------------------------------------
 - ls /usr/local/lib
-- echo "TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR"
-- mkdir -p ~/build/libSBOL
 install:
+- echo "TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR"
+# --------------------------------------------------
+# Build for python 2.7
+# --------------------------------------------------
+- mkdir -p ~/build/libSBOL
 - cd ~/build/libSBOL
 - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON
   -DSBOL_BUILD_SHARED=ON -DCURL_LIBRARY=/usr/lib/x86_64-linux-gnu/libcurl.so -DLIBXSLT_LIBRARIES=/usr/lib/x86_64-linux-gnu/libxslt.so
@@ -41,13 +47,15 @@ install:
   -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DSWIG_EXECUTABLE=/usr/bin/swig3.0
   "$TRAVIS_BUILD_DIR"
 - make install
-# before_script: true
 script:
-- cd ~/build/libSBOL
-- ls ~
-- ls ~/build
-- ls ~/build/libSBOL
-- ls ~/build/SynBioDex
+# Debugging
+# - ls ~
+# - ls ~/build
+# - ls ~/build/libSBOL
+# - ls ~/build/SynBioDex
+# --------------------------------------------------
+# Run python unit tests
+# --------------------------------------------------
 - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
 - python -c "from sbol.unit_tests import *; travisRunTests(resource='https://synbiohub.utah.edu')"
 - python -c "from sbol.unit_tests import *; travisRunTests(resource='https://tang.ece.utah.edu',
