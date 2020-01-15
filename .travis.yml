@@ -15,7 +15,7 @@ before_install:
 # - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 - sudo apt-get update -q=2
 - sudo apt-get -y install build-essential libxml2-dev gcc-multilib g++-multilib libraptor2-dev
-  swig3.0 python-dev python3-dev
+  swig3.0 python-dev
 - curl --tlsv1.2 -L https://github.com/open-source-parsers/jsoncpp/archive/1.7.7.tar.gz
   > jsoncpp-1.7.7.tar.gz
 - tar -xzf jsoncpp-1.7.7.tar.gz
@@ -36,15 +36,6 @@ install:
   -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so python2.7 -DSWIG_EXECUTABLE=/usr/bin/swig3.0
   "$TRAVIS_BUILD_DIR"
 - make install
-# - mkdir -p ~/build/libSBOL3
-# - cd ~/build/libSBOL3
-# - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/install_x64 -DSBOL_BUILD_64=ON
-#   -DSBOL_BUILD_SHARED=ON -DCURL_LIBRARY=/usr/lib/x86_64-linux-gnu/libcurl.so -DLIBXSLT_LIBRARIES=/usr/lib/x86_64-linux-gnu/libxslt.so
-#   -DRAPTOR_LIBRARY=/usr/lib/x86_64-linux-gnu/libraptor2.so -DSBOL_BUILD_PYTHON3=ON
-#   -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.6
-#   -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.6m.so python3.6 -DSWIG_EXECUTABLE=/usr/bin/swig3.0
-#   "$TRAVIS_BUILD_DIR"
-# - make install
 before_script: true
 script:
 - cd ~/build/libSBOL
@@ -52,17 +43,14 @@ script:
 - ls ~/build
 - ls ~/build/libSBOL
 - ls ~/build/SynBioDex
-- ls ~/build/SynBioDex/libSBOL/release/wrapper
-- ls ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
-# - ls ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_3
 - cd ~/build/SynBioDex/libSBOL/release/wrapper/Linux_64_2
 # Work around SSL issues in the painfully old versions of python and python-requests
 # See https://2.python-requests.org//en/master/community/faq/#what-are-hostname-doesn-t-match-errors
 # See https://stackoverflow.com/questions/18578439/using-requests-with-tls-doesnt-give-sni-support/18579484#18579484
-- python --version
-- python -c "import requests; print(requests.__version__)"
-- sudo apt install -y python-pip python-openssl
-- sudo pip install ndg-httpsclient
+# - python --version
+# - python -c "import requests; print(requests.__version__)"
+# - sudo apt install -y python-pip python-openssl
+# - sudo pip install ndg-httpsclient
 # End SSL workaround
 - python -c "from sbol.unit_tests import *; travisRunTests(resource='https://synbiohub.utah.edu')"
 - python -c "from sbol.unit_tests import *; travisRunTests(resource='https://tang.ece.utah.edu',
