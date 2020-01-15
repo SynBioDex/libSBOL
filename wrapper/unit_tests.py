@@ -1355,10 +1355,12 @@ class TestPartShop(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         TestPartShop.PART_SHOP = PartShop(TestPartShop.RESOURCE)
+        TestPartShop.TEST_COLLECTION_URI = TestPartShop.RESOURCE
         if TestPartShop.SPOOFED_RESOURCE:
             TestPartShop.PART_SHOP.spoof(TestPartShop.SPOOFED_RESOURCE)
+            TestPartShop.TEST_COLLECTION_URI = TestPartShop.SPOOFED_RESOURCE
         TestPartShop.TEST_COLLECTION = 'pySBOL_test'
-        TestPartShop.TEST_COLLECTION_URI = TestPartShop.RESOURCE + '/user/' + TestPartShop.USER + '/' + TestPartShop.TEST_COLLECTION + '/' + TestPartShop.TEST_COLLECTION + '_collection/1'
+        TestPartShop.TEST_COLLECTION_URI += '/user/' + TestPartShop.USER + '/' + TestPartShop.TEST_COLLECTION + '/' + TestPartShop.TEST_COLLECTION + '_collection/1'
         Config.setOption('sbol_typed_uris', False)
 
     def testLoginFailure(self):
@@ -1445,6 +1447,9 @@ class TestPartShop(unittest.TestCase):
 
         doc = Document()
         TestPartShop.PART_SHOP.pull(TestPartShop.TEST_COLLECTION_URI, doc)
+        for c in doc.collections:
+            print(c)
+        print(TestPartShop.TEST_COLLECTION_URI)
         self.assertTrue(TestPartShop.TEST_COLLECTION_URI in doc.collections)
         TestPartShop.PART_SHOP.submit(doc, TestPartShop.TEST_COLLECTION_URI, 3)    
         self.assertTrue(TestPartShop.TEST_COLLECTION_URI in doc.collections)
