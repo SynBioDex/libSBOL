@@ -40,7 +40,7 @@ FILE(GLOB SBOL_HEADER_FILES
     properties.h
     object.h
 	identified.h
-    measure.h
+    measurement.h
 	toplevel.h
 	sequenceannotation.h
 	component.h
@@ -233,7 +233,7 @@ else ()  # If Mac OSX or Linux
                 LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib"
                 RUNTIME_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib")
             install(TARGETS sbol32-shared DESTINATION lib)  # Installs to /usr/local/lib
-            install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+	    install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/SBOL/include)
             set_target_properties(sbol32-shared PROPERTIES OUTPUT_NAME "sbol")
         else()
             add_library( sbol32
@@ -252,7 +252,7 @@ else ()  # If Mac OSX or Linux
                 ARCHIVE_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib"
                 LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib"
                 RUNTIME_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib")
-            install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+	install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/SBOL/include)
             install(TARGETS sbol32 DESTINATION lib)  # Installs to /usr/local/lib
             set_target_properties(sbol32 PROPERTIES OUTPUT_NAME "sbol")
         endif()
@@ -279,7 +279,7 @@ else ()  # If Mac OSX or Linux
                 LIBRARY_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib"
                 RUNTIME_OUTPUT_DIRECTORY "${SBOL_LIBRARY_OUTPUT_PATH}/lib")
             install(TARGETS sbol64-shared DESTINATION lib)  # Installs to /usr/local/lib
-            install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+	    install(DIRECTORY ${HEADER_OUTPUT_PATH} DESTINATION ${CMAKE_INSTALL_PREFIX}/SBOL/include)
             set_target_properties(sbol64-shared PROPERTIES OUTPUT_NAME "sbol")
         else()
             add_library( sbol64
