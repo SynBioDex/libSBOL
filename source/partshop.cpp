@@ -143,11 +143,14 @@ SearchResponse& sbol::PartShop::search(SearchQuery& q)
         
         encode_url(parameters);
         parameters = url + "/search/" + parameters;
-        
+
         /* First set the URL that is about to receive our GET. */
-        //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+        /* Configure certificate path */
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
         
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
@@ -235,7 +238,11 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
+        /* Configure certificate path */
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -319,6 +326,10 @@ SearchResponse& sbol::PartShop::search(std::string search_text, rdf_type object_
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+        /* Configure certificate path */
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
         
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
@@ -422,6 +433,10 @@ int sbol::PartShop::searchCount(SearchQuery& q)
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+        /* Configure certificate path */
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
         
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
@@ -494,7 +509,11 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type, s
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
+
+        /* Configure certificate path */
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -558,6 +577,10 @@ int sbol::PartShop::searchCount(std::string search_text, rdf_type object_type)
         //curl_easy_setopt(curl, CURLOPT_URL, Config::getOption("validator_url").c_str());
         curl_easy_setopt(curl, CURLOPT_URL, parameters.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+        /* Configure certificate path */
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
         
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
