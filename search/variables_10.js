@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['value',['value',['../classsbol_1_1_measurement.html#a6dcb40c6fc6477f784293542634ad5ea',1,'sbol::Measurement']]],
   ['variable',['variable',['../classsbol_1_1_variable_component.html#ac165557e43afe21e3cb723ac3f91f569',1,'sbol::VariableComponent']]],
   ['variablecomponents',['variableComponents',['../classsbol_1_1_combinatorial_derivation.html#aca0ccc3cbe7cdc33b8d90dfb0214e640',1,'sbol::CombinatorialDerivation']]],
   ['variantcollections',['variantCollections',['../classsbol_1_1_variable_component.html#ae16923db2319918014fe4af1f14bdc1d',1,'sbol::VariableComponent']]],

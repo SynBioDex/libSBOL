@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.3.3</span>
    </div>
   </td>
  </tr>
@@ -77,10 +77,10 @@ $(function() {
   <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#abe231b81f80504a38452307a33cb4278">count</a>()</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a19abcb097bd996d22304c5aee15ce550">downloadAttachment</a>(std::string attachment_uri, std::string path=&quot;.&quot;)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#ae3c4fecf585029fd3c5432e277465346">getURL</a>()</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a0efc8929a6cedb0786baceeef817814a">login</a>(std::string email, std::string password=&quot;&quot;)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a27f6e8a52ddb700a58b5509099e217a8">PartShop</a>(std::string url)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#ac27fb0043522b61d6ae487dc242211fc">pull</a>(std::string uri, Document &amp;doc)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#ae3441a00d0ed9f00f6ff94b5f1e8a659">pull</a>(std::vector&lt; std::string &gt; uris, Document &amp;doc)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a8ea69be52c6eb04cdb60200a4ff46f3b">login</a>(std::string user_id, std::string password=&quot;&quot;)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a26bb186fb6de741089fef3d77a6b984d">PartShop</a>(std::string url, std::string spoofed_url=&quot;&quot;)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a6254f6f95f2224388ca7a0605eb56777">pull</a>(std::string uri, Document &amp;doc, bool recursive=true)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a9b598c3fb510f9304887db6fffb40ed5">pull</a>(std::vector&lt; std::string &gt; uris, Document &amp;doc, bool recursive=true)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#adb19b16d72c68e254c3a39d47c4008e6">search</a>(std::string search_text, std::string object_type, std::string property_uri, int offset=0, int limit=25)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a6012254231738805463ea010d18ce410">search</a>(std::string search_text, std::string object_type=SBOL_COMPONENT_DEFINITION, int offset=0, int limit=25)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a4fd60de7dc25b8945e4107491dc3f14b">search</a>(SearchQuery &amp;q)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
@@ -89,11 +89,13 @@ $(function() {
   <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a828c541cd00aaf158bd35779512fa9ca">searchCount</a>(SearchQuery &amp;q)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#aa112e0d8d29d9231fd7dd1635972481b">searchRootCollections</a>()</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a2133bde27cfd401b451c7572a36ec434">searchSubCollections</a>(std::string uri)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#af14d3662f0c02e432ac773204b7a026c">sparqlQuery</a>(std::string query)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#a1a22de77be6fadad93fdfea673a887ad">spoof</a>(std::string spoofed_url)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html#ac0a1fedc0f9880c7e55071d4a68398e2">submit</a>(Document &amp;doc, std::string collection=&quot;&quot;, int overwrite=0)</td><td class="entry"><a class="el" href="classsbol_1_1_part_shop.html">PartShop</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 1 2018 12:52:12 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 30 2020 21:35:28 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.14
 </small></address>

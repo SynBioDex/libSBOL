@@ -1,0 +1,5 @@
+<map id="TextProperty" name="TextProperty">
+<area shape="rect" id="node3" href="$classsbol_1_1_date_time_property.html" title="Contains a DateTime string following XML Schema. " alt="" coords="5,575,155,675"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_version_property.html" title="Contains a version number for an SBOL object. " alt="" coords="179,528,317,721"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_property.html" title="{Property\&lt; std::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# lowerBound\l# upperBound\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ set()\l+ set()\l+ set()\land 15 more...\l# isHidden()\l}" alt="" coords="88,5,240,292"/>
+</map>

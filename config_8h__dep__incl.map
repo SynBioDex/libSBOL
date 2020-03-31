@@ -1,0 +1,36 @@
+<map id="/Users/bbartley/Dev/git/libSBOL/source/config.h" name="/Users/bbartley/Dev/git/libSBOL/source/config.h">
+<area shape="rect" id="node2" href="$validation_8h.html" title="Validation rules. " alt="" coords="1219,105,1357,157"/>
+<area shape="rect" id="node32" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="1325,205,1464,257"/>
+<area shape="rect" id="node34" href="$sbolerror_8h.html" title="SBOLError class and error codes. " alt="" coords="1432,105,1570,157"/>
+<area shape="rect" id="node35" href="$config_8cpp.html" title="Global library options and configuration methods. " alt="" coords="1595,105,1733,157"/>
+<area shape="rect" id="node3" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="1272,405,1410,457"/>
+<area shape="rect" id="node4" href="$identified_8h.html" title="Identified class. " alt="" coords="848,505,986,557"/>
+<area shape="rect" id="node12" href="$object_8cpp.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="1020,1205,1158,1257"/>
+<area shape="rect" id="node31" href="$properties_8cpp.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="1379,505,1517,557"/>
+<area shape="rect" id="node5" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="295,705,433,757"/>
+<area shape="rect" id="node23" href="$component_8h.html" title="ComponentInstance, Component, and FunctionalComponent classes. " alt="" coords="708,805,846,857"/>
+<area shape="rect" id="node24" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="795,605,933,657"/>
+<area shape="rect" id="node25" href="$module_8h.html" title="Module class. " alt="" coords="851,705,989,757"/>
+<area shape="rect" id="node26" href="$location_8h.html" title="Location, Cut, Range, and GenericLocation classes. " alt="" coords="587,705,725,757"/>
+<area shape="rect" id="node27" href="$measurement_8h.html" title="Measurement class. " alt="" coords="1008,605,1146,657"/>
+<area shape="rect" id="node28" href="$participation_8h.html" title="Participation class. " alt="" coords="1115,705,1253,757"/>
+<area shape="rect" id="node29" href="$interaction_8h.html" title="Interaction class. " alt="" coords="1067,805,1205,857"/>
+<area shape="rect" id="node30" href="$sequenceconstraint_8h.html" title="SequenceConstraint class. " alt="" coords="485,605,637,657"/>
+<area shape="rect" id="node6" href="$componentdefinition_8h.html" title="ComponentDefinition class. " alt="" coords="541,905,696,957"/>
+<area shape="rect" id="node17" href="$sequenceannotation_8h.html" title="SequenceAnnotation class. " alt="" coords="375,805,531,857"/>
+<area shape="rect" id="node18" href="$sequence_8h.html" title="Sequence class. " alt="" coords="112,1005,250,1057"/>
+<area shape="rect" id="node19" href="$moduledefinition_8h.html" title="ModuleDefinition class. " alt="" coords="803,905,941,957"/>
+<area shape="rect" id="node20" href="$model_8h.html" title="Model class. " alt="" coords="275,1005,413,1057"/>
+<area shape="rect" id="node21" href="$collection_8h.html" title="Collection class. " alt="" coords="325,905,464,957"/>
+<area shape="rect" id="node22" href="$attachment_8h.html" title="Attachment class. " alt="" coords="5,905,144,957"/>
+<area shape="rect" id="node7" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="457,1105,596,1157"/>
+<area shape="rect" id="node16" href="$dbtl_8h.html" title="Contains the interface for Design&#45;Build&#45;Test classes. " alt="" coords="589,1005,728,1057"/>
+<area shape="rect" id="node8" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="539,1205,677,1257"/>
+<area shape="rect" id="node10" href="$dbtl_8cpp.html" title="Methods for Design&#45;Build&#45;Test classes. " alt="" coords="701,1205,840,1257"/>
+<area shape="rect" id="node11" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="163,1205,301,1257"/>
+<area shape="rect" id="node13" href="$partshop_8h.html" title="API front&#45;end for online bioparts repositories. " alt="" coords="376,1205,514,1257"/>
+<area shape="rect" id="node14" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="323,1305,461,1357"/>
+<area shape="rect" id="node9" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="539,1305,677,1357"/>
+<area shape="rect" id="node15" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="323,1405,461,1457"/>
+<area shape="rect" id="node33" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="1325,305,1464,357"/>
+</map>

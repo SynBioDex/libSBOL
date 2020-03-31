@@ -1,0 +1,6 @@
+<map id="Collection" name="Collection">
+<area shape="rect" id="node5" href="$classsbol_1_1_sample_roster.html" title="A SampleRoster is a container used to group Builds that are included in an experiment together..." alt="" coords="22,971,148,1044"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="15,568,154,775"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="17,300,152,520"/>
+<area shape="rect" id="node4" href="$classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="5,5,164,252"/>
+</map>

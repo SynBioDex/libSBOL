@@ -1,0 +1,4 @@
+<map id="DateTimeProperty" name="DateTimeProperty">
+<area shape="rect" id="node2" href="$classsbol_1_1_text_property.html" title="TextProperty objects are used to contain string literals. " alt="" coords="23,340,140,480"/>
+<area shape="rect" id="node3" href="$classsbol_1_1_property.html" title="{Property\&lt; std::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# lowerBound\l# upperBound\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ set()\l+ set()\l+ set()\land 15 more...\l# isHidden()\l}" alt="" coords="5,5,158,292"/>
+</map>

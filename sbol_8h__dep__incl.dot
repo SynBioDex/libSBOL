@@ -1,8 +1,0 @@
-digraph "/Users/bbartley/Dev/git/libSBOL/source/sbol.h"
-{
-  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
-  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
-  Node42 [label="/Users/bbartley/Dev\l/git/libSBOL/source\l/sbol.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node42 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
-  Node43 [label="/Users/bbartley/Dev\l/git/libSBOL/source\l/validation.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validation_8cpp.html",tooltip="Validation rules. "];
-}

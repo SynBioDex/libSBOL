@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['_7eactivity',['~Activity',['../classsbol_1_1_activity.html#a1dc891d703558a7bfa810515420d130f',1,'sbol::Activity']]],
-  ['_7esearchquery',['~SearchQuery',['../classsbol_1_1_search_query.html#a43c24bd514853bcd0f0fa00befcbe3de',1,'sbol::SearchQuery']]]
+  ['write',['write',['../classsbol_1_1_document.html#ac624cfecce7834da553f611ffaf424b8',1,'sbol::Document']]],
+  ['writestring',['writeString',['../classsbol_1_1_document.html#ad81545a2ba6422c310e1ab506f14fa26',1,'sbol::Document']]]
 ];

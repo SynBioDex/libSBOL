@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['genericlocation',['GenericLocation',['../classsbol_1_1_generic_location.html',1,'sbol']]]
+  ['floatproperty',['FloatProperty',['../classsbol_1_1_float_property.html',1,'sbol']]],
+  ['functionalcomponent',['FunctionalComponent',['../classsbol_1_1_functional_component.html',1,'sbol']]]
 ];

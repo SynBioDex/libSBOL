@@ -1,0 +1,10 @@
+<map id="/Users/bbartley/Dev/git/libSBOL/source/document.h" name="/Users/bbartley/Dev/git/libSBOL/source/document.h">
+<area shape="rect" id="node2" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,105,144,157"/>
+<area shape="rect" id="node4" href="$dbtl_8cpp.html" title="Methods for Design&#45;Build&#45;Test classes. " alt="" coords="168,105,306,157"/>
+<area shape="rect" id="node5" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="331,105,469,157"/>
+<area shape="rect" id="node6" href="$object_8cpp.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="493,105,632,157"/>
+<area shape="rect" id="node7" href="$partshop_8h.html" title="API front&#45;end for online bioparts repositories. " alt="" coords="656,105,794,157"/>
+<area shape="rect" id="node8" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="709,205,848,257"/>
+<area shape="rect" id="node3" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="5,205,144,257"/>
+<area shape="rect" id="node9" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="709,305,848,357"/>
+</map>

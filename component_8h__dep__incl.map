@@ -1,0 +1,14 @@
+<map id="/Users/bbartley/Dev/git/libSBOL/source/component.h" name="/Users/bbartley/Dev/git/libSBOL/source/component.h">
+<area shape="rect" id="node2" href="$componentdefinition_8h.html" title="ComponentDefinition class. " alt="" coords="415,105,571,157"/>
+<area shape="rect" id="node3" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="381,305,520,357"/>
+<area shape="rect" id="node13" href="$moduledefinition_8h.html" title="ModuleDefinition class. " alt="" coords="595,105,733,157"/>
+<area shape="rect" id="node12" href="$dbtl_8h.html" title="Contains the interface for Design&#45;Build&#45;Test classes. " alt="" coords="488,205,626,257"/>
+<area shape="rect" id="node4" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="381,405,520,457"/>
+<area shape="rect" id="node6" href="$dbtl_8cpp.html" title="Methods for Design&#45;Build&#45;Test classes. " alt="" coords="707,405,845,457"/>
+<area shape="rect" id="node7" href="$document_8cpp.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="544,405,682,457"/>
+<area shape="rect" id="node8" href="$object_8cpp.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="5,405,144,457"/>
+<area shape="rect" id="node9" href="$partshop_8h.html" title="API front&#45;end for online bioparts repositories. " alt="" coords="219,405,357,457"/>
+<area shape="rect" id="node10" href="$sbol_8h.html" title="Import this header to access the libSBOL API. " alt="" coords="165,505,304,557"/>
+<area shape="rect" id="node5" href="$assembly_8cpp.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="381,505,520,557"/>
+<area shape="rect" id="node11" href="$validation_8cpp.html" title="Validation rules. " alt="" coords="165,605,304,657"/>
+</map>

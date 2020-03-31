@@ -1,0 +1,4 @@
+<map id="URIProperty" name="URIProperty">
+<area shape="rect" id="node3" href="$classsbol_1_1_referenced_object.html" title="A reference to another SBOL object Contains a Uniform Resource Identifier (URI) that refers to an an ..." alt="" coords="7,528,156,748"/>
+<area shape="rect" id="node2" href="$classsbol_1_1_property.html" title="{Property\&lt; std::string \&gt;\n|+ python_iter\l# type\l# sbol_owner\l# lowerBound\l# upperBound\l# validationRules\l|+ Property()\l+ Property()\l+ Property()\l+ Property()\l+ ~Property()\l+ getTypeURI()\l+ getOwner()\l+ set()\l+ set()\l+ set()\land 15 more...\l# isHidden()\l}" alt="" coords="5,5,158,292"/>
+</map>

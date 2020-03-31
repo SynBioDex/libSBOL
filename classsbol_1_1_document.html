@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.3.3</span>
    </div>
   </td>
  </tr>
@@ -161,12 +161,24 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:a6dbcc0c6f6ef785108e0dd9b8703b906"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a6dbcc0c6f6ef785108e0dd9b8703b906">request_comparison</a> (<a class="el" href="classsbol_1_1_document.html">Document</a> &amp;diff_file)</td></tr>
 <tr class="memdesc:a6dbcc0c6f6ef785108e0dd9b8703b906"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform comparison on Documents using the online validation tool.  <a href="#a6dbcc0c6f6ef785108e0dd9b8703b906">More...</a><br /></td></tr>
 <tr class="separator:a6dbcc0c6f6ef785108e0dd9b8703b906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8bb3912a3ce86b15842e79d0b421204"><td class="memItemLeft" align="right" valign="top"><a id="ac8bb3912a3ce86b15842e79d0b421204"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#ac8bb3912a3ce86b15842e79d0b421204">clear</a> ()</td></tr>
+<tr class="memdesc:ac8bb3912a3ce86b15842e79d0b421204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete all properties and objects in the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. <br /></td></tr>
+<tr class="separator:ac8bb3912a3ce86b15842e79d0b421204"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5223140f5facc4fc79a5adb5ebfa129"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#ad5223140f5facc4fc79a5adb5ebfa129">generate</a> (raptor_world **world, raptor_serializer **sbol_serializer, char **sbol_buffer, size_t *sbol_buffer_len, raptor_iostream **ios, raptor_uri **base_uri)</td></tr>
 <tr class="memdesc:ad5223140f5facc4fc79a5adb5ebfa129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates rdf/xml.  <a href="#ad5223140f5facc4fc79a5adb5ebfa129">More...</a><br /></td></tr>
 <tr class="separator:ad5223140f5facc4fc79a5adb5ebfa129"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d8e9b5eac5eba563746daba1cc52018"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a6d8e9b5eac5eba563746daba1cc52018">validate</a> ()</td></tr>
 <tr class="memdesc:a6d8e9b5eac5eba563746daba1cc52018"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run validation on this <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> via the online validation tool.  <a href="#a6d8e9b5eac5eba563746daba1cc52018">More...</a><br /></td></tr>
 <tr class="separator:a6d8e9b5eac5eba563746daba1cc52018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a902c249a883fd1f8dd27306190c80ef3"><td class="memItemLeft" align="right" valign="top"><a id="a902c249a883fd1f8dd27306190c80ef3"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a902c249a883fd1f8dd27306190c80ef3">exportToFormat</a> (std::string language=&quot;&quot;, std::string output_path=&quot;&quot;)</td></tr>
+<tr class="memdesc:a902c249a883fd1f8dd27306190c80ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert this SBOL <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a> to GenBank, FASTA, or GFF3. <br /></td></tr>
+<tr class="separator:a902c249a883fd1f8dd27306190c80ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a590ee1a11bb7339bc9e8b38d2be081"><td class="memItemLeft" align="right" valign="top"><a id="a8a590ee1a11bb7339bc9e8b38d2be081"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#a8a590ee1a11bb7339bc9e8b38d2be081">importFromFormat</a> (std::string language, std::string input_path)</td></tr>
+<tr class="memdesc:a8a590ee1a11bb7339bc9e8b38d2be081"><td class="mdescLeft">&#160;</td><td class="mdescRight">Import GenBank, FASTA, or GFF3 to an SBOL <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>. <br /></td></tr>
+<tr class="separator:a8a590ee1a11bb7339bc9e8b38d2be081"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4b57d21919c42d55af03391f91a1c08"><td class="memItemLeft" align="right" valign="top"><a id="af4b57d21919c42d55af03391f91a1c08"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsbol_1_1_document.html#af4b57d21919c42d55af03391f91a1c08">size</a> ()</td></tr>
 <tr class="memdesc:af4b57d21919c42d55af03391f91a1c08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the total number of objects in the <a class="el" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. ">Document</a>, including SBOL core object and custom annotation objects. <br /></td></tr>
@@ -1252,18 +1264,21 @@ Protected Member Functions</h2></td></tr>
 <li>/Users/bbartley/Dev/git/libSBOL/source/<a class="el" href="document_8h.html">document.h</a></li>
 <li>/Users/bbartley/Dev/git/libSBOL/source/<a class="el" href="dbtl_8cpp.html">dbtl.cpp</a></li>
 <li>/Users/bbartley/Dev/git/libSBOL/source/<a class="el" href="document_8cpp.html">document.cpp</a></li>
+<li>/Users/bbartley/Dev/git/libSBOL/source/partshop.cpp</li>
 </ul>
 <div class="dynheader">
 Inheritance diagram for Document:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_document__inherit__graph.png" border="0" usemap="#_document_inherit__map" alt="Inheritance graph"/></div>
 <map name="_document_inherit__map" id="_document_inherit__map">
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="30,300,165,520"/>
+<area shape="rect" id="node3" href="classsbol_1_1_s_b_o_l_object.html" title="An SBOLObject converts a C++ class data structure into an RDF triple store and contains methods for s..." alt="" coords="18,5,177,252"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 1 2018 12:52:11 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 30 2020 21:35:27 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.14
 </small></address>

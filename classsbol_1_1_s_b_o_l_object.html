@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libSBOL
-   &#160;<span id="projectnumber">2.3.0</span>
+   &#160;<span id="projectnumber">2.3.3</span>
    </div>
   </td>
  </tr>
@@ -626,12 +626,48 @@ Inheritance diagram for SBOLObject:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsbol_1_1_s_b_o_l_object__inherit__graph.png" border="0" usemap="#_s_b_o_l_object_inherit__map" alt="Inheritance graph"/></div>
 <map name="_s_b_o_l_object_inherit__map" id="_s_b_o_l_object_inherit__map">
+<area shape="rect" id="node2" href="classsbol_1_1_identified.html" title="All SBOL&#45;defined classes are directly or indirectly derived from the Identified abstract class..." alt="" coords="930,300,1065,520"/>
+<area shape="rect" id="node3" href="classsbol_1_1_association.html" title="An Association is linked to an Agent through the agent relationship. The Association includes the had..." alt="" coords="5,681,123,808"/>
+<area shape="rect" id="node4" href="classsbol_1_1_document.html" title="Read and write SBOL using a Document class. The Document is a container for Components, Modules, and all other SBOLObjects. " alt="" coords="146,568,331,921"/>
+<area shape="rect" id="node5" href="classsbol_1_1_interaction.html" title="The Interaction class provides more detailed descriptionof how the FunctionalComponents are intended ..." alt="" coords="355,675,520,815"/>
+<area shape="rect" id="node6" href="classsbol_1_1_location.html" title="The Location class specifies the strand orientation of a Component and can be further extended by the..." alt="" coords="545,695,645,795"/>
+<area shape="rect" id="node10" href="classsbol_1_1_maps_to.html" title="The purpose of the MapsTo class is to make identity relationships between different ComponentInstance..." alt="" coords="669,681,766,808"/>
+<area shape="rect" id="node11" href="classsbol_1_1_measurement.html" title="The purpose of the Measure class is to link a numerical value to a unit of measure. " alt="" coords="789,688,912,801"/>
+<area shape="rect" id="node12" href="classsbol_1_1_module.html" title="The Module class represents a submodule of a ModuleDefinition within a hierarchical design..." alt="" coords="937,681,1058,808"/>
+<area shape="rect" id="node13" href="classsbol_1_1_participation.html" title="Each Participation represents how a particular FunctionalComponent behaves in its parent Interaction..." alt="" coords="1081,668,1204,821"/>
+<area shape="rect" id="node14" href="classsbol_1_1_sequence_annotation.html" title="The SequenceAnnotation class describes one or more regions of interest on the Sequence objects referr..." alt="" coords="1228,615,1401,875"/>
+<area shape="rect" id="node15" href="classsbol_1_1_sequence_constraint.html" title="The SequenceConstraint class can be used to assert restrictions on the relative, sequence&#45;based posit..." alt="" coords="1426,681,1596,808"/>
+<area shape="rect" id="node16" href="classsbol_1_1_top_level.html" title="All SBOL classes derived from TopLevel appear as top level nodes in the RDF/XML document tree and SBO..." alt="" coords="1621,641,1760,848"/>
+<area shape="rect" id="node36" href="classsbol_1_1_usage.html" title="How different entities are used in an Activity is specified with the Usage class, which is linked fro..." alt="" coords="1784,688,1872,801"/>
+<area shape="rect" id="node37" href="classsbol_1_1_variable_component.html" title="The VariableComponent class can be used to specify a choice of ComponentDefinition objects for any ne..." alt="" coords="1896,675,2054,815"/>
+<area shape="rect" id="node7" href="classsbol_1_1_cut.html" title="The Cut class specifies a location between two coordinates of a Sequence&#39;s elements. class Cut : public Location. " alt="" coords="282,1063,353,1163"/>
+<area shape="rect" id="node8" href="classsbol_1_1_generic_location.html" title="the GenericLocation class is included as a starting point for specifying regions on Sequence objects ..." alt="" coords="376,1063,523,1163"/>
+<area shape="rect" id="node9" href="classsbol_1_1_range.html" title="A Range object specifies a region via discrete, inclusive start and end positions that correspond to ..." alt="" coords="547,1016,643,1209"/>
+<area shape="rect" id="node17" href="classsbol_1_1_activity.html" title="A generated Entity is linked through a wasGeneratedBy relationship to an Activity, which is used to describe how different Agents and other entities were used. An Activity is linked through a qualifiedAssociation to Associations, to describe the role of agents, and is linked through qualifiedUsage to Usages to describe the role of other entities used as part of the activity. Moreover, each Activity includes optional startedAtTime and endedAtTime properties. When using Activity to capture how an entity was derived, it is expected that any additional information needed will be attached as annotations. This may include software settings or textual notes. Activities can also be linked together using the wasInformedBy relationship to provide dependency without explicitly specifying start and end times. " alt="" coords="667,1016,792,1209"/>
+<area shape="rect" id="node18" href="classsbol_1_1_agent.html" title="Examples of agents are person, organisation or software. These agents should be annotated with additi..." alt="" coords="815,1063,900,1163"/>
+<area shape="rect" id="node19" href="classsbol_1_1_attachment.html" title="The Attachment class is a general container for data files, especially experimental data files..." alt="" coords="923,1043,1040,1183"/>
+<area shape="rect" id="node20" href="classsbol_1_1_collection.html" title="The Collection class is a class that groups together a set of TopLevel objects that have something in..." alt="" coords="1063,1063,1172,1163"/>
+<area shape="rect" id="node22" href="classsbol_1_1_combinatorial_derivation.html" title="A ComponentDeriviation specifies the composition of a combinatorial design or variant library for com..." alt="" coords="1196,1056,1380,1169"/>
+<area shape="rect" id="node23" href="classsbol_1_1_component_definition.html" title="The ComponentDefinition class represents the structural entities of a biological design. " alt="" coords="1405,969,1604,1256"/>
+<area shape="rect" id="node24" href="classsbol_1_1_design.html" title="This class represents a biological Design. A Design is a conceptual representation of a biological sy..." alt="" coords="1627,1049,1754,1176"/>
+<area shape="rect" id="node25" href="classsbol_1_1_experiment.html" title="A generated Entity is linked through a wasGeneratedBy relationship to an Activity, which is used to describe how different Agents and other entities were used. An Activity is linked through a qualifiedAssociation to Associations, to describe the role of agents, and is linked through qualifiedUsage to Usages to describe the role of other entities used as part of the activity. Moreover, each Activity includes optional startedAtTime and endedAtTime properties. When using Activity to capture how an entity was derived, it is expected that any additional information needed will be attached as annotations. This may include software settings or textual notes. Activities can also be linked together using the wasInformedBy relationship to provide dependency without explicitly specifying start and end times. " alt="" coords="1778,1063,1915,1163"/>
+<area shape="rect" id="node26" href="classsbol_1_1_experimental_data.html" title="The ExperimentalData class represents a set of links to experimental data files (Attachment objects) ..." alt="" coords="1940,1063,2095,1163"/>
+<area shape="rect" id="node28" href="classsbol_1_1_implementation.html" title="An Implementation represents a real, physical instance of a synthetic biological construct which may ..." alt="" coords="2119,1063,2260,1163"/>
+<area shape="rect" id="node30" href="classsbol_1_1_model.html" title="The purpose of the Model class is to serve as a placeholder for an external computational model and p..." alt="" coords="2283,1049,2378,1176"/>
+<area shape="rect" id="node31" href="classsbol_1_1_module_definition.html" title="The ModuleDefinition class represents a grouping of structural and functional entities in a biologica..." alt="" coords="2402,983,2590,1243"/>
+<area shape="rect" id="node32" href="classsbol_1_1_plan.html" title="Examples of agents are person, organisation or software. These agents should be annotated with additi..." alt="" coords="2614,1063,2690,1163"/>
+<area shape="rect" id="node33" href="classsbol_1_1_search_query.html" title="A SearchQuery object is used to configure advanced searches for bioparts in a PartShop. Advanced searches are useful for matching values across multiple fields, or to specify multiple values in a single field. " alt="" coords="2715,1043,2843,1183"/>
+<area shape="rect" id="node34" href="classsbol_1_1_search_response.html" title="A SearchResponse is a container of search records returned by a search request. " alt="" coords="2867,1023,3019,1203"/>
+<area shape="rect" id="node35" href="classsbol_1_1_sequence.html" title="The primary structure (eg, nucleotide or amino acid sequence) of a ComponentDefinition object..." alt="" coords="3043,1029,3152,1196"/>
+<area shape="rect" id="node21" href="classsbol_1_1_sample_roster.html" title="A SampleRoster is a container used to group Builds that are included in an experiment together..." alt="" coords="1054,1351,1181,1424"/>
+<area shape="rect" id="node27" href="classsbol_1_1_test.html" title="A Test is a container for experimental data. A Test is the product of the third step of libSBOL&#39;s for..." alt="" coords="1974,1337,2061,1437"/>
+<area shape="rect" id="node29" href="classsbol_1_1_build.html" title="A Build is a realization of a Design. For practical purposes, a Build can represent a biological clon..." alt="" coords="2138,1304,2241,1471"/>
 </map>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 1 2018 12:52:12 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 30 2020 21:35:28 for libSBOL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.14
 </small></address>

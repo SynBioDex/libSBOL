@@ -1,0 +1,31 @@
+<map id="/Users/bbartley/Dev/git/libSBOL/source/assembly.cpp" name="/Users/bbartley/Dev/git/libSBOL/source/assembly.cpp">
+<area shape="rect" id="node2" href="$assembly_8h.html" title="Convenience methods for manipulating primary sequence structure. " alt="" coords="1699,105,1787,131"/>
+<area shape="rect" id="node3" href="$document_8h.html" title="Document class, serialization method, and some low&#45;level accessor methods. " alt="" coords="864,179,955,204"/>
+<area shape="rect" id="node4" href="$componentdefinition_8h.html" title="ComponentDefinition class. " alt="" coords="463,399,615,424"/>
+<area shape="rect" id="node25" href="$component_8h.html" title="ComponentInstance, Component, and FunctionalComponent classes. " alt="" coords="969,472,1068,497"/>
+<area shape="rect" id="node29" href="$sequenceannotation_8h.html" title="SequenceAnnotation class. " alt="" coords="361,472,514,497"/>
+<area shape="rect" id="node31" href="$sequence_8h.html" title="Sequence class. " alt="" coords="44,472,134,497"/>
+<area shape="rect" id="node32" href="$moduledefinition_8h.html" title="ModuleDefinition class. " alt="" coords="738,325,867,351"/>
+<area shape="rect" id="node33" href="$module_8h.html" title="Module class. " alt="" coords="1091,472,1167,497"/>
+<area shape="rect" id="node36" href="$model_8h.html" title="Model class. " alt="" coords="639,399,708,424"/>
+<area shape="rect" id="node37" href="$collection_8h.html" title="Collection class. " alt="" coords="285,325,373,351"/>
+<area shape="rect" id="node38" href="$provo_8h.html" title="PROV&#45;O ontology for provenance relationships. " alt="" coords="840,252,906,277"/>
+<area shape="rect" id="node39" href="$attachment_8h.html" title="Attachment class. " alt="" coords="188,399,286,424"/>
+<area shape="rect" id="node40" href="$dbtl_8h.html" title="Contains the interface for Design&#45;Build&#45;Test classes. " alt="" coords="688,252,742,277"/>
+<area shape="rect" id="node41" href="$experiment_8h.html" title="Classes for grouping experimental data files. " alt="" coords="891,325,989,351"/>
+<area shape="rect" id="node5" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="397,545,475,571"/>
+<area shape="rect" id="node30" href="$sequenceconstraint_8h.html" title="SequenceConstraint class. " alt="" coords="499,545,647,571"/>
+<area shape="rect" id="node6" href="$identified_8h.html" title="Identified class. " alt="" coords="769,619,855,644"/>
+<area shape="rect" id="node7" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="1334,692,1402,717"/>
+<area shape="rect" id="node8" href="$validation_8h.html" title="Validation rules. " alt="" coords="1258,912,1347,937"/>
+<area shape="rect" id="node17" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="1173,765,1264,791"/>
+<area shape="rect" id="node10" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="1097,985,1165,1011"/>
+<area shape="rect" id="node11" href="$sbolerror_8h.html" title="SBOLError class and error codes. " alt="" coords="1162,1059,1246,1084"/>
+<area shape="rect" id="node14" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="894,1059,983,1084"/>
+<area shape="rect" id="node18" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="1140,839,1220,864"/>
+<area shape="rect" id="node26" href="$mapsto_8h.html" title="MapsTo class. " alt="" coords="1065,545,1141,571"/>
+<area shape="rect" id="node27" href="$location_8h.html" title="Location, Cut, Range, and GenericLocation classes. " alt="" coords="773,545,851,571"/>
+<area shape="rect" id="node28" href="$measurement_8h.html" title="Measurement class. " alt="" coords="875,545,989,571"/>
+<area shape="rect" id="node34" href="$interaction_8h.html" title="Interaction class. " alt="" coords="784,399,878,424"/>
+<area shape="rect" id="node35" href="$participation_8h.html" title="Participation class. " alt="" coords="790,472,895,497"/>
+</map>

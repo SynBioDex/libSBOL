@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['updatesequence',['updateSequence',['../classsbol_1_1_component_definition.html#adfa0a8867aab5246e09cf38b6e73701d',1,'sbol::ComponentDefinition']]],
-  ['uriproperty',['URIProperty',['../classsbol_1_1_u_r_i_property.html#ab1d7af02738bb0d1a4f381ca7a96b936',1,'sbol::URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value)'],['../classsbol_1_1_u_r_i_property.html#af2d07b1c5c019f74ecfab4a3cc198903',1,'sbol::URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules)']]],
-  ['usage',['Usage',['../classsbol_1_1_usage.html#a4f7edeb535151b325774ed5a39186eba',1,'sbol::Usage::Usage(std::string uri=&quot;example&quot;, std::string entity=&quot;&quot;, std::string role=&quot;&quot;, std::string version=VERSION_STRING)'],['../classsbol_1_1_usage.html#a79f0693c245114b0c00ce0ad7a81ce5b',1,'sbol::Usage::Usage(rdf_type type, std::string uri, std::string entity, std::string role, std::string version)']]]
+  ['test',['Test',['../classsbol_1_1_test.html#a8314c067480b48b12216c85fa2bcd82f',1,'sbol::Test']]],
+  ['textproperty',['TextProperty',['../classsbol_1_1_text_property.html#ac7991361a8108330e067df1ee3cc49db',1,'sbol::TextProperty::TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value)'],['../classsbol_1_1_text_property.html#a3354e3b08acb7d0b2905ce714485bd27',1,'sbol::TextProperty::TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules)']]]
 ];

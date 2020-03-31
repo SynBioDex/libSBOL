@@ -1,5 +1,28 @@
 var searchData=
 [
-  ['test',['Test',['../classsbol_1_1_test.html#a8314c067480b48b12216c85fa2bcd82f',1,'sbol::Test']]],
-  ['textproperty',['TextProperty',['../classsbol_1_1_text_property.html#ac7991361a8108330e067df1ee3cc49db',1,'sbol::TextProperty::TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules, std::string initial_value)'],['../classsbol_1_1_text_property.html#a3354e3b08acb7d0b2905ce714485bd27',1,'sbol::TextProperty::TextProperty(void *property_owner, rdf_type type_uri, char lower_bound, char upper_bound, ValidationRules validation_rules)']]]
+  ['sampleroster',['SampleRoster',['../classsbol_1_1_sample_roster.html#ae21bc5b24a60d8322fea26aab5ff41f2',1,'sbol::SampleRoster']]],
+  ['search',['search',['../classsbol_1_1_part_shop.html#adb19b16d72c68e254c3a39d47c4008e6',1,'sbol::PartShop::search(std::string search_text, std::string object_type, std::string property_uri, int offset=0, int limit=25)'],['../classsbol_1_1_part_shop.html#a6012254231738805463ea010d18ce410',1,'sbol::PartShop::search(std::string search_text, std::string object_type=SBOL_COMPONENT_DEFINITION, int offset=0, int limit=25)'],['../classsbol_1_1_part_shop.html#a4fd60de7dc25b8945e4107491dc3f14b',1,'sbol::PartShop::search(SearchQuery &amp;q)']]],
+  ['searchcount',['searchCount',['../classsbol_1_1_part_shop.html#aa1169b3acbea2b6f9f439d5e91e2030a',1,'sbol::PartShop::searchCount(std::string search_text, std::string object_type, std::string property_uri)'],['../classsbol_1_1_part_shop.html#ab2fccff6fc5330db491735dd23c6357e',1,'sbol::PartShop::searchCount(std::string search_text, std::string object_type=SBOL_COMPONENT_DEFINITION)'],['../classsbol_1_1_part_shop.html#a828c541cd00aaf158bd35779512fa9ca',1,'sbol::PartShop::searchCount(SearchQuery &amp;q)']]],
+  ['searchquery',['SearchQuery',['../classsbol_1_1_search_query.html#ae05793030ff1d7777660a9562951c983',1,'sbol::SearchQuery']]],
+  ['searchrootcollections',['searchRootCollections',['../classsbol_1_1_part_shop.html#aa112e0d8d29d9231fd7dd1635972481b',1,'sbol::PartShop']]],
+  ['searchsubcollections',['searchSubCollections',['../classsbol_1_1_part_shop.html#a2133bde27cfd401b451c7572a36ec434',1,'sbol::PartShop']]],
+  ['sequence',['Sequence',['../classsbol_1_1_sequence.html#a8e35509107f85129488b3d0a5bc74e5b',1,'sbol::Sequence::Sequence(std::string uri=&quot;example&quot;, std::string elements=&quot;&quot;, std::string encoding=SBOL_ENCODING_IUPAC, std::string version=VERSION_STRING)'],['../classsbol_1_1_sequence.html#ab039f0e1363b8857f471213aa65c18ee',1,'sbol::Sequence::Sequence(rdf_type type_uri, std::string uri, std::string elements, std::string encoding, std::string version)']]],
+  ['sequenceannotation',['SequenceAnnotation',['../classsbol_1_1_sequence_annotation.html#ae0cef88960da1ee45de2ec651b606801',1,'sbol::SequenceAnnotation']]],
+  ['sequenceconstraint',['SequenceConstraint',['../classsbol_1_1_sequence_constraint.html#ac25b57905ae5f1d73cb2c45d2bb27ed1',1,'sbol::SequenceConstraint']]],
+  ['set',['set',['../classsbol_1_1_referenced_object.html#acaf5da8d7195921115a14068d914272d',1,'sbol::ReferencedObject::set(std::string uri)'],['../classsbol_1_1_referenced_object.html#a9de4d5fa5a73576744ee2b5e2d41d80a',1,'sbol::ReferencedObject::set(SBOLObject &amp;obj)'],['../classsbol_1_1_owned_object.html#a6fdb4549d20177fb0cb00862ca1764bc',1,'sbol::OwnedObject::set()'],['../classsbol_1_1_property.html#a78345a10e37cae70b6b1f6e295034872',1,'sbol::Property::set(std::string new_value)'],['../classsbol_1_1_property.html#a60d0f67ccdc9630d89f8bb041cc0f122',1,'sbol::Property::set(int new_value)'],['../classsbol_1_1_property.html#a76902e86216bab3c97ce9cfbd3ee8a94',1,'sbol::Property::set(double new_value)']]],
+  ['setannotation',['setAnnotation',['../classsbol_1_1_s_b_o_l_object.html#a52bb01a95f41305fe14e32746f77b177',1,'sbol::SBOLObject']]],
+  ['setfileformat',['setFileFormat',['../config_8h.html#a686e9ba3c4bffa5aa85f927d02223df1',1,'sbol']]],
+  ['sethomespace',['setHomespace',['../config_8h.html#a86dfc8d38e1b3806a462e76b8bf3c9e3',1,'sbol']]],
+  ['setinput',['setInput',['../classsbol_1_1_module_definition.html#a22cea07a5abf85d2ed0d4b89096bf808',1,'sbol::ModuleDefinition::setInput(ComponentDefinition &amp;input)'],['../classsbol_1_1_module_definition.html#aa32645165bd66bc96459c24259036669',1,'sbol::ModuleDefinition::setInput(FunctionalComponent &amp;input)']]],
+  ['setoption',['setOption',['../classsbol_1_1_config.html#a178010d9582a8d351e5474ca64287497',1,'sbol::Config']]],
+  ['setoutput',['setOutput',['../classsbol_1_1_module_definition.html#a74f8d25b0121407dff31d299d682457a',1,'sbol::ModuleDefinition::setOutput(ComponentDefinition &amp;output)'],['../classsbol_1_1_module_definition.html#ad6724fcb1f603f966c336ed4a0b85537',1,'sbol::ModuleDefinition::setOutput(FunctionalComponent &amp;output)']]],
+  ['setpropertyvalue',['setPropertyValue',['../classsbol_1_1_s_b_o_l_object.html#ac51e845ed09e37c89fcb445ebf115e0d',1,'sbol::SBOLObject']]],
+  ['simplecopy',['simpleCopy',['../classsbol_1_1_top_level.html#a3ab528aa9cdfed95062856759a6e952d',1,'sbol::TopLevel']]],
+  ['size',['size',['../classsbol_1_1_document.html#af4b57d21919c42d55af03391f91a1c08',1,'sbol::Document::size()'],['../classsbol_1_1_search_response.html#af4b57d21919c42d55af03391f91a1c08',1,'sbol::SearchResponse::size()']]],
+  ['sparqlquery',['sparqlQuery',['../classsbol_1_1_part_shop.html#af14d3662f0c02e432ac773204b7a026c',1,'sbol::PartShop']]],
+  ['spoof',['spoof',['../classsbol_1_1_part_shop.html#a1a22de77be6fadad93fdfea673a887ad',1,'sbol::PartShop']]],
+  ['stamptime',['stampTime',['../classsbol_1_1_date_time_property.html#aa5d1417b96a216d2d3d8cf574ff9f2c3',1,'sbol::DateTimeProperty']]],
+  ['submit',['submit',['../classsbol_1_1_part_shop.html#ac0a1fedc0f9880c7e55071d4a68398e2',1,'sbol::PartShop']]],
+  ['summary',['summary',['../classsbol_1_1_document.html#acdc25ad5a63feedfb795714d3ffbe0ac',1,'sbol::Document']]],
+  ['synthesize',['synthesize',['../classsbol_1_1_sequence.html#ab2c5fea928ecba059795cf557c19fd65',1,'sbol::Sequence']]]
 ];

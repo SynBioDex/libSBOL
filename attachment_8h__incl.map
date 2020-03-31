@@ -1,0 +1,11 @@
+<map id="/Users/bbartley/Dev/git/libSBOL/source/attachment.h" name="/Users/bbartley/Dev/git/libSBOL/source/attachment.h">
+<area shape="rect" id="node2" href="$toplevel_8h.html" title="TopLevel class. " alt="" coords="1238,105,1317,131"/>
+<area shape="rect" id="node3" href="$identified_8h.html" title="Identified class. " alt="" coords="1194,179,1280,204"/>
+<area shape="rect" id="node4" href="$object_8h.html" title="SBOLObject class (a low&#45;level, abstract class) " alt="" coords="415,252,483,277"/>
+<area shape="rect" id="node5" href="$validation_8h.html" title="Validation rules. " alt="" coords="938,472,1027,497"/>
+<area shape="rect" id="node14" href="$properties_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="403,325,495,351"/>
+<area shape="rect" id="node7" href="$config_8h.html" title="Global library options and configuration methods. " alt="" coords="726,545,794,571"/>
+<area shape="rect" id="node8" href="$sbolerror_8h.html" title="SBOLError class and error codes. " alt="" coords="699,619,784,644"/>
+<area shape="rect" id="node11" href="$constants_8h.html" title="Users of libSBOL may find in this file useful and important symbols corresponding to commonly used on..." alt="" coords="534,619,623,644"/>
+<area shape="rect" id="node15" href="$property_8h.html" title="Property template classes (eg, TextProperty, URIProperty, IntProperty) " alt="" coords="566,399,647,424"/>
+</map>
