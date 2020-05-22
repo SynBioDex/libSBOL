@@ -2160,6 +2160,10 @@ std::string Document::request_validation(std::string& sbol)
         /* Now specify the POST data */
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
 
+        /* Set certificate-path */
+        if (Config::getOption("ca-path") != "")
+            curl_easy_setopt(curl , CURLOPT_CAINFO, Config::getOption("ca-path").c_str());
+
         /* Now specify the callback to read the response into string */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWrite_CallbackFunc_StdString);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);

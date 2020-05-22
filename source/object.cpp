@@ -494,6 +494,18 @@ string SBOLObject::makeQName(string uri)
     return qname;
 };
 
+void SBOLObject::createLiteralAnnotation(std::string property_uri)
+{
+    properties[property_uri] = std::vector < std::string >();
+    properties[property_uri].push_back("\"\"");
+};
+
+void SBOLObject::createURIAnnotation(std::string property_uri)
+{
+    properties[property_uri] = std::vector < std::string >();
+    properties[property_uri].push_back("<>");
+};
+
 std::string SBOLObject::getPropertyValue(std::string property_uri)
 {
     if (properties.find(property_uri) != properties.end())
@@ -520,8 +532,11 @@ void SBOLObject::setPropertyValue(std::string property_uri, std::string val)
             properties[property_uri][0] = "\"" + val + "\"";
         }
     }
-    else throw SBOLError(SBOL_ERROR_NOT_FOUND, property_uri + " not contained in this object.");
-
+    else
+    {
+        properties[property_uri] = vector<string>();
+        properties[property_uri].push_back("\"" + val + "\"");
+    }
 };
 
 void SBOLObject::addPropertyValue(std::string property_uri, std::string val)
@@ -584,6 +599,16 @@ std::string SBOLObject::getAnnotation(std::string property_uri)
     return getPropertyValue(property_uri);
 };
 
+void SBOLObject::addAnnotation(std::string property_uri, std::string val)
+{
+    addPropertyValue(property_uri, val);
+};
+
+std::vector < std::string > SBOLObject::getAnnotations(std::string property_uri)
+{
+    return getPropertyValues(property_uri);
+};
+
 // Python extension method
 std::string SBOLObject::__str__()
 {
@@ -600,7 +625,8 @@ URIProperty::URIProperty(void *property_owner, rdf_type type_uri, char lower_bou
     Property(property_owner, type_uri, lower_bound, upper_bound, validation_rules)
 {
     // Overwrite default. By default, literal properties are initialized to quotes
-    this->sbol_owner->properties[type_uri][0] = "<>";
+    if (this->sbol_owner->properties[type_uri][0] == "\"\"")
+        this->sbol_owner->properties[type_uri][0] = "<>";
 }
 
 std::vector<std::string> TextProperty::getAll()

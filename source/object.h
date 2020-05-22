@@ -143,23 +143,41 @@ namespace sbol
         /// @return A vector of URIs that identify the properties contained in this object
         std::vector < std::string > getProperties();
         
-        /// Set and overwrite the value for a user-defined annotation property.
-        /// @val Either a literal or URI value
+        /// @deprecated Set and overwrite the value for a user-defined annotation property.
+        /// @param val Either a literal or URI value
         void setPropertyValue(std::string property_uri, std::string val);
 
-        /// Append a value to a user-defined annotation property.
-        /// @val Either a literal or URI value
+        /// @deprecated Append a value to a user-defined annotation property.
+        /// @param val Either a literal or URI value
         void addPropertyValue(std::string property_uri, std::string val);
 
+        /// Initialize a custom annotation property
+        /// @param property_uri A URI used to access and serialize property values
+        void createLiteralAnnotation(std::string property_uri);
+
+        /// Initialize a custom annotation property; values will be serialized as URIs
+        /// @param property_uri A URI used to access and serialize property values
+        void createURIAnnotation(std::string property_uri);
+
         /// Set the value for a user-defined annotation property. Synonymous with setPropertyValue
-        /// @val If the value is a URI, it should be surrounded by angle brackets, else it will be interpreted as a literal value
+        /// @param val The property value
         void setAnnotation(std::string property_uri, std::string val);
    
         /// Get the value of a custom annotation property by its URI. Synonymous with getPropertyValue
         /// @param property_uri The URI for the property
         /// @return The value of the property or SBOL_ERROR_NOT_FOUND
         std::string getAnnotation(std::string property_uri);
+
+        /// Append the value to a custom annotation property by its URI. Synonymous with getPropertyValue
+        /// @param property_uri The URI for the property
+        /// @return The value of the property or SBOL_ERROR_NOT_FOUND
+        void addAnnotation(std::string property_uri, std::string val);
         
+        /// Get the value of a custom annotation property by its URI. Synonymous with getPropertyValue
+        /// @param property_uri The URI for the property
+        /// @return A vector of property values or SBOL_ERROR_NOT_FOUND
+        std::vector<std::string> getAnnotations(std::string property_uri);
+
         void apply(void (*callback_fn)(SBOLObject *, void *), void * user_data);
         
         void update_uri();

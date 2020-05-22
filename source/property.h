@@ -199,9 +199,12 @@ namespace sbol
         // Register Property in owner Object
         if (this->sbol_owner != NULL)
         {
-            std::vector<std::string> property_store;
-            property_store.push_back("\"\"");
-            this->sbol_owner->properties.insert({ type_uri, property_store });
+            if (this->sbol_owner->properties.find(type_uri) == this->sbol_owner->properties.end())
+            {
+                std::vector<std::string> property_store;
+                property_store.push_back("\"\"");
+                this->sbol_owner->properties.insert({ type_uri, property_store });
+            }
         }
     }
 

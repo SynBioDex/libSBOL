@@ -121,7 +121,7 @@ namespace sbol
 //        Component(sbol_type type, std::string uri_prefix, std::string display_id, std::string version, std::string definition, std::string access) : ComponentInstance(type, uri_prefix, display_id, version, definition, access) {};
 	};
  
-    /// The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside a ModuleDefinition. The ModuleDefinition describes how the that describes how the FunctionalComponent interacts with others and summarizes their aggregate function.
+    /// The FunctionalComponent class is used to specify the functional usage of a ComponentDefinition inside a ModuleDefinition. The parent ModuleDefinition describes how its member FunctionalComponents interact with each other and summarizes their aggregate function.
 	class SBOL_DECLSPEC FunctionalComponent : public ComponentInstance
 	{
 	public:
